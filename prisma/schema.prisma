@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MongoDB")
+}
+
+model GuildConfiguration {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id   String   @unique
+  language   String   @default("en")
+  timezone   String   @default("UTC")
+  hour12     Boolean  @default(false)
+  commands   String[] @default([])
+  premium    Boolean  @default(false)
+  expires_at Int      @default(0)
+}
+
+model ClientPremium {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  voucher_id String  @unique
+  redeemed   Boolean @default(false)
+  type       String  @default("monthly")
+}
+
+model UserWarn {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id     String
+  user_id      String
+  warn_id      String   @unique
+  moderator_id String
+  date         DateTime @default(now())
+  reason       String   @default("No reason")
+}
+
+model GuildSuggestion {
+  id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id            String  @unique
+  channel_id          String
+  message_suggestions Boolean @default(false)
+  self_vote           Boolean @default(true)
+  neutral_vote        Boolean @default(false)
+  threads             Boolean @default(false)
+  revision_channel_id String
+  revision_enabled    Boolean @default(false)
+  allow_images        Boolean @default(false)
+}
+
+model UserSuggestion {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id      String
+  user_id       String
+  message_id    String   @unique
+  suggestion_id String   @unique
+  content       String
+  status        String
+  votes_up      String[] @default([])
+  votes_neutral String[] @default([])
+  votes_down    String[] @default([])
+  comments      String[] @default([])
+  images        String[] @default([])
+}
+
+model GuildWelcome {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id              String
+  channel_id            String
+  roles                 String[]
+  message_enabled       Boolean  @default(true)
+  message_content       String   @default("### 📥 Welcome {user} to {guild}\n> We are now **{guild.members} members**")
+  message_card          Boolean  @default(true)
+  card_background       String   @default("https://i.ibb.co/VTg3V6R/background.png")
+  card_title_content    String   @default("Welcome to {guild}")
+  card_title_color      String   @default("#ffffff")
+  card_username_content String   @default("{user}")
+  card_username_color   String   @default("#b9bbbe")
+  card_subtitle_content String   @default("We are now {guild.members} members")
+  card_subtitle_color   String   @default("#ffffff")
+  card_font             String   @default("EuclidCircularA")
+  dm_message            Boolean  @default(false)
+}

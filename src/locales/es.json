@@ -1,0 +1,238 @@
+{
+  "commands": {
+    "configuration": {
+      "language": {
+        "message": "**<:_:1201586112083279923> El idioma ha sido establecido a Español**"
+      },
+      "premium": {
+        "claim": {
+          "code-not-found": "**<:_:1201586248947597392> La membresía premium no ha sido encontrada**",
+          "message": "**<:_:1201586112083279923> La membresía premium ha sido reclamada**"
+        },
+        "revoke": {
+          "row": {
+            "invalid-user-collector": "**<:_:1201586248947597392> No puedes usar los componentes de otro usuario**",
+            "confirm": {
+              "label": "Confirmar",
+              "message": "**<:_:1201586112083279923> La membresía premium ha sido revocada**"
+            }
+          },
+          "only-guild-owner": "**<:_:1201586248947597392> Esta acción solo puede ser ejecutada por el propietario del servidor**",
+          "no-guild-premium": "**<:_:1201586248947597392> El servidor no tiene una membresía premium**",
+          "message": "**<:_:1201586663642640476> ¿Estás seguro de que quieres recovar la membresía premium del servidor?\n<:_:1201948012830531644> Si lo haces, el servidor ya no tendrá acceso a las ventajas premium**"
+        }
+      },
+      "timezone": {
+        "timezone-not-found": "**<:_:1201586248947597392> La zona horaria no ha sido encontrada**",
+        "message": "**<:_:1201586112083279923> La zona horaria ha sido establecida a {timezone}**"
+      }
+    },
+    "information": {
+      "bot": {
+        "message": {
+          "field": "**Información general**",
+          "value": "Versión del bot ∷ {version}\nTiempo activo ∷ {uptime}",
+          "field2": "**Estadísticas**",
+          "value2": "Usuarios ∷ {users} usuarios\nServidores ∷ {guilds} servidores\nShards ∷ {shards} shards",
+          "field3": "**Dependencias**",
+          "field4": "**Proceso**",
+          "value4": "Uso de la memoria ∷ {ram}\nPlataforma ∷ {platform}"
+        }
+      },
+      "help": {
+        "row": {
+          "configuration": {
+            "label": "Configuración",
+            "description": "Configura funcionalidades del bot a tu gusto"
+          },
+          "information": {
+            "label": "Información",
+            "description": "Obtén información útil de usuarios o del servidor"
+          },
+          "moderation": {
+            "label": "Moderación",
+            "description": "Utiliza herramientas para mantener tu comunidad segura"
+          },
+          "utility": {
+            "label": "Útilidad",
+            "description": "Utiliza comandos variados que sean útiles"
+          },
+          "message": {
+            "field": "**Comando: {command}**",
+            "value": "Comando ∷ {command}\nDescripción ∷ {description}"
+          }
+        },
+        "message": "**¡Hola! Soy {mention}, un bot que ofrece una experiencia minimalista y eficiente para tus comunidades de Discord**\n\nEstoy diseñado con la simplicidad en mente, brindando funcionalidades esenciales de manera fácil y moderna"
+      },
+      "server": {
+        "message": {
+          "field": "**Información general**",
+          "value": "Nombre ∷ {name}\nID del servidor ∷ {id}\nPropietario ∷ {owner}\nID del propietario ∷ {ownerId}\nFecha de creación ∷ {createdAt}",
+          "field2": "**Estadísticas**",
+          "value2": "Miembros ∷ {members} miembro(s)\nCanales ∷ {channels} canal(es)\nRoles ∷ {roles} rol(es)\nEmojis ∷ {emojis} emoji(s)"
+        }
+      },
+      "user": {
+        "invalid-guild-member": "**<:_:1201586248947597392> El usuario es un miembro inválido del servidor**",
+        "message": {
+          "field": "**Información general**",
+          "value": "Usuario ∷ {user}\nID del usuario ∷ {id}\nFecha de creación ∷ {createdAt}\nFecha de membresía ∷ {joinedAt}\nBooster ∷ {booster}"
+        }
+      }
+    },
+    "moderation": {
+      "ban": {
+        "cannot-moderate-member": "**<:_:1201586248947597392> No se puede realizar esta acción contra este usuario**",
+        "user-highest-role": "**<:_:1201586248947597392> No puedes moderar a alguien con mayor o igual rango que tu**",
+        "message": "**<:_:1201586112083279923> El usuario {user} ha sido baneado por el moderador {moderator}**"
+      },
+      "kick": {
+        "invalid-guild-member": "**<:_:1201586248947597392> El usuario es un miembro inválido del servidor**",
+        "cannot-moderate-member": "**<:_:1201586248947597392> No se puede realizar esta acción contra este usuario**",
+        "user-highest-role": "**<:_:1201586248947597392> No puedes moderar a alguien con mayor o igual rango que tu**",
+        "message": "**<:_:1201586112083279923> El usuario {user} ha sido expulsado por el moderador {moderator}**"
+      },
+      "purge": {
+        "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**",
+        "no-recent-messages": "**<:_:1201586248947597392> No se ha encontrado mensajes recientes**",
+        "message": "**<:_:1201586112083279923> El moderador {moderator} ha eliminado {messages} mensajes en el canal {channel}**"
+      },
+      "slowmode": {
+        "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**",
+        "invalid-duration-time": "**<:_:1201586248947597392> El formato de la duración es inválido**",
+        "allowed-duration-values": "**<:_:1201586248947597392> La duración debe ser mayor o igual a 0 segundos y menor o igual a 6 horas**",
+        "message": "**<:_:1201586112083279923> El moderador {moderator} ha establecido un modo lento de {slowmode} en el canal {channel}**"
+      },
+      "timeout": {
+        "invalid-guild-member": "**<:_:1201586248947597392> El usuario es un miembro inválido del servidor**",
+        "cannot-moderate-member": "**<:_:1201586248947597392> No se puede realizar esta acción contra este usuario**",
+        "user-highest-role": "**<:_:1201586248947597392> No puedes moderar a alguien con mayor o igual rango que tu**",
+        "invalid-duration-time": "**<:_:1201586248947597392> El formato de la duración es inválido**",
+        "allowed-duration-values": "**<:_:1201586248947597392> La duración debe ser mayor o igual a 5 segundos y menor o igual a 28 días**",
+        "message": "**<:_:1201586112083279923> El moderador {moderator} ha añadido un tiempo de espera de {timeout} a el usuario {user}**",
+        "message2": "**<:_:1201586112083279923> El moderador {moderator} ha eliminado el tiempo de espera del usuario {user}**"
+      },
+      "warn": {
+        "add": {
+          "invalid-guild-member": "**<:_:1201586248947597392> El usuario es un miembro inválido del servidor**",
+          "cannot-moderate-member": "**<:_:1201586248947597392> No se puede realizar esta acción contra este usuario**",
+          "user-highest-role": "**<:_:1201586248947597392> No puedes moderar a alguien con mayor o igual rango que tu**",
+          "max-warnings-allowed": "**<:_:1201586248947597392> El usuario ya tiene el número máximo de advertencias permitidas\n<:_:1201948012830531644> Máximo 7 advertencias por usuario**",
+          "message": "**<:_:1201586112083279923> El usuario {user} ha sido advertido por el moderador {moderator}**"
+        },
+        "remove": {
+          "invalid-guild-member": "**<:_:1201586248947597392> El usuario es un miembro inválido del servidor**",
+          "cannot-moderate-member": "**<:_:1201586248947597392> No se puede realizar esta acción contra este usuario**",
+          "user-highest-role": "**<:_:1201586248947597392> No puedes moderar a alguien con mayor o igual rango que tu**",
+          "warning-not-found": "**<:_:1201586248947597392> La advertencia no ha sido encontrada**",
+          "message": "**<:_:1201586112083279923> El moderador {moderator} ha eliminado una advertencia del usuario {user}**"
+        },
+        "list": {
+          "invalid-guild-member": "**<:_:1201586248947597392> El usuario es un miembro inválido del servidor**",
+          "has-no-warnings": "**<:_:1201586248947597392> El usuario {user} no tiene advertencias**",
+          "message": {
+            "value": "Moderador ∷ {moderator}\nRazón ∷ {reason}\nFecha ∷ {date}"
+          }
+        }
+      }
+    },
+    "utility": {
+      "suggest": {
+        "row": {
+          "status": {
+            "approve": {
+              "label": "Aprobar",
+              "message": "**<:_:1201586112083279923> La sugerencia ha sido aprobada y ha sido enviada a {channel}**"
+            },
+            "deny": {
+              "label": "Denegar",
+              "message": "**<:_:1201586112083279923> La sugerencia ha sido rechazada y ha sido eliminada**"
+            }
+          },
+          "manage": {
+            "row": {
+              "votes": {
+                "label": "Votos"
+              },
+              "comment": {
+                "label": "Comentar",
+                "max-comments-allowed": "**<:_:1201586248947597392> La sugerencia ya tiene el número máximo de comentarios permitidos\n<:_:1201948012830531644> Máximo 3 comentarios por sugerencia**",
+                "modal": {
+                  "title": "Añadir comentario",
+                  "label": "Comentario"
+                }
+              },
+              "approve": {
+                "label": "Aprobar",
+                "modal": {
+                  "title": "Aprobar sugerencia",
+                  "label": "Razón"
+                }
+              },
+              "deny": {
+                "label": "Denegar",
+                "modal": {
+                  "title": "Denegar sugerencia",
+                  "label": "Razón"
+                }
+              }
+            },
+            "message": "Votos ∷ Muestra la lista de votos de la sugerencia\nComentar ∷ Añade un comentario a la sugerencia (Máx 3)\nAprobar ∷ Aprueba la sugerencia\nDenegar ∷ Deniega la sugerencia"
+          },
+          "report": {
+            "label": "Reportar",
+            "modal": {
+              "title": "Reportar sugerencia",
+              "label": "Razón"
+            },
+            "message": "**<:_:1201586112083279923> El reporte ha sido enviado a nuestro servidor de soporte**"
+          }
+        },
+        "system-not-enabled": "**<:_:1201586248947597392> El sistema de sugerencias no está habilitado**",
+        "suggestion-not-found": "**<:_:1201586248947597392> La sugerencia no ha sido encontrada**",
+        "message": {
+          "field": "**Comentario de {user}**",
+          "field2": "**Sugerencia aprobada por {user}**",
+          "field3": "**Sugerencia denegada por {user}**"
+        },
+        "message2": "**<:_:1201586663642640476> Esta sugerencia está en revisión. Si apruebas la sugerencia, se enviará al canal de sugerencias. En caso contrario, se eliminará**"
+      },
+      "weather": {
+        "row": {
+          "forecast": {
+            "label": "Previsión"
+          },
+          "link": {
+            "label": "Página web"
+          }
+        },
+        "location-not-found": "**<:_:1201586248947597392> La ubicación no ha sido encontrada**",
+        "message": {
+          "field": "**Información general**",
+          "value": "Ubicación ∷ {location}\nTemperatura ∷ {temperature}\nHumedad ∷ {humidity}\nViento ∷ {wind}\nClima ∷ {weather}",
+          "field2": "**Previsión {date}**",
+          "value2": "Día ∷ {day}\nFecha ∷ {date}\nTemperatura más alta ∷ {high}\nTemperatura más baja ∷ {low}\nClima ∷ {weather}"
+        }
+      }
+    }
+  },
+  "general": {
+    "invalid-user-permissions": {
+      "field": "**Permisos inválidos del usuario**",
+      "value": "Necesitas el permiso de {permission}"
+    },
+    "invalid-bot-permissions": {
+      "field": "**Permisos inválidos del bot**",
+      "value": "Necesito el permiso de {permission}"
+    },
+    "error": {
+      "message": "**Algo salió mal mientra se realizaba esta operación...**\nSi el error persiste, reporta el error con la ID propocrionada en nuestro soporte",
+      "field": "**Información general**",
+      "value": "ID del reporte ∷ {id}\nNombre del error ∷ {name}"
+    },
+    "premium": {
+      "field": "**Has descubierto una característica premium**",
+      "value": "<:_:1201948012830531644> Esta característica requiere una membresía premium del servidor"
+    }
+  }
+}
