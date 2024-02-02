@@ -8,7 +8,7 @@ import {
 } from "oceanic.js";
 
 export class ButtonBuilder {
-  private json: TextButton | URLButton;
+  private json: ButtonComponent;
 
   constructor() {
     this.json = {
