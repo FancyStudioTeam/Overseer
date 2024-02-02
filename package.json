@@ -14,7 +14,6 @@
 	"license": "BSD-3-Clause",
 	"dependencies": {
 		"@napi-rs/canvas": "0.1.44",
-		"@oceanicjs/builders": "1.1.9",
 		"@prisma/client": "5.9.1",
 		"@sapphire/snowflake": "3.5.3",
 		"dotenv": "16.4.1",
