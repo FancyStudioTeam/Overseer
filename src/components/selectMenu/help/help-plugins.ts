@@ -73,7 +73,7 @@ export default new Component({
           commands
             .map((c) => {
               return `<:_:1201948012830531644> ${
-                c.id ? `</${c.name}:${c.id}>` : `**/${c.name}**`
+                c.id ? `**</${c.name}:${c.id}>**` : `**/${c.name}**`
               }: ${c.description}`;
             })
             .join("\n"),
