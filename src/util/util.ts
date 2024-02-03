@@ -69,7 +69,6 @@ export function unix(time: string, type: UnixType): string {
 }
 
 export async function fetchUser(id: string): Promise<User | null> {
-  // biome-ignore lint/suspicious/noExplicitAny:
   let user: any;
 
   if (client.users.has(id)) {
@@ -90,7 +89,6 @@ export async function fetchMember(
   context: AnyInteractionGateway,
   id: string,
 ): Promise<Member | null> {
-  // biome-ignore lint/suspicious/noExplicitAny:
   let member: any;
 
   if (!context.guild) return null;
