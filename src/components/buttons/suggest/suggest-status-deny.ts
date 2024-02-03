@@ -1,5 +1,5 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
 import { type ComponentInteraction } from "oceanic.js";
+import { EmbedBuilder } from "../../../builders/Embed";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
 import { prisma } from "../../../util/db";
@@ -44,7 +44,7 @@ export default new Component({
               }),
             )
             .setColor(client.config.colors.success)
-            .toJSON(true),
+            .toJSONArray(),
           components: [],
         });
       });

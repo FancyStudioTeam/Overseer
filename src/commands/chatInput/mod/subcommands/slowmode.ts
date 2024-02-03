@@ -1,4 +1,3 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
 import humanize from "humanize-duration";
 import ms from "ms";
 import {
@@ -6,6 +5,7 @@ import {
   type CommandInteraction,
   type TextChannel,
 } from "oceanic.js";
+import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 import { errorMessage, handleError } from "../../../../util/util";
@@ -82,7 +82,7 @@ export default new SubCommand({
               ),
             )
             .setColor(client.config.colors.success)
-            .toJSON(true),
+            .toJSONArray(),
         });
       })
       .catch((error) => {

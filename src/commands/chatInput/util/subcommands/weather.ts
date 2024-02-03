@@ -1,4 +1,3 @@
-import { Button, ComponentBuilder, EmbedBuilder } from "@oceanicjs/builders";
 import { InteractionCollector } from "oceanic-collector";
 import {
   type AnyInteractionGateway,
@@ -6,10 +5,12 @@ import {
   type CommandInteraction,
   type Guild,
   InteractionTypes,
-  type MessageActionRow,
   MessageFlags,
 } from "oceanic.js";
 import xml2JS from "xml2js";
+import { ActionRowBuilder } from "../../../../builders/ActionRow";
+import { ButtonBuilder } from "../../../../builders/Button";
+import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 import type {
@@ -73,10 +74,10 @@ export default new SubCommand({
           await interaction
             .reply({
               embeds: new EmbedBuilder()
-                .setAuthor(
-                  data.info.weatherlocationname,
-                  `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
-                )
+                .setAuthor({
+                  name: data.info.weatherlocationname,
+                  iconURL: `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
+                })
                 .setThumbnail(
                   `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
                 )
@@ -109,33 +110,37 @@ export default new SubCommand({
                   },
                 ])
                 .setColor(client.config.colors.color)
-                .toJSON(true),
-              components: new ComponentBuilder<MessageActionRow>()
-                .addRow([
-                  new Button(ButtonStyles.SECONDARY, "weather-forecast")
+                .toJSONArray(),
+              components: new ActionRowBuilder()
+                .addComponents([
+                  new ButtonBuilder()
+                    .setCustomID("weather-forecast")
                     .setLabel(
                       client.locales.__({
                         phrase: "commands.utility.weather.row.forecast.label",
                         locale: language,
                       }),
                     )
+                    .setStyle(ButtonStyles.SECONDARY)
                     .setEmoji({
                       name: "_",
                       id: "1201588352915349597",
                     }),
-                  new Button(ButtonStyles.LINK, data.info.url)
+                  new ButtonBuilder()
                     .setLabel(
                       client.locales.__({
                         phrase: "commands.utility.weather.row.link.label",
                         locale: language,
                       }),
                     )
+                    .setStyle(ButtonStyles.LINK)
                     .setEmoji({
                       name: "_",
                       id: "1201589945853296780",
-                    }),
+                    })
+                    .setURL(data.info.url),
                 ])
-                .toJSON(),
+                .toJSONArray(),
             })
             .then(async (response) => {
               const message = response.hasMessage()
@@ -159,10 +164,10 @@ export default new SubCommand({
                         case "weather-forecast": {
                           collected.reply({
                             embeds: new EmbedBuilder()
-                              .setAuthor(
-                                data.info.weatherlocationname,
-                                `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
-                              )
+                              .setAuthor({
+                                name: data.info.weatherlocationname,
+                                iconURL: `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
+                              })
                               .addFields(
                                 data.forecast.slice(1, 5).map((f) => {
                                   return {
@@ -213,7 +218,7 @@ export default new SubCommand({
                                 }),
                               )
                               .setColor(client.config.colors.color)
-                              .toJSON(true),
+                              .toJSONArray(),
                             flags: MessageFlags.EPHEMERAL,
                           });
 

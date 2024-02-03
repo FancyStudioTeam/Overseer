@@ -1,7 +1,7 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import ms from "ms";
 import { ChannelTypes, type CommandInteraction } from "oceanic.js";
+import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 import { errorMessage, handleError } from "../../../../util/util";
@@ -86,7 +86,7 @@ export default new SubCommand({
               ),
             )
             .setColor(client.config.colors.success)
-            .toJSON(true),
+            .toJSONArray(),
         });
       })
       .catch((error) => {

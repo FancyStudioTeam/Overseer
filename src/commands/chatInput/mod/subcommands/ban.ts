@@ -1,5 +1,5 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
 import type { CommandInteraction, Member } from "oceanic.js";
+import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 import {
@@ -77,7 +77,7 @@ export default new SubCommand({
                 ),
               )
               .setColor(client.config.colors.success)
-              .toJSON(true),
+              .toJSONArray(),
           });
         })
         .catch((error) => {
@@ -117,7 +117,7 @@ export default new SubCommand({
                 ),
               )
               .setColor(client.config.colors.success)
-              .toJSON(true),
+              .toJSONArray(),
           });
         })
         .catch((error) => {

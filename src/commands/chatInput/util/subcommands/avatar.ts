@@ -1,5 +1,5 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
 import type { CommandInteraction } from "oceanic.js";
+import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 
@@ -10,10 +10,13 @@ export default new SubCommand({
 
     interaction.reply({
       embeds: new EmbedBuilder()
-        .setAuthor(user.username, user.avatarURL())
+        .setAuthor({
+          name: user.username,
+          iconURL: user.avatarURL(),
+        })
         .setImage(user.avatarURL())
         .setColor(client.config.colors.color)
-        .toJSON(true),
+        .toJSONArray(),
     });
   },
 });
