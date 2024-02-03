@@ -1,7 +1,7 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
 import humanize from "humanize-duration";
 import type { CommandInteraction } from "oceanic.js";
 import pkg from "../../../../../package.json";
+import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 import { formatString } from "../../../../util/util";
@@ -15,7 +15,10 @@ export default new SubCommand({
   ) => {
     interaction.reply({
       embeds: new EmbedBuilder()
-        .setAuthor(client.user.username, client.user.avatarURL())
+        .setAuthor({
+          name: client.user.username,
+          iconURL: client.user.avatarURL(),
+        })
         .setThumbnail(client.user.avatarURL())
         .addFields([
           {
@@ -92,7 +95,7 @@ export default new SubCommand({
           },
         ])
         .setColor(client.config.colors.color)
-        .toJSON(true),
+        .toJSONArray(),
     });
 
     function formatBytes(data: number): string {

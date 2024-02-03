@@ -1,5 +1,5 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
 import type { CommandInteraction } from "oceanic.js";
+import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 import { formatString } from "../../../../util/util";
@@ -16,7 +16,7 @@ export default new SubCommand({
           )}\`\`\``,
         )
         .setColor(client.config.colors.color)
-        .toJSON(true),
+        .toJSONArray(),
     });
   },
 });
