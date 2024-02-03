@@ -153,6 +153,15 @@ export class Fancycord extends Client {
         arrayCommands as CreateApplicationCommandOptions[],
       )
       .then((commands) => {
+        commands.forEach((c, _) => {
+          const command = this.interactions.chatInput.get(c.name);
+
+          if (command) {
+            command.id = c.id;
+            this.interactions.chatInput.set(c.name, command);
+          }
+        });
+
         logger(
           `The interactions has been deployed - Deployed ${commands.length} interactions`,
           LogType.Info,

@@ -56,10 +56,6 @@
           "utility": {
             "label": "Utility",
             "description": "Use a variety of useful commands"
-          },
-          "message": {
-            "field": "**Commands: {command}**",
-            "value": "Command ∷ {command}\nDescription ∷ {description}"
           }
         },
         "message": "**Hello! I am {mention}, a bot that offers a minimalist and efficient experience for your Discord communities**\n\nI am designed with simplicity in mind, providing essential functionalities in an easy and modern manner"

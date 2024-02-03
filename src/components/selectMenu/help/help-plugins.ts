@@ -7,7 +7,7 @@ import {
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { formatString } from "../../../util/util";
+import { descriptions } from "../../../locales/misc/commands";
 
 export default new Component({
   name: "help-plugins",
@@ -20,6 +20,7 @@ export default new Component({
     const commands: {
       name: string;
       description: string;
+      id?: string;
     }[] = [];
 
     client.interactions.chatInput
@@ -37,7 +38,8 @@ export default new Component({
             if (o.type === ApplicationCommandOptionTypes.SUB_COMMAND) {
               commands.push({
                 name: `${c.name} ${o.name}`,
-                description: o.description,
+                description: descriptions[`${c.name}_${o.name}`][language],
+                id: c.id,
               });
             } else if (
               o.type === ApplicationCommandOptionTypes.SUB_COMMAND_GROUP
@@ -45,7 +47,9 @@ export default new Component({
               o.options?.map((o2) => {
                 commands.push({
                   name: `${c.name} ${o.name} ${o2.name}`,
-                  description: o2.description,
+                  description:
+                    descriptions[`${c.name}_${o.name}_${o2.name}`][language],
+                  id: c.id,
                 });
               });
             }
@@ -53,7 +57,8 @@ export default new Component({
         } else {
           commands.push({
             name: c.name,
-            description: c.description,
+            description: descriptions[`${c.name}`][language],
+            id: c.id,
           });
         }
       });
@@ -64,37 +69,33 @@ export default new Component({
           name: client.user.username,
           iconURL: client.user.avatarURL(),
         })
-        .addFields(
-          commands.map((c) => {
-            return {
-              name: client.locales.__mf(
-                {
-                  phrase: "commands.information.help.row.message.field",
-                  locale: language,
-                },
-                {
-                  command: c.name,
-                },
-              ),
-              value: `\`\`\`ansi\n\x1b[1;35m${formatString(
-                client.locales.__mf(
-                  {
-                    phrase: "commands.information.help.row.message.value",
-                    locale: language,
-                  },
-                  {
-                    command: `/${c.name}`,
-                    description: c.description,
-                  },
-                ),
-                "∷",
-              )}\x1b[0m\`\`\``,
-            };
-          }),
+        //.setThumbnail(client.user.avatarURL())
+        .setDescription(
+          commands
+            .map((c) => {
+              return `<:_:1201948012830531644> ${
+                c.id ? `</${c.name}:${c.id}>` : `**/${c.name}**`
+              }: ${c.description}`;
+            })
+            .join("\n"),
         )
         .setColor(client.config.colors.color)
         .toJSONArray(),
       flags: MessageFlags.EPHEMERAL,
     });
+
+    /*function fields(elements: any[]): any[] {
+      return elements.reduce((acc, curr, index) => {
+        if (index % 2 === 0) {
+          acc.push(curr, {
+            name: "\u200B",
+            description: "\u200B",
+          });
+        } else {
+          acc.push(curr);
+        }
+        return acc;
+      }, []);
+    }*/
   },
 });
