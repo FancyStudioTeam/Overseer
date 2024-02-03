@@ -69,7 +69,6 @@ export default new Component({
           name: client.user.username,
           iconURL: client.user.avatarURL(),
         })
-        //.setThumbnail(client.user.avatarURL())
         .setDescription(
           commands
             .map((c) => {
@@ -83,19 +82,5 @@ export default new Component({
         .toJSONArray(),
       flags: MessageFlags.EPHEMERAL,
     });
-
-    /*function fields(elements: any[]): any[] {
-      return elements.reduce((acc, curr, index) => {
-        if (index % 2 === 0) {
-          acc.push(curr, {
-            name: "\u200B",
-            description: "\u200B",
-          });
-        } else {
-          acc.push(curr);
-        }
-        return acc;
-      }, []);
-    }*/
   },
 });
