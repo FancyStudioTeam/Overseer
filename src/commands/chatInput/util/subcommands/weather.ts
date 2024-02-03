@@ -70,182 +70,170 @@ export default new SubCommand({
               .A$ as WeatherCurrent,
             forecast: json.weatherdata.weather[0].forecast as WeatherForecast[],
           };
-
-          await interaction
-            .reply({
-              embeds: new EmbedBuilder()
-                .setAuthor({
-                  name: data.info.weatherlocationname,
-                  iconURL: `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
-                })
-                .setThumbnail(
-                  `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
-                )
-                .addFields([
-                  {
-                    name: client.locales.__({
-                      phrase: "commands.utility.weather.message.field",
+          const response = await interaction.reply({
+            embeds: new EmbedBuilder()
+              .setAuthor({
+                name: data.info.weatherlocationname,
+                iconURL: `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
+              })
+              .setThumbnail(
+                `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
+              )
+              .addFields([
+                {
+                  name: client.locales.__({
+                    phrase: "commands.utility.weather.message.field",
+                    locale: language,
+                  }),
+                  value: `\`\`\`ansi\n${formatString(
+                    client.locales.__mf(
+                      {
+                        phrase: "commands.utility.weather.message.value",
+                        locale: language,
+                      },
+                      {
+                        location: data.info.weatherlocationname,
+                        temperature: `${
+                          data.current.temperature
+                        }°C - (${temperatureToF(data.current.temperature)}°F)`,
+                        humidity: `${data.current.humidity}%`,
+                        wind: data.current.winddisplay,
+                        weather: data.current.skytext,
+                      },
+                    ),
+                    "∷",
+                  )}\`\`\``,
+                },
+              ])
+              .setColor(client.config.colors.color)
+              .toJSONArray(),
+            components: new ActionRowBuilder()
+              .addComponents([
+                new ButtonBuilder()
+                  .setCustomID("weather-forecast")
+                  .setLabel(
+                    client.locales.__({
+                      phrase: "commands.utility.weather.row.forecast.label",
                       locale: language,
                     }),
-                    value: `\`\`\`ansi\n${formatString(
-                      client.locales.__mf(
-                        {
-                          phrase: "commands.utility.weather.message.value",
-                          locale: language,
-                        },
-                        {
-                          location: data.info.weatherlocationname,
-                          temperature: `${
-                            data.current.temperature
-                          }°C - (${temperatureToF(
-                            data.current.temperature,
-                          )}°F)`,
-                          humidity: `${data.current.humidity}%`,
-                          wind: data.current.winddisplay,
-                          weather: data.current.skytext,
-                        },
-                      ),
-                      "∷",
-                    )}\`\`\``,
-                  },
-                ])
-                .setColor(client.config.colors.color)
-                .toJSONArray(),
-              components: new ActionRowBuilder()
-                .addComponents([
-                  new ButtonBuilder()
-                    .setCustomID("weather-forecast")
-                    .setLabel(
-                      client.locales.__({
-                        phrase: "commands.utility.weather.row.forecast.label",
-                        locale: language,
-                      }),
-                    )
-                    .setStyle(ButtonStyles.SECONDARY)
-                    .setEmoji({
-                      name: "_",
-                      id: "1201588352915349597",
+                  )
+                  .setStyle(ButtonStyles.SECONDARY)
+                  .setEmoji({
+                    name: "_",
+                    id: "1201588352915349597",
+                  }),
+                new ButtonBuilder()
+                  .setLabel(
+                    client.locales.__({
+                      phrase: "commands.utility.weather.row.link.label",
+                      locale: language,
                     }),
-                  new ButtonBuilder()
-                    .setLabel(
-                      client.locales.__({
-                        phrase: "commands.utility.weather.row.link.label",
-                        locale: language,
-                      }),
-                    )
-                    .setStyle(ButtonStyles.LINK)
-                    .setEmoji({
-                      name: "_",
-                      id: "1201589945853296780",
-                    })
-                    .setURL(data.info.url),
-                ])
-                .toJSONArray(),
-            })
-            .then(async (response) => {
-              const message = response.hasMessage()
-                ? response.message
-                : await response.getMessage();
-              const collector = new InteractionCollector({
-                client: client,
-                message: message,
-                channel: interaction.channel,
-                guild: interaction.guild as Guild,
-                interactionType: InteractionTypes.MESSAGE_COMPONENT,
-                time: 60000,
-              });
-
-              collector.on(
-                "collect",
-                async (collected: AnyInteractionGateway) => {
-                  if (collected.isComponentInteraction()) {
-                    if (collected.isButtonComponentInteraction()) {
-                      switch (collected.data.customID) {
-                        case "weather-forecast": {
-                          collected.reply({
-                            embeds: new EmbedBuilder()
-                              .setAuthor({
-                                name: data.info.weatherlocationname,
-                                iconURL: `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
-                              })
-                              .addFields(
-                                data.forecast.slice(1, 5).map((f) => {
-                                  return {
-                                    name: client.locales.__mf(
-                                      {
-                                        phrase:
-                                          "commands.utility.weather.message.field2",
-                                        locale: language,
-                                      },
-                                      {
-                                        date: formatDate(
-                                          timezone,
-                                          new Date(f.A$.date),
-                                          hour12,
-                                        ),
-                                      },
-                                    ),
-                                    value: `\`\`\`ansi\n${formatString(
-                                      client.locales.__mf(
-                                        {
-                                          phrase:
-                                            "commands.utility.weather.message.value2",
-                                          locale: language,
-                                        },
-                                        {
-                                          day: f.A$.day,
-                                          date: formatDate(
-                                            timezone,
-                                            new Date(f.A$.date),
-                                            hour12,
-                                          ),
-                                          high: `${
-                                            f.A$.high
-                                          }°C - (${temperatureToF(
-                                            f.A$.high,
-                                          )}°F)`,
-                                          low: `${
-                                            f.A$.low
-                                          }°C - (${temperatureToF(
-                                            f.A$.low,
-                                          )}°F)`,
-                                          weather: f.A$.skytextday,
-                                        },
-                                      ),
-                                      "∷",
-                                    )}\`\`\``,
-                                  };
-                                }),
-                              )
-                              .setColor(client.config.colors.color)
-                              .toJSONArray(),
-                            flags: MessageFlags.EPHEMERAL,
-                          });
-
-                          break;
-                        }
-                      }
-                    }
-                  }
-                },
-              );
-
-              collector.on("end", async () => {
-                collector.removeAllListeners();
-
-                message.components.forEach((r, _) => {
-                  r.components.forEach((c, _) => {
-                    c.disabled = true;
-                  });
-                });
-
-                await message
-                  .edit({
-                    components: message.components,
+                  )
+                  .setStyle(ButtonStyles.LINK)
+                  .setEmoji({
+                    name: "_",
+                    id: "1201589945853296780",
                   })
-                  .catch(() => null);
+                  .setURL(data.info.url),
+              ])
+              .toJSONArray(),
+          });
+          const message = response.hasMessage()
+            ? response.message
+            : await response.getMessage();
+          const collector = new InteractionCollector({
+            client: client,
+            message: message,
+            channel: interaction.channel,
+            guild: interaction.guild as Guild,
+            interactionType: InteractionTypes.MESSAGE_COMPONENT,
+            time: 60000,
+          });
+
+          collector.on("collect", async (collected: AnyInteractionGateway) => {
+            if (collected.isComponentInteraction()) {
+              if (collected.isButtonComponentInteraction()) {
+                switch (collected.data.customID) {
+                  case "weather-forecast": {
+                    collected.reply({
+                      embeds: new EmbedBuilder()
+                        .setAuthor({
+                          name: data.info.weatherlocationname,
+                          iconURL: `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
+                        })
+                        .addFields(
+                          data.forecast.slice(1, 5).map((f) => {
+                            return {
+                              name: client.locales.__mf(
+                                {
+                                  phrase:
+                                    "commands.utility.weather.message.field2",
+                                  locale: language,
+                                },
+                                {
+                                  date: formatDate(
+                                    timezone,
+                                    new Date(f.A$.date),
+                                    hour12,
+                                  ),
+                                },
+                              ),
+                              value: `\`\`\`ansi\n${formatString(
+                                client.locales.__mf(
+                                  {
+                                    phrase:
+                                      "commands.utility.weather.message.value2",
+                                    locale: language,
+                                  },
+                                  {
+                                    day: f.A$.day,
+                                    date: formatDate(
+                                      timezone,
+                                      new Date(f.A$.date),
+                                      hour12,
+                                    ),
+                                    high: `${f.A$.high}°C - (${temperatureToF(
+                                      f.A$.high,
+                                    )}°F)`,
+                                    low: `${f.A$.low}°C - (${temperatureToF(
+                                      f.A$.low,
+                                    )}°F)`,
+                                    weather: f.A$.skytextday,
+                                  },
+                                ),
+                                "∷",
+                              )}\`\`\``,
+                            };
+                          }),
+                        )
+                        .setColor(client.config.colors.color)
+                        .toJSONArray(),
+                      flags: MessageFlags.EPHEMERAL,
+                    });
+
+                    break;
+                  }
+                }
+              }
+            }
+          });
+
+          collector.on("end", async () => {
+            collector.removeAllListeners();
+
+            message.components.forEach((r, _) => {
+              r.components.forEach((c, _) => {
+                c.disabled = true;
               });
             });
+
+            console.log(message);
+            await message
+              .edit({
+                components: message.components,
+              })
+              .catch(() => null);
+          });
         });
       })
       .catch((error) => {
