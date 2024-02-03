@@ -1,10 +1,10 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
 import {
   ApplicationCommandOptionTypes,
   type ComponentInteraction,
   type MessageComponentSelectMenuInteractionData,
   MessageFlags,
 } from "oceanic.js";
+import { EmbedBuilder } from "../../../builders/Embed";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
 import { formatString } from "../../../util/util";
@@ -23,7 +23,7 @@ export default new Component({
     }[] = [];
 
     client.interactions.chatInput
-      .filter((c) => c.directory === data.values.raw[0])
+      .filter((c) => c.directory === data.values.getStrings()[0])
       .map((c) => {
         if (
           c.options?.some((c) =>
@@ -60,7 +60,10 @@ export default new Component({
 
     interaction.reply({
       embeds: new EmbedBuilder()
-        .setAuthor(client.user.username, client.user.avatarURL())
+        .setAuthor({
+          name: client.user.username,
+          iconURL: client.user.avatarURL(),
+        })
         .addFields(
           commands.map((c) => {
             return {
@@ -90,7 +93,7 @@ export default new Component({
           }),
         )
         .setColor(client.config.colors.color)
-        .toJSON(true),
+        .toJSONArray(),
       flags: MessageFlags.EPHEMERAL,
     });
   },

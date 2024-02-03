@@ -1,4 +1,5 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
+import { EmbedBuilder } from "../../../builders/Embed";
+
 import {
   ApplicationCommandTypes,
   type CommandInteraction,
@@ -15,10 +16,13 @@ export default new UserCommand({
 
     interaction.reply({
       embeds: new EmbedBuilder()
-        .setAuthor(user.username, user.avatarURL())
+        .setAuthor({
+          name: user.username,
+          iconURL: user.avatarURL(),
+        })
         .setImage(user.avatarURL())
         .setColor(client.config.colors.color)
-        .toJSON(true),
+        .toJSONArray(),
     });
   },
 });
