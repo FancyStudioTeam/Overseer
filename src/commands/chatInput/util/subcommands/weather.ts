@@ -58,7 +58,6 @@ export default new SubCommand({
           });
         }
 
-        // biome-ignore lint/suspicious/noExplicitAny:
         parser.parseString(body, async (error: Error | null, json: any) => {
           if (error) {
             handleError(error, interaction, language);

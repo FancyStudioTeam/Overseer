@@ -14,6 +14,18 @@ export const descriptions: Descriptions = {
     en: "Revokes premium server membership",
     es: "Revoca la membresía premium del servidor",
   },
+  config_suggestions_enable: {
+    en: "Enables the suggestion system",
+    es: "Habilita el sistema de sugerencias",
+  },
+  config_suggestions_disable: {
+    en: "Disables the suggestion system",
+    es: "Deshabilita el sistema de sugerencias",
+  },
+  config_suggestions_dashboard: {
+    en: "Configures the suggestion system",
+    es: "Configura el sistema de sugerencias",
+  },
   config_timezone: {
     en: "Sets the bot's time zone",
     es: "Establece la zona horaria del bot",
