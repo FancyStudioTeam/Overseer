@@ -1,6 +1,6 @@
-import { EmbedBuilder } from "@oceanicjs/builders";
 import ms from "ms";
 import type { CommandInteraction } from "oceanic.js";
+import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 import { prisma } from "../../../../util/db";
@@ -70,7 +70,7 @@ export default new SubCommand({
             }),
           )
           .setColor(client.config.colors.success)
-          .toJSON(true),
+          .toJSONArray(),
       })
       .then(async () => {
         await prisma.clientPremium.delete({
