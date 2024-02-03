@@ -1,8 +1,8 @@
 import { type ExecException, exec } from "node:child_process";
 import { join } from "node:path";
 import { inspect } from "node:util";
-import { EmbedBuilder } from "@oceanicjs/builders";
 import type { Message } from "oceanic.js";
+import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
 import { client } from "../../index";
 import { trim } from "../../util/util";
@@ -43,21 +43,27 @@ export default new Event("messageCreate", false, async (message: Message) => {
           if (error) {
             message.channel?.createMessage({
               embeds: new EmbedBuilder()
-                .setAuthor(client.user.username, client.user.avatarURL())
+                .setAuthor({
+                  name: client.user.username,
+                  iconURL: client.user.avatarURL(),
+                })
                 .setDescription(
                   `\`\`\`js\n${trim(error.stack as string, 4000)}\`\`\``,
                 )
                 .setColor(client.config.colors.error)
-                .toJSON(true),
+                .toJSONArray(),
             });
           }
 
           message.channel?.createMessage({
             embeds: new EmbedBuilder()
-              .setAuthor(client.user.username, client.user.avatarURL())
+              .setAuthor({
+                name: client.user.username,
+                iconURL: client.user.avatarURL(),
+              })
               .setDescription(`\`\`\`js\n${trim(result, 4000)}\`\`\``)
               .setColor(client.config.colors.success)
-              .toJSON(true),
+              .toJSONArray(),
           });
         },
       );
@@ -79,18 +85,24 @@ export default new Event("messageCreate", false, async (message: Message) => {
 
         message.channel.createMessage({
           embeds: new EmbedBuilder()
-            .setAuthor(client.user.username, client.user.avatarURL())
+            .setAuthor({
+              name: client.user.username,
+              iconURL: client.user.avatarURL(),
+            })
             .setDescription(`\`\`\`js\n${trim(output, 4000)}\`\`\``)
             .setColor(client.config.colors.success)
-            .toJSON(true),
+            .toJSONArray(),
         });
       } catch (error) {
         message.channel.createMessage({
           embeds: new EmbedBuilder()
-            .setAuthor(client.user.username, client.user.avatarURL())
+            .setAuthor({
+              name: client.user.username,
+              iconURL: client.user.avatarURL(),
+            })
             .setDescription(`\`\`\`js\n${trim(error as string, 4000)}\`\`\``)
             .setColor(client.config.colors.error)
-            .toJSON(true),
+            .toJSONArray(),
         });
       }
 

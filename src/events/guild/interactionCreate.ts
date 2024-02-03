@@ -1,14 +1,15 @@
 import { readFileSync } from "fs";
 import { join } from "path";
-import { Button, ComponentBuilder, EmbedBuilder } from "@oceanicjs/builders";
 import {
   type AnyInteractionGateway,
   ApplicationCommandOptionTypes,
   ButtonStyles,
-  type MessageActionRow,
   MessageFlags,
   type PermissionName,
 } from "oceanic.js";
+import { ActionRowBuilder } from "../../builders/ActionRow";
+import { ButtonBuilder } from "../../builders/Button";
+import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
 import { client } from "../../index";
 import type {
@@ -50,7 +51,7 @@ export default new Event(
           embeds: new EmbedBuilder()
             .setImage("attachment://maintenance.png")
             .setColor(client.config.colors.color)
-            .toJSON(true),
+            .toJSONArray(),
           files: [
             {
               name: "maintenance.png",
@@ -59,16 +60,18 @@ export default new Event(
               ),
             },
           ],
-          components: new ComponentBuilder<MessageActionRow>()
-            .addRow([
-              new Button(ButtonStyles.LINK, client.config.links.support)
+          components: new ActionRowBuilder()
+            .addComponents([
+              new ButtonBuilder()
                 .setLabel("Support Server")
+                .setStyle(ButtonStyles.LINK)
                 .setEmoji({
                   name: "_",
                   id: "1201585025028735016",
-                }),
+                })
+                .setURL(client.config.links.support),
             ])
-            .toJSON(),
+            .toJSONArray(),
           flags: MessageFlags.EPHEMERAL,
         });
       }
