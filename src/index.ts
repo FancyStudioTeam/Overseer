@@ -7,6 +7,7 @@ export const client = new Fancycord();
 
 (async () => {
   await client.init();
+  client.setMaxListeners(10);
 })();
 
 process.on("uncaughtException", (error: Error) => {
