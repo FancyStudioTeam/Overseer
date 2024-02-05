@@ -10,6 +10,7 @@ import {
   type User,
 } from "oceanic.js";
 import urlRegex from "url-regex";
+import { EmbedBuilder } from "../builders/Embed";
 import { client } from "../index";
 import { LogType, UnixType, WebhookType } from "../types";
 
@@ -180,16 +181,17 @@ export function compareMemberToMember(from: Member, to: Member): string {
 
   if (a > b) {
     return "higher";
-    // biome-ignore lint/style/noUselessElse:
-  } else if (a < b) {
-    return "lower";
-    // biome-ignore lint/style/noUselessElse:
-  } else if (a === b) {
-    return "same";
-    // biome-ignore lint/style/noUselessElse:
-  } else {
-    return "unknown";
   }
+
+  if (a < b) {
+    return "lower";
+  }
+
+  if (a === b) {
+    return "same";
+  }
+
+  return "unknown";
 }
 
 export function trim(content: string, max: number): string {
@@ -244,18 +246,52 @@ export function handleError(
   language: string,
 ): void {
   const id = DiscordSnowflake.generate().toString();
-  const payload: CreateMessageOptions = {
-    embeds: [
-      {
-        author: {
+
+  webhook(WebhookType.Logs, {
+    content: "<@&1165278800842600601>",
+    embeds: new EmbedBuilder()
+      .setAuthor({
+        name: client.user.username,
+        iconURL: client.user.avatarURL(),
+      })
+      .setDescription(
+        `\`\`\`js\n${trim(
+          error.stack ? error.stack : error.message,
+          4000,
+        )}\`\`\``,
+      )
+      .addFields([
+        {
+          name: "**General information**",
+          value: `<:_:1201948012830531644> **Report ID**: ${id}\n<:_:1201948012830531644> **User**: ${
+            context.user.username
+          }\n<:_:1201948012830531644> **User ID**: ${
+            context.user.id
+          }\n<:_:1201948012830531644> **Server**: ${
+            context.guild?.name ?? "<:_:1201586248947597392>"
+          }\n<:_:1201948012830531644> **Server ID**: ${
+            context.guildID ?? "<:_:1201586248947597392>"
+          }`,
+        },
+      ])
+      .setColor(client.config.colors.error)
+      .toJSONArray(),
+  });
+
+  if (context.isCommandInteraction() || context.isCommandInteraction()) {
+    context.reply({
+      embeds: new EmbedBuilder()
+        .setAuthor({
           name: client.user.username,
           iconURL: client.user.avatarURL(),
-        },
-        description: client.locales.__({
-          phrase: "general.error.message",
-          locale: language,
-        }),
-        fields: [
+        })
+        .setDescription(
+          client.locales.__({
+            phrase: "general.error.message",
+            locale: language,
+          }),
+        )
+        .addFields([
           {
             name: client.locales.__({
               phrase: "general.error.field",
@@ -275,36 +311,9 @@ export function handleError(
               "∷",
             )}\`\`\``,
           },
-        ],
-        color: client.config.colors.error,
-      },
-    ],
-  };
-
-  webhook(WebhookType.Logs, {
-    content: "<@&1165278800842600601>",
-    embeds: [
-      {
-        author: {
-          name: client.user.username,
-          iconURL: client.user.avatarURL(),
-        },
-        description: `\`\`\`js\n${trim(error.stack as string, 4000)}\`\`\``,
-        fields: [
-          {
-            name: "**General information**",
-            value: `\`\`\`ansi\n${formatString(
-              `Report ID ∷ ${id}\nUser ∷ ${context.user.username}\nUser ID ∷ ${context.user.id}\nServer ∷ ${context.guild?.name}\nServer ID ∷ ${context.guild?.id}`,
-              "∷",
-            )}\`\`\``,
-          },
-        ],
-        color: client.config.colors.error,
-      },
-    ],
-  });
-
-  if (context.isCommandInteraction() || context.isCommandInteraction()) {
-    context.reply(payload);
+        ])
+        .setColor(client.config.colors.error)
+        .toJSONArray(),
+    });
   }
 }
