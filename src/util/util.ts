@@ -2,7 +2,7 @@ import { DiscordSnowflake } from "@sapphire/snowflake";
 import {
   type AnyInteractionGateway,
   type CreateMessageOptions,
-  type Embed,
+  type EmbedOptions,
   type ExecuteWebhookOptions,
   type Member,
   MessageFlags,
@@ -125,7 +125,7 @@ export function sleep(ms: number): Promise<void> {
 export function errorMessage(
   context: AnyInteractionGateway,
   ephemeral: boolean,
-  embed: Embed,
+  embed: EmbedOptions,
 ): void {
   if (
     context.isCommandInteraction() ||
@@ -133,12 +133,10 @@ export function errorMessage(
     context.isModelSubmitInteraction()
   ) {
     context.reply({
-      embeds: [
-        {
-          color: client.config.colors.error,
-          ...embed,
-        },
-      ],
+      embeds: new EmbedBuilder()
+        .load(embed)
+        .setColor(client.config.colors.error)
+        .toJSONArray(),
       flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
     });
   }
