@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { join } from "path";
+import { join } from "node:path";
 import {
   type AnyInteractionGateway,
   ApplicationCommandOptionTypes,
