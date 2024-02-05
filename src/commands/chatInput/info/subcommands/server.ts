@@ -70,7 +70,6 @@ export default new SubCommand({
                 members: interaction.guild.memberCount,
                 channels: interaction.guild.channels.size,
                 roles: interaction.guild.roles.size,
-                emojis: interaction.guild.emojis.size,
               },
             ),
           },
