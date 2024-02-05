@@ -24,10 +24,18 @@ export default new Event("messageCreate", false, async (message: Message) => {
       await client
         .init()
         .then(() => {
-          message.createReaction(":_:1201586112083279923");
+          client.rest.channels.createReaction(
+            message.channelID,
+            message.id,
+            ":_:1201586112083279923",
+          );
         })
         .catch(() => {
-          message.createReaction(":_:1201586248947597392");
+          client.rest.channels.createReaction(
+            message.channelID,
+            message.id,
+            ":_:1201586248947597392",
+          );
         });
 
       break;
@@ -41,21 +49,21 @@ export default new Event("messageCreate", false, async (message: Message) => {
         `cd "${join(__dirname, "../../..")}" && ${command}`,
         (error: ExecException | null, result: string) => {
           if (error) {
-            message.channel?.createMessage({
+            client.rest.channels.createMessage(message.channelID, {
               embeds: new EmbedBuilder()
                 .setAuthor({
                   name: client.user.username,
                   iconURL: client.user.avatarURL(),
                 })
                 .setDescription(
-                  `\`\`\`js\n${trim(error.stack as string, 4000)}\`\`\``,
+                  `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``,
                 )
                 .setColor(client.config.colors.error)
                 .toJSONArray(),
             });
           }
 
-          message.channel?.createMessage({
+          client.rest.channels.createMessage(message.channelID, {
             embeds: new EmbedBuilder()
               .setAuthor({
                 name: client.user.username,
@@ -83,7 +91,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
           output = inspect(result);
         }
 
-        message.channel.createMessage({
+        client.rest.channels.createMessage(message.channelID, {
           embeds: new EmbedBuilder()
             .setAuthor({
               name: client.user.username,
@@ -94,7 +102,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
             .toJSONArray(),
         });
       } catch (error) {
-        message.channel.createMessage({
+        client.rest.channels.createMessage(message.channelID, {
           embeds: new EmbedBuilder()
             .setAuthor({
               name: client.user.username,
