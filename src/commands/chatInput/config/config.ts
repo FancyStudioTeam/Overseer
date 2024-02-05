@@ -59,6 +59,11 @@ export default new ChatInputCommand({
       ],
     },
     {
+      name: "suggestions",
+      description: "Configures the suggestion system",
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+    },
+    {
       name: "timezone",
       description: "Sets the bot's time zone",
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
