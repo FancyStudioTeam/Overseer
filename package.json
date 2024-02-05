@@ -1,48 +1,48 @@
 {
-	"name": "fancycord",
-	"version": "0.2.0",
-	"description": "Modern, fast and easy to use. Fancycord, ready to serve you",
-	"main": "dist/src/index.js",
-	"scripts": {
-		"dev": "tsx watch src/index.ts",
-		"dev:nw": "tsx src/index.ts",
-		"build": "tsc",
-		"start": "node dist/src/index.js"
-	},
-	"keywords": [],
-	"author": "FancyStudio",
-	"license": "BSD-3-Clause",
-	"dependencies": {
-		"@napi-rs/canvas": "0.1.44",
-		"@prisma/client": "5.9.1",
-		"@sapphire/snowflake": "3.5.3",
-		"dotenv": "16.4.1",
-		"humanize-duration": "3.31.0",
-		"i18n": "0.15.1",
-		"ms": "2.1.3",
-		"node-cron": "3.0.3",
-		"oceanic-collector": "1.0.3",
-		"oceanic.js": "1.9.0",
-		"url-regex": "5.0.0",
-		"xml2js": "0.6.2"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.5.3",
-		"@types/figlet": "1.5.8",
-		"@types/humanize-duration": "3.27.4",
-		"@types/i18n": "0.13.10",
-		"@types/ms": "0.7.34",
-		"@types/node": "20.11.16",
-		"@types/node-cron": "3.0.11",
-		"@types/url-regex": "5.0.0",
-		"@types/xml2js": "0.4.14",
-		"figlet": "1.7.0",
-		"moment": "2.30.1",
-		"prisma": "5.9.1",
-		"tsx": "4.7.0",
-		"typescript": "5.3.3"
-	},
-	"prisma": {
-		"seed": "tsx src/seed.ts"
-	}
+  "name": "fancycord",
+  "version": "0.2.0",
+  "description": "Modern, fast and easy to use. Fancycord, ready to serve you",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "dev:nw": "tsx src/index.ts",
+    "build": "tsc",
+    "start": "node dist/src/index.js"
+  },
+  "keywords": [],
+  "author": "FancyStudio",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@napi-rs/canvas": "0.1.45",
+    "@prisma/client": "5.9.1",
+    "@sapphire/snowflake": "3.5.3",
+    "dotenv": "16.4.1",
+    "humanize-duration": "3.31.0",
+    "i18n": "0.15.1",
+    "ms": "2.1.3",
+    "node-cron": "3.0.3",
+    "oceanic-collector": "1.0.3",
+    "oceanic.js": "1.9.0",
+    "url-regex": "5.0.0",
+    "xml2js": "0.6.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.5.3",
+    "@types/figlet": "1.5.8",
+    "@types/humanize-duration": "3.27.4",
+    "@types/i18n": "0.13.10",
+    "@types/ms": "0.7.34",
+    "@types/node": "20.11.16",
+    "@types/node-cron": "3.0.11",
+    "@types/url-regex": "5.0.0",
+    "@types/xml2js": "0.4.14",
+    "figlet": "1.7.0",
+    "moment": "2.30.1",
+    "prisma": "5.9.1",
+    "tsx": "4.7.0",
+    "typescript": "5.3.3"
+  },
+  "prisma": {
+    "seed": "tsx src/seed.ts"
+  }
 }
