@@ -23,6 +23,7 @@ export default (client: Fancycord) => {
         guild_id: message.guild.id,
       },
     });
+
     const language = guildConfiguration?.language ?? "en";
     const premium = guildConfiguration?.premium ?? false;
 
@@ -33,7 +34,9 @@ export default (client: Fancycord) => {
       const id = DiscordSnowflake.generate().toString();
       let content = message.content;
 
-      await message.delete().catch(() => null);
+      if (message.guild.clientMember.permissions.has("MANAGE_MESSAGES")) {
+        await message.delete().catch(() => null);
+      }
 
       if (!checkString(content)) {
         content = "**_(No valid content detected)_**";
