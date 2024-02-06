@@ -23,7 +23,6 @@ export default (client: Fancycord) => {
         guild_id: message.guild.id,
       },
     });
-
     const language = guildConfiguration?.language ?? "en";
     const premium = guildConfiguration?.premium ?? false;
 
