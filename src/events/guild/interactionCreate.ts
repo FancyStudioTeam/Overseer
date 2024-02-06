@@ -109,27 +109,16 @@ export default new Event(
                   )
                 ) {
                   return errorMessage(interaction, true, {
-                    fields: [
+                    description: client.locales.__mf(
                       {
-                        name: client.locales.__({
-                          phrase: "general.invalid-user-permissions.field",
-                          locale: language,
-                        }),
-                        value: `\`\`\`ansi\n\x1b[1;35m${client.locales.__mf(
-                          {
-                            phrase: "general.invalid-user-permissions.value",
-                            locale: language,
-                          },
-                          {
-                            permission:
-                              permissions[
-                                subcommand.permissions
-                                  .user as keyof typeof permissions
-                              ],
-                          },
-                        )}\x1b[0m\`\`\``,
+                        phrase: "general.permissions.user-guild-permissions",
+                        locale: language,
                       },
-                    ],
+                      {
+                        permission:
+                          permissions[subcommand.permissions.user][language],
+                      },
+                    ),
                   });
                 }
 
@@ -140,27 +129,16 @@ export default new Event(
                   )
                 ) {
                   return errorMessage(interaction, true, {
-                    fields: [
+                    description: client.locales.__mf(
                       {
-                        name: client.locales.__({
-                          phrase: "general.invalid-bot-permissions.field",
-                          locale: language,
-                        }),
-                        value: `\`\`\`ansi\n\x1b[1;35m${client.locales.__mf(
-                          {
-                            phrase: "general.invalid-bot-permissions.value",
-                            locale: language,
-                          },
-                          {
-                            permission:
-                              permissions[
-                                subcommand.permissions
-                                  .bot as keyof typeof permissions
-                              ],
-                          },
-                        )}\x1b[0m\`\`\``,
+                        phrase: "general.permissions.bot-guild-permissions",
+                        locale: language,
                       },
-                    ],
+                      {
+                        permission:
+                          permissions[subcommand.permissions.bot][language],
+                      },
+                    ),
                   });
                 }
 
@@ -276,26 +254,15 @@ export default new Event(
             )
           ) {
             return errorMessage(interaction, true, {
-              fields: [
+              description: client.locales.__mf(
                 {
-                  name: client.locales.__({
-                    phrase: "general.invalid-user-permissions.field",
-                    locale: language,
-                  }),
-                  value: `\`\`\`ansi\n\x1b[1;35m${client.locales.__mf(
-                    {
-                      phrase: "general.invalid-user-permissions.value",
-                      locale: language,
-                    },
-                    {
-                      permission:
-                        permissions[
-                          button.permissions.user as keyof typeof permissions
-                        ],
-                    },
-                  )}\x1b[0m\`\`\``,
+                  phrase: "general.permissions.user-guild-permissions",
+                  locale: language,
                 },
-              ],
+                {
+                  permission: permissions[button.permissions.user][language],
+                },
+              ),
             });
           }
 
@@ -306,26 +273,15 @@ export default new Event(
             )
           ) {
             return errorMessage(interaction, true, {
-              fields: [
+              description: client.locales.__mf(
                 {
-                  name: client.locales.__({
-                    phrase: "general.invalid-bot-permissions.field",
-                    locale: language,
-                  }),
-                  value: `\`\`\`ansi\n\x1b[1;35m${client.locales.__mf(
-                    {
-                      phrase: "general.invalid-bot-permissions.value",
-                      locale: language,
-                    },
-                    {
-                      permission:
-                        permissions[
-                          button.permissions.bot as keyof typeof permissions
-                        ],
-                    },
-                  )}\x1b[0m\`\`\``,
+                  phrase: "general.permissions.user-guild-permissions",
+                  locale: language,
                 },
-              ],
+                {
+                  permission: permissions[button.permissions.bot][language],
+                },
+              ),
             });
           }
 
@@ -355,26 +311,15 @@ export default new Event(
             )
           ) {
             return errorMessage(interaction, true, {
-              fields: [
+              description: client.locales.__mf(
                 {
-                  name: client.locales.__({
-                    phrase: "general.invalid-user-permissions.field",
-                    locale: language,
-                  }),
-                  value: `\`\`\`ansi\n\x1b[1;35m${client.locales.__mf(
-                    {
-                      phrase: "general.invalid-user-permissions.value",
-                      locale: language,
-                    },
-                    {
-                      permission:
-                        permissions[
-                          select.permissions.user as keyof typeof permissions
-                        ],
-                    },
-                  )}\x1b[0m\`\`\``,
+                  phrase: "general.permissions.user-guild-permissions",
+                  locale: language,
                 },
-              ],
+                {
+                  permission: permissions[select.permissions.user][language],
+                },
+              ),
             });
           }
 
@@ -385,26 +330,15 @@ export default new Event(
             )
           ) {
             return errorMessage(interaction, true, {
-              fields: [
+              description: client.locales.__mf(
                 {
-                  name: client.locales.__({
-                    phrase: "general.invalid-bot-permissions.field",
-                    locale: language,
-                  }),
-                  value: `\`\`\`ansi\n\x1b[1;35m${client.locales.__mf(
-                    {
-                      phrase: "general.invalid-bot-permissions.value",
-                      locale: language,
-                    },
-                    {
-                      permission:
-                        permissions[
-                          select.permissions.bot as keyof typeof permissions
-                        ],
-                    },
-                  )}\x1b[0m\`\`\``,
+                  phrase: "general.permissions.user-guild-permissions",
+                  locale: language,
                 },
-              ],
+                {
+                  permission: permissions[select.permissions.bot][language],
+                },
+              ),
             });
           }
 

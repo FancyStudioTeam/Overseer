@@ -1,8 +1,11 @@
 import {
+  type ChannelSelectMenu,
+  type ChannelTypes,
   ComponentTypes,
-  SelectMenuComponent,
-  SelectOption,
-  StringSelectMenu,
+  type SelectMenuComponent,
+  type SelectMenuDefaultValue,
+  type SelectOption,
+  type StringSelectMenu,
 } from "oceanic.js";
 
 type ValidType =
@@ -23,8 +26,20 @@ export class SelectMenuBuilder {
     };
   }
 
+  setChannelTypes(types: ChannelTypes[]): this {
+    (this.json as ChannelSelectMenu).channelTypes = types;
+
+    return this;
+  }
+
   setCustomID(id: string): this {
     this.json.customID = id;
+
+    return this;
+  }
+
+  setDefaultValues(values: SelectMenuDefaultValue[]): this {
+    (this.json as ChannelSelectMenu).defaultValues = values;
 
     return this;
   }
