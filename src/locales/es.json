@@ -22,6 +22,44 @@
           "message": "**<:_:1201586663642640476> ¿Estás seguro de que quieres recovar la membresía premium del servidor?\n<:_:1201948012830531644> Si lo haces, el servidor ya no tendrá acceso a las ventajas premium**"
         }
       },
+      "suggestions": {
+        "row": {
+          "general": {
+            "row": {
+              "channel": {
+                "label": "Canal de sugerencias",
+                "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**"
+              },
+              "message": {
+                "label": "Sugerencias mediante mensajes"
+              },
+              "threads": {
+                "label": "Hilos (Premium)"
+              },
+              "revision-channel": {
+                "label": "Canal de revisiones"
+              },
+              "revision": {
+                "label": "Revisar sugerencias"
+              }
+            },
+            "label": "General",
+            "message": {
+              "field": "**Configurarión general**",
+              "value": "<:_:1201948012830531644> **Canal de sugerencias**: {channel}\n<:_:1201948012830531644> **Sugerencias mediante mensajes**: {messageSuggestion}\n<:_:1201948012830531644> **Hilos**: {threads}",
+              "field2": "**Revisión de sugerencias**",
+              "value2": "<:_:1201948012830531644> **Canal de revisiones**: {reviewChannel}\n<:_:1201948012830531644> **Revisar sugerencias**: {review}"
+            }
+          },
+          "votes": {
+            "label": "Votos"
+          }
+        },
+        "system-not-enabled": "**<:_:1201586248947597392> El sistema de sugerencias no está habilitado**",
+        "message": {
+          "message": "**Empieza a configurar el sistema de sugerencias aquí**"
+        }
+      },
       "timezone": {
         "timezone-not-found": "**<:_:1201586248947597392> La zona horaria no ha sido encontrada**",
         "message": "**<:_:1201586112083279923> La zona horaria ha sido establecida a {timezone}**"
@@ -31,12 +69,11 @@
       "bot": {
         "message": {
           "field": "**Información general**",
-          "value": "Versión del bot ∷ {version}\nTiempo activo ∷ {uptime}",
+          "value": "<:_:1201948012830531644> **Versión del bot**: {version}\n<:_:1201948012830531644> **Tiempo activo**: {uptime}",
           "field2": "**Estadísticas**",
-          "value2": "Usuarios ∷ {users} usuarios\nServidores ∷ {guilds} servidores\nShards ∷ {shards} shards",
-          "field3": "**Dependencias**",
-          "field4": "**Proceso**",
-          "value4": "Uso de la memoria ∷ {ram}\nPlataforma ∷ {platform}"
+          "value2": "<:_:1201948012830531644> **Usuarios**: {users} usuarios\n<:_:1201948012830531644> **Servidores**: {guilds} servidores\n<:_:1201948012830531644> **Shards**: {shards} shards",
+          "field3": "**Proceso**",
+          "value3": "<:_:1201948012830531644> **Librería**: {library}\n<:_:1201948012830531644> **Lenguaje**: {language}\n<:_:1201948012830531644> **Uso de la memoria**: {ram}\n<:_:1201948012830531644> **Plataforma**: {platform}"
         }
       },
       "help": {
@@ -63,16 +100,16 @@
       "server": {
         "message": {
           "field": "**Información general**",
-          "value": "Nombre ∷ {name}\nID del servidor ∷ {id}\nPropietario ∷ {owner}\nID del propietario ∷ {ownerId}\nFecha de creación ∷ {createdAt}",
+          "value": "<:_:1201948012830531644> **Nombre**: {name}\n<:_:1201948012830531644> **ID del servidor**: {id}\n<:_:1201948012830531644> **Propietario**: {owner}\n<:_:1201948012830531644> **ID del propietario**: {ownerId}\n<:_:1201948012830531644> **Fecha de creación**: {createdAt}",
           "field2": "**Estadísticas**",
-          "value2": "Miembros ∷ {members} miembro(s)\nCanales ∷ {channels} canal(es)\nRoles ∷ {roles} rol(es)\nEmojis ∷ {emojis} emoji(s)"
+          "value2": "<:_:1201948012830531644> **Miembros**: {members} miembros\n<:_:1201948012830531644> **Canales**: {channels} canales\n<:_:1201948012830531644> **Roles**: {roles} roles"
         }
       },
       "user": {
         "invalid-guild-member": "**<:_:1201586248947597392> El usuario es un miembro inválido del servidor**",
         "message": {
           "field": "**Información general**",
-          "value": "Usuario ∷ {user}\nID del usuario ∷ {id}\nFecha de creación ∷ {createdAt}\nFecha de membresía ∷ {joinedAt}\nBooster ∷ {booster}"
+          "value": "<:_:1201948012830531644> **Usuario**: {user}\n<:_:1201948012830531644> **ID del usuario**: {id}\n<:_:1201948012830531644> **Fecha de creación**: {createdAt}\n<:_:1201948012830531644> **Fecha de membresía**: {joinedAt}\n<:_:1201948012830531644> **Booster**: {booster}"
         }
       }
     },
@@ -213,13 +250,11 @@
     }
   },
   "general": {
-    "invalid-user-permissions": {
-      "field": "**Permisos inválidos del usuario**",
-      "value": "Necesitas el permiso de {permission}"
-    },
-    "invalid-bot-permissions": {
-      "field": "**Permisos inválidos del bot**",
-      "value": "Necesito el permiso de {permission}"
+    "permissions": {
+      "user-guild-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesitas el permiso de {permission} en el servidor**",
+      "bot-guild-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesito el permiso de {permission} en el servidor**",
+      "user-channel-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesitas el permiso de {permission} en el canal**",
+      "bot-channel-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesito el permiso de {permission} en el canal**"
     },
     "error": {
       "message": "**Algo salió mal mientra se realizaba esta operación...**\nSi el error persiste, reporta el error con la ID propocrionada en nuestro soporte",
@@ -229,6 +264,7 @@
     "premium": {
       "field": "**Has descubierto una característica premium**",
       "value": "<:_:1201948012830531644> Esta característica requiere una membresía premium del servidor"
-    }
+    },
+    "cannot-get-guild": "**<:_:1201586248947597392> No se ha podido obtener el servidor desde la interacción**"
   }
 }

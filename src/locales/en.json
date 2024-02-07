@@ -22,6 +22,44 @@
           "message": "**<:_:1201586663642640476> Are you sure you want to revoke your premium server membership?\n<:_:1201948012830531644> If you do so, the server will no longer have access to premium benefits**"
         }
       },
+      "suggestions": {
+        "row": {
+          "general": {
+            "row": {
+              "channel": {
+                "label": "Suggestion channel",
+                "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**"
+              },
+              "message": {
+                "label": "Suggestions through messages"
+              },
+              "threads": {
+                "label": "Threads (Premium)"
+              },
+              "revision-channel": {
+                "label": "Review channel"
+              },
+              "revision": {
+                "label": "Review suggestions"
+              }
+            },
+            "label": "General",
+            "message": {
+              "field": "**General configuration**",
+              "value": "<:_:1201948012830531644> **Suggestion channel**: {channel}\n<:_:1201948012830531644> **Suggestions through messages**: {messageSuggestion}\n<:_:1201948012830531644> **Threads**: {threads}",
+              "field2": "**Review of suggestions**",
+              "value2": "<:_:1201948012830531644> **Review channel**: {reviewChannel}\n<:_:1201948012830531644> **Review suggestions**: {review}"
+            }
+          },
+          "votes": {
+            "label": "Votes"
+          }
+        },
+        "system-not-enabled": "**<:_:1201586248947597392> The suggestion system is not enabled**",
+        "message": {
+          "message": "**Start configuring the suggestion system here**"
+        }
+      },
       "timezone": {
         "timezone-not-found": "**<:_:1201586248947597392> The time zone has not been found**",
         "message": "**<:_:1201586112083279923> The time zone has been set to {timezone}**"
@@ -31,12 +69,11 @@
       "bot": {
         "message": {
           "field": "**General information**",
-          "value": "Bot version ∷ {version}\nActive time ∷ {uptime}",
+          "value": "<:_:1201948012830531644> **Bot version**: {version}\n<:_:1201948012830531644> **Active time**: {uptime}",
           "field2": "**Statistics**",
-          "value2": "Users ∷ {users} users\nServers ∷ {guilds} servers\nShards ∷ {shards} shards",
-          "field3": "**Dependencies**",
-          "field4": "**Process**",
-          "value4": "Memory usage ∷ {ram}\nPlatform ∷ {platform}"
+          "value2": "<:_:1201948012830531644> **Users**: {users} users\n<:_:1201948012830531644> **Servers**: {guilds} servers\n<:_:1201948012830531644> **Shards**: {shards} shards",
+          "field3": "**Process**",
+          "value3": "<:_:1201948012830531644> **Library**: {library}\n<:_:1201948012830531644> **Language**: {language}\n<:_:1201948012830531644> **Memory usage**: {ram}\n<:_:1201948012830531644> **Platform**: {platform}"
         }
       },
       "help": {
@@ -63,16 +100,16 @@
       "server": {
         "message": {
           "field": "**General information**",
-          "value": "Name ∷ {name}\nServer ID ∷ {id}\nOwner ∷ {owner}\nOwner ID ∷ {ownerId}\nDate of creation ∷ {createdAt}",
+          "value": "<:_:1201948012830531644> **Name**: {name}\n<:_:1201948012830531644> **Server ID**: {id}\n<:_:1201948012830531644> **Owner**: {owner}\n<:_:1201948012830531644> **Owner ID**: {ownerId}\n<:_:1201948012830531644> **Date of creation**: {createdAt}",
           "field2": "**Statistics**",
-          "value2": "Members ∷ {members} member(s)\nChannels ∷ {channels} channel(s)\nRoles ∷ {roles} role(s)\nEmojis ∷ {emojis} emoji(s)"
+          "value2": "<:_:1201948012830531644> **Members**: {members} members\n<:_:1201948012830531644> **Channels**: {channels} channels\n<:_:1201948012830531644> **Roles**: {roles} roles"
         }
       },
       "user": {
         "invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
         "message": {
           "field": "**General information**",
-          "value": "User ∷ {user}\nUser ID ∷ {id}\nCreation Date ∷ {createdAt}\nMembership Date ∷ {joinedAt}\nBooster ∷ {booster}"
+          "value": "<:_:1201948012830531644> **User**: {user}\n<:_:1201948012830531644> **User ID**: {id}\n<:_:1201948012830531644> **Creation Date**: {createdAt}\n<:_:1201948012830531644> **Membership Date**: {joinedAt}\n<:_:1201948012830531644> **Booster**: {booster}"
         }
       }
     },
@@ -213,13 +250,11 @@
     }
   },
   "general": {
-    "invalid-user-permissions": {
-      "field": "**Invalid user permissions**",
-      "value": "You need the {permission} permission"
-    },
-    "invalid-bot-permissions": {
-      "field": "**Invalid bot permissions**",
-      "value": "I need the {permission} permission"
+    "permissions": {
+      "user-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the server**",
+      "bot-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the server**",
+      "user-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the channel**",
+      "bot-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the channel**"
     },
     "error": {
       "message": "**Something went wrong while this operation was being performed...**\nIf the error persists, report the error with the provided ID in our support",
@@ -229,6 +264,7 @@
     "premium": {
       "field": "**You have discovered a premium feature**",
       "value": "<:_:1201948012830531644> This feature requires a premium server membership"
-    }
+    },
+    "cannot-get-guild": "**<:_:1201586248947597392> Unable to obtain the server from the interaction**"
   }
 }
