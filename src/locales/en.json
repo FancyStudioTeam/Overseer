@@ -73,7 +73,7 @@
           "field2": "**Statistics**",
           "value2": "<:_:1201948012830531644> **Users**: {users} users\n<:_:1201948012830531644> **Servers**: {guilds} servers\n<:_:1201948012830531644> **Shards**: {shards} shards",
           "field3": "**Process**",
-          "value3": "<:_:1201948012830531644> **Library**: {library}\n<:_:1201948012830531644> **Language**: {language}\n<:_:1201948012830531644> **Memory usage**: {ram}\n<:_:1201948012830531644> **Platform**: {platform}"
+          "value3": "<:_:1201948012830531644> **Library**: {library}\n<:_:1201948012830531644> **Language**: {language}\n<:_:1201948012830531644> **RAM usage**: {ram}\n<:_:1201948012830531644> **Platform**: {platform}"
         }
       },
       "help": {
@@ -100,7 +100,7 @@
       "server": {
         "message": {
           "field": "**General information**",
-          "value": "<:_:1201948012830531644> **Name**: {name}\n<:_:1201948012830531644> **Server ID**: {id}\n<:_:1201948012830531644> **Owner**: {owner}\n<:_:1201948012830531644> **Owner ID**: {ownerId}\n<:_:1201948012830531644> **Date of creation**: {createdAt}",
+          "value": "<:_:1201948012830531644> **Name**: {name}\n<:_:1201948012830531644> **Owner**: {owner}\n<:_:1201948012830531644> **Creation**: {createdAt}",
           "field2": "**Statistics**",
           "value2": "<:_:1201948012830531644> **Members**: {members} members\n<:_:1201948012830531644> **Channels**: {channels} channels\n<:_:1201948012830531644> **Roles**: {roles} roles"
         }
@@ -109,7 +109,7 @@
         "invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
         "message": {
           "field": "**General information**",
-          "value": "<:_:1201948012830531644> **User**: {user}\n<:_:1201948012830531644> **User ID**: {id}\n<:_:1201948012830531644> **Creation Date**: {createdAt}\n<:_:1201948012830531644> **Membership Date**: {joinedAt}\n<:_:1201948012830531644> **Booster**: {booster}"
+          "value": "<:_:1201948012830531644> **User**: {user}\n<:_:1201948012830531644> **Creation**: {createdAt}\n<:_:1201948012830531644> **Membership**: {joinedAt}\n<:_:1201948012830531644> **Booster**: {booster}"
         }
       }
     },
@@ -164,7 +164,7 @@
           "invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
           "has-no-warnings": "**<:_:1201586248947597392> The user {user} has no warnings**",
           "message": {
-            "value": "Moderator ∷ {moderator}\nReason ∷ {reason}\nDate ∷ {date}"
+            "value": "<:_:1201948012830531644> **Moderator**: {moderator}\n<:_:1201948012830531644> **Reason**: {reason}\n<:_:1201948012830531644> **Date**: {date}"
           }
         }
       }

@@ -73,7 +73,7 @@
           "field2": "**Estadísticas**",
           "value2": "<:_:1201948012830531644> **Usuarios**: {users} usuarios\n<:_:1201948012830531644> **Servidores**: {guilds} servidores\n<:_:1201948012830531644> **Shards**: {shards} shards",
           "field3": "**Proceso**",
-          "value3": "<:_:1201948012830531644> **Librería**: {library}\n<:_:1201948012830531644> **Lenguaje**: {language}\n<:_:1201948012830531644> **Uso de la memoria**: {ram}\n<:_:1201948012830531644> **Plataforma**: {platform}"
+          "value3": "<:_:1201948012830531644> **Librería**: {library}\n<:_:1201948012830531644> **Lenguaje**: {language}\n<:_:1201948012830531644> **Uso de RAM**: {ram}\n<:_:1201948012830531644> **Plataforma**: {platform}"
         }
       },
       "help": {
@@ -100,7 +100,7 @@
       "server": {
         "message": {
           "field": "**Información general**",
-          "value": "<:_:1201948012830531644> **Nombre**: {name}\n<:_:1201948012830531644> **ID del servidor**: {id}\n<:_:1201948012830531644> **Propietario**: {owner}\n<:_:1201948012830531644> **ID del propietario**: {ownerId}\n<:_:1201948012830531644> **Fecha de creación**: {createdAt}",
+          "value": "<:_:1201948012830531644> **Nombre**: {name}\n<:_:1201948012830531644> **Propietario**: {owner}\n<:_:1201948012830531644> **Creación**: {createdAt}",
           "field2": "**Estadísticas**",
           "value2": "<:_:1201948012830531644> **Miembros**: {members} miembros\n<:_:1201948012830531644> **Canales**: {channels} canales\n<:_:1201948012830531644> **Roles**: {roles} roles"
         }
@@ -109,7 +109,7 @@
         "invalid-guild-member": "**<:_:1201586248947597392> El usuario es un miembro inválido del servidor**",
         "message": {
           "field": "**Información general**",
-          "value": "<:_:1201948012830531644> **Usuario**: {user}\n<:_:1201948012830531644> **ID del usuario**: {id}\n<:_:1201948012830531644> **Fecha de creación**: {createdAt}\n<:_:1201948012830531644> **Fecha de membresía**: {joinedAt}\n<:_:1201948012830531644> **Booster**: {booster}"
+          "value": "<:_:1201948012830531644> **Usuario**: {user}\n<:_:1201948012830531644> **Creación**: {createdAt}\n<:_:1201948012830531644> **Membresía**: {joinedAt}\n<:_:1201948012830531644> **Booster**: {booster}"
         }
       }
     },
@@ -164,7 +164,7 @@
           "invalid-guild-member": "**<:_:1201586248947597392> El usuario es un miembro inválido del servidor**",
           "has-no-warnings": "**<:_:1201586248947597392> El usuario {user} no tiene advertencias**",
           "message": {
-            "value": "Moderador ∷ {moderator}\nRazón ∷ {reason}\nFecha ∷ {date}"
+            "value": "<:_:1201948012830531644> **Moderador**: {moderator}\n<:_:1201948012830531644> **Razón**: {reason}\n<:_:1201948012830531644> **Fecha**: {date}"
           }
         }
       }

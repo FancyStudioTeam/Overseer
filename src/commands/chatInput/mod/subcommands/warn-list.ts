@@ -2,9 +2,8 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { UnixType } from "../../../../types";
 import { prisma } from "../../../../util/db";
-import { errorMessage, trim, unix } from "../../../../util/util";
+import { errorMessage, formatDate, trim } from "../../../../util/util";
 
 export default new SubCommand({
   name: "warn_list",
@@ -14,7 +13,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language, timezone, hour12 },
   ) => {
     const member =
       interaction.data.options.getMember("user") ?? interaction.member;
@@ -75,7 +74,7 @@ export default new SubCommand({
                     interaction.guild?.members.get(w.moderator_id)?.mention ??
                     "Unknown User",
                   reason: trim(w.reason, 35),
-                  date: unix(w.date.toISOString(), UnixType.Default),
+                  date: formatDate(timezone, w.date, hour12),
                 },
               ),
             };

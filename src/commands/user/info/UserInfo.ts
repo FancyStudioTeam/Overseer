@@ -2,8 +2,7 @@ import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { UnixType } from "../../../types";
-import { errorMessage, fetchMember, unix } from "../../../util/util";
+import { errorMessage, fetchMember, formatDate } from "../../../util/util";
 
 export default new UserCommand({
   name: "User Info",
@@ -11,11 +10,11 @@ export default new UserCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language, timezone, hour12 },
   ) => {
     const member = await fetchMember(
       interaction,
-      interaction.data.targetID as string,
+      interaction.data.targetID ?? "",
     );
 
     if (!member) {
@@ -47,18 +46,14 @@ export default new UserCommand({
               },
               {
                 user: member.user.mention,
-                id: member.user.id,
-                createdAt: unix(
-                  member.user.createdAt.toString(),
-                  UnixType.Default,
-                ),
+                createdAt: formatDate(timezone, member.user.createdAt, hour12),
                 joinedAt:
                   (member.joinedAt &&
-                    unix(member.joinedAt.toString(), UnixType.Default)) ??
+                    formatDate(timezone, member.joinedAt, hour12)) ??
                   "<:_:1201586248947597392>",
                 booster:
                   (member.premiumSince &&
-                    unix(member.premiumSince.toString(), UnixType.Default)) ??
+                    formatDate(timezone, member.premiumSince, hour12)) ??
                   "<:_:1201586248947597392>",
               },
             ),

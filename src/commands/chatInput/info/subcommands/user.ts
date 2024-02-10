@@ -2,15 +2,14 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { UnixType } from "../../../../types";
-import { errorMessage, unix } from "../../../../util/util";
+import { errorMessage, formatDate } from "../../../../util/util";
 
 export default new SubCommand({
   name: "user",
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language, timezone, hour12 },
   ) => {
     const member =
       interaction.data.options.getMember("user") ?? interaction.member;
@@ -44,18 +43,14 @@ export default new SubCommand({
               },
               {
                 user: member.user.mention,
-                id: member.user.id,
-                createdAt: unix(
-                  member.user.createdAt.toString(),
-                  UnixType.Default,
-                ),
+                createdAt: formatDate(timezone, member.user.createdAt, hour12),
                 joinedAt:
                   (member.joinedAt &&
-                    unix(member.joinedAt.toString(), UnixType.Default)) ??
+                    formatDate(timezone, member.joinedAt, hour12)) ??
                   "<:_:1201586248947597392>",
                 booster:
                   (member.premiumSince &&
-                    unix(member.premiumSince.toString(), UnixType.Default)) ??
+                    formatDate(timezone, member.premiumSince, hour12)) ??
                   "<:_:1201586248947597392>",
               },
             ),
