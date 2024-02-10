@@ -2,13 +2,9 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
+import { UnixType } from "../../../../types";
 import { prisma } from "../../../../util/db";
-import {
-  errorMessage,
-  formatDate,
-  formatString,
-  trim,
-} from "../../../../util/util";
+import { errorMessage, trim, unix } from "../../../../util/util";
 
 export default new SubCommand({
   name: "warn_list",
@@ -18,10 +14,10 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language, timezone, hour12 },
+    { language },
   ) => {
     const member =
-      interaction.data.options.getMember("user") || interaction.member;
+      interaction.data.options.getMember("user") ?? interaction.member;
 
     if (!member) {
       return errorMessage(interaction, true, {
@@ -69,22 +65,19 @@ export default new SubCommand({
           userWarn.map((w) => {
             return {
               name: `**ID: ${w.warn_id}**`,
-              value: `\`\`\`ansi\n${formatString(
-                client.locales.__mf(
-                  {
-                    phrase: "commands.moderation.warn.list.message.value",
-                    locale: language,
-                  },
-                  {
-                    moderator:
-                      interaction.guild?.members.get(w.moderator_id)
-                        ?.username ?? "Unknown User",
-                    reason: trim(w.reason, 35),
-                    date: formatDate(timezone, w.date, hour12),
-                  },
-                ),
-                "∷",
-              )}\`\`\``,
+              value: client.locales.__mf(
+                {
+                  phrase: "commands.moderation.warn.list.message.value",
+                  locale: language,
+                },
+                {
+                  moderator:
+                    interaction.guild?.members.get(w.moderator_id)?.mention ??
+                    "Unknown User",
+                  reason: trim(w.reason, 35),
+                  date: unix(w.date.toISOString(), UnixType.Default),
+                },
+              ),
             };
           }),
         )
