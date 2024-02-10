@@ -94,9 +94,6 @@ export default new ChatInputCommand({
       ],
     },
   ],
-  permissions: {
-    user: "MANAGE_GUILD",
-  },
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: "configuration",
