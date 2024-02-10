@@ -101,31 +101,39 @@ export default new ChatInputCommand({
   dmPermission: false,
   directory: "configuration",
   autocomplete: async (interaction: AutocompleteInteraction) => {
-    const availableChoices: string[] = [];
-    const focusedValue = interaction.data.options.getFocused(true);
-    const timezoneValues = Object.keys(timezones);
+    const subcommand = interaction.data.options.getSubCommand(true);
 
-    search(focusedValue.value.toString(), timezoneValues);
+    switch (subcommand.join("_")) {
+      case "timezone": {
+        const availableChoices: string[] = [];
+        const focusedValue = interaction.data.options.getFocused(true);
+        const timezoneValues = Object.keys(timezones);
 
-    function search(query: string, allChoices: string[]) {
-      const newQuery = query.toLowerCase();
+        search(focusedValue.value.toString(), timezoneValues);
 
-      for (let i = 0; i < allChoices.length; i++) {
-        if (allChoices[i].toLowerCase().includes(newQuery)) {
-          availableChoices.push(allChoices[i]);
+        function search(query: string, allChoices: string[]) {
+          const newQuery = query.toLowerCase();
+
+          for (let i = 0; i < allChoices.length; i++) {
+            if (allChoices[i].toLowerCase().includes(newQuery)) {
+              availableChoices.push(allChoices[i]);
+            }
+          }
+
+          return availableChoices;
         }
+
+        await interaction.result(
+          availableChoices.slice(0, 25).map((c) => {
+            return {
+              name: c,
+              value: c,
+            };
+          }),
+        );
+
+        break;
       }
-
-      return availableChoices;
     }
-
-    await interaction.result(
-      availableChoices.slice(0, 25).map((c) => {
-        return {
-          name: c,
-          value: c,
-        };
-      }),
-    );
   },
 });

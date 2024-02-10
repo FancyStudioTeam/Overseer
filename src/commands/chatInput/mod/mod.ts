@@ -182,40 +182,48 @@ export default new ChatInputCommand({
   dmPermission: false,
   directory: "moderation",
   autocomplete: async (interaction: AutocompleteInteraction) => {
-    const availableChoices: string[] = [];
-    const focusedValue = interaction.data.options.getFocused(true);
-    const user = interaction.data.options.getUserOption("user");
-    const warningValues = await prisma.userWarn.findMany({
-      where: {
-        user_id: user?.value,
-        guild_id: interaction.guild?.id,
-      },
-    });
+    const subcommand = interaction.data.options.getSubCommand(true);
 
-    search(
-      focusedValue.value as string,
-      warningValues.map((w) => w.warn_id),
-    );
+    switch (subcommand.join("_")) {
+      case "warn_remove": {
+        const availableChoices: string[] = [];
+        const focusedValue = interaction.data.options.getFocused(true);
+        const user = interaction.data.options.getUserOption("user");
+        const warningValues = await prisma.userWarn.findMany({
+          where: {
+            user_id: user?.value,
+            guild_id: interaction.guild?.id,
+          },
+        });
 
-    function search(query: string, allChoices: string[]) {
-      const newQuery = query.toLowerCase();
+        search(
+          focusedValue.value as string,
+          warningValues.map((w) => w.warn_id),
+        );
 
-      for (let i = 0; i < allChoices.length; i++) {
-        if (allChoices[i].toLowerCase().includes(newQuery)) {
-          availableChoices.push(allChoices[i]);
+        function search(query: string, allChoices: string[]) {
+          const newQuery = query.toLowerCase();
+
+          for (let i = 0; i < allChoices.length; i++) {
+            if (allChoices[i].toLowerCase().includes(newQuery)) {
+              availableChoices.push(allChoices[i]);
+            }
+          }
+
+          return availableChoices;
         }
+
+        await interaction.result(
+          availableChoices.slice(0, 25).map((c) => {
+            return {
+              name: `Delete warn with ID ${c}`,
+              value: c,
+            };
+          }),
+        );
+
+        break;
       }
-
-      return availableChoices;
     }
-
-    await interaction.result(
-      availableChoices.slice(0, 25).map((c) => {
-        return {
-          name: `Delete warn with ID ${c}`,
-          value: c,
-        };
-      }),
-    );
   },
 });
