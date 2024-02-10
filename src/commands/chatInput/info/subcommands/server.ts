@@ -2,15 +2,14 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { UnixType } from "../../../../types";
-import { errorMessage, fetchUser, unix } from "../../../../util/util";
+import { errorMessage, fetchUser, formatDate } from "../../../../util/util";
 
 export default new SubCommand({
   name: "server",
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language, timezone, hour12 },
   ) => {
     if (!interaction.guild) {
       return errorMessage(interaction, true, {
@@ -45,13 +44,11 @@ export default new SubCommand({
               },
               {
                 name: interaction.guild.name,
-                id: interaction.guild.id,
                 owner: owner?.mention ?? "<:_:1201586248947597392>",
-                ownerId:
-                  interaction.guild.ownerID ?? "<:_:1201586248947597392>",
-                createdAt: unix(
-                  interaction.guild.createdAt.toString(),
-                  UnixType.Default,
+                createdAt: formatDate(
+                  timezone,
+                  interaction.guild.createdAt,
+                  hour12,
                 ),
               },
             ),
