@@ -102,7 +102,7 @@ export class Fancycord extends Client {
   }
 
   async init(): Promise<void> {
-    logger("Initializing Fancycord...", LogType.Info);
+    logger("Initializing Fancycord...");
 
     figlet("Fancycord", (error: Error | null, text: string | undefined) => {
       if (error) {
@@ -117,7 +117,7 @@ export class Fancycord extends Client {
         .$connect()
         .then(() => {
           this.dbReady = true;
-          logger("Prisma Client has been connected", LogType.Info);
+          logger("Prisma Client has been connected");
         })
         .catch((error: Error) => {
           logger(
@@ -163,7 +163,6 @@ export class Fancycord extends Client {
 
         logger(
           `The interactions has been deployed - Deployed ${commands.length} interactions`,
-          LogType.Info,
         );
       });
   }

@@ -74,12 +74,12 @@ export async function fetchUser(id: string): Promise<User | null> {
 
   if (client.users.has(id)) {
     user = client.users.get(id);
-    logger(`User ${user.username} has been fetched from cache`, LogType.Info);
+    logger(`User ${user.username} has been fetched from cache`);
   } else {
     user = await client.rest.users.get(id).catch(() => null);
 
     if (user) {
-      logger(`User ${user.username} has been fetched from REST`, LogType.Info);
+      logger(`User ${user.username} has been fetched from REST`);
     }
   }
 
@@ -96,20 +96,14 @@ export async function fetchMember(
 
   if (context.guild.members.has(id)) {
     member = context.guild.members.get(id);
-    logger(
-      `Member ${member.user.username} has been fetched from cache`,
-      LogType.Info,
-    );
+    logger(`Member ${member.user.username} has been fetched from cache`);
   } else {
     member = await client.rest.guilds
       .getMember(context.guild.id, id)
       .catch(() => null);
 
     if (member) {
-      logger(
-        `Member ${member.user.username} has been fetched from REST`,
-        LogType.Info,
-      );
+      logger(`Member ${member.user.username} has been fetched from REST`);
     }
   }
 
@@ -117,7 +111,7 @@ export async function fetchMember(
 }
 
 export function sleep(ms: number): Promise<void> {
-  logger(`Sleeping ${ms} milliseconds...`, LogType.Info);
+  logger(`Sleeping ${ms} milliseconds...`);
 
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

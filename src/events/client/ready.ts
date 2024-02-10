@@ -1,9 +1,8 @@
 import { Event } from "../../classes/Builders";
 import { client } from "../../index";
-import { LogType } from "../../types";
 import { logger } from "../../util/util";
 
 export default new Event("ready", true, async () => {
   await client.deploy();
-  logger(`${client.user.username} has been connected`, LogType.Info);
+  logger(`${client.user.username} has been connected`);
 });
