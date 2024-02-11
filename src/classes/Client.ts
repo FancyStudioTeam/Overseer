@@ -8,6 +8,7 @@ import {
   Collection,
   type CreateApplicationCommandOptions,
 } from "oceanic.js";
+import { EmbedBuilder } from "../builders/Embed";
 import config from "../misc/config";
 import {
   type ChatInputCommandInterface,
@@ -67,6 +68,9 @@ export class Fancycord extends Client {
         voiceStates: 0,
       },
       gateway: {
+        connectionProperties: {
+          browser: "Discord Android",
+        },
         intents: [
           "GUILDS",
           "GUILD_MEMBERS",
@@ -384,17 +388,16 @@ export class Fancycord extends Client {
           LogType.Error,
         );
         webhook(WebhookType.Logs, {
-          content: "<@&1165278800842600601>",
-          embeds: [
-            {
-              author: {
-                name: this.user.username,
-                iconURL: this.user.avatarURL(),
-              },
-              description: `\`\`\`js\nMissing translation line in "${locale}" language\n${value}\`\`\``,
-              color: this.config.colors.error,
-            },
-          ],
+          embeds: new EmbedBuilder()
+            .setAuthor({
+              name: this.user.username,
+              iconURL: this.user.avatarURL(),
+            })
+            .setDescription(
+              `\`\`\`js\nMissing translation line in "${locale}" language\n${value}\`\`\``,
+            )
+            .setColor(this.config.colors.error)
+            .toJSONArray(),
         });
 
         return `Missing translation line in "${locale}" language`;
