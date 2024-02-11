@@ -1,6 +1,6 @@
 {
   "name": "fancycord",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Modern, fast and easy to use. Fancycord, ready to serve you",
   "main": "dist/src/index.js",
   "scripts": {
