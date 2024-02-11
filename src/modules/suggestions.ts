@@ -28,6 +28,7 @@ export default (client: Fancycord) => {
 
     if (
       guildSuggestion?.message_suggestions &&
+      message.channel.type === ChannelTypes.GUILD_TEXT &&
       guildSuggestion.channel_id === message.channel.id
     ) {
       const id = DiscordSnowflake.generate().toString();
