@@ -1,3 +1,5 @@
+import { readFileSync } from "fs";
+import { join } from "path";
 import {
   ApplicationCommandTypes,
   type CommandInteraction,
@@ -38,8 +40,17 @@ export default new ChatInputCommand({
             },
           ),
         )
+        .setImage("attachment://banner.png")
         .setColor(client.config.colors.color)
         .toJSONArray(),
+      files: [
+        {
+          name: "banner.png",
+          contents: readFileSync(
+            join(__dirname, "../../..", "assets/images", "Banner.png"),
+          ),
+        },
+      ],
       components: new ActionRowBuilder()
         .addComponents([
           new SelectMenuBuilder()
