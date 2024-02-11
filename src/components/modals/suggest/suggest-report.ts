@@ -4,13 +4,7 @@ import { Modal } from "../../../classes/Builders";
 import { Fancycord } from "../../../classes/Client";
 import { WebhookType } from "../../../types";
 import { prisma } from "../../../util/db";
-import {
-  errorMessage,
-  fetchUser,
-  formatString,
-  trim,
-  webhook,
-} from "../../../util/util";
+import { errorMessage, fetchUser, trim, webhook } from "../../../util/util";
 
 export default new Modal({
   name: "suggest-report",
@@ -42,7 +36,6 @@ export default new Modal({
     const user = await fetchUser(userSuggestion.user_id);
 
     webhook(WebhookType.Reports, {
-      content: "<@&1165278800842600601>",
       embeds: new EmbedBuilder()
         .setAuthor({
           name: user?.username ?? client.user.username,
@@ -57,18 +50,15 @@ export default new Modal({
         .addFields([
           {
             name: "**General information**",
-            value: `\`\`\`ansi\n${formatString(
-              `User ∷ ${interaction.user.username}\nUser ID ∷ ${
-                interaction.user.id
-              }\nReported user ∷ ${
-                user?.username ?? "Unknown User"
-              }\nReported user ID ∷ ${
-                userSuggestion.user_id
-              }\nSuggestion ID ∷ ${
-                userSuggestion.suggestion_id
-              }\nReason ∷ ${reason}`,
-              "∷",
-            )}\`\`\``,
+            value: `<:_:1201948012830531644> **User**: ${
+              interaction.user.username
+            }\n<:_:1201948012830531644> **User ID**: ${
+              interaction.user.id
+            }\n<:_:1201948012830531644> **Reported User**: ${
+              user?.username ?? "<:_:1201586248947597392>"
+            }\n<:_:1201948012830531644> **Reported User ID**: ${
+              userSuggestion.user_id
+            }\n<:_:1201948012830531644> **Reason**: ${reason}`,
           },
         ])
         .setColor(client.config.colors.color)

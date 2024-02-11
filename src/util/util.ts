@@ -247,10 +247,7 @@ export function handleError(
         iconURL: client.user.avatarURL(),
       })
       .setDescription(
-        `\`\`\`js\n${trim(
-          error.stack ? error.stack : error.message,
-          4000,
-        )}\`\`\``,
+        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``,
       )
       .addFields([
         {
@@ -289,23 +286,38 @@ export function handleError(
               phrase: "general.error.field",
               locale: language,
             }),
-            value: `\`\`\`ansi\n${formatString(
-              client.locales.__mf(
-                {
-                  phrase: "general.error.value",
-                  locale: language,
-                },
-                {
-                  id: id,
-                  name: error.name,
-                },
-              ),
-              "∷",
-            )}\`\`\``,
+            value: client.locales.__mf(
+              {
+                phrase: "general.error.value",
+                locale: language,
+              },
+              {
+                id: id,
+                name: error.name,
+              },
+            ),
           },
         ])
         .setColor(client.config.colors.error)
         .toJSONArray(),
     });
   }
+}
+
+export function insertEmpty(array: unknown[]): any[] {
+  const newArray = [];
+
+  for (let i = 0; i < array.length; i++) {
+    newArray.push(array[i]);
+
+    if (i % 2 === 0) {
+      newArray.push({
+        name: "",
+        value: "",
+        inline: true,
+      });
+    }
+  }
+
+  return newArray;
 }

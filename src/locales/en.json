@@ -210,7 +210,7 @@
                 }
               }
             },
-            "message": "Votes ∷ Displays the list of votes for the suggestion\nComment ∷ Adds a comment to the suggestion (Max 3)\nApprove ∷ Approves the suggestion\nDeny ∷ Denies the suggestion"
+            "message": "<:_:1201948012830531644> **Votes**: Displays the list of votes for the suggestion\n<:_:1201948012830531644> **Comment**: Adds a comment to the suggestion (Max 3)\n<:_:1201948012830531644> **Approve**: Approves the suggestion\n<:_:1201948012830531644> **Deny**: Denies the suggestion"
           },
           "report": {
             "label": "Report",
@@ -242,9 +242,9 @@
         "location-not-found": "**<:_:1201586248947597392> The location has not been found**",
         "message": {
           "field": "**General information**",
-          "value": "Location ∷ {location}\nTemperature ∷ {temperature}\nHumidity ∷ {humidity}\nWind ∷ {wind}\nWeather ∷ {weather}",
+          "value": "<:_:1201948012830531644> **Location**: {location}\n<:_:1201948012830531644> **Temperature**: {temperature}\n<:_:1201948012830531644> **Humidity**: {humidity}\n<:_:1201948012830531644> **Wind**: {wind}\n<:_:1201948012830531644> **Weather**: {weather}",
           "field2": "**Forecast {date}**",
-          "value2": "Day ∷ {day}\nDate ∷ {date}\nHigher temperature ∷ {high}\nLower temperature ∷ {low}\nWeather ∷ {weather}"
+          "value2": "<:_:1201948012830531644> **Day**: {day}\n<:_:1201948012830531644> **Date**: {date}\n<:_:1201948012830531644> **°C ▲**: {high}\n<:_:1201948012830531644> **°C ▼**: {low}\n<:_:1201948012830531644> **Weather**: {weather}"
         }
       }
     }
@@ -259,7 +259,7 @@
     "error": {
       "message": "**Something went wrong while this operation was being performed...**\nIf the error persists, report the error with the provided ID in our [support server](https://discord.gg/RPt73adMBq)",
       "field": "**General information**",
-      "value": "Report ID ∷ {id}\nError name ∷ {name}"
+      "value": "<:_:1201948012830531644> **Report ID**: {id}\n<:_:1201948012830531644> **Error name**: {name}"
     },
     "premium": {
       "field": "**You have discovered a premium feature**",

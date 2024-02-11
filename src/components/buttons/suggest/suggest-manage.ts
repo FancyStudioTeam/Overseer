@@ -8,7 +8,6 @@ import { ButtonBuilder } from "../../../builders/Button";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { formatString } from "../../../util/util";
 
 export default new Component({
   name: "suggest-manage",
@@ -24,13 +23,10 @@ export default new Component({
           iconURL: interaction.guild?.iconURL() ?? client.user.avatarURL(),
         })
         .setDescription(
-          `\`\`\`ansi\n\x1b[1;35m${formatString(
-            client.locales.__mf({
-              phrase: "commands.utility.suggest.row.manage.message",
-              locale: language,
-            }),
-            "∷",
-          )}\x1b[0m\`\`\``,
+          client.locales.__mf({
+            phrase: "commands.utility.suggest.row.manage.message",
+            locale: language,
+          }),
         )
         .setColor(client.config.colors.color)
         .toJSONArray(),

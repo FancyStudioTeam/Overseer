@@ -210,7 +210,7 @@
                 }
               }
             },
-            "message": "Votos ∷ Muestra la lista de votos de la sugerencia\nComentar ∷ Añade un comentario a la sugerencia (Máx 3)\nAprobar ∷ Aprueba la sugerencia\nDenegar ∷ Deniega la sugerencia"
+            "message": "<:_:1201948012830531644> **Votos**: Muestra la lista de votos de la sugerencia\n<:_:1201948012830531644> **Comentar**: Añade un comentario a la sugerencia (Máx 3)\n<:_:1201948012830531644> **Aprobar**: Aprueba la sugerencia\n<:_:1201948012830531644> **Denegar**: Deniega la sugerencia"
           },
           "report": {
             "label": "Reportar",
@@ -242,9 +242,9 @@
         "location-not-found": "**<:_:1201586248947597392> La ubicación no ha sido encontrada**",
         "message": {
           "field": "**Información general**",
-          "value": "Ubicación ∷ {location}\nTemperatura ∷ {temperature}\nHumedad ∷ {humidity}\nViento ∷ {wind}\nClima ∷ {weather}",
+          "value": "<:_:1201948012830531644> **Ubicación**: {location}\n<:_:1201948012830531644> **Temperatura**: {temperature}\n<:_:1201948012830531644> **Humedad**: {humidity}\n<:_:1201948012830531644> **Viento**: {wind}\n<:_:1201948012830531644> **Clima**: {weather}",
           "field2": "**Previsión {date}**",
-          "value2": "Día ∷ {day}\nFecha ∷ {date}\nTemperatura más alta ∷ {high}\nTemperatura más baja ∷ {low}\nClima ∷ {weather}"
+          "value2": "<:_:1201948012830531644> **Día**: {day}\n<:_:1201948012830531644> **Fecha**: {date}\n<:_:1201948012830531644> **°C ▲**: {high}\n<:_:1201948012830531644> **°C ▼**: {low}\n<:_:1201948012830531644> **Clima**: {weather}"
         }
       }
     }
@@ -259,7 +259,7 @@
     "error": {
       "message": "**Algo salió mal mientra se realizaba esta operación...**\nSi el error persiste, reporta el error con la ID propocrionada en nuestro [servidor de soporte](https://discord.gg/RPt73adMBq)",
       "field": "**Información general**",
-      "value": "ID del reporte ∷ {id}\nNombre del error ∷ {name}"
+      "value": "<:_:1201948012830531644> **ID del reporte**: {id}\n<:_:1201948012830531644> **Nombre del error**: {name}"
     },
     "premium": {
       "field": "**Has descubierto una característica premium**",
