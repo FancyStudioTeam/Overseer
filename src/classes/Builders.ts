@@ -7,40 +7,48 @@ import type {
   UserCommandInterface,
 } from "../types";
 
-export class Component {
+class Base {
+  constructor(options: any) {
+    Object.assign(this, options);
+  }
+}
+
+export class Component extends Base {
   constructor(options: ComponentInterface) {
-    Object.assign(this, options);
+    super(options);
   }
 }
 
-export class Modal {
+export class Modal extends Base {
   constructor(options: ModalInterface) {
-    Object.assign(this, options);
+    super(options);
   }
 }
 
-export class Event<Key extends keyof ClientEvents> {
+export class Event<Key extends keyof ClientEvents> extends Base {
   constructor(
     public event: Key,
     public once: boolean,
     public run: (...args: ClientEvents[Key]) => unknown,
-  ) {}
+  ) {
+    super({ event, once, run });
+  }
 }
 
-export class ChatInputCommand {
+export class ChatInputCommand extends Base {
   constructor(commandOptions: ChatInputCommandInterface) {
-    Object.assign(this, commandOptions);
+    super(commandOptions);
   }
 }
 
-export class SubCommand {
+export class SubCommand extends Base {
   constructor(commandOptions: SubCommandInterface) {
-    Object.assign(this, commandOptions);
+    super(commandOptions);
   }
 }
 
-export class UserCommand {
+export class UserCommand extends Base {
   constructor(commandOptions: UserCommandInterface) {
-    Object.assign(this, commandOptions);
+    super(commandOptions);
   }
 }
