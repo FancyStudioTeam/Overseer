@@ -37,15 +37,6 @@ export default new SubCommand({
       },
     });
 
-    if (!guildSuggestion) {
-      return errorMessage(interaction, true, {
-        description: client.locales.__({
-          phrase: "commands.configuration.suggestions.system-not-enabled",
-          locale: language,
-        }),
-      });
-    }
-
     interaction.reply({
       embeds: new EmbedBuilder()
         .setDescription(
