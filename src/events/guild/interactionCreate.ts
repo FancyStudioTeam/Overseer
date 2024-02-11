@@ -222,25 +222,25 @@ export default new Event(
 
     if (interaction.isComponentInteraction()) {
       if (interaction.isButtonComponentInteraction()) {
-        /*if (interaction.data.customID.split("/").at(1)?.length) {
-					const button = client.components.buttons.get(
-						interaction.data.customID.split("/").at(0) as string,
-					) as ComponentInterface;
+        if (interaction.data.customID.includes("/")) {
+          const button = client.components.buttons.get(
+            interaction.data.customID.split("/")[0] as string,
+          ) as ComponentInterface;
 
-					if (button) {
-						await button
-							.run(client, interaction, {
-								language: language,
-								timezone: timezone,
-								hour12: hour12,
-								premium: premium,
-								variable: interaction.data.customID.split("/").at(1),
-							})
-							.catch((error) => {
-								handleError(error, interaction, language);
-							});
-					}
-				}*/
+          if (button) {
+            await button
+              .run(client, interaction, {
+                language: language,
+                timezone: timezone,
+                hour12: hour12,
+                premium: premium,
+                variable: interaction.data.customID.split("/")[1],
+              })
+              .catch((error) => {
+                handleError(error, interaction, language);
+              });
+          }
+        }
 
         const button = client.components.buttons.get(
           interaction.data.customID,
