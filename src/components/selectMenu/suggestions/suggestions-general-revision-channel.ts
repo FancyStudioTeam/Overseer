@@ -5,8 +5,8 @@ import {
 } from "oceanic.js";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
+import { permissions } from "../../../locales/misc/reference";
 import { prisma } from "../../../util/db";
-import { permissions } from "../../../util/reference";
 import { errorMessage } from "../../../util/util";
 import { updateGeneralMessage } from "../../buttons/suggestions/suggestions-general";
 

@@ -12,6 +12,7 @@ import { ButtonBuilder } from "../../builders/Button";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
 import { client } from "../../index";
+import { permissions } from "../../locales/misc/reference";
 import type {
   ChatInputCommandInterface,
   ComponentInterface,
@@ -20,7 +21,6 @@ import type {
   UserCommandInterface,
 } from "../../types";
 import { prisma } from "../../util/db";
-import { permissions } from "../../util/reference";
 import { errorMessage, handleError } from "../../util/util";
 
 export default new Event(
