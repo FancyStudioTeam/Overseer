@@ -163,14 +163,12 @@ export interface WeatherCurrent {
 }
 
 export interface WeatherForecast {
-  A$: {
-    low: string;
-    high: string;
-    skycodeday: string;
-    skytextday: string;
-    date: string;
-    day: string;
-    shortday: string;
-    precip: string;
-  };
+  low: string;
+  high: string;
+  skycodeday: string;
+  skytextday: string;
+  date: string;
+  day: string;
+  shortday: string;
+  precip: string;
 }
