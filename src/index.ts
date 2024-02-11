@@ -1,7 +1,8 @@
 import "dotenv/config";
+import { EmbedBuilder } from "./builders/Embed";
 import { Fancycord } from "./classes/Client";
-import { LogType } from "./types";
-import { logger } from "./util/util";
+import { LogType, WebhookType } from "./types";
+import { logger, trim, webhook } from "./util/util";
 
 export const client = new Fancycord();
 
@@ -11,9 +12,33 @@ export const client = new Fancycord();
 })();
 
 process.on("uncaughtException", (error: Error) => {
-  logger(`Uncaught Exception: ${error.stack}`, LogType.Error);
+  logger(`Uncaught Exception: ${error.stack ?? error.message}`, LogType.Error);
+  webhook(WebhookType.Logs, {
+    embeds: new EmbedBuilder()
+      .setAuthor({
+        name: client.user.username,
+        iconURL: client.user.avatarURL(),
+      })
+      .setDescription(
+        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``,
+      )
+      .setColor(client.config.colors.error)
+      .toJSONArray(),
+  });
 });
 
-process.on("uncaughtExceptionMonitor", (error: Error) => {
-  logger(`Uncaught Exception Monitor: ${error.stack}`, LogType.Error);
+process.on("unhandledRejection", (error: Error) => {
+  logger(`Unhandled Rejection: ${error.stack ?? error.message}`, LogType.Error);
+  webhook(WebhookType.Logs, {
+    embeds: new EmbedBuilder()
+      .setAuthor({
+        name: client.user.username,
+        iconURL: client.user.avatarURL(),
+      })
+      .setDescription(
+        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``,
+      )
+      .setColor(client.config.colors.error)
+      .toJSONArray(),
+  });
 });
