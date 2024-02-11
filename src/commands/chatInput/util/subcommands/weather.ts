@@ -74,7 +74,7 @@ export default new SubCommand({
       components: new ActionRowBuilder()
         .addComponents([
           new ButtonBuilder()
-            .setCustomID(`weather-forecast/${data.info.encodedlocationname}`)
+            .setCustomID(`weather-forecast/${data.info.weatherlocationname}`)
             .setLabel(
               client.locales.__({
                 phrase: "commands.utility.weather.row.forecast.label",
