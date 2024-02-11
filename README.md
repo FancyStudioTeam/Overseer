@@ -1,15 +1,17 @@
-# Fancycord
+<div align="center">
+  <img src="./src/assets/images/Banner.png" />
+</div>
 
-Welcome to Fancycord, the modern, fast, and easy-to-use Discord bot ready to serve you!
+---
 
-## ✨ Features
+# Useful Links
 
-- **✨ Sleek Design**: Fancycord boasts a modern and visually appealing design that enhances your private Discord server's aesthetic
+- [**Support Server**](https://discord.gg/RPt73adMBq)
 
-- **🌀 Fast and Responsive**: Our bot is optimized for speed, ensuring quick responses to your commands and minimizing downtime
+# Features
 
-- **💖 User-Friendly**: Fancycord is designed with simplicity in mind, making it easy for both beginners and experienced Discord users to navigate and utilize its features
+- **Sleek Design**: Fancycord boasts a modern and visually appealing design that enhances your Discord community aesthetic
 
-## 📌 Support
+- **Fast and Responsive**: Fancycord is optimized for speed, ensuring quick responses to your commands and minimizing downtime
 
-- **👾 Discord**: If you need help, you can join to our **[Discord server](https://discord.gg/RPt73adMBq)**
+- **User-Friendly**: Fancycord is designed with simplicity in mind, making it easy for both beginners and experienced Discord users to navigate and utilize its features
