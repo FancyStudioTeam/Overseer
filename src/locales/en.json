@@ -251,6 +251,14 @@
   },
   "general": {
     "permissions": {
+      "row": {
+        "hierarchy": {
+          "label": "Permission hierarchy"
+        },
+        "configure": {
+          "label": "Configure permissions"
+        }
+      },
       "user-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the server**",
       "bot-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the server**",
       "user-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the channel**",

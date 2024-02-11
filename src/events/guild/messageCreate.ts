@@ -1,7 +1,7 @@
 import { type ExecException, exec } from "node:child_process";
 import { join } from "node:path";
 import { inspect } from "node:util";
-import type { Message } from "oceanic.js";
+import { ChannelTypes, type Message } from "oceanic.js";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
 import { client } from "../../index";
@@ -10,6 +10,7 @@ import { trim } from "../../util/util";
 export default new Event("messageCreate", false, async (message: Message) => {
   if (!message.guild) return;
   if (!message.channel) return;
+  if (message.channel.type !== ChannelTypes.GUILD_TEXT) return;
   if (message.author.bot) return;
   if (message.author.id !== "945029082314338407") return;
 

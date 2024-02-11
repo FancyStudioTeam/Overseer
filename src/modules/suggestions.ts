@@ -11,6 +11,7 @@ export default (client: Fancycord) => {
   client.on("messageCreate", async (message: Message) => {
     if (!message.guild) return;
     if (!message.channel) return;
+    if (message.channel.type !== ChannelTypes.GUILD_TEXT) return;
     if (message.author.bot) return;
 
     const guildSuggestion = await prisma.guildSuggestion.findUnique({
@@ -217,10 +218,10 @@ export default (client: Fancycord) => {
       }
     }
   });
-
-  function checkString(content: string): boolean {
-    if (!content || !content.length) return false;
-
-    return !/^[^a-zA-Z0-9]+$/.test(content);
-  }
 };
+
+function checkString(content: string): boolean {
+  if (!content || !content.length) return false;
+
+  return !/^[^a-zA-Z0-9]+$/.test(content);
+}

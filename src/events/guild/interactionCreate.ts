@@ -4,6 +4,7 @@ import {
   type AnyInteractionGateway,
   ApplicationCommandOptionTypes,
   ButtonStyles,
+  ChannelTypes,
   MessageFlags,
   type PermissionName,
 } from "oceanic.js";
@@ -29,6 +30,7 @@ export default new Event(
   async (interaction: AnyInteractionGateway) => {
     if (!interaction.guild) return;
     if (!interaction.channel) return;
+    if (interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;
     if (interaction.user.bot) return;
 
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
@@ -40,41 +42,117 @@ export default new Event(
     const timezone = guildConfiguration?.timezone ?? "UTC";
     const hour12 = guildConfiguration?.hour12 ?? false;
     const premium = guildConfiguration?.premium ?? false;
+    const requiredPermissions: PermissionName[] = [];
+    const clientMember = interaction.guild.clientMember;
 
-    if (process.env.NODE_ENV === "maintenance") {
+    (
+      [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES",
+        "EMBED_LINKS",
+        "USE_EXTERNAL_EMOJIS",
+      ] as PermissionName[]
+    ).forEach((p, _) => {
       if (
-        interaction.isCommandInteraction() ||
-        interaction.isComponentInteraction() ||
-        interaction.isModelSubmitInteraction()
+        interaction.channel &&
+        "permissionsOf" in interaction.channel &&
+        !interaction.channel.permissionsOf(clientMember).has(p)
       ) {
-        return interaction.reply({
-          embeds: new EmbedBuilder()
-            .setImage("attachment://maintenance.png")
-            .setColor(client.config.colors.color)
-            .toJSONArray(),
-          files: [
-            {
-              name: "maintenance.png",
-              contents: readFileSync(
-                join(__dirname, "../..", "assets", "images", "Maintenance.png"),
-              ),
-            },
-          ],
-          components: new ActionRowBuilder()
-            .addComponents([
-              new ButtonBuilder()
-                .setLabel("Support Server")
-                .setStyle(ButtonStyles.LINK)
-                .setEmoji({
-                  name: "_",
-                  id: "1201585025028735016",
-                })
-                .setURL(client.config.links.support),
-            ])
-            .toJSONArray(),
-          flags: MessageFlags.EPHEMERAL,
-        });
+        requiredPermissions.push(p);
       }
+    });
+
+    if (
+      !interaction.channel
+        .permissionsOf(clientMember)
+        .has(...requiredPermissions) &&
+      "reply" in interaction
+    ) {
+      return interaction.reply({
+        embeds: new EmbedBuilder()
+          .setDescription(
+            client.locales.__mf(
+              {
+                phrase: "general.permissions.bot-channel-permissions",
+                locale: language,
+              },
+              {
+                permission: requiredPermissions
+                  .map((p, _) => {
+                    return permissions[p][language];
+                  })
+                  .join(", "),
+              },
+            ),
+          )
+          .setColor(client.config.colors.error)
+          .toJSONArray(),
+        components: new ActionRowBuilder()
+          .addComponents([
+            new ButtonBuilder()
+              .setLabel(
+                client.locales.__({
+                  phrase: "general.permissions.row.hierarchy.label",
+                  locale: language,
+                }),
+              )
+              .setStyle(ButtonStyles.LINK)
+              .setEmoji({
+                name: "_",
+                id: "1201589945853296780",
+              })
+              .setURL(
+                "https://support.discord.com/hc/en-us/articles/206141927",
+              ),
+            new ButtonBuilder()
+              .setLabel(
+                client.locales.__({
+                  phrase: "general.permissions.row.configure.label",
+                  locale: language,
+                }),
+              )
+              .setStyle(ButtonStyles.LINK)
+              .setEmoji({
+                name: "_",
+                id: "1201589945853296780",
+              })
+              .setURL(
+                "https://support.discord.com/hc/en-us/articles/206029707",
+              ),
+          ])
+          .toJSONArray(),
+        flags: MessageFlags.EPHEMERAL,
+      });
+    }
+
+    if (process.env.NODE_ENV === "maintenance" && "reply" in interaction) {
+      return interaction.reply({
+        embeds: new EmbedBuilder()
+          .setImage("attachment://maintenance.png")
+          .setColor(client.config.colors.color)
+          .toJSONArray(),
+        files: [
+          {
+            name: "maintenance.png",
+            contents: readFileSync(
+              join(__dirname, "../..", "assets/images", "Maintenance.png"),
+            ),
+          },
+        ],
+        components: new ActionRowBuilder()
+          .addComponents([
+            new ButtonBuilder()
+              .setLabel("Support Server")
+              .setStyle(ButtonStyles.LINK)
+              .setEmoji({
+                name: "_",
+                id: "1201585025028735016",
+              })
+              .setURL(client.config.links.support),
+          ])
+          .toJSONArray(),
+        flags: MessageFlags.EPHEMERAL,
+      });
     }
 
     if (interaction.isCommandInteraction()) {
