@@ -105,7 +105,7 @@ export default new SubCommand({
   },
 });
 
-function temperatureToF(input: string): number {
+export function temperatureToF(input: string): number {
   return (Number(input) * 9) / 5 + 32;
 }
 

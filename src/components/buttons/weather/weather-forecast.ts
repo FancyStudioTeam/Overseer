@@ -2,7 +2,10 @@ import { type ComponentInteraction, MessageFlags } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { weather } from "../../../commands/chatInput/util/subcommands/weather";
+import {
+  temperatureToF,
+  weather,
+} from "../../../commands/chatInput/util/subcommands/weather";
 import { errorMessage, formatDate, insertEmpty } from "../../../util/util";
 
 export default new Component({
@@ -74,7 +77,3 @@ export default new Component({
     });
   },
 });
-
-function temperatureToF(input: string): number {
-  return (Number(input) * 9) / 5 + 32;
-}
