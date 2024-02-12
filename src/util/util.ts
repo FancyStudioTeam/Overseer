@@ -121,11 +121,7 @@ export function errorMessage(
   ephemeral: boolean,
   embed: EmbedOptions,
 ): void {
-  if (
-    context.isCommandInteraction() ||
-    context.isComponentInteraction() ||
-    context.isModelSubmitInteraction()
-  ) {
+  if ("reply" in context) {
     context.reply({
       embeds: new EmbedBuilder()
         .load(embed)
@@ -267,7 +263,7 @@ export function handleError(
       .toJSONArray(),
   });
 
-  if (context.isCommandInteraction() || context.isCommandInteraction()) {
+  if ("reply" in context) {
     context.reply({
       embeds: new EmbedBuilder()
         .setAuthor({
