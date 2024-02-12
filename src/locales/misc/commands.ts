@@ -24,7 +24,7 @@ export const descriptions: Descriptions = {
   },
   info_bot: {
     en: "Displays bot information",
-    es: "Muestra la informacion del bot",
+    es: "Muestra la información del bot",
   },
   info_ping: {
     en: "Displays bot latency",
@@ -32,11 +32,11 @@ export const descriptions: Descriptions = {
   },
   info_server: {
     en: "Displays server information",
-    es: "Muestra la informacion del servidor",
+    es: "Muestra la información del servidor",
   },
   info_user: {
     en: "Displays a user's information",
-    es: "Muestra la informacion de un usuario",
+    es: "Muestra la información de un usuario",
   },
   mod_ban: {
     en: "Bans a user",
