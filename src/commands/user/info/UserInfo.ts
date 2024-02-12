@@ -14,7 +14,7 @@ export default new UserCommand({
   ) => {
     const member = await fetchMember(
       interaction,
-      interaction.data.targetID ?? "",
+      interaction.data.targetID ?? interaction.user.id,
     );
 
     if (!member) {

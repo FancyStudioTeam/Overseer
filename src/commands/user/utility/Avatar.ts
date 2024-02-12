@@ -1,10 +1,9 @@
-import { EmbedBuilder } from "../../../builders/Embed";
-
 import {
   ApplicationCommandTypes,
   type CommandInteraction,
   type User,
 } from "oceanic.js";
+import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
 
