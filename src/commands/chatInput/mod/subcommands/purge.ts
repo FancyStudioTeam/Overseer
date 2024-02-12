@@ -36,7 +36,7 @@ export default new SubCommand({
       })
       .catch(() => null);
 
-    if (!fetchedMessages || !fetchedMessages.length) {
+    if (!fetchedMessages?.length) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "commands.moderation.purge.no-recent-messages",
@@ -46,9 +46,10 @@ export default new SubCommand({
     }
 
     const filteredMessages = fetchedMessages
-      .slice(interaction.channel?.id === channel?.id ? 1 : 0)
+      .slice(interaction.channelID === channel.id ? 1 : 0)
       .filter(
-        (m) => Date.now() - DiscordSnowflake.timestampFrom(m.id) < ms("14d"),
+        (m) =>
+          Date.now() - DiscordSnowflake.timestampFrom(m.id) < ms("14 days"),
       )
       .map((m) => {
         return m.id;
@@ -64,11 +65,7 @@ export default new SubCommand({
     }
 
     await client.rest.channels
-      .deleteMessages(
-        channel.id,
-        filteredMessages,
-        `[Purge] ${interaction.user.username} executed purge command`,
-      )
+      .deleteMessages(channel.id, filteredMessages)
       .then(async (deletedMessages) => {
         interaction.reply({
           embeds: new EmbedBuilder()

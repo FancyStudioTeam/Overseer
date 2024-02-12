@@ -148,7 +148,6 @@ export default new Component({
           .startThread({
             name: `${user?.username ?? "Unknown User"} suggestion`,
             autoArchiveDuration: 1440,
-            reason: 'The suggestion system has the "threads" option enabled',
           })
           .catch(() => null);
       }
