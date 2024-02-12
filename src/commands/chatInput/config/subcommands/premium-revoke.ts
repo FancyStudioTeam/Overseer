@@ -153,8 +153,6 @@ export default new SubCommand({
           }
         }
       }
-
-      return;
     });
 
     collector.on("end", async () => {
