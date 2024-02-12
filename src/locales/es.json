@@ -265,7 +265,12 @@
       "bot-channel-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesito el permiso de {permission} en el canal**"
     },
     "error": {
-      "message": "**Algo salió mal mientra se realizaba esta operación...**\nSi el error persiste, reporta el error con la ID proporcionada en nuestro [servidor de soporte](https://discord.gg/RPt73adMBq)",
+      "row": {
+        "support": {
+          "label": "Servidor de Soporte"
+        }
+      },
+      "message": "**Algo salió mal mientra se realizaba esta operación...**\nSi el error persiste, reporta el error con la ID proporcionada en nuestro servidor de soporte",
       "field": "**Información general**",
       "value": "<:_:1201948012830531644> **ID del reporte**: {id}\n<:_:1201948012830531644> **Nombre del error**: {name}"
     },

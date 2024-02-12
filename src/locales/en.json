@@ -265,7 +265,12 @@
       "bot-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the channel**"
     },
     "error": {
-      "message": "**Something went wrong while this operation was being performed...**\nIf the error persists, report the error with the provided ID in our [support server](https://discord.gg/RPt73adMBq)",
+      "row": {
+        "support": {
+          "label": "Support Server"
+        }
+      },
+      "message": "**Something went wrong while this operation was being performed...**\nIf the error persists, report the error with the provided ID in our support server",
       "field": "**General information**",
       "value": "<:_:1201948012830531644> **Report ID**: {id}\n<:_:1201948012830531644> **Error name**: {name}"
     },
