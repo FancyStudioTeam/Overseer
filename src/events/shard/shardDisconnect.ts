@@ -6,11 +6,15 @@ export default new Event(
   "shardDisconnect",
   false,
   async (error: Error | undefined, id: number) => {
-    logger(
-      `Shard ${id} has been disconnected ${
-        `by an error: ${error?.stack}` ?? "without errors"
-      }`,
-      LogType.Warn,
-    );
+    if (error) {
+      logger(
+        `Shard ${id} has been disconnected by an error: ${
+          error.stack ?? error.message
+        }`,
+        LogType.Error,
+      );
+    }
+
+    logger(`Shard ${id} has been disconnected`, LogType.Warn);
   },
 );
