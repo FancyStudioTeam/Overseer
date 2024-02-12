@@ -39,6 +39,7 @@
     "figlet": "1.7.0",
     "moment": "2.30.1",
     "prisma": "5.9.1",
+    "ts-node": "10.9.2",
     "tsx": "4.7.1",
     "typescript": "5.3.3"
   },
