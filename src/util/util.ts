@@ -304,6 +304,21 @@ export function handleError(
   }
 }
 
+export function bitFieldValues(bitField: number): number[] {
+  const array = [];
+
+  for (let i = 0; i < Math.log2(bitField) + 1; i++) {
+    const power = 2 ** i;
+    const result = bitField & power;
+
+    if (result !== 0) {
+      array.push(result);
+    }
+  }
+
+  return array;
+}
+
 export function insertEmpty(array: unknown[]): any[] {
   const newArray = [];
 
