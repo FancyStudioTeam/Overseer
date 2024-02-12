@@ -50,7 +50,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
         `cd "${join(__dirname, "../../..")}" && ${command}`,
         (error: ExecException | null, result: string) => {
           if (error) {
-            client.rest.channels.createMessage(message.channelID, {
+            return client.rest.channels.createMessage(message.channelID, {
               embeds: new EmbedBuilder()
                 .setAuthor({
                   name: client.user.username,
@@ -64,7 +64,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
             });
           }
 
-          client.rest.channels.createMessage(message.channelID, {
+          return client.rest.channels.createMessage(message.channelID, {
             embeds: new EmbedBuilder()
               .setAuthor({
                 name: client.user.username,
@@ -85,7 +85,9 @@ export default new Event("messageCreate", false, async (message: Message) => {
       if (!code) return;
 
       try {
-        const result = await eval(code);
+        const result = await eval(
+          `const { client } = require("../.."); ${code}`,
+        );
         let output = result;
 
         if (typeof result !== "string") {

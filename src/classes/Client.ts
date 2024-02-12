@@ -57,7 +57,7 @@ export class Fancycord extends Client {
         invites: 0,
         members: Infinity,
         messages: 0,
-        privateChannels: Infinity,
+        privateChannels: 0,
         roles: Infinity,
         scheduledEvents: 0,
         stageInstances: 0,
