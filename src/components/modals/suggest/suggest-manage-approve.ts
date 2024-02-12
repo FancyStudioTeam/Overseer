@@ -93,7 +93,6 @@ export default new Modal({
             name: `[Approved] ${message.thread.name}`,
             locked: true,
             autoArchiveDuration: 60,
-            reason: `${interaction.user.username} has approved the suggestion`,
           })
           .catch(() => null);
       }

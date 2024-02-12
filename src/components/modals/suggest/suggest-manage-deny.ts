@@ -93,7 +93,6 @@ export default new Modal({
             name: `[Denied] ${message.thread.name}`,
             locked: true,
             autoArchiveDuration: 60,
-            reason: `${interaction.user.username} has denied the suggestion`,
           })
           .catch(() => null);
       }

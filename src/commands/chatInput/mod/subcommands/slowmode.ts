@@ -57,7 +57,6 @@ export default new SubCommand({
     await client.rest.channels
       .edit(channel.id, {
         rateLimitPerUser: parsedTime / 1000,
-        reason: `[Slowmode] ${interaction.user.username} executed slowmode command`,
       })
       .then((newChannel) => {
         interaction.reply({
