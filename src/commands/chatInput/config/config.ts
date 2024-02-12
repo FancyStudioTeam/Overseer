@@ -77,7 +77,7 @@ export default new ChatInputCommand({
         },
         {
           name: "12-hours",
-          description: "Display hours in PM/AM format",
+          description: "Display hours in am / pm format",
           type: ApplicationCommandOptionTypes.BOOLEAN,
           required: true,
         },
