@@ -1,6 +1,7 @@
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import {
   type AnyInteractionGateway,
+  ButtonStyles,
   type CreateMessageOptions,
   type EmbedOptions,
   type ExecuteWebhookOptions,
@@ -10,6 +11,8 @@ import {
   type User,
 } from "oceanic.js";
 import urlRegex from "url-regex";
+import { ActionRowBuilder } from "../builders/ActionRow";
+import { ButtonBuilder } from "../builders/Button";
 import { EmbedBuilder } from "../builders/Embed";
 import { client } from "../index";
 import { LogType, UnixType, WebhookType } from "../types";
@@ -236,7 +239,6 @@ export function handleError(
   const id = DiscordSnowflake.generate().toString();
 
   webhook(WebhookType.Logs, {
-    content: "<@&1165278800842600601>",
     embeds: new EmbedBuilder()
       .setAuthor({
         name: client.user.username,
@@ -295,6 +297,19 @@ export function handleError(
           },
         ])
         .setColor(client.config.colors.error)
+        .toJSONArray(),
+      components: new ActionRowBuilder()
+        .addComponents([
+          new ButtonBuilder()
+            .setLabel(
+              client.locales.__({
+                phrase: "general.error.row.support.label",
+                locale: language,
+              }),
+            )
+            .setStyle(ButtonStyles.LINK)
+            .setURL(client.config.links.support),
+        ])
         .toJSONArray(),
     });
   }
