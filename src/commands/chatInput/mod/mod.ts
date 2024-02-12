@@ -28,6 +28,42 @@ export default new ChatInputCommand({
           type: ApplicationCommandOptionTypes.STRING,
           required: false,
         },
+        {
+          name: "delete_messages",
+          description: "Select one of the options",
+          type: ApplicationCommandOptionTypes.NUMBER,
+          required: false,
+          choices: [
+            {
+              name: "Do not delete messages",
+              value: 0,
+            },
+            {
+              name: "Last hour",
+              value: 3600,
+            },
+            {
+              name: "Last 6 hours",
+              value: 21600,
+            },
+            {
+              name: "Last 12 hours",
+              value: 43200,
+            },
+            {
+              name: "Last 24 hours",
+              value: 86400,
+            },
+            {
+              name: "Last 3 days",
+              value: 259200,
+            },
+            {
+              name: "Last 7 days",
+              value: 604800,
+            },
+          ],
+        },
       ],
     },
     {
