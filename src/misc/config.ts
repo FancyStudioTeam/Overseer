@@ -1,9 +1,12 @@
 export default {
   colors: {
     color: 0x2b2d31,
-    success: 0x10b981,
-    error: 0xf43f5e,
-    warning: 0xfcd34d,
+    success: 0x2b2d31,
+    error: 0x2b2d31,
+    warning: 0x2b2d31,
+    // success: 0x10b981,
+    // error: 0xf43f5e,
+    // warning: 0xfcd34d,
   },
   links: {
     invite:
