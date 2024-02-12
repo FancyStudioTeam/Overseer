@@ -308,6 +308,10 @@ export function handleError(
               }),
             )
             .setStyle(ButtonStyles.LINK)
+            .setEmoji({
+              name: "_",
+              id: "1201585025028735016",
+            })
             .setURL(client.config.links.support),
         ])
         .toJSONArray(),

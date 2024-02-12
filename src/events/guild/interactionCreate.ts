@@ -9,6 +9,7 @@ import {
   type PermissionName,
 } from "oceanic.js";
 import { ActionRowBuilder } from "../../builders/ActionRow";
+import { AttachmentBuilder } from "../../builders/Attachment";
 import { ButtonBuilder } from "../../builders/Button";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
@@ -131,14 +132,14 @@ export default new Event(
           .setImage("attachment://maintenance.png")
           .setColor(client.config.colors.color)
           .toJSONArray(),
-        files: [
-          {
-            name: "maintenance.png",
-            contents: readFileSync(
+        files: new AttachmentBuilder()
+          .setName("maintenance.png")
+          .setContent(
+            readFileSync(
               join(__dirname, "../..", "assets/images", "Maintenance.png"),
             ),
-          },
-        ],
+          )
+          .toJSONArray(),
         components: new ActionRowBuilder()
           .addComponents([
             new ButtonBuilder()
