@@ -1,4 +1,4 @@
-import { Member, MessageFlags, ModalSubmitInteraction } from "oceanic.js";
+import { MessageFlags, ModalSubmitInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Modal } from "../../../classes/Builders";
 import { Fancycord } from "../../../classes/Client";
@@ -14,14 +14,19 @@ export default new Modal({
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
+    if (!interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const userSuggestion = await prisma.userSuggestion.findUnique({
       where: {
+        guild_id: interaction.guild.id,
         message_id: interaction.message?.messageReference?.messageID,
-      },
-    });
-    const guildSuggestion = await prisma.guildSuggestion.findUnique({
-      where: {
-        guild_id: interaction.guild?.id,
       },
     });
 
@@ -42,62 +47,78 @@ export default new Modal({
       .getMessage(interaction.channelID, userSuggestion.message_id)
       .catch(() => null);
 
-    if (
-      message?.flags !== MessageFlags.SUPPRESS_EMBEDS &&
-      message?.embeds.length
-    ) {
-      message.components.forEach((r, _) => {
-        r.components.forEach((c, _) => {
-          c.disabled = true;
+    if (message) {
+      const flags = bitFieldValues(message.flags);
+
+      if (!flags.some((f) => f === MessageFlags.SUPPRESS_EMBEDS)) {
+        message.components.forEach((r, _) => {
+          r.components.forEach((c, _) => {
+            c.disabled = true;
+          });
         });
-      });
 
-      new EmbedBuilder()
-        .load(message.embeds[0])
-        .addField({
-          name: client.locales.__mf(
-            {
-              phrase: "commands.utility.suggest.message.field3",
-              locale: language,
-            },
-            {
-              user: interaction.user.username,
-            },
-          ),
-          value: `<:_:1201948012830531644> ${reason}`,
-        })
-        .setColor(client.config.colors.error);
-
-      await message
-        .edit({
-          embeds: message.embeds,
-          components: message.components,
-        })
-        .then(async () => {
-          if (
-            guildSuggestion?.threads &&
-            message.thread &&
-            message.thread.ownerID === client.user.id &&
-            message.thread
-              .permissionsOf(interaction.guild?.clientMember as Member)
-              .has("MANAGE_CHANNELS")
-          ) {
-            await sleep(1500);
-            await client.rest.channels
-              .edit(userSuggestion.message_id, {
-                name: `[Denied] ${message.thread.name}`,
-                locked: true,
-                reason: `${interaction.user.username} has denied the suggestion`,
+        await client.rest.channels
+          .editMessage(message.channelID, message.id, {
+            embeds: new EmbedBuilder()
+              .load(message.embeds[0])
+              .addField({
+                name: client.locales.__mf(
+                  {
+                    phrase: "commands.utility.suggest.message.field3",
+                    locale: language,
+                  },
+                  {
+                    user: interaction.user.username,
+                  },
+                ),
+                value: `<:_:1201948012830531644> ${reason}`,
               })
-              .catch(() => null);
-          }
-        });
+              .setColor(client.config.colors.success)
+              .toJSONArray(),
+            components: message.components,
+          })
+          .catch(() => null);
+      }
+
+      if (
+        flags.some((f) => f === MessageFlags.HAS_THREAD) &&
+        message.thread?.ownerID === client.user.id &&
+        message.thread
+          .permissionsOf(interaction.guild.clientMember)
+          .has("MANAGE_CHANNELS")
+      ) {
+        await sleep(1500);
+        await client.rest.channels
+          .edit(message.thread.id, {
+            name: `[Denied] ${message.thread.name}`,
+            locked: true,
+            autoArchiveDuration: 60,
+            reason: `${interaction.user.username} has denied the suggestion`,
+          })
+          .catch(() => null);
+      }
     }
 
     await prisma.userSuggestion.delete({
       where: {
+        guild_id: userSuggestion.guild_id,
         message_id: userSuggestion.message_id,
       },
     });
   },
 });
+
+function bitFieldValues(bitField: number): number[] {
+  const array = [];
+
+  for (let i = 0; i < Math.log2(bitField) + 1; i++) {
+    const power = 2 ** i;
+    const result = bitField & power;
+
+    if (result !== 0) {
+      array.push(result);
+    }
+  }
+
+  return array;
+}
