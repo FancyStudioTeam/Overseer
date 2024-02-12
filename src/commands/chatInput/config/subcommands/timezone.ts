@@ -17,17 +17,22 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language },
   ) => {
+    if (!interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const timezone = interaction.data.options.getString("timezone", true);
-    const hours = interaction.data.options.getString("12-hours", true);
+    const hours = interaction.data.options.getBoolean("12-hours", true);
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
-        guild_id: interaction.guild?.id,
+        guild_id: interaction.guild.id,
       },
     });
-    const values: Record<string, boolean> = {
-      true: true,
-      false: false,
-    };
     let newData: Prisma.GuildConfigurationCreateInput;
 
     if (!Object.keys(timezones).includes(timezone)) {
@@ -42,19 +47,19 @@ export default new SubCommand({
     if (guildConfiguration) {
       newData = await prisma.guildConfiguration.update({
         where: {
-          guild_id: interaction.guild?.id,
+          guild_id: interaction.guild.id,
         },
         data: {
           timezone: timezone,
-          hour12: values[hours],
+          hour12: hours,
         },
       });
     } else {
       newData = await prisma.guildConfiguration.create({
         data: {
-          guild_id: interaction.guild?.id as string,
+          guild_id: interaction.guild.id,
           timezone: timezone,
-          hour12: values[hours],
+          hour12: hours,
         },
       });
     }
@@ -65,7 +70,7 @@ export default new SubCommand({
           client.locales.__mf(
             {
               phrase: "commands.configuration.timezone.message",
-              locale: newData.language,
+              locale: language,
             },
             {
               timezone: newData.timezone,
