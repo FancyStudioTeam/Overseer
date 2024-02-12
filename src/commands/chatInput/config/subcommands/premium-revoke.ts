@@ -3,7 +3,6 @@ import {
   type AnyInteractionGateway,
   ButtonStyles,
   type CommandInteraction,
-  type Guild,
   InteractionTypes,
 } from "oceanic.js";
 import { ActionRowBuilder } from "../../../../builders/ActionRow";
@@ -24,7 +23,16 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language },
   ) => {
-    if (interaction.user.id !== interaction.guild?.ownerID) {
+    if (!interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
+    if (interaction.user.id !== interaction.guild.ownerID) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "commands.configuration.premium.revoke.only-guild-owner",
@@ -35,7 +43,7 @@ export default new SubCommand({
 
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
-        guild_id: interaction.guild?.id,
+        guild_id: interaction.guild.id,
       },
     });
 
@@ -84,13 +92,22 @@ export default new SubCommand({
       client: client,
       message: message,
       channel: interaction.channel,
-      guild: interaction.guild as Guild,
+      guild: interaction.guild,
       interactionType: InteractionTypes.MESSAGE_COMPONENT,
       time: 15000,
     });
 
     collector.on("collect", async (collected: AnyInteractionGateway) => {
       if (collected.isComponentInteraction()) {
+        if (!collected.guild) {
+          return errorMessage(collected, true, {
+            description: client.locales.__({
+              phrase: "general.cannot-get-guild",
+              locale: language,
+            }),
+          });
+        }
+
         if (collected.user.id !== interaction.user.id) {
           return errorMessage(collected, true, {
             description: client.locales.__({
@@ -107,7 +124,7 @@ export default new SubCommand({
               await prisma.guildConfiguration
                 .update({
                   where: {
-                    guild_id: interaction.guild?.id,
+                    guild_id: collected.guild.id,
                   },
                   data: {
                     premium: false,
@@ -149,8 +166,8 @@ export default new SubCommand({
         });
       });
 
-      await message
-        .edit({
+      await client.rest.channels
+        .editMessage(interaction.channelID, message.id, {
           components: message.components,
         })
         .catch(() => null);

@@ -16,6 +16,15 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language },
   ) => {
+    if (!interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const code = interaction.data.options.getString("code", true);
     const clientPremium = await prisma.clientPremium.findUnique({
       where: {
@@ -34,14 +43,14 @@ export default new SubCommand({
 
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
-        guild_id: interaction.guild?.id,
+        guild_id: interaction.guild.id,
       },
     });
 
     if (guildConfiguration) {
       await prisma.guildConfiguration.update({
         where: {
-          guild_id: interaction.guild?.id,
+          guild_id: interaction.guild.id,
         },
         data: {
           premium: true,
@@ -52,7 +61,7 @@ export default new SubCommand({
     } else {
       await prisma.guildConfiguration.create({
         data: {
-          guild_id: interaction.guild?.id as string,
+          guild_id: interaction.guild.id,
           premium: true,
           expires_at:
             clientPremium.type === "monthly" ? Date.now() + ms("30 days") : 0,
