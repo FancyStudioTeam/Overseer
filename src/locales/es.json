@@ -184,6 +184,9 @@
           },
           "manage": {
             "row": {
+              "message": {
+                "label": "Sugerencia"
+              },
               "votes": {
                 "label": "Votos"
               },
@@ -193,21 +196,24 @@
                 "modal": {
                   "title": "Añadir comentario",
                   "label": "Comentario"
-                }
+                },
+                "message": "**El moderador {moderator} ha añadido un comentario a tu sugerencia**"
               },
               "approve": {
                 "label": "Aprobar",
                 "modal": {
                   "title": "Aprobar sugerencia",
                   "label": "Razón"
-                }
+                },
+                "message": "**El moderador {moderator} ha aprobado tu sugerencia**"
               },
               "deny": {
                 "label": "Denegar",
                 "modal": {
                   "title": "Denegar sugerencia",
                   "label": "Razón"
-                }
+                },
+                "message": "**El moderador {moderator} ha denegado tu sugerencia**"
               }
             },
             "message": "<:_:1201948012830531644> **Votos**: Muestra la lista de votos de la sugerencia\n<:_:1201948012830531644> **Comentar**: Añade un comentario a la sugerencia (Máx 3)\n<:_:1201948012830531644> **Aprobar**: Aprueba la sugerencia\n<:_:1201948012830531644> **Denegar**: Deniega la sugerencia"

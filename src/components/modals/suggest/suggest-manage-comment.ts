@@ -1,9 +1,11 @@
-import { MessageFlags, ModalSubmitInteraction } from "oceanic.js";
+import { ButtonStyles, MessageFlags, ModalSubmitInteraction } from "oceanic.js";
+import { ActionRowBuilder } from "../../../builders/ActionRow";
+import { ButtonBuilder } from "../../../builders/Button";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Modal } from "../../../classes/Builders";
 import { Fancycord } from "../../../classes/Client";
 import { prisma } from "../../../util/db";
-import { bitFieldValues, errorMessage } from "../../../util/util";
+import { bitFieldValues, errorMessage, fetchUser } from "../../../util/util";
 
 export default new Modal({
   name: "suggest-manage-comment",
@@ -57,32 +59,80 @@ export default new Modal({
       .getMessage(interaction.channelID, userSuggestion.message_id)
       .catch(() => null);
 
-    if (
-      message &&
-      !bitFieldValues(message.flags).some(
-        (f) => f === MessageFlags.SUPPRESS_EMBEDS,
-      )
-    ) {
-      await client.rest.channels
-        .editMessage(message.channelID, message.id, {
-          embeds: new EmbedBuilder()
-            .load(message.embeds[0])
-            .addField({
-              name: client.locales.__mf(
-                {
-                  phrase: "commands.utility.suggest.message.field",
-                  locale: language,
-                },
-                {
-                  user: interaction.user.username,
-                },
-              ),
-              value: `<:_:1201948012830531644> ${comment}`,
-            })
-            .setColor(client.config.colors.warning)
-            .toJSONArray(),
-        })
-        .catch(() => null);
+    if (message) {
+      if (
+        !bitFieldValues(message.flags).some(
+          (f) => f === MessageFlags.SUPPRESS_EMBEDS,
+        )
+      ) {
+        await client.rest.channels
+          .editMessage(message.channelID, message.id, {
+            embeds: new EmbedBuilder()
+              .load(message.embeds[0])
+              .addField({
+                name: client.locales.__mf(
+                  {
+                    phrase: "commands.utility.suggest.message.field",
+                    locale: language,
+                  },
+                  {
+                    user: interaction.user.username,
+                  },
+                ),
+                value: `<:_:1201948012830531644> ${comment}`,
+              })
+              .setColor(client.config.colors.warning)
+              .toJSONArray(),
+          })
+          .catch(() => null);
+      }
+
+      const user = await fetchUser(userSuggestion.user_id);
+
+      if (user) {
+        await client.rest.users
+          .createDM(user.id)
+          .then(async (newChannel) => {
+            await client.rest.channels
+              .createMessage(newChannel.id, {
+                embeds: new EmbedBuilder()
+                  .setDescription(
+                    client.locales.__mf(
+                      {
+                        phrase:
+                          "commands.utility.suggest.row.manage.row.comment.message",
+                        locale: language,
+                      },
+                      {
+                        moderator: interaction.user.mention,
+                      },
+                    ),
+                  )
+                  .setColor(client.config.colors.color)
+                  .toJSONArray(),
+                components: new ActionRowBuilder()
+                  .addComponents([
+                    new ButtonBuilder()
+                      .setLabel(
+                        client.locales.__({
+                          phrase:
+                            "commands.utility.suggest.row.manage.row.message.label",
+                          locale: language,
+                        }),
+                      )
+                      .setStyle(ButtonStyles.LINK)
+                      .setEmoji({
+                        name: "_",
+                        id: "1201585025028735016",
+                      })
+                      .setURL(message.jumpLink),
+                  ])
+                  .toJSONArray(),
+              })
+              .catch(() => null);
+          })
+          .catch(() => null);
+      }
     }
 
     await prisma.userSuggestion.update({

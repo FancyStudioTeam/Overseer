@@ -1,9 +1,16 @@
-import { MessageFlags, ModalSubmitInteraction } from "oceanic.js";
+import { ButtonStyles, MessageFlags, ModalSubmitInteraction } from "oceanic.js";
+import { ActionRowBuilder } from "../../../builders/ActionRow";
+import { ButtonBuilder } from "../../../builders/Button";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Modal } from "../../../classes/Builders";
 import { Fancycord } from "../../../classes/Client";
 import { prisma } from "../../../util/db";
-import { bitFieldValues, errorMessage, sleep } from "../../../util/util";
+import {
+  bitFieldValues,
+  errorMessage,
+  fetchUser,
+  sleep,
+} from "../../../util/util";
 
 export default new Modal({
   name: "suggest-manage-deny",
@@ -93,6 +100,53 @@ export default new Modal({
             name: `[Denied] ${message.thread.name}`,
             locked: true,
             autoArchiveDuration: 60,
+          })
+          .catch(() => null);
+      }
+
+      const user = await fetchUser(userSuggestion.user_id);
+
+      if (user) {
+        await client.rest.users
+          .createDM(user.id)
+          .then(async (newChannel) => {
+            await client.rest.channels
+              .createMessage(newChannel.id, {
+                embeds: new EmbedBuilder()
+                  .setDescription(
+                    client.locales.__mf(
+                      {
+                        phrase:
+                          "commands.utility.suggest.row.manage.row.deny.message",
+                        locale: language,
+                      },
+                      {
+                        moderator: interaction.user.mention,
+                      },
+                    ),
+                  )
+                  .setColor(client.config.colors.color)
+                  .toJSONArray(),
+                components: new ActionRowBuilder()
+                  .addComponents([
+                    new ButtonBuilder()
+                      .setLabel(
+                        client.locales.__({
+                          phrase:
+                            "commands.utility.suggest.row.manage.row.message.label",
+                          locale: language,
+                        }),
+                      )
+                      .setStyle(ButtonStyles.LINK)
+                      .setEmoji({
+                        name: "_",
+                        id: "1201585025028735016",
+                      })
+                      .setURL(message.jumpLink),
+                  ])
+                  .toJSONArray(),
+              })
+              .catch(() => null);
           })
           .catch(() => null);
       }
