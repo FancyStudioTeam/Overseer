@@ -107,6 +107,7 @@ export default new Modal({
       const user = await fetchUser(userSuggestion.user_id);
 
       if (user) {
+        await sleep(1500);
         await client.rest.users
           .createDM(user.id)
           .then(async (newChannel) => {

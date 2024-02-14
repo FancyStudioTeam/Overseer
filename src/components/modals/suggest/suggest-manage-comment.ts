@@ -5,7 +5,12 @@ import { EmbedBuilder } from "../../../builders/Embed";
 import { Modal } from "../../../classes/Builders";
 import { Fancycord } from "../../../classes/Client";
 import { prisma } from "../../../util/db";
-import { bitFieldValues, errorMessage, fetchUser } from "../../../util/util";
+import {
+  bitFieldValues,
+  errorMessage,
+  fetchUser,
+  sleep,
+} from "../../../util/util";
 
 export default new Modal({
   name: "suggest-manage-comment",
@@ -90,6 +95,7 @@ export default new Modal({
       const user = await fetchUser(userSuggestion.user_id);
 
       if (user) {
+        await sleep(1500);
         await client.rest.users
           .createDM(user.id)
           .then(async (newChannel) => {
