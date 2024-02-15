@@ -129,7 +129,10 @@ export interface Config {
     support: string;
   };
 }
-
+export interface RateLimitManager {
+  check: (key: string) => boolean;
+  consume: (key: string, points?: number, time?: number) => void;
+}
 export interface WeatherInfo {
   weatherlocationcode: string;
   weatherlocationname: string;
