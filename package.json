@@ -32,7 +32,7 @@
     "@types/humanize-duration": "3.27.4",
     "@types/i18n": "0.13.10",
     "@types/ms": "0.7.34",
-    "@types/node": "20.11.17",
+    "@types/node": "20.11.19",
     "@types/node-cron": "3.0.11",
     "@types/url-regex": "5.0.0",
     "@types/xml2js": "0.4.14",
