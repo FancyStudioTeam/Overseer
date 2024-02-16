@@ -5,11 +5,6 @@ import { ButtonBuilder } from "../../../../builders/Button";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import type {
-  WeatherCurrent,
-  WeatherForecast,
-  WeatherInfo,
-} from "../../../../types";
 import { errorMessage } from "../../../../util/util";
 
 export default new SubCommand({
@@ -143,4 +138,47 @@ export async function weather(
       return f.A$;
     }) as WeatherForecast[],
   };
+}
+
+interface WeatherInfo {
+  weatherlocationcode: string;
+  weatherlocationname: string;
+  url: string;
+  imagerelativeurl: string;
+  degreetype: "C" | "F";
+  provider: string;
+  attribution: string;
+  attribution2: string;
+  lat: string;
+  long: string;
+  timezone: string;
+  alert: string;
+  entityid: string;
+  encodedlocationname: string;
+}
+
+interface WeatherCurrent {
+  temperature: string;
+  skycode: string;
+  skytext: string;
+  date: string;
+  observationtime: string;
+  observationpoint: string;
+  feelslike: string;
+  humidity: string;
+  winddisplay: string;
+  daylight: string;
+  shorday: string;
+  windspeed: string;
+}
+
+interface WeatherForecast {
+  low: string;
+  high: string;
+  skycodeday: string;
+  skytextday: string;
+  date: string;
+  day: string;
+  shortday: string;
+  precip: string;
 }

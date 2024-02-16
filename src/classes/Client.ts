@@ -13,7 +13,6 @@ import config from "../misc/config";
 import {
   type ChatInputCommandInterface,
   type ComponentInterface,
-  type Config,
   LogType,
   type ModalInterface,
   type SubCommandInterface,
@@ -39,7 +38,7 @@ export class Fancycord extends Client {
   subcommands: Collection<string, SubCommandInterface>;
   config: Config;
   locales: i18n.I18n;
-  dbReady: boolean;
+  private dbReady: boolean;
   readyAt: number | null;
 
   constructor() {
@@ -409,4 +408,17 @@ export class Fancycord extends Client {
     });
     this.locales.setLocale("en");
   }
+}
+
+interface Config {
+  colors: {
+    color: number;
+    success: number;
+    error: number;
+    warning: number;
+  };
+  links: {
+    invite: string;
+    support: string;
+  };
 }

@@ -8,13 +8,6 @@ import {
   type StringSelectMenu,
 } from "oceanic.js";
 
-type ValidType =
-  | ComponentTypes.CHANNEL_SELECT
-  | ComponentTypes.MENTIONABLE_SELECT
-  | ComponentTypes.ROLE_SELECT
-  | ComponentTypes.STRING_SELECT
-  | ComponentTypes.USER_SELECT;
-
 export class SelectMenuBuilder {
   private json: SelectMenuComponent;
 
@@ -86,3 +79,10 @@ export class SelectMenuBuilder {
     return this.json;
   }
 }
+
+type ValidType =
+  | ComponentTypes.CHANNEL_SELECT
+  | ComponentTypes.MENTIONABLE_SELECT
+  | ComponentTypes.ROLE_SELECT
+  | ComponentTypes.STRING_SELECT
+  | ComponentTypes.USER_SELECT;
