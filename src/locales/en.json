@@ -284,6 +284,7 @@
       "field": "**You have discovered a premium feature**",
       "value": "<:_:1201948012830531644> This feature requires a premium server membership"
     },
-    "cannot-get-guild": "**<:_:1201586248947597392> Unable to obtain the server from the interaction**"
+    "cannot-get-guild": "**<:_:1201586248947597392> Unable to obtain the server from the interaction**",
+    "rate-limiter": "**<:_:1201586248947597392> You are performing too many actions in too little time\n<:_:1201948012830531644> Try again in {seconds}**"
   }
 }
