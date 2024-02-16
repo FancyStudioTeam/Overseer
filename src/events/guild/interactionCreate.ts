@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import humanize from "humanize-duration";
 import {
   type AnyInteractionGateway,
   ApplicationCommandOptionTypes,
@@ -8,6 +9,7 @@ import {
   MessageFlags,
   type PermissionName,
 } from "oceanic.js";
+import { RateLimiterMemory } from "rate-limiter-flexible";
 import { ActionRowBuilder } from "../../builders/ActionRow";
 import { AttachmentBuilder } from "../../builders/Attachment";
 import { ButtonBuilder } from "../../builders/Button";
@@ -24,6 +26,17 @@ import type {
 } from "../../types";
 import { prisma } from "../../util/db";
 import { errorMessage, handleError } from "../../util/util";
+
+const commandRateLimiter = new RateLimiterMemory({
+  points: 3,
+  duration: 5,
+  blockDuration: 7,
+});
+const componentRateLimiter = new RateLimiterMemory({
+  points: 5,
+  duration: 7,
+  blockDuration: 10,
+});
 
 export default new Event(
   "interactionCreate",
@@ -157,6 +170,26 @@ export default new Event(
     }
 
     if (interaction.isCommandInteraction()) {
+      const rateLimit = await consume(interaction.user.id, commandRateLimiter);
+
+      if (rateLimit.rateLimited && rateLimit.resets) {
+        return errorMessage(interaction, true, {
+          description: client.locales.__mf(
+            {
+              phrase: "general.rate-limiter",
+              locale: language,
+            },
+            {
+              seconds: humanize(rateLimit.resets, {
+                round: true,
+                largest: 2,
+                language: language,
+              }),
+            },
+          ),
+        });
+      }
+
       if (interaction.isChatInputCommand()) {
         await interaction.defer().catch(() => null);
 
@@ -300,6 +333,29 @@ export default new Event(
     }
 
     if (interaction.isComponentInteraction()) {
+      const rateLimit = await consume(
+        interaction.user.id,
+        componentRateLimiter,
+      );
+
+      if (rateLimit.rateLimited && rateLimit.resets) {
+        return errorMessage(interaction, true, {
+          description: client.locales.__mf(
+            {
+              phrase: "general.rate-limiter",
+              locale: language,
+            },
+            {
+              seconds: humanize(rateLimit.resets, {
+                round: true,
+                largest: 2,
+                language: language,
+              }),
+            },
+          ),
+        });
+      }
+
       if (interaction.isButtonComponentInteraction()) {
         if (interaction.data.customID.includes("/")) {
           const button = client.components.buttons.get(
@@ -438,3 +494,27 @@ export default new Event(
     return;
   },
 );
+
+async function consume(
+  key: string,
+  rateLimiter: RateLimiterMemory,
+): Promise<RateLimiterResponse> {
+  return rateLimiter
+    .consume(key)
+    .then(() => {
+      return {
+        rateLimited: false,
+      };
+    })
+    .catch((response) => {
+      return {
+        rateLimited: true,
+        resets: response.msBeforeNext,
+      };
+    });
+}
+
+interface RateLimiterResponse {
+  rateLimited: boolean;
+  resets?: number;
+}
