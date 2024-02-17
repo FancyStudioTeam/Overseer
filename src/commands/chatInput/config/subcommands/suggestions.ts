@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { ButtonStyles, type CommandInteraction } from "oceanic.js";
 import { ActionRowBuilder } from "../../../../builders/ActionRow";
 import { ButtonBuilder } from "../../../../builders/Button";
