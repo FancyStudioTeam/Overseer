@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import type { ComponentInteraction } from "oceanic.js";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
