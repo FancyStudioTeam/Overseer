@@ -95,6 +95,7 @@ export default new Event(
                     return permissions[p][language];
                   })
                   .join(", "),
+                channel: interaction.channel.mention,
               },
             ),
           )
