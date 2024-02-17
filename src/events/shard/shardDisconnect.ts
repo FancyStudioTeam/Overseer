@@ -8,13 +8,13 @@ export default new Event(
   async (error: Error | undefined, id: number) => {
     if (error) {
       logger(
-        `Shard ${id} has been disconnected by an error: ${
+        `[Shard ${id}] Shard has been disconnected by an error: ${
           error.stack ?? error.message
         }`,
         LogType.Error,
       );
     }
 
-    logger(`Shard ${id} has been disconnected`, LogType.Warn);
+    logger(`[Shard ${id}] Shard has been disconnected`, LogType.Warn);
   },
 );

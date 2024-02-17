@@ -121,11 +121,11 @@ export class Fancycord extends Client {
         .$connect()
         .then(() => {
           this.dbReady = true;
-          logger("Prisma Client has been connected");
+          logger("[Prisma] Prisma Client has been connected", LogType.Database);
         })
-        .catch((error: Error) => {
+        .catch((error) => {
           logger(
-            `Prisma Client had an error while connecting: ${error.stack}`,
+            `[Prisma] Prisma Client had an error while connecting: ${error.stack}`,
             LogType.Error,
           );
         });
@@ -166,7 +166,7 @@ export class Fancycord extends Client {
         });
 
         logger(
-          `The interactions has been deployed | Deployed ${commands.length} interactions`,
+          `[${this.user.username}] The interactions has been deployed | Deployed ${commands.length} interactions`,
         );
       });
   }
