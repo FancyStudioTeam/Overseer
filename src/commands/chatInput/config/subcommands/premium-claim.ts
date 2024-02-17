@@ -16,7 +16,7 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language },
   ) => {
-    if (!interaction.guild) {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "general.cannot-get-guild",

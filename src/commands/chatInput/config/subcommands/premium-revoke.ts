@@ -23,7 +23,7 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language },
   ) => {
-    if (!interaction.guild) {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "general.cannot-get-guild",
@@ -99,7 +99,7 @@ export default new SubCommand({
 
     collector.on("collect", async (collected: AnyInteractionGateway) => {
       if (collected.isComponentInteraction()) {
-        if (!collected.guild) {
+        if (!collected.inCachedGuildChannel() || !collected.guild) {
           return errorMessage(collected, true, {
             description: client.locales.__({
               phrase: "general.cannot-get-guild",
