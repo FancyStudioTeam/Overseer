@@ -42,7 +42,8 @@
                 "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**"
               },
               "revision": {
-                "label": "Revisar sugerencias"
+                "label": "Revisar sugerencias",
+                "revision-not-found": "**<:_:1201586248947597392> El canal de revisiones no ha sido encontrado**"
               }
             },
             "label": "General",
@@ -57,7 +58,6 @@
             "label": "Votos"
           }
         },
-        "system-not-enabled": "**<:_:1201586248947597392> El sistema de sugerencias no está habilitado**",
         "message": {
           "message": "**Empieza a configurar el sistema de sugerencias aquí**"
         }

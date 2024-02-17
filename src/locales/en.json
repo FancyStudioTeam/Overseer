@@ -42,7 +42,8 @@
                 "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**"
               },
               "revision": {
-                "label": "Review suggestions"
+                "label": "Review suggestions",
+                "revision-not-found": "**<:_:1201586248947597392> The review channel has not been found**"
               }
             },
             "label": "General",
@@ -57,7 +58,6 @@
             "label": "Votes"
           }
         },
-        "system-not-enabled": "**<:_:1201586248947597392> The suggestion system is not enabled**",
         "message": {
           "message": "**Start configuring the suggestion system here**"
         }
