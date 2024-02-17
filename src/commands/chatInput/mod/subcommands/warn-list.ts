@@ -15,7 +15,7 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language, timezone, hour12 },
   ) => {
-    if (!interaction.guild) {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "general.cannot-get-guild",
@@ -80,7 +80,7 @@ export default new SubCommand({
                 },
                 {
                   moderator:
-                    interaction.guild?.members.get(w.moderator_id)?.mention ??
+                    interaction.guild.members.get(w.moderator_id)?.mention ??
                     "<:_:1201586248947597392>",
                   reason: w.reason,
                   date: formatDate(timezone, w.date, hour12),

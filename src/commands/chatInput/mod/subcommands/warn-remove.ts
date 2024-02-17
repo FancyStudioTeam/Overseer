@@ -1,4 +1,4 @@
-import type { CommandInteraction, Member } from "oceanic.js";
+import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
@@ -15,7 +15,7 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language },
   ) => {
-    if (!interaction.guild) {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "general.cannot-get-guild",
@@ -52,7 +52,7 @@ export default new SubCommand({
 
     if (
       interaction.user.id !== interaction.guild.ownerID &&
-      compareMemberToMember(member, interaction.member as Member) !== "lower"
+      compareMemberToMember(member, interaction.member) !== "lower"
     ) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
