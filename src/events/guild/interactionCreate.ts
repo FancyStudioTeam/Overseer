@@ -67,8 +67,6 @@ export default new Event(
       ] as PermissionName[]
     ).forEach((p, _) => {
       if (
-        interaction.channel &&
-        "permissionsOf" in interaction.channel &&
         !interaction.channel
           .permissionsOf(interaction.guild.clientMember)
           .has(p)
