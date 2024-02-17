@@ -1,4 +1,4 @@
-import { type ComponentInteraction } from "oceanic.js";
+import type { ComponentInteraction } from "oceanic.js";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
 import { prisma } from "../../../util/db";
@@ -17,7 +17,7 @@ export default new Component({
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
-    if (!interaction.guild) {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "general.cannot-get-guild",
@@ -56,9 +56,13 @@ export default new Component({
             client,
             language,
             premium,
+            guild: interaction.guild,
           },
           newData,
-          interaction.message,
+          {
+            channel: interaction.channelID,
+            message: interaction.message.id,
+          },
         );
       });
   },
