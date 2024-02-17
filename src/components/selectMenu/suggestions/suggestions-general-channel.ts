@@ -2,6 +2,7 @@ import {
   ChannelTypes,
   type ComponentInteraction,
   type MessageComponentSelectMenuInteractionData,
+  type PermissionName,
 } from "oceanic.js";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
@@ -22,7 +23,7 @@ export default new Component({
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
-    if (!interaction.guild) {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "general.cannot-get-guild",
@@ -61,10 +62,25 @@ export default new Component({
       });
     }
 
+    const requiredPermissions: PermissionName[] = [];
+
+    (
+      [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES",
+        "EMBED_LINKS",
+        "USE_EXTERNAL_EMOJIS",
+      ] as PermissionName[]
+    ).forEach((p, _) => {
+      if (!channel.permissionsOf(interaction.guild.clientMember).has(p)) {
+        requiredPermissions.push(p);
+      }
+    });
+
     if (
       !channel
         .permissionsOf(interaction.guild.clientMember)
-        .has("VIEW_CHANNEL", "SEND_MESSAGES")
+        .has(...requiredPermissions)
     ) {
       return errorMessage(interaction, true, {
         description: client.locales.__mf(
@@ -73,10 +89,11 @@ export default new Component({
             locale: language,
           },
           {
-            permission: [
-              permissions.VIEW_CHANNEL[language],
-              permissions.SEND_MESSAGES[language],
-            ].join(", "),
+            permission: requiredPermissions
+              .map((p, _) => {
+                return permissions[p][language];
+              })
+              .join(", "),
           },
         ),
       });
@@ -97,9 +114,13 @@ export default new Component({
             client,
             language,
             premium,
+            guild: interaction.guild,
           },
           newData,
-          interaction.message,
+          {
+            channel: interaction.channelID,
+            message: interaction.message.id,
+          },
         );
       });
   },
