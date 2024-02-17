@@ -31,7 +31,8 @@
                 "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**"
               },
               "message": {
-                "label": "Sugerencias mediante mensajes"
+                "label": "Sugerencias mediante mensajes",
+                "channel-not-found": "**<:_:1201586248947597392> El canal de sugerencias no ha sido encontrado**"
               },
               "threads": {
                 "label": "Hilos (Premium)"
@@ -268,8 +269,8 @@
       },
       "user-guild-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesitas el permiso de {permission} en el servidor**",
       "bot-guild-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesito el permiso de {permission} en el servidor**",
-      "user-channel-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesitas el permiso de {permission} en el canal**",
-      "bot-channel-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesito el permiso de {permission} en el canal**"
+      "user-channel-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesitas el permiso de {permission} en el canal {channel}**",
+      "bot-channel-permissions": "**<:_:1201586248947597392> No se ha podido realizar esta acción debido a que necesito el permiso de {permission} en el canal {channel}**"
     },
     "error": {
       "row": {

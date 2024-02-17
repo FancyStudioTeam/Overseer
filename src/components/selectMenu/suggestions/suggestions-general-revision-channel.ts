@@ -94,6 +94,7 @@ export default new Component({
                 return permissions[p][language];
               })
               .join(", "),
+            channel: channel.mention,
           },
         ),
       });

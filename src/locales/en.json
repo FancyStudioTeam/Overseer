@@ -31,7 +31,8 @@
                 "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**"
               },
               "message": {
-                "label": "Suggestions through messages"
+                "label": "Suggestions through messages",
+                "channel-not-found": "**<:_:1201586248947597392> The suggestion channel has not been found**"
               },
               "threads": {
                 "label": "Threads (Premium)"
@@ -268,8 +269,8 @@
       },
       "user-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the server**",
       "bot-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the server**",
-      "user-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the channel**",
-      "bot-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the channel**"
+      "user-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the channel {channel}**",
+      "bot-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the channel {channel}**"
     },
     "error": {
       "row": {
