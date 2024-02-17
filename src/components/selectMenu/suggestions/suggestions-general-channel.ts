@@ -62,6 +62,23 @@ export default new Component({
       });
     }
 
+    const channels = {
+      suggestion: interaction.guild.channels.get(channel.id),
+      revision: interaction.guild.channels.get(
+        guildSuggestion.revision_channel_id,
+      ),
+    };
+
+    if (channels.revision && channels.suggestion?.id === channels.revision.id) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase:
+            "commands.configuration.suggestions.row.general.row.channel.cannot-be-same",
+          locale: language,
+        }),
+      });
+    }
+
     const requiredPermissions: PermissionName[] = [];
 
     (

@@ -28,7 +28,8 @@
             "row": {
               "channel": {
                 "label": "Canal de sugerencias",
-                "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**"
+                "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**",
+                "cannot-be-same": "**<:_:1201586248947597392> El canal de sugerencias y el canal de revisiones no pueden ser el mismo canal**"
               },
               "message": {
                 "label": "Sugerencias mediante mensajes",
@@ -39,7 +40,8 @@
               },
               "revision-channel": {
                 "label": "Canal de revisiones",
-                "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**"
+                "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**",
+                "cannot-be-same": "**<:_:1201586248947597392> El canal de sugerencias y el canal de revisiones no pueden ser el mismo canal**"
               },
               "revision": {
                 "label": "Revisar sugerencias",

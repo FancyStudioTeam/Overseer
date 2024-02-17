@@ -28,7 +28,8 @@
             "row": {
               "channel": {
                 "label": "Suggestion channel",
-                "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**"
+                "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
+                "cannot-be-same": "**<:_:1201586248947597392> The suggestion channel and the review channel cannot be the same channel**"
               },
               "message": {
                 "label": "Suggestions through messages",
@@ -39,7 +40,8 @@
               },
               "revision-channel": {
                 "label": "Review channel",
-                "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**"
+                "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
+                "cannot-be-same": "**<:_:1201586248947597392> The suggestion channel and the review channel cannot be the same channel**"
               },
               "revision": {
                 "label": "Review suggestions",
