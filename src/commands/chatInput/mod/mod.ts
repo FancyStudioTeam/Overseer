@@ -230,6 +230,11 @@ export default new ChatInputCommand({
             user_id: user?.value,
             guild_id: interaction.guild?.id,
           },
+          orderBy: [
+            {
+              date: "desc",
+            },
+          ],
         });
 
         search(

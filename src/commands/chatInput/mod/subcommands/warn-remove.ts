@@ -15,6 +15,15 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language },
   ) => {
+    if (!interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const member = interaction.data.options.getMember("user");
     const warn = interaction.data.options.getString("warning", true);
 
@@ -29,7 +38,7 @@ export default new SubCommand({
 
     if (
       member.user.id === interaction.user.id ||
-      member.user.id === interaction.guild?.ownerID ||
+      member.user.id === interaction.guild.ownerID ||
       member.user.id === client.user.id ||
       member.user.bot
     ) {
@@ -42,7 +51,7 @@ export default new SubCommand({
     }
 
     if (
-      interaction.user.id !== interaction.guild?.ownerID &&
+      interaction.user.id !== interaction.guild.ownerID &&
       compareMemberToMember(member, interaction.member as Member) !== "lower"
     ) {
       return errorMessage(interaction, true, {
@@ -55,7 +64,7 @@ export default new SubCommand({
 
     const userWarn = await prisma.userWarn.findUnique({
       where: {
-        guild_id: interaction.guild?.id,
+        guild_id: interaction.guild.id,
         user_id: member.user.id,
         warn_id: warn.trim(),
       },

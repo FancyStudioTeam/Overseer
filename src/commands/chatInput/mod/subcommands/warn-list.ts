@@ -15,6 +15,15 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language, timezone, hour12 },
   ) => {
+    if (!interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const member =
       interaction.data.options.getMember("user") ?? interaction.member;
 
@@ -29,7 +38,7 @@ export default new SubCommand({
 
     const userWarn = await prisma.userWarn.findMany({
       where: {
-        guild_id: interaction.guild?.id,
+        guild_id: interaction.guild.id,
         user_id: member.user.id,
       },
       orderBy: [
@@ -72,7 +81,7 @@ export default new SubCommand({
                 {
                   moderator:
                     interaction.guild?.members.get(w.moderator_id)?.mention ??
-                    "Unknown User",
+                    "<:_:1201586248947597392>",
                   reason: w.reason,
                   date: formatDate(timezone, w.date, hour12),
                 },
