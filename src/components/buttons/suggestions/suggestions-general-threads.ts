@@ -1,6 +1,7 @@
 import type { ComponentInteraction } from "oceanic.js";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
+import { permissions } from "../../../locales/misc/reference";
 import { prisma } from "../../../util/db";
 import { errorMessage } from "../../../util/util";
 import { updateGeneralMessage } from "./suggestions-general";
@@ -38,6 +39,37 @@ export default new Component({
           phrase: "commands.configuration.suggestions.system-not-enabled",
           locale: language,
         }),
+      });
+    }
+
+    const channel = interaction.guild.channels.get(guildSuggestion.channel_id);
+
+    if (!channel) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase:
+            "commands.configuration.suggestions.row.general.row.message.channel-not-found",
+          locale: language,
+        }),
+      });
+    }
+
+    if (
+      !channel
+        .permissionsOf(interaction.guild.clientMember)
+        .has("CREATE_PUBLIC_THREADS")
+    ) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__mf(
+          {
+            phrase: "general.permissions.bot-channel-permissions",
+            locale: language,
+          },
+          {
+            permission: permissions.CREATE_PUBLIC_THREADS[language],
+            channel: channel.mention,
+          },
+        ),
       });
     }
 

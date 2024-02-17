@@ -41,6 +41,20 @@ export default new Component({
       });
     }
 
+    const channel = interaction.guild.channels.get(
+      guildSuggestion.revision_channel_id,
+    );
+
+    if (!channel) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase:
+            "commands.configuration.suggestions.row.general.row.revision.revision-not-found",
+          locale: language,
+        }),
+      });
+    }
+
     await prisma.guildSuggestion
       .update({
         where: {
