@@ -218,6 +218,15 @@ export default new ChatInputCommand({
   dmPermission: false,
   directory: "moderation",
   autocomplete: async (interaction: AutocompleteInteraction) => {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
+      return interaction.result([
+        {
+          name: "Unable to obtain the server from the interaction",
+          value: "",
+        },
+      ]);
+    }
+
     const subcommand = interaction.data.options.getSubCommand(true);
 
     switch (subcommand.join("_")) {
@@ -225,10 +234,20 @@ export default new ChatInputCommand({
         const availableChoices: string[] = [];
         const focusedValue = interaction.data.options.getFocused(true);
         const user = interaction.data.options.getUserOption("user");
+
+        if (!user) {
+          return interaction.result([
+            {
+              name: "First mention a user",
+              value: "",
+            },
+          ]);
+        }
+
         const warningValues = await prisma.userWarn.findMany({
           where: {
-            user_id: user?.value,
-            guild_id: interaction.guild?.id,
+            user_id: user.value,
+            guild_id: interaction.guild.id,
           },
           orderBy: [
             {
