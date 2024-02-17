@@ -166,7 +166,7 @@ export class Fancycord extends Client {
         });
 
         logger(
-          `The interactions has been deployed - Deployed ${commands.length} interactions`,
+          `The interactions has been deployed | Deployed ${commands.length} interactions`,
         );
       });
   }

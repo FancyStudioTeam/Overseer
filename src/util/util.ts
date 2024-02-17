@@ -372,7 +372,7 @@ export async function consume(
     })
     .catch((response) => {
       logger(
-        `[RateLimiter] Rate Limited "${key}" - Resets in ${response.msBeforeNext} milliseconds`,
+        `[RateLimiter] Rate Limited "${key}" | Resets in ${response.msBeforeNext} milliseconds`,
       );
 
       return {
