@@ -359,14 +359,25 @@ export async function consume(
 ): Promise<RateLimiterResponse> {
   return rateLimiter
     .consume(key)
-    .then(() => {
+    .then((response) => {
+      logger(
+        `[RateLimiter] Consumed "${response.consumedPoints}" points from "${key}" - Remaining points: ${response.remainingPoints}`,
+      );
+
       return {
         rateLimited: false,
+        points: response.remainingPoints,
+        resets: response.msBeforeNext,
       };
     })
     .catch((response) => {
+      logger(
+        `[RateLimiter] Rate Limited "${key}" - Resets in ${response.msBeforeNext} milliseconds`,
+      );
+
       return {
         rateLimited: true,
+        points: response.remainingPoints,
         resets: response.msBeforeNext,
       };
     });
@@ -374,5 +385,6 @@ export async function consume(
 
 interface RateLimiterResponse {
   rateLimited: boolean;
-  resets?: number;
+  points: number;
+  resets: number;
 }

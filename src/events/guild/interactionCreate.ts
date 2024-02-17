@@ -175,7 +175,7 @@ export default new Event(
     if (interaction.isCommandInteraction()) {
       const rateLimit = await consume(interaction.user.id, commandRateLimiter);
 
-      if (rateLimit.rateLimited && rateLimit.resets) {
+      if (rateLimit.rateLimited) {
         return errorMessage(interaction, true, {
           description: client.locales.__mf(
             {
@@ -341,7 +341,7 @@ export default new Event(
         componentRateLimiter,
       );
 
-      if (rateLimit.rateLimited && rateLimit.resets) {
+      if (rateLimit.rateLimited) {
         return errorMessage(interaction, true, {
           description: client.locales.__mf(
             {
