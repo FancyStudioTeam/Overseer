@@ -42,7 +42,7 @@ export default new Event(
   "interactionCreate",
   false,
   async (interaction: AnyInteractionGateway) => {
-    if (!interaction.guild) return;
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) return;
     if (!interaction.channel) return;
     if (interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;
     if (interaction.user.bot) return;
@@ -57,7 +57,6 @@ export default new Event(
     const hour12 = guildConfiguration?.hour12 ?? false;
     const premium = guildConfiguration?.premium ?? false;
     const requiredPermissions: PermissionName[] = [];
-    const clientMember = interaction.guild.clientMember;
 
     (
       [
@@ -70,7 +69,9 @@ export default new Event(
       if (
         interaction.channel &&
         "permissionsOf" in interaction.channel &&
-        !interaction.channel.permissionsOf(clientMember).has(p)
+        !interaction.channel
+          .permissionsOf(interaction.guild.clientMember)
+          .has(p)
       ) {
         requiredPermissions.push(p);
       }
@@ -78,7 +79,7 @@ export default new Event(
 
     if (
       !interaction.channel
-        .permissionsOf(clientMember)
+        .permissionsOf(interaction.guild.clientMember)
         .has(...requiredPermissions) &&
       "reply" in interaction
     ) {
@@ -216,7 +217,7 @@ export default new Event(
               if (subcommand) {
                 if (
                   subcommand.permissions?.user &&
-                  !interaction.member?.permissions.has(
+                  !interaction.member.permissions.has(
                     subcommand.permissions.user as PermissionName,
                   )
                 ) {
@@ -359,7 +360,7 @@ export default new Event(
       if (interaction.isButtonComponentInteraction()) {
         if (interaction.data.customID.includes("/")) {
           const button = client.components.buttons.get(
-            interaction.data.customID.split("/")[0] as string,
+            interaction.data.customID.split("/")[0],
           ) as ComponentInterface;
 
           if (button) {
@@ -384,7 +385,7 @@ export default new Event(
         if (button) {
           if (
             button.permissions?.user &&
-            !interaction.member?.permissions.has(
+            !interaction.member.permissions.has(
               button.permissions.user as PermissionName,
             )
           ) {
@@ -441,7 +442,7 @@ export default new Event(
         if (select) {
           if (
             select.permissions?.user &&
-            !interaction.member?.permissions.has(
+            !interaction.member.permissions.has(
               select.permissions.user as PermissionName,
             )
           ) {

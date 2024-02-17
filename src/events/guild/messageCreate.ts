@@ -8,7 +8,7 @@ import { client } from "../../index";
 import { trim } from "../../util/util";
 
 export default new Event("messageCreate", false, async (message: Message) => {
-  if (!message.guild) return;
+  if (!message.inCachedGuildChannel() || !message.guild) return;
   if (!message.channel) return;
   if (message.channel.type !== ChannelTypes.GUILD_TEXT) return;
   if (message.author.bot) return;
