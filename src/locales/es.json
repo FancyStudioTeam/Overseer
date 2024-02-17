@@ -37,7 +37,8 @@
                 "label": "Hilos (Premium)"
               },
               "revision-channel": {
-                "label": "Canal de revisiones"
+                "label": "Canal de revisiones",
+                "invalid-channel-type": "**<:_:1201586248947597392> El canal debe de ser un canal de texto**"
               },
               "revision": {
                 "label": "Revisar sugerencias"

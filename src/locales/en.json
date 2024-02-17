@@ -37,7 +37,8 @@
                 "label": "Threads (Premium)"
               },
               "revision-channel": {
-                "label": "Review channel"
+                "label": "Review channel",
+                "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**"
               },
               "revision": {
                 "label": "Review suggestions"
