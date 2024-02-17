@@ -1,5 +1,5 @@
 import {
-  ButtonComponent,
+  type ButtonComponent,
   ButtonStyles,
   ComponentTypes,
   type NullablePartialEmoji,
