@@ -106,11 +106,11 @@ export class Fancycord extends Client {
   }
 
   async init(): Promise<void> {
-    logger("Initializing Fancycord...");
+    logger("[Fancycord] Initializing Fancycord...");
 
     figlet("Fancycord", (error: Error | null, text: string | undefined) => {
       if (error) {
-        logger(error.message, LogType.Error);
+        logger(`[Error] ${error.stack ?? error.message}`, LogType.Error);
       }
 
       console.log(`\x1b[0;97m${text}\x1b[0m\n`);
@@ -384,7 +384,7 @@ export class Fancycord extends Client {
       autoReload: true,
       missingKeyFn: (locale, value) => {
         logger(
-          `Missing translation line in "${locale}" language\n${value}`,
+          `[I18N] Missing translation line in "${locale}" language\n${value}`,
           LogType.Error,
         );
         webhook(WebhookType.Logs, {
