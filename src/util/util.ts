@@ -10,12 +10,13 @@ import {
   type Role,
   type User,
 } from "oceanic.js";
+import type { RateLimiterMemory } from "rate-limiter-flexible";
 import urlRegex from "url-regex";
 import { ActionRowBuilder } from "../builders/ActionRow";
 import { ButtonBuilder } from "../builders/Button";
 import { EmbedBuilder } from "../builders/Embed";
 import { client } from "../index";
-import { LogType, UnixType, WebhookType } from "../types";
+import { LogType, type UnixType, WebhookType } from "../types";
 
 export function logger(message: string, type: LogType = LogType.Info): void {
   const date = new Date(Date.now()).toLocaleString("en-GB", {
@@ -350,4 +351,28 @@ export function insertEmpty(array: unknown[]): any[] {
   }
 
   return newArray;
+}
+
+export async function consume(
+  key: string,
+  rateLimiter: RateLimiterMemory,
+): Promise<RateLimiterResponse> {
+  return rateLimiter
+    .consume(key)
+    .then(() => {
+      return {
+        rateLimited: false,
+      };
+    })
+    .catch((response) => {
+      return {
+        rateLimited: true,
+        resets: response.msBeforeNext,
+      };
+    });
+}
+
+interface RateLimiterResponse {
+  rateLimited: boolean;
+  resets?: number;
 }

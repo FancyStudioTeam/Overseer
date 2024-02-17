@@ -25,7 +25,7 @@ import type {
   UserCommandInterface,
 } from "../../types";
 import { prisma } from "../../util/db";
-import { errorMessage, handleError } from "../../util/util";
+import { consume, errorMessage, handleError } from "../../util/util";
 
 const commandRateLimiter = new RateLimiterMemory({
   points: 3,
@@ -139,7 +139,10 @@ export default new Event(
       });
     }
 
-    if (process.env.NODE_ENV === "maintenance" && "reply" in interaction) {
+    if (
+      process.env.NODE_ENV?.toLowerCase() === "maintenance" &&
+      "reply" in interaction
+    ) {
       return interaction.reply({
         embeds: new EmbedBuilder()
           .setImage("attachment://maintenance.png")
@@ -494,27 +497,3 @@ export default new Event(
     return;
   },
 );
-
-async function consume(
-  key: string,
-  rateLimiter: RateLimiterMemory,
-): Promise<RateLimiterResponse> {
-  return rateLimiter
-    .consume(key)
-    .then(() => {
-      return {
-        rateLimited: false,
-      };
-    })
-    .catch((response) => {
-      return {
-        rateLimited: true,
-        resets: response.msBeforeNext,
-      };
-    });
-}
-
-interface RateLimiterResponse {
-  rateLimited: boolean;
-  resets?: number;
-}
