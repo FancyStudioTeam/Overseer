@@ -22,6 +22,15 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language },
   ) => {
+    if (!interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const member = interaction.data.options.getMember("user");
     const duration = interaction.data.options.getString("duration", true);
     const reason = trim(
@@ -40,12 +49,9 @@ export default new SubCommand({
 
     if (
       member.user.id === interaction.user.id ||
-      member.user.id === interaction.guild?.ownerID ||
+      member.user.id === interaction.guild.ownerID ||
       member.user.id === client.user.id ||
-      compareMemberToMember(
-        member,
-        interaction.guild?.clientMember as Member,
-      ) !== "lower"
+      compareMemberToMember(member, interaction.guild.clientMember) !== "lower"
     ) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
@@ -56,7 +62,7 @@ export default new SubCommand({
     }
 
     if (
-      interaction.user.id !== interaction.guild?.ownerID &&
+      interaction.user.id !== interaction.guild.ownerID &&
       compareMemberToMember(member, interaction.member as Member) !== "lower"
     ) {
       return errorMessage(interaction, true, {
@@ -88,7 +94,7 @@ export default new SubCommand({
     }
 
     await client.rest.guilds
-      .editMember(interaction.guild?.id as string, member.user.id, {
+      .editMember(interaction.guild.id, member.user.id, {
         communicationDisabledUntil:
           parsedTime > ms("0 seconds")
             ? new Date(Date.now() + parsedTime).toISOString()
@@ -99,31 +105,22 @@ export default new SubCommand({
         interaction.reply({
           embeds: new EmbedBuilder()
             .setDescription(
-              newMember.communicationDisabledUntil
-                ? client.locales.__mf(
-                    {
-                      phrase: "commands.moderation.timeout.message",
-                      locale: language,
-                    },
-                    {
-                      moderator: interaction.user.mention,
-                      timeout: humanize(parsedTime, {
-                        language: language,
-                        largest: 2,
-                      }),
-                      user: member.user.mention,
-                    },
-                  )
-                : client.locales.__mf(
-                    {
-                      phrase: "commands.moderation.timeout.message2",
-                      locale: language,
-                    },
-                    {
-                      moderator: interaction.user.mention,
-                      user: member.user.mention,
-                    },
-                  ),
+              client.locales.__mf(
+                {
+                  phrase: newMember.communicationDisabledUntil
+                    ? "commands.moderation.timeout.message"
+                    : "commands.moderation.timeout.message2",
+                  locale: language,
+                },
+                {
+                  moderator: interaction.user.mention,
+                  timeout: humanize(parsedTime, {
+                    language: language,
+                    largest: 2,
+                  }),
+                  user: member.user.mention,
+                },
+              ),
             )
             .setColor(client.config.colors.success)
             .toJSONArray(),

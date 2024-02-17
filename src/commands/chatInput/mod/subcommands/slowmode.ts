@@ -1,10 +1,6 @@
 import humanize from "humanize-duration";
 import ms from "ms";
-import {
-  ChannelTypes,
-  type CommandInteraction,
-  type TextChannel,
-} from "oceanic.js";
+import { ChannelTypes, type CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
@@ -59,30 +55,29 @@ export default new SubCommand({
         rateLimitPerUser: parsedTime / 1000,
       })
       .then((newChannel) => {
-        interaction.reply({
-          embeds: new EmbedBuilder()
-            .setDescription(
-              client.locales.__mf(
-                {
-                  phrase: "commands.moderation.slowmode.message",
-                  locale: language,
-                },
-                {
-                  moderator: interaction.user.mention,
-                  slowmode: humanize(
-                    (newChannel as TextChannel).rateLimitPerUser * 1000,
-                    {
+        if ("rateLimitPerUser" in newChannel) {
+          interaction.reply({
+            embeds: new EmbedBuilder()
+              .setDescription(
+                client.locales.__mf(
+                  {
+                    phrase: "commands.moderation.slowmode.message",
+                    locale: language,
+                  },
+                  {
+                    moderator: interaction.user.mention,
+                    slowmode: humanize(newChannel.rateLimitPerUser * 1000, {
                       language: language,
                       largest: 2,
-                    },
-                  ),
-                  channel: newChannel.mention,
-                },
-              ),
-            )
-            .setColor(client.config.colors.success)
-            .toJSONArray(),
-        });
+                    }),
+                    channel: newChannel.mention,
+                  },
+                ),
+              )
+              .setColor(client.config.colors.success)
+              .toJSONArray(),
+          });
+        }
       })
       .catch((error) => {
         handleError(error, interaction, language);
