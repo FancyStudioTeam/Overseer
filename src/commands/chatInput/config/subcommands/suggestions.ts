@@ -1,9 +1,5 @@
 import { Prisma } from "@prisma/client";
-import {
-  ButtonStyles,
-  type CommandInteraction,
-  type Message,
-} from "oceanic.js";
+import { ButtonStyles, type CommandInteraction } from "oceanic.js";
 import { ActionRowBuilder } from "../../../../builders/ActionRow";
 import { ButtonBuilder } from "../../../../builders/Button";
 import { EmbedBuilder } from "../../../../builders/Embed";
@@ -22,7 +18,7 @@ export default new SubCommand({
     interaction: CommandInteraction,
     { language },
   ) => {
-    if (!interaction.guild) {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "general.cannot-get-guild",
@@ -100,56 +96,61 @@ export async function updateMainMessage(
     language: string;
   },
   data: Prisma.GuildSuggestionCreateInput | null,
-  message: Message,
+  id: {
+    channel: string;
+    message: string;
+  },
 ): Promise<void> {
-  await message.edit({
-    embeds: new EmbedBuilder()
-      .setDescription(
-        main.client.locales.__({
-          phrase: "commands.configuration.suggestions.message.message",
-          locale: main.language,
-        }),
-      )
-      .setColor(main.client.config.colors.color)
-      .toJSONArray(),
-    components: new ActionRowBuilder()
-      .addComponents([
-        new ButtonBuilder()
-          .setCustomID("suggestions-general")
-          .setLabel(
-            main.client.locales.__({
-              phrase: "commands.configuration.suggestions.row.general.label",
-              locale: main.language,
-            }),
-          )
-          .setStyle(ButtonStyles.SECONDARY)
-          .setEmoji({
-            name: "_",
-            id: "1203776136958713866",
-          })
-          .setDisabled(!data),
-        new ButtonBuilder()
-          .setCustomID("suggestions-votes")
-          .setLabel(
-            main.client.locales.__({
-              phrase: "commands.configuration.suggestions.row.votes.label",
-              locale: main.language,
-            }),
-          )
-          .setStyle(ButtonStyles.SECONDARY)
-          .setEmoji({
-            name: "_",
-            id: "1203776136958713866",
-          })
-          .setDisabled(!data),
-        new ButtonBuilder()
-          .setCustomID("suggestions-enable-disable")
-          .setStyle(data ? ButtonStyles.DANGER : ButtonStyles.SUCCESS)
-          .setEmoji({
-            name: "_",
-            id: data ? "1203774491763937300" : "1203774493936455730",
+  await main.client.rest.channels
+    .editMessage(id.channel, id.message, {
+      embeds: new EmbedBuilder()
+        .setDescription(
+          main.client.locales.__({
+            phrase: "commands.configuration.suggestions.message.message",
+            locale: main.language,
           }),
-      ])
-      .toJSONArray(),
-  });
+        )
+        .setColor(main.client.config.colors.color)
+        .toJSONArray(),
+      components: new ActionRowBuilder()
+        .addComponents([
+          new ButtonBuilder()
+            .setCustomID("suggestions-general")
+            .setLabel(
+              main.client.locales.__({
+                phrase: "commands.configuration.suggestions.row.general.label",
+                locale: main.language,
+              }),
+            )
+            .setStyle(ButtonStyles.SECONDARY)
+            .setEmoji({
+              name: "_",
+              id: "1203776136958713866",
+            })
+            .setDisabled(!data),
+          new ButtonBuilder()
+            .setCustomID("suggestions-votes")
+            .setLabel(
+              main.client.locales.__({
+                phrase: "commands.configuration.suggestions.row.votes.label",
+                locale: main.language,
+              }),
+            )
+            .setStyle(ButtonStyles.SECONDARY)
+            .setEmoji({
+              name: "_",
+              id: "1203776136958713866",
+            })
+            .setDisabled(!data),
+          new ButtonBuilder()
+            .setCustomID("suggestions-enable-disable")
+            .setStyle(data ? ButtonStyles.DANGER : ButtonStyles.SUCCESS)
+            .setEmoji({
+              name: "_",
+              id: data ? "1203774491763937300" : "1203774493936455730",
+            }),
+        ])
+        .toJSONArray(),
+    })
+    .catch(() => null);
 }
