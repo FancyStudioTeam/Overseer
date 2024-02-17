@@ -18,7 +18,7 @@ export default new Component({
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
-    if (!interaction.guild) {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "general.cannot-get-guild",
@@ -60,7 +60,10 @@ export default new Component({
         language,
       },
       newData,
-      interaction.message,
+      {
+        channel: interaction.channelID,
+        message: interaction.message.id,
+      },
     );
   },
 });
