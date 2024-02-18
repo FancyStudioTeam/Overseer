@@ -192,7 +192,9 @@
                 "label": "Sugerencia"
               },
               "votes": {
-                "label": "Votos"
+                "label": "Votos",
+                "has-no-upvotes": "**<:_:1201586248947597392> La sugerencia no tiene votos positivos**",
+                "has-no-downvotes": "**<:_:1201586248947597392> La sugerencia no tiene votos negativos**"
               },
               "comment": {
                 "label": "Comentar",

@@ -192,7 +192,9 @@
                 "label": "Suggestion"
               },
               "votes": {
-                "label": "Votes"
+                "label": "Votes",
+                "has-no-upvotes": "**<:_:1201586248947597392> The suggestion has no upvotes**",
+                "has-no-downvotes": "**<:_:1201586248947597392> The suggestion has no downvotes**"
               },
               "comment": {
                 "label": "Comment",
