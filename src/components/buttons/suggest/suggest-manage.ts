@@ -8,6 +8,7 @@ import { ButtonBuilder } from "../../../builders/Button";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
+import { errorMessage } from "../../../util/util";
 
 export default new Component({
   name: "suggest-manage",
@@ -16,11 +17,20 @@ export default new Component({
     interaction: ComponentInteraction,
     { language },
   ) => {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     interaction.reply({
       embeds: new EmbedBuilder()
         .setAuthor({
-          name: interaction.guild?.name ?? client.user.username,
-          iconURL: interaction.guild?.iconURL() ?? client.user.avatarURL(),
+          name: interaction.guild.name,
+          iconURL: interaction.guild.iconURL() ?? client.user.avatarURL(),
         })
         .setDescription(
           client.locales.__mf({
@@ -58,7 +68,7 @@ export default new Component({
               name: "_",
               id: "1201582795718393957",
             })
-            .setDisabled(!interaction.member?.permissions.has("MANAGE_GUILD")),
+            .setDisabled(!interaction.member.permissions.has("MANAGE_GUILD")),
           new ButtonBuilder()
             .setCustomID("suggest-manage-approve")
             .setLabel(
@@ -72,7 +82,7 @@ export default new Component({
               name: "_",
               id: "1201582315915190312",
             })
-            .setDisabled(!interaction.member?.permissions.has("MANAGE_GUILD")),
+            .setDisabled(!interaction.member.permissions.has("MANAGE_GUILD")),
           new ButtonBuilder()
             .setCustomID("suggest-manage-deny")
             .setLabel(
@@ -86,7 +96,7 @@ export default new Component({
               name: "_",
               id: "1201581407290531890",
             })
-            .setDisabled(!interaction.member?.permissions.has("MANAGE_GUILD")),
+            .setDisabled(!interaction.member.permissions.has("MANAGE_GUILD")),
         ])
         .toJSONArray(),
       flags: MessageFlags.EPHEMERAL,

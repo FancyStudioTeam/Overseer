@@ -16,8 +16,18 @@ export default new Component({
     interaction: ComponentInteraction,
     { language },
   ) => {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const userSuggestion = await prisma.userSuggestion.findUnique({
       where: {
+        guild_id: interaction.guild.id,
         message_id: interaction.message.messageReference?.messageID,
       },
     });
