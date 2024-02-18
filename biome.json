@@ -17,7 +17,8 @@
       },
       "nursery": {
         "useImportType": "warn",
-        "useGroupedTypeImport": "warn"
+        "useGroupedTypeImport": "warn",
+        "useExportType": "warn"
       }
     }
   },

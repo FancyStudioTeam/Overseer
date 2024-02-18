@@ -46,25 +46,27 @@ export default new Component({
       });
     }
 
-    await interaction.message.edit({
-      components: new ActionRowBuilder()
-        .addComponents([
-          new SelectMenuBuilder()
-            .setCustomID("suggestions-general-channel")
-            .setType(ComponentTypes.CHANNEL_SELECT)
-            .setChannelTypes([ChannelTypes.GUILD_TEXT])
-            .setDefaultValues(
-              interaction.guild.channels.get(guildSuggestion.channel_id)
-                ? [
-                    {
-                      id: guildSuggestion.channel_id,
-                      type: "channel",
-                    },
-                  ]
-                : [],
-            ),
-        ])
-        .toJSONArray(),
-    });
+    await client.rest.channels
+      .editMessage(interaction.channelID, interaction.message.id, {
+        components: new ActionRowBuilder()
+          .addComponents([
+            new SelectMenuBuilder()
+              .setCustomID("suggestions-general-channel")
+              .setType(ComponentTypes.CHANNEL_SELECT)
+              .setChannelTypes([ChannelTypes.GUILD_TEXT])
+              .setDefaultValues(
+                interaction.guild.channels.get(guildSuggestion.channel_id)
+                  ? [
+                      {
+                        id: guildSuggestion.channel_id,
+                        type: "channel",
+                      },
+                    ]
+                  : [],
+              ),
+          ])
+          .toJSONArray(),
+      })
+      .catch(() => null);
   },
 });
