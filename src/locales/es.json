@@ -290,5 +290,18 @@
     },
     "cannot-get-guild": "**<:_:1201586248947597392> No se ha podido obtener el servidor desde la interacción**",
     "rate-limiter": "**<:_:1201586248947597392> Estás ejecutando demasiadas acciones en muy poco tiempo\n<:_:1201948012830531644> Inténtalo de nuevo dentro de {seconds}**"
+  },
+  "modules": {
+    "starboard": {
+      "row": {
+        "message": {
+          "label": "Mensaje original"
+        }
+      },
+      "message": {
+        "field": "**Canal**",
+        "field2": "**Autor**"
+      }
+    }
   }
 }
