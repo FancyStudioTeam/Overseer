@@ -1,7 +1,7 @@
-import { MessageFlags, ModalSubmitInteraction } from "oceanic.js";
+import { MessageFlags, type ModalSubmitInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Modal } from "../../../classes/Builders";
-import { Fancycord } from "../../../classes/Client";
+import type { Fancycord } from "../../../classes/Client";
 import { WebhookType } from "../../../types";
 import { prisma } from "../../../util/db";
 import { errorMessage, fetchUser, trim, webhook } from "../../../util/util";
@@ -15,8 +15,18 @@ export default new Modal({
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const userSuggestion = await prisma.userSuggestion.findUnique({
       where: {
+        guild_id: interaction.guild.id,
         message_id: interaction.message?.id,
       },
     });
@@ -38,7 +48,7 @@ export default new Modal({
     webhook(WebhookType.Reports, {
       embeds: new EmbedBuilder()
         .setAuthor({
-          name: user?.username ?? client.user.username,
+          name: user?.username ?? "Unknown User",
           iconURL: user?.avatarURL() ?? client.user.avatarURL(),
         })
         .setDescription(
