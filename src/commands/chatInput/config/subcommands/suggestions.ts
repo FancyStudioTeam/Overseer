@@ -60,20 +60,6 @@ export default new SubCommand({
             })
             .setDisabled(!guildSuggestion),
           new ButtonBuilder()
-            .setCustomID("suggestions-votes")
-            .setLabel(
-              client.locales.__({
-                phrase: "commands.configuration.suggestions.row.votes.label",
-                locale: language,
-              }),
-            )
-            .setStyle(ButtonStyles.SECONDARY)
-            .setEmoji({
-              name: "_",
-              id: "1203776136958713866",
-            })
-            .setDisabled(!guildSuggestion),
-          new ButtonBuilder()
             .setCustomID("suggestions-enable-disable")
             .setStyle(
               guildSuggestion ? ButtonStyles.DANGER : ButtonStyles.SUCCESS,
@@ -119,20 +105,6 @@ export async function updateMainMessage(
             .setLabel(
               main.client.locales.__({
                 phrase: "commands.configuration.suggestions.row.general.label",
-                locale: main.language,
-              }),
-            )
-            .setStyle(ButtonStyles.SECONDARY)
-            .setEmoji({
-              name: "_",
-              id: "1203776136958713866",
-            })
-            .setDisabled(!data),
-          new ButtonBuilder()
-            .setCustomID("suggestions-votes")
-            .setLabel(
-              main.client.locales.__({
-                phrase: "commands.configuration.suggestions.row.votes.label",
                 locale: main.language,
               }),
             )
