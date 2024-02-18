@@ -1,9 +1,13 @@
-import { ButtonStyles, MessageFlags, ModalSubmitInteraction } from "oceanic.js";
+import {
+  ButtonStyles,
+  MessageFlags,
+  type ModalSubmitInteraction,
+} from "oceanic.js";
 import { ActionRowBuilder } from "../../../builders/ActionRow";
 import { ButtonBuilder } from "../../../builders/Button";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Modal } from "../../../classes/Builders";
-import { Fancycord } from "../../../classes/Client";
+import type { Fancycord } from "../../../classes/Client";
 import { prisma } from "../../../util/db";
 import {
   bitFieldValues,
@@ -21,7 +25,7 @@ export default new Modal({
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
-    if (!interaction.guild) {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
           phrase: "general.cannot-get-guild",
@@ -129,7 +133,7 @@ export default new Modal({
                       .setStyle(ButtonStyles.LINK)
                       .setEmoji({
                         name: "_",
-                        id: "1201585025028735016",
+                        id: "1201589945853296780",
                       })
                       .setURL(message.jumpLink),
                   ])
