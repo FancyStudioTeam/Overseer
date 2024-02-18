@@ -13,6 +13,8 @@ export default new Component({
     interaction: ComponentInteraction,
     { language, premium },
   ) => {
+    await interaction.deferUpdate().catch(() => null);
+
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({

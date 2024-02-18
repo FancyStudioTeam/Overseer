@@ -12,6 +12,8 @@ export default new Component({
     interaction: ComponentInteraction,
     { language },
   ) => {
+    await interaction.deferUpdate().catch(() => null);
+
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
         description: client.locales.__({
