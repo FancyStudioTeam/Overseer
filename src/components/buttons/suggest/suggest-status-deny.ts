@@ -1,4 +1,4 @@
-import { type ComponentInteraction } from "oceanic.js";
+import type { ComponentInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
@@ -12,8 +12,18 @@ export default new Component({
     interaction: ComponentInteraction,
     { language },
   ) => {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const userSuggestion = await prisma.userSuggestion.findUnique({
       where: {
+        guild_id: interaction.guild.id,
         message_id: interaction.message.id,
       },
     });
@@ -35,18 +45,20 @@ export default new Component({
         },
       })
       .then(async () => {
-        await interaction.message.edit({
-          embeds: new EmbedBuilder()
-            .setDescription(
-              client.locales.__({
-                phrase: "commands.utility.suggest.row.status.deny.message",
-                locale: language,
-              }),
-            )
-            .setColor(client.config.colors.success)
-            .toJSONArray(),
-          components: [],
-        });
+        await client.rest.channels
+          .editMessage(interaction.channelID, interaction.message.id, {
+            embeds: new EmbedBuilder()
+              .setDescription(
+                client.locales.__({
+                  phrase: "commands.utility.suggest.row.status.deny.message",
+                  locale: language,
+                }),
+              )
+              .setColor(client.config.colors.success)
+              .toJSONArray(),
+            components: [],
+          })
+          .catch(() => null);
       });
   },
 });

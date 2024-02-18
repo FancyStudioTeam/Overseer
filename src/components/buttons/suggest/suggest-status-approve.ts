@@ -1,14 +1,8 @@
-import {
-  ButtonStyles,
-  ChannelTypes,
-  type ComponentInteraction,
-  type Member,
-} from "oceanic.js";
-import { ActionRowBuilder } from "../../../builders/ActionRow";
-import { ButtonBuilder } from "../../../builders/Button";
+import { ChannelTypes, type ComponentInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
+import { buttons } from "../../../modules/suggestions";
 import { prisma } from "../../../util/db";
 import { errorMessage, fetchUser, sleep } from "../../../util/util";
 
@@ -19,9 +13,18 @@ export default new Component({
     interaction: ComponentInteraction,
     { language, premium },
   ) => {
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const guildSuggestion = await prisma.guildSuggestion.findUnique({
       where: {
-        guild_id: interaction.guild?.id,
+        guild_id: interaction.guild.id,
       },
     });
 
@@ -36,6 +39,7 @@ export default new Component({
 
     const userSuggestion = await prisma.userSuggestion.findUnique({
       where: {
+        guild_id: interaction.guild.id,
         message_id: interaction.message.id,
       },
     });
@@ -49,17 +53,31 @@ export default new Component({
       });
     }
 
-    const channel = interaction.guild?.channels.get(guildSuggestion.channel_id);
+    const channel = interaction.guild.channels.get(guildSuggestion.channel_id);
+
+    if (!channel) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase:
+            "commands.configuration.suggestions.row.general.row.message.channel-not-found",
+          locale: language,
+        }),
+      });
+    }
 
     if (
-      channel &&
       channel.type === ChannelTypes.GUILD_TEXT &&
       channel
-        .permissionsOf(interaction.guild?.clientMember as Member)
-        .has("VIEW_CHANNEL", "SEND_MESSAGES")
+        .permissionsOf(interaction.guild.clientMember)
+        .has(
+          "VIEW_CHANNEL",
+          "SEND_MESSAGES",
+          "EMBED_LINKS",
+          "USE_EXTERNAL_EMOJIS",
+        )
     ) {
       const user = await fetchUser(userSuggestion.user_id);
-      const response = await channel.createMessage({
+      const response = await client.rest.channels.createMessage(channel.id, {
         embeds: new EmbedBuilder()
           .setAuthor({
             name: user?.username ?? "Unknown User",
@@ -69,46 +87,7 @@ export default new Component({
           .setDescription(userSuggestion.content)
           .setColor(client.config.colors.color)
           .toJSONArray(),
-        components: new ActionRowBuilder()
-          .addComponents([
-            new ButtonBuilder()
-              .setCustomID("suggest-upvote")
-              .setLabel("0")
-              .setStyle(ButtonStyles.SECONDARY)
-              .setEmoji({
-                name: "_",
-                id: "1201583878205353994",
-              }),
-            new ButtonBuilder()
-              .setCustomID("suggest-downvote")
-              .setLabel("0")
-              .setStyle(ButtonStyles.SECONDARY)
-              .setEmoji({
-                name: "_",
-                id: "1201583875424538675",
-              }),
-            new ButtonBuilder()
-              .setCustomID("suggest-manage")
-              .setStyle(ButtonStyles.SECONDARY)
-              .setEmoji({
-                name: "_",
-                id: "1201584289473630208",
-              }),
-            new ButtonBuilder()
-              .setCustomID("suggest-report")
-              .setLabel(
-                client.locales.__({
-                  phrase: "commands.utility.suggest.row.report.label",
-                  locale: language,
-                }),
-              )
-              .setStyle(ButtonStyles.DANGER)
-              .setEmoji({
-                name: "_",
-                id: "1201583419524657315",
-              }),
-          ])
-          .toJSONArray(),
+        components: buttons(client, language),
       });
 
       await prisma.userSuggestion
@@ -122,30 +101,32 @@ export default new Component({
           },
         })
         .then(async () => {
-          await interaction.message.edit({
-            embeds: new EmbedBuilder()
-              .setDescription(
-                client.locales.__mf(
-                  {
-                    phrase:
-                      "commands.utility.suggest.row.status.approve.message",
-                    locale: language,
-                  },
-                  {
-                    channel: channel.mention,
-                  },
-                ),
-              )
-              .setColor(client.config.colors.success)
-              .toJSONArray(),
-            components: [],
-          });
+          await client.rest.channels
+            .editMessage(interaction.channelID, interaction.message.id, {
+              embeds: new EmbedBuilder()
+                .setDescription(
+                  client.locales.__mf(
+                    {
+                      phrase:
+                        "commands.utility.suggest.row.status.approve.message",
+                      locale: language,
+                    },
+                    {
+                      channel: channel.mention,
+                    },
+                  ),
+                )
+                .setColor(client.config.colors.success)
+                .toJSONArray(),
+              components: [],
+            })
+            .catch(() => null);
         });
 
       if (guildSuggestion.threads && premium) {
         await sleep(1500);
-        await response
-          .startThread({
+        await client.rest.channels
+          .startThreadFromMessage(interaction.channelID, response.id, {
             name: `${user?.username ?? "Unknown User"} suggestion`,
             autoArchiveDuration: 1440,
           })
