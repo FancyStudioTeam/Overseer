@@ -25,18 +25,22 @@ export default new Event("messageCreate", false, async (message: Message) => {
       await client
         .init()
         .then(() => {
-          client.rest.channels.createReaction(
-            message.channelID,
-            message.id,
-            ":_:1201586112083279923",
-          );
+          client.rest.channels
+            .createReaction(
+              message.channelID,
+              message.id,
+              ":_:1201586112083279923",
+            )
+            .catch(() => null);
         })
         .catch(() => {
-          client.rest.channels.createReaction(
-            message.channelID,
-            message.id,
-            ":_:1201586248947597392",
-          );
+          client.rest.channels
+            .createReaction(
+              message.channelID,
+              message.id,
+              ":_:1201586248947597392",
+            )
+            .catch(() => null);
         });
 
       break;

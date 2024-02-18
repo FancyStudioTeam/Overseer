@@ -230,10 +230,12 @@ export function webhook(
     },
   };
 
-  client.rest.webhooks.execute(credentials[type].ID, credentials[type].Token, {
-    ...profile,
-    ...options,
-  });
+  client.rest.webhooks
+    .execute(credentials[type].ID, credentials[type].Token, {
+      ...profile,
+      ...options,
+    })
+    .catch(() => null);
 }
 
 export function handleError(
