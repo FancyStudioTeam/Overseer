@@ -168,7 +168,8 @@ export class Fancycord extends Client {
         logger(
           `[${this.user.username}] The interactions has been deployed | Deployed ${commands.length} interactions`,
         );
-      });
+      })
+      .catch(() => null);
   }
 
   registerChatInputCommands(): void {

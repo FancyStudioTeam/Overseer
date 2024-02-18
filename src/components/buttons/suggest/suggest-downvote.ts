@@ -14,8 +14,18 @@ export default new Component({
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
+    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
+      return errorMessage(interaction, true, {
+        description: client.locales.__({
+          phrase: "general.cannot-get-guild",
+          locale: language,
+        }),
+      });
+    }
+
     const userSuggestion = await prisma.userSuggestion.findUnique({
       where: {
+        guild_id: interaction.guild.id,
         message_id: interaction.message.id,
       },
     });
@@ -68,9 +78,11 @@ export default new Component({
           )
           .setLabel(newSchema.votes_down.length.toString());
 
-        await interaction.message.edit({
-          components: interaction.message.components,
-        });
+        await client.rest.channels
+          .editMessage(interaction.channelID, interaction.message.id, {
+            components: interaction.message.components,
+          })
+          .catch(() => null);
       });
   },
 });

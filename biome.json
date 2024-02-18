@@ -18,7 +18,8 @@
       "nursery": {
         "useImportType": "warn",
         "useGroupedTypeImport": "warn",
-        "useExportType": "warn"
+        "useExportType": "warn",
+        "useNodejsImportProtocol": "warn"
       }
     }
   },
