@@ -24,11 +24,6 @@ export enum WebhookType {
   GuildLogs = "GuildLogs",
 }
 
-export enum UnixType {
-  Default = "Default",
-  Relative = "Relative",
-}
-
 export type ChatInputCommandInterface = {
   directory: string;
   permissions?: {

@@ -16,7 +16,7 @@ import { ActionRowBuilder } from "../builders/ActionRow";
 import { ButtonBuilder } from "../builders/Button";
 import { EmbedBuilder } from "../builders/Embed";
 import { client } from "../index";
-import { LogType, type UnixType, WebhookType } from "../types";
+import { LogType, WebhookType } from "../types";
 
 export function logger(message: string, type: LogType = LogType.Info): void {
   const date = new Date(Date.now()).toLocaleString("en-GB", {
@@ -34,58 +34,10 @@ export function logger(message: string, type: LogType = LogType.Info): void {
   console.log(colors[type]);
 }
 
-export function formatString(content: string, separator: string): string {
-  const lines = content.split("\n");
-  let maxLength = 0;
-
-  for (const line of lines) {
-    const length = line.split(` ${separator} `)[0].length;
-
-    if (length > maxLength) {
-      maxLength = length;
-    }
-  }
-
-  for (let i = 0; i < lines.length; i++) {
-    const parts = lines[i].split(` ${separator} `);
-
-    while (parts[0].length < maxLength) {
-      parts[0] += " ";
-    }
-
-    parts[0] = `\x1b[1;35m${parts[0]}\x1b[0m`;
-    parts[1] = `\x1b[1;36m${parts[1]}\x1b[0m`;
-    lines[i] = parts.join(` ${separator} `);
-  }
-
-  return lines.join("\n");
-}
-
-export function unix(time: string, type: UnixType): string {
-  const dateString = time;
-  const date = new Date(dateString);
-  const unixTimestamp = Math.floor(date.getTime() / 1000);
-  const formats = {
-    Default: `<t:${unixTimestamp}>`,
-    Relative: `<t:${unixTimestamp}:R>`,
-  };
-
-  return formats[type];
-}
-
-export async function fetchUser(id: string): Promise<User | null> {
-  let user: any;
-
-  if (client.users.has(id)) {
-    user = client.users.get(id);
-    logger(`[FetchUser] User ${user.username} has been fetched from cache`);
-  } else {
-    user = await client.rest.users.get(id).catch(() => null);
-
-    if (user) {
-      logger(`[FetchUser] User ${user.username} has been fetched from REST`);
-    }
-  }
+export async function fetchUser(id: string): Promise<User | null | undefined> {
+  const user = client.users.has(id)
+    ? client.users.get(id)
+    : await client.rest.users.get(id).catch(() => null);
 
   return user;
 }
@@ -93,27 +45,14 @@ export async function fetchUser(id: string): Promise<User | null> {
 export async function fetchMember(
   context: AnyInteractionGateway,
   id: string,
-): Promise<Member | null> {
-  let member: any;
+): Promise<Member | null | undefined> {
+  if (!context.inCachedGuildChannel() || !context.guild) return null;
 
-  if (!context.guild) return null;
-
-  if (context.guild.members.has(id)) {
-    member = context.guild.members.get(id);
-    logger(
-      `[FetchMember] Member ${member.user.username} has been fetched from cache`,
-    );
-  } else {
-    member = await client.rest.guilds
-      .getMember(context.guild.id, id)
-      .catch(() => null);
-
-    if (member) {
-      logger(
-        `[FetchMember] Member ${member.user.username} has been fetched from REST`,
-      );
-    }
-  }
+  const member = context.guild.members.has(id)
+    ? context.guild.members.get(id)
+    : await client.rest.guilds
+        .getMember(context.guild.id, id)
+        .catch(() => null);
 
   return member;
 }
