@@ -9,7 +9,7 @@
     "build": "tsc",
     "start": "node dist/src/index.js"
   },
-  "keywords": [],
+  "keywords": ["discord", "oceanic.js", "typescript"],
   "author": "FancyStudio",
   "license": "BSD-3-Clause",
   "dependencies": {
