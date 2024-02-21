@@ -39,7 +39,7 @@ export type ChatInputCommandInterface = {
       timezone: string;
       hour12: boolean;
       premium: boolean;
-    },
+    }
   ) => Promise<unknown>;
   autocomplete?: (interaction: AutocompleteInteraction) => unknown;
 } & CreateChatInputApplicationCommandOptions;
@@ -58,7 +58,7 @@ export interface SubCommandInterface {
       timezone: string;
       hour12: boolean;
       premium: boolean;
-    },
+    }
   ) => Promise<unknown>;
 }
 
@@ -71,7 +71,7 @@ export type UserCommandInterface = {
       timezone: string;
       hour12: boolean;
       premium: boolean;
-    },
+    }
   ) => Promise<unknown>;
 } & CreateUserApplicationCommandOptions;
 
@@ -90,7 +90,7 @@ export interface ComponentInterface {
       hour12: boolean;
       premium: boolean;
       variable?: string;
-    },
+    }
   ) => Promise<unknown>;
 }
 
@@ -108,6 +108,6 @@ export interface ModalInterface {
       timezone: string;
       hour12: boolean;
       premium: boolean;
-    },
+    }
   ) => Promise<unknown>;
 }

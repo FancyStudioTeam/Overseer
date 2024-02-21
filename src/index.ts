@@ -14,7 +14,7 @@ export const client = new Fancycord();
 process.on("uncaughtException", (error: Error) => {
   logger(
     `[Process] Uncaught Exception: ${error.stack ?? error.message}`,
-    LogType.Error,
+    LogType.Error
   );
   webhook(WebhookType.Logs, {
     embeds: new EmbedBuilder()
@@ -23,7 +23,7 @@ process.on("uncaughtException", (error: Error) => {
         iconURL: client.user.avatarURL(),
       })
       .setDescription(
-        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``,
+        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
       )
       .setColor(client.config.colors.error)
       .toJSONArray(),
@@ -33,7 +33,7 @@ process.on("uncaughtException", (error: Error) => {
 process.on("unhandledRejection", (error: Error) => {
   logger(
     `[Process] Unhandled Rejection: ${error.stack ?? error.message}`,
-    LogType.Error,
+    LogType.Error
   );
   webhook(WebhookType.Logs, {
     embeds: new EmbedBuilder()
@@ -42,7 +42,7 @@ process.on("unhandledRejection", (error: Error) => {
         iconURL: client.user.avatarURL(),
       })
       .setDescription(
-        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``,
+        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
       )
       .setColor(client.config.colors.error)
       .toJSONArray(),
