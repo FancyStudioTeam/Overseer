@@ -21,7 +21,7 @@ export default new Modal({
   run: async (
     client: Fancycord,
     interaction: ModalSubmitInteraction,
-    { language },
+    { language }
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -52,7 +52,7 @@ export default new Modal({
 
     const reason = interaction.data.components.getTextInput(
       "suggest-manage-approve-reason",
-      true,
+      true
     );
     const message = await client.rest.channels
       .getMessage(interaction.channelID, userSuggestion.message_id)
@@ -80,7 +80,7 @@ export default new Modal({
                   },
                   {
                     user: interaction.user.username,
-                  },
+                  }
                 ),
                 value: `<:_:1201948012830531644> ${reason}`,
               })
@@ -127,8 +127,8 @@ export default new Modal({
                       },
                       {
                         moderator: interaction.user.mention,
-                      },
-                    ),
+                      }
+                    )
                   )
                   .setColor(client.config.colors.color)
                   .toJSONArray(),
@@ -140,7 +140,7 @@ export default new Modal({
                           phrase:
                             "commands.utility.suggest.row.manage.row.message.label",
                           locale: language,
-                        }),
+                        })
                       )
                       .setStyle(ButtonStyles.LINK)
                       .setEmoji({

@@ -16,7 +16,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language }
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -39,7 +39,7 @@ export default new SubCommand({
           client.locales.__({
             phrase: "commands.configuration.suggestions.message.message",
             locale: language,
-          }),
+          })
         )
         .setColor(client.config.colors.color)
         .toJSONArray(),
@@ -51,7 +51,7 @@ export default new SubCommand({
               client.locales.__({
                 phrase: "commands.configuration.suggestions.row.general.label",
                 locale: language,
-              }),
+              })
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji({
@@ -62,7 +62,7 @@ export default new SubCommand({
           new ButtonBuilder()
             .setCustomID("suggestions-enable-disable")
             .setStyle(
-              guildSuggestion ? ButtonStyles.DANGER : ButtonStyles.SUCCESS,
+              guildSuggestion ? ButtonStyles.DANGER : ButtonStyles.SUCCESS
             )
             .setEmoji({
               name: "_",
@@ -85,7 +85,7 @@ export async function updateMainMessage(
   id: {
     channel: string;
     message: string;
-  },
+  }
 ): Promise<void> {
   await main.client.rest.channels
     .editMessage(id.channel, id.message, {
@@ -94,7 +94,7 @@ export async function updateMainMessage(
           main.client.locales.__({
             phrase: "commands.configuration.suggestions.message.message",
             locale: main.language,
-          }),
+          })
         )
         .setColor(main.client.config.colors.color)
         .toJSONArray(),
@@ -106,7 +106,7 @@ export async function updateMainMessage(
               main.client.locales.__({
                 phrase: "commands.configuration.suggestions.row.general.label",
                 locale: main.language,
-              }),
+              })
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji({

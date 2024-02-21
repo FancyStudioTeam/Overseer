@@ -9,7 +9,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language, timezone, hour12 },
+    { language, timezone, hour12 }
   ) => {
     const member =
       interaction.data.options.getMember("user") ?? interaction.member;
@@ -52,7 +52,7 @@ export default new SubCommand({
                   (member.premiumSince &&
                     formatDate(timezone, member.premiumSince, hour12)) ??
                   "<:_:1201586248947597392>",
-              },
+              }
             ),
           },
         ])

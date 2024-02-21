@@ -14,7 +14,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language },
+    { language }
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -59,7 +59,7 @@ export default new Component({
             phrase:
               "commands.utility.suggest.row.manage.row.comment.modal.title",
             locale: language,
-          }),
+          })
         )
         .addComponents([
           new TextInputBuilder()
@@ -69,14 +69,14 @@ export default new Component({
                 phrase:
                   "commands.utility.suggest.row.manage.row.comment.modal.label",
                 locale: language,
-              }),
+              })
             )
             .setStyle(TextInputStyles.SHORT)
             .setMinLength(5)
             .setMaxLength(150)
             .setRequired(true),
         ])
-        .toJSON(),
+        .toJSON()
     );
   },
 });

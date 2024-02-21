@@ -20,7 +20,7 @@ export default (client: Fancycord) => {
       message: PossiblyUncachedMessage,
       _reactor: User | Member | Uncached,
       reaction: PartialEmoji,
-      _burst: boolean,
+      _burst: boolean
     ) => {
       if (!message.guild) return;
       if (!message.channel) return;
@@ -110,6 +110,6 @@ export default (client: Fancycord) => {
           });
         }
       }*/
-    },
+    }
   );
 };

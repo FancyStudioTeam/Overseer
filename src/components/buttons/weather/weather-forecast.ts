@@ -13,7 +13,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language, timezone, hour12, variable },
+    { language, timezone, hour12, variable }
   ) => {
     const languages: Record<string, string> = {
       en: "en-US",
@@ -41,7 +41,7 @@ export default new Component({
           },
           {
             date: formatDate(timezone, new Date(f.date), hour12),
-          },
+          }
         ),
         value: client.locales.__mf(
           {
@@ -54,7 +54,7 @@ export default new Component({
             high: `${f.high}°C - (${temperatureToF(f.high)}°F)`,
             low: `${f.low}°C - (${temperatureToF(f.low)}°F)`,
             weather: f.skytextday,
-          },
+          }
         ),
         inline: true,
       };
@@ -69,7 +69,7 @@ export default new Component({
         .addFields(
           insertEmpty(values).map((f) => {
             return f;
-          }),
+          })
         )
         .setColor(client.config.colors.color)
         .toJSONArray(),

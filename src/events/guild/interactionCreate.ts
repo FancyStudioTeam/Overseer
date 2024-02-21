@@ -96,8 +96,8 @@ export default new Event(
                   })
                   .join(", "),
                 channel: interaction.channel.mention,
-              },
-            ),
+              }
+            )
           )
           .setColor(client.config.colors.error)
           .toJSONArray(),
@@ -108,7 +108,7 @@ export default new Event(
                 client.locales.__({
                   phrase: "general.permissions.row.hierarchy.label",
                   locale: language,
-                }),
+                })
               )
               .setStyle(ButtonStyles.LINK)
               .setEmoji({
@@ -116,14 +116,14 @@ export default new Event(
                 id: "1201589945853296780",
               })
               .setURL(
-                "https://support.discord.com/hc/en-us/articles/206141927",
+                "https://support.discord.com/hc/en-us/articles/206141927"
               ),
             new ButtonBuilder()
               .setLabel(
                 client.locales.__({
                   phrase: "general.permissions.row.configure.label",
                   locale: language,
-                }),
+                })
               )
               .setStyle(ButtonStyles.LINK)
               .setEmoji({
@@ -131,7 +131,7 @@ export default new Event(
                 id: "1201589945853296780",
               })
               .setURL(
-                "https://support.discord.com/hc/en-us/articles/206029707",
+                "https://support.discord.com/hc/en-us/articles/206029707"
               ),
           ])
           .toJSONArray(),
@@ -152,8 +152,8 @@ export default new Event(
           .setName("maintenance.png")
           .setContent(
             readFileSync(
-              join(__dirname, "../..", "assets/images", "Maintenance.png"),
-            ),
+              join(__dirname, "../..", "assets/images", "Maintenance.png")
+            )
           )
           .toJSONArray(),
         components: new ActionRowBuilder()
@@ -188,7 +188,7 @@ export default new Event(
                 largest: 2,
                 language: language,
               }),
-            },
+            }
           ),
         });
       }
@@ -197,7 +197,7 @@ export default new Event(
         await interaction.defer().catch(() => null);
 
         const command = client.interactions.chatInput.get(
-          interaction.data.name,
+          interaction.data.name
         ) as ChatInputCommandInterface;
 
         if (command) {
@@ -206,21 +206,21 @@ export default new Event(
               [
                 ApplicationCommandOptionTypes.SUB_COMMAND,
                 ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
-              ].includes(o.type),
+              ].includes(o.type)
             )
           ) {
             const name = interaction.data.options.getSubCommand();
 
             if (name) {
               const subcommand = client.subcommands.get(
-                `${interaction.data.name}_${name.join("_")}`,
+                `${interaction.data.name}_${name.join("_")}`
               ) as SubCommandInterface;
 
               if (subcommand) {
                 if (
                   subcommand.permissions?.user &&
                   !interaction.member.permissions.has(
-                    subcommand.permissions.user as PermissionName,
+                    subcommand.permissions.user as PermissionName
                   )
                 ) {
                   return errorMessage(interaction, true, {
@@ -232,7 +232,7 @@ export default new Event(
                       {
                         permission:
                           permissions[subcommand.permissions.user][language],
-                      },
+                      }
                     ),
                   });
                 }
@@ -240,7 +240,7 @@ export default new Event(
                 if (
                   subcommand.permissions?.bot &&
                   !interaction.guild.clientMember.permissions.has(
-                    subcommand.permissions.user as PermissionName,
+                    subcommand.permissions.user as PermissionName
                   )
                 ) {
                   return errorMessage(interaction, true, {
@@ -252,7 +252,7 @@ export default new Event(
                       {
                         permission:
                           permissions[subcommand.permissions.bot][language],
-                      },
+                      }
                     ),
                   });
                 }
@@ -288,7 +288,7 @@ export default new Event(
 
       if (interaction.isUserCommand()) {
         const command = client.interactions.user.get(
-          interaction.data.name,
+          interaction.data.name
         ) as UserCommandInterface;
 
         if (command) {
@@ -308,7 +308,7 @@ export default new Event(
 
     if (interaction.isAutocompleteInteraction()) {
       const command = client.interactions.chatInput.get(
-        interaction.data.name,
+        interaction.data.name
       ) as ChatInputCommandInterface;
 
       if (command?.autocomplete) {
@@ -318,7 +318,7 @@ export default new Event(
 
     if (interaction.isModelSubmitInteraction()) {
       const modal = client.components.modals.get(
-        interaction.data.customID,
+        interaction.data.customID
       ) as ModalInterface;
 
       if (modal) {
@@ -338,7 +338,7 @@ export default new Event(
     if (interaction.isComponentInteraction()) {
       const rateLimit = await consume(
         interaction.user.id,
-        componentRateLimiter,
+        componentRateLimiter
       );
 
       if (rateLimit.rateLimited) {
@@ -354,7 +354,7 @@ export default new Event(
                 largest: 2,
                 language: language,
               }),
-            },
+            }
           ),
         });
       }
@@ -362,7 +362,7 @@ export default new Event(
       if (interaction.isButtonComponentInteraction()) {
         if (interaction.data.customID.includes("/")) {
           const button = client.components.buttons.get(
-            interaction.data.customID.split("/")[0],
+            interaction.data.customID.split("/")[0]
           ) as ComponentInterface;
 
           if (button) {
@@ -381,14 +381,14 @@ export default new Event(
         }
 
         const button = client.components.buttons.get(
-          interaction.data.customID,
+          interaction.data.customID
         ) as ComponentInterface;
 
         if (button) {
           if (
             button.permissions?.user &&
             !interaction.member.permissions.has(
-              button.permissions.user as PermissionName,
+              button.permissions.user as PermissionName
             )
           ) {
             return errorMessage(interaction, true, {
@@ -399,7 +399,7 @@ export default new Event(
                 },
                 {
                   permission: permissions[button.permissions.user][language],
-                },
+                }
               ),
             });
           }
@@ -407,7 +407,7 @@ export default new Event(
           if (
             button.permissions?.bot &&
             !interaction.guild.clientMember.permissions.has(
-              button.permissions.user as PermissionName,
+              button.permissions.user as PermissionName
             )
           ) {
             return errorMessage(interaction, true, {
@@ -418,7 +418,7 @@ export default new Event(
                 },
                 {
                   permission: permissions[button.permissions.bot][language],
-                },
+                }
               ),
             });
           }
@@ -438,14 +438,14 @@ export default new Event(
 
       if (interaction.isSelectMenuComponentInteraction()) {
         const select = client.components.select.get(
-          interaction.data.customID,
+          interaction.data.customID
         ) as ComponentInterface;
 
         if (select) {
           if (
             select.permissions?.user &&
             !interaction.member.permissions.has(
-              select.permissions.user as PermissionName,
+              select.permissions.user as PermissionName
             )
           ) {
             return errorMessage(interaction, true, {
@@ -456,7 +456,7 @@ export default new Event(
                 },
                 {
                   permission: permissions[select.permissions.user][language],
-                },
+                }
               ),
             });
           }
@@ -464,7 +464,7 @@ export default new Event(
           if (
             select.permissions?.bot &&
             !interaction.guild.clientMember.permissions.has(
-              select.permissions.user as PermissionName,
+              select.permissions.user as PermissionName
             )
           ) {
             return errorMessage(interaction, true, {
@@ -475,7 +475,7 @@ export default new Event(
                 },
                 {
                   permission: permissions[select.permissions.bot][language],
-                },
+                }
               ),
             });
           }
@@ -495,5 +495,5 @@ export default new Event(
     }
 
     return;
-  },
+  }
 );

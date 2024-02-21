@@ -10,11 +10,11 @@ export default new UserCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language, timezone, hour12 },
+    { language, timezone, hour12 }
   ) => {
     const member = await fetchMember(
       interaction,
-      interaction.data.targetID ?? interaction.user.id,
+      interaction.data.targetID ?? interaction.user.id
     );
 
     if (!member) {
@@ -55,7 +55,7 @@ export default new UserCommand({
                   (member.premiumSince &&
                     formatDate(timezone, member.premiumSince, hour12)) ??
                   "<:_:1201586248947597392>",
-              },
+              }
             ),
           },
         ])

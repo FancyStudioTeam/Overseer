@@ -11,7 +11,7 @@ export default new Modal({
   run: async (
     client: Fancycord,
     interaction: ModalSubmitInteraction,
-    { language },
+    { language }
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -41,7 +41,7 @@ export default new Modal({
     }
 
     const reason = interaction.data.components.getTextInput(
-      "suggest-report-reason",
+      "suggest-report-reason"
     );
     const user = await fetchUser(userSuggestion.user_id);
 
@@ -54,8 +54,8 @@ export default new Modal({
         .setDescription(
           `\`\`\`json\n${trim(
             JSON.stringify(interaction.message?.embeds, null, 2),
-            4000,
-          )}\`\`\``,
+            4000
+          )}\`\`\``
         )
         .addFields([
           {
@@ -81,7 +81,7 @@ export default new Modal({
           client.locales.__({
             phrase: "commands.utility.suggest.row.report.message",
             locale: language,
-          }),
+          })
         )
         .setColor(client.config.colors.success)
         .toJSONArray(),

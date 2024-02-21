@@ -15,7 +15,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language }
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -74,8 +74,8 @@ export default new SubCommand({
             },
             {
               timezone: newData.timezone,
-            },
-          ),
+            }
+          )
         )
         .setColor(client.config.colors.success)
         .toJSONArray(),

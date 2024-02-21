@@ -2,7 +2,7 @@ import type { AnyInteractionGateway, EmbedOptions } from "oceanic.js";
 
 export function pagination(
   interaction: AnyInteractionGateway,
-  pages: EmbedOptions[],
+  pages: EmbedOptions[]
 ): void {
   if ("reply" in interaction) {
     pages;

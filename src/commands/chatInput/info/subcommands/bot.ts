@@ -10,7 +10,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language }
   ) => {
     interaction.reply({
       embeds: new EmbedBuilder()
@@ -37,7 +37,7 @@ export default new SubCommand({
                   largest: 2,
                   language: language,
                 }),
-              },
+              }
             ),
           },
           {
@@ -54,7 +54,7 @@ export default new SubCommand({
                 users: client.guilds.reduce((a, b) => a + b.memberCount, 0),
                 guilds: client.guilds.size,
                 shards: client.shards.size,
-              },
+              }
             ),
           },
           {
@@ -72,7 +72,7 @@ export default new SubCommand({
                 language: `[TypeScript ${pkg.devDependencies.typescript}](https://www.typescriptlang.org/)`,
                 ram: formatBytes(process.memoryUsage().heapUsed),
                 platform: process.platform,
-              },
+              }
             ),
           },
         ])

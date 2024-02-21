@@ -15,7 +15,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language }
   ) => {
     const amount = interaction.data.options.getInteger("amount", true);
     const channel =
@@ -48,8 +48,7 @@ export default new SubCommand({
     const filteredMessages = fetchedMessages
       .slice(interaction.channelID === channel.id ? 1 : 0)
       .filter(
-        (m) =>
-          Date.now() - DiscordSnowflake.timestampFrom(m.id) < ms("14 days"),
+        (m) => Date.now() - DiscordSnowflake.timestampFrom(m.id) < ms("14 days")
       )
       .map((m) => {
         return m.id;
@@ -79,8 +78,8 @@ export default new SubCommand({
                   moderator: interaction.user.mention,
                   messages: deletedMessages,
                   channel: channel.mention,
-                },
-              ),
+                }
+              )
             )
             .setColor(client.config.colors.success)
             .toJSONArray(),

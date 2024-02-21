@@ -18,7 +18,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language },
+    { language }
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -56,7 +56,7 @@ export default new Component({
               .setChannelTypes([ChannelTypes.GUILD_TEXT])
               .setDefaultValues(
                 interaction.guild.channels.get(
-                  guildSuggestion.revision_channel_id,
+                  guildSuggestion.revision_channel_id
                 )
                   ? [
                       {
@@ -64,7 +64,7 @@ export default new Component({
                         type: "channel",
                       },
                     ]
-                  : [],
+                  : []
               ),
           ])
           .toJSONArray(),

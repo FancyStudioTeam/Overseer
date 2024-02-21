@@ -11,10 +11,10 @@ export default new Event(
         `[Shard ${id}] Shard has been disconnected by an error: ${
           error.stack ?? error.message
         }`,
-        LogType.Error,
+        LogType.Error
       );
     }
 
     logger(`[Shard ${id}] Shard has been disconnected`, LogType.Warn);
-  },
+  }
 );

@@ -23,7 +23,7 @@ export class Event<Key extends keyof ClientEvents> {
   constructor(
     public event: Key,
     public once: boolean,
-    public run: (...args: ClientEvents[Key]) => unknown,
+    public run: (...args: ClientEvents[Key]) => unknown
   ) {}
 }
 

@@ -14,7 +14,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language },
+    { language }
   ) => {
     const data = interaction.data as MessageComponentSelectMenuInteractionData;
     const commands: {
@@ -31,7 +31,7 @@ export default new Component({
             [
               ApplicationCommandOptionTypes.SUB_COMMAND,
               ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
-            ].includes(c.type),
+            ].includes(c.type)
           )
         ) {
           c.options.map((o) => {
@@ -76,7 +76,7 @@ export default new Component({
                 c.id ? `**</${c.name}:${c.id}>**` : `**/${c.name}**`
               }: ${c.description}`;
             })
-            .join("\n"),
+            .join("\n")
         )
         .setColor(client.config.colors.color)
         .toJSONArray(),

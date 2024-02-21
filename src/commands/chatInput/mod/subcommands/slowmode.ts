@@ -15,7 +15,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language }
   ) => {
     const duration = interaction.data.options.getString("duration", true);
     const channel =
@@ -71,8 +71,8 @@ export default new SubCommand({
                       largest: 2,
                     }),
                     channel: newChannel.mention,
-                  },
-                ),
+                  }
+                )
               )
               .setColor(client.config.colors.success)
               .toJSONArray(),

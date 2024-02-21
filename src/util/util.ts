@@ -44,7 +44,7 @@ export async function fetchUser(id: string): Promise<User | null | undefined> {
 
 export async function fetchMember(
   context: AnyInteractionGateway,
-  id: string,
+  id: string
 ): Promise<Member | null | undefined> {
   if (!context.inCachedGuildChannel() || !context.guild) return null;
 
@@ -66,7 +66,7 @@ export function sleep(ms: number): Promise<void> {
 export function errorMessage(
   context: AnyInteractionGateway,
   ephemeral: boolean,
-  embed: EmbedOptions,
+  embed: EmbedOptions
 ): void {
   if ("reply" in context) {
     context.reply({
@@ -84,7 +84,7 @@ export function cleanContent(content: string): string {
   const elements = message.match(
     urlRegex({
       strict: false,
-    }),
+    })
   );
 
   if (elements) {
@@ -93,7 +93,7 @@ export function cleanContent(content: string): string {
 
       message = message.replace(
         element,
-        element.replace(element, "**_(Link detected)_**"),
+        element.replace(element, "**_(Link detected)_**")
       );
     }
   }
@@ -136,7 +136,7 @@ export function trim(content: string, max: number): string {
 export function formatDate(
   timezone: string,
   date: Date,
-  hour12: boolean,
+  hour12: boolean
 ): string {
   const formatedDate = date.toLocaleString("en-GB", {
     timeZone: timezone,
@@ -152,7 +152,7 @@ export function webhook(
   profile: ExecuteWebhookOptions = {
     username: client.user.username,
     avatarURL: client.user.avatarURL(),
-  },
+  }
 ): void {
   const credentials = {
     Logs: {
@@ -180,7 +180,7 @@ export function webhook(
 export function handleError(
   error: Error,
   context: AnyInteractionGateway,
-  language: string,
+  language: string
 ): void {
   const id = DiscordSnowflake.generate().toString();
 
@@ -191,7 +191,7 @@ export function handleError(
         iconURL: client.user.avatarURL(),
       })
       .setDescription(
-        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``,
+        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
       )
       .addFields([
         {
@@ -222,7 +222,7 @@ export function handleError(
           client.locales.__({
             phrase: "general.error.message",
             locale: language,
-          }),
+          })
         )
         .addFields([
           {
@@ -238,7 +238,7 @@ export function handleError(
               {
                 id: id,
                 name: error.name,
-              },
+              }
             ),
           },
         ])
@@ -251,7 +251,7 @@ export function handleError(
               client.locales.__({
                 phrase: "general.error.row.support.label",
                 locale: language,
-              }),
+              })
             )
             .setStyle(ButtonStyles.LINK)
             .setEmoji({
@@ -300,13 +300,13 @@ export function insertEmpty(array: unknown[]): any[] {
 
 export async function consume(
   key: string,
-  rateLimiter: RateLimiterMemory,
+  rateLimiter: RateLimiterMemory
 ): Promise<RateLimiterResponse> {
   return rateLimiter
     .consume(key)
     .then((response) => {
       logger(
-        `[RateLimiter] Consumed "${response.consumedPoints}" points from "${key}" - Remaining points: ${response.remainingPoints}`,
+        `[RateLimiter] Consumed "${response.consumedPoints}" points from "${key}" - Remaining points: ${response.remainingPoints}`
       );
 
       return {
@@ -317,7 +317,7 @@ export async function consume(
     })
     .catch((response) => {
       logger(
-        `[RateLimiter] Rate Limited "${key}" | Resets in ${response.msBeforeNext} milliseconds`,
+        `[RateLimiter] Rate Limited "${key}" | Resets in ${response.msBeforeNext} milliseconds`
       );
 
       return {

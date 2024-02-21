@@ -8,7 +8,7 @@ export default new Event(
   (data: string, shard: number | undefined) => {
     logger(
       `${shard !== undefined ? `[Shard ${shard}]` : "[No shard]"} ${data}`,
-      LogType.Debug,
+      LogType.Debug
     );
-  },
+  }
 );

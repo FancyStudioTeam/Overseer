@@ -9,7 +9,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language, timezone, hour12 },
+    { language, timezone, hour12 }
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -48,9 +48,9 @@ export default new SubCommand({
                 createdAt: formatDate(
                   timezone,
                   interaction.guild.createdAt,
-                  hour12,
+                  hour12
                 ),
-              },
+              }
             ),
           },
           {
@@ -67,7 +67,7 @@ export default new SubCommand({
                 members: interaction.guild.memberCount,
                 channels: interaction.guild.channels.size,
                 roles: interaction.guild.roles.size,
-              },
+              }
             ),
           },
         ])

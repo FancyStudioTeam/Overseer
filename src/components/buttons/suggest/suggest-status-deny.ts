@@ -10,7 +10,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language },
+    { language }
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -54,7 +54,7 @@ export default new Component({
                 client.locales.__({
                   phrase: "commands.utility.suggest.row.status.deny.message",
                   locale: language,
-                }),
+                })
               )
               .setColor(client.config.colors.success)
               .toJSONArray(),

@@ -21,7 +21,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language }
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -62,7 +62,7 @@ export default new SubCommand({
           client.locales.__({
             phrase: "commands.configuration.premium.revoke.message",
             locale: language,
-          }),
+          })
         )
         .setColor(client.config.colors.warning)
         .toJSONArray(),
@@ -75,7 +75,7 @@ export default new SubCommand({
                 phrase:
                   "commands.configuration.premium.revoke.row.confirm.label",
                 locale: language,
-              }),
+              })
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji({
@@ -140,7 +140,7 @@ export default new SubCommand({
                           phrase:
                             "commands.configuration.premium.revoke.row.confirm.message",
                           locale: language,
-                        }),
+                        })
                       )
                       .setColor(client.config.colors.success)
                       .toJSONArray(),

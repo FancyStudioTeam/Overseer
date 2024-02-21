@@ -29,7 +29,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
             .createReaction(
               message.channelID,
               message.id,
-              ":_:1201586112083279923",
+              ":_:1201586112083279923"
             )
             .catch(() => null);
         })
@@ -38,7 +38,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
             .createReaction(
               message.channelID,
               message.id,
-              ":_:1201586248947597392",
+              ":_:1201586248947597392"
             )
             .catch(() => null);
         });
@@ -61,7 +61,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
                   iconURL: client.user.avatarURL(),
                 })
                 .setDescription(
-                  `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``,
+                  `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
                 )
                 .setColor(client.config.colors.error)
                 .toJSONArray(),
@@ -78,7 +78,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
               .setColor(client.config.colors.success)
               .toJSONArray(),
           });
-        },
+        }
       );
 
       break;
@@ -90,7 +90,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
 
       try {
         const result = await eval(
-          `const { client } = require("../.."); ${code}`,
+          `const { client } = require("../.."); ${code}`
         );
         let output = result;
 

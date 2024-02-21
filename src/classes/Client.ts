@@ -126,7 +126,7 @@ export class Fancycord extends Client {
         .catch((error) => {
           logger(
             `[Prisma] Prisma Client had an error while connecting: ${error.stack}`,
-            LogType.Error,
+            LogType.Error
           );
         });
     }
@@ -153,7 +153,7 @@ export class Fancycord extends Client {
     await this.rest.applicationCommands
       .bulkEditGlobalCommands(
         this.application.id,
-        arrayCommands as CreateApplicationCommandOptions[],
+        arrayCommands as CreateApplicationCommandOptions[]
       )
       .then((commands) => {
         commands.forEach((c, _) => {
@@ -166,7 +166,7 @@ export class Fancycord extends Client {
         });
 
         logger(
-          `[${this.user.username}] The interactions has been deployed | Deployed ${commands.length} interactions`,
+          `[${this.user.username}] The interactions has been deployed | Deployed ${commands.length} interactions`
         );
       })
       .catch(() => null);
@@ -181,7 +181,7 @@ export class Fancycord extends Client {
     commands.forEach((d, _) => {
       const directoriesPath = join(commandsPath, d);
       const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts"),
+        (f) => f.endsWith(".js") || f.endsWith(".ts")
       );
 
       directories.forEach((f, _) => {
@@ -208,7 +208,7 @@ export class Fancycord extends Client {
     commands.forEach((d, _) => {
       const directoriesPath = join(commandsPath, d, "subcommands");
       const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts"),
+        (f) => f.endsWith(".js") || f.endsWith(".ts")
       );
 
       directories.forEach((f, _) => {
@@ -223,7 +223,7 @@ export class Fancycord extends Client {
             `${dividedPath[dividedPath.indexOf("subcommands") - 1]}_${
               command.name
             }`,
-            command,
+            command
           );
         }
       });
@@ -239,7 +239,7 @@ export class Fancycord extends Client {
     commands.forEach((d, _) => {
       const directoriesPath = join(commandsPath, d);
       const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts"),
+        (f) => f.endsWith(".js") || f.endsWith(".ts")
       );
 
       directories.forEach((f, _) => {
@@ -266,7 +266,7 @@ export class Fancycord extends Client {
     events.forEach((d, _) => {
       const directoriesPath = join(eventsPath, d);
       const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts"),
+        (f) => f.endsWith(".js") || f.endsWith(".ts")
       );
 
       directories.forEach((f, _) => {
@@ -293,7 +293,7 @@ export class Fancycord extends Client {
     buttons.forEach((d, _) => {
       const directoriesPath = join(buttonsPath, d);
       const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts"),
+        (f) => f.endsWith(".js") || f.endsWith(".ts")
       );
 
       directories.forEach((f, _) => {
@@ -318,7 +318,7 @@ export class Fancycord extends Client {
     selectMenus.forEach((d, _) => {
       const directoriesPath = join(selectMenusPath, d);
       const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts"),
+        (f) => f.endsWith(".js") || f.endsWith(".ts")
       );
 
       directories.forEach((f, _) => {
@@ -343,7 +343,7 @@ export class Fancycord extends Client {
     modals.forEach((d, _) => {
       const directoriesPath = join(modalsPath, d);
       const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts"),
+        (f) => f.endsWith(".js") || f.endsWith(".ts")
       );
 
       directories.forEach((f, _) => {
@@ -362,7 +362,7 @@ export class Fancycord extends Client {
   registerModules(): void {
     const modulesPath = join(__dirname, "..", "modules");
     const modules = readdirSync(modulesPath).filter(
-      (f) => f.endsWith(".js") || f.endsWith(".ts"),
+      (f) => f.endsWith(".js") || f.endsWith(".ts")
     );
 
     modules.forEach((f, _) => {
@@ -386,7 +386,7 @@ export class Fancycord extends Client {
       missingKeyFn: (locale, value) => {
         logger(
           `[I18N] Missing translation line in "${locale}" language\n${value}`,
-          LogType.Error,
+          LogType.Error
         );
         webhook(WebhookType.Logs, {
           embeds: new EmbedBuilder()
@@ -395,7 +395,7 @@ export class Fancycord extends Client {
               iconURL: this.user.avatarURL(),
             })
             .setDescription(
-              `\`\`\`js\nMissing translation line in "${locale}" language\n${value}\`\`\``,
+              `\`\`\`js\nMissing translation line in "${locale}" language\n${value}\`\`\``
             )
             .setColor(this.config.colors.error)
             .toJSONArray(),

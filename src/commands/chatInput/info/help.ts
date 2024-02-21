@@ -21,7 +21,7 @@ export default new ChatInputCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language }
   ) => {
     interaction.reply({
       embeds: new EmbedBuilder()
@@ -38,8 +38,8 @@ export default new ChatInputCommand({
             },
             {
               mention: client.user.mention,
-            },
-          ),
+            }
+          )
         )
         .setImage("attachment://banner.png")
         .setColor(client.config.colors.color)
@@ -48,8 +48,8 @@ export default new ChatInputCommand({
         .setName("banner.png")
         .setContent(
           readFileSync(
-            join(__dirname, "../../..", "assets/images", "Banner.png"),
-          ),
+            join(__dirname, "../../..", "assets/images", "Banner.png")
+          )
         )
         .toJSONArray(),
       components: new ActionRowBuilder()

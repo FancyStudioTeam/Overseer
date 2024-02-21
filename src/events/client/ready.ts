@@ -5,6 +5,6 @@ import { logger } from "../../util/util";
 export default new Event("ready", true, async () => {
   await client.deploy();
   logger(
-    `[${client.user.username}] ${client.user.username} has been connected`,
+    `[${client.user.username}] ${client.user.username} has been connected`
   );
 });

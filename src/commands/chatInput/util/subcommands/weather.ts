@@ -12,7 +12,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language },
+    { language }
   ) => {
     const location = interaction.data.options.getString("location", true);
     const languages: Record<string, string> = {
@@ -39,7 +39,7 @@ export default new SubCommand({
           iconURL: `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
         })
         .setThumbnail(
-          `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`,
+          `${data.info.imagerelativeurl}law/${data.current.skycode}.gif`
         )
         .addFields([
           {
@@ -55,12 +55,12 @@ export default new SubCommand({
               {
                 location: data.info.weatherlocationname,
                 temperature: `${data.current.temperature}°C - (${temperatureToF(
-                  data.current.temperature,
+                  data.current.temperature
                 )}°F)`,
                 humidity: `${data.current.humidity}%`,
                 wind: data.current.winddisplay,
                 weather: data.current.skytext,
-              },
+              }
             ),
           },
         ])
@@ -74,7 +74,7 @@ export default new SubCommand({
               client.locales.__({
                 phrase: "commands.utility.weather.row.forecast.label",
                 locale: language,
-              }),
+              })
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji({
@@ -86,7 +86,7 @@ export default new SubCommand({
               client.locales.__({
                 phrase: "commands.utility.weather.row.link.label",
                 locale: language,
-              }),
+              })
             )
             .setStyle(ButtonStyles.LINK)
             .setEmoji({
@@ -108,7 +108,7 @@ export async function weather(
   location: string,
   options: {
     language: string;
-  },
+  }
 ): Promise<{
   info: WeatherInfo;
   current: WeatherCurrent;
@@ -120,7 +120,7 @@ export async function weather(
     explicitArray: true,
   });
   const weatherRequest = await fetch(
-    `http://weather.service.msn.com/find.aspx?src=outlook&weadegreetype=C&culture=${options.language}&weasearchstr=${location}`,
+    `http://weather.service.msn.com/find.aspx?src=outlook&weadegreetype=C&culture=${options.language}&weasearchstr=${location}`
   );
   const weatherBody = await weatherRequest.text();
 

@@ -116,7 +116,7 @@ export default new ChatInputCommand({
               name: c,
               value: c,
             };
-          }),
+          })
         );
 
         break;
