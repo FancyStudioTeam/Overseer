@@ -8,6 +8,9 @@ import { errorMessage, fetchUser, sleep } from "../../../util/util";
 
 export default new Component({
   name: "suggest-status-approve",
+  permissions: {
+    user: "MANAGE_GUILD",
+  },
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,

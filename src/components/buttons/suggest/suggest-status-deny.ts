@@ -7,6 +7,9 @@ import { errorMessage } from "../../../util/util";
 
 export default new Component({
   name: "suggest-status-deny",
+  permissions: {
+    user: "MANAGE_GUILD",
+  },
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
