@@ -6,7 +6,7 @@ import {
   temperatureToF,
   weather,
 } from "../../../commands/chatInput/util/subcommands/weather";
-import { errorMessage, formatDate, insertEmpty } from "../../../util/util";
+import { errorMessage, formatTimestamp, insertEmpty } from "../../../util/util";
 
 export default new Component({
   name: "weather-forecast",
@@ -40,7 +40,7 @@ export default new Component({
             locale: language,
           },
           {
-            date: formatDate(timezone, new Date(f.date), hour12),
+            date: formatTimestamp(f.date, timezone, hour12),
           }
         ),
         value: client.locales.__mf(
@@ -50,7 +50,7 @@ export default new Component({
           },
           {
             day: f.day,
-            date: formatDate(timezone, new Date(f.date), hour12),
+            date: formatTimestamp(f.date, timezone, hour12),
             high: `${f.high}°C - (${temperatureToF(f.high)}°F)`,
             low: `${f.low}°C - (${temperatureToF(f.low)}°F)`,
             weather: f.skytextday,

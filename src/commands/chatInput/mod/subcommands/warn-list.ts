@@ -3,7 +3,7 @@ import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 import { prisma } from "../../../../util/db";
-import { errorMessage, formatDate } from "../../../../util/util";
+import { errorMessage, formatTimestamp } from "../../../../util/util";
 
 export default new SubCommand({
   name: "warn_list",
@@ -83,7 +83,7 @@ export default new SubCommand({
                     interaction.guild.members.get(w.moderator_id)?.mention ??
                     "<:_:1201586248947597392>",
                   reason: w.reason,
-                  date: formatDate(timezone, w.date, hour12),
+                  date: formatTimestamp(w.date, timezone, hour12),
                 }
               ),
             };

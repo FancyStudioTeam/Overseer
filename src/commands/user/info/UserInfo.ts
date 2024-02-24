@@ -2,7 +2,7 @@ import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { errorMessage, fetchMember, formatDate } from "../../../util/util";
+import { errorMessage, fetchMember, formatTimestamp } from "../../../util/util";
 
 export default new UserCommand({
   name: "User Info",
@@ -46,14 +46,18 @@ export default new UserCommand({
               },
               {
                 user: member.user.mention,
-                createdAt: formatDate(timezone, member.user.createdAt, hour12),
+                createdAt: formatTimestamp(
+                  member.user.createdAt,
+                  timezone,
+                  hour12
+                ),
                 joinedAt:
                   (member.joinedAt &&
-                    formatDate(timezone, member.joinedAt, hour12)) ??
+                    formatTimestamp(member.joinedAt, timezone, hour12)) ??
                   "<:_:1201586248947597392>",
                 booster:
                   (member.premiumSince &&
-                    formatDate(timezone, member.premiumSince, hour12)) ??
+                    formatTimestamp(member.premiumSince, timezone, hour12)) ??
                   "<:_:1201586248947597392>",
               }
             ),

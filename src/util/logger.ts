@@ -1,5 +1,5 @@
-import { format } from "@formkit/tempo";
 import winston from "winston";
+import { formatTimestamp } from "./util";
 
 const config = {
   levels: {
@@ -27,12 +27,12 @@ export const logger = winston.createLogger({
     winston.format.colorize(),
     winston.format.timestamp(),
     winston.format.printf(({ level, message, timestamp }) => {
-      return `[${formatTimestamp(timestamp)}] [${level}] ${message}`;
+      return `[${formatTimestamp(
+        timestamp,
+        "Europe/Madrid",
+        true
+      )}] [${level}] ${message}`;
     })
   ),
   level: "REQ",
 });
-
-function formatTimestamp(date: Date | string): string {
-  return format(date, "DD/MM/YYYY, hh:mm:ss", "es");
-}

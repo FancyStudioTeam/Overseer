@@ -2,7 +2,11 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { errorMessage, fetchUser, formatDate } from "../../../../util/util";
+import {
+  errorMessage,
+  fetchUser,
+  formatTimestamp,
+} from "../../../../util/util";
 
 export default new SubCommand({
   name: "server",
@@ -45,9 +49,9 @@ export default new SubCommand({
               {
                 name: interaction.guild.name,
                 owner: owner?.mention ?? "<:_:1201586248947597392>",
-                createdAt: formatDate(
-                  timezone,
+                createdAt: formatTimestamp(
                   interaction.guild.createdAt,
+                  timezone,
                   hour12
                 ),
               }

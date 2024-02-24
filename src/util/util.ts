@@ -1,3 +1,4 @@
+import { format } from "@formkit/tempo";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import {
   type AnyInteractionGateway,
@@ -118,17 +119,17 @@ export function trim(content: string, max: number): string {
   return content.length > max ? `${content.slice(0, max - 3)}...` : content;
 }
 
-export function formatDate(
+export function formatTimestamp(
+  date: Date | string,
   timezone: string,
-  date: Date,
   hour12: boolean
 ): string {
-  const formatedDate = date.toLocaleString("en-GB", {
-    timeZone: timezone,
-    hour12: hour12,
+  return format({
+    date,
+    format: hour12 ? "DD/MM/YYYY, hh:mm:ss A" : "DD/MM/YYYY, HH:mm:ss",
+    locale: "en",
+    tz: timezone,
   });
-
-  return formatedDate;
 }
 
 export function webhook(
