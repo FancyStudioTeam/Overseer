@@ -31,7 +31,7 @@ export const logger = winston.createLogger({
         timestamp,
         "Europe/Madrid",
         false
-      )}] [${level}] ${message}`;
+      )}] [${level}]: ${message}`;
     })
   ),
   level: "REQ",
