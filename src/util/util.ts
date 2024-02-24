@@ -16,23 +16,8 @@ import { ActionRowBuilder } from "../builders/ActionRow";
 import { ButtonBuilder } from "../builders/Button";
 import { EmbedBuilder } from "../builders/Embed";
 import { client } from "../index";
-import { LogType, WebhookType } from "../types";
-
-export function logger(message: string, type: LogType = LogType.Info): void {
-  const date = new Date(Date.now()).toLocaleString("en-GB", {
-    timeZone: "Europe/Madrid",
-  });
-  const colors = {
-    Info: `[${date}] [\x1b[0;96mINF\x1b[0m] - ${message}`,
-    Debug: `[${date}] [\x1b[0;94mDBG\x1b[0m] - ${message}`,
-    Request: `[${date}] [\x1b[0;95mREQ\x1b[0m] - ${message}`,
-    Error: `[${date}] [\x1b[0;91mERR\x1b[0m] - ${message}`,
-    Warn: `[${date}] [\x1b[0;93mWRN\x1b[0m] - ${message}`,
-    Database: `[${date}] [\x1b[0;92mDBS\x1b[0m] - ${message}`,
-  };
-
-  console.log(colors[type]);
-}
+import { WebhookType } from "../types";
+import { logger } from "./logger";
 
 export async function fetchUser(id: string): Promise<User | null | undefined> {
   const user = client.users.has(id)
@@ -58,7 +43,7 @@ export async function fetchMember(
 }
 
 export function sleep(ms: number): Promise<void> {
-  logger(`[Sleep] Sleeping ${ms} milliseconds...`);
+  logger.log("INF", `Sleeping ${ms}ms...`);
 
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -305,8 +290,9 @@ export async function consume(
   return rateLimiter
     .consume(key)
     .then((response) => {
-      logger(
-        `[RateLimiter] Consumed "${response.consumedPoints}" points from "${key}" - Remaining points: ${response.remainingPoints}`
+      logger.log(
+        "INF",
+        `Consumed "${response.consumedPoints}" points from "${key}" | Remaining points: ${response.remainingPoints}`
       );
 
       return {
@@ -316,8 +302,9 @@ export async function consume(
       };
     })
     .catch((response) => {
-      logger(
-        `[RateLimiter] Rate Limited "${key}" | Resets in ${response.msBeforeNext} milliseconds`
+      logger.log(
+        "WRN",
+        `Rate Limited "${key}" | Resets in ${response.msBeforeNext}ms`
       );
 
       return {

@@ -1,8 +1,9 @@
 import "dotenv/config";
 import { EmbedBuilder } from "./builders/Embed";
 import { Fancycord } from "./classes/Client";
-import { LogType, WebhookType } from "./types";
-import { logger, trim, webhook } from "./util/util";
+import { WebhookType } from "./types";
+import { logger } from "./util/logger";
+import { trim, webhook } from "./util/util";
 
 export const client = new Fancycord();
 
@@ -12,10 +13,7 @@ export const client = new Fancycord();
 })();
 
 process.on("uncaughtException", (error: Error) => {
-  logger(
-    `[Process] Uncaught Exception: ${error.stack ?? error.message}`,
-    LogType.Error
-  );
+  logger.log("ERR", `Uncaught Exception: ${error.stack ?? error.message}`);
   webhook(WebhookType.Logs, {
     embeds: new EmbedBuilder()
       .setAuthor({
@@ -31,10 +29,7 @@ process.on("uncaughtException", (error: Error) => {
 });
 
 process.on("unhandledRejection", (error: Error) => {
-  logger(
-    `[Process] Unhandled Rejection: ${error.stack ?? error.message}`,
-    LogType.Error
-  );
+  logger.log("ERR", `Unhandled Rejection: ${error.stack ?? error.message}`);
   webhook(WebhookType.Logs, {
     embeds: new EmbedBuilder()
       .setAuthor({

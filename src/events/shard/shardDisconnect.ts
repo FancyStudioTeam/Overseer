@@ -1,20 +1,19 @@
 import { Event } from "../../classes/Builders";
-import { LogType } from "../../types";
-import { logger } from "../../util/util";
+import { logger } from "../../util/logger";
 
 export default new Event(
   "shardDisconnect",
   false,
   async (error: Error | undefined, id: number) => {
     if (error) {
-      logger(
+      logger.log(
+        "ERR",
         `[Shard ${id}] Shard has been disconnected by an error: ${
           error.stack ?? error.message
-        }`,
-        LogType.Error
+        }`
       );
     }
 
-    logger(`[Shard ${id}] Shard has been disconnected`, LogType.Warn);
+    logger.log("WRN", `[Shard ${id}] Shard has been disconnected`);
   }
 );

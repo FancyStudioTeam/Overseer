@@ -316,7 +316,7 @@ export default new Event(
       }
     }
 
-    if (interaction.isModalSubmitInteraction()) {
+    if (interaction.isModelSubmitInteraction()) {
       const modal = client.components.modals.get(
         interaction.data.customID
       ) as ModalInterface;

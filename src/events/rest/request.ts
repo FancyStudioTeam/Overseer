@@ -1,8 +1,7 @@
 import type { RawRequest } from "oceanic.js";
 import { Event } from "../../classes/Builders";
-import { LogType } from "../../types";
-import { logger } from "../../util/util";
+import { logger } from "../../util/logger";
 
 export default new Event("request", false, (request: RawRequest) => {
-  logger(`[${request.method}] "${request.path}"`, LogType.Request);
+  logger.log("REQ", `[${request.method}] "${request.path}"`);
 });

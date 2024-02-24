@@ -1,6 +1,6 @@
 import { Event } from "../../classes/Builders";
-import { logger } from "../../util/util";
+import { logger } from "../../util/logger";
 
 export default new Event("shardReady", false, async (id: number) => {
-  logger(`[Shard ${id}] Shard has been connected`);
+  logger.log("INF", `[Shard ${id}] Shard has been connected`);
 });

@@ -9,15 +9,6 @@ import type {
 } from "oceanic.js";
 import type { Fancycord } from "./classes/Client";
 
-export enum LogType {
-  Info = "Info",
-  Debug = "Debug",
-  Request = "Request",
-  Error = "Error",
-  Warn = "Warn",
-  Database = "Database",
-}
-
 export enum WebhookType {
   Reports = "Reports",
   Logs = "Logs",

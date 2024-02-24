@@ -13,14 +13,14 @@ import config from "../misc/config";
 import {
   type ChatInputCommandInterface,
   type ComponentInterface,
-  LogType,
   type ModalInterface,
   type SubCommandInterface,
   type UserCommandInterface,
   WebhookType,
 } from "../types";
 import { prisma } from "../util/db";
-import { logger, webhook } from "../util/util";
+import { logger } from "../util/logger";
+import { webhook } from "../util/util";
 import type { Event } from "./Builders";
 
 const arrayCommands: object[] = [];
@@ -106,14 +106,14 @@ export class Fancycord extends Client {
   }
 
   async init(): Promise<void> {
-    logger("[Fancycord] Initializing Fancycord...");
+    logger.log("INF", "Initializing Fancycord...");
 
     figlet("Fancycord", (error: Error | null, text: string | undefined) => {
       if (error) {
-        logger(`[Error] ${error.stack ?? error.message}`, LogType.Error);
+        logger.log("ERR", error.stack ?? error.message);
       }
 
-      console.log(`\x1b[0;97m${text}\x1b[0m\n`);
+      console.log(`${text}\n`);
     });
 
     if (!this.dbReady) {
@@ -121,12 +121,14 @@ export class Fancycord extends Client {
         .$connect()
         .then(() => {
           this.dbReady = true;
-          logger("[Prisma] Prisma Client has been connected", LogType.Database);
+          logger.log("INF", "Prisma Client has been connected");
         })
         .catch((error) => {
-          logger(
-            `[Prisma] Prisma Client had an error while connecting: ${error.stack}`,
-            LogType.Error
+          logger.log(
+            "ERR",
+            `Prisma Client had an error while connecting: ${
+              error.stack ?? error.message
+            }`
           );
         });
     }
@@ -165,8 +167,9 @@ export class Fancycord extends Client {
           }
         });
 
-        logger(
-          `[${this.user.username}] The interactions has been deployed | Deployed ${commands.length} interactions`
+        logger.log(
+          "INF",
+          `The interactions has been deployed | Deployed ${commands.length} interactions`
         );
       })
       .catch(() => null);
@@ -384,9 +387,9 @@ export class Fancycord extends Client {
       register: global,
       autoReload: true,
       missingKeyFn: (locale, value) => {
-        logger(
-          `[I18N] Missing translation line in "${locale}" language\n${value}`,
-          LogType.Error
+        logger.log(
+          "ERR",
+          `Missing translation line in "${locale}" language\n${value}`
         );
         webhook(WebhookType.Logs, {
           embeds: new EmbedBuilder()

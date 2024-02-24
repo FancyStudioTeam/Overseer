@@ -25,12 +25,12 @@ export default new SubCommand({
         .addFields([
           {
             name: "**REST**",
-            value: `<:_:1201948012830531644> ${client.rest.handler.latencyRef.latency} ms`,
+            value: `<:_:1201948012830531644> ${client.rest.handler.latencyRef.latency}ms`,
             inline: true,
           },
           {
             name: "**WS**",
-            value: `<:_:1201948012830531644> ${interaction.guild.shard.latency} ms`,
+            value: `<:_:1201948012830531644> ${interaction.guild.shard.latency}ms`,
             inline: true,
           },
         ])
