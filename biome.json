@@ -1,33 +1,28 @@
 {
-  "files": {
-    "ignore": ["dist"]
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "formatWithErrors": true
-  },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true,
-      "suspicious": {
-        "noExplicitAny": "off"
-      },
-      "nursery": {
-        "useImportType": "warn",
-        "useGroupedTypeImport": "warn",
-        "useExportType": "warn",
-        "useNodejsImportProtocol": "warn"
-      }
-    }
-  },
-  "json": {
-    "formatter": {
-      "enabled": true,
-      "indentStyle": "space",
-      "indentWidth": 2
-    }
-  }
+	"files": {
+		"ignore": ["dist"]
+	},
+	"formatter": {
+		"enabled": false
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "off"
+			},
+			"nursery": {
+				"useImportType": "warn",
+				"useGroupedTypeImport": "warn",
+				"useExportType": "warn",
+				"useNodejsImportProtocol": "warn"
+			}
+		}
+	},
+	"json": {
+		"formatter": {
+			"enabled": false
+		}
+	}
 }

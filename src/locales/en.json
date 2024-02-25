@@ -1,309 +1,310 @@
 {
-  "commands": {
-    "configuration": {
-      "language": {
-        "message": "**<:_:1201586112083279923> The language has been set to English**"
-      },
-      "premium": {
-        "claim": {
-          "code-not-found": "**<:_:1201586248947597392> The premium membership has not been found**",
-          "message": "**<:_:1201586112083279923> The premium membership has been claimed**"
-        },
-        "revoke": {
-          "row": {
-            "invalid-user-collector": "**<:_:1201586248947597392> You cannot use another user's components**",
-            "confirm": {
-              "label": "Confirm",
-              "message": "**<:_:1201586112083279923> The premium membership has been revoked**"
-            }
-          },
-          "only-guild-owner": "**<:_:1201586248947597392> This action can only be performed by the server owner**",
-          "no-guild-premium": "**<:_:1201586248947597392> The server does not have a premium membership**",
-          "message": "**<:_:1201586663642640476> Are you sure you want to revoke your premium server membership?\n<:_:1201948012830531644> If you do so, the server will no longer have access to premium benefits**"
-        }
-      },
-      "suggestions": {
-        "row": {
-          "general": {
-            "row": {
-              "channel": {
-                "label": "Suggestion channel",
-                "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
-                "cannot-be-same": "**<:_:1201586248947597392> The suggestion channel and the review channel cannot be the same channel**"
-              },
-              "message": {
-                "label": "Suggestions through messages",
-                "channel-not-found": "**<:_:1201586248947597392> The suggestion channel has not been found**"
-              },
-              "threads": {
-                "label": "Threads (Premium)"
-              },
-              "revision-channel": {
-                "label": "Review channel",
-                "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
-                "cannot-be-same": "**<:_:1201586248947597392> The suggestion channel and the review channel cannot be the same channel**"
-              },
-              "revision": {
-                "label": "Review suggestions",
-                "revision-not-found": "**<:_:1201586248947597392> The review channel has not been found**"
-              }
-            },
-            "label": "General",
-            "message": {
-              "field": "**General configuration**",
-              "value": "<:_:1201948012830531644> **Suggestion channel**: {channel}\n<:_:1201948012830531644> **Suggestions through messages**: {messageSuggestion}\n<:_:1201948012830531644> **Threads**: {threads}",
-              "field2": "**Review of suggestions**",
-              "value2": "<:_:1201948012830531644> **Review channel**: {reviewChannel}\n<:_:1201948012830531644> **Review suggestions**: {review}"
-            }
-          },
-          "votes": {
-            "label": "Votes"
-          }
-        },
-        "message": {
-          "message": "**Start configuring the suggestion system here**"
-        }
-      },
-      "timezone": {
-        "timezone-not-found": "**<:_:1201586248947597392> The time zone has not been found**",
-        "message": "**<:_:1201586112083279923> The time zone has been set to {timezone}**"
-      }
-    },
-    "information": {
-      "bot": {
-        "message": {
-          "field": "**General information**",
-          "value": "<:_:1201948012830531644> **Bot version**: {version}\n<:_:1201948012830531644> **Active time**: {uptime}",
-          "field2": "**Statistics**",
-          "value2": "<:_:1201948012830531644> **Users**: {users} users\n<:_:1201948012830531644> **Servers**: {guilds} servers\n<:_:1201948012830531644> **Shards**: {shards} shards",
-          "field3": "**Process**",
-          "value3": "<:_:1201948012830531644> **Library**: {library}\n<:_:1201948012830531644> **Language**: {language}\n<:_:1201948012830531644> **RAM usage**: {ram}\n<:_:1201948012830531644> **Platform**: {platform}"
-        }
-      },
-      "help": {
-        "row": {
-          "configuration": {
-            "label": "Configuration",
-            "description": "Configure bot functionalities to your liking"
-          },
-          "information": {
-            "label": "Information",
-            "description": "Get useful information from users or the server"
-          },
-          "moderation": {
-            "label": "Moderation",
-            "description": "Use tools to keep your community safe"
-          },
-          "utility": {
-            "label": "Utility",
-            "description": "Use a variety of useful commands"
-          }
-        },
-        "message": "**Hello! I am {mention}, a bot that offers a minimalist and efficient experience for your Discord communities**\n\nI am designed with simplicity in mind, providing essential functionalities in an easy and modern manner"
-      },
-      "server": {
-        "message": {
-          "field": "**General information**",
-          "value": "<:_:1201948012830531644> **Name**: {name}\n<:_:1201948012830531644> **Owner**: {owner}\n<:_:1201948012830531644> **Creation**: {createdAt}",
-          "field2": "**Statistics**",
-          "value2": "<:_:1201948012830531644> **Members**: {members} members\n<:_:1201948012830531644> **Channels**: {channels} channels\n<:_:1201948012830531644> **Roles**: {roles} roles"
-        }
-      },
-      "user": {
-        "invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
-        "message": {
-          "field": "**General information**",
-          "value": "<:_:1201948012830531644> **User**: {user}\n<:_:1201948012830531644> **Creation**: {createdAt}\n<:_:1201948012830531644> **Membership**: {joinedAt}\n<:_:1201948012830531644> **Booster**: {booster}"
-        }
-      }
-    },
-    "moderation": {
-      "ban": {
-        "cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
-        "user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
-        "message": "**<:_:1201586112083279923> The user {user} has been banned by the moderator {moderator}**"
-      },
-      "kick": {
-        "invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
-        "cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
-        "user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
-        "message": "**<:_:1201586112083279923> The user {user} has been kicked by the moderator {moderator}**"
-      },
-      "purge": {
-        "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
-        "no-recent-messages": "**<:_:1201586248947597392> No recent messages were found**",
-        "message": "**<:_:1201586112083279923> The moderator {moderator} has removed {messages} messages in the channel {channel}**"
-      },
-      "slowmode": {
-        "invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
-        "invalid-duration-time": "**<:_:1201586248947597392> The duration format is invalid**",
-        "allowed-duration-values": "**<:_:1201586248947597392> The duration must be greater than or equal to 0 seconds and less than or equal to 6 hours**",
-        "message": "**<:_:1201586112083279923> The moderator {moderator} has set a slow mode of {slowmode} on the channel {channel}**"
-      },
-      "timeout": {
-        "invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
-        "cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
-        "user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
-        "invalid-duration-time": "**<:_:1201586248947597392> The duration format is invalid**",
-        "allowed-duration-values": "**<:_:1201586248947597392> The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**",
-        "message": "**<:_:1201586112083279923> The moderator {moderator} has added a timeout of {timeout} to the user {user}**",
-        "message2": "**<:_:1201586112083279923> The moderator {moderator} has removed the timeout of the user {user}**"
-      },
-      "warn": {
-        "add": {
-          "invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
-          "cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
-          "user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
-          "max-warnings-allowed": "**<:_:1201586248947597392> The user already has the maximum number of warnings allowed\n<:_:1201948012830531644> Maximum 7 warnings per user**",
-          "message": "**<:_:1201586112083279923> The user {user} has been warned by the moderator {moderator}**"
-        },
-        "remove": {
-          "invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
-          "cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
-          "user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
-          "warning-not-found": "**<:_:1201586248947597392> The warning has not been found**",
-          "message": "**<:_:1201586112083279923> The moderator {moderator} has removed a warning from the user {user}**"
-        },
-        "list": {
-          "invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
-          "has-no-warnings": "**<:_:1201586248947597392> The user {user} has no warnings**",
-          "message": {
-            "value": "<:_:1201948012830531644> **Moderator**: {moderator}\n<:_:1201948012830531644> **Reason**: {reason}\n<:_:1201948012830531644> **Date**: {date}"
-          }
-        }
-      }
-    },
-    "utility": {
-      "suggest": {
-        "row": {
-          "status": {
-            "approve": {
-              "label": "Approve",
-              "message": "**<:_:1201586112083279923> The suggestion has been approved and has been sent to {channel}**"
-            },
-            "deny": {
-              "label": "Deny",
-              "message": "**<:_:1201586112083279923> The suggestion has been denied and has been deleted**"
-            }
-          },
-          "manage": {
-            "row": {
-              "message": {
-                "label": "Suggestion"
-              },
-              "votes": {
-                "label": "Votes",
-                "has-no-upvotes": "**<:_:1201586248947597392> The suggestion has no upvotes**",
-                "has-no-downvotes": "**<:_:1201586248947597392> The suggestion has no downvotes**"
-              },
-              "comment": {
-                "label": "Comment",
-                "max-comments-allowed": "**<:_:1201586248947597392> The suggestion already has the maximum number of comments allowed\n<:_:1201948012830531644> Maximum 3 comments per suggestion**",
-                "modal": {
-                  "title": "Add a comment",
-                  "label": "Comment"
-                },
-                "message": "**The moderator {moderator} added a comment to your suggestion**"
-              },
-              "approve": {
-                "label": "Approve",
-                "modal": {
-                  "title": "Approve suggestion",
-                  "label": "Reason"
-                },
-                "message": "**The moderator {moderator} has approved your suggestion**"
-              },
-              "deny": {
-                "label": "Deny",
-                "modal": {
-                  "title": "Deny suggestion",
-                  "label": "Reason"
-                },
-                "message": "**The moderator {moderator} has denied your suggestion**"
-              }
-            },
-            "message": "<:_:1201948012830531644> **Votes**: Displays the list of votes for the suggestion\n<:_:1201948012830531644> **Comment**: Adds a comment to the suggestion (Max 3)\n<:_:1201948012830531644> **Approve**: Approves the suggestion\n<:_:1201948012830531644> **Deny**: Denies the suggestion"
-          },
-          "report": {
-            "label": "Report",
-            "modal": {
-              "title": "Report suggestion",
-              "label": "Reason"
-            },
-            "message": "**<:_:1201586112083279923> The report has been sent to our [support server](https://discord.gg/RPt73adMBq)**"
-          }
-        },
-        "system-not-enabled": "**<:_:1201586248947597392> The suggestion system is not enabled**",
-        "suggestion-not-found": "**<:_:1201586248947597392> The suggestion has not been found**",
-        "message": {
-          "field": "**Comment by {user}**",
-          "field2": "**Suggestion approved by {user}**",
-          "field3": "**Suggestion denied by {user}**"
-        },
-        "message2": "**<:_:1201586663642640476> This suggestion is under review. If you approve the suggestion, it will be sent to the suggestion channel. Otherwise, it will be deleted**"
-      },
-      "weather": {
-        "row": {
-          "forecast": {
-            "label": "Forecast"
-          },
-          "link": {
-            "label": "Website"
-          }
-        },
-        "location-not-found": "**<:_:1201586248947597392> The location has not been found**",
-        "message": {
-          "field": "**General information**",
-          "value": "<:_:1201948012830531644> **Location**: {location}\n<:_:1201948012830531644> **Temperature**: {temperature}\n<:_:1201948012830531644> **Humidity**: {humidity}\n<:_:1201948012830531644> **Wind**: {wind}\n<:_:1201948012830531644> **Weather**: {weather}",
-          "field2": "**Forecast {date}**",
-          "value2": "<:_:1201948012830531644> **Day**: {day}\n<:_:1201948012830531644> **Date**: {date}\n<:_:1201948012830531644> **°C ▲**: {high}\n<:_:1201948012830531644> **°C ▼**: {low}\n<:_:1201948012830531644> **Weather**: {weather}"
-        }
-      }
-    }
-  },
-  "general": {
-    "permissions": {
-      "row": {
-        "hierarchy": {
-          "label": "Permission hierarchy"
-        },
-        "configure": {
-          "label": "Configure permissions"
-        }
-      },
-      "user-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the server**",
-      "bot-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the server**",
-      "user-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the channel {channel}**",
-      "bot-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the channel {channel}**"
-    },
-    "error": {
-      "row": {
-        "support": {
-          "label": "Support Server"
-        }
-      },
-      "message": "**Something went wrong while this operation was being performed...**\nIf the error persists, report the error with the provided ID in our support server",
-      "field": "**General information**",
-      "value": "<:_:1201948012830531644> **Report ID**: {id}\n<:_:1201948012830531644> **Error name**: {name}"
-    },
-    "premium": {
-      "field": "**You have discovered a premium feature**",
-      "value": "<:_:1201948012830531644> This feature requires a premium server membership"
-    },
-    "cannot-get-guild": "**<:_:1201586248947597392> Unable to obtain the server from the interaction**",
-    "rate-limiter": "**<:_:1201586248947597392> You are performing too many actions in too little time\n<:_:1201948012830531644> Try again in {seconds}**"
-  },
-  "modules": {
-    "starboard": {
-      "row": {
-        "message": {
-          "label": "Original message"
-        }
-      },
-      "message": {
-        "field": "**Channel**",
-        "field2": "**Author**"
-      }
-    }
-  }
+	"commands": {
+		"configuration": {
+			"language": {
+				"message": "**<:_:1201586112083279923> The language has been set to English**"
+			},
+			"premium": {
+				"claim": {
+					"code-not-found": "**<:_:1201586248947597392> The premium membership has not been found**",
+					"message": "**<:_:1201586112083279923> The premium membership has been claimed**"
+				},
+				"revoke": {
+					"row": {
+						"invalid-user-collector": "**<:_:1201586248947597392> You cannot use another user's components**",
+						"confirm": {
+							"label": "Confirm",
+							"message": "**<:_:1201586112083279923> The premium membership has been revoked**"
+						}
+					},
+					"only-guild-owner": "**<:_:1201586248947597392> This action can only be performed by the server owner**",
+					"no-guild-premium": "**<:_:1201586248947597392> The server does not have a premium membership**",
+					"message": "**<:_:1201586663642640476> Are you sure you want to revoke your premium server membership?\n<:_:1201948012830531644> If you do so, the server will no longer have access to premium benefits**"
+				}
+			},
+			"suggestions": {
+				"row": {
+					"general": {
+						"row": {
+							"channel": {
+								"label": "Suggestion channel",
+								"invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
+								"cannot-be-same": "**<:_:1201586248947597392> The suggestion channel and the review channel cannot be the same channel**"
+							},
+							"message": {
+								"label": "Suggestions through messages",
+								"channel-not-found": "**<:_:1201586248947597392> The suggestion channel has not been found**"
+							},
+							"threads": {
+								"label": "Threads (Premium)"
+							},
+							"revision-channel": {
+								"label": "Review channel",
+								"invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
+								"cannot-be-same": "**<:_:1201586248947597392> The suggestion channel and the review channel cannot be the same channel**"
+							},
+							"revision": {
+								"label": "Review suggestions",
+								"revision-not-found": "**<:_:1201586248947597392> The review channel has not been found**"
+							}
+						},
+						"label": "General",
+						"message": {
+							"field": "**General configuration**",
+							"value": "<:_:1201948012830531644> **Suggestion channel**: {channel}\n<:_:1201948012830531644> **Suggestions through messages**: {messageSuggestion}\n<:_:1201948012830531644> **Threads**: {threads}",
+							"field2": "**Review of suggestions**",
+							"value2": "<:_:1201948012830531644> **Review channel**: {reviewChannel}\n<:_:1201948012830531644> **Review suggestions**: {review}"
+						}
+					},
+					"votes": {
+						"label": "Votes"
+					}
+				},
+				"message": {
+					"message": "**Start configuring the suggestion system here**"
+				}
+			},
+			"timezone": {
+				"timezone-not-found": "**<:_:1201586248947597392> The time zone has not been found**",
+				"message": "**<:_:1201586112083279923> The time zone has been set to {timezone}**"
+			}
+		},
+		"information": {
+			"bot": {
+				"message": {
+					"field": "**General information**",
+					"value": "<:_:1201948012830531644> **Bot version**: {version}\n<:_:1201948012830531644> **Active time**: {uptime}",
+					"field2": "**Statistics**",
+					"value2": "<:_:1201948012830531644> **Users**: {users} users\n<:_:1201948012830531644> **Servers**: {guilds} servers\n<:_:1201948012830531644> **Shards**: {shards} shards",
+					"field3": "**Process**",
+					"value3": "<:_:1201948012830531644> **Library**: {library}\n<:_:1201948012830531644> **Language**: {language}\n<:_:1201948012830531644> **RAM usage**: {ram}\n<:_:1201948012830531644> **Platform**: {platform}"
+				}
+			},
+			"help": {
+				"row": {
+					"configuration": {
+						"label": "Configuration",
+						"description": "Configure bot functionalities to your liking"
+					},
+					"information": {
+						"label": "Information",
+						"description": "Get useful information from users or the server"
+					},
+					"moderation": {
+						"label": "Moderation",
+						"description": "Use tools to keep your community safe"
+					},
+					"utility": {
+						"label": "Utility",
+						"description": "Use a variety of useful commands"
+					}
+				},
+				"message": "**Hello! I am {mention}, a bot that offers a minimalist and efficient experience for your Discord communities**\n\nI am designed with simplicity in mind, providing essential functionalities in an easy and modern manner"
+			},
+			"server": {
+				"message": {
+					"field": "**General information**",
+					"value": "<:_:1201948012830531644> **Name**: {name}\n<:_:1201948012830531644> **Owner**: {owner}\n<:_:1201948012830531644> **Creation**: {createdAt}",
+					"field2": "**Statistics**",
+					"value2": "<:_:1201948012830531644> **Members**: {members} members\n<:_:1201948012830531644> **Channels**: {channels} channels\n<:_:1201948012830531644> **Roles**: {roles} roles"
+				}
+			},
+			"user": {
+				"invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
+				"message": {
+					"field": "**General information**",
+					"value": "<:_:1201948012830531644> **User**: {user}\n<:_:1201948012830531644> **Creation**: {createdAt}\n<:_:1201948012830531644> **Membership**: {joinedAt}\n<:_:1201948012830531644> **Booster**: {booster}"
+				}
+			}
+		},
+		"moderation": {
+			"ban": {
+				"cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
+				"user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
+				"message": "**<:_:1201586112083279923> The user {user} has been banned by the moderator {moderator}**"
+			},
+			"kick": {
+				"invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
+				"cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
+				"user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
+				"message": "**<:_:1201586112083279923> The user {user} has been kicked by the moderator {moderator}**"
+			},
+			"purge": {
+				"invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
+				"no-recent-messages": "**<:_:1201586248947597392> No recent messages were found**",
+				"message": "**<:_:1201586112083279923> The moderator {moderator} has removed {messages} messages in the channel {channel}**"
+			},
+			"slowmode": {
+				"invalid-channel-type": "**<:_:1201586248947597392> The channel must be a text channel**",
+				"invalid-duration-time": "**<:_:1201586248947597392> The duration format is invalid**",
+				"allowed-duration-values": "**<:_:1201586248947597392> The duration must be greater than or equal to 0 seconds and less than or equal to 6 hours**",
+				"message": "**<:_:1201586112083279923> The moderator {moderator} has set a slow mode of {slowmode} on the channel {channel}**"
+			},
+			"timeout": {
+				"invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
+				"cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
+				"user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
+				"invalid-duration-time": "**<:_:1201586248947597392> The duration format is invalid**",
+				"allowed-duration-values": "**<:_:1201586248947597392> The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**",
+				"message": "**<:_:1201586112083279923> The moderator {moderator} has added a timeout of {timeout} to the user {user}**",
+				"message2": "**<:_:1201586112083279923> The moderator {moderator} has removed the timeout of the user {user}**"
+			},
+			"warn": {
+				"add": {
+					"invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
+					"cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
+					"user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
+					"max-warnings-allowed": "**<:_:1201586248947597392> The user already has the maximum number of warnings allowed\n<:_:1201948012830531644> Maximum 7 warnings per user**",
+					"message": "**<:_:1201586112083279923> The user {user} has been warned by the moderator {moderator}**"
+				},
+				"remove": {
+					"invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
+					"cannot-moderate-member": "**<:_:1201586248947597392> This action cannot be performed against this user**",
+					"user-highest-role": "**<:_:1201586248947597392> You can't moderate someone with higher or equal rank to you**",
+					"warning-not-found": "**<:_:1201586248947597392> The warning has not been found**",
+					"message": "**<:_:1201586112083279923> The moderator {moderator} has removed a warning from the user {user}**"
+				},
+				"list": {
+					"invalid-guild-member": "**<:_:1201586248947597392> The user is an invalid member of the server**",
+					"has-no-warnings": "**<:_:1201586248947597392> The user {user} has no warnings**",
+					"message": {
+						"value": "<:_:1201948012830531644> **Moderator**: {moderator}\n<:_:1201948012830531644> **Reason**: {reason}\n<:_:1201948012830531644> **Date**: {date}"
+					}
+				}
+			}
+		},
+		"utility": {
+			"suggest": {
+				"row": {
+					"status": {
+						"approve": {
+							"label": "Approve",
+							"message": "**<:_:1201586112083279923> The suggestion has been approved and has been sent to {channel}**"
+						},
+						"deny": {
+							"label": "Deny",
+							"message": "**<:_:1201586112083279923> The suggestion has been denied and has been deleted**"
+						}
+					},
+					"manage": {
+						"row": {
+							"message": {
+								"label": "Suggestion"
+							},
+							"votes": {
+								"label": "Votes",
+								"has-no-upvotes": "**<:_:1201586248947597392> The suggestion has no upvotes**",
+								"has-no-downvotes": "**<:_:1201586248947597392> The suggestion has no downvotes**"
+							},
+							"comment": {
+								"label": "Comment",
+								"max-comments-allowed": "**<:_:1201586248947597392> The suggestion already has the maximum number of comments allowed\n<:_:1201948012830531644> Maximum 3 comments per suggestion**",
+								"modal": {
+									"title": "Add a comment",
+									"label": "Comment"
+								},
+								"message": "**The moderator {moderator} added a comment to your suggestion**"
+							},
+							"approve": {
+								"label": "Approve",
+								"modal": {
+									"title": "Approve suggestion",
+									"label": "Reason"
+								},
+								"message": "**The moderator {moderator} has approved your suggestion**"
+							},
+							"deny": {
+								"label": "Deny",
+								"modal": {
+									"title": "Deny suggestion",
+									"label": "Reason"
+								},
+								"message": "**The moderator {moderator} has denied your suggestion**"
+							}
+						},
+						"message": "<:_:1201948012830531644> **Votes**: Displays the list of votes for the suggestion\n<:_:1201948012830531644> **Comment**: Adds a comment to the suggestion (Max 3)\n<:_:1201948012830531644> **Approve**: Approves the suggestion\n<:_:1201948012830531644> **Deny**: Denies the suggestion"
+					},
+					"report": {
+						"label": "Report",
+						"modal": {
+							"title": "Report suggestion",
+							"label": "Reason"
+						},
+						"message": "**<:_:1201586112083279923> The report has been sent to our [support server](https://discord.gg/RPt73adMBq)**"
+					}
+				},
+				"system-not-enabled": "**<:_:1201586248947597392> The suggestion system is not enabled**",
+				"suggestion-not-found": "**<:_:1201586248947597392> The suggestion has not been found**",
+				"message": {
+					"field": "**Comment by {user}**",
+					"field2": "**Suggestion approved by {user}**",
+					"field3": "**Suggestion denied by {user}**"
+				},
+				"message2": "**<:_:1201586663642640476> This suggestion is under review. If you approve the suggestion, it will be sent to the suggestion channel. Otherwise, it will be deleted**"
+			},
+			"weather": {
+				"row": {
+					"forecast": {
+						"label": "Forecast"
+					},
+					"link": {
+						"label": "Website"
+					}
+				},
+				"location-not-found": "**<:_:1201586248947597392> The location has not been found**",
+				"message": {
+					"field": "**General information**",
+					"value": "<:_:1201948012830531644> **Location**: {location}\n<:_:1201948012830531644> **Temperature**: {temperature}\n<:_:1201948012830531644> **Humidity**: {humidity}\n<:_:1201948012830531644> **Wind**: {wind}\n<:_:1201948012830531644> **Weather**: {weather}",
+					"field2": "**Forecast {date}**",
+					"value2": "<:_:1201948012830531644> **Day**: {day}\n<:_:1201948012830531644> **Date**: {date}\n<:_:1201948012830531644> **°C ▲**: {high}\n<:_:1201948012830531644> **°C ▼**: {low}\n<:_:1201948012830531644> **Weather**: {weather}"
+				}
+			}
+		}
+	},
+	"general": {
+		"permissions": {
+			"row": {
+				"hierarchy": {
+					"label": "Permission hierarchy"
+				},
+				"configure": {
+					"label": "Configure permissions"
+				}
+			},
+			"user-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the server**",
+			"bot-guild-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the server**",
+			"user-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because you need the {permission} permission on the channel {channel}**",
+			"bot-channel-permissions": "**<:_:1201586248947597392> This action could not be performed because I need the {permission} permission on the channel {channel}**"
+		},
+		"error": {
+			"row": {
+				"support": {
+					"label": "Support Server"
+				}
+			},
+			"message": "**Something went wrong while this operation was being performed...**\nIf the error persists, report the error with the provided ID in our support server",
+			"field": "**General information**",
+			"value": "<:_:1201948012830531644> **Report ID**: {id}\n<:_:1201948012830531644> **Error name**: {name}"
+		},
+		"premium": {
+			"field": "**You have discovered a premium feature**",
+			"value": "<:_:1201948012830531644> This feature requires a premium server membership"
+		},
+		"cannot-get-guild": "**<:_:1201586248947597392> Unable to obtain the server from the interaction**",
+		"rate-limiter": "**<:_:1201586248947597392> You are performing too many actions in too little time\n<:_:1201948012830531644> Try again in {seconds}**",
+		"invalid-user-collector": "**<:_:1201586248947597392> You cannot use another user's components**"
+	},
+	"modules": {
+		"starboard": {
+			"row": {
+				"message": {
+					"label": "Original message"
+				}
+			},
+			"message": {
+				"field": "**Channel**",
+				"field2": "**Author**"
+			}
+		}
+	}
 }
