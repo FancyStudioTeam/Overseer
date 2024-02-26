@@ -25,7 +25,12 @@ import type {
   UserCommandInterface,
 } from "../../types";
 import { prisma } from "../../util/db";
-import { consume, errorMessage, handleError } from "../../util/util";
+import {
+  checkChannelPermissions,
+  consume,
+  errorMessage,
+  handleError,
+} from "../../util/util";
 
 const commandRateLimiter = new RateLimiterMemory({
   points: 3,
@@ -56,88 +61,21 @@ export default new Event(
     const timezone = guildConfiguration?.timezone ?? "UTC";
     const hour12 = guildConfiguration?.hour12 ?? false;
     const premium = guildConfiguration?.premium ?? false;
-    const requiredPermissions: PermissionName[] = [];
-
-    (
-      [
-        "VIEW_CHANNEL",
-        "SEND_MESSAGES",
-        "EMBED_LINKS",
-        "USE_EXTERNAL_EMOJIS",
-      ] as PermissionName[]
-    ).forEach((p, _) => {
-      if (
-        !interaction.channel
-          .permissionsOf(interaction.guild.clientMember)
-          .has(p)
-      ) {
-        requiredPermissions.push(p);
-      }
-    });
 
     if (
-      !interaction.channel
-        .permissionsOf(interaction.guild.clientMember)
-        .has(...requiredPermissions) &&
-      "reply" in interaction
-    ) {
-      return interaction.reply({
-        embeds: new EmbedBuilder()
-          .setDescription(
-            client.locales.__mf(
-              {
-                phrase: "general.permissions.bot-channel-permissions",
-                locale: language,
-              },
-              {
-                permission: requiredPermissions
-                  .map((p, _) => {
-                    return permissions[p][language];
-                  })
-                  .join(", "),
-                channel: interaction.channel.mention,
-              }
-            )
-          )
-          .setColor(client.config.colors.error)
-          .toJSONArray(),
-        components: new ActionRowBuilder()
-          .addComponents([
-            new ButtonBuilder()
-              .setLabel(
-                client.locales.__({
-                  phrase: "general.permissions.row.hierarchy.label",
-                  locale: language,
-                })
-              )
-              .setStyle(ButtonStyles.LINK)
-              .setEmoji({
-                name: "_",
-                id: "1201589945853296780",
-              })
-              .setURL(
-                "https://support.discord.com/hc/en-us/articles/206141927"
-              ),
-            new ButtonBuilder()
-              .setLabel(
-                client.locales.__({
-                  phrase: "general.permissions.row.configure.label",
-                  locale: language,
-                })
-              )
-              .setStyle(ButtonStyles.LINK)
-              .setEmoji({
-                name: "_",
-                id: "1201589945853296780",
-              })
-              .setURL(
-                "https://support.discord.com/hc/en-us/articles/206029707"
-              ),
-          ])
-          .toJSONArray(),
-        flags: MessageFlags.EPHEMERAL,
-      });
-    }
+      !checkChannelPermissions(
+        {
+          client,
+          language,
+        },
+        interaction,
+        ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
+        interaction.guild.clientMember,
+        interaction.channel,
+        true
+      )
+    )
+      return;
 
     if (
       process.env.NODE_ENV?.toLowerCase() === "maintenance" &&
