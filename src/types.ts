@@ -10,9 +10,9 @@ import type {
 import type { Fancycord } from "./classes/Client";
 
 export enum WebhookType {
-  Reports = "Reports",
-  Logs = "Logs",
-  GuildLogs = "GuildLogs",
+  REPORTS = "REPORTS",
+  LOGS = "LOGS",
+  GUILD_LOGS = "GUILD_LOGS",
 }
 
 export type ChatInputCommandInterface = {

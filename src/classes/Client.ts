@@ -391,7 +391,7 @@ export class Fancycord extends Client {
           "ERR",
           `Missing translation line in "${locale}" language\n${value}`
         );
-        webhook(WebhookType.Logs, {
+        webhook(WebhookType.LOGS, {
           embeds: new EmbedBuilder()
             .setAuthor({
               name: this.user.username,

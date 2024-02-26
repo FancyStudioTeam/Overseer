@@ -275,15 +275,15 @@ export function webhook(
   }
 ): void {
   const credentials = {
-    Logs: {
+    LOGS: {
       ID: process.env.LogsWebhookID,
       Token: process.env.LogsWebhookToken,
     },
-    Reports: {
+    REPORTS: {
       ID: process.env.ReportsWebhookID,
       Token: process.env.ReportsWebhookToken,
     },
-    GuildLogs: {
+    GUILD_LOGS: {
       ID: process.env.GuildLogsWebhookID,
       Token: process.env.GuildLogsWebhookToken,
     },
@@ -304,7 +304,7 @@ export function handleError(
 ): void {
   const id = DiscordSnowflake.generate().toString();
 
-  webhook(WebhookType.Logs, {
+  webhook(WebhookType.LOGS, {
     embeds: new EmbedBuilder()
       .setAuthor({
         name: client.user.username,

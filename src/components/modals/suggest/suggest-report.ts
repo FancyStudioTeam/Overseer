@@ -45,7 +45,7 @@ export default new Modal({
     );
     const user = await fetchUser(userSuggestion.user_id);
 
-    webhook(WebhookType.Reports, {
+    webhook(WebhookType.REPORTS, {
       embeds: new EmbedBuilder()
         .setAuthor({
           name: user?.username ?? "Unknown User",

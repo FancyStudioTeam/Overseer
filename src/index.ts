@@ -14,7 +14,7 @@ export const client = new Fancycord();
 
 process.on("uncaughtException", (error: Error) => {
   logger.log("ERR", `Uncaught Exception: ${error.stack ?? error.message}`);
-  webhook(WebhookType.Logs, {
+  webhook(WebhookType.LOGS, {
     embeds: new EmbedBuilder()
       .setAuthor({
         name: client.user.username,
@@ -30,7 +30,7 @@ process.on("uncaughtException", (error: Error) => {
 
 process.on("unhandledRejection", (error: Error) => {
   logger.log("ERR", `Unhandled Rejection: ${error.stack ?? error.message}`);
-  webhook(WebhookType.Logs, {
+  webhook(WebhookType.LOGS, {
     embeds: new EmbedBuilder()
       .setAuthor({
         name: client.user.username,
