@@ -2,79 +2,79 @@ type Value = Record<string, string>;
 type Descriptions = Record<string, Value>;
 
 export const descriptions: Descriptions = {
-  config_language: {
+  CONFIG_LANGUAGE: {
     en: "Sets the bot language",
     es: "Establece el idioma del bot",
   },
-  config_premium_claim: {
+  CONFIG_PREMIUM_CLAIM: {
     en: "Claims a premium membership",
     es: "Reclama una membresía premium",
   },
-  config_premium_revoke: {
+  CONFIG_PREMIUM_REVOKE: {
     en: "Revokes premium server membership",
     es: "Revoca la membresía premium del servidor",
   },
-  config_suggestions: {
+  CONFIG_SUGGESTIONS: {
     en: "Configures the suggestion system",
     es: "Configura el sistema de sugerencias",
   },
-  config_timezone: {
+  CONFIG_TIMEZONE: {
     en: "Sets the bot's time zone",
     es: "Establece la zona horaria del bot",
   },
-  info_bot: {
+  INFO_BOT: {
     en: "Displays bot information",
     es: "Muestra la información del bot",
   },
-  info_ping: {
+  INFO_PING: {
     en: "Displays bot latency",
     es: "Muestra la latencia del bot",
   },
-  info_server: {
+  INFO_SERVER: {
     en: "Displays server information",
     es: "Muestra la información del servidor",
   },
-  info_user: {
+  INFO_USER: {
     en: "Displays a user's information",
     es: "Muestra la información de un usuario",
   },
-  mod_ban: {
+  MOD_BAN: {
     en: "Bans a user",
     es: "Banea a un usuario",
   },
-  mod_kick: {
+  MOD_KICK: {
     en: "Kicks a user",
     es: "Expulsa a un usuario",
   },
-  mod_purge: {
+  MOD_PURGE: {
     en: "Removes messages from a channel",
     es: "Elimina mensajes de un canal",
   },
-  mod_slowmode: {
+  MOD_SLOWMODE: {
     en: "Adds a timeout to a channel",
     es: "Añade un tiempo de espera a un canal",
   },
-  mod_timeout: {
+  MOD_TIMEOUT: {
     en: "Adds a timeout to a user",
     es: "Añade un tiempo de espera a un usuario",
   },
-  mod_warn_add: {
+  MOD_WARN_ADD: {
     en: "Warns a user",
     es: "Advierte a un usuario",
   },
-  mod_warn_remove: {
+  MOD_WARN_REMOVE: {
     en: "Removes a user's warning",
     es: "Elimina una advertencia de un usuario",
   },
-  mod_warn_list: {
+  MOD_WARN_LIST: {
     en: "Displays a user's warnings",
     es: "Muestra las advertencias de un usuario",
   },
-  util_avatar: {
+  UTIL_AVATAR: {
     en: "Displays user's avatar",
     es: "Muestra el avatar de un usuario",
   },
-  util_weather: {
+  UTIL_WEATHER: {
     en: "Displays the weather for a location",
     es: "Muestra el clima de una ubicación",
   },

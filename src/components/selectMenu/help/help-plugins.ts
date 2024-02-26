@@ -38,7 +38,8 @@ export default new Component({
             if (o.type === ApplicationCommandOptionTypes.SUB_COMMAND) {
               commands.push({
                 name: `${c.name} ${o.name}`,
-                description: descriptions[`${c.name}_${o.name}`][language],
+                description:
+                  descriptions[`${c.name}_${o.name}`.toUpperCase()][language],
                 id: c.id,
               });
             } else if (
@@ -48,7 +49,9 @@ export default new Component({
                 commands.push({
                   name: `${c.name} ${o.name} ${o2.name}`,
                   description:
-                    descriptions[`${c.name}_${o.name}_${o2.name}`][language],
+                    descriptions[
+                      `${c.name}_${o.name}_${o2.name}`.toUpperCase()
+                    ][language],
                   id: c.id,
                 });
               });
@@ -57,7 +60,7 @@ export default new Component({
         } else {
           commands.push({
             name: c.name,
-            description: descriptions[`${c.name}`][language],
+            description: descriptions[`${c.name}`.toUpperCase()][language],
             id: c.id,
           });
         }
