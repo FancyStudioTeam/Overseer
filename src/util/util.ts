@@ -2,12 +2,16 @@ import { format } from "@formkit/tempo";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import {
   type AnyInteractionGateway,
+  type AnyTextableGuildChannel,
   ButtonStyles,
   type CreateMessageOptions,
   type EmbedOptions,
   type ExecuteWebhookOptions,
+  type InteractionContent,
   type Member,
+  type Message,
   MessageFlags,
+  type PermissionName,
   type Role,
   type User,
 } from "oceanic.js";
@@ -16,7 +20,9 @@ import urlRegex from "url-regex";
 import { ActionRowBuilder } from "../builders/ActionRow";
 import { ButtonBuilder } from "../builders/Button";
 import { EmbedBuilder } from "../builders/Embed";
+import type { Fancycord } from "../classes/Client";
 import { client } from "../index";
+import { permissions } from "../locales/misc/reference";
 import { WebhookType } from "../types";
 import { logger } from "./logger";
 
@@ -130,6 +136,134 @@ export function formatTimestamp(
     locale: "en",
     tz: timezone,
   });
+}
+
+export function checkGuildPermissions(
+  main: {
+    client: Fancycord;
+    language: string;
+  },
+  context: AnyInteractionGateway | Message,
+  checkPermissions: PermissionName[],
+  member: Member,
+  ephemeral: boolean
+): boolean {
+  const requiredPermissions: PermissionName[] = [];
+  let hasPermissions = true;
+
+  if (!context.inCachedGuildChannel() || !context.guild) return false;
+
+  checkPermissions.forEach((p, _) => {
+    if (!member.permissions.has(p)) {
+      requiredPermissions.push(p);
+    }
+  });
+
+  const payload: CreateMessageOptions | InteractionContent = {
+    embeds: new EmbedBuilder()
+      .setDescription(
+        client.locales.__mf(
+          {
+            phrase:
+              member.user.id === client.user.id
+                ? "general.permissions.bot-guild-permissions"
+                : "general.permissions.user-guild-permissions",
+            locale: main.language,
+          },
+          {
+            permission: requiredPermissions
+              .map((p, _) => {
+                return permissions[p][main.language];
+              })
+              .join(", "),
+          }
+        )
+      )
+      .setColor(client.config.colors.error)
+      .toJSONArray(),
+    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
+  };
+
+  if (
+    requiredPermissions.length &&
+    !member.permissions.has(...requiredPermissions)
+  ) {
+    hasPermissions = false;
+
+    if ("reply" in context) {
+      context.reply(payload);
+    } else {
+      client.rest.channels
+        .createMessage(context.channelID, payload)
+        .catch(() => null);
+    }
+  }
+
+  return hasPermissions;
+}
+
+export function checkChannelPermissions(
+  main: {
+    client: Fancycord;
+    language: string;
+  },
+  context: AnyInteractionGateway | Message,
+  checkPermissions: PermissionName[],
+  member: Member,
+  channel: AnyTextableGuildChannel,
+  ephemeral: boolean
+): boolean {
+  const requiredPermissions: PermissionName[] = [];
+  let hasPermissions = true;
+
+  checkPermissions.forEach((p, _) => {
+    if (!channel.permissionsOf(member).has(p)) {
+      requiredPermissions.push(p);
+    }
+  });
+
+  const payload: CreateMessageOptions | InteractionContent = {
+    embeds: new EmbedBuilder()
+      .setDescription(
+        client.locales.__mf(
+          {
+            phrase:
+              member.user.id === client.user.id
+                ? "general.permissions.bot-channel-permissions"
+                : "general.permissions.user-channel-permissions",
+            locale: main.language,
+          },
+          {
+            permission: requiredPermissions
+              .map((p, _) => {
+                return permissions[p][main.language];
+              })
+              .join(", "),
+            channel: channel.mention,
+          }
+        )
+      )
+      .setColor(client.config.colors.error)
+      .toJSONArray(),
+    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
+  };
+
+  if (
+    requiredPermissions.length &&
+    !channel.permissionsOf(member).has(...requiredPermissions)
+  ) {
+    hasPermissions = false;
+
+    if ("reply" in context) {
+      context.reply(payload);
+    } else {
+      client.rest.channels
+        .createMessage(context.channelID, payload)
+        .catch(() => null);
+    }
+  }
+
+  return hasPermissions;
 }
 
 export function webhook(
