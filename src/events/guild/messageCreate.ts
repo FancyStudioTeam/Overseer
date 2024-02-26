@@ -2,9 +2,9 @@ import { type ExecException, exec } from "node:child_process";
 import { join } from "node:path";
 import { inspect } from "node:util";
 import { ChannelTypes, type Message } from "oceanic.js";
+import { client } from "../..";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
-import { client } from "../../index";
 import { trim } from "../../util/util";
 
 export default new Event("messageCreate", false, async (message: Message) => {

@@ -17,11 +17,11 @@ import {
 } from "oceanic.js";
 import type { RateLimiterMemory } from "rate-limiter-flexible";
 import urlRegex from "url-regex";
+import { client } from "..";
 import { ActionRowBuilder } from "../builders/ActionRow";
 import { ButtonBuilder } from "../builders/Button";
 import { EmbedBuilder } from "../builders/Embed";
 import type { Fancycord } from "../classes/Client";
-import { client } from "../index";
 import { permissions } from "../locales/misc/reference";
 import { WebhookType } from "../types";
 import { logger } from "./logger";
