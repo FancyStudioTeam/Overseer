@@ -426,4 +426,5 @@ interface Config {
     invite: string;
     support: string;
   };
+  developers: string[];
 }

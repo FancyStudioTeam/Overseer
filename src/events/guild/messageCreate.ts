@@ -12,11 +12,11 @@ export default new Event("messageCreate", false, async (message: Message) => {
   if (!message.channel) return;
   if (message.channel.type !== ChannelTypes.GUILD_TEXT) return;
   if (message.author.bot) return;
-  if (message.author.id !== "945029082314338407") return;
 
   const prefix = ">";
 
   if (!message.content.startsWith(prefix)) return;
+  if (!client.config.developers.includes(message.author.id)) return;
 
   const [cmd, ...args] = message.content.slice(prefix.length).trim().split(" ");
 
