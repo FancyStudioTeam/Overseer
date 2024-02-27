@@ -2,7 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "outDir": "dist",
-    "target": "ES2022",
+    "target": "ESNext",
     "module": "CommonJS",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -29,6 +29,7 @@
     "useDefineForClassFields": true,
     "isolatedModules": true,
     "noImplicitAny": true,
+    "experimentalDecorators": true,
     "paths": {
       "@/*": ["./src/*", "./dist/src/*"]
     }
