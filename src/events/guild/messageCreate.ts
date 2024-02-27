@@ -90,7 +90,8 @@ export default new Event("messageCreate", false, async (message: Message) => {
 
       try {
         const result = await eval(
-          `const { client } = require("../.."); ${code}`
+          `const { client } = require("../..");
+          (async () => ${code})();`
         );
         let output = result;
 
