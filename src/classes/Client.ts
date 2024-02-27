@@ -155,7 +155,7 @@ export class Fancycord extends Client {
     await this.rest.applicationCommands
       .bulkEditGlobalCommands(
         this.application.id,
-        arrayCommands as CreateApplicationCommandOptions[]
+        <CreateApplicationCommandOptions[]>arrayCommands
       )
       .then((commands) => {
         commands.forEach((c, _) => {

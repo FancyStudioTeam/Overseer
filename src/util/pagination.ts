@@ -103,7 +103,7 @@ export async function pagination(
           }
 
           new ButtonBuilder()
-            .load(message.components[0].components[1] as ButtonComponent)
+            .load(<ButtonComponent>message.components[0].components[1])
             .setLabel(`${index + 1}/${pages.length}`);
 
           await collected

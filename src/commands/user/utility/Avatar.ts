@@ -11,7 +11,7 @@ export default new UserCommand({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
   run: async (client: Fancycord, interaction: CommandInteraction) => {
-    const user = interaction.data.target as User;
+    const user = <User>interaction.data.target;
 
     interaction.reply({
       embeds: new EmbedBuilder()

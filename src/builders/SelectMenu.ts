@@ -20,7 +20,7 @@ export class SelectMenuBuilder {
   }
 
   setChannelTypes(types: ChannelTypes[]): this {
-    (this.json as ChannelSelectMenu).channelTypes = types;
+    (<ChannelSelectMenu>this.json).channelTypes = types;
 
     return this;
   }
@@ -32,7 +32,7 @@ export class SelectMenuBuilder {
   }
 
   setDefaultValues(values: SelectMenuDefaultValue[]): this {
-    (this.json as ChannelSelectMenu).defaultValues = values;
+    (<ChannelSelectMenu>this.json).defaultValues = values;
 
     return this;
   }
@@ -57,7 +57,7 @@ export class SelectMenuBuilder {
 
   addOptions(components: SelectOption[]): this {
     components.forEach((c, _) => {
-      (this.json as StringSelectMenu).options.push(c);
+      (<StringSelectMenu>this.json).options.push(c);
     });
 
     return this;

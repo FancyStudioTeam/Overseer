@@ -69,12 +69,12 @@ export default new Component({
       .then(async (newSchema) => {
         new ButtonBuilder()
           .load(
-            interaction.message.components[0].components[0] as ButtonComponent
+            <ButtonComponent>interaction.message.components[0].components[0]
           )
           .setLabel(newSchema.votes_up.length.toString());
         new ButtonBuilder()
           .load(
-            interaction.message.components[0].components[1] as ButtonComponent
+            <ButtonComponent>interaction.message.components[0].components[1]
           )
           .setLabel(newSchema.votes_down.length.toString());
 

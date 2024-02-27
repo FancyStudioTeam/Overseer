@@ -47,7 +47,7 @@ export default new Component({
       });
     }
 
-    const data = interaction.data as MessageComponentSelectMenuInteractionData;
+    const data = <MessageComponentSelectMenuInteractionData>interaction.data;
     const channel = interaction.guild.channels.get(
       data.values.getChannels()[0].id
     );
@@ -82,14 +82,12 @@ export default new Component({
 
     const requiredPermissions: PermissionName[] = [];
 
-    (
-      [
-        "VIEW_CHANNEL",
-        "SEND_MESSAGES",
-        "EMBED_LINKS",
-        "USE_EXTERNAL_EMOJIS",
-      ] as PermissionName[]
-    ).forEach((p, _) => {
+    (<PermissionName[]>[
+      "VIEW_CHANNEL",
+      "SEND_MESSAGES",
+      "EMBED_LINKS",
+      "USE_EXTERNAL_EMOJIS",
+    ]).forEach((p, _) => {
       if (!channel.permissionsOf(interaction.guild.clientMember).has(p)) {
         requiredPermissions.push(p);
       }

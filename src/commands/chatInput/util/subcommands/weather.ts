@@ -132,11 +132,13 @@ export async function weather(
   if (!json) return null;
 
   return {
-    info: json.weatherdata.weather[0].A$ as WeatherInfo,
-    current: json.weatherdata.weather[0].current[0].A$ as WeatherCurrent,
-    forecast: (json.weatherdata.weather[0].forecast as any[]).map((f) => {
+    info: <WeatherInfo>json.weatherdata.weather[0].A$,
+    current: <WeatherCurrent>json.weatherdata.weather[0].current[0].A$,
+    forecast: <WeatherForecast[]>(<any[]>(
+      json.weatherdata.weather[0].forecast
+    )).map((f) => {
       return f.A$;
-    }) as WeatherForecast[],
+    }),
   };
 }
 

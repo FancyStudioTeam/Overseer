@@ -16,7 +16,7 @@ export default new Component({
     interaction: ComponentInteraction,
     { language }
   ) => {
-    const data = interaction.data as MessageComponentSelectMenuInteractionData;
+    const data = <MessageComponentSelectMenuInteractionData>interaction.data;
     const commands: {
       name: string;
       description: string;

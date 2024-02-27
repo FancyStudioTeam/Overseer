@@ -19,7 +19,7 @@ export class ButtonBuilder {
   }
 
   setCustomID(id: string): this {
-    (this.json as TextButton).customID = id;
+    (<TextButton>this.json).customID = id;
 
     return this;
   }
@@ -58,7 +58,7 @@ export class ButtonBuilder {
       );
     }
 
-    (this.json as URLButton).url = url;
+    (<URLButton>this.json).url = url;
 
     return this;
   }

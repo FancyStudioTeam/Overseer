@@ -257,7 +257,7 @@ export default new ChatInputCommand({
         });
 
         search(
-          focusedValue.value as string,
+          focusedValue.value.toString(),
           warningValues.map((w) => w.warn_id)
         );
 

@@ -118,7 +118,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
               name: client.user.username,
               iconURL: client.user.avatarURL(),
             })
-            .setDescription(`\`\`\`js\n${trim(error as string, 4000)}\`\`\``)
+            .setDescription(`\`\`\`js\n${trim(<string>error, 4000)}\`\`\``)
             .setColor(client.config.colors.error)
             .toJSONArray(),
         });

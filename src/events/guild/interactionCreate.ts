@@ -134,9 +134,9 @@ export default new Event(
       if (interaction.isChatInputCommand()) {
         await interaction.defer().catch(() => null);
 
-        const command = client.interactions.chatInput.get(
-          interaction.data.name
-        ) as ChatInputCommandInterface;
+        const command = <ChatInputCommandInterface>(
+          client.interactions.chatInput.get(interaction.data.name)
+        );
 
         if (command) {
           if (
@@ -150,15 +150,17 @@ export default new Event(
             const name = interaction.data.options.getSubCommand();
 
             if (name) {
-              const subcommand = client.subcommands.get(
-                `${interaction.data.name}_${name.join("_")}`
-              ) as SubCommandInterface;
+              const subcommand = <SubCommandInterface>(
+                client.subcommands.get(
+                  `${interaction.data.name}_${name.join("_")}`
+                )
+              );
 
               if (subcommand) {
                 if (
                   subcommand.permissions?.user &&
                   !interaction.member.permissions.has(
-                    subcommand.permissions.user as PermissionName
+                    <PermissionName>subcommand.permissions.user
                   )
                 ) {
                   return errorMessage(interaction, true, {
@@ -178,7 +180,7 @@ export default new Event(
                 if (
                   subcommand.permissions?.bot &&
                   !interaction.guild.clientMember.permissions.has(
-                    subcommand.permissions.user as PermissionName
+                    <PermissionName>subcommand.permissions.user
                   )
                 ) {
                   return errorMessage(interaction, true, {
@@ -225,9 +227,9 @@ export default new Event(
       }
 
       if (interaction.isUserCommand()) {
-        const command = client.interactions.user.get(
-          interaction.data.name
-        ) as UserCommandInterface;
+        const command = <UserCommandInterface>(
+          client.interactions.user.get(interaction.data.name)
+        );
 
         if (command) {
           await command
@@ -245,9 +247,9 @@ export default new Event(
     }
 
     if (interaction.isAutocompleteInteraction()) {
-      const command = client.interactions.chatInput.get(
-        interaction.data.name
-      ) as ChatInputCommandInterface;
+      const command = <ChatInputCommandInterface>(
+        client.interactions.chatInput.get(interaction.data.name)
+      );
 
       if (command?.autocomplete) {
         command.autocomplete(interaction);
@@ -255,9 +257,9 @@ export default new Event(
     }
 
     if (interaction.isModelSubmitInteraction()) {
-      const modal = client.components.modals.get(
-        interaction.data.customID
-      ) as ModalInterface;
+      const modal = <ModalInterface>(
+        client.components.modals.get(interaction.data.customID)
+      );
 
       if (modal) {
         await modal
@@ -298,35 +300,15 @@ export default new Event(
       }
 
       if (interaction.isButtonComponentInteraction()) {
-        if (interaction.data.customID.includes("/")) {
-          const button = client.components.buttons.get(
-            interaction.data.customID.split("/")[0]
-          ) as ComponentInterface;
-
-          if (button) {
-            await button
-              .run(client, interaction, {
-                language: language,
-                timezone: timezone,
-                hour12: hour12,
-                premium: premium,
-                variable: interaction.data.customID.split("/")[1],
-              })
-              .catch((error) => {
-                handleError(error, interaction, language);
-              });
-          }
-        }
-
-        const button = client.components.buttons.get(
-          interaction.data.customID
-        ) as ComponentInterface;
+        const button = <ComponentInterface>(
+          client.components.buttons.get(interaction.data.customID.split("/")[0])
+        );
 
         if (button) {
           if (
             button.permissions?.user &&
             !interaction.member.permissions.has(
-              button.permissions.user as PermissionName
+              <PermissionName>button.permissions.user
             )
           ) {
             return errorMessage(interaction, true, {
@@ -345,7 +327,7 @@ export default new Event(
           if (
             button.permissions?.bot &&
             !interaction.guild.clientMember.permissions.has(
-              button.permissions.user as PermissionName
+              <PermissionName>button.permissions.user
             )
           ) {
             return errorMessage(interaction, true, {
@@ -367,6 +349,7 @@ export default new Event(
               timezone: timezone,
               hour12: hour12,
               premium: premium,
+              variable: interaction.data.customID.split("/")[1] ?? "",
             })
             .catch((error) => {
               handleError(error, interaction, language);
@@ -375,15 +358,15 @@ export default new Event(
       }
 
       if (interaction.isSelectMenuComponentInteraction()) {
-        const select = client.components.select.get(
-          interaction.data.customID
-        ) as ComponentInterface;
+        const select = <ComponentInterface>(
+          client.components.select.get(interaction.data.customID.split("/")[0])
+        );
 
         if (select) {
           if (
             select.permissions?.user &&
             !interaction.member.permissions.has(
-              select.permissions.user as PermissionName
+              <PermissionName>select.permissions.user
             )
           ) {
             return errorMessage(interaction, true, {
@@ -402,7 +385,7 @@ export default new Event(
           if (
             select.permissions?.bot &&
             !interaction.guild.clientMember.permissions.has(
-              select.permissions.user as PermissionName
+              <PermissionName>select.permissions.user
             )
           ) {
             return errorMessage(interaction, true, {
@@ -424,6 +407,7 @@ export default new Event(
               timezone: timezone,
               hour12: hour12,
               premium: premium,
+              variable: interaction.data.customID.split("/")[1] ?? "",
             })
             .catch((error) => {
               handleError(error, interaction, language);
