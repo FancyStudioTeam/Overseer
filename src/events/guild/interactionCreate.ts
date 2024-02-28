@@ -20,6 +20,7 @@ import { permissions } from "../../locales/misc/reference";
 import type {
   ChatInputCommandInterface,
   ComponentInterface,
+  Locales,
   ModalInterface,
   SubCommandInterface,
   UserCommandInterface,
@@ -200,6 +201,7 @@ export default new Event(
                 await subcommand
                   .run(client, interaction, {
                     language: language,
+                    locale: <Locales>language,
                     timezone: timezone,
                     hour12: hour12,
                     premium: premium,
@@ -214,6 +216,7 @@ export default new Event(
               await command
                 .run(client, interaction, {
                   language: language,
+                  locale: <Locales>language,
                   timezone: timezone,
                   hour12: hour12,
                   premium: premium,
@@ -235,6 +238,7 @@ export default new Event(
           await command
             .run(client, interaction, {
               language: language,
+              locale: <Locales>language,
               timezone: timezone,
               hour12: hour12,
               premium: premium,
@@ -265,6 +269,7 @@ export default new Event(
         await modal
           .run(client, interaction, {
             language: language,
+            locale: <Locales>language,
             timezone: timezone,
             hour12: hour12,
             premium: premium,
@@ -346,6 +351,7 @@ export default new Event(
           await button
             .run(client, interaction, {
               language: language,
+              locale: <Locales>language,
               timezone: timezone,
               hour12: hour12,
               premium: premium,
@@ -404,6 +410,7 @@ export default new Event(
           await select
             .run(client, interaction, {
               language: language,
+              locale: <Locales>language,
               timezone: timezone,
               hour12: hour12,
               premium: premium,

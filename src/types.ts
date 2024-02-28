@@ -9,6 +9,8 @@ import type {
 } from "oceanic.js";
 import type { Fancycord } from "./classes/Client";
 
+export type Locales = "en" | "es";
+
 export enum WebhookType {
   REPORTS = "REPORTS",
   LOGS = "LOGS",
@@ -27,6 +29,7 @@ export type ChatInputCommandInterface = {
     interaction: CommandInteraction,
     config: {
       language: string;
+      locale: Locales;
       timezone: string;
       hour12: boolean;
       premium: boolean;
@@ -46,6 +49,7 @@ export interface SubCommandInterface {
     interaction: CommandInteraction,
     config: {
       language: string;
+      locale: Locales;
       timezone: string;
       hour12: boolean;
       premium: boolean;
@@ -59,6 +63,7 @@ export type UserCommandInterface = {
     interaction: CommandInteraction,
     config: {
       language: string;
+      locale: Locales;
       timezone: string;
       hour12: boolean;
       premium: boolean;
@@ -77,6 +82,7 @@ export interface ComponentInterface {
     interaction: ComponentInteraction,
     config: {
       language: string;
+      locale: Locales;
       timezone: string;
       hour12: boolean;
       premium: boolean;
@@ -96,6 +102,7 @@ export interface ModalInterface {
     interaction: ModalSubmitInteraction,
     config: {
       language: string;
+      locale: Locales;
       timezone: string;
       hour12: boolean;
       premium: boolean;
