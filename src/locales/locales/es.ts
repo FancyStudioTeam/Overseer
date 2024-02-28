@@ -100,6 +100,14 @@ export default {
   },
   HELP: {
     COMPONENTS: {
+      BUTTONS: {
+        ADD_TO_DISCORD: {
+          LABEL: "Añadir a Discord",
+        },
+        SUPPORT_SERVER: {
+          LABEL: "Servidor de Soporte",
+        },
+      },
       SELECT_MENU: {
         PLACEHOLDER: "Selecciona una categoría",
         OPTIONS: {

@@ -2,11 +2,13 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   ApplicationCommandTypes,
+  ButtonStyles,
   type CommandInteraction,
   ComponentTypes,
 } from "oceanic.js";
 import { ActionRowBuilder } from "../../../builders/ActionRow";
 import { AttachmentBuilder } from "../../../builders/Attachment";
+import { ButtonBuilder } from "../../../builders/Button";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { SelectMenuBuilder } from "../../../builders/SelectMenu";
 import { ChatInputCommand } from "../../../classes/Builders";
@@ -48,41 +50,61 @@ export default new ChatInputCommand({
           )
         )
         .toJSONArray(),
-      components: new ActionRowBuilder()
-        .addComponents([
-          new SelectMenuBuilder()
-            .setCustomID("help-plugins")
-            .setPlaceholder(
-              translations[locale].HELP.COMPONENTS.SELECT_MENU.PLACEHOLDER
-            )
-            .addOptions(
-              ["configuration", "information", "moderation", "utility"].map(
-                (e) => {
-                  const emojis: Record<string, string> = {
-                    configuration: client.config.emojis.GEAR,
-                    information: client.config.emojis.INFO,
-                    moderation: client.config.emojis.GAVEL,
-                    utility: client.config.emojis.SUPPORT,
-                  };
-
-                  return {
-                    label:
-                      translations[locale].HELP.COMPONENTS.SELECT_MENU.OPTIONS[
-                        <Plugins>e.toUpperCase()
-                      ].LABEL,
-                    value: e,
-                    description:
-                      translations[locale].HELP.COMPONENTS.SELECT_MENU.OPTIONS[
-                        <Plugins>e.toUpperCase()
-                      ].DESCRIPTION,
-                    emoji: parseEmoji(emojis[e]),
-                  };
-                }
+      components: [
+        new ActionRowBuilder()
+          .addComponents([
+            new ButtonBuilder()
+              .setLabel(
+                translations[locale].HELP.COMPONENTS.BUTTONS.ADD_TO_DISCORD
+                  .LABEL
               )
-            )
-            .setType(ComponentTypes.STRING_SELECT),
-        ])
-        .toJSONArray(),
+              .setStyle(ButtonStyles.LINK)
+              .setEmoji(parseEmoji(client.config.emojis.SUPPORT))
+              .setURL(client.config.links.INVITE),
+            new ButtonBuilder()
+              .setLabel(
+                translations[locale].HELP.COMPONENTS.BUTTONS.SUPPORT_SERVER
+                  .LABEL
+              )
+              .setStyle(ButtonStyles.LINK)
+              .setEmoji(parseEmoji(client.config.emojis.SUPPORT))
+              .setURL(client.config.links.SUPPORT),
+          ])
+          .toJSON(),
+        new ActionRowBuilder()
+          .addComponents([
+            new SelectMenuBuilder()
+              .setCustomID("help-plugins")
+              .setPlaceholder(
+                translations[locale].HELP.COMPONENTS.SELECT_MENU.PLACEHOLDER
+              )
+              .addOptions(
+                ["configuration", "information", "moderation", "utility"].map(
+                  (e) => {
+                    const emojis: Record<string, string> = {
+                      configuration: client.config.emojis.GEAR,
+                      information: client.config.emojis.INFO,
+                      moderation: client.config.emojis.GAVEL,
+                      utility: client.config.emojis.SUPPORT,
+                    };
+
+                    return {
+                      label:
+                        translations[locale].HELP.COMPONENTS.SELECT_MENU
+                          .OPTIONS[<Plugins>e.toUpperCase()].LABEL,
+                      value: e,
+                      description:
+                        translations[locale].HELP.COMPONENTS.SELECT_MENU
+                          .OPTIONS[<Plugins>e.toUpperCase()].DESCRIPTION,
+                      emoji: parseEmoji(emojis[e]),
+                    };
+                  }
+                )
+              )
+              .setType(ComponentTypes.STRING_SELECT),
+          ])
+          .toJSON(),
+      ],
     });
   },
 });

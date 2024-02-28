@@ -1,6 +1,6 @@
 {
   "name": "fancycord",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "A bot for various utilities to create, manage and customize awesome Discord communities",
   "main": "dist/src/index.js",
   "scripts": {
