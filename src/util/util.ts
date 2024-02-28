@@ -66,7 +66,7 @@ export function errorMessage(
     context.reply({
       embeds: new EmbedBuilder()
         .load(embed)
-        .setColor(client.config.colors.error)
+        .setColor(client.config.colors.ERROR)
         .toJSONArray(),
       flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
     });
@@ -191,7 +191,7 @@ export function checkGuildPermissions(
           }
         )
       )
-      .setColor(client.config.colors.error)
+      .setColor(client.config.colors.ERROR)
       .toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
@@ -255,7 +255,7 @@ export function checkChannelPermissions(
           }
         )
       )
-      .setColor(client.config.colors.error)
+      .setColor(client.config.colors.ERROR)
       .toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
@@ -341,7 +341,7 @@ export function handleError(
           }`,
         },
       ])
-      .setColor(client.config.colors.error)
+      .setColor(client.config.colors.ERROR)
       .toJSONArray(),
   });
 
@@ -376,7 +376,7 @@ export function handleError(
             ),
           },
         ])
-        .setColor(client.config.colors.error)
+        .setColor(client.config.colors.ERROR)
         .toJSONArray(),
       components: new ActionRowBuilder()
         .addComponents([
@@ -392,7 +392,7 @@ export function handleError(
               name: "_",
               id: "1201585025028735016",
             })
-            .setURL(client.config.links.support),
+            .setURL(client.config.links.SUPPORT),
         ])
         .toJSONArray(),
     });

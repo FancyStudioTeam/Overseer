@@ -59,7 +59,7 @@ export default new Component({
                   locale: language,
                 })
               )
-              .setColor(client.config.colors.success)
+              .setColor(client.config.colors.SUCCESS)
               .toJSONArray(),
             components: [],
           })

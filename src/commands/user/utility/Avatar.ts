@@ -20,7 +20,7 @@ export default new UserCommand({
           iconURL: user.avatarURL(),
         })
         .setImage(user.avatarURL())
-        .setColor(client.config.colors.color)
+        .setColor(client.config.colors.COLOR)
         .toJSONArray(),
     });
   },

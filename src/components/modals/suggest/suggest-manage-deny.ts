@@ -84,7 +84,7 @@ export default new Modal({
                 ),
                 value: `<:_:1201948012830531644> ${reason}`,
               })
-              .setColor(client.config.colors.success)
+              .setColor(client.config.colors.SUCCESS)
               .toJSONArray(),
             components: message.components,
           })
@@ -130,7 +130,7 @@ export default new Modal({
                       }
                     )
                   )
-                  .setColor(client.config.colors.color)
+                  .setColor(client.config.colors.COLOR)
                   .toJSONArray(),
                 components: new ActionRowBuilder()
                   .addComponents([

@@ -90,7 +90,7 @@ export default new Modal({
                 ),
                 value: `<:_:1201948012830531644> ${comment}`,
               })
-              .setColor(client.config.colors.warning)
+              .setColor(client.config.colors.WARNING)
               .toJSONArray(),
           })
           .catch(() => null);
@@ -118,7 +118,7 @@ export default new Modal({
                       }
                     )
                   )
-                  .setColor(client.config.colors.color)
+                  .setColor(client.config.colors.COLOR)
                   .toJSONArray(),
                 components: new ActionRowBuilder()
                   .addComponents([

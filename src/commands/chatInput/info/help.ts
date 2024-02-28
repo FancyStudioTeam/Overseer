@@ -38,7 +38,7 @@ export default new ChatInputCommand({
           })
         )
         .setImage("attachment://banner.png")
-        .setColor(client.config.colors.color)
+        .setColor(client.config.colors.COLOR)
         .toJSONArray(),
       files: new AttachmentBuilder()
         .setName("banner.png")

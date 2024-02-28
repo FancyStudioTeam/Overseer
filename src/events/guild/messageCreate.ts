@@ -63,7 +63,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
                 .setDescription(
                   `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
                 )
-                .setColor(client.config.colors.error)
+                .setColor(client.config.colors.ERROR)
                 .toJSONArray(),
             });
           }
@@ -75,7 +75,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
                 iconURL: client.user.avatarURL(),
               })
               .setDescription(`\`\`\`js\n${trim(result, 4000)}\`\`\``)
-              .setColor(client.config.colors.success)
+              .setColor(client.config.colors.SUCCESS)
               .toJSONArray(),
           });
         }
@@ -108,7 +108,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
               iconURL: client.user.avatarURL(),
             })
             .setDescription(`\`\`\`js\n${trim(output, 4000)}\`\`\``)
-            .setColor(client.config.colors.success)
+            .setColor(client.config.colors.SUCCESS)
             .toJSONArray(),
         });
       } catch (error) {
@@ -119,7 +119,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
               iconURL: client.user.avatarURL(),
             })
             .setDescription(`\`\`\`js\n${trim(<string>error, 4000)}\`\`\``)
-            .setColor(client.config.colors.error)
+            .setColor(client.config.colors.ERROR)
             .toJSONArray(),
         });
       }

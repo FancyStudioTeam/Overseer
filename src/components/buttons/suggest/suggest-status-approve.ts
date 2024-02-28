@@ -90,7 +90,7 @@ export default new Component({
           })
           .setThumbnail(user?.avatarURL() ?? client.user.avatarURL())
           .setDescription(userSuggestion.content)
-          .setColor(client.config.colors.color)
+          .setColor(client.config.colors.COLOR)
           .toJSONArray(),
         components: buttons(client, language),
       });
@@ -121,7 +121,7 @@ export default new Component({
                     }
                   )
                 )
-                .setColor(client.config.colors.success)
+                .setColor(client.config.colors.SUCCESS)
                 .toJSONArray(),
               components: [],
             })

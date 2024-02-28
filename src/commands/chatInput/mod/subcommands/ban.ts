@@ -86,7 +86,7 @@ export default new SubCommand({
                   }
                 )
               )
-              .setColor(client.config.colors.success)
+              .setColor(client.config.colors.SUCCESS)
               .toJSONArray(),
           });
         })
@@ -127,7 +127,7 @@ export default new SubCommand({
                   }
                 )
               )
-              .setColor(client.config.colors.success)
+              .setColor(client.config.colors.SUCCESS)
               .toJSONArray(),
           });
         })

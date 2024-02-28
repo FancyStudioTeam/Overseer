@@ -134,7 +134,7 @@ export async function updateGeneralMessage(
             ),
           },
         ])
-        .setColor(main.client.config.colors.color)
+        .setColor(main.client.config.colors.COLOR)
         .toJSONArray(),
       components: [
         new ActionRowBuilder()

@@ -78,7 +78,7 @@ export default new SubCommand({
               locale: language,
             })
           )
-          .setColor(client.config.colors.success)
+          .setColor(client.config.colors.SUCCESS)
           .toJSONArray(),
       })
       .then(async () => {

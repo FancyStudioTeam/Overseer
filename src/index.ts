@@ -23,7 +23,7 @@ process.on("uncaughtException", (error: Error) => {
       .setDescription(
         `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
       )
-      .setColor(client.config.colors.error)
+      .setColor(client.config.colors.ERROR)
       .toJSONArray(),
   });
 });
@@ -39,7 +39,7 @@ process.on("unhandledRejection", (error: Error) => {
       .setDescription(
         `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
       )
-      .setColor(client.config.colors.error)
+      .setColor(client.config.colors.ERROR)
       .toJSONArray(),
   });
 });

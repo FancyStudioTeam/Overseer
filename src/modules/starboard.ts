@@ -63,7 +63,7 @@ export default (client: Fancycord) => {
                 })
                 .setDescription(originalMessage.content)
                 .setImage(attachment?.proxyURL ?? "")
-                .setColor(client.config.colors.warning)
+                .setColor(client.config.colors.WARNING)
                 .toJSON(),
               new EmbedBuilder()
                 .addFields([
@@ -87,7 +87,7 @@ export default (client: Fancycord) => {
                     inline: true,
                   },
                 ])
-                .setColor(client.config.colors.color)
+                .setColor(client.config.colors.COLOR)
                 .toJSON(),
             ],
             components: new ActionRowBuilder()

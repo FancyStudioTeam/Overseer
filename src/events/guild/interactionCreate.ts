@@ -85,7 +85,7 @@ export default new Event(
       return interaction.reply({
         embeds: new EmbedBuilder()
           .setImage("attachment://maintenance.png")
-          .setColor(client.config.colors.color)
+          .setColor(client.config.colors.COLOR)
           .toJSONArray(),
         files: new AttachmentBuilder()
           .setName("maintenance.png")
@@ -104,7 +104,7 @@ export default new Event(
                 name: "_",
                 id: "1201585025028735016",
               })
-              .setURL(client.config.links.support),
+              .setURL(client.config.links.SUPPORT),
           ])
           .toJSONArray(),
         flags: MessageFlags.EPHEMERAL,

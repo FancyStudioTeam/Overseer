@@ -1,32 +1,36 @@
-import emojis from "./emojis";
+const colors = {
+  COLOR: 0x2b2d31,
+  SUCCESS: 0x2b2d31,
+  ERROR: 0x2b2d31,
+  WARNING: 0x2b2d31,
+};
+
+const links = {
+  INVITE:
+    "https://discord.com/oauth2/authorize?client_id=1167172866823954582&permissions=277025737728&scope=bot",
+  SUPPORT: "https://discord.gg/RPt73adMBq",
+};
+
+const emojis = {
+  MARK: "<:_:1201586248947597392>",
+  SUCCESS: "<:_:1201586112083279923>",
+  RIGHT: "<:_:1201948012830531644>",
+  GEAR: "<:_:1201584289473630208>",
+  INFO: "<:_:1201585353258188820>",
+  GAVEL: "<:_:1201585640182141078>",
+  SUPPORT: "<:_:1201585025028735016>",
+};
 
 export default {
-  colors: {
-    color: 0x2b2d31,
-    success: 0x2b2d31,
-    error: 0x2b2d31,
-    warning: 0x2b2d31,
-  },
-  links: {
-    invite:
-      "https://discord.com/oauth2/authorize?client_id=1167172866823954582&permissions=277025737728&scope=bot",
-    support: "https://discord.gg/RPt73adMBq",
-  },
+  colors,
+  links,
   developers: ["945029082314338407", "1200870671681605662"],
-  emojis: emojis,
+  emojis,
 };
 
 export interface Config {
-  colors: {
-    color: number;
-    success: number;
-    error: number;
-    warning: number;
-  };
-  links: {
-    invite: string;
-    support: string;
-  };
+  colors: Record<keyof typeof colors, number>;
+  links: Record<keyof typeof links, string>;
   developers: string[];
   emojis: Record<keyof typeof emojis, string>;
 }

@@ -160,7 +160,7 @@ export default (client: Fancycord) => {
                         locale: language,
                       })
                     )
-                    .setColor(client.config.colors.error)
+                    .setColor(client.config.colors.ERROR)
                     .toJSONArray(),
                 })
                 .catch(() => null);
@@ -185,7 +185,7 @@ export default (client: Fancycord) => {
                       locale: language,
                     })
                   )
-                  .setColor(client.config.colors.warning)
+                  .setColor(client.config.colors.WARNING)
                   .toJSON(),
                 new EmbedBuilder()
                   .setAuthor({
@@ -194,7 +194,7 @@ export default (client: Fancycord) => {
                   })
                   .setThumbnail(message.author.avatarURL())
                   .setDescription(cleanContent(trim(content, 4000)))
-                  .setColor(client.config.colors.color)
+                  .setColor(client.config.colors.COLOR)
                   .toJSON(),
               ],
               components: revision(client, language),
@@ -233,7 +233,7 @@ export default (client: Fancycord) => {
                 })
                 .setThumbnail(message.author.avatarURL())
                 .setDescription(cleanContent(trim(content, 4000)))
-                .setColor(client.config.colors.color)
+                .setColor(client.config.colors.COLOR)
                 .toJSONArray(),
               components: buttons(client, language),
             }

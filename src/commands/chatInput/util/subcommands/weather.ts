@@ -64,7 +64,7 @@ export default new SubCommand({
             ),
           },
         ])
-        .setColor(client.config.colors.color)
+        .setColor(client.config.colors.COLOR)
         .toJSONArray(),
       components: new ActionRowBuilder()
         .addComponents([

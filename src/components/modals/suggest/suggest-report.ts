@@ -71,7 +71,7 @@ export default new Modal({
             }\n<:_:1201948012830531644> **Reason**: ${reason}`,
           },
         ])
-        .setColor(client.config.colors.color)
+        .setColor(client.config.colors.COLOR)
         .toJSONArray(),
     });
 
@@ -83,7 +83,7 @@ export default new Modal({
             locale: language,
           })
         )
-        .setColor(client.config.colors.success)
+        .setColor(client.config.colors.SUCCESS)
         .toJSONArray(),
       flags: MessageFlags.EPHEMERAL,
     });

@@ -400,7 +400,7 @@ export class Fancycord extends Client {
             .setDescription(
               `\`\`\`js\nMissing translation line in "${locale}" language\n${value}\`\`\``
             )
-            .setColor(this.config.colors.error)
+            .setColor(this.config.colors.ERROR)
             .toJSONArray(),
         });
 

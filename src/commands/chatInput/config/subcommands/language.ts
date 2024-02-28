@@ -55,7 +55,7 @@ export default new SubCommand({
         .setDescription(
           translations[<Locales>language].COMMANDS.CONFIG.LANGUAGE.MESSAGE
         )
-        .setColor(client.config.colors.success)
+        .setColor(client.config.colors.SUCCESS)
         .toJSONArray(),
     });
   },

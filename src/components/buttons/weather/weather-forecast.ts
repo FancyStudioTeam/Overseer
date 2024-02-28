@@ -71,7 +71,7 @@ export default new Component({
             return f;
           })
         )
-        .setColor(client.config.colors.color)
+        .setColor(client.config.colors.COLOR)
         .toJSONArray(),
       flags: MessageFlags.EPHEMERAL,
     });

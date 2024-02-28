@@ -38,7 +38,7 @@ export default new Component({
             locale: language,
           })
         )
-        .setColor(client.config.colors.color)
+        .setColor(client.config.colors.COLOR)
         .toJSONArray(),
       components: new ActionRowBuilder()
         .addComponents([

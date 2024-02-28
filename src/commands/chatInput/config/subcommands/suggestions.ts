@@ -41,7 +41,7 @@ export default new SubCommand({
             locale: language,
           })
         )
-        .setColor(client.config.colors.color)
+        .setColor(client.config.colors.COLOR)
         .toJSONArray(),
       components: new ActionRowBuilder()
         .addComponents([
@@ -96,7 +96,7 @@ export async function updateMainMessage(
             locale: main.language,
           })
         )
-        .setColor(main.client.config.colors.color)
+        .setColor(main.client.config.colors.COLOR)
         .toJSONArray(),
       components: new ActionRowBuilder()
         .addComponents([

@@ -70,7 +70,7 @@ export default new SubCommand({
             timezone,
           })
         )
-        .setColor(client.config.colors.success)
+        .setColor(client.config.colors.SUCCESS)
         .toJSONArray(),
     });
   },

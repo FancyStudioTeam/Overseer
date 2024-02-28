@@ -34,7 +34,7 @@ export default new SubCommand({
             inline: true,
           },
         ])
-        .setColor(client.config.colors.color)
+        .setColor(client.config.colors.COLOR)
         .toJSONArray(),
     });
   },

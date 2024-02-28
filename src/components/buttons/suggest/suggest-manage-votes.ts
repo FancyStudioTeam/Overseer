@@ -55,7 +55,7 @@ export default new Component({
             }**`;
           })
           .join("\n"),
-        color: client.config.colors.color,
+        color: client.config.colors.COLOR,
       });
     } else {
       embeds.push({
@@ -64,7 +64,7 @@ export default new Component({
             "commands.utility.suggest.row.manage.row.votes.has-no-upvotes",
           locale: language,
         }),
-        color: client.config.colors.error,
+        color: client.config.colors.ERROR,
       });
     }
 
@@ -81,7 +81,7 @@ export default new Component({
             }**`;
           })
           .join("\n"),
-        color: client.config.colors.color,
+        color: client.config.colors.COLOR,
       });
     } else {
       embeds.push({
@@ -90,7 +90,7 @@ export default new Component({
             "commands.utility.suggest.row.manage.row.votes.has-no-downvotes",
           locale: language,
         }),
-        color: client.config.colors.error,
+        color: client.config.colors.ERROR,
       });
     }
 
