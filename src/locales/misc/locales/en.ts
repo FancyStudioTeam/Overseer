@@ -3,6 +3,19 @@ import { version } from "../../../../package.json";
 
 export default {
   COMMANDS: {
+    CONFIG: {
+      LANGUAGE: {
+        MESSAGE: `**${client.config.emojis.success} The language has been set to \`English\`**`,
+      },
+      TIMEZONE: {
+        ERRORS: {
+          TIMEZONE_NOT_FOUND: (variables: { timezone: string }): string =>
+            `**${client.config.emojis.mark} The timezone \`${variables.timezone}\` has not been found**`,
+        },
+        MESSAGE: (variables: { timezone: string }): string =>
+          `**${client.config.emojis.success} The timezone has been set to \`${variables.timezone}\`**`,
+      },
+    },
     INFO: {
       BOT: {
         MESSAGE: {
