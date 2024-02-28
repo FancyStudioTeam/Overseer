@@ -59,10 +59,10 @@ export default new ChatInputCommand({
               ["configuration", "information", "moderation", "utility"].map(
                 (e) => {
                   const emojis: Record<string, string> = {
-                    configuration: client.config.emojis.gear,
-                    information: client.config.emojis.info,
-                    moderation: client.config.emojis.gavel,
-                    utility: client.config.emojis.support,
+                    configuration: client.config.emojis.GEAR,
+                    information: client.config.emojis.INFO,
+                    moderation: client.config.emojis.GAVEL,
+                    utility: client.config.emojis.SUPPORT,
                   };
 
                   return {

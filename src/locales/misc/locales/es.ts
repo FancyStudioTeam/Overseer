@@ -5,15 +5,15 @@ export default {
   COMMANDS: {
     CONFIG: {
       LANGUAGE: {
-        MESSAGE: `**${client.config.emojis.success} El idioma ha sido establecido a \`Español\`**`,
+        MESSAGE: `**${client.config.emojis.SUCCESS} El idioma ha sido establecido a \`Español\`**`,
       },
       TIMEZONE: {
         ERRORS: {
           TIMEZONE_NOT_FOUND: (variables: { timezone: string }): string =>
-            `**${client.config.emojis.mark} La zona horaria \`${variables.timezone}\` no ha sido encontrada**`,
+            `**${client.config.emojis.MARK} La zona horaria \`${variables.timezone}\` no ha sido encontrada**`,
         },
         MESSAGE: (variables: { timezone: string }): string =>
-          `**${client.config.emojis.success} La zona horaria ha sido establecida a \`${variables.timezone}\`**`,
+          `**${client.config.emojis.SUCCESS} La zona horaria ha sido establecida a \`${variables.timezone}\`**`,
       },
     },
     INFO: {
@@ -22,8 +22,8 @@ export default {
           FIELD_1: "**Información General**",
           VALUE_1: (variables: { uptime: string }): string =>
             [
-              `${client.config.emojis.right} **Versión**: ${version}`,
-              `${client.config.emojis.right} **Tiempo activo**: ${variables.uptime}`,
+              `${client.config.emojis.RIGHT} **Versión**: ${version}`,
+              `${client.config.emojis.RIGHT} **Tiempo activo**: ${variables.uptime}`,
             ].join("\n"),
           FIELD_2: "**Estadísticas**",
           VALUE_2: (variables: {
@@ -32,9 +32,9 @@ export default {
             shards: number;
           }): string =>
             [
-              `${client.config.emojis.right} **Usuarios**: ${variables.users} usuarios`,
-              `${client.config.emojis.right} **Servidores**: ${variables.guilds} servidores`,
-              `${client.config.emojis.right} **Shards**: ${variables.shards} shards`,
+              `${client.config.emojis.RIGHT} **Usuarios**: ${variables.users} usuarios`,
+              `${client.config.emojis.RIGHT} **Servidores**: ${variables.guilds} servidores`,
+              `${client.config.emojis.RIGHT} **Shards**: ${variables.shards} shards`,
             ].join("\n"),
           FIELD_3: "**Proceso**",
           VALUE_3: (variables: {
@@ -43,9 +43,9 @@ export default {
             memory: string;
           }): string =>
             [
-              `${client.config.emojis.right} **Librería**: ${variables.library}`,
-              `${client.config.emojis.right} **Lenguaje**: ${variables.language}`,
-              `${client.config.emojis.right} **Uso de RAM**: ${variables.memory}`,
+              `${client.config.emojis.RIGHT} **Librería**: ${variables.library}`,
+              `${client.config.emojis.RIGHT} **Lenguaje**: ${variables.language}`,
+              `${client.config.emojis.RIGHT} **Uso de RAM**: ${variables.memory}`,
             ].join("\n"),
         },
       },
@@ -59,10 +59,10 @@ export default {
             createdAt: string;
           }): string =>
             [
-              `${client.config.emojis.right} **Nombre**: ${variables.name}`,
-              `${client.config.emojis.right} **ID**: ${variables.id}`,
-              `${client.config.emojis.right} **Propietario**: ${variables.owner}`,
-              `${client.config.emojis.right} **Fecha de Creación**: ${variables.createdAt}`,
+              `${client.config.emojis.RIGHT} **Nombre**: ${variables.name}`,
+              `${client.config.emojis.RIGHT} **ID**: ${variables.id}`,
+              `${client.config.emojis.RIGHT} **Propietario**: ${variables.owner}`,
+              `${client.config.emojis.RIGHT} **Fecha de Creación**: ${variables.createdAt}`,
             ].join("\n"),
           FIELD_2: "**Statistics**",
           VALUE_2: (variables: {
@@ -71,9 +71,9 @@ export default {
             roles: number;
           }): string =>
             [
-              `${client.config.emojis.right} **Miembros**: ${variables.members} miembros`,
-              `${client.config.emojis.right} **Canales**: ${variables.channels} canales`,
-              `${client.config.emojis.right} **Roles**: ${variables.roles} roles`,
+              `${client.config.emojis.RIGHT} **Miembros**: ${variables.members} miembros`,
+              `${client.config.emojis.RIGHT} **Canales**: ${variables.channels} canales`,
+              `${client.config.emojis.RIGHT} **Roles**: ${variables.roles} roles`,
             ].join("\n"),
         },
       },
@@ -88,11 +88,11 @@ export default {
             booster: string;
           }): string =>
             [
-              `${client.config.emojis.right} **Usuario**: ${variables.name}`,
-              `${client.config.emojis.right} **ID**: ${variables.id}`,
-              `${client.config.emojis.right} **Fecha de Creación**: ${variables.createdAt}`,
-              `${client.config.emojis.right} **Fecha de Membresía**: ${variables.joinedAt}`,
-              `${client.config.emojis.right} **Booster**: ${variables.booster}`,
+              `${client.config.emojis.RIGHT} **Usuario**: ${variables.name}`,
+              `${client.config.emojis.RIGHT} **ID**: ${variables.id}`,
+              `${client.config.emojis.RIGHT} **Fecha de Creación**: ${variables.createdAt}`,
+              `${client.config.emojis.RIGHT} **Fecha de Membresía**: ${variables.joinedAt}`,
+              `${client.config.emojis.RIGHT} **Booster**: ${variables.booster}`,
             ].join("\n"),
         },
       },
@@ -130,7 +130,7 @@ export default {
   },
   GENERAL: {
     INVALID_GUILD_PROPERTY: (variables: { structure: object }): string =>
-      `**${client.config.emojis.mark} La propiedad \`guild\` no está presente en la estructura \`${variables.structure.constructor.name}\`\n${client.config.emojis.right} Intenta volver a ejecutar la acción dentro de un servidor**`,
-    INVALID_GUILD_MEMBER: `**${client.config.emojis.mark} El usuario debe de ser miembro del servidor**`,
+      `**${client.config.emojis.MARK} La propiedad \`guild\` no está presente en la estructura \`${variables.structure.constructor.name}\`\n${client.config.emojis.RIGHT} Intenta volver a ejecutar la acción dentro de un servidor**`,
+    INVALID_GUILD_MEMBER: `**${client.config.emojis.MARK} El usuario debe de ser miembro del servidor**`,
   },
 };

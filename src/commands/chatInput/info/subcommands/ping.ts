@@ -25,12 +25,12 @@ export default new SubCommand({
         .addFields([
           {
             name: "**REST**",
-            value: `${client.config.emojis.right} ${client.rest.handler.latencyRef.latency}ms`,
+            value: `${client.config.emojis.RIGHT} ${client.rest.handler.latencyRef.latency}ms`,
             inline: true,
           },
           {
             name: "**WS**",
-            value: `${client.config.emojis.right} ${interaction.guild.shard.latency}ms`,
+            value: `${client.config.emojis.RIGHT} ${interaction.guild.shard.latency}ms`,
             inline: true,
           },
         ])
