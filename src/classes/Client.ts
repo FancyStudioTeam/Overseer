@@ -9,7 +9,7 @@ import {
   type CreateApplicationCommandOptions,
 } from "oceanic.js";
 import { EmbedBuilder } from "../builders/Embed";
-import config from "../misc/config";
+import config, { type Config } from "../misc/config";
 import {
   type ChatInputCommandInterface,
   type ComponentInterface,
@@ -413,18 +413,4 @@ export class Fancycord extends Client {
     });
     this.locales.setLocale("en");
   }
-}
-
-interface Config {
-  colors: {
-    color: number;
-    success: number;
-    error: number;
-    warning: number;
-  };
-  links: {
-    invite: string;
-    support: string;
-  };
-  developers: string[];
 }
