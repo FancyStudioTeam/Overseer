@@ -1,5 +1,5 @@
-import { client } from "../../..";
-import { version } from "../../../../package.json";
+import { client } from "../..";
+import { version } from "../../../package.json";
 
 export default {
   COMMANDS: {

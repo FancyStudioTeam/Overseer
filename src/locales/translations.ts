@@ -1,5 +1,5 @@
-import en from "./misc/locales/en";
-import es from "./misc/locales/es";
+import en from "./locales/en";
+import es from "./locales/es";
 
 export const translations = {
   en,
