@@ -32,7 +32,6 @@ export default new ChatInputCommand({
           name: "user",
           description: "User mention or ID",
           type: ApplicationCommandOptionTypes.USER,
-          required: false,
         },
       ],
     },
