@@ -2,6 +2,7 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
+import { translations } from "../../../../locales/translations";
 import {
   errorMessage,
   fetchUser,
@@ -13,13 +14,12 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language, timezone, hour12 }
+    { locale, timezone, hour12 }
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
-        description: client.locales.__({
-          phrase: "general.cannot-get-guild",
-          locale: language,
+        description: translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          structure: interaction,
         }),
       });
     }
@@ -37,42 +37,25 @@ export default new SubCommand({
         .setThumbnail(interaction.guild.iconURL() ?? client.user.avatarURL())
         .addFields([
           {
-            name: client.locales.__({
-              phrase: "commands.information.server.message.field",
-              locale: language,
+            name: translations[locale].COMMANDS.INFO.SERVER.MESSAGE.FIELD_1,
+            value: translations[locale].COMMANDS.INFO.SERVER.MESSAGE.VALUE_1({
+              name: interaction.guild.name,
+              id: interaction.guild.id,
+              owner: owner?.mention ?? "<:_:1201586248947597392>",
+              createdAt: formatTimestamp(
+                interaction.guild.createdAt,
+                timezone,
+                hour12
+              ),
             }),
-            value: client.locales.__mf(
-              {
-                phrase: "commands.information.server.message.value",
-                locale: language,
-              },
-              {
-                name: interaction.guild.name,
-                owner: owner?.mention ?? "<:_:1201586248947597392>",
-                createdAt: formatTimestamp(
-                  interaction.guild.createdAt,
-                  timezone,
-                  hour12
-                ),
-              }
-            ),
           },
           {
-            name: client.locales.__({
-              phrase: "commands.information.server.message.field2",
-              locale: language,
+            name: translations[locale].COMMANDS.INFO.SERVER.MESSAGE.FIELD_2,
+            value: translations[locale].COMMANDS.INFO.SERVER.MESSAGE.VALUE_2({
+              members: interaction.guild.memberCount,
+              channels: interaction.guild.channels.size,
+              roles: interaction.guild.roles.size,
             }),
-            value: client.locales.__mf(
-              {
-                phrase: "commands.information.server.message.value2",
-                locale: language,
-              },
-              {
-                members: interaction.guild.memberCount,
-                channels: interaction.guild.channels.size,
-                roles: interaction.guild.roles.size,
-              }
-            ),
           },
         ])
         .setColor(client.config.colors.color)

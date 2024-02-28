@@ -1,16 +1,17 @@
 import humanize from "humanize-duration";
 import type { CommandInteraction } from "oceanic.js";
-import pkg from "../../../../../package.json";
+import { dependencies, devDependencies } from "../../../../../package.json";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
+import { translations } from "../../../../locales/translations";
 
 export default new SubCommand({
   name: "bot",
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language }
+    { locale }
   ) => {
     interaction.reply({
       embeds: new EmbedBuilder()
@@ -21,59 +22,30 @@ export default new SubCommand({
         .setThumbnail(client.user.avatarURL())
         .addFields([
           {
-            name: client.locales.__({
-              phrase: "commands.information.bot.message.field",
-              locale: language,
+            name: translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_1,
+            value: translations[locale].COMMANDS.INFO.BOT.MESSAGE.VALUE_1({
+              uptime: humanize(client._uptime, {
+                language: locale,
+                largest: 2,
+                round: true,
+              }),
             }),
-            value: client.locales.__mf(
-              {
-                phrase: "commands.information.bot.message.value",
-                locale: language,
-              },
-              {
-                version: pkg.version,
-                uptime: humanize(client._uptime, {
-                  round: true,
-                  largest: 2,
-                  language: language,
-                }),
-              }
-            ),
           },
           {
-            name: client.locales.__({
-              phrase: "commands.information.bot.message.field2",
-              locale: language,
+            name: translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_2,
+            value: translations[locale].COMMANDS.INFO.BOT.MESSAGE.VALUE_2({
+              users: client.guilds.reduce((a, b) => a + b.memberCount, 0),
+              guilds: client.guilds.size,
+              shards: client.shards.size,
             }),
-            value: client.locales.__mf(
-              {
-                phrase: "commands.information.bot.message.value2",
-                locale: language,
-              },
-              {
-                users: client.guilds.reduce((a, b) => a + b.memberCount, 0),
-                guilds: client.guilds.size,
-                shards: client.shards.size,
-              }
-            ),
           },
           {
-            name: client.locales.__({
-              phrase: "commands.information.bot.message.field3",
-              locale: language,
+            name: translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_3,
+            value: translations[locale].COMMANDS.INFO.BOT.MESSAGE.VALUE_3({
+              library: `[Oceanic ${dependencies["oceanic.js"]}](https://oceanic.ws/)`,
+              language: `[TypeScript ${devDependencies.typescript}](https://www.typescriptlang.org/)`,
+              memory: formatBytes(process.memoryUsage().heapUsed),
             }),
-            value: client.locales.__mf(
-              {
-                phrase: "commands.information.bot.message.value3",
-                locale: language,
-              },
-              {
-                library: `[Oceanic ${pkg.dependencies["oceanic.js"]}](https://oceanic.ws/)`,
-                language: `[TypeScript ${pkg.devDependencies.typescript}](https://www.typescriptlang.org/)`,
-                ram: formatBytes(process.memoryUsage().heapUsed),
-                platform: process.platform,
-              }
-            ),
           },
         ])
         .setColor(client.config.colors.color)
