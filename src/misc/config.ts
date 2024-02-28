@@ -15,6 +15,10 @@ export default {
     mark: "<:_:1201586248947597392>",
     success: "<:_:1201586112083279923>",
     right: "<:_:1201948012830531644>",
+    gear: "<:_:1201584289473630208>",
+    info: "<:_:1201585353258188820>",
+    gavel: "<:_:1201585640182141078>",
+    support: "<:_:1201585025028735016>",
   },
 };
 
@@ -34,5 +38,9 @@ export interface Config {
     mark: string;
     success: string;
     right: string;
+    gear: string;
+    info: string;
+    gavel: string;
+    support: string;
   };
 }

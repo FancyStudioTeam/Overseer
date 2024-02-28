@@ -1,4 +1,5 @@
 import { format } from "@formkit/tempo";
+import { ParsedCustomEmojiWithGroups } from "@sapphire/discord-utilities";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import {
   type AnyInteractionGateway,
@@ -11,6 +12,7 @@ import {
   type Member,
   type Message,
   MessageFlags,
+  type NullablePartialEmoji,
   type PermissionName,
   type Role,
   type User,
@@ -91,6 +93,16 @@ export function cleanContent(content: string): string {
   }
 
   return message;
+}
+
+export function parseEmoji(emoji: string): NullablePartialEmoji {
+  // biome-ignore lint/style/noNonNullAssertion:
+  const match = emoji.match(ParsedCustomEmojiWithGroups)!;
+
+  return {
+    name: match[2],
+    id: match[3],
+  };
 }
 
 export function getHighestRole(member: Member): Role | null {
@@ -302,6 +314,8 @@ export function handleError(
   context: AnyInteractionGateway,
   language: string
 ): void {
+  logger.log("ERR", error.stack ?? error.message);
+
   const id = DiscordSnowflake.generate().toString();
 
   webhook(WebhookType.LOGS, {

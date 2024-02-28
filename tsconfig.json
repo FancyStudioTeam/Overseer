@@ -29,9 +29,6 @@
     "useDefineForClassFields": true,
     "isolatedModules": true,
     "noImplicitAny": true,
-    "experimentalDecorators": true,
-    "paths": {
-      "@/*": ["./src/*", "./dist/src/*"]
-    }
+    "experimentalDecorators": true
   }
 }

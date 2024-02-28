@@ -11,6 +11,8 @@ import { EmbedBuilder } from "../../../builders/Embed";
 import { SelectMenuBuilder } from "../../../builders/SelectMenu";
 import { ChatInputCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
+import { translations } from "../../../locales/translations";
+import { parseEmoji } from "../../../util/util";
 
 export default new ChatInputCommand({
   name: "help",
@@ -21,7 +23,7 @@ export default new ChatInputCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language }
+    { locale }
   ) => {
     interaction.reply({
       embeds: new EmbedBuilder()
@@ -31,15 +33,9 @@ export default new ChatInputCommand({
         })
         .setThumbnail(client.user.avatarURL())
         .setDescription(
-          client.locales.__mf(
-            {
-              phrase: "commands.information.help.message",
-              locale: language,
-            },
-            {
-              mention: client.user.mention,
-            }
-          )
+          translations[locale].HELP.MESSAGE.MESSAGE({
+            mention: client.user.mention,
+          })
         )
         .setImage("attachment://banner.png")
         .setColor(client.config.colors.color)
@@ -56,74 +52,39 @@ export default new ChatInputCommand({
         .addComponents([
           new SelectMenuBuilder()
             .setCustomID("help-plugins")
-            .addOptions([
-              {
-                label: client.locales.__({
-                  phrase: "commands.information.help.row.configuration.label",
-                  locale: language,
-                }),
-                value: "configuration",
-                description: client.locales.__({
-                  phrase:
-                    "commands.information.help.row.configuration.description",
-                  locale: language,
-                }),
-                emoji: {
-                  name: "_",
-                  id: "1201584289473630208",
-                },
-              },
-              {
-                label: client.locales.__({
-                  phrase: "commands.information.help.row.information.label",
-                  locale: language,
-                }),
-                value: "information",
-                description: client.locales.__({
-                  phrase:
-                    "commands.information.help.row.information.description",
-                  locale: language,
-                }),
-                emoji: {
-                  name: "_",
-                  id: "1201585353258188820",
-                },
-              },
-              {
-                label: client.locales.__({
-                  phrase: "commands.information.help.row.moderation.label",
-                  locale: language,
-                }),
-                value: "moderation",
-                description: client.locales.__({
-                  phrase:
-                    "commands.information.help.row.moderation.description",
-                  locale: language,
-                }),
-                emoji: {
-                  name: "_",
-                  id: "1201585640182141078",
-                },
-              },
-              {
-                label: client.locales.__({
-                  phrase: "commands.information.help.row.utility.label",
-                  locale: language,
-                }),
-                value: "utility",
-                description: client.locales.__({
-                  phrase: "commands.information.help.row.utility.description",
-                  locale: language,
-                }),
-                emoji: {
-                  name: "_",
-                  id: "1201585025028735016",
-                },
-              },
-            ])
+            .setPlaceholder(
+              translations[locale].HELP.COMPONENTS.SELECT_MENU.PLACEHOLDER
+            )
+            .addOptions(
+              ["configuration", "information", "moderation", "utility"].map(
+                (e) => {
+                  const emojis: Record<string, string> = {
+                    configuration: client.config.emojis.gear,
+                    information: client.config.emojis.info,
+                    moderation: client.config.emojis.gavel,
+                    utility: client.config.emojis.support,
+                  };
+
+                  return {
+                    label:
+                      translations[locale].HELP.COMPONENTS.SELECT_MENU.OPTIONS[
+                        <Plugins>e.toUpperCase()
+                      ].LABEL,
+                    value: e,
+                    description:
+                      translations[locale].HELP.COMPONENTS.SELECT_MENU.OPTIONS[
+                        <Plugins>e.toUpperCase()
+                      ].DESCRIPTION,
+                    emoji: parseEmoji(emojis[e]),
+                  };
+                }
+              )
+            )
             .setType(ComponentTypes.STRING_SELECT),
         ])
         .toJSONArray(),
     });
   },
 });
+
+type Plugins = "CONFIGURATION" | "INFORMATION" | "MODERATION" | "UTILITY";

@@ -85,6 +85,36 @@ export default {
       },
     },
   },
+  HELP: {
+    COMPONENTS: {
+      SELECT_MENU: {
+        PLACEHOLDER: "Selecciona una categoría",
+        OPTIONS: {
+          CONFIGURATION: {
+            LABEL: "Configuración",
+            DESCRIPTION: "Configura funcionalidades del bot a tu gusto",
+          },
+          INFORMATION: {
+            LABEL: "Información",
+            DESCRIPTION: "Obtén información útil de usuarios o del servidor",
+          },
+          MODERATION: {
+            LABEL: "Moderación",
+            DESCRIPTION:
+              "Utiliza herramientas para mantener tu comunidad segura",
+          },
+          UTILITY: {
+            LABEL: "Útilidad",
+            DESCRIPTION: "Utiliza comandos variados que sean útiles",
+          },
+        },
+      },
+    },
+    MESSAGE: {
+      MESSAGE: (variables: { mention: string }): string =>
+        `**¡Hola! Soy ${variables.mention}, un bot que ofrece una experiencia minimalista y eficiente para tus comunidades de Discord**\n\nEstoy diseñado con la simplicidad en mente, brindando funcionalidades esenciales de manera fácil y moderna`,
+    },
+  },
   GENERAL: {
     INVALID_GUILD_PROPERTY: (variables: { structure: object }): string =>
       `**${client.config.emojis.mark} La propiedad \`guild\` no está presente en la estructura \`${variables.structure.constructor.name}\`\n${client.config.emojis.right} Intenta volver a ejecutar la acción dentro de un servidor**`,
