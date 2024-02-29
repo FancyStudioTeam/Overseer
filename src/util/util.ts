@@ -61,15 +61,13 @@ export function errorMessage(
   embed: EmbedOptions
 ): void {
   if ("reply" in context) {
-    context
-      .reply({
-        embeds: new EmbedBuilder()
-          .load(embed)
-          .setColor(Colors.ERROR)
-          .toJSONArray(),
-        flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
-      })
-      .catch(() => null);
+    context.reply({
+      embeds: new EmbedBuilder()
+        .load(embed)
+        .setColor(Colors.ERROR)
+        .toJSONArray(),
+      flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
+    });
   }
 }
 
@@ -201,7 +199,7 @@ export function checkGuildPermissions(
     hasPermissions = false;
 
     if ("reply" in context) {
-      context.reply(payload).catch(() => null);
+      context.reply(payload);
     } else {
       client.rest.channels
         .createMessage(context.channelID, payload)
@@ -264,7 +262,7 @@ export function checkChannelPermissions(
     hasPermissions = false;
 
     if ("reply" in context) {
-      context.reply(payload).catch(() => null);
+      context.reply(payload);
     } else {
       client.rest.channels
         .createMessage(context.channelID, payload)
@@ -379,7 +377,7 @@ export function handleError(
   });
 
   if ("reply" in context) {
-    context.reply(payload).catch(() => null);
+    context.reply(payload);
   } else {
     client.rest.channels
       .createMessage(context.channelID, payload)
