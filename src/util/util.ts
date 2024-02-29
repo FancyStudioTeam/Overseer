@@ -4,7 +4,6 @@ import { DiscordSnowflake } from "@sapphire/snowflake";
 import {
   type AnyInteractionGateway,
   type AnyTextableGuildChannel,
-  ButtonStyles,
   type CreateMessageOptions,
   type EmbedOptions,
   type ExecuteWebhookOptions,
@@ -20,12 +19,11 @@ import {
 import type { RateLimiterMemory } from "rate-limiter-flexible";
 import urlRegex from "url-regex";
 import { client } from "..";
-import { ActionRowBuilder } from "../builders/ActionRow";
-import { ButtonBuilder } from "../builders/Button";
 import { EmbedBuilder } from "../builders/Embed";
-import type { Fancycord } from "../classes/Client";
 import { permissions } from "../locales/misc/reference";
 import { WebhookType } from "../types";
+import type { Locales } from "../types";
+import { Colors, Emojis, Links, Translations } from "./constants";
 import { logger } from "./logger";
 
 export async function fetchUser(id: string): Promise<User | null | undefined> {
@@ -37,7 +35,7 @@ export async function fetchUser(id: string): Promise<User | null | undefined> {
 }
 
 export async function fetchMember(
-  context: AnyInteractionGateway,
+  context: AnyInteractionGateway | Message,
   id: string
 ): Promise<Member | null | undefined> {
   if (!context.inCachedGuildChannel() || !context.guild) return null;
@@ -63,13 +61,15 @@ export function errorMessage(
   embed: EmbedOptions
 ): void {
   if ("reply" in context) {
-    context.reply({
-      embeds: new EmbedBuilder()
-        .load(embed)
-        .setColor(client.config.colors.ERROR)
-        .toJSONArray(),
-      flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
-    });
+    context
+      .reply({
+        embeds: new EmbedBuilder()
+          .load(embed)
+          .setColor(Colors.ERROR)
+          .toJSONArray(),
+        flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
+      })
+      .catch(() => null);
   }
 }
 
@@ -152,8 +152,7 @@ export function formatTimestamp(
 
 export function checkGuildPermissions(
   main: {
-    client: Fancycord;
-    language: string;
+    locale: Locales;
   },
   context: AnyInteractionGateway | Message,
   checkPermissions: PermissionName[],
@@ -174,24 +173,23 @@ export function checkGuildPermissions(
   const payload: CreateMessageOptions | InteractionContent = {
     embeds: new EmbedBuilder()
       .setDescription(
-        client.locales.__mf(
-          {
-            phrase:
-              member.user.id === client.user.id
-                ? "general.permissions.bot-guild-permissions"
-                : "general.permissions.user-guild-permissions",
-            locale: main.language,
-          },
-          {
-            permission: requiredPermissions
-              .map((p, _) => {
-                return permissions[p][main.language];
-              })
-              .join(", "),
-          }
-        )
+        member.user.id === client.user.id
+          ? Translations[main.locale].GENERAL.PERMISSIONS.GUILD.CLIENT({
+              permissions: requiredPermissions
+                .map((p, _) => {
+                  return `\`${permissions[p][main.locale]}\``;
+                })
+                .join(", "),
+            })
+          : Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER({
+              permissions: requiredPermissions
+                .map((p, _) => {
+                  return `\`${permissions[p][main.locale]}\``;
+                })
+                .join(", "),
+            })
       )
-      .setColor(client.config.colors.ERROR)
+      .setColor(Colors.ERROR)
       .toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
@@ -203,7 +201,7 @@ export function checkGuildPermissions(
     hasPermissions = false;
 
     if ("reply" in context) {
-      context.reply(payload);
+      context.reply(payload).catch(() => null);
     } else {
       client.rest.channels
         .createMessage(context.channelID, payload)
@@ -216,8 +214,7 @@ export function checkGuildPermissions(
 
 export function checkChannelPermissions(
   main: {
-    client: Fancycord;
-    language: string;
+    locale: Locales;
   },
   context: AnyInteractionGateway | Message,
   checkPermissions: PermissionName[],
@@ -237,25 +234,25 @@ export function checkChannelPermissions(
   const payload: CreateMessageOptions | InteractionContent = {
     embeds: new EmbedBuilder()
       .setDescription(
-        client.locales.__mf(
-          {
-            phrase:
-              member.user.id === client.user.id
-                ? "general.permissions.bot-channel-permissions"
-                : "general.permissions.user-channel-permissions",
-            locale: main.language,
-          },
-          {
-            permission: requiredPermissions
-              .map((p, _) => {
-                return permissions[p][main.language];
-              })
-              .join(", "),
-            channel: channel.mention,
-          }
-        )
+        member.user.id === client.user.id
+          ? Translations[main.locale].GENERAL.PERMISSIONS.CHANNEL.CLIENT({
+              permissions: requiredPermissions
+                .map((p, _) => {
+                  return `\`${permissions[p][main.locale]}\``;
+                })
+                .join(", "),
+              channel: channel.mention,
+            })
+          : Translations[main.locale].GENERAL.PERMISSIONS.CHANNEL.USER({
+              permissions: requiredPermissions
+                .map((p, _) => {
+                  return `\`${permissions[p][main.locale]}\``;
+                })
+                .join(", "),
+              channel: channel.mention,
+            })
       )
-      .setColor(client.config.colors.ERROR)
+      .setColor(Colors.ERROR)
       .toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
@@ -267,7 +264,7 @@ export function checkChannelPermissions(
     hasPermissions = false;
 
     if ("reply" in context) {
-      context.reply(payload);
+      context.reply(payload).catch(() => null);
     } else {
       client.rest.channels
         .createMessage(context.channelID, payload)
@@ -310,92 +307,83 @@ export function webhook(
 }
 
 export function handleError(
+  main: {
+    locale: Locales;
+  },
   error: Error,
-  context: AnyInteractionGateway,
-  language: string
+  context: AnyInteractionGateway | Message
 ): void {
   logger.log("ERR", error.stack ?? error.message);
 
   const id = DiscordSnowflake.generate().toString();
-
-  webhook(WebhookType.LOGS, {
+  const payload: CreateMessageOptions | InteractionContent = {
     embeds: new EmbedBuilder()
       .setAuthor({
         name: client.user.username,
         iconURL: client.user.avatarURL(),
       })
       .setDescription(
-        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
+        Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.MESSAGE({
+          support: Links.SUPPORT,
+        })
       )
       .addFields([
         {
-          name: "**General information**",
-          value: `<:_:1201948012830531644> **Report ID**: ${id}\n<:_:1201948012830531644> **User**: ${
-            context.user.username
-          }\n<:_:1201948012830531644> **User ID**: ${
-            context.user.id
-          }\n<:_:1201948012830531644> **Server**: ${
-            context.guild?.name ?? "<:_:1201586248947597392>"
-          }\n<:_:1201948012830531644> **Server ID**: ${
-            context.guildID ?? "<:_:1201586248947597392>"
-          }`,
+          name: Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.FIELDS[0]
+            .FIELD,
+          value: Translations[
+            main.locale
+          ].GENERAL.SOMETHING_WENT_WRONG.FIELDS[0].VALUE({
+            id,
+            name: error.name,
+          }),
         },
       ])
-      .setColor(client.config.colors.ERROR)
+      .setColor(Colors.ERROR)
       .toJSONArray(),
-  });
+  };
 
-  if ("reply" in context) {
-    context.reply({
-      embeds: new EmbedBuilder()
+  webhook(WebhookType.LOGS, {
+    embeds: [
+      new EmbedBuilder()
         .setAuthor({
           name: client.user.username,
           iconURL: client.user.avatarURL(),
         })
         .setDescription(
-          client.locales.__({
-            phrase: "general.error.message",
-            locale: language,
-          })
+          [
+            `${Emojis.RIGHT} **Report ID**: ${id}`,
+            `${Emojis.RIGHT} **User**: ${
+              ("user" in context && context.user.username) ??
+              ("author" in context && context.author.username)
+            }`,
+            `${Emojis.RIGHT} **User ID**: ${
+              ("user" in context && context.user.id) ??
+              ("author" in context && context.author.id)
+            }`,
+            `${Emojis.RIGHT} **Server**: ${context.guild?.name ?? Emojis.MARK}`,
+            `${Emojis.RIGHT} **Server ID**: ${
+              context.guild?.id ?? Emojis.MARK
+            }`,
+          ].join("\n")
         )
-        .addFields([
-          {
-            name: client.locales.__({
-              phrase: "general.error.field",
-              locale: language,
-            }),
-            value: client.locales.__mf(
-              {
-                phrase: "general.error.value",
-                locale: language,
-              },
-              {
-                id: id,
-                name: error.name,
-              }
-            ),
-          },
-        ])
-        .setColor(client.config.colors.ERROR)
-        .toJSONArray(),
-      components: new ActionRowBuilder()
-        .addComponents([
-          new ButtonBuilder()
-            .setLabel(
-              client.locales.__({
-                phrase: "general.error.row.support.label",
-                locale: language,
-              })
-            )
-            .setStyle(ButtonStyles.LINK)
-            .setEmoji({
-              name: "_",
-              id: "1201585025028735016",
-            })
-            .setURL(client.config.links.SUPPORT),
-        ])
-        .toJSONArray(),
-    });
+        .setColor(Colors.ERROR)
+        .toJSON(),
+      new EmbedBuilder()
+        .setDescription(
+          `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
+        )
+        .setColor(Colors.ERROR)
+        .toJSON(),
+    ],
+  });
+
+  if ("reply" in context) {
+    context.reply(payload).catch(() => null);
+  } else {
+    client.rest.channels
+      .createMessage(context.channelID, payload)
+      .catch(() => null);
   }
 }
 
@@ -412,24 +400,6 @@ export function bitFieldValues(bitField: number): number[] {
   }
 
   return array;
-}
-
-export function insertEmpty(array: unknown[]): any[] {
-  const newArray = [];
-
-  for (let i = 0; i < array.length; i++) {
-    newArray.push(array[i]);
-
-    if (i % 2 === 0) {
-      newArray.push({
-        name: "",
-        value: "",
-        inline: true,
-      });
-    }
-  }
-
-  return newArray;
 }
 
 export async function consume(

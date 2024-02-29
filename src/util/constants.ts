@@ -1,3 +1,6 @@
+import EN from "../locales/en";
+import ES from "../locales/es";
+
 export const Colors = {
   COLOR: 0x2b2d31,
   SUCCESS: 0x2b2d31,
@@ -19,4 +22,9 @@ export const Emojis = {
   INFO: "<:_:1201585353258188820>",
   GAVEL: "<:_:1201585640182141078>",
   SUPPORT: "<:_:1201585025028735016>",
+};
+
+export const Translations = {
+  EN,
+  ES,
 };

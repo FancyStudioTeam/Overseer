@@ -9,7 +9,7 @@ import type {
 } from "oceanic.js";
 import type { Fancycord } from "./classes/Client";
 
-export type Locales = "en" | "es";
+export type Locales = "EN" | "ES";
 
 export enum WebhookType {
   REPORTS = "REPORTS",
@@ -48,7 +48,6 @@ export interface SubCommandInterface {
     client: Fancycord,
     interaction: CommandInteraction,
     config: {
-      language: string;
       locale: Locales;
       timezone: string;
       hour12: boolean;
@@ -62,7 +61,6 @@ export type UserCommandInterface = {
     client: Fancycord,
     interaction: CommandInteraction,
     config: {
-      language: string;
       locale: Locales;
       timezone: string;
       hour12: boolean;
@@ -81,7 +79,6 @@ export interface ComponentInterface {
     client: Fancycord,
     interaction: ComponentInteraction,
     config: {
-      language: string;
       locale: Locales;
       timezone: string;
       hour12: boolean;
@@ -101,7 +98,6 @@ export interface ModalInterface {
     client: Fancycord,
     interaction: ModalSubmitInteraction,
     config: {
-      language: string;
       locale: Locales;
       timezone: string;
       hour12: boolean;
