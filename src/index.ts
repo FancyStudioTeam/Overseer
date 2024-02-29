@@ -2,6 +2,7 @@ import "dotenv/config";
 import { EmbedBuilder } from "./builders/Embed";
 import { Fancycord } from "./classes/Client";
 import { WebhookType } from "./types";
+import { Colors } from "./util/constants";
 import { logger } from "./util/logger";
 import { trim, webhook } from "./util/util";
 
@@ -23,7 +24,7 @@ process.on("uncaughtException", (error: Error) => {
       .setDescription(
         `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
       )
-      .setColor(client.config.colors.ERROR)
+      .setColor(Colors.ERROR)
       .toJSONArray(),
   });
 });
@@ -39,7 +40,7 @@ process.on("unhandledRejection", (error: Error) => {
       .setDescription(
         `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
       )
-      .setColor(client.config.colors.ERROR)
+      .setColor(Colors.ERROR)
       .toJSONArray(),
   });
 });

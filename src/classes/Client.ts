@@ -1,26 +1,21 @@
 import { readdirSync } from "node:fs";
 import { join, sep } from "node:path";
 import figlet from "figlet";
-import i18n from "i18n";
 import {
   Client,
   type ClientEvents,
   Collection,
   type CreateApplicationCommandOptions,
 } from "oceanic.js";
-import { EmbedBuilder } from "../builders/Embed";
-import config, { type Config } from "../misc/config";
-import {
-  type ChatInputCommandInterface,
-  type ComponentInterface,
-  type ModalInterface,
-  type SubCommandInterface,
-  type UserCommandInterface,
-  WebhookType,
+import type {
+  ChatInputCommandInterface,
+  ComponentInterface,
+  ModalInterface,
+  SubCommandInterface,
+  UserCommandInterface,
 } from "../types";
 import { prisma } from "../util/db";
 import { logger } from "../util/logger";
-import { webhook } from "../util/util";
 import type { Event } from "./Builders";
 
 const arrayCommands: object[] = [];
@@ -36,8 +31,6 @@ export class Fancycord extends Client {
     modals: Collection<string, ModalInterface>;
   };
   subcommands: Collection<string, SubCommandInterface>;
-  config: Config;
-  locales: i18n.I18n;
   private dbReady: boolean;
   readyAt: number | null;
 
@@ -95,8 +88,6 @@ export class Fancycord extends Client {
       modals: new Collection(),
     };
     this.subcommands = new Collection();
-    this.config = config;
-    this.locales = i18n;
     this.dbReady = false;
     this.readyAt = null;
   }
@@ -139,7 +130,6 @@ export class Fancycord extends Client {
       });
     }
 
-    this.registerLocales();
     this.registerSubCommands();
     this.registerButtons();
     this.registerSelectMenus();
@@ -376,41 +366,5 @@ export class Fancycord extends Client {
 
       module(this);
     });
-  }
-
-  registerLocales(): void {
-    this.locales.configure({
-      locales: ["en", "es"],
-      directory: join(__dirname, "..", "locales"),
-      retryInDefaultLocale: true,
-      objectNotation: true,
-      register: global,
-      autoReload: true,
-      missingKeyFn: (locale, value) => {
-        logger.log(
-          "ERR",
-          `Missing translation line in "${locale}" language\n${value}`
-        );
-        webhook(WebhookType.LOGS, {
-          embeds: new EmbedBuilder()
-            .setAuthor({
-              name: this.user.username,
-              iconURL: this.user.avatarURL(),
-            })
-            .setDescription(
-              `\`\`\`js\nMissing translation line in "${locale}" language\n${value}\`\`\``
-            )
-            .setColor(this.config.colors.ERROR)
-            .toJSONArray(),
-        });
-
-        return `Missing translation line in "${locale}" language`;
-      },
-      mustacheConfig: {
-        tags: ["{{", "}}"],
-        disable: false,
-      },
-    });
-    this.locales.setLocale("en");
   }
 }
