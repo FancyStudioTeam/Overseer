@@ -17,6 +17,7 @@ import { ButtonBuilder } from "../../builders/Button";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
 import { permissions } from "../../locales/misc/reference";
+import { translations } from "../../locales/translations";
 import type {
   ChatInputCommandInterface,
   ComponentInterface,
@@ -58,7 +59,7 @@ export default new Event(
         guild_id: interaction.guild.id,
       },
     });
-    const language = guildConfiguration?.language ?? "en";
+    const language = <Locales>(guildConfiguration?.language ?? "en");
     const timezone = guildConfiguration?.timezone ?? "UTC";
     const hour12 = guildConfiguration?.hour12 ?? false;
     const premium = guildConfiguration?.premium ?? false;
@@ -116,19 +117,13 @@ export default new Event(
 
       if (rateLimit.rateLimited) {
         return errorMessage(interaction, true, {
-          description: client.locales.__mf(
-            {
-              phrase: "general.rate-limiter",
-              locale: language,
-            },
-            {
-              seconds: humanize(rateLimit.resets, {
-                round: true,
-                largest: 2,
-                language: language,
-              }),
-            }
-          ),
+          description: translations[language].GENERAL.USER_IS_LIMITED({
+            resets: humanize(rateLimit.resets, {
+              language: language,
+              largest: 2,
+              round: true,
+            }),
+          }),
         });
       }
 
@@ -201,7 +196,7 @@ export default new Event(
                 await subcommand
                   .run(client, interaction, {
                     language: language,
-                    locale: <Locales>language,
+                    locale: language,
                     timezone: timezone,
                     hour12: hour12,
                     premium: premium,
@@ -216,7 +211,7 @@ export default new Event(
               await command
                 .run(client, interaction, {
                   language: language,
-                  locale: <Locales>language,
+                  locale: language,
                   timezone: timezone,
                   hour12: hour12,
                   premium: premium,
@@ -238,7 +233,7 @@ export default new Event(
           await command
             .run(client, interaction, {
               language: language,
-              locale: <Locales>language,
+              locale: language,
               timezone: timezone,
               hour12: hour12,
               premium: premium,
@@ -269,7 +264,7 @@ export default new Event(
         await modal
           .run(client, interaction, {
             language: language,
-            locale: <Locales>language,
+            locale: language,
             timezone: timezone,
             hour12: hour12,
             premium: premium,
@@ -288,19 +283,13 @@ export default new Event(
 
       if (rateLimit.rateLimited) {
         return errorMessage(interaction, true, {
-          description: client.locales.__mf(
-            {
-              phrase: "general.rate-limiter",
-              locale: language,
-            },
-            {
-              seconds: humanize(rateLimit.resets, {
-                round: true,
-                largest: 2,
-                language: language,
-              }),
-            }
-          ),
+          description: translations[language].GENERAL.USER_IS_LIMITED({
+            resets: humanize(rateLimit.resets, {
+              language: language,
+              largest: 2,
+              round: true,
+            }),
+          }),
         });
       }
 
@@ -351,7 +340,7 @@ export default new Event(
           await button
             .run(client, interaction, {
               language: language,
-              locale: <Locales>language,
+              locale: language,
               timezone: timezone,
               hour12: hour12,
               premium: premium,
@@ -410,7 +399,7 @@ export default new Event(
           await select
             .run(client, interaction, {
               language: language,
-              locale: <Locales>language,
+              locale: language,
               timezone: timezone,
               hour12: hour12,
               premium: premium,

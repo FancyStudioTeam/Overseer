@@ -139,5 +139,7 @@ export default {
     INVALID_GUILD_PROPERTY: (variables: { structure: object }): string =>
       `**${client.config.emojis.MARK} The \`guild\` property is not present in the \`${variables.structure.constructor.name}\` structure\n${client.config.emojis.RIGHT} Attempts to re-execute the action within a server**`,
     INVALID_GUILD_MEMBER: `**${client.config.emojis.MARK} The user must be a member of the server**`,
+    USER_IS_LIMITED: (variables: { resets: string }): string =>
+      `**${client.config.emojis.MARK} You are executing too many actions in too little time\n${client.config.emojis.RIGHT} You have received a block which will be reset in \`${variables.resets}\`**`,
   },
 };
