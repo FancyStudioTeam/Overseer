@@ -13,7 +13,8 @@ import { EmbedBuilder } from "../../../builders/Embed";
 import { SelectMenuBuilder } from "../../../builders/SelectMenu";
 import { ChatInputCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { translations } from "../../../locales/translations";
+import { Colors, Emojis, Links } from "../../../constants";
+import { Translations } from "../../../locales/index";
 import { parseEmoji } from "../../../util/util";
 
 export default new ChatInputCommand({
@@ -35,12 +36,12 @@ export default new ChatInputCommand({
         })
         .setThumbnail(client.user.avatarURL())
         .setDescription(
-          translations[locale].HELP.MESSAGE.MESSAGE({
+          Translations[locale].HELP.MESSAGE.MESSAGE({
             mention: client.user.mention,
           })
         )
         .setImage("attachment://banner.png")
-        .setColor(client.config.colors.COLOR)
+        .setColor(Colors.COLOR)
         .toJSONArray(),
       files: new AttachmentBuilder()
         .setName("banner.png")
@@ -55,20 +56,20 @@ export default new ChatInputCommand({
           .addComponents([
             new ButtonBuilder()
               .setLabel(
-                translations[locale].HELP.COMPONENTS.BUTTONS.ADD_TO_DISCORD
+                Translations[locale].HELP.COMPONENTS.BUTTONS.ADD_TO_DISCORD
                   .LABEL
               )
               .setStyle(ButtonStyles.LINK)
-              .setEmoji(parseEmoji(client.config.emojis.SUPPORT))
-              .setURL(client.config.links.INVITE),
+              .setEmoji(parseEmoji(Emojis.SUPPORT))
+              .setURL(Links.INVITE),
             new ButtonBuilder()
               .setLabel(
-                translations[locale].HELP.COMPONENTS.BUTTONS.SUPPORT_SERVER
+                Translations[locale].HELP.COMPONENTS.BUTTONS.SUPPORT_SERVER
                   .LABEL
               )
               .setStyle(ButtonStyles.LINK)
-              .setEmoji(parseEmoji(client.config.emojis.SUPPORT))
-              .setURL(client.config.links.SUPPORT),
+              .setEmoji(parseEmoji(Emojis.SUPPORT))
+              .setURL(Links.SUPPORT),
           ])
           .toJSON(),
         new ActionRowBuilder()
@@ -76,25 +77,25 @@ export default new ChatInputCommand({
             new SelectMenuBuilder()
               .setCustomID("help-plugins")
               .setPlaceholder(
-                translations[locale].HELP.COMPONENTS.SELECT_MENU.PLACEHOLDER
+                Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLACEHOLDER
               )
               .addOptions(
                 ["configuration", "information", "moderation", "utility"].map(
                   (e) => {
                     const emojis: Record<string, string> = {
-                      configuration: client.config.emojis.GEAR,
-                      information: client.config.emojis.INFO,
-                      moderation: client.config.emojis.GAVEL,
-                      utility: client.config.emojis.SUPPORT,
+                      configuration: Emojis.GEAR,
+                      information: Emojis.INFO,
+                      moderation: Emojis.GAVEL,
+                      utility: Emojis.SUPPORT,
                     };
 
                     return {
                       label:
-                        translations[locale].HELP.COMPONENTS.SELECT_MENU
+                        Translations[locale].HELP.COMPONENTS.SELECT_MENU
                           .OPTIONS[<Plugins>e.toUpperCase()].LABEL,
                       value: e,
                       description:
-                        translations[locale].HELP.COMPONENTS.SELECT_MENU
+                        Translations[locale].HELP.COMPONENTS.SELECT_MENU
                           .OPTIONS[<Plugins>e.toUpperCase()].DESCRIPTION,
                       emoji: parseEmoji(emojis[e]),
                     };

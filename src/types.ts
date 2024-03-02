@@ -14,7 +14,6 @@ export type Locales = "EN" | "ES" | "GL";
 export enum WebhookType {
   REPORTS = "REPORTS",
   LOGS = "LOGS",
-  GUILD_LOGS = "GUILD_LOGS",
 }
 
 export type ChatInputCommandInterface = {

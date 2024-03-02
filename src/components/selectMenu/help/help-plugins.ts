@@ -7,19 +7,14 @@ import {
 import { EmbedBuilder } from "../../../builders/Embed";
 import { Component } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { descriptions } from "../../../locales/misc/commands";
+import { Colors } from "../../../constants";
 
 export default new Component({
   name: "help-plugins",
-  run: async (
-    client: Fancycord,
-    interaction: ComponentInteraction,
-    { language }
-  ) => {
+  run: async (client: Fancycord, interaction: ComponentInteraction) => {
     const data = <MessageComponentSelectMenuInteractionData>interaction.data;
     const commands: {
       name: string;
-      description: string;
       id?: string;
     }[] = [];
 
@@ -38,8 +33,6 @@ export default new Component({
             if (o.type === ApplicationCommandOptionTypes.SUB_COMMAND) {
               commands.push({
                 name: `${c.name} ${o.name}`,
-                description:
-                  descriptions[`${c.name}_${o.name}`.toUpperCase()][language],
                 id: c.id,
               });
             } else if (
@@ -48,10 +41,6 @@ export default new Component({
               o.options?.map((o2) => {
                 commands.push({
                   name: `${c.name} ${o.name} ${o2.name}`,
-                  description:
-                    descriptions[
-                      `${c.name}_${o.name}_${o2.name}`.toUpperCase()
-                    ][language],
                   id: c.id,
                 });
               });
@@ -60,7 +49,6 @@ export default new Component({
         } else {
           commands.push({
             name: c.name,
-            description: descriptions[`${c.name}`.toUpperCase()][language],
             id: c.id,
           });
         }
@@ -72,16 +60,15 @@ export default new Component({
           name: client.user.username,
           iconURL: client.user.avatarURL(),
         })
+        .setThumbnail(client.user.avatarURL())
         .setDescription(
-          commands
+          `\`\`\`yml\n${commands
             .map((c) => {
-              return `<:_:1201948012830531644> ${
-                c.id ? `**</${c.name}:${c.id}>**` : `**/${c.name}**`
-              }: ${c.description}`;
+              return `/${c.name}`;
             })
-            .join("\n")
+            .join("\n")}\`\`\``
         )
-        .setColor(client.config.colors.COLOR)
+        .setColor(Colors.COLOR)
         .toJSONArray(),
       flags: MessageFlags.EPHEMERAL,
     });
