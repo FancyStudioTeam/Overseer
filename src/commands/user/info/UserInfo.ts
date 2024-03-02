@@ -2,14 +2,15 @@ import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { translations } from "../../../locales/translations";
+import { Colors } from "../../../constants";
+import { Translations } from "../../../locales/index";
 import { errorMessage, fetchMember, formatTimestamp } from "../../../util/util";
 
 export default new UserCommand({
   name: "User Info",
   type: ApplicationCommandTypes.USER,
   run: async (
-    client: Fancycord,
+    _client: Fancycord,
     interaction: CommandInteraction,
     { locale, timezone, hour12 }
   ) => {
@@ -20,7 +21,7 @@ export default new UserCommand({
 
     if (!member) {
       return errorMessage(interaction, true, {
-        description: translations[locale].GENERAL.INVALID_GUILD_MEMBER,
+        description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
       });
     }
 
@@ -33,8 +34,10 @@ export default new UserCommand({
         .setThumbnail(member.user.avatarURL())
         .addFields([
           {
-            name: translations[locale].COMMANDS.INFO.USER.MESSAGE.FIELD_1,
-            value: translations[locale].COMMANDS.INFO.USER.MESSAGE.VALUE_1({
+            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE.FIELD_1.FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.USER.MESSAGE.FIELD_1.VALUE({
               name: member.user.mention,
               id: member.user.id,
               createdAt: formatTimestamp(
@@ -53,7 +56,7 @@ export default new UserCommand({
             }),
           },
         ])
-        .setColor(client.config.colors.COLOR)
+        .setColor(Colors.COLOR)
         .toJSONArray(),
     });
   },
