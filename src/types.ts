@@ -9,7 +9,7 @@ import type {
 } from "oceanic.js";
 import type { Fancycord } from "./classes/Client";
 
-export type Locales = "EN" | "ES";
+export type Locales = "EN" | "ES" | "GL";
 
 export enum WebhookType {
   REPORTS = "REPORTS",
@@ -28,7 +28,6 @@ export type ChatInputCommandInterface = {
     client: Fancycord,
     interaction: CommandInteraction,
     config: {
-      language: string;
       locale: Locales;
       timezone: string;
       hour12: boolean;
