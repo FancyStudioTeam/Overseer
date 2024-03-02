@@ -10,7 +10,7 @@ datasource db {
 model GuildConfiguration {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   guild_id   String   @unique
-  language   String   @default("en")
+  language   String   @default("EN")
   timezone   String   @default("UTC")
   hour12     Boolean  @default(false)
   commands   String[] @default([])
@@ -22,7 +22,7 @@ model ClientPremium {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   voucher_id String  @unique
   redeemed   Boolean @default(false)
-  type       String  @default("monthly")
+  type       String  @default("MONTH")
 }
 
 model UserWarn {
