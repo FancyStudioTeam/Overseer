@@ -3,6 +3,7 @@ import {
   ApplicationCommandTypes,
   type AutocompleteInteraction,
   ChannelTypes,
+  type InteractionOptionsString,
 } from "oceanic.js";
 import { ChatInputCommand } from "../../../classes/Builders";
 import { prisma } from "../../../util/db";
@@ -26,6 +27,7 @@ export default new ChatInputCommand({
           name: "reason",
           description: "Ban reason",
           type: ApplicationCommandOptionTypes.STRING,
+          maxLength: 35,
         },
         {
           name: "delete_messages",
@@ -79,6 +81,7 @@ export default new ChatInputCommand({
           name: "reason",
           description: "Kick reason",
           type: ApplicationCommandOptionTypes.STRING,
+          maxLength: 35,
         },
       ],
     },
@@ -224,7 +227,8 @@ export default new ChatInputCommand({
     switch (subcommand.join("_")) {
       case "warn_remove": {
         const availableChoices: string[] = [];
-        const focusedValue = interaction.data.options.getFocused(true);
+        const focusedValue =
+          interaction.data.options.getFocused<InteractionOptionsString>(true);
         const user = interaction.data.options.getUserOption("user");
 
         if (!user) {
@@ -249,7 +253,7 @@ export default new ChatInputCommand({
         });
 
         search(
-          focusedValue.value.toString(),
+          focusedValue.value,
           warningValues.map((w) => w.warn_id)
         );
 

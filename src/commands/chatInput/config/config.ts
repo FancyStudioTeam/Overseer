@@ -2,9 +2,10 @@ import {
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   type AutocompleteInteraction,
+  type InteractionOptionsString,
 } from "oceanic.js";
 import { ChatInputCommand } from "../../../classes/Builders";
-import { timezones } from "../../../util/timezones";
+import timezones from "../../../util/timezones";
 
 export default new ChatInputCommand({
   name: "config",
@@ -23,11 +24,15 @@ export default new ChatInputCommand({
           choices: [
             {
               name: "Set the language to English",
-              value: "en",
+              value: "EN",
             },
             {
               name: "Set the language to Spanish",
-              value: "es",
+              value: "ES",
+            },
+            {
+              name: "Set the language to Galician",
+              value: "GL",
             },
           ],
         },
@@ -48,6 +53,8 @@ export default new ChatInputCommand({
               description: "Code ID",
               type: ApplicationCommandOptionTypes.STRING,
               required: true,
+              maxLength: 36,
+              minLength: 36,
             },
           ],
         },
@@ -93,10 +100,11 @@ export default new ChatInputCommand({
     switch (subcommand.join("_")) {
       case "timezone": {
         const availableChoices: string[] = [];
-        const focusedValue = interaction.data.options.getFocused(true);
+        const focusedValue =
+          interaction.data.options.getFocused<InteractionOptionsString>(true);
         const timezoneValues = Object.keys(timezones);
 
-        search(focusedValue.value.toString(), timezoneValues);
+        search(focusedValue.value, timezoneValues);
 
         function search(query: string, allChoices: string[]) {
           const newQuery = query.toLowerCase();

@@ -11,6 +11,11 @@ import type { Fancycord } from "./classes/Client";
 
 export type Locales = "EN" | "ES" | "GL";
 
+export enum MembershipType {
+  MONTH = "MONTH",
+  INFINITE = "INFINITE",
+}
+
 export enum WebhookType {
   REPORTS = "REPORTS",
   LOGS = "LOGS",
