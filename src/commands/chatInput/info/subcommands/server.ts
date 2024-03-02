@@ -2,7 +2,8 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { translations } from "../../../../locales/translations";
+import { Colors, Emojis } from "../../../../constants";
+import { Translations } from "../../../../locales/index";
 import {
   errorMessage,
   fetchUser,
@@ -18,7 +19,7 @@ export default new SubCommand({
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
-        description: translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+        description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
           structure: interaction,
         }),
       });
@@ -37,11 +38,14 @@ export default new SubCommand({
         .setThumbnail(interaction.guild.iconURL() ?? client.user.avatarURL())
         .addFields([
           {
-            name: translations[locale].COMMANDS.INFO.SERVER.MESSAGE.FIELD_1,
-            value: translations[locale].COMMANDS.INFO.SERVER.MESSAGE.VALUE_1({
+            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE.FIELD_1
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.SERVER.MESSAGE.FIELD_1.VALUE({
               name: interaction.guild.name,
               id: interaction.guild.id,
-              owner: owner?.mention ?? "<:_:1201586248947597392>",
+              owner: owner?.mention ?? Emojis.MARK,
               createdAt: formatTimestamp(
                 interaction.guild.createdAt,
                 timezone,
@@ -50,15 +54,18 @@ export default new SubCommand({
             }),
           },
           {
-            name: translations[locale].COMMANDS.INFO.SERVER.MESSAGE.FIELD_2,
-            value: translations[locale].COMMANDS.INFO.SERVER.MESSAGE.VALUE_2({
+            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE.FIELD_2
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.SERVER.MESSAGE.FIELD_2.VALUE({
               members: interaction.guild.memberCount,
               channels: interaction.guild.channels.size,
               roles: interaction.guild.roles.size,
             }),
           },
         ])
-        .setColor(client.config.colors.COLOR)
+        .setColor(Colors.COLOR)
         .toJSONArray(),
     });
   },

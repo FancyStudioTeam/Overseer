@@ -2,7 +2,7 @@ import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { Colors } from "../../../constants";
+import { Colors, Emojis } from "../../../constants";
 import { Translations } from "../../../locales/index";
 import { errorMessage, fetchMember, formatTimestamp } from "../../../util/util";
 
@@ -48,11 +48,11 @@ export default new UserCommand({
               joinedAt:
                 (member.joinedAt &&
                   formatTimestamp(member.joinedAt, timezone, hour12)) ??
-                "<:_:1201586248947597392>",
+                Emojis.MARK,
               booster:
                 (member.premiumSince &&
                   formatTimestamp(member.premiumSince, timezone, hour12)) ??
-                "<:_:1201586248947597392>",
+                Emojis.MARK,
             }),
           },
         ])

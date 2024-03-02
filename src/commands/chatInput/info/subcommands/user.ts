@@ -2,13 +2,14 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { translations } from "../../../../locales/translations";
+import { Colors, Emojis } from "../../../../constants";
+import { Translations } from "../../../../locales/index";
 import { errorMessage, formatTimestamp } from "../../../../util/util";
 
 export default new SubCommand({
   name: "user",
   run: async (
-    client: Fancycord,
+    _client: Fancycord,
     interaction: CommandInteraction,
     { locale, timezone, hour12 }
   ) => {
@@ -17,7 +18,7 @@ export default new SubCommand({
 
     if (!member) {
       return errorMessage(interaction, true, {
-        description: translations[locale].GENERAL.INVALID_GUILD_MEMBER,
+        description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
       });
     }
 
@@ -30,8 +31,10 @@ export default new SubCommand({
         .setThumbnail(member.user.avatarURL())
         .addFields([
           {
-            name: translations[locale].COMMANDS.INFO.USER.MESSAGE.FIELD_1,
-            value: translations[locale].COMMANDS.INFO.USER.MESSAGE.VALUE_1({
+            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE.FIELD_1.FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.USER.MESSAGE.FIELD_1.VALUE({
               name: member.user.mention,
               id: member.user.id,
               createdAt: formatTimestamp(
@@ -42,15 +45,15 @@ export default new SubCommand({
               joinedAt:
                 (member.joinedAt &&
                   formatTimestamp(member.joinedAt, timezone, hour12)) ??
-                "<:_:1201586248947597392>",
+                Emojis.MARK,
               booster:
                 (member.premiumSince &&
                   formatTimestamp(member.premiumSince, timezone, hour12)) ??
-                "<:_:1201586248947597392>",
+                Emojis.MARK,
             }),
           },
         ])
-        .setColor(client.config.colors.COLOR)
+        .setColor(Colors.COLOR)
         .toJSONArray(),
     });
   },

@@ -1,10 +1,12 @@
 import humanize from "humanize-duration";
 import type { CommandInteraction } from "oceanic.js";
+import { version } from "../../../../../package.json";
 import { dependencies, devDependencies } from "../../../../../package.json";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { translations } from "../../../../locales/translations";
+import { Colors } from "../../../../constants";
+import { Translations } from "../../../../locales/index";
 
 export default new SubCommand({
   name: "bot",
@@ -22,38 +24,46 @@ export default new SubCommand({
         .setThumbnail(client.user.avatarURL())
         .addFields([
           {
-            name: translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_1,
-            value: translations[locale].COMMANDS.INFO.BOT.MESSAGE.VALUE_1({
-              uptime: humanize(client._uptime, {
-                language: locale,
-                largest: 2,
-                round: true,
-              }),
-            }),
+            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_1.FIELD,
+            value: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_1.VALUE(
+              {
+                version,
+                uptime: humanize(client._uptime, {
+                  language: locale.toLowerCase(),
+                  largest: 2,
+                  round: true,
+                  fallbacks: ["en"],
+                }),
+              }
+            ),
           },
           {
-            name: translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_2,
-            value: translations[locale].COMMANDS.INFO.BOT.MESSAGE.VALUE_2({
-              users: client.guilds.reduce((a, b) => a + b.memberCount, 0),
-              guilds: client.guilds.size,
-              shards: client.shards.size,
-            }),
+            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_2.FIELD,
+            value: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_2.VALUE(
+              {
+                users: client.guilds.reduce((a, b) => a + b.memberCount, 0),
+                guilds: client.guilds.size,
+                shards: client.shards.size,
+              }
+            ),
           },
           {
-            name: translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_3,
-            value: translations[locale].COMMANDS.INFO.BOT.MESSAGE.VALUE_3({
-              library: `[Oceanic ${dependencies["oceanic.js"]}](https://oceanic.ws/)`,
-              language: `[TypeScript ${devDependencies.typescript}](https://www.typescriptlang.org/)`,
-              memory: formatBytes(process.memoryUsage().heapUsed),
-            }),
+            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_3.FIELD,
+            value: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_3.VALUE(
+              {
+                library: `[Oceanic ${dependencies["oceanic.js"]}](https://oceanic.ws/)`,
+                language: `[TypeScript ${devDependencies.typescript}](https://www.typescriptlang.org/)`,
+                memory: formatBytes(process.memoryUsage().heapUsed),
+              }
+            ),
           },
         ])
-        .setColor(client.config.colors.COLOR)
+        .setColor(Colors.COLOR)
         .toJSONArray(),
     });
 
     function formatBytes(data: number): string {
-      return `${Math.round((data / 1024 / 1024) * 100) / 100} MB`;
+      return `${Math.round((data / 1024 / 1024) * 100) / 100}mb`;
     }
   },
 });
