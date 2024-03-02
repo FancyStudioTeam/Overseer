@@ -16,8 +16,9 @@ import { AttachmentBuilder } from "../../builders/Attachment";
 import { ButtonBuilder } from "../../builders/Button";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
-import { permissions } from "../../locales/misc/reference";
-import { translations } from "../../locales/translations";
+import { Colors, Emojis, Links } from "../../constants";
+import { Translations } from "../../locales/index";
+import { Permissions } from "../../locales/misc/reference";
 import type {
   ChatInputCommandInterface,
   ComponentInterface,
@@ -32,17 +33,20 @@ import {
   consume,
   errorMessage,
   handleError,
+  parseEmoji,
 } from "../../util/util";
 
 const commandRateLimiter = new RateLimiterMemory({
   points: 3,
   duration: 5,
   blockDuration: 7,
+  keyPrefix: "CommandRateLimiter",
 });
 const componentRateLimiter = new RateLimiterMemory({
   points: 5,
   duration: 7,
   blockDuration: 10,
+  keyPrefix: "ComponentRateLimiter",
 });
 
 export default new Event(
@@ -59,7 +63,9 @@ export default new Event(
         guild_id: interaction.guild.id,
       },
     });
-    const language = <Locales>(guildConfiguration?.language ?? "en");
+    const locale = <Locales>(
+      (guildConfiguration?.language ?? "en").toUpperCase()
+    );
     const timezone = guildConfiguration?.timezone ?? "UTC";
     const hour12 = guildConfiguration?.hour12 ?? false;
     const premium = guildConfiguration?.premium ?? false;
@@ -67,8 +73,7 @@ export default new Event(
     if (
       !checkChannelPermissions(
         {
-          client,
-          language,
+          locale,
         },
         interaction,
         ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
@@ -86,7 +91,7 @@ export default new Event(
       return interaction.reply({
         embeds: new EmbedBuilder()
           .setImage("attachment://maintenance.png")
-          .setColor(client.config.colors.COLOR)
+          .setColor(Colors.COLOR)
           .toJSONArray(),
         files: new AttachmentBuilder()
           .setName("maintenance.png")
@@ -101,11 +106,8 @@ export default new Event(
             new ButtonBuilder()
               .setLabel("Support Server")
               .setStyle(ButtonStyles.LINK)
-              .setEmoji({
-                name: "_",
-                id: "1201585025028735016",
-              })
-              .setURL(client.config.links.SUPPORT),
+              .setEmoji(parseEmoji(Emojis.SUPPORT))
+              .setURL(Links.SUPPORT),
           ])
           .toJSONArray(),
         flags: MessageFlags.EPHEMERAL,
@@ -117,11 +119,12 @@ export default new Event(
 
       if (rateLimit.rateLimited) {
         return errorMessage(interaction, true, {
-          description: translations[language].GENERAL.USER_IS_LIMITED({
+          description: Translations[locale].GENERAL.USER_IS_LIMITED({
             resets: humanize(rateLimit.resets, {
-              language: language,
+              language: locale,
               largest: 2,
               round: true,
+              fallbacks: ["en"],
             }),
           }),
         });
@@ -160,49 +163,40 @@ export default new Event(
                   )
                 ) {
                   return errorMessage(interaction, true, {
-                    description: client.locales.__mf(
-                      {
-                        phrase: "general.permissions.user-guild-permissions",
-                        locale: language,
-                      },
-                      {
-                        permission:
-                          permissions[subcommand.permissions.user][language],
-                      }
-                    ),
+                    description: Translations[
+                      locale
+                    ].GENERAL.PERMISSIONS.GUILD.USER({
+                      permissions:
+                        Permissions[locale][subcommand.permissions.user],
+                    }),
                   });
                 }
 
                 if (
                   subcommand.permissions?.bot &&
                   !interaction.guild.clientMember.permissions.has(
-                    <PermissionName>subcommand.permissions.user
+                    <PermissionName>subcommand.permissions.bot
                   )
                 ) {
                   return errorMessage(interaction, true, {
-                    description: client.locales.__mf(
-                      {
-                        phrase: "general.permissions.bot-guild-permissions",
-                        locale: language,
-                      },
-                      {
-                        permission:
-                          permissions[subcommand.permissions.bot][language],
-                      }
-                    ),
+                    description: Translations[
+                      locale
+                    ].GENERAL.PERMISSIONS.GUILD.CLIENT({
+                      permissions:
+                        Permissions[locale][subcommand.permissions.bot],
+                    }),
                   });
                 }
 
                 await subcommand
                   .run(client, interaction, {
-                    language: language,
-                    locale: language,
-                    timezone: timezone,
-                    hour12: hour12,
-                    premium: premium,
+                    locale,
+                    timezone,
+                    hour12,
+                    premium,
                   })
                   .catch((error) => {
-                    handleError(error, interaction, language);
+                    handleError({ locale }, error, interaction);
                   });
               }
             }
@@ -210,14 +204,13 @@ export default new Event(
             if (command.run) {
               await command
                 .run(client, interaction, {
-                  language: language,
-                  locale: language,
-                  timezone: timezone,
-                  hour12: hour12,
-                  premium: premium,
+                  locale,
+                  timezone,
+                  hour12,
+                  premium,
                 })
                 .catch((error) => {
-                  handleError(error, interaction, language);
+                  handleError({ locale }, error, interaction);
                 });
             }
           }
@@ -232,14 +225,13 @@ export default new Event(
         if (command) {
           await command
             .run(client, interaction, {
-              language: language,
-              locale: language,
-              timezone: timezone,
-              hour12: hour12,
-              premium: premium,
+              locale,
+              timezone,
+              hour12,
+              premium,
             })
             .catch((error) => {
-              handleError(error, interaction, language);
+              handleError({ locale }, error, interaction);
             });
         }
       }
@@ -263,14 +255,13 @@ export default new Event(
       if (modal) {
         await modal
           .run(client, interaction, {
-            language: language,
-            locale: language,
-            timezone: timezone,
-            hour12: hour12,
-            premium: premium,
+            locale,
+            timezone,
+            hour12,
+            premium,
           })
           .catch((error) => {
-            handleError(error, interaction, language);
+            handleError({ locale }, error, interaction);
           });
       }
     }
@@ -283,11 +274,12 @@ export default new Event(
 
       if (rateLimit.rateLimited) {
         return errorMessage(interaction, true, {
-          description: translations[language].GENERAL.USER_IS_LIMITED({
+          description: Translations[locale].GENERAL.USER_IS_LIMITED({
             resets: humanize(rateLimit.resets, {
-              language: language,
+              language: locale,
               largest: 2,
               round: true,
+              fallbacks: ["en"],
             }),
           }),
         });
@@ -306,48 +298,37 @@ export default new Event(
             )
           ) {
             return errorMessage(interaction, true, {
-              description: client.locales.__mf(
-                {
-                  phrase: "general.permissions.user-guild-permissions",
-                  locale: language,
-                },
-                {
-                  permission: permissions[button.permissions.user][language],
-                }
-              ),
+              description: Translations[locale].GENERAL.PERMISSIONS.GUILD.USER({
+                permissions: Permissions[locale][button.permissions.user],
+              }),
             });
           }
 
           if (
             button.permissions?.bot &&
             !interaction.guild.clientMember.permissions.has(
-              <PermissionName>button.permissions.user
+              <PermissionName>button.permissions.bot
             )
           ) {
             return errorMessage(interaction, true, {
-              description: client.locales.__mf(
-                {
-                  phrase: "general.permissions.user-guild-permissions",
-                  locale: language,
-                },
-                {
-                  permission: permissions[button.permissions.bot][language],
-                }
-              ),
+              description: Translations[
+                locale
+              ].GENERAL.PERMISSIONS.GUILD.CLIENT({
+                permissions: Permissions[locale][button.permissions.bot],
+              }),
             });
           }
 
           await button
             .run(client, interaction, {
-              language: language,
-              locale: language,
-              timezone: timezone,
-              hour12: hour12,
-              premium: premium,
+              locale,
+              timezone,
+              hour12,
+              premium,
               variable: interaction.data.customID.split("/")[1] ?? "",
             })
             .catch((error) => {
-              handleError(error, interaction, language);
+              handleError({ locale }, error, interaction);
             });
         }
       }
@@ -365,48 +346,37 @@ export default new Event(
             )
           ) {
             return errorMessage(interaction, true, {
-              description: client.locales.__mf(
-                {
-                  phrase: "general.permissions.user-guild-permissions",
-                  locale: language,
-                },
-                {
-                  permission: permissions[select.permissions.user][language],
-                }
-              ),
+              description: Translations[locale].GENERAL.PERMISSIONS.GUILD.USER({
+                permissions: Permissions[locale][select.permissions.user],
+              }),
             });
           }
 
           if (
             select.permissions?.bot &&
             !interaction.guild.clientMember.permissions.has(
-              <PermissionName>select.permissions.user
+              <PermissionName>select.permissions.bot
             )
           ) {
             return errorMessage(interaction, true, {
-              description: client.locales.__mf(
-                {
-                  phrase: "general.permissions.user-guild-permissions",
-                  locale: language,
-                },
-                {
-                  permission: permissions[select.permissions.bot][language],
-                }
-              ),
+              description: Translations[
+                locale
+              ].GENERAL.PERMISSIONS.GUILD.CLIENT({
+                permissions: Permissions[locale][select.permissions.bot],
+              }),
             });
           }
 
           await select
             .run(client, interaction, {
-              language: language,
-              locale: language,
-              timezone: timezone,
-              hour12: hour12,
-              premium: premium,
+              locale,
+              timezone,
+              hour12,
+              premium,
               variable: interaction.data.customID.split("/")[1] ?? "",
             })
             .catch((error) => {
-              handleError(error, interaction, language);
+              handleError({ locale }, error, interaction);
             });
         }
       }

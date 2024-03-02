@@ -5,6 +5,7 @@ import { ChannelTypes, type Message } from "oceanic.js";
 import { client } from "../..";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
+import { Colors, Developers } from "../../constants";
 import { trim } from "../../util/util";
 
 export default new Event("messageCreate", false, async (message: Message) => {
@@ -16,7 +17,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
   const prefix = ">";
 
   if (!message.content.startsWith(prefix)) return;
-  if (!client.config.developers.includes(message.author.id)) return;
+  if (!Developers.includes(message.author.id)) return;
 
   const [cmd, ...args] = message.content.slice(prefix.length).trim().split(" ");
 
@@ -63,7 +64,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
                 .setDescription(
                   `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
                 )
-                .setColor(client.config.colors.ERROR)
+                .setColor(Colors.ERROR)
                 .toJSONArray(),
             });
           }
@@ -75,7 +76,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
                 iconURL: client.user.avatarURL(),
               })
               .setDescription(`\`\`\`js\n${trim(result, 4000)}\`\`\``)
-              .setColor(client.config.colors.SUCCESS)
+              .setColor(Colors.SUCCESS)
               .toJSONArray(),
           });
         }
@@ -108,7 +109,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
               iconURL: client.user.avatarURL(),
             })
             .setDescription(`\`\`\`js\n${trim(output, 4000)}\`\`\``)
-            .setColor(client.config.colors.SUCCESS)
+            .setColor(Colors.SUCCESS)
             .toJSONArray(),
         });
       } catch (error) {
@@ -119,7 +120,7 @@ export default new Event("messageCreate", false, async (message: Message) => {
               iconURL: client.user.avatarURL(),
             })
             .setDescription(`\`\`\`js\n${trim(<string>error, 4000)}\`\`\``)
-            .setColor(client.config.colors.ERROR)
+            .setColor(Colors.ERROR)
             .toJSONArray(),
         });
       }
