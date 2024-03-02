@@ -1,4 +1,4 @@
-export const timezones: Record<string, string> = {
+export default {
   "Africa/Abidjan": "Africa/Abidjan",
   "Africa/Accra": "Africa/Accra",
   "Africa/Addis_Ababa": "Africa/Addis_Ababa",
