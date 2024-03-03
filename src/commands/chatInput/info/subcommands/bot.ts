@@ -24,38 +24,41 @@ export default new SubCommand({
         .setThumbnail(client.user.avatarURL())
         .addFields([
           {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_1.FIELD,
-            value: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_1.VALUE(
-              {
-                version,
-                uptime: humanize(client._uptime, {
-                  language: locale.toLowerCase(),
-                  largest: 2,
-                  round: true,
-                  fallbacks: ["en"],
-                }),
-              }
-            ),
+            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1.VALUE({
+              version,
+              uptime: humanize(client._uptime, {
+                language: locale.toLowerCase(),
+                largest: 2,
+                round: true,
+                fallbacks: ["en"],
+              }),
+            }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_2.FIELD,
-            value: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_2.VALUE(
-              {
-                users: client.guilds.reduce((a, b) => a + b.memberCount, 0),
-                guilds: client.guilds.size,
-                shards: client.shards.size,
-              }
-            ),
+            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2.VALUE({
+              users: client.guilds.reduce((a, b) => a + b.memberCount, 0),
+              guilds: client.guilds.size,
+              shards: client.shards.size,
+            }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_3.FIELD,
-            value: Translations[locale].COMMANDS.INFO.BOT.MESSAGE.FIELD_3.VALUE(
-              {
-                library: `[Oceanic ${dependencies["oceanic.js"]}](https://oceanic.ws/)`,
-                language: `[TypeScript ${devDependencies.typescript}](https://www.typescriptlang.org/)`,
-                memory: formatBytes(process.memoryUsage().heapUsed),
-              }
-            ),
+            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3.VALUE({
+              library: `[Oceanic ${dependencies["oceanic.js"]}](https://oceanic.ws/)`,
+              language: `[TypeScript ${devDependencies.typescript}](https://www.typescriptlang.org/)`,
+              memory: formatBytes(process.memoryUsage().heapUsed),
+            }),
           },
         ])
         .setColor(Colors.COLOR)

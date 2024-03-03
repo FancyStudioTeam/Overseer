@@ -36,7 +36,7 @@ export default new ChatInputCommand({
         })
         .setThumbnail(client.user.avatarURL())
         .setDescription(
-          Translations[locale].HELP.MESSAGE.MESSAGE({
+          Translations[locale].HELP.MESSAGE_1.DESCRIPTION({
             mention: client.user.mention,
           })
         )
@@ -77,7 +77,8 @@ export default new ChatInputCommand({
             new SelectMenuBuilder()
               .setCustomID("help-plugins")
               .setPlaceholder(
-                Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLACEHOLDER
+                Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
+                  .PLACEHOLDER
               )
               .addOptions(
                 ["configuration", "information", "moderation", "utility"].map(
@@ -91,11 +92,11 @@ export default new ChatInputCommand({
 
                     return {
                       label:
-                        Translations[locale].HELP.COMPONENTS.SELECT_MENU
+                        Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
                           .OPTIONS[<Plugins>e.toUpperCase()].LABEL,
                       value: e,
                       description:
-                        Translations[locale].HELP.COMPONENTS.SELECT_MENU
+                        Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
                           .OPTIONS[<Plugins>e.toUpperCase()].DESCRIPTION,
                       emoji: parseEmoji(emojis[e]),
                     };

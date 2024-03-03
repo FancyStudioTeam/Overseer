@@ -31,10 +31,11 @@ export default new SubCommand({
         .setThumbnail(member.user.avatarURL())
         .addFields([
           {
-            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE.FIELD_1.FIELD,
+            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1
+              .FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.USER.MESSAGE.FIELD_1.VALUE({
+            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1.VALUE({
               name: member.user.mention,
               id: member.user.id,
               createdAt: formatTimestamp(

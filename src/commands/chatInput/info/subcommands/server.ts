@@ -38,11 +38,11 @@ export default new SubCommand({
         .setThumbnail(interaction.guild.iconURL() ?? client.user.avatarURL())
         .addFields([
           {
-            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE.FIELD_1
+            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_1
               .FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.SERVER.MESSAGE.FIELD_1.VALUE({
+            ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_1.VALUE({
               name: interaction.guild.name,
               id: interaction.guild.id,
               owner: owner?.mention ?? Emojis.MARK,
@@ -54,11 +54,11 @@ export default new SubCommand({
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE.FIELD_2
+            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_2
               .FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.SERVER.MESSAGE.FIELD_2.VALUE({
+            ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_2.VALUE({
               members: interaction.guild.memberCount,
               channels: interaction.guild.channels.size,
               roles: interaction.guild.roles.size,
