@@ -219,7 +219,7 @@ export default {
       },
     },
     MESSAGE_1: {
-      MESSAGE: (variables: { mention: string }): string =>
+      DESCRIPTION: (variables: { mention: string }): string =>
         `**Hello! I am ${variables.mention}, a bot that offers a minimalist and efficient experience for your Discord communities**\n\nI am designed with simplicity in mind, providing essential functionalities in an easy and modern manner`,
     },
   },
@@ -244,7 +244,7 @@ export default {
       },
     },
     SOMETHING_WENT_WRONG: {
-      MESSAGE: (variables: { support: string }): string =>
+      DESCRIPTION: (variables: { support: string }): string =>
         `**Something went wrong while executing this operation**\nIf the error persists, report the error with the ID provided on our [support server](${variables.support})`,
       FIELD_1: {
         FIELD: "**General Information**",
