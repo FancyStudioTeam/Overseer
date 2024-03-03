@@ -30,6 +30,7 @@ export default new ChatInputCommand({
           description: "Location name",
           type: ApplicationCommandOptionTypes.STRING,
           required: true,
+          maxLength: 50,
         },
       ],
     },

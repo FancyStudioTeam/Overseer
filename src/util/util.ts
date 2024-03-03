@@ -20,10 +20,11 @@ import type { RateLimiterMemory } from "rate-limiter-flexible";
 import urlRegex from "url-regex";
 import { client } from "..";
 import { EmbedBuilder } from "../builders/Embed";
-import { permissions } from "../locales/misc/reference";
+import { Colors, Emojis, Links } from "../constants";
+import { Translations } from "../locales";
+import { Permissions } from "../locales/misc/reference";
 import { WebhookType } from "../types";
 import type { Locales } from "../types";
-import { Colors, Emojis, Links, Translations } from "./constants";
 import { logger } from "./logger";
 
 export async function fetchUser(id: string): Promise<User | null | undefined> {
@@ -175,14 +176,14 @@ export function checkGuildPermissions(
           ? Translations[main.locale].GENERAL.PERMISSIONS.GUILD.CLIENT({
               permissions: requiredPermissions
                 .map((p, _) => {
-                  return `\`${permissions[p][main.locale]}\``;
+                  return `\`${Permissions[main.locale][p]}\``;
                 })
                 .join(", "),
             })
           : Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER({
               permissions: requiredPermissions
                 .map((p, _) => {
-                  return `\`${permissions[p][main.locale]}\``;
+                  return `\`${Permissions[main.locale][p]}\``;
                 })
                 .join(", "),
             })
@@ -236,7 +237,7 @@ export function checkChannelPermissions(
           ? Translations[main.locale].GENERAL.PERMISSIONS.CHANNEL.CLIENT({
               permissions: requiredPermissions
                 .map((p, _) => {
-                  return `\`${permissions[p][main.locale]}\``;
+                  return `\`${Permissions[main.locale][p]}\``;
                 })
                 .join(", "),
               channel: channel.mention,
@@ -244,7 +245,7 @@ export function checkChannelPermissions(
           : Translations[main.locale].GENERAL.PERMISSIONS.CHANNEL.USER({
               permissions: requiredPermissions
                 .map((p, _) => {
-                  return `\`${permissions[p][main.locale]}\``;
+                  return `\`${Permissions[main.locale][p]}\``;
                 })
                 .join(", "),
               channel: channel.mention,
@@ -281,23 +282,17 @@ export function webhook(
     avatarURL: client.user.avatarURL(),
   }
 ): void {
+  const data = {
+    LOGS: process.env.LogsWebhook,
+    REPORTS: process.env.ReportsWebhook,
+  };
   const credentials = {
-    LOGS: {
-      ID: process.env.LogsWebhookID,
-      Token: process.env.LogsWebhookToken,
-    },
-    REPORTS: {
-      ID: process.env.ReportsWebhookID,
-      Token: process.env.ReportsWebhookToken,
-    },
-    GUILD_LOGS: {
-      ID: process.env.GuildLogsWebhookID,
-      Token: process.env.GuildLogsWebhookToken,
-    },
+    ID: data[type].split("/")[0],
+    Token: data[type].split("/")[1],
   };
 
   client.rest.webhooks
-    .execute(credentials[type].ID, credentials[type].Token, {
+    .execute(credentials.ID, credentials.Token, {
       ...profile,
       ...options,
     })
@@ -321,17 +316,17 @@ export function handleError(
         iconURL: client.user.avatarURL(),
       })
       .setDescription(
-        Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.MESSAGE({
+        Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.DESCRIPTION({
           support: Links.SUPPORT,
         })
       )
       .addFields([
         {
-          name: Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.FIELDS[0]
+          name: Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.FIELD_1
             .FIELD,
           value: Translations[
             main.locale
-          ].GENERAL.SOMETHING_WENT_WRONG.FIELDS[0].VALUE({
+          ].GENERAL.SOMETHING_WENT_WRONG.FIELD_1.VALUE({
             id,
             name: error.name,
           }),
