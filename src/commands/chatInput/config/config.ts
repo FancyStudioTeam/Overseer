@@ -102,9 +102,8 @@ export default new ChatInputCommand({
         const availableChoices: string[] = [];
         const focusedValue =
           interaction.data.options.getFocused<InteractionOptionsString>(true);
-        const timezoneValues = Object.keys(timezones);
 
-        search(focusedValue.value, timezoneValues);
+        search(focusedValue.value, timezones);
 
         function search(query: string, allChoices: string[]) {
           const newQuery = query.toLowerCase();

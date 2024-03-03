@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { EmbedBuilder } from "./builders/Embed";
 import { Fancycord } from "./classes/Client";
+import { Colors } from "./constants";
 import { WebhookType } from "./types";
-import { Colors } from "./util/constants";
 import { logger } from "./util/logger";
 import { trim, webhook } from "./util/util";
 

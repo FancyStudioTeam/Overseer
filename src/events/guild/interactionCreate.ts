@@ -17,7 +17,7 @@ import { ButtonBuilder } from "../../builders/Button";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
 import { Colors, Emojis, Links } from "../../constants";
-import { Translations } from "../../locales/index";
+import { Translations } from "../../locales";
 import { Permissions } from "../../locales/misc/reference";
 import type {
   ChatInputCommandInterface,
