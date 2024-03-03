@@ -6,7 +6,7 @@ import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
 import { Colors } from "../../../../constants";
-import { Translations } from "../../../../locales/index";
+import { Translations } from "../../../../locales";
 
 export default new SubCommand({
   name: "bot",

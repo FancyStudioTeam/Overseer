@@ -14,7 +14,7 @@ import { SelectMenuBuilder } from "../../../builders/SelectMenu";
 import { ChatInputCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
 import { Colors, Emojis, Links } from "../../../constants";
-import { Translations } from "../../../locales/index";
+import { Translations } from "../../../locales";
 import { parseEmoji } from "../../../util/util";
 
 export default new ChatInputCommand({

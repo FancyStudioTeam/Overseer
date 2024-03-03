@@ -3,7 +3,7 @@ import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
 import { Colors, Emojis } from "../../../constants";
-import { Translations } from "../../../locales/index";
+import { Translations } from "../../../locales";
 import { errorMessage, fetchMember, formatTimestamp } from "../../../util/util";
 
 export default new UserCommand({
