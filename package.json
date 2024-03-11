@@ -12,10 +12,10 @@
   "author": "FancyStudio",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@formkit/tempo": "0.0.13",
-    "@napi-rs/canvas": "0.1.50",
+    "@formkit/tempo": "0.0.15",
+    "@napi-rs/canvas": "0.1.51",
     "@prisma/client": "5.10.2",
-    "@sapphire/discord-utilities": "3.2.2",
+    "@sapphire/discord-utilities": "3.2.3",
     "@sapphire/snowflake": "3.5.3",
     "dotenv": "16.4.5",
     "humanize-duration": "3.31.0",
@@ -26,15 +26,15 @@
     "rate-limiter-flexible": "5.0.0",
     "ts-dedent": "2.2.0",
     "url-regex": "5.0.0",
-    "winston": "3.11.0",
+    "winston": "3.12.0",
     "xml2js": "0.6.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.5.3",
+    "@biomejs/biome": "1.6.0",
     "@types/figlet": "1.5.8",
     "@types/humanize-duration": "3.27.4",
     "@types/ms": "0.7.34",
-    "@types/node": "20.11.24",
+    "@types/node": "20.11.25",
     "@types/node-cron": "3.0.11",
     "@types/url-regex": "5.0.0",
     "@types/xml2js": "0.4.14",
@@ -43,7 +43,7 @@
     "prisma": "5.10.2",
     "ts-node": "10.9.2",
     "tsx": "4.7.1",
-    "typescript": "5.3.3"
+    "typescript": "5.4.2"
   },
   "prisma": {
     "seed": "tsx src/seed.ts"
