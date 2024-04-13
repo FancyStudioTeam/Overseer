@@ -2,21 +2,12 @@
   "files": {
     "ignore": ["dist"]
   },
-  "formatter": {
-    "enabled": false
-  },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
       "suspicious": {
         "noExplicitAny": "off"
-      },
-      "nursery": {
-        "useImportType": "warn",
-        "useGroupedTypeImport": "warn",
-        "useExportType": "warn",
-        "useNodejsImportProtocol": "warn"
       }
     }
   },
