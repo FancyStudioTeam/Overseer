@@ -2,20 +2,17 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { Colors, Emojis } from "../../../../constants";
+import { Colors, Emojis, Links } from "../../../../constants";
 import { Translations } from "../../../../locales";
-import {
-  errorMessage,
-  fetchUser,
-  formatTimestamp,
-} from "../../../../util/util";
+import { UnixType } from "../../../../types";
+import { errorMessage, fetchUser, formatUnix } from "../../../../util/util";
 
 export default new SubCommand({
   name: "server",
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { locale, timezone, hour12 }
+    { locale }
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -31,10 +28,12 @@ export default new SubCommand({
 
     interaction.reply({
       embeds: new EmbedBuilder()
-        .setAuthor({
-          name: interaction.guild.name,
-          iconURL: interaction.guild.iconURL() ?? client.user.avatarURL(),
-        })
+        .setTitle(
+          Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.TITLE_1({
+            name: interaction.guild.name,
+          })
+        )
+        .setURL(Links.SUPPORT)
         .setThumbnail(interaction.guild.iconURL() ?? client.user.avatarURL())
         .addFields([
           {
@@ -46,11 +45,6 @@ export default new SubCommand({
               name: interaction.guild.name,
               id: interaction.guild.id,
               owner: owner?.mention ?? Emojis.MARK,
-              createdAt: formatTimestamp(
-                interaction.guild.createdAt,
-                timezone,
-                hour12
-              ),
             }),
           },
           {
@@ -62,6 +56,18 @@ export default new SubCommand({
               members: interaction.guild.memberCount,
               channels: interaction.guild.channels.size,
               roles: interaction.guild.roles.size,
+            }),
+          },
+          {
+            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_3
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_3.VALUE({
+              date: formatUnix(
+                UnixType.SHORT_DATE_TIME,
+                interaction.guild.createdAt
+              ),
             }),
           },
         ])

@@ -1,11 +1,11 @@
 import humanize from "humanize-duration";
-import type { CommandInteraction } from "oceanic.js";
+import { type CommandInteraction, VERSION } from "oceanic.js";
+import ts from "typescript";
 import { version } from "../../../../../package.json";
-import { dependencies, devDependencies } from "../../../../../package.json";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { Colors } from "../../../../constants";
+import { Colors, Links } from "../../../../constants";
 import { Translations } from "../../../../locales";
 
 export default new SubCommand({
@@ -17,10 +17,12 @@ export default new SubCommand({
   ) => {
     interaction.reply({
       embeds: new EmbedBuilder()
-        .setAuthor({
-          name: client.user.username,
-          iconURL: client.user.avatarURL(),
-        })
+        .setTitle(
+          Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.TITLE_1({
+            name: client.user.username,
+          })
+        )
+        .setURL(Links.SUPPORT)
         .setThumbnail(client.user.avatarURL())
         .addFields([
           {
@@ -30,12 +32,6 @@ export default new SubCommand({
               locale
             ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1.VALUE({
               version,
-              uptime: humanize(client._uptime, {
-                language: locale.toLowerCase(),
-                largest: 2,
-                round: true,
-                fallbacks: ["en"],
-              }),
             }),
           },
           {
@@ -55,9 +51,23 @@ export default new SubCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3.VALUE({
-              library: `[Oceanic ${dependencies["oceanic.js"]}](https://oceanic.ws/)`,
-              language: `[TypeScript ${devDependencies.typescript}](https://www.typescriptlang.org/)`,
+              library: `[Oceanic ${VERSION}](https://oceanic.ws/)`,
+              language: `[TypeScript ${ts.version}](https://www.typescriptlang.org/)`,
               memory: formatBytes(process.memoryUsage().heapUsed),
+            }),
+          },
+          {
+            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_4
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_4.VALUE({
+              uptime: humanize(client._uptime, {
+                language: locale.toLowerCase(),
+                largest: 2,
+                round: true,
+                fallbacks: ["en"],
+              }),
             }),
           },
         ])
