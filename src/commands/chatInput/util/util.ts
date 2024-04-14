@@ -20,20 +20,6 @@ export default new ChatInputCommand({
         },
       ],
     },
-    {
-      name: "weather",
-      description: "Displays the weather for a location",
-      type: ApplicationCommandOptionTypes.SUB_COMMAND,
-      options: [
-        {
-          name: "location",
-          description: "Location name",
-          type: ApplicationCommandOptionTypes.STRING,
-          required: true,
-          maxLength: 50,
-        },
-      ],
-    },
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
