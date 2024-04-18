@@ -2,7 +2,8 @@ import { ActivityTypes } from "oceanic.js";
 import { client } from "../..";
 import { version } from "../../../package.json";
 import { Event } from "../../classes/Builders";
-import { logger } from "../../util/logger";
+import { LoggerType } from "../../types";
+import { logger } from "../../util/util";
 
 export default new Event("shardReady", false, async (id: number) => {
   client.editStatus("online", [
@@ -13,5 +14,5 @@ export default new Event("shardReady", false, async (id: number) => {
     },
   ]);
 
-  logger.log("INF", `[Shard ${id}] Shard has been connected`);
+  logger(LoggerType.INFO, `[Shard ${id}] Shard has been connected`);
 });

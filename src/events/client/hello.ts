@@ -1,9 +1,10 @@
 import { Event } from "../../classes/Builders";
-import { logger } from "../../util/logger";
+import { LoggerType } from "../../types";
+import { logger } from "../../util/util";
 
 export default new Event("hello", false, (interval: number, shard: number) => {
-  logger.log(
-    "DBG",
+  logger(
+    LoggerType.DEBUG,
     `[Shard ${shard}] Received hello opcode with an interval of ${interval}`
   );
 });
