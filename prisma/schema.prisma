@@ -62,22 +62,3 @@ model UserSuggestion {
   comments      String[] @default([])
   images        String[] @default([])
 }
-
-model GuildWelcome {
-  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
-  guild_id              String
-  channel_id            String
-  roles                 String[]
-  message_enabled       Boolean  @default(true)
-  message_content       String   @default("### 📥 Welcome {user} to {guild}\n> We are now **{guild.members} members**")
-  message_card          Boolean  @default(true)
-  card_background       String   @default("https://i.ibb.co/VTg3V6R/background.png")
-  card_title_content    String   @default("Welcome to {guild}")
-  card_title_color      String   @default("#ffffff")
-  card_username_content String   @default("{user}")
-  card_username_color   String   @default("#b9bbbe")
-  card_subtitle_content String   @default("We are now {guild.members} members")
-  card_subtitle_color   String   @default("#ffffff")
-  card_font             String   @default("EuclidCircularA")
-  dm_message            Boolean  @default(false)
-}

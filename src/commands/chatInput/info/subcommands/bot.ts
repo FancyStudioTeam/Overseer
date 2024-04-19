@@ -1,6 +1,5 @@
 import humanize from "humanize-duration";
-import { type CommandInteraction, VERSION } from "oceanic.js";
-import ts from "typescript";
+import type { CommandInteraction } from "oceanic.js";
 import { version } from "../../../../../package.json";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
@@ -32,6 +31,7 @@ export default new SubCommand({
               locale
             ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1.VALUE({
               version,
+              memory: formatBytes(process.memoryUsage().heapUsed),
             }),
           },
           {
@@ -51,17 +51,6 @@ export default new SubCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3.VALUE({
-              library: `[${VERSION}](https://oceanic.ws/)`,
-              language: `[${ts.version}](https://www.typescriptlang.org/)`,
-              memory: formatBytes(process.memoryUsage().heapUsed),
-            }),
-          },
-          {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_4
-              .FIELD,
-            value: Translations[
-              locale
-            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_4.VALUE({
               uptime: humanize(_client._uptime, {
                 language: locale.toLowerCase(),
                 largest: 2,
