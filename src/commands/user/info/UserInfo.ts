@@ -2,7 +2,7 @@ import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Fancycord } from "../../../classes/Client";
-import { Colors, Emojis, Links } from "../../../constants";
+import { Colors, Emojis } from "../../../constants";
 import { Translations } from "../../../locales";
 import { UnixType } from "../../../types";
 import { errorMessage, fetchMember, formatUnix } from "../../../util/util";
@@ -33,7 +33,6 @@ export default new UserCommand({
             name: member.user.globalName ?? member.user.username,
           })
         )
-        .setURL(Links.SUPPORT)
         .setThumbnail(member.user.avatarURL())
         .addFields([
           {

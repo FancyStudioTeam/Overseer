@@ -2,7 +2,7 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { Colors, Emojis, Links } from "../../../../constants";
+import { Colors, Emojis } from "../../../../constants";
 import { Translations } from "../../../../locales";
 import { UnixType } from "../../../../types";
 import { errorMessage, formatUnix } from "../../../../util/util";
@@ -30,7 +30,6 @@ export default new SubCommand({
             name: member.user.globalName ?? member.user.username,
           })
         )
-        .setURL(Links.SUPPORT)
         .setThumbnail(member.user.avatarURL())
         .addFields([
           {

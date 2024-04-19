@@ -4,7 +4,7 @@ import { version } from "../../../../../package.json";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { Colors, Links } from "../../../../constants";
+import { Colors } from "../../../../constants";
 import { Translations } from "../../../../locales";
 
 export default new SubCommand({
@@ -21,7 +21,6 @@ export default new SubCommand({
             name: _client.user.username,
           })
         )
-        .setURL(Links.SUPPORT)
         .setThumbnail(_client.user.avatarURL())
         .addFields([
           {
