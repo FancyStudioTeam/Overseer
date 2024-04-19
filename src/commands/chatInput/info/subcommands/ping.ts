@@ -9,29 +9,29 @@ import { errorMessage } from "../../../../util/util";
 export default new SubCommand({
   name: "ping",
   run: async (
-    client: Fancycord,
-    interaction: CommandInteraction,
+    _client: Fancycord,
+    _interaction: CommandInteraction,
     { locale }
   ) => {
-    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
-      return errorMessage(interaction, true, {
+    if (!_interaction.inCachedGuildChannel() || !_interaction.guild) {
+      return await errorMessage(_interaction, true, {
         description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
-          structure: interaction,
+          structure: _interaction,
         }),
       });
     }
 
-    interaction.reply({
+    await _interaction.reply({
       embeds: new EmbedBuilder()
         .addFields([
           {
             name: "**REST**",
-            value: `${Emojis.RIGHT} ${client.rest.handler.latencyRef.latency}ms`,
+            value: `${Emojis.RIGHT} ${_client.rest.handler.latencyRef.latency}ms`,
             inline: true,
           },
           {
             name: "**WS**",
-            value: `${Emojis.RIGHT} ${interaction.guild.shard.latency}ms`,
+            value: `${Emojis.RIGHT} ${_interaction.guild.shard.latency}ms`,
             inline: true,
           },
         ])

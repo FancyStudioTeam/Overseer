@@ -11,19 +11,19 @@ import { Translations } from "../../../../locales";
 export default new SubCommand({
   name: "bot",
   run: async (
-    client: Fancycord,
-    interaction: CommandInteraction,
+    _client: Fancycord,
+    _interaction: CommandInteraction,
     { locale }
   ) => {
-    interaction.reply({
+    await _interaction.reply({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.TITLE_1({
-            name: client.user.username,
+            name: _client.user.username,
           })
         )
         .setURL(Links.SUPPORT)
-        .setThumbnail(client.user.avatarURL())
+        .setThumbnail(_client.user.avatarURL())
         .addFields([
           {
             name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1
@@ -40,9 +40,9 @@ export default new SubCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2.VALUE({
-              users: client.guilds.reduce((a, b) => a + b.memberCount, 0),
-              guilds: client.guilds.size,
-              shards: client.shards.size,
+              users: _client.guilds.reduce((a, b) => a + b.memberCount, 0),
+              guilds: _client.guilds.size,
+              shards: _client.shards.size,
             }),
           },
           {
@@ -51,8 +51,8 @@ export default new SubCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3.VALUE({
-              library: `[Oceanic ${VERSION}](https://oceanic.ws/)`,
-              language: `[TypeScript ${ts.version}](https://www.typescriptlang.org/)`,
+              library: `[${VERSION}](https://oceanic.ws/)`,
+              language: `[${ts.version}](https://www.typescriptlang.org/)`,
               memory: formatBytes(process.memoryUsage().heapUsed),
             }),
           },
@@ -62,7 +62,7 @@ export default new SubCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_4.VALUE({
-              uptime: humanize(client._uptime, {
+              uptime: humanize(_client._uptime, {
                 language: locale.toLowerCase(),
                 largest: 2,
                 round: true,

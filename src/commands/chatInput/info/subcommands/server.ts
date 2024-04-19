@@ -10,31 +10,31 @@ import { errorMessage, fetchUser, formatUnix } from "../../../../util/util";
 export default new SubCommand({
   name: "server",
   run: async (
-    client: Fancycord,
-    interaction: CommandInteraction,
+    _client: Fancycord,
+    _interaction: CommandInteraction,
     { locale }
   ) => {
-    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
-      return errorMessage(interaction, true, {
+    if (!_interaction.inCachedGuildChannel() || !_interaction.guild) {
+      return await errorMessage(_interaction, true, {
         description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
-          structure: interaction,
+          structure: _interaction,
         }),
       });
     }
 
     const owner =
-      interaction.guild.owner ??
-      (await fetchUser(interaction.guild.ownerID ?? ""));
+      _interaction.guild.owner ??
+      (await fetchUser(_interaction.guild.ownerID ?? ""));
 
-    interaction.reply({
+    await _interaction.reply({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.TITLE_1({
-            name: interaction.guild.name,
+            name: _interaction.guild.name,
           })
         )
         .setURL(Links.SUPPORT)
-        .setThumbnail(interaction.guild.iconURL() ?? client.user.avatarURL())
+        .setThumbnail(_interaction.guild.iconURL() ?? _client.user.avatarURL())
         .addFields([
           {
             name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_1
@@ -42,8 +42,8 @@ export default new SubCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_1.VALUE({
-              name: interaction.guild.name,
-              id: interaction.guild.id,
+              name: _interaction.guild.name,
+              id: _interaction.guild.id,
               owner: owner?.mention ?? Emojis.MARK,
             }),
           },
@@ -53,9 +53,9 @@ export default new SubCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_2.VALUE({
-              members: interaction.guild.memberCount,
-              channels: interaction.guild.channels.size,
-              roles: interaction.guild.roles.size,
+              members: _interaction.guild.memberCount,
+              channels: _interaction.guild.channels.size,
+              roles: _interaction.guild.roles.size,
             }),
           },
           {
@@ -66,7 +66,7 @@ export default new SubCommand({
             ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_3.VALUE({
               date: formatUnix(
                 UnixType.SHORT_DATE_TIME,
-                interaction.guild.createdAt
+                _interaction.guild.createdAt
               ),
             }),
           },
