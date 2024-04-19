@@ -12,21 +12,21 @@ export default new UserCommand({
   type: ApplicationCommandTypes.USER,
   run: async (
     _client: Fancycord,
-    interaction: CommandInteraction,
+    _interaction: CommandInteraction,
     { locale }
   ) => {
     const member = await fetchMember(
-      interaction,
-      interaction.data.targetID ?? interaction.user.id
+      _interaction,
+      _interaction.data.targetID ?? _interaction.user.id
     );
 
     if (!member) {
-      return errorMessage(interaction, true, {
+      return await errorMessage(_interaction, true, {
         description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
       });
     }
 
-    interaction.reply({
+    await _interaction.reply({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({

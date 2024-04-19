@@ -11,19 +11,19 @@ export default new SubCommand({
   name: "user",
   run: async (
     _client: Fancycord,
-    interaction: CommandInteraction,
+    _interaction: CommandInteraction,
     { locale }
   ) => {
     const member =
-      interaction.data.options.getMember("user") ?? interaction.member;
+      _interaction.data.options.getMember("user") ?? _interaction.member;
 
     if (!member) {
-      return errorMessage(interaction, true, {
+      return await errorMessage(_interaction, true, {
         description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
       });
     }
 
-    interaction.reply({
+    await _interaction.reply({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
