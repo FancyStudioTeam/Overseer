@@ -9,16 +9,44 @@ import type {
 } from "oceanic.js";
 import type { Fancycord } from "./classes/Client";
 
-export type Locales = "EN" | "ES" | "GL";
+export type Locales = "EN" | "ES";
 
+// biome-ignore lint/style/useEnumInitializers:
 export enum MembershipType {
-  MONTH = "MONTH",
-  INFINITE = "INFINITE",
+  MONTH,
+  INFINITE,
 }
 
+// biome-ignore lint/style/useEnumInitializers:
 export enum WebhookType {
-  REPORTS = "REPORTS",
-  LOGS = "LOGS",
+  REPORTS,
+  LOGS,
+}
+
+// biome-ignore lint/style/useEnumInitializers:
+export enum LoggerType {
+  ERROR,
+  DEBUG,
+  WARN,
+  INFO,
+  REQUEST,
+}
+
+// biome-ignore lint/style/useEnumInitializers:
+export enum ComparationLevel {
+  UNKNOWN,
+  LOWER,
+  EQUAL,
+  HIGHER,
+}
+
+// biome-ignore lint/style/useEnumInitializers:
+export enum UnixType {
+  SHORT_TIME,
+  SHORT_DATE,
+  RELATIVE,
+  SHORT_DATE_TIME,
+  LONG_DATE_TIME,
 }
 
 export type ChatInputCommandInterface = {

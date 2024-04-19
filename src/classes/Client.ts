@@ -7,18 +7,19 @@ import {
   Collection,
   type CreateApplicationCommandOptions,
 } from "oceanic.js";
-import type {
-  ChatInputCommandInterface,
-  ComponentInterface,
-  ModalInterface,
-  SubCommandInterface,
-  UserCommandInterface,
+import {
+  type ChatInputCommandInterface,
+  type ComponentInterface,
+  LoggerType,
+  type ModalInterface,
+  type SubCommandInterface,
+  type UserCommandInterface,
 } from "../types";
 import { prisma } from "../util/db";
-import { logger } from "../util/logger";
+import { logger } from "../util/util";
 import type { Event } from "./Builders";
 
-const arrayCommands: object[] = [];
+const arrayCommands: CreateApplicationCommandOptions[] = [];
 
 export class Fancycord extends Client {
   interactions: {
@@ -40,34 +41,31 @@ export class Fancycord extends Client {
       collectionLimits: {
         auditLogEntries: 0,
         autoModerationRules: 0,
-        channels: Infinity,
+        channels: Number.POSITIVE_INFINITY,
         emojis: 0,
         groupChannels: 0,
-        guildThreads: Infinity,
-        guilds: Infinity,
+        guildThreads: Number.POSITIVE_INFINITY,
+        guilds: Number.POSITIVE_INFINITY,
         integrations: 0,
         invites: 0,
-        members: Infinity,
+        members: Number.POSITIVE_INFINITY,
         messages: 0,
         privateChannels: 0,
-        roles: Infinity,
+        roles: Number.POSITIVE_INFINITY,
         scheduledEvents: 0,
         stageInstances: 0,
         stickers: 0,
         unavailableGuilds: 0,
-        users: Infinity,
+        users: Number.POSITIVE_INFINITY,
         voiceMembers: 0,
         voiceStates: 0,
       },
       gateway: {
-        connectionProperties: {
-          browser: "Discord Android",
-        },
+        compress: true,
         intents: [
           "GUILDS",
           "GUILD_MEMBERS",
           "GUILD_MESSAGES",
-          "GUILD_MESSAGE_REACTIONS",
           "MESSAGE_CONTENT",
         ],
         maxShards: "auto",
@@ -76,6 +74,9 @@ export class Fancycord extends Client {
       },
       defaultImageSize: 512,
       defaultImageFormat: "png",
+      allowedMentions: {
+        everyone: false,
+      },
     });
 
     this.interactions = {
@@ -97,11 +98,11 @@ export class Fancycord extends Client {
   }
 
   async init(): Promise<void> {
-    logger.log("INF", "Initializing Fancycord...");
+    logger(LoggerType.INFO, "Initializing Fancycord...");
 
     figlet("Fancycord", (error: Error | null, text: string | undefined) => {
       if (error) {
-        logger.log("ERR", error.stack ?? error.message);
+        logger(LoggerType.ERROR, error.stack ?? error.message);
       }
 
       console.log(`${text}\n`);
@@ -112,11 +113,11 @@ export class Fancycord extends Client {
         .$connect()
         .then(() => {
           this.dbReady = true;
-          logger.log("INF", "Prisma Client has been connected");
+          logger(LoggerType.INFO, "Prisma Client has been connected");
         })
         .catch((error) => {
-          logger.log(
-            "ERR",
+          logger(
+            LoggerType.ERROR,
             `Prisma Client had an error while connecting: ${
               error.stack ?? error.message
             }`
@@ -142,23 +143,11 @@ export class Fancycord extends Client {
     this.registerChatInputCommands();
     this.registerUserCommands();
 
-    await this.rest.applicationCommands
-      .bulkEditGlobalCommands(
-        this.application.id,
-        <CreateApplicationCommandOptions[]>arrayCommands
-      )
+    await this.rest.applications
+      .bulkEditGlobalCommands(this.application.id, arrayCommands)
       .then((commands) => {
-        commands.forEach((c, _) => {
-          const command = this.interactions.chatInput.get(c.name);
-
-          if (command) {
-            command.id = c.id;
-            this.interactions.chatInput.set(c.name, command);
-          }
-        });
-
-        logger.log(
-          "INF",
+        logger(
+          LoggerType.INFO,
           `The interactions has been deployed | Deployed ${commands.length} interactions`
         );
       })
