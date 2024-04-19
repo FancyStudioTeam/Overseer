@@ -6,10 +6,10 @@ import { Colors } from "../../../../constants";
 
 export default new SubCommand({
   name: "avatar",
-  run: async (_client: Fancycord, interaction: CommandInteraction) => {
-    const user = interaction.data.options.getUser("user") ?? interaction.user;
+  run: async (_client: Fancycord, _interaction: CommandInteraction) => {
+    const user = _interaction.data.options.getUser("user") ?? _interaction.user;
 
-    interaction.reply({
+    await _interaction.reply({
       embeds: new EmbedBuilder()
         .setImage(user.avatarURL())
         .setColor(Colors.COLOR)

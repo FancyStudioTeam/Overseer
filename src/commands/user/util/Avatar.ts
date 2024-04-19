@@ -11,15 +11,11 @@ import { Colors } from "../../../constants";
 export default new UserCommand({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
-  run: async (_client: Fancycord, interaction: CommandInteraction) => {
-    const user = <User>interaction.data.target;
+  run: async (_client: Fancycord, _interaction: CommandInteraction) => {
+    const user = <User>_interaction.data.target;
 
-    interaction.reply({
+    await _interaction.reply({
       embeds: new EmbedBuilder()
-        .setAuthor({
-          name: user.username,
-          iconURL: user.avatarURL(),
-        })
         .setImage(user.avatarURL())
         .setColor(Colors.COLOR)
         .toJSONArray(),
