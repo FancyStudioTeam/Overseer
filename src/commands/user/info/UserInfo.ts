@@ -28,11 +28,11 @@ export default new UserCommand({
 
     await _interaction.reply({
       embeds: new EmbedBuilder()
-        .setTitle(
-          Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
+        .setAuthor({
+          name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.AUTHOR_1({
             name: member.user.globalName ?? member.user.username,
-          })
-        )
+          }),
+        })
         .setThumbnail(member.user.avatarURL())
         .addFields([
           {
