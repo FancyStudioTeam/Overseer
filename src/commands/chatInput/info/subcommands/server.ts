@@ -28,11 +28,11 @@ export default new SubCommand({
 
     await _interaction.reply({
       embeds: new EmbedBuilder()
-        .setTitle(
-          Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.TITLE_1({
+        .setAuthor({
+          name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.AUTHOR_1({
             name: _interaction.guild.name,
-          })
-        )
+          }),
+        })
         .setThumbnail(_interaction.guild.iconURL() ?? _client.user.avatarURL())
         .addFields([
           {

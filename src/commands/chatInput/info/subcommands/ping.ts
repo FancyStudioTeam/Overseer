@@ -2,7 +2,7 @@ import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Fancycord } from "../../../../classes/Client";
-import { Colors, Emojis } from "../../../../constants";
+import { Colors } from "../../../../constants";
 import { Translations } from "../../../../locales";
 import { errorMessage } from "../../../../util/util";
 
@@ -23,18 +23,12 @@ export default new SubCommand({
 
     await _interaction.reply({
       embeds: new EmbedBuilder()
-        .addFields([
-          {
-            name: "**REST**",
-            value: `${Emojis.RIGHT} ${_client.rest.handler.latencyRef.latency}ms`,
-            inline: true,
-          },
-          {
-            name: "**WS**",
-            value: `${Emojis.RIGHT} ${_interaction.guild.shard.latency}ms`,
-            inline: true,
-          },
-        ])
+        .setDescription(
+          Translations[locale].COMMANDS.INFO.PING.MESSAGE_1.DESCRIPTION_1({
+            rest: `${_client.rest.handler.latencyRef.latency}ms`,
+            shard: `${_interaction.guild.shard.latency}ms`,
+          })
+        )
         .setColor(Colors.COLOR)
         .toJSONArray(),
     });

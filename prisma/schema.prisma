@@ -18,11 +18,11 @@ model GuildConfiguration {
   expires_at Int      @default(0)
 }
 
-model ClientPremium {
+model ClientVoucher {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   voucher_id String  @unique
   redeemed   Boolean @default(false)
-  type       String  @default("MONTH")
+  type       Int     @default(0)
 }
 
 model UserWarn {
@@ -43,8 +43,8 @@ model GuildSuggestion {
   self_vote           Boolean @default(true)
   neutral_vote        Boolean @default(false)
   threads             Boolean @default(false)
-  revision_channel_id String
-  revision_enabled    Boolean @default(false)
+  review_channel_id   String
+  review_enabled      Boolean @default(false)
   allow_images        Boolean @default(false)
 }
 
