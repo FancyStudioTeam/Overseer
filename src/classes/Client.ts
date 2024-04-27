@@ -33,7 +33,7 @@ export class Fancycord extends Client {
   };
   subcommands: Collection<string, SubCommandInterface>;
   private dbReady: boolean;
-  readyAt: number | null;
+  readyAt: Date;
 
   constructor() {
     super({
@@ -90,17 +90,13 @@ export class Fancycord extends Client {
     };
     this.subcommands = new Collection();
     this.dbReady = false;
-    this.readyAt = null;
-  }
-
-  get _uptime(): number {
-    return this.readyAt ? Date.now() - this.readyAt : 0;
+    this.readyAt = new Date();
   }
 
   async init(): Promise<void> {
     logger(LoggerType.INFO, "Initializing Fancycord...");
 
-    figlet("Fancycord", (error: Error | null, text: string | undefined) => {
+    figlet("Hello, world!", (error: Error | null, text: string | undefined) => {
       if (error) {
         logger(LoggerType.ERROR, error.stack ?? error.message);
       }
@@ -126,9 +122,7 @@ export class Fancycord extends Client {
     }
 
     if (!this.ready) {
-      await this.connect().then(() => {
-        this.readyAt = Date.now();
-      });
+      await this.connect();
     }
 
     this.registerSubCommands();
