@@ -2,44 +2,47 @@ import { type ExecException, exec } from "node:child_process";
 import { join } from "node:path";
 import { inspect } from "node:util";
 import { ChannelTypes, type Message } from "oceanic.js";
-import { client } from "../..";
+import { _client } from "../..";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Event } from "../../classes/Builders";
 import { Colors, Developers } from "../../constants";
 import { trim } from "../../util/util";
 
-export default new Event("messageCreate", false, async (message: Message) => {
-  if (!message.inCachedGuildChannel() || !message.guild) return;
-  if (!message.channel) return;
-  if (message.channel.type !== ChannelTypes.GUILD_TEXT) return;
-  if (message.author.bot) return;
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
+export default new Event("messageCreate", false, async (_message: Message) => {
+  if (!(_message.inCachedGuildChannel() && _message.guild)) return;
+  if (!_message.channel) return;
+  if (_message.channel.type !== ChannelTypes.GUILD_TEXT) return;
+  if (_message.author.bot) return;
 
   const prefix = ">";
 
-  if (!message.content.startsWith(prefix)) return;
-  if (!Developers.includes(message.author.id)) return;
+  if (!_message.content.startsWith(prefix)) return;
+  if (!Developers.includes(_message.author.id)) return;
 
-  const [cmd, ...args] = message.content.slice(prefix.length).trim().split(" ");
+  const [cmd, ...args] = _message.content
+    .slice(prefix.length)
+    .trim()
+    .split(" ");
 
   switch (cmd.toLocaleLowerCase()) {
     case "reload": {
-      await client
+      let success: boolean;
+
+      await _client
         .init()
         .then(() => {
-          client.rest.channels
-            .createReaction(
-              message.channelID,
-              message.id,
-              ":_:1201586112083279923"
-            )
-            .catch(() => null);
+          success = true;
         })
         .catch(() => {
-          client.rest.channels
+          success = false;
+        })
+        .finally(async () => {
+          await _client.rest.channels
             .createReaction(
-              message.channelID,
-              message.id,
-              ":_:1201586248947597392"
+              _message.channelID,
+              _message.id,
+              success ? ":_:1201586112083279923" : ":_:1201586248947597392"
             )
             .catch(() => null);
         });
@@ -53,13 +56,13 @@ export default new Event("messageCreate", false, async (message: Message) => {
 
       exec(
         `cd "${join(__dirname, "../../..")}" && ${command}`,
-        (error: ExecException | null, result: string) => {
+        async (error: ExecException | null, result: string) => {
           if (error) {
-            return client.rest.channels.createMessage(message.channelID, {
+            await _client.rest.channels.createMessage(_message.channelID, {
               embeds: new EmbedBuilder()
                 .setAuthor({
-                  name: client.user.username,
-                  iconURL: client.user.avatarURL(),
+                  name: _client.user.username,
+                  iconURL: _client.user.avatarURL(),
                 })
                 .setDescription(
                   `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
@@ -67,18 +70,18 @@ export default new Event("messageCreate", false, async (message: Message) => {
                 .setColor(Colors.ERROR)
                 .toJSONArray(),
             });
+          } else {
+            await _client.rest.channels.createMessage(_message.channelID, {
+              embeds: new EmbedBuilder()
+                .setAuthor({
+                  name: _client.user.username,
+                  iconURL: _client.user.avatarURL(),
+                })
+                .setDescription(`\`\`\`js\n${trim(result, 4000)}\`\`\``)
+                .setColor(Colors.SUCCESS)
+                .toJSONArray(),
+            });
           }
-
-          return client.rest.channels.createMessage(message.channelID, {
-            embeds: new EmbedBuilder()
-              .setAuthor({
-                name: client.user.username,
-                iconURL: client.user.avatarURL(),
-              })
-              .setDescription(`\`\`\`js\n${trim(result, 4000)}\`\`\``)
-              .setColor(Colors.SUCCESS)
-              .toJSONArray(),
-          });
         }
       );
 
@@ -90,11 +93,9 @@ export default new Event("messageCreate", false, async (message: Message) => {
       if (!code) return;
 
       try {
+        // biome-ignore lint/security/noGlobalEval:
         const result = await eval(
-          `const { client } = require("../..");
-          (async () => {
-            ${code}
-          })();`
+          `const { client } = require("../..");\n${code}`
         );
         let output = result;
 
@@ -102,24 +103,24 @@ export default new Event("messageCreate", false, async (message: Message) => {
           output = inspect(result);
         }
 
-        client.rest.channels.createMessage(message.channelID, {
+        await _client.rest.channels.createMessage(_message.channelID, {
           embeds: new EmbedBuilder()
             .setAuthor({
-              name: client.user.username,
-              iconURL: client.user.avatarURL(),
+              name: _client.user.username,
+              iconURL: _client.user.avatarURL(),
             })
             .setDescription(`\`\`\`js\n${trim(output, 4000)}\`\`\``)
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
         });
       } catch (error) {
-        client.rest.channels.createMessage(message.channelID, {
+        await _client.rest.channels.createMessage(_message.channelID, {
           embeds: new EmbedBuilder()
             .setAuthor({
-              name: client.user.username,
-              iconURL: client.user.avatarURL(),
+              name: _client.user.username,
+              iconURL: _client.user.avatarURL(),
             })
-            .setDescription(`\`\`\`js\n${trim(<string>error, 4000)}\`\`\``)
+            .setDescription(`\`\`\`js\n${trim(String(error), 4000)}\`\`\``)
             .setColor(Colors.ERROR)
             .toJSONArray(),
         });
