@@ -1,18 +1,21 @@
 import { ActivityTypes } from "oceanic.js";
-import { client } from "../..";
+import { _client } from "../..";
 import { version } from "../../../package.json";
-import { Event } from "../../classes/Builders";
 import { LoggerType } from "../../types";
 import { logger } from "../../util/util";
 
-export default new Event("shardReady", false, async (id: number) => {
-  client.editStatus("online", [
-    {
-      name: ".",
-      state: `🍃 Version ${version}`,
-      type: ActivityTypes.CUSTOM,
-    },
-  ]);
+_client.on("shardReady", (id: number) => {
+  const shard = _client.shards.get(id);
+
+  if (shard) {
+    shard.editStatus("online", [
+      {
+        name: ".",
+        state: `🍃 Shard ${shard.id} - Version ${version}`,
+        type: ActivityTypes.CUSTOM,
+      },
+    ]);
+  }
 
   logger(LoggerType.INFO, `[Shard ${id}] Shard has been connected`);
 });

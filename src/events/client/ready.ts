@@ -1,12 +1,11 @@
-import { client } from "../..";
-import { Event } from "../../classes/Builders";
+import { _client } from "../..";
 import { LoggerType } from "../../types";
 import { logger } from "../../util/util";
 
-export default new Event("ready", true, async () => {
-  await client.deploy();
+_client.once("ready", async () => {
+  await _client._deploy();
   logger(
     LoggerType.INFO,
-    `[${client.user.username}] ${client.user.username} has been connected`
+    `[${_client.user.username}] ${_client.user.username} has been connected`
   );
 });

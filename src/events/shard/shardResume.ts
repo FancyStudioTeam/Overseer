@@ -1,7 +1,7 @@
-import { Event } from "../../classes/Builders";
+import { _client } from "../..";
 import { LoggerType } from "../../types";
 import { logger } from "../../util/util";
 
-export default new Event("shardResume", false, async (id: number) => {
+_client.on("shardResume", (id: number) => {
   logger(LoggerType.INFO, `[Shard ${id}] Shard has been resumed`);
 });
