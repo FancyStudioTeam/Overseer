@@ -3,7 +3,6 @@ import { join, sep } from "node:path";
 import figlet from "figlet";
 import {
   Client,
-  type ClientEvents,
   Collection,
   type CreateApplicationCommandOptions,
 } from "oceanic.js";
@@ -17,7 +16,6 @@ import {
 } from "../types";
 import { prisma } from "../util/db";
 import { logger } from "../util/util";
-import type { Event } from "./Builders";
 
 const arrayCommands: CreateApplicationCommandOptions[] = [];
 
@@ -93,7 +91,7 @@ export class Fancycord extends Client {
     this.readyAt = new Date();
   }
 
-  async init(): Promise<void> {
+  async _init(): Promise<void> {
     logger(LoggerType.INFO, "Initializing Fancycord...");
 
     figlet("Hello, world!", (error: Error | null, text: string | undefined) => {
@@ -125,17 +123,17 @@ export class Fancycord extends Client {
       await this.connect();
     }
 
-    this.registerSubCommands();
-    this.registerButtons();
-    this.registerSelectMenus();
-    this.registerModals();
-    this.registerEvents();
-    this.registerModules();
+    this._registerSubCommands();
+    this._registerButtons();
+    this._registerSelectMenus();
+    this._registerModals();
+    this._registerEvents();
+    this._registerModules();
   }
 
-  async deploy(): Promise<void> {
-    this.registerChatInputCommands();
-    this.registerUserCommands();
+  async _deploy(): Promise<void> {
+    this._registerChatInputCommands();
+    this._registerUserCommands();
 
     await this.rest.applications
       .bulkEditGlobalCommands(this.application.id, arrayCommands)
@@ -148,7 +146,7 @@ export class Fancycord extends Client {
       .catch(() => null);
   }
 
-  registerChatInputCommands(): void {
+  _registerChatInputCommands(): void {
     this.interactions.chatInput.clear();
 
     const commandsPath = join(__dirname, "..", "commands", "chatInput");
@@ -166,7 +164,7 @@ export class Fancycord extends Client {
 
         delete require.cache[require.resolve(commandPath)];
 
-        if (command?.name) {
+        if (command?.name && command.run) {
           this.interactions.chatInput.set(command.name, command);
 
           arrayCommands.push(command);
@@ -175,7 +173,7 @@ export class Fancycord extends Client {
     });
   }
 
-  registerSubCommands(): void {
+  _registerSubCommands(): void {
     this.subcommands.clear();
 
     const commandsPath = join(__dirname, "..", "commands", "chatInput");
@@ -206,7 +204,7 @@ export class Fancycord extends Client {
     });
   }
 
-  registerUserCommands(): void {
+  _registerUserCommands(): void {
     this.interactions.user.clear();
 
     const commandsPath = join(__dirname, "..", "commands", "user");
@@ -233,7 +231,7 @@ export class Fancycord extends Client {
     });
   }
 
-  registerEvents(): void {
+  _registerEvents(): void {
     this.removeAllListeners();
 
     const eventsPath = join(__dirname, "..", "events");
@@ -247,20 +245,15 @@ export class Fancycord extends Client {
 
       directories.forEach((f, _) => {
         const eventPath = join(directoriesPath, f);
-        const event: Event<keyof ClientEvents> = require(eventPath).default;
 
         delete require.cache[require.resolve(eventPath)];
 
-        if (event?.event) {
-          event.once
-            ? this.once(event.event, event.run)
-            : this.on(event.event, event.run);
-        }
+        require(eventPath).default;
       });
     });
   }
 
-  registerButtons(): void {
+  _registerButtons(): void {
     this.components.buttons.clear();
 
     const buttonsPath = join(__dirname, "..", "components", "buttons");
@@ -285,7 +278,7 @@ export class Fancycord extends Client {
     });
   }
 
-  registerSelectMenus(): void {
+  _registerSelectMenus(): void {
     this.components.select.clear();
 
     const selectMenusPath = join(__dirname, "..", "components", "selectMenu");
@@ -310,7 +303,7 @@ export class Fancycord extends Client {
     });
   }
 
-  registerModals(): void {
+  _registerModals(): void {
     this.components.modals.clear();
 
     const modalsPath = join(__dirname, "..", "components", "modals");
@@ -335,7 +328,7 @@ export class Fancycord extends Client {
     });
   }
 
-  registerModules(): void {
+  _registerModules(): void {
     const modulesPath = join(__dirname, "..", "modules");
     const modules = readdirSync(modulesPath).filter(
       (f) => f.endsWith(".js") || f.endsWith(".ts")
