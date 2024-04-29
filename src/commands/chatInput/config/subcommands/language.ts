@@ -1,8 +1,9 @@
 import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
-import type { Fancycord } from "../../../../classes/Client";
-import { translations } from "../../../../locales/translations";
+import type { Discord } from "../../../../classes/Client";
+import { Colors } from "../../../../constants";
+import { Translations } from "../../../../locales";
 import type { Locales } from "../../../../types";
 import { prisma } from "../../../../util/db";
 import { errorMessage } from "../../../../util/util";
@@ -13,49 +14,47 @@ export default new SubCommand({
     user: "MANAGE_GUILD",
   },
   run: async (
-    client: Fancycord,
-    interaction: CommandInteraction,
+    _client: Discord,
+    _interaction: CommandInteraction,
     { locale }
   ) => {
-    if (!interaction.inCachedGuildChannel() || !interaction.guild) {
-      return errorMessage(interaction, true, {
-        description: translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
-          structure: interaction,
+    if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
+      return await errorMessage(_interaction, true, {
+        description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          structure: _interaction,
         }),
       });
     }
 
-    const language = interaction.data.options.getString("language", true);
+    const language = _interaction.data.options.getString("language", true);
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
-        guild_id: interaction.guild.id,
+        guild_id: _interaction.guild.id,
       },
     });
 
-    if (guildConfiguration) {
-      await prisma.guildConfiguration.update({
-        where: {
-          guild_id: interaction.guild.id,
-        },
-        data: {
-          language,
-        },
-      });
-    } else {
-      await prisma.guildConfiguration.create({
-        data: {
-          guild_id: interaction.guild.id,
-          language,
-        },
-      });
-    }
+    guildConfiguration
+      ? await prisma.guildConfiguration.update({
+          where: {
+            guild_id: _interaction.guild.id,
+          },
+          data: {
+            language,
+          },
+        })
+      : await prisma.guildConfiguration.create({
+          data: {
+            guild_id: _interaction.guild.id,
+            language,
+          },
+        });
 
-    interaction.reply({
+    await _interaction.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          translations[<Locales>language].COMMANDS.CONFIG.LANGUAGE.MESSAGE
+          Translations[<Locales>language].COMMANDS.CONFIG.LANGUAGE.MESSAGE_1
         )
-        .setColor(client.config.colors.SUCCESS)
+        .setColor(Colors.SUCCESS)
         .toJSONArray(),
     });
   },
