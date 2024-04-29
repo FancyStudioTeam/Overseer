@@ -1,4 +1,5 @@
 declare global {
+  // biome-ignore lint/style/noNamespace:
   namespace NodeJS {
     interface ProcessEnv {
       Token: string;
@@ -6,7 +7,6 @@ declare global {
       Environment: "DEVELOPMENT" | "PRODUCTION" | "MAINTENANCE";
       LogsWebhook: string;
       ReportsWebhook: string;
-      TopGGToken: string;
     }
   }
 }
