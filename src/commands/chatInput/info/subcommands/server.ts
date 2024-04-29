@@ -1,7 +1,7 @@
 import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
-import type { Fancycord } from "../../../../classes/Client";
+import type { Discord } from "../../../../classes/Client";
 import { Colors, Emojis } from "../../../../constants";
 import { Translations } from "../../../../locales";
 import { UnixType } from "../../../../types";
@@ -10,11 +10,11 @@ import { errorMessage, fetchUser, formatUnix } from "../../../../util/util";
 export default new SubCommand({
   name: "server",
   run: async (
-    _client: Fancycord,
+    _client: Discord,
     _interaction: CommandInteraction,
     { locale }
   ) => {
-    if (!_interaction.inCachedGuildChannel() || !_interaction.guild) {
+    if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(_interaction, true, {
         description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
           structure: _interaction,

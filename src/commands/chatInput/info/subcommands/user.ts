@@ -1,7 +1,7 @@
 import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
-import type { Fancycord } from "../../../../classes/Client";
+import type { Discord } from "../../../../classes/Client";
 import { Colors, Emojis } from "../../../../constants";
 import { Translations } from "../../../../locales";
 import { UnixType } from "../../../../types";
@@ -10,7 +10,7 @@ import { errorMessage, formatUnix } from "../../../../util/util";
 export default new SubCommand({
   name: "user",
   run: async (
-    _client: Fancycord,
+    _client: Discord,
     _interaction: CommandInteraction,
     { locale }
   ) => {

@@ -2,7 +2,7 @@ import type { CommandInteraction } from "oceanic.js";
 import { version } from "../../../../../package.json";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
-import type { Fancycord } from "../../../../classes/Client";
+import type { Discord } from "../../../../classes/Client";
 import { Colors } from "../../../../constants";
 import { Translations } from "../../../../locales";
 import { UnixType } from "../../../../types";
@@ -11,7 +11,7 @@ import { formatUnix } from "../../../../util/util";
 export default new SubCommand({
   name: "bot",
   run: async (
-    _client: Fancycord,
+    _client: Discord,
     _interaction: CommandInteraction,
     { locale }
   ) => {
