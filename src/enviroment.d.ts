@@ -4,7 +4,6 @@ declare global {
     interface ProcessEnv {
       Token: string;
       MongoDB: string;
-      Environment: "DEVELOPMENT" | "PRODUCTION" | "MAINTENANCE";
       LogsWebhook: string;
       ReportsWebhook: string;
     }
