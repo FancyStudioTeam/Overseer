@@ -1,4 +1,3 @@
-import type { ClientEvents } from "oceanic.js";
 import type {
   ChatInputCommandInterface,
   ComponentInterface,
@@ -17,14 +16,6 @@ export class Modal {
   constructor(options: ModalInterface) {
     Object.assign(this, options);
   }
-}
-
-export class Event<Key extends keyof ClientEvents> {
-  constructor(
-    public event: Key,
-    public once: boolean,
-    public run: (...args: ClientEvents[Key]) => unknown
-  ) {}
 }
 
 export class ChatInputCommand {
