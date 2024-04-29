@@ -7,23 +7,20 @@ import type {
   ModalSubmitInteraction,
   PermissionName,
 } from "oceanic.js";
-import type { Fancycord } from "./classes/Client";
+import type { Discord } from "./classes/Client";
 
 export type Locales = "EN" | "ES";
 
-// biome-ignore lint/style/useEnumInitializers:
 export enum MembershipType {
   MONTH,
   INFINITE,
 }
 
-// biome-ignore lint/style/useEnumInitializers:
 export enum WebhookType {
   REPORTS,
   LOGS,
 }
 
-// biome-ignore lint/style/useEnumInitializers:
 export enum LoggerType {
   ERROR,
   DEBUG,
@@ -32,7 +29,6 @@ export enum LoggerType {
   REQUEST,
 }
 
-// biome-ignore lint/style/useEnumInitializers:
 export enum ComparationLevel {
   UNKNOWN,
   LOWER,
@@ -40,7 +36,6 @@ export enum ComparationLevel {
   HIGHER,
 }
 
-// biome-ignore lint/style/useEnumInitializers:
 export enum UnixType {
   SHORT_TIME,
   SHORT_DATE,
@@ -49,16 +44,32 @@ export enum UnixType {
   LONG_DATE_TIME,
 }
 
+export interface BaseInterface<
+  T extends BaseAvailableTypes = BaseAvailableTypes
+> {
+  name: string;
+  permissions?: {
+    bot?: PermissionName;
+    user?: PermissionName;
+  };
+  run: (
+    client: Discord,
+    interaction: T,
+    config: {
+      locale: Locales;
+      timezone: string;
+      hour12: boolean;
+      premium: boolean;
+      variable?: unknown;
+    }
+  ) => Promise<unknown>;
+}
+
 export type ChatInputCommandInterface = {
   directory: string;
-  permissions?: {
-    bot?: PermissionName;
-    user?: PermissionName;
-  };
-  id?: string;
-  run?: (
-    client: Fancycord,
-    interaction: CommandInteraction,
+  autocomplete?: (
+    client: Discord,
+    interaction: AutocompleteInteraction,
     config: {
       locale: Locales;
       timezone: string;
@@ -66,73 +77,19 @@ export type ChatInputCommandInterface = {
       premium: boolean;
     }
   ) => Promise<unknown>;
-  autocomplete?: (interaction: AutocompleteInteraction) => unknown;
-} & CreateChatInputApplicationCommandOptions;
+} & BaseInterface<CommandInteraction> &
+  CreateChatInputApplicationCommandOptions;
 
-export interface SubCommandInterface {
-  name: string;
-  permissions?: {
-    bot?: PermissionName;
-    user?: PermissionName;
-  };
-  run: (
-    client: Fancycord,
-    interaction: CommandInteraction,
-    config: {
-      locale: Locales;
-      timezone: string;
-      hour12: boolean;
-      premium: boolean;
-    }
-  ) => Promise<unknown>;
-}
+export type SubCommandInterface = BaseInterface<CommandInteraction>;
 
-export type UserCommandInterface = {
-  run: (
-    client: Fancycord,
-    interaction: CommandInteraction,
-    config: {
-      locale: Locales;
-      timezone: string;
-      hour12: boolean;
-      premium: boolean;
-    }
-  ) => Promise<unknown>;
-} & CreateUserApplicationCommandOptions;
+export type UserCommandInterface = BaseInterface<CommandInteraction> &
+  CreateUserApplicationCommandOptions;
 
-export interface ComponentInterface {
-  name: string;
-  permissions?: {
-    bot?: PermissionName;
-    user?: PermissionName;
-  };
-  run: (
-    client: Fancycord,
-    interaction: ComponentInteraction,
-    config: {
-      locale: Locales;
-      timezone: string;
-      hour12: boolean;
-      premium: boolean;
-      variable?: string;
-    }
-  ) => Promise<unknown>;
-}
+export type ComponentInterface = BaseInterface<ComponentInteraction>;
 
-export interface ModalInterface {
-  name: string;
-  permissions?: {
-    bot?: PermissionName;
-    user?: PermissionName;
-  };
-  run: (
-    client: Fancycord,
-    interaction: ModalSubmitInteraction,
-    config: {
-      locale: Locales;
-      timezone: string;
-      hour12: boolean;
-      premium: boolean;
-    }
-  ) => Promise<unknown>;
-}
+export type ModalInterface = BaseInterface<ModalSubmitInteraction>;
+
+type BaseAvailableTypes =
+  | CommandInteraction
+  | ComponentInteraction
+  | ModalSubmitInteraction;
