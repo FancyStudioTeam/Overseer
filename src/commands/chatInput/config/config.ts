@@ -164,13 +164,16 @@ export default new ChatInputCommand({
         }
 
         if (!availableChoices.length) {
+          const locales: Record<string, string> = {
+            "es-419": "❌ Sin opciones disponibles",
+            "es-ES": "❌ Sin opciones disponibles",
+          };
+
           return await _interaction.result([
             {
-              name: "❌ No data available",
-              nameLocalizations: {
-                "es-419": "❌ Sin datos disponibles",
-                "es-ES": "❌ Sin datos disponibles",
-              },
+              name: Object.hasOwn(locales, _interaction.locale)
+                ? locales[<string>_interaction.locale]
+                : "❌ No options available",
               value: "",
             },
           ]);
@@ -179,12 +182,15 @@ export default new ChatInputCommand({
         await _interaction
           .result(
             availableChoices.slice(0, 25).map((c) => {
+              const locales: Record<string, string> = {
+                "es-419": `🌍 Establecer la zona horaria a "${c}"`,
+                "es-ES": `🌍 Establecer la zona horaria a "${c}"`,
+              };
+
               return {
-                name: `🌍 Set time zone to "${c}"`,
-                nameLocalizations: {
-                  "es-419": `🌍 Establecer la zona horaria a "${c}"`,
-                  "es-ES": `🌍 Establecer la zona horaria a "${c}"`,
-                },
+                name: Object.hasOwn(locales, _interaction.locale)
+                  ? locales[<string>_interaction.locale]
+                  : `🌍 Set time zone to "${c}"`,
                 value: c,
               };
             })
