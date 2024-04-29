@@ -1,7 +1,7 @@
 import "dotenv/config";
-import { Fancycord } from "./classes/Client";
+import { Discord } from "./classes/Client";
 
-export const _client = new Fancycord();
+export const _client = new Discord();
 
 (async () => {
   await _client._init();

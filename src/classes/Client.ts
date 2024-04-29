@@ -19,7 +19,7 @@ import { logger } from "../util/util";
 
 const arrayCommands: CreateApplicationCommandOptions[] = [];
 
-export class Fancycord extends Client {
+export class Discord extends Client {
   interactions: {
     chatInput: Collection<string, ChatInputCommandInterface>;
     user: Collection<string, UserCommandInterface>;
@@ -35,7 +35,7 @@ export class Fancycord extends Client {
 
   constructor() {
     super({
-      auth: `Bot ${process.env.Token}`,
+      auth: `Bot ${process.env.TOKEN}`,
       collectionLimits: {
         auditLogEntries: 0,
         autoModerationRules: 0,
@@ -164,7 +164,7 @@ export class Fancycord extends Client {
 
         delete require.cache[require.resolve(commandPath)];
 
-        if (command?.name && command.run) {
+        if (command?.name) {
           this.interactions.chatInput.set(command.name, command);
 
           arrayCommands.push(command);

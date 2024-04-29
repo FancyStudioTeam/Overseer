@@ -27,6 +27,7 @@ export enum LoggerType {
   WARN,
   INFO,
   REQUEST,
+  MISC,
 }
 
 export enum ComparationLevel {
