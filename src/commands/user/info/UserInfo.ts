@@ -1,7 +1,7 @@
 import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
-import type { Fancycord } from "../../../classes/Client";
+import type { Discord } from "../../../classes/Client";
 import { Colors, Emojis } from "../../../constants";
 import { Translations } from "../../../locales";
 import { UnixType } from "../../../types";
@@ -11,7 +11,7 @@ export default new UserCommand({
   name: "User Info",
   type: ApplicationCommandTypes.USER,
   run: async (
-    _client: Fancycord,
+    _client: Discord,
     _interaction: CommandInteraction,
     { locale }
   ) => {

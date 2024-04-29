@@ -5,13 +5,13 @@ import {
 } from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
-import type { Fancycord } from "../../../classes/Client";
+import type { Discord } from "../../../classes/Client";
 import { Colors } from "../../../constants";
 
 export default new UserCommand({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
-  run: async (_client: Fancycord, _interaction: CommandInteraction) => {
+  run: async (_client: Discord, _interaction: CommandInteraction) => {
     const user = <User>_interaction.data.target;
 
     await _interaction.reply({
