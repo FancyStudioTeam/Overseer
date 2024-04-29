@@ -2,37 +2,51 @@ import {
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   type AutocompleteInteraction,
+  type CommandInteraction,
   type InteractionOptionsString,
 } from "oceanic.js";
 import { ChatInputCommand } from "../../../classes/Builders";
+import type { Discord } from "../../../classes/Client";
 import timezones from "../../../util/timezones";
 
 export default new ChatInputCommand({
   name: "config",
-  description: "-",
+  description: ".",
   options: [
     {
       name: "language",
       description: "Sets the bot language",
+      descriptionLocalizations: {
+        "es-419": "Establece el idioma del bot",
+        "es-ES": "Establece el idioma del bot",
+      },
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
       options: [
         {
           name: "language",
-          description: "Select one of the options",
+          description: "Bot language",
+          descriptionLocalizations: {
+            "es-419": "Idioma del bot",
+            "es-ES": "Idioma del bot",
+          },
           type: ApplicationCommandOptionTypes.STRING,
           required: true,
           choices: [
             {
-              name: "Set the language to English",
+              name: '🌍 Set language to "English"',
+              nameLocalizations: {
+                "es-419": '🌍 Establecer el idioma a "Inglés"',
+                "es-ES": '🌍 Establecer el idioma a "Inglés"',
+              },
               value: "EN",
             },
             {
-              name: "Set the language to Spanish",
+              name: '🌍 Set language to "Spanish"',
+              nameLocalizations: {
+                "es-419": '🌍 Establecer el idioma a "Español"',
+                "es-ES": '🌍 Establecer el idioma a "Español"',
+              },
               value: "ES",
-            },
-            {
-              name: "Set the language to Galician",
-              value: "GL",
             },
           ],
         },
@@ -46,11 +60,19 @@ export default new ChatInputCommand({
         {
           name: "claim",
           description: "Claims a premium membership",
+          descriptionLocalizations: {
+            "es-419": "Reclama una membresía premium",
+            "es-ES": "Reclama una membresía premium",
+          },
           type: ApplicationCommandOptionTypes.SUB_COMMAND,
           options: [
             {
               name: "code",
               description: "Code ID",
+              descriptionLocalizations: {
+                "es-419": "ID del código",
+                "es-ES": "ID del código",
+              },
               type: ApplicationCommandOptionTypes.STRING,
               required: true,
               maxLength: 36,
@@ -60,7 +82,11 @@ export default new ChatInputCommand({
         },
         {
           name: "revoke",
-          description: "Revokes premium server membership",
+          description: "Revokes premium membership",
+          descriptionLocalizations: {
+            "es-419": "Revoca la membresía premium",
+            "es-ES": "Revoca la membresía premium",
+          },
           type: ApplicationCommandOptionTypes.SUB_COMMAND,
         },
       ],
@@ -68,23 +94,39 @@ export default new ChatInputCommand({
     {
       name: "suggestions",
       description: "Configures the suggestion system",
+      descriptionLocalizations: {
+        "es-419": "Configura el sistema de sugerencias",
+        "es-ES": "Configura el sistema de sugerencias",
+      },
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
     },
     {
       name: "timezone",
       description: "Sets the bot's time zone",
+      descriptionLocalizations: {
+        "es-419": "Establece la zona horaria del bot",
+        "es-ES": "Establece la zona horaria del bot",
+      },
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
       options: [
         {
           name: "timezone",
-          description: "Select one of the options",
+          description: "Bot time zone",
+          descriptionLocalizations: {
+            "es-419": "Zona horaria del bot",
+            "es-ES": "Zona horaria del bot",
+          },
           type: ApplicationCommandOptionTypes.STRING,
           required: true,
           autocomplete: true,
         },
         {
           name: "12-hours",
-          description: "Display hours in am / pm format",
+          description: "Display time in p.m. / a.m. format",
+          descriptionLocalizations: {
+            "es-419": "Mostrar hora en formato p.m. / a.m.",
+            "es-ES": "Mostrar hora en formato p.m. / a.m.",
+          },
           type: ApplicationCommandOptionTypes.BOOLEAN,
           required: true,
         },
@@ -94,20 +136,24 @@ export default new ChatInputCommand({
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: "configuration",
-  autocomplete: async (interaction: AutocompleteInteraction) => {
-    const subcommand = interaction.data.options.getSubCommand(true);
+  autocomplete: async (
+    _client: Discord,
+    _interaction: AutocompleteInteraction
+  ) => {
+    const subcommand = _interaction.data.options.getSubCommand(true);
 
     switch (subcommand.join("_")) {
       case "timezone": {
         const availableChoices: string[] = [];
         const focusedValue =
-          interaction.data.options.getFocused<InteractionOptionsString>(true);
+          _interaction.data.options.getFocused<InteractionOptionsString>(true);
 
         search(focusedValue.value, timezones);
 
         function search(query: string, allChoices: string[]) {
           const newQuery = query.toLowerCase();
 
+          // biome-ignore lint/style/useForOf:
           for (let i = 0; i < allChoices.length; i++) {
             if (allChoices[i].toLowerCase().includes(newQuery)) {
               availableChoices.push(allChoices[i]);
@@ -117,17 +163,37 @@ export default new ChatInputCommand({
           return availableChoices;
         }
 
-        await interaction.result(
-          availableChoices.slice(0, 25).map((c) => {
-            return {
-              name: c,
-              value: c,
-            };
-          })
-        );
+        if (!availableChoices.length) {
+          return await _interaction.result([
+            {
+              name: "❌ No data available",
+              nameLocalizations: {
+                "es-419": "❌ Sin datos disponibles",
+                "es-ES": "❌ Sin datos disponibles",
+              },
+              value: "",
+            },
+          ]);
+        }
+
+        await _interaction
+          .result(
+            availableChoices.slice(0, 25).map((c) => {
+              return {
+                name: `🌍 Set time zone to "${c}"`,
+                nameLocalizations: {
+                  "es-419": `🌍 Establecer la zona horaria a "${c}"`,
+                  "es-ES": `🌍 Establecer la zona horaria a "${c}"`,
+                },
+                value: c,
+              };
+            })
+          )
+          .catch(() => null);
 
         break;
       }
     }
   },
+  run: async (_client: Discord, _interaction: CommandInteraction) => null,
 });

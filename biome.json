@@ -5,10 +5,15 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "all": true,
       "suspicious": {
-        "noExplicitAny": "off",
-        "useAwait": "error"
+        "noConsoleLog": "off"
+      },
+      "style": {
+        "useNamingConvention": "off",
+        "useBlockStatements": "off",
+        "noDefaultExport": "off",
+        "useEnumInitializers": "off"
       }
     }
   },
