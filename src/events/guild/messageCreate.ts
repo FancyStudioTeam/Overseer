@@ -4,12 +4,11 @@ import { inspect } from "node:util";
 import { ChannelTypes, type Message } from "oceanic.js";
 import { _client } from "../..";
 import { EmbedBuilder } from "../../builders/Embed";
-import { Event } from "../../classes/Builders";
 import { Colors, Developers } from "../../constants";
 import { trim } from "../../util/util";
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
-export default new Event("messageCreate", false, async (_message: Message) => {
+_client.on("messageCreate", async (_message: Message) => {
   if (!(_message.inCachedGuildChannel() && _message.guild)) return;
   if (!_message.channel) return;
   if (_message.channel.type !== ChannelTypes.GUILD_TEXT) return;
@@ -30,7 +29,7 @@ export default new Event("messageCreate", false, async (_message: Message) => {
       let success: boolean;
 
       await _client
-        .init()
+        ._init()
         .then(() => {
           success = true;
         })
