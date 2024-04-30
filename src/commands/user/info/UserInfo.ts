@@ -1,4 +1,9 @@
-import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
+import {
+  type AnyInteractionChannel,
+  ApplicationCommandTypes,
+  type CommandInteraction,
+  type Uncached,
+} from "oceanic.js";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Discord } from "../../../classes/Client";
@@ -12,13 +17,13 @@ export default new UserCommand({
   type: ApplicationCommandTypes.USER,
   run: async (
     _client: Discord,
-    _interaction: CommandInteraction,
+    _interaction: CommandInteraction<
+      AnyInteractionChannel | Uncached,
+      ApplicationCommandTypes.USER
+    >,
     { locale }
   ) => {
-    const member = await fetchMember(
-      _interaction,
-      _interaction.data.targetID ?? _interaction.user.id
-    );
+    const member = await fetchMember(_interaction, _interaction.data.targetID);
 
     if (!member) {
       return await errorMessage(_interaction, true, {
