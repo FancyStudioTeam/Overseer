@@ -1,4 +1,9 @@
-import type { CommandInteraction } from "oceanic.js";
+import type {
+  AnyInteractionChannel,
+  ApplicationCommandTypes,
+  CommandInteraction,
+  Uncached,
+} from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Discord } from "../../../../classes/Client";
@@ -15,7 +20,10 @@ export default new SubCommand({
   },
   run: async (
     _client: Discord,
-    _interaction: CommandInteraction,
+    _interaction: CommandInteraction<
+      AnyInteractionChannel | Uncached,
+      ApplicationCommandTypes.CHAT_INPUT
+    >,
     { locale }
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
@@ -26,20 +34,26 @@ export default new SubCommand({
       });
     }
 
-    const timezone = _interaction.data.options.getString("timezone", true);
-    const hour12 = _interaction.data.options.getBoolean("12-hours", true);
+    const _timezoneOption = _interaction.data.options.getString(
+      "timezone",
+      true
+    );
+    const _12HoursOption = _interaction.data.options.getBoolean(
+      "12-hours",
+      true
+    );
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
         guild_id: _interaction.guild.id,
       },
     });
 
-    if (!timezones.includes(timezone)) {
+    if (!timezones.includes(_timezoneOption)) {
       return await errorMessage(_interaction, true, {
         description: Translations[
           locale
         ].COMMANDS.CONFIG.TIMEZONE.ERRORS.TIMEZONE_NOT_FOUND({
-          timezone,
+          timezone: _timezoneOption,
         }),
       });
     }
@@ -50,15 +64,15 @@ export default new SubCommand({
             guild_id: _interaction.guild.id,
           },
           data: {
-            timezone,
-            hour12,
+            timezone: _timezoneOption,
+            hour12: _12HoursOption,
           },
         })
       : await prisma.guildConfiguration.create({
           data: {
             guild_id: _interaction.guild.id,
-            timezone,
-            hour12,
+            timezone: _timezoneOption,
+            hour12: _12HoursOption,
           },
         });
 
@@ -66,7 +80,7 @@ export default new SubCommand({
       embeds: new EmbedBuilder()
         .setDescription(
           Translations[locale].COMMANDS.CONFIG.TIMEZONE.MESSAGE_1({
-            timezone,
+            timezone: _timezoneOption,
           })
         )
         .setColor(Colors.SUCCESS)

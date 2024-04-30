@@ -1,4 +1,9 @@
-import type { CommandInteraction } from "oceanic.js";
+import type {
+  AnyInteractionChannel,
+  ApplicationCommandTypes,
+  CommandInteraction,
+  Uncached,
+} from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Discord } from "../../../../classes/Client";
@@ -15,7 +20,10 @@ export default new SubCommand({
   },
   run: async (
     _client: Discord,
-    _interaction: CommandInteraction,
+    _interaction: CommandInteraction<
+      AnyInteractionChannel | Uncached,
+      ApplicationCommandTypes.CHAT_INPUT
+    >,
     { locale }
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
@@ -26,7 +34,10 @@ export default new SubCommand({
       });
     }
 
-    const language = _interaction.data.options.getString("language", true);
+    const _languageOption = _interaction.data.options.getString(
+      "language",
+      true
+    );
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
         guild_id: _interaction.guild.id,
@@ -39,20 +50,21 @@ export default new SubCommand({
             guild_id: _interaction.guild.id,
           },
           data: {
-            language,
+            language: _languageOption,
           },
         })
       : await prisma.guildConfiguration.create({
           data: {
             guild_id: _interaction.guild.id,
-            language,
+            language: _languageOption,
           },
         });
 
     await _interaction.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          Translations[<Locales>language].COMMANDS.CONFIG.LANGUAGE.MESSAGE_1
+          Translations[<Locales>_languageOption].COMMANDS.CONFIG.LANGUAGE
+            .MESSAGE_1
         )
         .setColor(Colors.SUCCESS)
         .toJSONArray(),
