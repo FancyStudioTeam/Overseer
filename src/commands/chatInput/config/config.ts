@@ -1,13 +1,16 @@
 import {
+  type AnyInteractionChannel,
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   type AutocompleteInteraction,
   type CommandInteraction,
   type InteractionOptionsString,
+  type Uncached,
 } from "oceanic.js";
 import { ChatInputCommand } from "../../../classes/Builders";
 import type { Discord } from "../../../classes/Client";
 import timezones from "../../../util/timezones";
+import { search } from "../../../util/util";
 
 export default new ChatInputCommand({
   name: "config",
@@ -54,7 +57,7 @@ export default new ChatInputCommand({
     },
     {
       name: "premium",
-      description: "-",
+      description: ".",
       type: ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
       options: [
         {
@@ -122,10 +125,10 @@ export default new ChatInputCommand({
         },
         {
           name: "12-hours",
-          description: "Display time in p.m. / a.m. format",
+          description: "Display time in pm / am format",
           descriptionLocalizations: {
-            "es-419": "Mostrar hora en formato p.m. / a.m.",
-            "es-ES": "Mostrar hora en formato p.m. / a.m.",
+            "es-419": "Mostrar hora en formato pm / am",
+            "es-ES": "Mostrar hora en formato pm / am",
           },
           type: ApplicationCommandOptionTypes.BOOLEAN,
           required: true,
@@ -140,40 +143,22 @@ export default new ChatInputCommand({
     _client: Discord,
     _interaction: AutocompleteInteraction
   ) => {
-    const subcommand = _interaction.data.options.getSubCommand(true);
+    const _subCommandOption = _interaction.data.options.getSubCommand(true);
 
-    switch (subcommand.join("_")) {
+    switch (_subCommandOption.join("_")) {
       case "timezone": {
-        const availableChoices: string[] = [];
-        const focusedValue =
+        const _focusedOption =
           _interaction.data.options.getFocused<InteractionOptionsString>(true);
+        const choices = search<string>(_focusedOption.value, timezones);
 
-        search(focusedValue.value, timezones);
-
-        function search(query: string, allChoices: string[]) {
-          const newQuery = query.toLowerCase();
-
-          // biome-ignore lint/style/useForOf:
-          for (let i = 0; i < allChoices.length; i++) {
-            if (allChoices[i].toLowerCase().includes(newQuery)) {
-              availableChoices.push(allChoices[i]);
-            }
-          }
-
-          return availableChoices;
-        }
-
-        if (!availableChoices.length) {
-          const locales: Record<string, string> = {
-            "es-419": "❌ Sin opciones disponibles",
-            "es-ES": "❌ Sin opciones disponibles",
-          };
-
+        if (!choices.length) {
           return await _interaction.result([
             {
-              name: Object.hasOwn(locales, _interaction.locale)
-                ? locales[<string>_interaction.locale]
-                : "❌ No options available",
+              name:
+                {
+                  "es-419": "❌ Sin opciones disponibles",
+                  "es-ES": "❌ Sin opciones disponibles",
+                }[_interaction.locale] ?? "❌ No options available",
               value: "",
             },
           ]);
@@ -181,16 +166,13 @@ export default new ChatInputCommand({
 
         await _interaction
           .result(
-            availableChoices.slice(0, 25).map((c) => {
-              const locales: Record<string, string> = {
-                "es-419": `🌍 Establecer la zona horaria a "${c}"`,
-                "es-ES": `🌍 Establecer la zona horaria a "${c}"`,
-              };
-
+            choices.slice(0, 25).map((c) => {
               return {
-                name: Object.hasOwn(locales, _interaction.locale)
-                  ? locales[<string>_interaction.locale]
-                  : `🌍 Set time zone to "${c}"`,
+                name:
+                  {
+                    "es-419": `🌍 Establecer la zona horaria a "${c}"`,
+                    "es-ES": `🌍 Establecer la zona horaria a "${c}"`,
+                  }[_interaction.locale] ?? `🌍 Set time zone to "${c}"`,
                 value: c,
               };
             })
@@ -201,5 +183,11 @@ export default new ChatInputCommand({
       }
     }
   },
-  run: async (_client: Discord, _interaction: CommandInteraction) => null,
+  run: async (
+    _client: Discord,
+    _interaction: CommandInteraction<
+      AnyInteractionChannel | Uncached,
+      ApplicationCommandTypes.CHAT_INPUT
+    >
+  ) => null,
 });
