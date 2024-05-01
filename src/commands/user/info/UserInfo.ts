@@ -23,9 +23,12 @@ export default new UserCommand({
     >,
     { locale }
   ) => {
-    const member = await fetchMember(_interaction, _interaction.data.targetID);
+    const _memberOption = await fetchMember(
+      _interaction,
+      _interaction.data.targetID
+    );
 
-    if (!member) {
+    if (!_memberOption) {
       return await errorMessage(_interaction, true, {
         description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
       });
@@ -35,10 +38,10 @@ export default new UserCommand({
       embeds: new EmbedBuilder()
         .setAuthor({
           name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.AUTHOR_1({
-            name: member.user.globalName ?? member.user.username,
+            name: _memberOption.user.globalName ?? _memberOption.user.username,
           }),
         })
-        .setThumbnail(member.user.avatarURL())
+        .setThumbnail(_memberOption.user.avatarURL())
         .addFields([
           {
             name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1
@@ -46,8 +49,8 @@ export default new UserCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1.VALUE({
-              name: member.user.mention,
-              id: member.user.id,
+              name: _memberOption.user.mention,
+              id: _memberOption.user.id,
             }),
           },
           {
@@ -56,7 +59,10 @@ export default new UserCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2.VALUE({
-              date: formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt),
+              date: formatUnix(
+                UnixType.SHORT_DATE_TIME,
+                _memberOption.user.createdAt
+              ),
             }),
           },
           {
@@ -65,8 +71,8 @@ export default new UserCommand({
             value: Translations[
               locale
             ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_3.VALUE({
-              date: member.joinedAt
-                ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt)
+              date: _memberOption.joinedAt
+                ? formatUnix(UnixType.SHORT_DATE_TIME, _memberOption.joinedAt)
                 : Emojis.MARK,
             }),
           },

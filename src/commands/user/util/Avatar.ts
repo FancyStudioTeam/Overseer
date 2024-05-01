@@ -19,11 +19,11 @@ export default new UserCommand({
       ApplicationCommandTypes.USER
     >
   ) => {
-    const user = _interaction.data.target;
+    const _userOption = _interaction.data.target;
 
     await _interaction.reply({
       embeds: new EmbedBuilder()
-        .setImage(user.avatarURL())
+        .setImage(_userOption.avatarURL())
         .setColor(Colors.COLOR)
         .toJSONArray(),
     });
