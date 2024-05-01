@@ -1,18 +1,17 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import {
+  type AnyInteractionChannel,
   ApplicationCommandTypes,
   ButtonStyles,
   type CommandInteraction,
   ComponentTypes,
+  type Uncached,
 } from "oceanic.js";
 import { ActionRowBuilder } from "../../../builders/ActionRow";
-import { AttachmentBuilder } from "../../../builders/Attachment";
 import { ButtonBuilder } from "../../../builders/Button";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { SelectMenuBuilder } from "../../../builders/SelectMenu";
 import { ChatInputCommand } from "../../../classes/Builders";
-import type { Fancycord } from "../../../classes/Client";
+import type { Discord } from "../../../classes/Client";
 import { Colors, Emojis, Links } from "../../../constants";
 import { Translations } from "../../../locales";
 import { parseEmoji } from "../../../util/util";
@@ -20,36 +19,35 @@ import { parseEmoji } from "../../../util/util";
 export default new ChatInputCommand({
   name: "help",
   description: "Displays bot commands",
+  descriptionLocalizations: {
+    "es-419": "Muestra los comandos del bot",
+    "es-ES": "Muestra los comandos del bot",
+  },
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: "",
   run: async (
-    client: Fancycord,
-    interaction: CommandInteraction,
+    _client: Discord,
+    _interaction: CommandInteraction<
+      AnyInteractionChannel | Uncached,
+      ApplicationCommandTypes.CHAT_INPUT
+    >,
     { locale }
   ) => {
-    interaction.reply({
+    await _interaction.reply({
       embeds: new EmbedBuilder()
         .setAuthor({
-          name: client.user.username,
-          iconURL: client.user.avatarURL(),
+          name: Translations[locale].HELP.MESSAGE_1.AUTHOR_1({
+            name: _client.user.globalName ?? _client.user.username,
+          }),
         })
-        .setThumbnail(client.user.avatarURL())
+        .setThumbnail(_client.user.avatarURL())
         .setDescription(
-          Translations[locale].HELP.MESSAGE_1.DESCRIPTION({
-            mention: client.user.mention,
+          Translations[locale].HELP.MESSAGE_1.DESCRIPTION_1({
+            mention: _client.user.mention,
           })
         )
-        .setImage("attachment://banner.png")
         .setColor(Colors.COLOR)
-        .toJSONArray(),
-      files: new AttachmentBuilder()
-        .setName("banner.png")
-        .setContent(
-          readFileSync(
-            join(__dirname, "../../..", "assets/images", "Banner.png")
-          )
-        )
         .toJSONArray(),
       components: [
         new ActionRowBuilder()
@@ -75,7 +73,7 @@ export default new ChatInputCommand({
         new ActionRowBuilder()
           .addComponents([
             new SelectMenuBuilder()
-              .setCustomID("help-plugins")
+              .setCustomID("help_plugins")
               .setPlaceholder(
                 Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
                   .PLACEHOLDER
@@ -83,13 +81,6 @@ export default new ChatInputCommand({
               .addOptions(
                 ["configuration", "information", "moderation", "utility"].map(
                   (e) => {
-                    const emojis: Record<string, string> = {
-                      configuration: Emojis.GEAR,
-                      information: Emojis.INFO,
-                      moderation: Emojis.GAVEL,
-                      utility: Emojis.SUPPORT,
-                    };
-
                     return {
                       label:
                         Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
@@ -98,7 +89,14 @@ export default new ChatInputCommand({
                       description:
                         Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
                           .OPTIONS[<Plugins>e.toUpperCase()].DESCRIPTION,
-                      emoji: parseEmoji(emojis[e]),
+                      emoji: parseEmoji(
+                        {
+                          configuration: Emojis.GEAR,
+                          information: Emojis.INFO,
+                          moderation: Emojis.GAVEL,
+                          utility: Emojis.SUPPORT,
+                        }[e] ?? ""
+                      ),
                     };
                   }
                 )
