@@ -1,7 +1,9 @@
 import {
+  type AnyInteractionChannel,
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   type CommandInteraction,
+  type Uncached,
 } from "oceanic.js";
 import { ChatInputCommand } from "../../../classes/Builders";
 import type { Discord } from "../../../classes/Client";
@@ -61,5 +63,11 @@ export default new ChatInputCommand({
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: "information",
-  run: async (_client: Discord, _interaction: CommandInteraction) => null,
+  run: async (
+    _client: Discord,
+    _interaction: CommandInteraction<
+      AnyInteractionChannel | Uncached,
+      ApplicationCommandTypes.CHAT_INPUT
+    >
+  ) => null,
 });

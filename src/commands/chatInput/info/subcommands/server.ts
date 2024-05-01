@@ -1,4 +1,9 @@
-import type { CommandInteraction } from "oceanic.js";
+import type {
+  AnyInteractionChannel,
+  ApplicationCommandTypes,
+  CommandInteraction,
+  Uncached,
+} from "oceanic.js";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
 import type { Discord } from "../../../../classes/Client";
@@ -11,7 +16,10 @@ export default new SubCommand({
   name: "server",
   run: async (
     _client: Discord,
-    _interaction: CommandInteraction,
+    _interaction: CommandInteraction<
+      AnyInteractionChannel | Uncached,
+      ApplicationCommandTypes.CHAT_INPUT
+    >,
     { locale }
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {

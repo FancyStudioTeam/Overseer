@@ -1,4 +1,9 @@
-import type { CommandInteraction } from "oceanic.js";
+import type {
+  AnyInteractionChannel,
+  ApplicationCommandTypes,
+  CommandInteraction,
+  Uncached,
+} from "oceanic.js";
 import { version } from "../../../../../package.json";
 import { EmbedBuilder } from "../../../../builders/Embed";
 import { SubCommand } from "../../../../classes/Builders";
@@ -12,7 +17,10 @@ export default new SubCommand({
   name: "bot",
   run: async (
     _client: Discord,
-    _interaction: CommandInteraction,
+    _interaction: CommandInteraction<
+      AnyInteractionChannel | Uncached,
+      ApplicationCommandTypes.CHAT_INPUT
+    >,
     { locale }
   ) => {
     await _interaction.reply({
