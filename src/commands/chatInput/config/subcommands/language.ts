@@ -38,36 +38,30 @@ export default new SubCommand({
       "language",
       true
     );
-    const guildConfiguration = await prisma.guildConfiguration.findUnique({
-      where: {
-        guild_id: _interaction.guild.id,
-      },
-    });
 
-    guildConfiguration
-      ? await prisma.guildConfiguration.update({
-          where: {
-            guild_id: _interaction.guild.id,
-          },
-          data: {
-            language: _languageOption,
-          },
-        })
-      : await prisma.guildConfiguration.create({
-          data: {
-            guild_id: _interaction.guild.id,
-            language: _languageOption,
-          },
+    await prisma.guildConfiguration
+      .upsert({
+        where: {
+          guild_id: _interaction.guild.id,
+        },
+        update: {
+          language: _languageOption,
+        },
+        create: {
+          guild_id: _interaction.guild.id,
+          language: _languageOption,
+        },
+      })
+      .then(async (updatedData) => {
+        await _interaction.reply({
+          embeds: new EmbedBuilder()
+            .setDescription(
+              Translations[<Locales>updatedData.language].COMMANDS.CONFIG
+                .LANGUAGE.MESSAGE_1
+            )
+            .setColor(Colors.SUCCESS)
+            .toJSONArray(),
         });
-
-    await _interaction.reply({
-      embeds: new EmbedBuilder()
-        .setDescription(
-          Translations[<Locales>_languageOption].COMMANDS.CONFIG.LANGUAGE
-            .MESSAGE_1
-        )
-        .setColor(Colors.SUCCESS)
-        .toJSONArray(),
-    });
+      });
   },
 });

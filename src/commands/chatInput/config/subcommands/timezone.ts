@@ -42,11 +42,6 @@ export default new SubCommand({
       "12-hours",
       true
     );
-    const guildConfiguration = await prisma.guildConfiguration.findUnique({
-      where: {
-        guild_id: _interaction.guild.id,
-      },
-    });
 
     if (!timezones.includes(_timezoneOption)) {
       return await errorMessage(_interaction, true, {
@@ -58,33 +53,32 @@ export default new SubCommand({
       });
     }
 
-    guildConfiguration
-      ? await prisma.guildConfiguration.update({
-          where: {
-            guild_id: _interaction.guild.id,
-          },
-          data: {
-            timezone: _timezoneOption,
-            hour12: _12HoursOption,
-          },
-        })
-      : await prisma.guildConfiguration.create({
-          data: {
-            guild_id: _interaction.guild.id,
-            timezone: _timezoneOption,
-            hour12: _12HoursOption,
-          },
+    await prisma.guildConfiguration
+      .upsert({
+        where: {
+          guild_id: _interaction.guild.id,
+        },
+        update: {
+          timezone: _timezoneOption,
+          hour12: _12HoursOption,
+        },
+        create: {
+          guild_id: _interaction.guild.id,
+          timezone: _timezoneOption,
+          hour12: _12HoursOption,
+        },
+      })
+      .then(async (updatedData) => {
+        await _interaction.reply({
+          embeds: new EmbedBuilder()
+            .setDescription(
+              Translations[locale].COMMANDS.CONFIG.TIMEZONE.MESSAGE_1({
+                timezone: updatedData.timezone,
+              })
+            )
+            .setColor(Colors.SUCCESS)
+            .toJSONArray(),
         });
-
-    await _interaction.reply({
-      embeds: new EmbedBuilder()
-        .setDescription(
-          Translations[locale].COMMANDS.CONFIG.TIMEZONE.MESSAGE_1({
-            timezone: _timezoneOption,
-          })
-        )
-        .setColor(Colors.SUCCESS)
-        .toJSONArray(),
-    });
+      });
   },
 });
