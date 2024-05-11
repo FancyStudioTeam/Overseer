@@ -1,22 +1,11 @@
-import { EmbedBuilder } from "../../builders/Embed";
-import { Colors } from "../../constants";
-import { LoggerType, WebhookType } from "../../types";
-import { logger, trim, webhook } from "../../util/util";
+import { captureException } from "@sentry/node";
+import { LoggerType } from "../../types";
+import { logger } from "../../util/util";
 
-process.on("uncaughtException", async (error: Error) => {
+process.on("uncaughtException", (_error: Error) => {
+  captureException(_error);
   logger(
     LoggerType.ERROR,
-    `Uncaught Exception: ${error.stack ?? error.message}`
+    `Uncaught Exception: ${_error.stack ?? _error.message}`
   );
-  await webhook(WebhookType.LOGS, {
-    embeds: new EmbedBuilder()
-      .setAuthor({
-        name: "Uncaught Exception",
-      })
-      .setDescription(
-        `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
-      )
-      .setColor(Colors.ERROR)
-      .toJSONArray(),
-  });
 });

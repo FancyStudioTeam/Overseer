@@ -1,16 +1,18 @@
+import { captureException } from "@sentry/node";
 import { _client } from "../..";
 import { LoggerType } from "../../types";
 import { logger } from "../../util/util";
 
-_client.on("shardDisconnect", (error: Error | undefined, id: number) => {
-  if (error) {
+_client.on("shardDisconnect", (_error: Error | undefined, _id: number) => {
+  if (_error) {
+    captureException(_error);
     logger(
       LoggerType.ERROR,
-      `[Shard ${id}] Shard has been disconnected by an error: ${
-        error.stack ?? error.message
+      `[Shard ${_id}] Shard has been disconnected by an error: ${
+        _error.stack ?? _error.message
       }`
     );
   }
 
-  logger(LoggerType.WARN, `[Shard ${id}] Shard has been disconnected`);
+  logger(LoggerType.WARN, `[Shard ${_id}] Shard has been disconnected`);
 });

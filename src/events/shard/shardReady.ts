@@ -3,8 +3,8 @@ import { _client } from "../..";
 import { LoggerType } from "../../types";
 import { logger } from "../../util/util";
 
-_client.on("shardReady", (id: number) => {
-  const shard = _client.shards.get(id);
+_client.on("shardReady", (_id: number) => {
+  const shard = _client.shards.get(_id);
 
   if (shard) {
     shard.editStatus("idle", [
@@ -16,5 +16,5 @@ _client.on("shardReady", (id: number) => {
     ]);
   }
 
-  logger(LoggerType.INFO, `[Shard ${id}] Shard has been connected`);
+  logger(LoggerType.INFO, `[Shard ${_id}] Shard has been connected`);
 });

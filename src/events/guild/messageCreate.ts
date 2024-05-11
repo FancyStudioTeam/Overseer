@@ -1,10 +1,13 @@
 import { type ExecException, exec } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { inspect } from "node:util";
 import { ChannelTypes, type Message } from "oceanic.js";
 import { _client } from "../..";
 import { EmbedBuilder } from "../../builders/Embed";
-import { Colors, Developers } from "../../constants";
+import { Colors, Developers, Emojis } from "../../constants";
+import { MembershipType } from "../../types";
+import { prisma } from "../../util/db";
 import { trim } from "../../util/util";
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
@@ -25,6 +28,38 @@ _client.on("messageCreate", async (_message: Message) => {
     .split(" ");
 
   switch (cmd.toLocaleLowerCase()) {
+    case "voucher": {
+      await prisma.clientVoucher
+        .create({
+          data: {
+            voucher_id: randomUUID(),
+            type:
+              {
+                m: MembershipType.MONTH,
+                i: MembershipType.INFINITE,
+              }[args[0].toLowerCase()] ?? MembershipType.MONTH,
+          },
+        })
+        .then(async (createdData) => {
+          await _client.rest.users
+            .createDM(_message.author.id)
+            .then(async (createdDM) => {
+              await _client.rest.channels
+                .createMessage(createdDM.id, {
+                  embeds: new EmbedBuilder()
+                    .setDescription(
+                      `**${Emojis.RIGHT} ||${createdData.voucher_id}||**`
+                    )
+                    .setColor(Colors.COLOR)
+                    .toJSONArray(),
+                })
+                .catch(() => null);
+            })
+            .catch(() => null);
+        });
+
+      break;
+    }
     case "reload": {
       let success: boolean;
 
@@ -41,7 +76,7 @@ _client.on("messageCreate", async (_message: Message) => {
             .createReaction(
               _message.channelID,
               _message.id,
-              success ? ":_:1201586112083279923" : ":_:1201586248947597392"
+              success ? ":_:1229091468585599016" : ":_:1228660559050969229"
             )
             .catch(() => null);
         });
