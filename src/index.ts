@@ -6,6 +6,9 @@ export const _client = new Discord();
 
 init({
   dsn: process.env.SENTRY_DNS,
+  _experiments: {
+    metricsAggregator: true,
+  },
 });
 
 (async () => {
