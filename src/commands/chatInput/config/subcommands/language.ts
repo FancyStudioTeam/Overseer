@@ -11,7 +11,7 @@ import { Colors } from "../../../../constants";
 import { Translations } from "../../../../locales";
 import type { Locales } from "../../../../types";
 import { prisma } from "../../../../util/db";
-import { errorMessage } from "../../../../util/util";
+import { errorMessage, handleError } from "../../../../util/util";
 
 export default new SubCommand({
   name: "language",
@@ -62,6 +62,15 @@ export default new SubCommand({
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
         });
+      })
+      .catch(async (error) => {
+        await handleError(
+          {
+            _context: _interaction,
+            locale,
+          },
+          error
+        );
       });
   },
 });

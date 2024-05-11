@@ -11,7 +11,11 @@ import type { Discord } from "../../../../classes/Client";
 import { Colors } from "../../../../constants";
 import { Translations } from "../../../../locales";
 import { prisma } from "../../../../util/db";
-import { errorMessage, formatTimestamp } from "../../../../util/util";
+import {
+  errorMessage,
+  formatTimestamp,
+  handleError,
+} from "../../../../util/util";
 
 export default new SubCommand({
   name: "premium_claim",
@@ -98,6 +102,15 @@ export default new SubCommand({
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
         });
+      })
+      .catch(async (error) => {
+        await handleError(
+          {
+            _context: _interaction,
+            locale,
+          },
+          error
+        );
       });
   },
 });

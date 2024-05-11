@@ -25,6 +25,7 @@ import { prisma } from "../../../../util/db";
 import {
   disableComponents,
   errorMessage,
+  handleError,
   parseEmoji,
 } from "../../../../util/util";
 
@@ -170,6 +171,15 @@ export default new SubCommand({
                         components: [],
                       })
                       .catch(() => null);
+                  })
+                  .catch(async (error) => {
+                    await handleError(
+                      {
+                        _context: _interaction,
+                        locale,
+                      },
+                      error
+                    );
                   });
 
                 break;
