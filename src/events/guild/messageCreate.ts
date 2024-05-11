@@ -129,7 +129,7 @@ _client.on("messageCreate", async (_message: Message) => {
       try {
         // biome-ignore lint/security/noGlobalEval:
         const result = await eval(
-          `const { client } = require("../..");\n${code}`
+          `const { _client } = require("../..");\n${code}`
         );
         let output = result;
 
