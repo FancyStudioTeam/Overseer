@@ -1,7 +1,12 @@
 import "dotenv/config";
+import { init } from "@sentry/node";
 import { Discord } from "./classes/Client";
 
 export const _client = new Discord();
+
+init({
+  dsn: process.env.SENTRY_DNS,
+});
 
 (async () => {
   await _client._init();

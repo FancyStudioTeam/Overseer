@@ -4,6 +4,7 @@ declare global {
     interface ProcessEnv {
       TOKEN: string;
       MONGO_DB: string;
+      SENTRY_DNS: string;
       LOGS_WEBHOOK: string;
       REPORTS_WEBHOOK: string;
     }
