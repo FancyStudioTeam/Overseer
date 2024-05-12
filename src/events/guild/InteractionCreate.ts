@@ -74,9 +74,9 @@ _client.on(
     if (
       !checkChannelPermissions(
         {
+          _context: _interaction,
           locale,
         },
-        _interaction,
         ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
         _interaction.guild.clientMember,
         _interaction.channel,
@@ -278,7 +278,13 @@ async function _handleChatInputCommand(main: {
         }
       )
       .catch(async (error) => {
-        await handleError({ locale: main.locale }, error, main._interaction);
+        await handleError(
+          {
+            _context: main._interaction,
+            locale: main.locale,
+          },
+          error
+        );
       })
       .finally(() => {
         send({ _interaction: main._interaction });
@@ -345,7 +351,13 @@ async function _handleChatInputSubCommand(main: {
         }
       )
       .catch(async (error) => {
-        await handleError({ locale: main.locale }, error, main._interaction);
+        await handleError(
+          {
+            _context: main._interaction,
+            locale: main.locale,
+          },
+          error
+        );
       })
       .finally(() => {
         send({ _interaction: main._interaction });
@@ -383,7 +395,13 @@ async function _handleUserCommand(main: {
         }
       )
       .catch(async (error) => {
-        await handleError({ locale: main.locale }, error, main._interaction);
+        await handleError(
+          {
+            _context: main._interaction,
+            locale: main.locale,
+          },
+          error
+        );
       })
       .finally(() => {
         send({ _interaction: main._interaction });
@@ -411,7 +429,13 @@ async function _handleAutocomplete(main: {
         premium: main.premium,
       })
       .catch(async (error) => {
-        await handleError({ locale: main.locale }, error, main._interaction);
+        await handleError(
+          {
+            _context: main._interaction,
+            locale: main.locale,
+          },
+          error
+        );
       });
   }
 }
@@ -466,7 +490,13 @@ async function _handleButton(main: {
         variable: main._interaction.data.customID.split("/")[1] ?? "",
       })
       .catch(async (error) => {
-        await handleError({ locale: main.locale }, error, main._interaction);
+        await handleError(
+          {
+            _context: main._interaction,
+            locale: main.locale,
+          },
+          error
+        );
       })
       .finally(() => {
         send({ _interaction: main._interaction });
@@ -524,7 +554,13 @@ async function _handleSelectMenu(main: {
         variable: main._interaction.data.customID.split("/")[1] ?? "",
       })
       .catch(async (error) => {
-        await handleError({ locale: main.locale }, error, main._interaction);
+        await handleError(
+          {
+            _context: main._interaction,
+            locale: main.locale,
+          },
+          error
+        );
       })
       .finally(() => {
         send({ _interaction: main._interaction });
@@ -552,7 +588,13 @@ async function _handleModalSubmit(main: {
         premium: main.premium,
       })
       .catch(async (error) => {
-        await handleError({ locale: main.locale }, error, main._interaction);
+        await handleError(
+          {
+            _context: main._interaction,
+            locale: main.locale,
+          },
+          error
+        );
       })
       .finally(() => {
         send({ _interaction: main._interaction });
