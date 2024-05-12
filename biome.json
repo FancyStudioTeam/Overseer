@@ -16,10 +16,5 @@
         "useEnumInitializers": "off"
       }
     }
-  },
-  "json": {
-    "formatter": {
-      "enabled": false
-    }
   }
 }
