@@ -30,8 +30,8 @@ export class Discord extends Client {
     modals: Collection<string, ModalInterface>;
   };
   subcommands: Collection<string, SubCommandInterface>;
-  private dbReady: boolean;
-  readyAt: Date;
+  #dbReady: boolean;
+  readonly readyAt: Date;
 
   constructor() {
     super({
@@ -87,13 +87,12 @@ export class Discord extends Client {
       modals: new Collection(),
     };
     this.subcommands = new Collection();
-    this.dbReady = false;
+    this.#dbReady = false;
     this.readyAt = new Date();
   }
 
   async _init(): Promise<void> {
     logger(LoggerType.INFO, "Initializing Fancycord...");
-
     figlet("Hello, world!", (error: Error | null, text: string | undefined) => {
       if (error) {
         logger(LoggerType.ERROR, error.stack ?? error.message);
@@ -102,12 +101,12 @@ export class Discord extends Client {
       console.log(`${text}\n`);
     });
 
-    if (!this.dbReady) {
+    if (!this.#dbReady) {
       await prisma
         .$connect()
         .then(() => {
-          this.dbReady = true;
           logger(LoggerType.INFO, "Prisma Client has been connected");
+          this.#dbReady = true;
         })
         .catch((error) => {
           logger(
