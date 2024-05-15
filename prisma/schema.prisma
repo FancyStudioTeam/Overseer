@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["tracing"]
 }
 
 datasource db {
@@ -8,57 +9,104 @@ datasource db {
 }
 
 model GuildConfiguration {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  guild_id   String   @unique
-  language   String   @default("EN")
-  timezone   String   @default("UTC")
-  hour12     Boolean  @default(false)
-  commands   String[] @default([])
-  premium    Boolean  @default(false)
-  expires_at Int      @default(0)
+  id       String                    @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id String                    @unique
+  general  GuildConfigurationGeneral @map("general")
+}
+
+type GuildConfigurationGeneral {
+  locale       String                           @default("EN")
+  timezone     String                           @default("UTC")
+  use_12_hours Boolean                          @default(false)
+  premium      GuildConfigurationGeneralPremium @map("premium")
+}
+
+type GuildConfigurationGeneralPremium {
+  enabled    Boolean @default(false)
+  expires_at Int     @default(0)
 }
 
 model ClientVoucher {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  voucher_id String  @unique
-  redeemed   Boolean @default(false)
-  type       Int     @default(0)
+  id         String               @id @default(auto()) @map("_id") @db.ObjectId
+  voucher_id String               @unique
+  general    ClientVoucherGeneral @map("general")
+}
+
+enum ClientVoucherType {
+  MONTH
+  INFINITE
+}
+
+type ClientVoucherGeneral {
+  type       ClientVoucherType @default(MONTH)
+  is_claimed Boolean           @default(false)
 }
 
 model UserWarn {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  guild_id     String
+  id         String          @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id   String
+  general    UserWarnGeneral @map("general")
+  created_at DateTime        @default(now())
+
+  @@unique([general.warn_id])
+}
+
+type UserWarnGeneral {
   user_id      String
-  warn_id      String   @unique
+  warn_id      String
   moderator_id String
-  date         DateTime @default(now())
-  reason       String   @default("No reason")
+  reason       String @default("No reason")
 }
 
 model GuildSuggestion {
-  id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-  guild_id            String  @unique
-  channel_id          String
-  message_suggestions Boolean @default(false)
-  self_vote           Boolean @default(true)
-  neutral_vote        Boolean @default(false)
-  threads             Boolean @default(false)
-  review_channel_id   String
-  review_enabled      Boolean @default(false)
-  allow_images        Boolean @default(false)
+  id       String                 @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id String                 @unique
+  general  GuildSuggestionGeneral @map("general")
+  review   GuildSuggestionReview  @map("review")
+}
+
+type GuildSuggestionGeneral {
+  channel_id    String
+  use_messages  Boolean @default(false)
+  use_images    Boolean @default(false)
+  use_self_vote Boolean @default(true)
+  use_threads   Boolean @default(false)
+}
+
+type GuildSuggestionReview {
+  channel_id String
+  enabled    Boolean @default(false)
 }
 
 model UserSuggestion {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  guild_id      String
+  id         String                @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id   String
+  general    UserSuggestionGeneral @map("general")
+  votes      UserSuggestionVotes   @map("votes")
+  created_at DateTime              @default(now())
+
+  @@unique([general.message_id, general.suggestion_id])
+}
+
+enum UserSuggestionStatus {
+  PENDING
+  APPROVED
+  DENIED
+  IN_PENDING_REVIEW
+}
+
+type UserSuggestionGeneral {
+  message_id    String
   user_id       String
-  message_id    String   @unique
-  suggestion_id String   @unique
+  suggestion_id String
+  title         String               @default("New Suggestion")
   content       String
-  status        String
-  votes_up      String[] @default([])
-  votes_neutral String[] @default([])
-  votes_down    String[] @default([])
-  comments      String[] @default([])
-  images        String[] @default([])
+  status        UserSuggestionStatus @default(PENDING)
+  images        String[]             @default([])
+  comments      String[]             @default([])
+}
+
+type UserSuggestionVotes {
+  up   String[] @default([])
+  down String[] @default([])
 }
