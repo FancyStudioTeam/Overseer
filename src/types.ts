@@ -1,6 +1,4 @@
 import type {
-  AnyInteractionChannel,
-  ApplicationCommandTypes,
   AutocompleteInteraction,
   CommandInteraction,
   ComponentInteraction,
@@ -8,7 +6,6 @@ import type {
   CreateUserApplicationCommandOptions,
   ModalSubmitInteraction,
   PermissionName,
-  Uncached,
 } from "oceanic.js";
 import type { Discord } from "./classes/Client";
 
@@ -48,9 +45,7 @@ export enum UnixType {
   LONG_DATE_TIME,
 }
 
-export interface BaseInterface<
-  T extends BaseAvailableTypes = BaseAvailableTypes
-> {
+export interface BaseInterface<T extends BaseAvailableTypes> {
   name: string;
   permissions?: {
     bot?: PermissionName;
@@ -81,27 +76,12 @@ export type ChatInputCommandInterface = {
       premium: boolean;
     }
   ) => Promise<unknown>;
-} & BaseInterface<
-  CommandInteraction<
-    AnyInteractionChannel | Uncached,
-    ApplicationCommandTypes.CHAT_INPUT
-  >
-> &
+} & BaseInterface<CommandInteraction> &
   CreateChatInputApplicationCommandOptions;
 
-export type SubCommandInterface = BaseInterface<
-  CommandInteraction<
-    AnyInteractionChannel | Uncached,
-    ApplicationCommandTypes.CHAT_INPUT
-  >
->;
+export type SubCommandInterface = BaseInterface<CommandInteraction>;
 
-export type UserCommandInterface = BaseInterface<
-  CommandInteraction<
-    AnyInteractionChannel | Uncached,
-    ApplicationCommandTypes.USER
-  >
-> &
+export type UserCommandInterface = BaseInterface<CommandInteraction> &
   CreateUserApplicationCommandOptions;
 
 export type ComponentInterface = BaseInterface<ComponentInteraction>;
@@ -109,11 +89,6 @@ export type ComponentInterface = BaseInterface<ComponentInteraction>;
 export type ModalInterface = BaseInterface<ModalSubmitInteraction>;
 
 type BaseAvailableTypes =
-  | CommandInteraction<
-      AnyInteractionChannel | Uncached,
-      | ApplicationCommandTypes.CHAT_INPUT
-      | ApplicationCommandTypes.USER
-      | ApplicationCommandTypes.MESSAGE
-    >
+  | CommandInteraction
   | ComponentInteraction
   | ModalSubmitInteraction;
