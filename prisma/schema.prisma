@@ -9,16 +9,16 @@ datasource db {
 }
 
 model GuildConfiguration {
-  id       String                    @id @default(auto()) @map("_id") @db.ObjectId
-  guild_id String                    @unique
-  general  GuildConfigurationGeneral @map("general")
+  id       String                           @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id String                           @unique
+  general  GuildConfigurationGeneral        @map("general")
+  premium  GuildConfigurationGeneralPremium @map("premium")
 }
 
 type GuildConfigurationGeneral {
-  locale       String                           @default("EN")
-  timezone     String                           @default("UTC")
-  use_12_hours Boolean                          @default(false)
-  premium      GuildConfigurationGeneralPremium @map("premium")
+  locale       String  @default("EN")
+  timezone     String  @default("UTC")
+  use_12_hours Boolean @default(false)
 }
 
 type GuildConfigurationGeneralPremium {

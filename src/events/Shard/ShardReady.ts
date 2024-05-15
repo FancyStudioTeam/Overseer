@@ -7,7 +7,7 @@ _client.on("shardReady", (_id: number) => {
   const shard = _client.shards.get(_id);
 
   if (shard) {
-    shard.editStatus("idle", [
+    shard.editStatus("online", [
       {
         name: ".",
         state: `🚧 W.I.P | Shard ${shard.id}`,

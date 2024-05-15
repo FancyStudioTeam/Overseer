@@ -11,11 +11,6 @@ import type { Discord } from "./classes/Client";
 
 export type Locales = "EN" | "ES";
 
-export enum MembershipType {
-  MONTH,
-  INFINITE,
-}
-
 export enum WebhookType {
   REPORTS,
   LOGS,

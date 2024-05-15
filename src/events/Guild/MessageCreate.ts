@@ -2,13 +2,13 @@ import { type ExecException, exec } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { inspect } from "node:util";
+import { ClientVoucherType } from "@prisma/client";
+import { codeBlock, cutText } from "@sapphire/utilities";
 import { ChannelTypes, type Message } from "oceanic.js";
 import { _client } from "../..";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Colors, Developers, Emojis } from "../../constants";
-import { MembershipType } from "../../types";
-import { prisma } from "../../util/db";
-import { trim } from "../../util/util";
+import { prisma } from "../../util/prisma";
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
 _client.on("messageCreate", async (_message: Message) => {
@@ -33,11 +33,13 @@ _client.on("messageCreate", async (_message: Message) => {
         .create({
           data: {
             voucher_id: randomUUID(),
-            type:
-              {
-                m: MembershipType.MONTH,
-                i: MembershipType.INFINITE,
-              }[args[0].toLowerCase()] ?? MembershipType.MONTH,
+            general: {
+              type:
+                {
+                  m: ClientVoucherType.MONTH,
+                  i: ClientVoucherType.INFINITE,
+                }[args[0].toLowerCase()] ?? ClientVoucherType.MONTH,
+            },
           },
         })
         .then(async (createdData) => {
@@ -99,7 +101,7 @@ _client.on("messageCreate", async (_message: Message) => {
                   iconURL: _client.user.avatarURL(),
                 })
                 .setDescription(
-                  `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
+                  codeBlock("js", cutText(error.stack ?? error.message, 4000))
                 )
                 .setColor(Colors.ERROR)
                 .toJSONArray(),
@@ -111,7 +113,7 @@ _client.on("messageCreate", async (_message: Message) => {
                   name: _client.user.username,
                   iconURL: _client.user.avatarURL(),
                 })
-                .setDescription(`\`\`\`js\n${trim(result, 4000)}\`\`\``)
+                .setDescription(codeBlock("js", cutText(result, 4000)))
                 .setColor(Colors.SUCCESS)
                 .toJSONArray(),
             });
@@ -143,7 +145,7 @@ _client.on("messageCreate", async (_message: Message) => {
               name: _client.user.username,
               iconURL: _client.user.avatarURL(),
             })
-            .setDescription(`\`\`\`js\n${trim(output, 4000)}\`\`\``)
+            .setDescription(codeBlock("js", cutText(output, 4000)))
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
         });
@@ -154,7 +156,7 @@ _client.on("messageCreate", async (_message: Message) => {
               name: _client.user.username,
               iconURL: _client.user.avatarURL(),
             })
-            .setDescription(`\`\`\`js\n${trim(String(error), 4000)}\`\`\``)
+            .setDescription(codeBlock("js", cutText(String(error), 4000)))
             .setColor(Colors.ERROR)
             .toJSONArray(),
         });
