@@ -1,6 +1,6 @@
-import { readdirSync } from "node:fs";
 import { join, sep } from "node:path";
-import figlet from "figlet";
+import { textSync } from "figlet";
+import { glob } from "glob";
 import {
   Client,
   Collection,
@@ -14,7 +14,7 @@ import {
   type SubCommandInterface,
   type UserCommandInterface,
 } from "../types";
-import { prisma } from "../util/db";
+import { prisma } from "../util/prisma";
 import { logger } from "../util/util";
 
 const arrayCommands: CreateApplicationCommandOptions[] = [];
@@ -92,14 +92,7 @@ export class Discord extends Client {
   }
 
   async _init(): Promise<void> {
-    logger(LoggerType.INFO, "Initializing Fancycord...");
-    figlet("Hello, world!", (error: Error | null, text: string | undefined) => {
-      if (error) {
-        logger(LoggerType.ERROR, error.stack ?? error.message);
-      }
-
-      console.log(`${text}\n`);
-    });
+    console.log(textSync("Initializing ..."));
 
     if (!this.#dbReady) {
       await prisma
@@ -122,18 +115,15 @@ export class Discord extends Client {
       await this.connect();
     }
 
-    this._registerSubCommands();
-    this._registerButtons();
-    this._registerSelectMenus();
-    this._registerModals();
-    this._registerEvents();
-    this._registerModules();
+    await Promise.allSettled([
+      this._registerComponents(),
+      this._registerEvents(),
+      this._registerModules(),
+    ]);
   }
 
   async _deploy(): Promise<void> {
-    this._registerChatInputCommands();
-    this._registerUserCommands();
-
+    await this._registerCommands();
     await this.rest.applications
       .bulkEditGlobalCommands(this.application.id, arrayCommands)
       .then((commands) => {
@@ -145,196 +135,116 @@ export class Discord extends Client {
       .catch(() => null);
   }
 
-  _registerChatInputCommands(): void {
+  async _registerCommands(): Promise<void> {
     this.interactions.chatInput.clear();
-
-    const commandsPath = join(__dirname, "..", "commands", "chatInput");
-    const commands = readdirSync(commandsPath);
-
-    commands.forEach((d, _) => {
-      const directoriesPath = join(commandsPath, d);
-      const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts")
-      );
-
-      directories.forEach((f, _) => {
-        const commandPath = join(directoriesPath, f);
-        const command: ChatInputCommandInterface = require(commandPath).default;
-
-        delete require.cache[require.resolve(commandPath)];
-
-        if (command?.name) {
-          this.interactions.chatInput.set(command.name, command);
-
-          arrayCommands.push(command);
-        }
-      });
-    });
-  }
-
-  _registerSubCommands(): void {
-    this.subcommands.clear();
-
-    const commandsPath = join(__dirname, "..", "commands", "chatInput");
-    const commands = readdirSync(commandsPath);
-
-    commands.forEach((d, _) => {
-      const directoriesPath = join(commandsPath, d, "subcommands");
-      const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts")
-      );
-
-      directories.forEach((f, _) => {
-        const commandPath = join(directoriesPath, f);
-        const command: SubCommandInterface = require(commandPath).default;
-        const dividedPath = commandPath.split(sep);
-
-        delete require.cache[require.resolve(commandPath)];
-
-        if (command?.name) {
-          this.subcommands.set(
-            `${dividedPath[dividedPath.indexOf("subcommands") - 1]}_${
-              command.name
-            }`,
-            command
-          );
-        }
-      });
-    });
-  }
-
-  _registerUserCommands(): void {
     this.interactions.user.clear();
 
-    const commandsPath = join(__dirname, "..", "commands", "user");
-    const commands = readdirSync(commandsPath);
+    await this._registerSubCommands();
 
-    commands.forEach((d, _) => {
-      const directoriesPath = join(commandsPath, d);
-      const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts")
-      );
-
-      directories.forEach((f, _) => {
-        const commandPath = join(directoriesPath, f);
-        const command: UserCommandInterface = require(commandPath).default;
-
-        delete require.cache[require.resolve(commandPath)];
-
-        if (command?.name) {
-          this.interactions.user.set(command.name, command);
-
-          arrayCommands.push(command);
-        }
-      });
-    });
-  }
-
-  _registerEvents(): void {
-    this.removeAllListeners();
-
-    const eventsPath = join(__dirname, "..", "events");
-    const events = readdirSync(eventsPath);
-
-    events.forEach((d, _) => {
-      const directoriesPath = join(eventsPath, d);
-      const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts")
-      );
-
-      directories.forEach((f, _) => {
-        const eventPath = join(directoriesPath, f);
-
-        delete require.cache[require.resolve(eventPath)];
-
-        require(eventPath).default;
-      });
-    });
-  }
-
-  _registerButtons(): void {
-    this.components.buttons.clear();
-
-    const buttonsPath = join(__dirname, "..", "components", "buttons");
-    const buttons = readdirSync(buttonsPath);
-
-    buttons.forEach((d, _) => {
-      const directoriesPath = join(buttonsPath, d);
-      const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts")
-      );
-
-      directories.forEach((f, _) => {
-        const buttonPath = join(directoriesPath, f);
-        const button: ComponentInterface = require(buttonPath).default;
-
-        delete require.cache[require.resolve(buttonPath)];
-
-        if (button?.name) {
-          this.components.buttons.set(button.name, button);
-        }
-      });
-    });
-  }
-
-  _registerSelectMenus(): void {
-    this.components.select.clear();
-
-    const selectMenusPath = join(__dirname, "..", "components", "selectMenu");
-    const selectMenus = readdirSync(selectMenusPath);
-
-    selectMenus.forEach((d, _) => {
-      const directoriesPath = join(selectMenusPath, d);
-      const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts")
-      );
-
-      directories.forEach((f, _) => {
-        const selectMenuPath = join(directoriesPath, f);
-        const selectMenu: ComponentInterface = require(selectMenuPath).default;
-
-        delete require.cache[require.resolve(selectMenuPath)];
-
-        if (selectMenu?.name) {
-          this.components.select.set(selectMenu.name, selectMenu);
-        }
-      });
-    });
-  }
-
-  _registerModals(): void {
-    this.components.modals.clear();
-
-    const modalsPath = join(__dirname, "..", "components", "modals");
-    const modals = readdirSync(modalsPath);
-
-    modals.forEach((d, _) => {
-      const directoriesPath = join(modalsPath, d);
-      const directories = readdirSync(directoriesPath).filter(
-        (f) => f.endsWith(".js") || f.endsWith(".ts")
-      );
-
-      directories.forEach((f, _) => {
-        const modalPath = join(directoriesPath, f);
-        const modal: ModalInterface = require(modalPath).default;
-
-        delete require.cache[require.resolve(modalPath)];
-
-        if (modal?.name) {
-          this.components.modals.set(modal.name, modal);
-        }
-      });
-    });
-  }
-
-  _registerModules(): void {
-    const modulesPath = join(__dirname, "..", "modules");
-    const modules = readdirSync(modulesPath).filter(
-      (f) => f.endsWith(".js") || f.endsWith(".ts")
+    const files = await this.#loadFiles(
+      `${process.cwd()}/**/commands/*/*/*.{ts,js}`
     );
 
-    modules.forEach((f, _) => {
-      const modulePath = join(modulesPath, f);
+    files.forEach((path, _) => {
+      const commandPath = join(process.cwd(), path);
+      const command = require(commandPath).default;
+
+      delete require.cache[require.resolve(commandPath)];
+
+      if (command?.name) {
+        const dividedPath = commandPath.split(sep);
+        const directory = <Commands>(
+          dividedPath[dividedPath.length - 3].toUpperCase()
+        );
+        const collections: Record<Commands, CommandCollections> = {
+          CHAT: this.interactions.chatInput,
+          USER: this.interactions.user,
+        };
+
+        collections[directory].set(command.name, command);
+        arrayCommands.push(command);
+      }
+    });
+  }
+
+  async _registerSubCommands(): Promise<void> {
+    this.subcommands.clear();
+
+    const files = await this.#loadFiles(
+      `${process.cwd()}/**/commands/Chat/*/*/*.{ts,js}`
+    );
+
+    files.forEach((path, _) => {
+      const subCommandPath = join(process.cwd(), path);
+      const subCommand = require(subCommandPath).default;
+
+      delete require.cache[require.resolve(subCommandPath)];
+
+      if (subCommand?.name) {
+        const dividedPath = subCommandPath.split(sep);
+        const directory = dividedPath[dividedPath.length - 3];
+
+        this.subcommands.set(
+          `${directory}_${subCommand.name}`.toLowerCase(),
+          subCommand
+        );
+      }
+    });
+  }
+
+  async _registerComponents(): Promise<void> {
+    this.components.buttons.clear();
+    this.components.modals.clear();
+    this.components.select.clear();
+
+    const files = await this.#loadFiles(
+      `${process.cwd()}/**/components/**/*.{ts,js}`
+    );
+
+    files.forEach((path, _) => {
+      const componentPath = join(process.cwd(), path);
+      const component = require(componentPath).default;
+
+      delete require.cache[require.resolve(componentPath)];
+
+      if (component?.name) {
+        const dividedPath = componentPath.split(sep);
+        const directory = <Components>(
+          dividedPath[dividedPath.length - 3].toUpperCase()
+        );
+        const collections: Record<Components, ComponentCollections> = {
+          BUTTONS: this.components.buttons,
+          MODALS: this.components.modals,
+          SELECT: this.components.select,
+        };
+
+        collections[directory].set(component.name, component);
+      }
+    });
+  }
+
+  async _registerEvents(): Promise<void> {
+    this.removeAllListeners();
+
+    const files = await this.#loadFiles(
+      `${process.cwd()}/**/events/**/*.{ts,js}`
+    );
+
+    files.forEach((path, _) => {
+      const eventPath = join(process.cwd(), path);
+
+      delete require.cache[require.resolve(eventPath)];
+      require(eventPath).default;
+    });
+  }
+
+  async _registerModules(): Promise<void> {
+    const files = await this.#loadFiles(
+      `${process.cwd()}/**/modules/*.{ts,js}`
+    );
+
+    files.forEach((path, _) => {
+      const modulePath = join(process.cwd(), path);
       const module = require(modulePath).default;
 
       delete require.cache[require.resolve(modulePath)];
@@ -342,4 +252,22 @@ export class Discord extends Client {
       module(this);
     });
   }
+
+  async #loadFiles(path: string): Promise<string[]> {
+    return await glob(path, {
+      ignore: ["node_modules/**"],
+    });
+  }
 }
+
+type Commands = "CHAT" | "USER";
+
+type Components = "BUTTONS" | "MODALS" | "SELECT";
+
+type CommandCollections =
+  | Collection<string, ChatInputCommandInterface>
+  | Collection<string, UserCommandInterface>;
+
+type ComponentCollections =
+  | Collection<string, ComponentInterface>
+  | Collection<string, ModalInterface>;
