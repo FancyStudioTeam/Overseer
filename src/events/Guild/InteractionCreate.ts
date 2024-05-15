@@ -2,7 +2,6 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import humanize from "humanize-duration";
 import {
-  type AnyInteractionChannel,
   type AnyInteractionGateway,
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
@@ -15,7 +14,6 @@ import {
   InteractionTypes,
   MessageFlags,
   type ModalSubmitInteraction,
-  type Uncached,
 } from "oceanic.js";
 import { RateLimiterMemory } from "rate-limiter-flexible";
 import { _client } from "../..";
@@ -27,7 +25,7 @@ import { Colors, Emojis, Links } from "../../constants";
 import { Translations } from "../../locales";
 import { Permissions } from "../../locales/misc/Reference";
 import { type Locales, LoggerType } from "../../types";
-import { prisma } from "../../util/db";
+import { prisma } from "../../util/prisma";
 import {
   checkChannelPermissions,
   consume,
@@ -65,11 +63,11 @@ _client.on(
       },
     });
     const locale = <Locales>(
-      (guildConfiguration?.language ?? "en").toUpperCase()
+      (guildConfiguration?.general.locale ?? "en").toUpperCase()
     );
-    const timezone = guildConfiguration?.timezone ?? "UTC";
-    const hour12 = guildConfiguration?.hour12 ?? false;
-    const premium = guildConfiguration?.premium ?? false;
+    const timezone = guildConfiguration?.general.timezone ?? "UTC";
+    const hour12 = guildConfiguration?.general.use_12_hours ?? false;
+    const premium = guildConfiguration?.premium.enabled ?? false;
 
     if (
       !checkChannelPermissions(
@@ -262,21 +260,12 @@ async function _handleChatInputCommand(main: {
 
   if (command?.name) {
     await command
-      .run(
-        _client,
-        <
-          CommandInteraction<
-            AnyInteractionChannel | Uncached,
-            ApplicationCommandTypes.CHAT_INPUT
-          >
-        >main._interaction,
-        {
-          locale: main.locale,
-          timezone: main.timezone,
-          hour12: main.hour12,
-          premium: main.premium,
-        }
-      )
+      .run(_client, main._interaction, {
+        locale: main.locale,
+        timezone: main.timezone,
+        hour12: main.hour12,
+        premium: main.premium,
+      })
       .catch(async (error) => {
         await handleError(
           {
@@ -285,9 +274,6 @@ async function _handleChatInputCommand(main: {
           },
           error
         );
-      })
-      .finally(() => {
-        send({ _interaction: main._interaction });
       });
   }
 }
@@ -335,21 +321,12 @@ async function _handleChatInputSubCommand(main: {
     }
 
     await command
-      .run(
-        _client,
-        <
-          CommandInteraction<
-            AnyInteractionChannel | Uncached,
-            ApplicationCommandTypes.CHAT_INPUT
-          >
-        >main._interaction,
-        {
-          locale: main.locale,
-          timezone: main.timezone,
-          hour12: main.hour12,
-          premium: main.premium,
-        }
-      )
+      .run(_client, main._interaction, {
+        locale: main.locale,
+        timezone: main.timezone,
+        hour12: main.hour12,
+        premium: main.premium,
+      })
       .catch(async (error) => {
         await handleError(
           {
@@ -358,9 +335,6 @@ async function _handleChatInputSubCommand(main: {
           },
           error
         );
-      })
-      .finally(() => {
-        send({ _interaction: main._interaction });
       });
   }
 }
@@ -379,21 +353,12 @@ async function _handleUserCommand(main: {
 
   if (command?.name) {
     await command
-      .run(
-        _client,
-        <
-          CommandInteraction<
-            AnyInteractionChannel | Uncached,
-            ApplicationCommandTypes.USER
-          >
-        >main._interaction,
-        {
-          locale: main.locale,
-          timezone: main.timezone,
-          hour12: main.hour12,
-          premium: main.premium,
-        }
-      )
+      .run(_client, main._interaction, {
+        locale: main.locale,
+        timezone: main.timezone,
+        hour12: main.hour12,
+        premium: main.premium,
+      })
       .catch(async (error) => {
         await handleError(
           {
@@ -402,9 +367,6 @@ async function _handleUserCommand(main: {
           },
           error
         );
-      })
-      .finally(() => {
-        send({ _interaction: main._interaction });
       });
   }
 }
@@ -497,9 +459,6 @@ async function _handleButton(main: {
           },
           error
         );
-      })
-      .finally(() => {
-        send({ _interaction: main._interaction });
       });
   }
 }
@@ -561,9 +520,6 @@ async function _handleSelectMenu(main: {
           },
           error
         );
-      })
-      .finally(() => {
-        send({ _interaction: main._interaction });
       });
   }
 }
@@ -595,62 +551,6 @@ async function _handleModalSubmit(main: {
           },
           error
         );
-      })
-      .finally(() => {
-        send({ _interaction: main._interaction });
       });
   }
-}
-
-function send(main: { _interaction: AnyInteractionGateway }): void {
-  let message = "";
-
-  switch (main._interaction.type) {
-    case InteractionTypes.APPLICATION_COMMAND: {
-      message = `Command: ${
-        main._interaction.data.options.raw.some((o) =>
-          [
-            ApplicationCommandOptionTypes.SUB_COMMAND,
-            ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
-          ].includes(o.type)
-        )
-          ? `${main._interaction.data.name} ${main._interaction.data.options
-              .getSubCommand(true)
-              .join(" ")}`
-          : `${main._interaction.data.name}`
-      } | User: ${main._interaction.user.username} (${
-        main._interaction.user.id
-      }) | Guild: ${
-        main._interaction.inCachedGuildChannel()
-          ? `${main._interaction.guild.name} (${main._interaction.guildID})`
-          : "Unknown Guild"
-      }`;
-
-      break;
-    }
-    case InteractionTypes.MESSAGE_COMPONENT: {
-      message = `Component: ${main._interaction.data.customID} | User: ${
-        main._interaction.user.username
-      } (${main._interaction.user.id}) | Guild: ${
-        main._interaction.inCachedGuildChannel()
-          ? `${main._interaction.guild.name} (${main._interaction.guildID})`
-          : "Unknown Guild"
-      }`;
-
-      break;
-    }
-    case InteractionTypes.MODAL_SUBMIT: {
-      message = `Modal: ${main._interaction.data.customID} | User: ${
-        main._interaction.user.username
-      } (${main._interaction.user.id}) | Guild: ${
-        main._interaction.inCachedGuildChannel()
-          ? `${main._interaction.guild.name} (${main._interaction.guildID})`
-          : "Unknown Guild"
-      }`;
-
-      break;
-    }
-  }
-
-  logger(LoggerType.MISC, message);
 }
