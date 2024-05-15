@@ -2,7 +2,6 @@ import { type ExecException, exec } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { inspect } from "node:util";
-import { ClientVoucherType } from "@prisma/client";
 import { codeBlock, cutText } from "@sapphire/utilities";
 import { ChannelTypes, type Message } from "oceanic.js";
 import { _client } from "../..";
@@ -29,20 +28,20 @@ _client.on("messageCreate", async (_message: Message) => {
 
   switch (cmd.toLocaleLowerCase()) {
     case "voucher": {
+      let emoji = ":_:1239279937051951186";
+
       await prisma.clientVoucher
         .create({
           data: {
             voucher_id: randomUUID(),
             general: {
-              type:
-                {
-                  m: ClientVoucherType.MONTH,
-                  i: ClientVoucherType.INFINITE,
-                }[args[0].toLowerCase()] ?? ClientVoucherType.MONTH,
+              type: "MONTH",
             },
           },
         })
         .then(async (createdData) => {
+          emoji = ":_:1239279938780270723";
+
           await _client.rest.users
             .createDM(_message.author.id)
             .then(async (createdDM) => {
@@ -58,28 +57,32 @@ _client.on("messageCreate", async (_message: Message) => {
                 .catch(() => null);
             })
             .catch(() => null);
+        })
+        .catch(() => {
+          emoji = ":_:1239279937051951186";
+        })
+        .finally(async () => {
+          await _client.rest.channels
+            .createReaction(_message.channelID, _message.id, emoji)
+            .catch(() => null);
         });
 
       break;
     }
     case "reload": {
-      let success: boolean;
+      let emoji = ":_:1239279937051951186";
 
       await _client
         ._init()
         .then(() => {
-          success = true;
+          emoji = ":_:1239279938780270723";
         })
         .catch(() => {
-          success = false;
+          emoji = ":_:1239279937051951186";
         })
         .finally(async () => {
           await _client.rest.channels
-            .createReaction(
-              _message.channelID,
-              _message.id,
-              success ? ":_:1229091468585599016" : ":_:1228660559050969229"
-            )
+            .createReaction(_message.channelID, _message.id, emoji)
             .catch(() => null);
         });
 

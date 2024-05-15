@@ -24,14 +24,13 @@ import { EmbedBuilder } from "../../builders/Embed";
 import { Colors, Emojis, Links } from "../../constants";
 import { Translations } from "../../locales";
 import { Permissions } from "../../locales/misc/Reference";
-import { type Locales, LoggerType } from "../../types";
+import type { Locales } from "../../types";
 import { prisma } from "../../util/prisma";
 import {
   checkChannelPermissions,
   consume,
   errorMessage,
   handleError,
-  logger,
   parseEmoji,
 } from "../../util/util";
 
