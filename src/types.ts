@@ -40,7 +40,7 @@ export enum UnixType {
   LONG_DATE_TIME,
 }
 
-export interface BaseInterface<T extends BaseAvailableTypes> {
+export interface BaseInterface<T extends AvailableBaseTypes> {
   name: string;
   permissions?: {
     bot?: PermissionName;
@@ -83,7 +83,7 @@ export type ComponentInterface = BaseInterface<ComponentInteraction>;
 
 export type ModalInterface = BaseInterface<ModalSubmitInteraction>;
 
-type BaseAvailableTypes =
+type AvailableBaseTypes =
   | CommandInteraction
   | ComponentInteraction
   | ModalSubmitInteraction;
