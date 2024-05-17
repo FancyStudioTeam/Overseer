@@ -11,8 +11,8 @@ datasource db {
 model GuildConfiguration {
   id       String                           @id @default(auto()) @map("_id") @db.ObjectId
   guild_id String                           @unique
-  general  GuildConfigurationGeneral        @map("general")
-  premium  GuildConfigurationGeneralPremium @map("premium")
+  general  GuildConfigurationGeneral
+  premium  GuildConfigurationGeneralPremium
 }
 
 type GuildConfigurationGeneral {
@@ -29,7 +29,7 @@ type GuildConfigurationGeneralPremium {
 model ClientVoucher {
   id         String               @id @default(auto()) @map("_id") @db.ObjectId
   voucher_id String               @unique
-  general    ClientVoucherGeneral @map("general")
+  general    ClientVoucherGeneral
 }
 
 enum ClientVoucherType {
@@ -45,7 +45,7 @@ type ClientVoucherGeneral {
 model UserWarn {
   id         String          @id @default(auto()) @map("_id") @db.ObjectId
   guild_id   String
-  general    UserWarnGeneral @map("general")
+  general    UserWarnGeneral
   created_at DateTime        @default(now())
 
   @@unique([general.warn_id])
@@ -61,8 +61,8 @@ type UserWarnGeneral {
 model GuildSuggestion {
   id       String                 @id @default(auto()) @map("_id") @db.ObjectId
   guild_id String                 @unique
-  general  GuildSuggestionGeneral @map("general")
-  review   GuildSuggestionReview  @map("review")
+  general  GuildSuggestionGeneral
+  review   GuildSuggestionReview
 }
 
 type GuildSuggestionGeneral {
@@ -81,8 +81,8 @@ type GuildSuggestionReview {
 model UserSuggestion {
   id         String                @id @default(auto()) @map("_id") @db.ObjectId
   guild_id   String
-  general    UserSuggestionGeneral @map("general")
-  votes      UserSuggestionVotes   @map("votes")
+  general    UserSuggestionGeneral
+  votes      UserSuggestionVotes
   created_at DateTime              @default(now())
 
   @@unique([general.message_id, general.suggestion_id])
