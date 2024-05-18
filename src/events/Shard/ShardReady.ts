@@ -1,5 +1,6 @@
 import { ActivityTypes } from "oceanic.js";
 import { _client } from "../..";
+import { version } from "../../../package.json";
 import { LoggerType, logger } from "../../util/Util";
 
 _client.on("shardReady", (_id: number) => {
@@ -9,7 +10,7 @@ _client.on("shardReady", (_id: number) => {
     shard.editStatus("online", [
       {
         name: ".",
-        state: `🚧 W.I.P | Shard ${shard.id}`,
+        state: `Shard ${shard.id} | ${version}`,
         type: ActivityTypes.CUSTOM,
       },
     ]);
