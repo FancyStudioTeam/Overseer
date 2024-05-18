@@ -6,16 +6,15 @@ import {
   Collection,
   type CreateApplicationCommandOptions,
 } from "oceanic.js";
-import {
-  type ChatInputCommandInterface,
-  type ComponentInterface,
-  LoggerType,
-  type ModalInterface,
-  type SubCommandInterface,
-  type UserCommandInterface,
+import type {
+  ChatInputCommandInterface,
+  ComponentInterface,
+  ModalInterface,
+  SubCommandInterface,
+  UserCommandInterface,
 } from "../types";
-import { prisma } from "../util/prisma";
-import { logger } from "../util/util";
+import { prisma } from "../util/Prisma";
+import { LoggerType, logger } from "../util/Util";
 
 const arrayCommands: CreateApplicationCommandOptions[] = [];
 
