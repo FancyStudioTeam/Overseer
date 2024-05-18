@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import humanize from "humanize-duration";
+import { RateLimitManager } from "@sapphire/ratelimits";
 import {
   type AnyInteractionGateway,
   ApplicationCommandOptionTypes,
@@ -15,7 +15,6 @@ import {
   MessageFlags,
   type ModalSubmitInteraction,
 } from "oceanic.js";
-import { RateLimiterMemory } from "rate-limiter-flexible";
 import { _client } from "../..";
 import { ActionRowBuilder } from "../../builders/ActionRow";
 import { AttachmentBuilder } from "../../builders/Attachment";
@@ -24,28 +23,18 @@ import { EmbedBuilder } from "../../builders/Embed";
 import { Colors, Emojis, Links } from "../../constants";
 import { Translations } from "../../locales";
 import { Permissions } from "../../locales/misc/Reference";
-import type { Locales } from "../../types";
+import { type Locales, UnixType } from "../../types";
 import { prisma } from "../../util/prisma";
 import {
   checkChannelPermissions,
-  consume,
   errorMessage,
+  formatUnix,
   handleError,
   parseEmoji,
 } from "../../util/util";
 
-const commandRateLimiter = new RateLimiterMemory({
-  points: 3,
-  duration: 5,
-  blockDuration: 7,
-  keyPrefix: "CommandRateLimiter",
-});
-const componentRateLimiter = new RateLimiterMemory({
-  points: 5,
-  duration: 7,
-  blockDuration: 10,
-  keyPrefix: "ComponentRateLimiter",
-});
+const commandRateLimiter = new RateLimitManager(5000, 3);
+const componentRateLimiter = new RateLimitManager(7000, 5);
 
 _client.on(
   "interactionCreate",
@@ -83,7 +72,7 @@ _client.on(
       return;
 
     if (
-      process.env.NODE_ENV?.toLowerCase() === "maintenance" &&
+      process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" &&
       "reply" in _interaction
     ) {
       return await _interaction.reply({
@@ -114,23 +103,20 @@ _client.on(
 
     switch (_interaction.type) {
       case InteractionTypes.APPLICATION_COMMAND: {
-        const rateLimit = await consume(
-          _interaction.user.id,
-          commandRateLimiter
-        );
+        const rateLimit = commandRateLimiter.acquire(_interaction.user.id);
 
-        if (rateLimit.rateLimited) {
+        if (rateLimit.limited) {
           return await errorMessage(_interaction, true, {
             description: Translations[locale].GENERAL.USER_IS_LIMITED({
-              resets: humanize(rateLimit.resets, {
-                language: locale,
-                largest: 2,
-                round: true,
-                fallbacks: ["en"],
-              }),
+              resets: formatUnix(
+                UnixType.RELATIVE,
+                new Date(rateLimit.expires)
+              ),
             }),
           });
         }
+
+        rateLimit.consume();
 
         switch (_interaction.data.type) {
           case ApplicationCommandTypes.CHAT_INPUT: {
@@ -186,23 +172,20 @@ _client.on(
         break;
       }
       case InteractionTypes.MESSAGE_COMPONENT: {
-        const rateLimit = await consume(
-          _interaction.user.id,
-          componentRateLimiter
-        );
+        const rateLimit = componentRateLimiter.acquire(_interaction.user.id);
 
-        if (rateLimit.rateLimited) {
+        if (rateLimit.limited) {
           return await errorMessage(_interaction, true, {
             description: Translations[locale].GENERAL.USER_IS_LIMITED({
-              resets: humanize(rateLimit.resets, {
-                language: locale,
-                largest: 2,
-                round: true,
-                fallbacks: ["en"],
-              }),
+              resets: formatUnix(
+                UnixType.RELATIVE,
+                new Date(rateLimit.expires)
+              ),
             }),
           });
         }
+
+        rateLimit.consume();
 
         switch (_interaction.data.componentType) {
           case ComponentTypes.BUTTON: {
