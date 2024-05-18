@@ -1,25 +1,18 @@
 import {
-  type AnyInteractionChannel,
   ApplicationCommandTypes,
   type CommandInteraction,
-  type Uncached,
+  type User,
 } from "oceanic.js";
+import { Colors } from "../../../Constants";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Discord } from "../../../classes/Client";
-import { Colors } from "../../../constants";
 
 export default new UserCommand({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
-  run: async (
-    _client: Discord,
-    _interaction: CommandInteraction<
-      AnyInteractionChannel | Uncached,
-      ApplicationCommandTypes.USER
-    >
-  ) => {
-    const _userOption = _interaction.data.target;
+  run: async (_client: Discord, _interaction: CommandInteraction) => {
+    const _userOption = <User>_interaction.data.target;
 
     await _interaction.reply({
       embeds: new EmbedBuilder()

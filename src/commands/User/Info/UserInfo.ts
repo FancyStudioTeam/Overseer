@@ -1,46 +1,48 @@
-import {
-  type AnyInteractionChannel,
-  ApplicationCommandTypes,
-  type CommandInteraction,
-  type Uncached,
-} from "oceanic.js";
+import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
+import { Colors, Emojis } from "../../../Constants";
 import { EmbedBuilder } from "../../../builders/Embed";
 import { UserCommand } from "../../../classes/Builders";
 import type { Discord } from "../../../classes/Client";
-import { Colors, Emojis } from "../../../constants";
 import { Translations } from "../../../locales";
-import { UnixType } from "../../../types";
-import { errorMessage, fetchMember, formatUnix } from "../../../util/util";
+import {
+  UnixType,
+  errorMessage,
+  fetchMember,
+  formatUnix,
+} from "../../../util/Util";
 
 export default new UserCommand({
   name: "User Info",
   type: ApplicationCommandTypes.USER,
   run: async (
     _client: Discord,
-    _interaction: CommandInteraction<
-      AnyInteractionChannel | Uncached,
-      ApplicationCommandTypes.USER
-    >,
+    _interaction: CommandInteraction,
     { locale }
   ) => {
     const _memberOption = await fetchMember(
       _interaction,
-      _interaction.data.targetID
+      _interaction.data.targetID ?? ""
     );
 
     if (!_memberOption) {
-      return await errorMessage(_interaction, true, {
-        description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
-      });
+      return await errorMessage(
+        {
+          _context: _interaction,
+          ephemeral: true,
+        },
+        {
+          description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
+        }
+      );
     }
 
     await _interaction.reply({
       embeds: new EmbedBuilder()
-        .setAuthor({
-          name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.AUTHOR_1({
+        .setTitle(
+          Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
             name: _memberOption.user.globalName ?? _memberOption.user.username,
-          }),
-        })
+          })
+        )
         .setThumbnail(_memberOption.user.avatarURL())
         .addFields([
           {
