@@ -23,16 +23,17 @@ import { ButtonBuilder } from "../../builders/Button";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Translations } from "../../locales";
 import { Permissions } from "../../locales/misc/Reference";
-import { type Locales, UnixType } from "../../types";
-import { prisma } from "../../util/prisma";
+import type { Locales } from "../../types";
+import { prisma } from "../../util/Prisma";
 import {
   CheckPermissionsFrom,
+  UnixType,
   checkPermissions,
   errorMessage,
   formatUnix,
   handleError,
   parseEmoji,
-} from "../../util/util";
+} from "../../util/Util";
 
 const commandRateLimiter = new RateLimitManager(5000, 3);
 const componentRateLimiter = new RateLimitManager(7000, 5);

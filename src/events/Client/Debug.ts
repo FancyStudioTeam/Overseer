@@ -1,7 +1,6 @@
 import { type Nullish, isNullOrUndefined } from "@sapphire/utilities";
 import { _client } from "../..";
-import { LoggerType } from "../../types";
-import { logger } from "../../util/util";
+import { LoggerType, logger } from "../../util/Util";
 
 _client.on("debug", (_info: string, _shard: number | Nullish) => {
   logger(

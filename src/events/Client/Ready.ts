@@ -1,6 +1,5 @@
 import { _client } from "../..";
-import { LoggerType } from "../../types";
-import { logger } from "../../util/util";
+import { LoggerType, logger } from "../../util/Util";
 
 _client.once("ready", async () => {
   await _client._deploy();

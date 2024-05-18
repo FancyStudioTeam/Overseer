@@ -1,6 +1,5 @@
 import { _client } from "../..";
-import { LoggerType } from "../../types";
-import { logger } from "../../util/util";
+import { LoggerType, logger } from "../../util/Util";
 
 _client.on("shardResume", (_id: number) => {
   logger(LoggerType.INFO, `[Shard ${_id}] Shard has been resumed`);

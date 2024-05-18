@@ -1,7 +1,6 @@
 import type { RawRequest } from "oceanic.js";
 import { _client } from "../..";
-import { LoggerType } from "../../types";
-import { logger } from "../../util/util";
+import { LoggerType, logger } from "../../util/Util";
 
 _client.on("request", (_request: RawRequest) => {
   logger(LoggerType.REQUEST, `[${_request.method}] "${_request.path}"`);

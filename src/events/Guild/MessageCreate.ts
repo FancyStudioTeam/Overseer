@@ -7,8 +7,8 @@ import { ChannelTypes, type Message } from "oceanic.js";
 import { _client } from "../..";
 import { Colors, Developers, Emojis } from "../../Constants";
 import { EmbedBuilder } from "../../builders/Embed";
-import { prisma } from "../../util/prisma";
-import { errorMessage } from "../../util/util";
+import { prisma } from "../../util/Prisma";
+import { errorMessage } from "../../util/Util";
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
 _client.on("messageCreate", async (_message: Message) => {
