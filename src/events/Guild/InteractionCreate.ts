@@ -16,17 +16,18 @@ import {
   type ModalSubmitInteraction,
 } from "oceanic.js";
 import { _client } from "../..";
+import { Colors, Emojis, Links } from "../../Constants";
 import { ActionRowBuilder } from "../../builders/ActionRow";
 import { AttachmentBuilder } from "../../builders/Attachment";
 import { ButtonBuilder } from "../../builders/Button";
 import { EmbedBuilder } from "../../builders/Embed";
-import { Colors, Emojis, Links } from "../../constants";
 import { Translations } from "../../locales";
 import { Permissions } from "../../locales/misc/Reference";
 import { type Locales, UnixType } from "../../types";
 import { prisma } from "../../util/prisma";
 import {
-  checkChannelPermissions,
+  CheckPermissionsFrom,
+  checkPermissions,
   errorMessage,
   formatUnix,
   handleError,
@@ -58,15 +59,16 @@ _client.on(
     const premium = guildConfiguration?.premium.enabled ?? false;
 
     if (
-      !checkChannelPermissions(
+      !checkPermissions(
         {
           _context: _interaction,
           locale,
+          ephemeral: true,
         },
+        CheckPermissionsFrom.CHANNEL,
         ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
         _interaction.guild.clientMember,
-        _interaction.channel,
-        true
+        _interaction.channel
       )
     )
       return;
@@ -84,7 +86,7 @@ _client.on(
           .setName("maintenance.png")
           .setContent(
             readFileSync(
-              join(__dirname, "../..", "assets/images", "Maintenance.png")
+              join(process.cwd(), "assets/images", "Maintenance.png")
             )
           )
           .toJSONArray(),
@@ -106,14 +108,20 @@ _client.on(
         const rateLimit = commandRateLimiter.acquire(_interaction.user.id);
 
         if (rateLimit.limited) {
-          return await errorMessage(_interaction, true, {
-            description: Translations[locale].GENERAL.USER_IS_LIMITED({
-              resets: formatUnix(
-                UnixType.RELATIVE,
-                new Date(rateLimit.expires)
-              ),
-            }),
-          });
+          return await errorMessage(
+            {
+              _context: _interaction,
+              ephemeral: true,
+            },
+            {
+              description: Translations[locale].GENERAL.USER_IS_LIMITED({
+                resets: formatUnix(
+                  UnixType.RELATIVE,
+                  new Date(rateLimit.expires)
+                ),
+              }),
+            }
+          );
         }
 
         rateLimit.consume();
@@ -175,14 +183,20 @@ _client.on(
         const rateLimit = componentRateLimiter.acquire(_interaction.user.id);
 
         if (rateLimit.limited) {
-          return await errorMessage(_interaction, true, {
-            description: Translations[locale].GENERAL.USER_IS_LIMITED({
-              resets: formatUnix(
-                UnixType.RELATIVE,
-                new Date(rateLimit.expires)
-              ),
-            }),
-          });
+          return await errorMessage(
+            {
+              _context: _interaction,
+              ephemeral: true,
+            },
+            {
+              description: Translations[locale].GENERAL.USER_IS_LIMITED({
+                resets: formatUnix(
+                  UnixType.RELATIVE,
+                  new Date(rateLimit.expires)
+                ),
+              }),
+            }
+          );
         }
 
         rateLimit.consume();
@@ -280,11 +294,19 @@ async function _handleChatInputSubCommand(main: {
       command.permissions?.user &&
       !main._interaction.member.permissions.has(command.permissions.user)
     ) {
-      return await errorMessage(main._interaction, true, {
-        description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER({
-          permissions: Permissions[main.locale][command.permissions.user],
-        }),
-      });
+      return await errorMessage(
+        {
+          _context: main._interaction,
+          ephemeral: true,
+        },
+        {
+          description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER(
+            {
+              permissions: Permissions[main.locale][command.permissions.user],
+            }
+          ),
+        }
+      );
     }
 
     if (
@@ -293,13 +315,19 @@ async function _handleChatInputSubCommand(main: {
         command.permissions.bot
       )
     ) {
-      return await errorMessage(main._interaction, true, {
-        description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.CLIENT(
-          {
+      return await errorMessage(
+        {
+          _context: main._interaction,
+          ephemeral: true,
+        },
+        {
+          description: Translations[
+            main.locale
+          ].GENERAL.PERMISSIONS.GUILD.CLIENT({
             permissions: Permissions[main.locale][command.permissions.bot],
-          }
-        ),
-      });
+          }),
+        }
+      );
     }
 
     await command
@@ -403,11 +431,19 @@ async function _handleButton(main: {
       component.permissions?.user &&
       !main._interaction.member.permissions.has(component.permissions.user)
     ) {
-      return await errorMessage(main._interaction, true, {
-        description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER({
-          permissions: Permissions[main.locale][component.permissions.user],
-        }),
-      });
+      return await errorMessage(
+        {
+          _context: main._interaction,
+          ephemeral: true,
+        },
+        {
+          description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER(
+            {
+              permissions: Permissions[main.locale][component.permissions.user],
+            }
+          ),
+        }
+      );
     }
 
     if (
@@ -416,13 +452,19 @@ async function _handleButton(main: {
         component.permissions.bot
       )
     ) {
-      return await errorMessage(main._interaction, true, {
-        description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.CLIENT(
-          {
+      return await errorMessage(
+        {
+          _context: main._interaction,
+          ephemeral: true,
+        },
+        {
+          description: Translations[
+            main.locale
+          ].GENERAL.PERMISSIONS.GUILD.CLIENT({
             permissions: Permissions[main.locale][component.permissions.bot],
-          }
-        ),
-      });
+          }),
+        }
+      );
     }
 
     await component
@@ -464,11 +506,19 @@ async function _handleSelectMenu(main: {
       component.permissions?.user &&
       !main._interaction.member.permissions.has(component.permissions.user)
     ) {
-      return await errorMessage(main._interaction, true, {
-        description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER({
-          permissions: Permissions[main.locale][component.permissions.user],
-        }),
-      });
+      return await errorMessage(
+        {
+          _context: main._interaction,
+          ephemeral: true,
+        },
+        {
+          description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER(
+            {
+              permissions: Permissions[main.locale][component.permissions.user],
+            }
+          ),
+        }
+      );
     }
 
     if (
@@ -477,13 +527,19 @@ async function _handleSelectMenu(main: {
         component.permissions.bot
       )
     ) {
-      return await errorMessage(main._interaction, true, {
-        description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.CLIENT(
-          {
+      return await errorMessage(
+        {
+          _context: main._interaction,
+          ephemeral: true,
+        },
+        {
+          description: Translations[
+            main.locale
+          ].GENERAL.PERMISSIONS.GUILD.CLIENT({
             permissions: Permissions[main.locale][component.permissions.bot],
-          }
-        ),
-      });
+          }),
+        }
+      );
     }
 
     await component

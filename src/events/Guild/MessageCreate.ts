@@ -5,9 +5,10 @@ import { inspect } from "node:util";
 import { codeBlock, cutText } from "@sapphire/utilities";
 import { ChannelTypes, type Message } from "oceanic.js";
 import { _client } from "../..";
+import { Colors, Developers, Emojis } from "../../Constants";
 import { EmbedBuilder } from "../../builders/Embed";
-import { Colors, Developers, Emojis } from "../../constants";
 import { prisma } from "../../util/prisma";
+import { errorMessage } from "../../util/util";
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
 _client.on("messageCreate", async (_message: Message) => {
@@ -91,7 +92,16 @@ _client.on("messageCreate", async (_message: Message) => {
     case "exec": {
       const command = args.join(" ");
 
-      if (!command) return;
+      if (!command) {
+        return await errorMessage(
+          {
+            _context: _message,
+          },
+          {
+            description: `**${Emojis.MARK} Invalid command arguments**`,
+          }
+        );
+      }
 
       exec(
         `cd "${join(__dirname, "../../..")}" && ${command}`,
@@ -129,7 +139,16 @@ _client.on("messageCreate", async (_message: Message) => {
     case "eval": {
       const code = args.join(" ");
 
-      if (!code) return;
+      if (!code) {
+        return await errorMessage(
+          {
+            _context: _message,
+          },
+          {
+            description: `**${Emojis.MARK} Invalid command arguments**`,
+          }
+        );
+      }
 
       try {
         // biome-ignore lint/security/noGlobalEval:
