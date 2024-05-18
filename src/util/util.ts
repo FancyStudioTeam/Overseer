@@ -1,12 +1,14 @@
-import { format } from "@formkit/tempo";
+import colors from "@colors/colors";
 import { ParsedCustomEmojiWithGroups } from "@sapphire/discord-utilities";
 import { DiscordSnowflake } from "@sapphire/snowflake";
+import { Timestamp } from "@sapphire/time-utilities";
+import type { Nullish } from "@sapphire/utilities";
+import { captureException } from "@sentry/node";
 import {
   type AnyInteractionGateway,
   type AnyTextableGuildChannel,
   type CreateMessageOptions,
   type EmbedOptions,
-  type ExecuteWebhookOptions,
   type InteractionContent,
   type Member,
   type Message,
@@ -16,21 +18,18 @@ import {
   type Role,
   type User,
 } from "oceanic.js";
-import type { RateLimiterMemory } from "rate-limiter-flexible";
-import urlRegex from "url-regex";
-import { client } from "..";
+import urlRegex from "url-regex-safe";
+import { _client } from "..";
+import { Colors, Links } from "../Constants";
 import { EmbedBuilder } from "../builders/Embed";
-import { Colors, Emojis, Links } from "../constants";
 import { Translations } from "../locales";
-import { Permissions } from "../locales/misc/reference";
-import { WebhookType } from "../types";
+import { Permissions } from "../locales/misc/Reference";
 import type { Locales } from "../types";
-import { logger } from "./logger";
 
-export async function fetchUser(id: string): Promise<User | null | undefined> {
-  const user = client.users.has(id)
-    ? client.users.get(id)
-    : await client.rest.users.get(id).catch(() => null);
+export async function fetchUser(id: string): Promise<User | Nullish> {
+  const user = _client.users.has(id)
+    ? _client.users.get(id)
+    : await _client.rest.users.get(id).catch(() => null);
 
   return user;
 }
@@ -38,38 +37,59 @@ export async function fetchUser(id: string): Promise<User | null | undefined> {
 export async function fetchMember(
   context: AnyInteractionGateway | Message,
   id: string
-): Promise<Member | null | undefined> {
-  if (!context.inCachedGuildChannel() || !context.guild) return null;
+): Promise<Member | Nullish> {
+  if (!(context.inCachedGuildChannel() && context.guild)) return null;
 
   const member = context.guild.members.has(id)
     ? context.guild.members.get(id)
-    : await client.rest.guilds
+    : await _client.rest.guilds
         .getMember(context.guild.id, id)
         .catch(() => null);
 
   return member;
 }
 
-export function sleep(ms: number): Promise<void> {
-  logger.log("INF", `Sleeping ${ms}ms...`);
+export function padding(content: string, separator: string): string {
+  const lines = content.split("\n");
+  let maxLength = 0;
 
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  for (const line of lines) {
+    const length = line.split(` ${separator} `)[0].length;
+    if (length > maxLength) {
+      maxLength = length;
+    }
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const parts = lines[i].split(` ${separator} `);
+
+    while (parts[0].length < maxLength) {
+      parts[0] += " ";
+    }
+
+    lines[i] = parts.join(` ${separator} `);
+  }
+
+  return lines.join("\n");
 }
 
-export function errorMessage(
-  context: AnyInteractionGateway,
-  ephemeral: boolean,
+export async function errorMessage(
+  main: {
+    _context: AnyInteractionGateway | Message;
+    ephemeral?: boolean;
+  },
   embed: EmbedOptions
-): void {
-  if ("reply" in context) {
-    context.reply({
-      embeds: new EmbedBuilder()
-        .load(embed)
-        .setColor(Colors.ERROR)
-        .toJSONArray(),
-      flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
-    });
-  }
+): Promise<void> {
+  const payload: CreateMessageOptions & InteractionContent = {
+    embeds: new EmbedBuilder().load(embed).setColor(Colors.ERROR).toJSONArray(),
+    flags: main.ephemeral ? MessageFlags.EPHEMERAL : undefined,
+  };
+
+  "reply" in main._context
+    ? await main._context.reply(payload)
+    : await _client.rest.channels
+        .createMessage(main._context.channelID, payload)
+        .catch(() => null);
 }
 
 export function cleanContent(content: string): string {
@@ -81,6 +101,7 @@ export function cleanContent(content: string): string {
   );
 
   if (elements) {
+    // biome-ignore lint/style/useForOf:
     for (let i = 0; i < elements.length; i++) {
       const element = elements[i];
 
@@ -104,75 +125,132 @@ export function parseEmoji(emoji: string): NullablePartialEmoji {
   };
 }
 
-export function getHighestRole(member: Member): Role | null {
-  return (
-    member.roles
-      // biome-ignore lint/style/noNonNullAssertion:
-      .map((r) => member.guild.roles.get(r)!)
-      .sort((a, b) => b.position - a.position)[0] ?? null
-  );
+export function getHighestRole(member: Member): Role {
+  const roles: Role[] = [<Role>member.guild.roles.get(member.guildID)];
+
+  member.roles.forEach((id, _) => {
+    const role = member.guild.roles.get(id);
+
+    if (role) {
+      roles.push(role);
+    }
+  });
+
+  return roles.sort((a, b) => b.position - a.position)[0];
 }
 
-export function compareMemberToMember(from: Member, to: Member): string {
-  const a = getHighestRole(from)?.position ?? -1;
-  const b = getHighestRole(to)?.position ?? -1;
+export async function disableComponents(message: Message): Promise<void> {
+  message.components.forEach((r, _) => {
+    r.components.forEach((c, _) => {
+      c.disabled = true;
+    });
+  });
+
+  await _client.rest.channels
+    .editMessage(message.channelID, message.id, {
+      components: message.components,
+    })
+    .catch(() => null);
+}
+
+export function compareMemberToMember(
+  from: Member,
+  to: Member
+): ComparationLevel {
+  const a = getHighestRole(from).position ?? -1;
+  const b = getHighestRole(to).position ?? -1;
 
   if (a > b) {
-    return "higher";
+    return ComparationLevel.HIGHER;
   }
 
   if (a < b) {
-    return "lower";
+    return ComparationLevel.LOWER;
   }
 
   if (a === b) {
-    return "same";
+    return ComparationLevel.EQUAL;
   }
 
-  return "unknown";
-}
-
-export function trim(content: string, max: number): string {
-  return content.length > max ? `${content.slice(0, max - 3)}...` : content;
+  return ComparationLevel.UNKNOWN;
 }
 
 export function formatTimestamp(
   date: Date | string,
-  timezone: string,
-  hour12: boolean
+  hour12 = false,
+  long = true
 ): string {
-  return format({
-    date,
-    format: hour12 ? "DD/MM/YYYY, hh:mm:ss A" : "DD/MM/YYYY, HH:mm:ss",
-    locale: "en",
-    tz: timezone,
-  });
+  return new Timestamp(
+    long
+      ? hour12
+        ? "DD/MM/YYYY[, ]hh:mm:ss A"
+        : "DD/MM/YYYY[, ]HH:mm:ss"
+      : "DD/MM/YYYY"
+  ).display(date);
 }
 
-export function checkGuildPermissions(
+export function formatUnix(type: UnixType, date: Date): string {
+  return `<t:${Math.floor(date.getTime() / 1_000)}:${
+    {
+      0: "t",
+      1: "d",
+      2: "R",
+      3: "f",
+      4: "F",
+    }[type]
+  }>`;
+}
+
+export function search<T extends AvailableSearchTypes>(
+  query: string,
+  options: T[]
+): T[] {
+  const choices: T[] = [];
+  const updatedQuery = query.toLowerCase();
+
+  if (options.every((element) => typeof element === "string")) {
+    // biome-ignore lint/style/useForOf:
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].toLowerCase().includes(updatedQuery)) {
+        choices.push(options[i]);
+      }
+    }
+  }
+
+  return choices;
+}
+
+export async function checkPermissions(
   main: {
+    _context: AnyInteractionGateway | Message;
     locale: Locales;
+    ephemeral?: boolean;
   },
-  context: AnyInteractionGateway | Message,
+  type: CheckPermissionsFrom,
   checkPermissions: PermissionName[],
   member: Member,
-  ephemeral: boolean
-): boolean {
+  channel?: AnyTextableGuildChannel
+): Promise<boolean> {
   const requiredPermissions: PermissionName[] = [];
   let hasPermissions = true;
 
-  if (!context.inCachedGuildChannel() || !context.guild) return false;
+  if (!(main._context.inCachedGuildChannel() && main._context.guild))
+    return false;
 
   checkPermissions.forEach((p, _) => {
-    if (!member.permissions.has(p)) {
+    if (
+      type === CheckPermissionsFrom.GUILD
+        ? !member.permissions.has(p)
+        : !channel?.permissionsOf(member).has(p)
+    ) {
       requiredPermissions.push(p);
     }
   });
 
-  const payload: CreateMessageOptions | InteractionContent = {
+  const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder()
       .setDescription(
-        member.user.id === client.user.id
+        member.user.id === _client.user.id
           ? Translations[main.locale].GENERAL.PERMISSIONS.GUILD.CLIENT({
               permissions: requiredPermissions
                 .map((p, _) => {
@@ -190,133 +268,63 @@ export function checkGuildPermissions(
       )
       .setColor(Colors.ERROR)
       .toJSONArray(),
-    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
+    flags: main.ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
   if (
-    requiredPermissions.length &&
-    !member.permissions.has(...requiredPermissions)
+    requiredPermissions.length && type === CheckPermissionsFrom.GUILD
+      ? !member.permissions.has(...requiredPermissions)
+      : !channel?.permissionsOf(member).has(...requiredPermissions)
   ) {
     hasPermissions = false;
 
-    if ("reply" in context) {
-      context.reply(payload);
-    } else {
-      client.rest.channels
-        .createMessage(context.channelID, payload)
-        .catch(() => null);
-    }
+    "reply" in main._context
+      ? await main._context.reply(payload)
+      : await _client.rest.channels
+          .createMessage(main._context.channelID, payload)
+          .catch(() => null);
   }
 
   return hasPermissions;
 }
 
-export function checkChannelPermissions(
-  main: {
-    locale: Locales;
-  },
-  context: AnyInteractionGateway | Message,
-  checkPermissions: PermissionName[],
-  member: Member,
-  channel: AnyTextableGuildChannel,
-  ephemeral: boolean
-): boolean {
-  const requiredPermissions: PermissionName[] = [];
-  let hasPermissions = true;
-
-  checkPermissions.forEach((p, _) => {
-    if (!channel.permissionsOf(member).has(p)) {
-      requiredPermissions.push(p);
-    }
-  });
-
-  const payload: CreateMessageOptions | InteractionContent = {
-    embeds: new EmbedBuilder()
-      .setDescription(
-        member.user.id === client.user.id
-          ? Translations[main.locale].GENERAL.PERMISSIONS.CHANNEL.CLIENT({
-              permissions: requiredPermissions
-                .map((p, _) => {
-                  return `\`${Permissions[main.locale][p]}\``;
-                })
-                .join(", "),
-              channel: channel.mention,
-            })
-          : Translations[main.locale].GENERAL.PERMISSIONS.CHANNEL.USER({
-              permissions: requiredPermissions
-                .map((p, _) => {
-                  return `\`${Permissions[main.locale][p]}\``;
-                })
-                .join(", "),
-              channel: channel.mention,
-            })
+export function logger(type: LoggerType, content: string): void {
+  console.log(
+    `[${colors.grey(
+      formatTimestamp(
+        new Date().toLocaleString("en-US", {
+          timeZone: "Europe/Madrid",
+        })
       )
-      .setColor(Colors.ERROR)
-      .toJSONArray(),
-    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
-  };
-
-  if (
-    requiredPermissions.length &&
-    !channel.permissionsOf(member).has(...requiredPermissions)
-  ) {
-    hasPermissions = false;
-
-    if ("reply" in context) {
-      context.reply(payload);
-    } else {
-      client.rest.channels
-        .createMessage(context.channelID, payload)
-        .catch(() => null);
-    }
-  }
-
-  return hasPermissions;
+    )}] [${
+      {
+        0: colors.brightRed("ERR"),
+        1: colors.brightMagenta("DBG"),
+        2: colors.brightYellow("WRN"),
+        3: colors.brightBlue("INF"),
+        4: colors.brightCyan("REQ"),
+        5: colors.white("MSC"),
+      }[type]
+    }] ${content}`
+  );
 }
 
-export function webhook(
-  type: WebhookType,
-  options: CreateMessageOptions,
-  profile: ExecuteWebhookOptions = {
-    username: client.user.username,
-    avatarURL: client.user.avatarURL(),
-  }
-): void {
-  const data = {
-    LOGS: process.env.LogsWebhook,
-    REPORTS: process.env.ReportsWebhook,
-  };
-  const credentials = {
-    ID: data[type].split("/")[0],
-    Token: data[type].split("/")[1],
-  };
-
-  client.rest.webhooks
-    .execute(credentials.ID, credentials.Token, {
-      ...profile,
-      ...options,
-    })
-    .catch(() => null);
-}
-
-export function handleError(
+export async function handleError(
   main: {
+    _context: AnyInteractionGateway | Message;
     locale: Locales;
   },
-  error: Error,
-  context: AnyInteractionGateway | Message
-): void {
-  logger.log("ERR", error.stack ?? error.message);
+  error: Error
+): Promise<void> {
+  captureException(error);
+  logger(LoggerType.ERROR, error.stack ?? error.message);
 
   const id = DiscordSnowflake.generate().toString();
-  const payload: CreateMessageOptions | InteractionContent = {
+  const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder()
-      .setAuthor({
-        name: client.user.username,
-        iconURL: client.user.avatarURL(),
-      })
+      .setTitle(Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.TITLE_1)
       .setDescription(
-        Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.DESCRIPTION({
+        Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.DESCRIPTION_1({
           support: Links.SUPPORT,
         })
       )
@@ -336,48 +344,11 @@ export function handleError(
       .toJSONArray(),
   };
 
-  webhook(WebhookType.LOGS, {
-    embeds: [
-      new EmbedBuilder()
-        .setAuthor({
-          name: client.user.username,
-          iconURL: client.user.avatarURL(),
-        })
-        .setDescription(
-          [
-            `${Emojis.RIGHT} **Report ID**: ${id}`,
-            `${Emojis.RIGHT} **User**: ${
-              ("user" in context && context.user.username) ??
-              ("author" in context && context.author.username)
-            }`,
-            `${Emojis.RIGHT} **User ID**: ${
-              ("user" in context && context.user.id) ??
-              ("author" in context && context.author.id)
-            }`,
-            `${Emojis.RIGHT} **Server**: ${context.guild?.name ?? Emojis.MARK}`,
-            `${Emojis.RIGHT} **Server ID**: ${
-              context.guild?.id ?? Emojis.MARK
-            }`,
-          ].join("\n")
-        )
-        .setColor(Colors.ERROR)
-        .toJSON(),
-      new EmbedBuilder()
-        .setDescription(
-          `\`\`\`js\n${trim(error.stack ?? error.message, 4000)}\`\`\``
-        )
-        .setColor(Colors.ERROR)
-        .toJSON(),
-    ],
-  });
-
-  if ("reply" in context) {
-    context.reply(payload);
-  } else {
-    client.rest.channels
-      .createMessage(context.channelID, payload)
-      .catch(() => null);
-  }
+  "reply" in main._context
+    ? await main._context.reply(payload)
+    : await _client.rest.channels
+        .createMessage(main._context.channelID, payload)
+        .catch(() => null);
 }
 
 export function bitFieldValues(bitField: number): number[] {
@@ -395,40 +366,38 @@ export function bitFieldValues(bitField: number): number[] {
   return array;
 }
 
-export async function consume(
-  key: string,
-  rateLimiter: RateLimiterMemory
-): Promise<RateLimiterResponse> {
-  return rateLimiter
-    .consume(key)
-    .then((response) => {
-      logger.log(
-        "INF",
-        `Consumed "${response.consumedPoints}" points from "${key}" | Remaining points: ${response.remainingPoints}`
-      );
+export type AvailableSearchTypes = string;
 
-      return {
-        rateLimited: false,
-        points: response.remainingPoints,
-        resets: response.msBeforeNext,
-      };
-    })
-    .catch((response) => {
-      logger.log(
-        "WRN",
-        `Rate Limited "${key}" | Resets in ${response.msBeforeNext}ms`
-      );
-
-      return {
-        rateLimited: true,
-        points: response.remainingPoints,
-        resets: response.msBeforeNext,
-      };
-    });
+export enum CheckPermissionsFrom {
+  GUILD,
+  CHANNEL,
 }
 
-interface RateLimiterResponse {
-  rateLimited: boolean;
-  points: number;
-  resets: number;
+export enum WebhookType {
+  REPORTS,
+  LOGS,
+}
+
+export enum LoggerType {
+  ERROR,
+  DEBUG,
+  WARN,
+  INFO,
+  REQUEST,
+  MISC,
+}
+
+export enum ComparationLevel {
+  UNKNOWN,
+  LOWER,
+  EQUAL,
+  HIGHER,
+}
+
+export enum UnixType {
+  SHORT_TIME,
+  SHORT_DATE,
+  RELATIVE,
+  SHORT_DATE_TIME,
+  LONG_DATE_TIME,
 }

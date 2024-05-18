@@ -1,101 +1,128 @@
-import { InteractionCollector } from "oceanic-collector";
+import {
+  type BaseCollectorEndReasons,
+  InteractionCollector,
+  type InteractionCollectorEndReasons,
+} from "oceanic-collectors";
 import {
   type AnyInteractionGateway,
   type ButtonComponent,
   ButtonStyles,
   ChannelTypes,
+  type ComponentInteraction,
+  ComponentTypes,
+  type CreateMessageOptions,
   type EmbedOptions,
+  type InteractionContent,
   InteractionTypes,
+  type Message,
   MessageFlags,
 } from "oceanic.js";
+import { _client } from "..";
+import { Emojis } from "../Constants";
 import { ActionRowBuilder } from "../builders/ActionRow";
 import { ButtonBuilder } from "../builders/Button";
-import type { Fancycord } from "../classes/Client";
-import { errorMessage } from "./util";
+import { Translations } from "../locales";
+import type { Locales } from "../types";
+import { disableComponents, errorMessage, parseEmoji } from "./Util";
 
 export async function pagination(
   main: {
-    client: Fancycord;
-    language: string;
+    _context: AnyInteractionGateway | Message;
+    locale: Locales;
+    ephemeral?: boolean;
   },
-  context: AnyInteractionGateway,
-  pages: EmbedOptions[],
-  ephemeral: boolean
+  pages: EmbedOptions[]
 ): Promise<void> {
-  if (!context.inCachedGuildChannel() || !context.guild) return;
-  if (!context.channel) return;
-  if (context.channel.type !== ChannelTypes.GUILD_TEXT) return;
-  if (context.user.bot) return;
+  if (!(main._context.inCachedGuildChannel() && main._context.guild)) return;
+  if (!main._context.channel) return;
+  if (main._context.channel.type !== ChannelTypes.GUILD_TEXT) return;
 
   let index = 0;
+  let message: Message;
+  const payload: CreateMessageOptions & InteractionContent = {
+    embeds: [pages[index]],
+    components: new ActionRowBuilder()
+      .addComponents([
+        new ButtonBuilder()
+          .setCustomID("pagination_left")
+          .setStyle(ButtonStyles.SECONDARY)
+          .setEmoji(parseEmoji(Emojis.LEFT))
+          .setDisabled(pages.length < 2),
+        new ButtonBuilder()
+          .setCustomID("pagination_pages")
+          .setStyle(ButtonStyles.SECONDARY)
+          .setLabel(`${index + 1}/${pages.length}`)
+          .setEmoji(parseEmoji(Emojis.BROWSE))
+          .setDisabled(true),
+        new ButtonBuilder()
+          .setCustomID("pagination_right")
+          .setStyle(ButtonStyles.SECONDARY)
+          .setEmoji(parseEmoji(Emojis.RIGHT))
+          .setDisabled(pages.length < 2),
+      ])
+      .toJSONArray(),
+    flags: main.ephemeral ? MessageFlags.EPHEMERAL : undefined,
+  };
 
-  if ("reply" in context) {
-    const response = await context.reply({
-      embeds: [pages[index]],
-      components: new ActionRowBuilder()
-        .addComponents([
-          new ButtonBuilder()
-            .setCustomID("pagination-left")
-            .setStyle(ButtonStyles.SECONDARY)
-            .setEmoji({
-              name: "_",
-              id: "1210952980166090762",
-            })
-            .setDisabled(pages.length < 2 ? true : false),
-          new ButtonBuilder()
-            .setCustomID("pagination-pages")
-            .setStyle(ButtonStyles.SECONDARY)
-            .setLabel(`${index + 1}/${pages.length}`)
-            .setEmoji({
-              name: "_",
-              id: "1210953586951987240",
-            })
-            .setDisabled(true),
-          new ButtonBuilder()
-            .setCustomID("pagination-right")
-            .setStyle(ButtonStyles.SECONDARY)
-            .setEmoji({
-              name: "_",
-              id: "1201948012830531644",
-            })
-            .setDisabled(pages.length < 2 ? true : false),
-        ])
-        .toJSONArray(),
-      flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
-    });
-    const message = response.hasMessage()
-      ? response.message
-      : await response.getMessage();
-    const collector = new InteractionCollector({
-      client: main.client,
-      message: message,
-      channel: context.channel,
-      guild: context.guild,
-      interactionType: InteractionTypes.MESSAGE_COMPONENT,
-      idle: 30000,
-    });
+  if ("reply" in main._context) {
+    const _originalMessageResponse = await main._context.reply(payload);
+    message = _originalMessageResponse.hasMessage()
+      ? _originalMessageResponse.message
+      : await _originalMessageResponse.getMessage();
+  } else {
+    message = await _client.rest.channels.createMessage(
+      main._context.channelID,
+      payload
+    );
+  }
 
-    collector.on("collect", async (collected: AnyInteractionGateway) => {
-      if (collected.isComponentInteraction()) {
-        if (collected.user.id !== context.user.id) {
-          return errorMessage(collected, true, {
-            description: main.client.locales.__({
-              phrase: "general.invalid-user-collector",
-              locale: main.language,
-            }),
-          });
-        }
+  const interactionCollector = new InteractionCollector(_client, {
+    message,
+    channel: main._context.channel,
+    guild: main._context.guild,
+    interactionType: InteractionTypes.MESSAGE_COMPONENT,
+    componentType: ComponentTypes.BUTTON,
+    idle: 30_000,
+    filter: async (_collectedInteraction: ComponentInteraction) => {
+      if (
+        ("user" in main._context &&
+          _collectedInteraction.user.id !== main._context.user.id) ||
+        ("author" in main._context &&
+          _collectedInteraction.user.id !== main._context.author.id)
+      ) {
+        await errorMessage(
+          {
+            _context: _collectedInteraction,
+            ephemeral: true,
+          },
+          {
+            description:
+              Translations[main.locale].GENERAL.INVALID_USER_COLLECTOR,
+          }
+        );
 
-        if (collected.isButtonComponentInteraction()) {
-          await collected.deferUpdate().catch(() => null);
+        return false;
+      }
 
-          switch (collected.data.customID) {
-            case "pagination-left": {
+      return true;
+    },
+  });
+
+  interactionCollector.on(
+    "collect",
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
+    async (_collectedInteraction: AnyInteractionGateway) => {
+      if (_collectedInteraction.isComponentInteraction()) {
+        if (_collectedInteraction.isButtonComponentInteraction()) {
+          await _collectedInteraction.deferUpdate().catch(() => null);
+
+          switch (_collectedInteraction.data.customID) {
+            case "pagination_left": {
               index = index > 0 ? --index : pages.length - 1;
 
               break;
             }
-            case "pagination-right": {
+            case "pagination_right": {
               index = index + 1 < pages.length ? ++index : 0;
 
               break;
@@ -106,30 +133,35 @@ export async function pagination(
             .load(<ButtonComponent>message.components[0].components[1])
             .setLabel(`${index + 1}/${pages.length}`);
 
-          await collected
-            .editOriginal({
+          await _client.rest.channels
+            .editMessage(message.channelID, message.id, {
               embeds: [pages[index]],
               components: message.components,
             })
             .catch(() => null);
         }
       }
-    });
+    }
+  );
 
-    collector.on("end", async () => {
-      collector.removeAllListeners();
+  interactionCollector.once(
+    "end",
+    async (
+      _,
+      _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons
+    ) => {
+      if (
+        [
+          "user",
+          "guildDelete",
+          "channelDelete",
+          "threadDelete",
+          "messageDelete",
+        ].includes(_endReason)
+      )
+        return;
 
-      message.components.forEach((r, _) => {
-        r.components.forEach((c, _) => {
-          c.disabled = true;
-        });
-      });
-
-      await main.client.rest.interactions
-        .editOriginalMessage(context.applicationID, context.token, {
-          components: message.components,
-        })
-        .catch(() => null);
-    });
-  }
+      await disableComponents(message);
+    }
+  );
 }
