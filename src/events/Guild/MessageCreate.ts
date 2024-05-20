@@ -8,7 +8,6 @@ import { _client } from "../..";
 import { Colors, Developers, Emojis } from "../../Constants";
 import { EmbedBuilder } from "../../builders/Embed";
 import { prisma } from "../../util/Prisma";
-import { errorMessage } from "../../util/Util";
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
 _client.on("messageCreate", async (_message: Message) => {
@@ -29,7 +28,7 @@ _client.on("messageCreate", async (_message: Message) => {
 
   switch (cmd.toLocaleLowerCase()) {
     case "voucher": {
-      let emoji = ":_:1239279937051951186";
+      let emoji = Emojis.SUCCESS;
 
       await prisma.clientVoucher
         .create({
@@ -41,7 +40,7 @@ _client.on("messageCreate", async (_message: Message) => {
           },
         })
         .then(async (createdData) => {
-          emoji = ":_:1239279938780270723";
+          emoji = Emojis.SUCCESS;
 
           await _client.rest.users
             .createDM(_message.author.id)
@@ -60,30 +59,38 @@ _client.on("messageCreate", async (_message: Message) => {
             .catch(() => null);
         })
         .catch(() => {
-          emoji = ":_:1239279937051951186";
+          emoji = Emojis.MARK;
         })
         .finally(async () => {
           await _client.rest.channels
-            .createReaction(_message.channelID, _message.id, emoji)
+            .createReaction(
+              _message.channelID,
+              _message.id,
+              emoji.replaceAll(/[<>]/g, "")
+            )
             .catch(() => null);
         });
 
       break;
     }
     case "reload": {
-      let emoji = ":_:1239279937051951186";
+      let emoji = Emojis.SUCCESS;
 
       await _client
         ._init()
         .then(() => {
-          emoji = ":_:1239279938780270723";
+          emoji = Emojis.SUCCESS;
         })
         .catch(() => {
-          emoji = ":_:1239279937051951186";
+          emoji = Emojis.MARK;
         })
         .finally(async () => {
           await _client.rest.channels
-            .createReaction(_message.channelID, _message.id, emoji)
+            .createReaction(
+              _message.channelID,
+              _message.id,
+              emoji.replaceAll(/[<>]/g, "")
+            )
             .catch(() => null);
         });
 
@@ -92,16 +99,7 @@ _client.on("messageCreate", async (_message: Message) => {
     case "exec": {
       const command = args.join(" ");
 
-      if (!command) {
-        return await errorMessage(
-          {
-            _context: _message,
-          },
-          {
-            description: `**${Emojis.MARK} Invalid command arguments**`,
-          }
-        );
-      }
+      if (!command) return;
 
       exec(
         `cd "${join(__dirname, "../../..")}" && ${command}`,
@@ -139,16 +137,7 @@ _client.on("messageCreate", async (_message: Message) => {
     case "eval": {
       const code = args.join(" ");
 
-      if (!code) {
-        return await errorMessage(
-          {
-            _context: _message,
-          },
-          {
-            description: `**${Emojis.MARK} Invalid command arguments**`,
-          }
-        );
-      }
+      if (!code) return;
 
       try {
         // biome-ignore lint/security/noGlobalEval:

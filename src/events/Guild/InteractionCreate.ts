@@ -35,8 +35,8 @@ import {
   parseEmoji,
 } from "../../util/Util";
 
-const commandRateLimiter = new RateLimitManager(5000, 3);
-const componentRateLimiter = new RateLimitManager(7000, 5);
+const commandRateLimiter = new RateLimitManager(5_000, 3);
+const componentRateLimiter = new RateLimitManager(7_000, 5);
 
 _client.on(
   "interactionCreate",
