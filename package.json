@@ -42,5 +42,10 @@
   },
   "prisma": {
     "seed": "tsx src/seed.ts"
+  },
+  "imports": {
+    "#index": [
+      "./dist/src/index.js"
+    ]
   }
 }

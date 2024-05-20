@@ -1,4 +1,5 @@
 import { join, sep } from "node:path";
+import type { Nullish } from "@sapphire/utilities";
 import { textSync } from "figlet";
 import { glob } from "glob";
 import {
@@ -20,15 +21,15 @@ const arrayCommands: CreateApplicationCommandOptions[] = [];
 
 export class Discord extends Client {
   interactions: {
-    chatInput: Collection<string, ChatInputCommandInterface>;
-    user: Collection<string, UserCommandInterface>;
+    chatInput: Collection<string, ChatInputCommandInterface | Nullish>;
+    user: Collection<string, UserCommandInterface | Nullish>;
   };
   components: {
-    buttons: Collection<string, ComponentInterface>;
-    select: Collection<string, ComponentInterface>;
-    modals: Collection<string, ModalInterface>;
+    buttons: Collection<string, ComponentInterface | Nullish>;
+    select: Collection<string, ComponentInterface | Nullish>;
+    modals: Collection<string, ModalInterface | Nullish>;
   };
-  subcommands: Collection<string, SubCommandInterface>;
+  subcommands: Collection<string, SubCommandInterface | Nullish>;
   #dbReady: boolean;
   readonly readyAt: Date;
 
@@ -264,9 +265,9 @@ type Commands = "CHAT" | "USER";
 type Components = "BUTTONS" | "MODALS" | "SELECT";
 
 type CommandCollections =
-  | Collection<string, ChatInputCommandInterface>
-  | Collection<string, UserCommandInterface>;
+  | Collection<string, ChatInputCommandInterface | Nullish>
+  | Collection<string, UserCommandInterface | Nullish>;
 
 type ComponentCollections =
-  | Collection<string, ComponentInterface>
-  | Collection<string, ModalInterface>;
+  | Collection<string, ComponentInterface | Nullish>
+  | Collection<string, ModalInterface | Nullish>;

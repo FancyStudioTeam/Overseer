@@ -3,7 +3,6 @@ import { join } from "node:path";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import {
   type AnyInteractionGateway,
-  ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   type AutocompleteInteraction,
   ButtonStyles,
@@ -22,7 +21,6 @@ import { AttachmentBuilder } from "../../builders/Attachment";
 import { ButtonBuilder } from "../../builders/Button";
 import { EmbedBuilder } from "../../builders/Embed";
 import { Translations } from "../../locales";
-import { Permissions } from "../../locales/misc/Reference";
 import type { Locales } from "../../types";
 import { prisma } from "../../util/Prisma";
 import {
@@ -131,12 +129,7 @@ _client.on(
           case ApplicationCommandTypes.CHAT_INPUT: {
             await _interaction.defer().catch(() => null);
 
-            _interaction.data.options.raw.some((o) =>
-              [
-                ApplicationCommandOptionTypes.SUB_COMMAND,
-                ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
-              ].includes(o.type)
-            )
+            _interaction.data.options.getSubCommand()
               ? await _handleChatInputSubCommand({
                   _interaction,
                   locale,
@@ -293,43 +286,33 @@ async function _handleChatInputSubCommand(main: {
   if (command?.name) {
     if (
       command.permissions?.user &&
-      !main._interaction.member.permissions.has(command.permissions.user)
-    ) {
-      return await errorMessage(
+      !checkPermissions(
         {
           _context: main._interaction,
+          locale: main.locale,
           ephemeral: true,
         },
-        {
-          description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER(
-            {
-              permissions: Permissions[main.locale][command.permissions.user],
-            }
-          ),
-        }
-      );
-    }
+        CheckPermissionsFrom.GUILD,
+        [command.permissions.user],
+        main._interaction.member
+      )
+    )
+      return;
 
     if (
       command.permissions?.bot &&
-      !main._interaction.guild.clientMember.permissions.has(
-        command.permissions.bot
-      )
-    ) {
-      return await errorMessage(
+      !checkPermissions(
         {
           _context: main._interaction,
+          locale: main.locale,
           ephemeral: true,
         },
-        {
-          description: Translations[
-            main.locale
-          ].GENERAL.PERMISSIONS.GUILD.CLIENT({
-            permissions: Permissions[main.locale][command.permissions.bot],
-          }),
-        }
-      );
-    }
+        CheckPermissionsFrom.GUILD,
+        [command.permissions.bot],
+        main._interaction.guild.clientMember
+      )
+    )
+      return;
 
     await command
       .run(_client, main._interaction, {
@@ -430,43 +413,33 @@ async function _handleButton(main: {
   if (component?.name) {
     if (
       component.permissions?.user &&
-      !main._interaction.member.permissions.has(component.permissions.user)
-    ) {
-      return await errorMessage(
+      !checkPermissions(
         {
           _context: main._interaction,
+          locale: main.locale,
           ephemeral: true,
         },
-        {
-          description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER(
-            {
-              permissions: Permissions[main.locale][component.permissions.user],
-            }
-          ),
-        }
-      );
-    }
+        CheckPermissionsFrom.GUILD,
+        [component.permissions.user],
+        main._interaction.member
+      )
+    )
+      return;
 
     if (
       component.permissions?.bot &&
-      !main._interaction.guild.clientMember.permissions.has(
-        component.permissions.bot
-      )
-    ) {
-      return await errorMessage(
+      !checkPermissions(
         {
           _context: main._interaction,
+          locale: main.locale,
           ephemeral: true,
         },
-        {
-          description: Translations[
-            main.locale
-          ].GENERAL.PERMISSIONS.GUILD.CLIENT({
-            permissions: Permissions[main.locale][component.permissions.bot],
-          }),
-        }
-      );
-    }
+        CheckPermissionsFrom.GUILD,
+        [component.permissions.bot],
+        main._interaction.guild.clientMember
+      )
+    )
+      return;
 
     await component
       .run(_client, main._interaction, {
@@ -505,43 +478,33 @@ async function _handleSelectMenu(main: {
   if (component?.name) {
     if (
       component.permissions?.user &&
-      !main._interaction.member.permissions.has(component.permissions.user)
-    ) {
-      return await errorMessage(
+      !checkPermissions(
         {
           _context: main._interaction,
+          locale: main.locale,
           ephemeral: true,
         },
-        {
-          description: Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER(
-            {
-              permissions: Permissions[main.locale][component.permissions.user],
-            }
-          ),
-        }
-      );
-    }
+        CheckPermissionsFrom.GUILD,
+        [component.permissions.user],
+        main._interaction.member
+      )
+    )
+      return;
 
     if (
       component.permissions?.bot &&
-      !main._interaction.guild.clientMember.permissions.has(
-        component.permissions.bot
-      )
-    ) {
-      return await errorMessage(
+      !checkPermissions(
         {
           _context: main._interaction,
+          locale: main.locale,
           ephemeral: true,
         },
-        {
-          description: Translations[
-            main.locale
-          ].GENERAL.PERMISSIONS.GUILD.CLIENT({
-            permissions: Permissions[main.locale][component.permissions.bot],
-          }),
-        }
-      );
-    }
+        CheckPermissionsFrom.GUILD,
+        [component.permissions.bot],
+        main._interaction.guild.clientMember
+      )
+    )
+      return;
 
     await component
       .run(_client, main._interaction, {

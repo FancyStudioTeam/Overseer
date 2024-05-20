@@ -30,6 +30,9 @@
     "useDefineForClassFields": true,
     "isolatedModules": true,
     "noImplicitAny": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "paths": {
+      "#index": ["./src/index.ts"]
+    }
   }
 }
