@@ -27,16 +27,18 @@ export default new SubCommand({
       );
     }
 
-    await _interaction.reply({
-      embeds: new EmbedBuilder()
-        .setDescription(
-          Translations[locale].COMMANDS.INFO.PING.MESSAGE_1.DESCRIPTION_1({
-            rest: `${_client.rest.handler.latencyRef.latency}ms`,
-            shard: `${_interaction.guild.shard.latency}ms`,
-          })
-        )
-        .setColor(Colors.COLOR)
-        .toJSONArray(),
-    });
+    await _interaction
+      .reply({
+        embeds: new EmbedBuilder()
+          .setDescription(
+            Translations[locale].COMMANDS.INFO.PING.MESSAGE_1.DESCRIPTION_1({
+              rest: `${_client.rest.handler.latencyRef.latency}ms`,
+              shard: `${_interaction.guild.shard.latency}ms`,
+            })
+          )
+          .setColor(Colors.COLOR)
+          .toJSONArray(),
+      })
+      .catch(() => null);
   },
 });

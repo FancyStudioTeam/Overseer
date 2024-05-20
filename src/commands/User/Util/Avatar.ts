@@ -14,11 +14,13 @@ export default new UserCommand({
   run: async (_client: Discord, _interaction: CommandInteraction) => {
     const _userOption = <User>_interaction.data.target;
 
-    await _interaction.reply({
-      embeds: new EmbedBuilder()
-        .setImage(_userOption.avatarURL())
-        .setColor(Colors.COLOR)
-        .toJSONArray(),
-    });
+    await _interaction
+      .reply({
+        embeds: new EmbedBuilder()
+          .setImage(_userOption.avatarURL())
+          .setColor(Colors.COLOR)
+          .toJSONArray(),
+      })
+      .catch(() => null);
   },
 });

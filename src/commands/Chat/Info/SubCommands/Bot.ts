@@ -14,55 +14,57 @@ export default new SubCommand({
     _interaction: CommandInteraction,
     { locale }
   ) => {
-    await _interaction.reply({
-      embeds: new EmbedBuilder()
-        .setTitle(
-          Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.TITLE_1({
-            name: _client.user.globalName ?? _client.user.username,
-          })
-        )
-        .setThumbnail(_client.user.avatarURL())
-        .addFields([
-          {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1
-              .FIELD,
-            value: Translations[
-              locale
-            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1.VALUE({
-              version,
-              memory: `${
-                Math.round(
-                  (process.memoryUsage().heapUsed / 1024 / 1024) * 100
-                ) / 100
-              }mb`,
-            }),
-          },
-          {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2
-              .FIELD,
-            value: Translations[
-              locale
-            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2.VALUE({
-              users: _client.guilds.reduce(
-                (prev, guild) => prev + guild.memberCount,
-                0
-              ),
-              guilds: _client.guilds.size,
-              shards: _client.shards.size,
-            }),
-          },
-          {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3
-              .FIELD,
-            value: Translations[
-              locale
-            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3.VALUE({
-              date: formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt),
-            }),
-          },
-        ])
-        .setColor(Colors.COLOR)
-        .toJSONArray(),
-    });
+    await _interaction
+      .reply({
+        embeds: new EmbedBuilder()
+          .setTitle(
+            Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.TITLE_1({
+              name: _client.user.globalName ?? _client.user.username,
+            })
+          )
+          .setThumbnail(_client.user.avatarURL())
+          .addFields([
+            {
+              name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1
+                .FIELD,
+              value: Translations[
+                locale
+              ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1.VALUE({
+                version,
+                memory: `${
+                  Math.round(
+                    (process.memoryUsage().heapUsed / 1024 / 1024) * 100
+                  ) / 100
+                }mb`,
+              }),
+            },
+            {
+              name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2
+                .FIELD,
+              value: Translations[
+                locale
+              ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2.VALUE({
+                users: _client.guilds.reduce(
+                  (prev, guild) => prev + guild.memberCount,
+                  0
+                ),
+                guilds: _client.guilds.size,
+                shards: _client.shards.size,
+              }),
+            },
+            {
+              name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3
+                .FIELD,
+              value: Translations[
+                locale
+              ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3.VALUE({
+                date: formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt),
+              }),
+            },
+          ])
+          .setColor(Colors.COLOR)
+          .toJSONArray(),
+      })
+      .catch(() => null);
   },
 });
