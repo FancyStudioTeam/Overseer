@@ -1,5 +1,5 @@
 {
-  "name": "discord",
+  "name": "overseer",
   "version": "0.0.0-beta",
   "scripts": {
     "dev": "tsx watch --ignore ./src/locales src/index.ts",
@@ -17,14 +17,14 @@
     "@sapphire/ratelimits": "2.4.9",
     "@sapphire/snowflake": "3.5.3",
     "@sapphire/time-utilities": "1.7.12",
-    "@sapphire/utilities": "3.15.3",
+    "@sapphire/utilities": "3.16.0",
     "@sentry/node": "8.2.1",
     "dotenv": "16.4.5",
     "glob": "10.3.15",
     "humanize-duration": "3.32.0",
     "ms": "2.1.3",
     "oceanic-collectors": "1.0.7",
-    "oceanic.js": "^1.10.5-dev.87dbcce",
+    "oceanic.js": "1.10.5-dev.9f95b4a",
     "pako": "2.1.0",
     "url-regex-safe": "4.0.0"
   },
@@ -38,7 +38,7 @@
     "figlet": "1.7.0",
     "prisma": "5.14.0",
     "ts-node": "10.9.2",
-    "tsx": "4.10.4"
+    "tsx": "4.10.5"
   },
   "prisma": {
     "seed": "tsx src/seed.ts"
