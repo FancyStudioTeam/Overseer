@@ -190,15 +190,15 @@ export function formatTimestamp(
 }
 
 export function formatUnix(type: UnixType, date: Date): string {
-  return `<t:${Math.floor(date.getTime() / 1_000)}:${
-    {
-      0: "t",
-      1: "d",
-      2: "R",
-      3: "f",
-      4: "F",
-    }[type]
-  }>`;
+  return `<t:${Math.floor(date.getTime() / 1_000)}:${<Record<UnixType, string>>(
+    (<unknown>{
+      [UnixType.SHORT_TIME]: "t",
+      [UnixType.SHORT_DATE]: "d",
+      [UnixType.RELATIVE]: "R",
+      [UnixType.SHORT_DATE_TIME]: "f",
+      [UnixType.LONG_DATE_TIME]: "F",
+    }[type])
+  )}>`;
 }
 
 export function search<T extends AvailableSearchTypes>(
@@ -296,16 +296,14 @@ export function logger(type: LoggerType, content: string): void {
           timeZone: "Europe/Madrid",
         })
       )
-    )}] [${
-      {
-        0: colors.brightRed("ERR"),
-        1: colors.brightMagenta("DBG"),
-        2: colors.brightYellow("WRN"),
-        3: colors.brightBlue("INF"),
-        4: colors.brightCyan("REQ"),
-        5: colors.white("MSC"),
-      }[type]
-    }] ${content}`
+    )}] [${<Record<LoggerType, string>>(<unknown>{
+      [LoggerType.ERROR]: colors.brightRed("ERR"),
+      [LoggerType.DEBUG]: colors.brightMagenta("DBG"),
+      [LoggerType.WARN]: colors.brightYellow("WRN"),
+      [LoggerType.INFO]: colors.brightBlue("INF"),
+      [LoggerType.REQUEST]: colors.brightCyan("REQ"),
+      [LoggerType.MISC]: colors.white("MSC"),
+    }[type])}] ${content}`
   );
 }
 
@@ -371,11 +369,6 @@ export type AvailableSearchTypes = string;
 export enum CheckPermissionsFrom {
   GUILD,
   CHANNEL,
-}
-
-export enum WebhookType {
-  REPORTS,
-  LOGS,
 }
 
 export enum LoggerType {
