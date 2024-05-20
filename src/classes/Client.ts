@@ -183,10 +183,10 @@ export class Discord extends Client {
         const dividedPath = subCommandPath.split(sep);
         const directory = dividedPath[dividedPath.length - 3];
 
-        this.subcommands.set(
-          `${directory}_${subCommand.name}`.toLowerCase(),
-          subCommand
-        );
+        this.subcommands.set(`${directory}_${subCommand.name}`.toLowerCase(), {
+          ...subCommand,
+          directory,
+        });
       }
     });
   }

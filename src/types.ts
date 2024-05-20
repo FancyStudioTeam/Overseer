@@ -11,35 +11,6 @@ import type { Discord } from "./classes/Client";
 
 export type Locales = "EN" | "ES";
 
-export enum WebhookType {
-  REPORTS,
-  LOGS,
-}
-
-export enum LoggerType {
-  ERROR,
-  DEBUG,
-  WARN,
-  INFO,
-  REQUEST,
-  MISC,
-}
-
-export enum ComparationLevel {
-  UNKNOWN,
-  LOWER,
-  EQUAL,
-  HIGHER,
-}
-
-export enum UnixType {
-  SHORT_TIME,
-  SHORT_DATE,
-  RELATIVE,
-  SHORT_DATE_TIME,
-  LONG_DATE_TIME,
-}
-
 export interface BaseInterface<T extends AvailableBaseTypes> {
   name: string;
   permissions?: {
@@ -74,7 +45,9 @@ export type ChatInputCommandInterface = {
 } & BaseInterface<CommandInteraction> &
   CreateChatInputApplicationCommandOptions;
 
-export type SubCommandInterface = BaseInterface<CommandInteraction>;
+export type SubCommandInterface = {
+  directory?: string;
+} & BaseInterface<CommandInteraction>;
 
 export type UserCommandInterface = BaseInterface<CommandInteraction> &
   CreateUserApplicationCommandOptions;
