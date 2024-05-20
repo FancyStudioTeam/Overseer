@@ -140,9 +140,9 @@ export function getHighestRole(member: Member): Role {
 }
 
 export async function disableComponents(message: Message): Promise<void> {
-  message.components.forEach((r, _) => {
-    r.components.forEach((c, _) => {
-      c.disabled = true;
+  message.components.forEach((row, _) => {
+    row.components.forEach((component, _) => {
+      component.disabled = true;
     });
   });
 
@@ -237,13 +237,13 @@ export async function checkPermissions(
   if (!(main._context.inCachedGuildChannel() && main._context.guild))
     return false;
 
-  checkPermissions.forEach((p, _) => {
+  checkPermissions.forEach((permission, _) => {
     if (
       type === CheckPermissionsFrom.GUILD
-        ? !member.permissions.has(p)
-        : !channel?.permissionsOf(member).has(p)
+        ? !member.permissions.has(permission)
+        : !channel?.permissionsOf(member).has(permission)
     ) {
-      requiredPermissions.push(p);
+      requiredPermissions.push(permission);
     }
   });
 
@@ -253,15 +253,15 @@ export async function checkPermissions(
         member.user.id === _client.user.id
           ? Translations[main.locale].GENERAL.PERMISSIONS.GUILD.CLIENT({
               permissions: requiredPermissions
-                .map((p, _) => {
-                  return `\`${Permissions[main.locale][p]}\``;
+                .map((permission, _) => {
+                  return `\`${Permissions[main.locale][permission]}\``;
                 })
                 .join(", "),
             })
           : Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER({
               permissions: requiredPermissions
-                .map((p, _) => {
-                  return `\`${Permissions[main.locale][p]}\``;
+                .map((permission, _) => {
+                  return `\`${Permissions[main.locale][permission]}\``;
                 })
                 .join(", "),
             })
