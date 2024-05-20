@@ -10,11 +10,13 @@ export default new SubCommand({
     const _userOption =
       _interaction.data.options.getUser("user") ?? _interaction.user;
 
-    await _interaction.reply({
-      embeds: new EmbedBuilder()
-        .setImage(_userOption.avatarURL())
-        .setColor(Colors.COLOR)
-        .toJSONArray(),
-    });
+    await _interaction
+      .reply({
+        embeds: new EmbedBuilder()
+          .setImage(_userOption.avatarURL())
+          .setColor(Colors.COLOR)
+          .toJSONArray(),
+      })
+      .catch(() => null);
   },
 });
