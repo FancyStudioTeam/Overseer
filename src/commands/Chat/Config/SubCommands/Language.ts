@@ -16,7 +16,7 @@ export default new SubCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale }
+    { locale },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(
@@ -28,13 +28,13 @@ export default new SubCommand({
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
             structure: _interaction,
           }),
-        }
+        },
       );
     }
 
     const _languageOption = _interaction.data.options.getString(
       "language",
-      true
+      true,
     );
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
@@ -69,7 +69,7 @@ export default new SubCommand({
           embeds: new EmbedBuilder()
             .setDescription(
               Translations[<Locales>updatedData.general.locale].COMMANDS.CONFIG
-                .LANGUAGE.MESSAGE_1
+                .LANGUAGE.MESSAGE_1,
             )
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
@@ -81,7 +81,7 @@ export default new SubCommand({
             _context: _interaction,
             locale,
           },
-          error
+          error,
         );
       });
   },

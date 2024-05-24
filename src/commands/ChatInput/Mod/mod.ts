@@ -254,7 +254,7 @@ export default new ChatInputCommand({
 
         search(
           focusedValue.value,
-          warningValues.map((w) => w.warn_id)
+          warningValues.map((w) => w.warn_id),
         );
 
         function search(query: string, allChoices: string[]) {
@@ -275,7 +275,7 @@ export default new ChatInputCommand({
               name: `Delete warn with ID ${c}`,
               value: c,
             };
-          })
+          }),
         );
 
         break;

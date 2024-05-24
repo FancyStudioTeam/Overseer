@@ -19,7 +19,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language, premium }
+    { language, premium },
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -49,7 +49,7 @@ export default new Component({
 
     const data = <MessageComponentSelectMenuInteractionData>interaction.data;
     const channel = interaction.guild.channels.get(
-      data.values.getChannels()[0].id
+      data.values.getChannels()[0].id,
     );
 
     if (channel?.type !== ChannelTypes.GUILD_TEXT) {
@@ -65,7 +65,7 @@ export default new Component({
     const channels = {
       suggestion: interaction.guild.channels.get(channel.id),
       revision: interaction.guild.channels.get(
-        guildSuggestion.revision_channel_id
+        guildSuggestion.revision_channel_id,
       ),
     };
 
@@ -110,7 +110,7 @@ export default new Component({
               })
               .join(", "),
             channel: channel.mention,
-          }
+          },
         ),
       });
     }
@@ -136,7 +136,7 @@ export default new Component({
           {
             channel: interaction.channelID,
             message: interaction.message.id,
-          }
+          },
         );
       });
   },

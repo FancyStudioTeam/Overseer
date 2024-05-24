@@ -13,7 +13,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language }
+    { language },
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -99,8 +99,8 @@ export default new SubCommand({
                 {
                   moderator: interaction.user.mention,
                   user: member.user.mention,
-                }
-              )
+                },
+              ),
             )
             .setColor(client.config.colors.SUCCESS)
             .toJSONArray(),

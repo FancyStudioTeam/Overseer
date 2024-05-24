@@ -27,20 +27,20 @@ export default new ChatInputCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale }
+    { locale },
   ) => {
     await _interaction.reply({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].HELP.MESSAGE_1.TITLE_1({
             name: _client.user.globalName ?? _client.user.username,
-          })
+          }),
         )
         .setThumbnail(_client.user.avatarURL())
         .setDescription(
           Translations[locale].HELP.MESSAGE_1.DESCRIPTION_1({
             mention: _client.user.mention,
-          })
+          }),
         )
         .setColor(Colors.COLOR)
         .toJSONArray(),
@@ -50,7 +50,7 @@ export default new ChatInputCommand({
             new ButtonBuilder()
               .setLabel(
                 Translations[locale].HELP.COMPONENTS.BUTTONS.ADD_TO_DISCORD
-                  .LABEL
+                  .LABEL,
               )
               .setStyle(ButtonStyles.LINK)
               .setEmoji(parseEmoji(Emojis.SUPPORT))
@@ -58,7 +58,7 @@ export default new ChatInputCommand({
             new ButtonBuilder()
               .setLabel(
                 Translations[locale].HELP.COMPONENTS.BUTTONS.SUPPORT_SERVER
-                  .LABEL
+                  .LABEL,
               )
               .setStyle(ButtonStyles.LINK)
               .setEmoji(parseEmoji(Emojis.SUPPORT))
@@ -71,7 +71,7 @@ export default new ChatInputCommand({
               .setCustomID("help_plugins")
               .setPlaceholder(
                 Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
-                  .PLACEHOLDER
+                  .PLACEHOLDER,
               )
               .addOptions(
                 ["configuration", "information", "moderation", "utility"].map(
@@ -90,11 +90,11 @@ export default new ChatInputCommand({
                           information: Emojis.INFO,
                           moderation: Emojis.GAVEL,
                           utility: Emojis.SUPPORT,
-                        }[e] ?? ""
+                        }[e] ?? "",
                       ),
                     };
-                  }
-                )
+                  },
+                ),
               )
               .setType(ComponentTypes.STRING_SELECT),
           ])

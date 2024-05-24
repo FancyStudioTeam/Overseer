@@ -49,7 +49,7 @@ _client.on("messageCreate", async (_message: Message) => {
                 .createMessage(createdDM.id, {
                   embeds: new EmbedBuilder()
                     .setDescription(
-                      `**${Emojis.RIGHT} ||${createdData.voucher_id}||**`
+                      `**${Emojis.RIGHT} ||${createdData.voucher_id}||**`,
                     )
                     .setColor(Colors.COLOR)
                     .toJSONArray(),
@@ -66,7 +66,7 @@ _client.on("messageCreate", async (_message: Message) => {
             .createReaction(
               _message.channelID,
               _message.id,
-              emoji.replaceAll(/[<>]/g, "")
+              emoji.replaceAll(/[<>]/g, ""),
             )
             .catch(() => null);
         });
@@ -89,7 +89,7 @@ _client.on("messageCreate", async (_message: Message) => {
             .createReaction(
               _message.channelID,
               _message.id,
-              emoji.replaceAll(/[<>]/g, "")
+              emoji.replaceAll(/[<>]/g, ""),
             )
             .catch(() => null);
         });
@@ -112,7 +112,7 @@ _client.on("messageCreate", async (_message: Message) => {
                   iconURL: _client.user.avatarURL(),
                 })
                 .setDescription(
-                  codeBlock("js", cutText(error.stack ?? error.message, 4000))
+                  codeBlock("js", cutText(error.stack ?? error.message, 4000)),
                 )
                 .setColor(Colors.ERROR)
                 .toJSONArray(),
@@ -129,7 +129,7 @@ _client.on("messageCreate", async (_message: Message) => {
                 .toJSONArray(),
             });
           }
-        }
+        },
       );
 
       break;
@@ -142,7 +142,7 @@ _client.on("messageCreate", async (_message: Message) => {
       try {
         // biome-ignore lint/security/noGlobalEval:
         const result = await eval(
-          `const { _client } = require("../..");\n${code}`
+          `const { _client } = require("../..");\n${code}`,
         );
         let output = result;
 

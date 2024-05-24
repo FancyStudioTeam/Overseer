@@ -13,7 +13,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language, premium }
+    { language, premium },
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -42,7 +42,7 @@ export default new Component({
     }
 
     const channel = interaction.guild.channels.get(
-      guildSuggestion.revision_channel_id
+      guildSuggestion.revision_channel_id,
     );
 
     if (!channel) {
@@ -76,7 +76,7 @@ export default new Component({
           {
             channel: interaction.channelID,
             message: interaction.message.id,
-          }
+          },
         );
       });
   },

@@ -11,7 +11,7 @@ export default new SubCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale }
+    { locale },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(
@@ -23,7 +23,7 @@ export default new SubCommand({
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
             structure: _interaction,
           }),
-        }
+        },
       );
     }
 
@@ -34,7 +34,7 @@ export default new SubCommand({
             Translations[locale].COMMANDS.INFO.PING.MESSAGE_1.DESCRIPTION_1({
               rest: `${_client.rest.handler.latencyRef.latency}ms`,
               shard: `${_interaction.guild.shard.latency}ms`,
-            })
+            }),
           )
           .setColor(Colors.COLOR)
           .toJSONArray(),

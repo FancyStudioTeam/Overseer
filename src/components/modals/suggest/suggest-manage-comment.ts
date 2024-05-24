@@ -21,7 +21,7 @@ export default new Modal({
   run: async (
     client: Fancycord,
     interaction: ModalSubmitInteraction,
-    { language }
+    { language },
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -62,7 +62,7 @@ export default new Modal({
 
     const comment = interaction.data.components.getTextInput(
       "suggest-manage-comment-comment",
-      true
+      true,
     );
     const message = await client.rest.channels
       .getMessage(interaction.channelID, userSuggestion.message_id)
@@ -71,7 +71,7 @@ export default new Modal({
     if (message) {
       if (
         !bitFieldValues(message.flags).some(
-          (f) => f === MessageFlags.SUPPRESS_EMBEDS
+          (f) => f === MessageFlags.SUPPRESS_EMBEDS,
         )
       ) {
         await client.rest.channels
@@ -86,7 +86,7 @@ export default new Modal({
                   },
                   {
                     user: interaction.user.username,
-                  }
+                  },
                 ),
                 value: `<:_:1201948012830531644> ${comment}`,
               })
@@ -115,8 +115,8 @@ export default new Modal({
                       },
                       {
                         moderator: interaction.user.mention,
-                      }
-                    )
+                      },
+                    ),
                   )
                   .setColor(client.config.colors.COLOR)
                   .toJSONArray(),
@@ -128,7 +128,7 @@ export default new Modal({
                           phrase:
                             "commands.utility.suggest.row.manage.row.message.label",
                           locale: language,
-                        })
+                        }),
                       )
                       .setStyle(ButtonStyles.LINK)
                       .setEmoji({

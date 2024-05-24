@@ -24,7 +24,7 @@ export default new SubCommand({
       AnyInteractionChannel | Uncached,
       ApplicationCommandTypes.CHAT_INPUT
     >,
-    { locale }
+    { locale },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(_interaction, true, {
@@ -36,11 +36,11 @@ export default new SubCommand({
 
     const _timezoneOption = _interaction.data.options.getString(
       "timezone",
-      true
+      true,
     );
     const _12HoursOption = _interaction.data.options.getBoolean(
       "12-hours",
-      true
+      true,
     );
 
     if (!timezones.includes(_timezoneOption)) {
@@ -74,7 +74,7 @@ export default new SubCommand({
             .setDescription(
               Translations[locale].COMMANDS.CONFIG.TIMEZONE.MESSAGE_1({
                 timezone: updatedData.timezone,
-              })
+              }),
             )
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
@@ -86,7 +86,7 @@ export default new SubCommand({
             _context: _interaction,
             locale,
           },
-          error
+          error,
         );
       });
   },

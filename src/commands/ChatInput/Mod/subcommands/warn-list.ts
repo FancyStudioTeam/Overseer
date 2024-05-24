@@ -13,7 +13,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language, timezone, hour12 }
+    { language, timezone, hour12 },
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -57,7 +57,7 @@ export default new SubCommand({
           },
           {
             user: member.user.mention,
-          }
+          },
         ),
       });
     }
@@ -84,10 +84,10 @@ export default new SubCommand({
                     "<:_:1201586248947597392>",
                   reason: w.reason,
                   date: formatTimestamp(w.date, timezone, hour12),
-                }
+                },
               ),
             };
-          })
+          }),
         )
         .setColor(client.config.colors.COLOR)
         .toJSONArray(),

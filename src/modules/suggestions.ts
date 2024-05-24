@@ -45,7 +45,7 @@ export const buttons = (client: Fancycord, language: string) =>
           client.locales.__({
             phrase: "commands.utility.suggest.row.report.label",
             locale: language,
-          })
+          }),
         )
         .setStyle(ButtonStyles.DANGER)
         .setEmoji({
@@ -63,7 +63,7 @@ export const revision = (client: Fancycord, language: string) =>
           client.locales.__({
             phrase: "commands.utility.suggest.row.status.approve.label",
             locale: language,
-          })
+          }),
         )
         .setStyle(ButtonStyles.SECONDARY)
         .setEmoji({
@@ -76,7 +76,7 @@ export const revision = (client: Fancycord, language: string) =>
           client.locales.__({
             phrase: "commands.utility.suggest.row.status.deny.label",
             locale: language,
-          })
+          }),
         )
         .setStyle(ButtonStyles.SECONDARY)
         .setEmoji({
@@ -89,7 +89,7 @@ export const revision = (client: Fancycord, language: string) =>
           client.locales.__({
             phrase: "commands.utility.suggest.row.report.label",
             locale: language,
-          })
+          }),
         )
         .setStyle(ButtonStyles.DANGER)
         .setEmoji({
@@ -143,7 +143,7 @@ export default (client: Fancycord) => {
 
       if (guildSuggestion.revision_enabled) {
         const channel = message.guild.channels.get(
-          guildSuggestion.revision_channel_id
+          guildSuggestion.revision_channel_id,
         );
 
         if (!channel) {
@@ -158,7 +158,7 @@ export default (client: Fancycord) => {
                         phrase:
                           "commands.configuration.suggestions.row.general.row.revision.revision-not-found",
                         locale: language,
-                      })
+                      }),
                     )
                     .setColor(client.config.colors.ERROR)
                     .toJSONArray(),
@@ -183,7 +183,7 @@ export default (client: Fancycord) => {
                     client.locales.__({
                       phrase: "commands.utility.suggest.message2",
                       locale: language,
-                    })
+                    }),
                   )
                   .setColor(client.config.colors.WARNING)
                   .toJSON(),
@@ -198,7 +198,7 @@ export default (client: Fancycord) => {
                   .toJSON(),
               ],
               components: revision(client, language),
-            }
+            },
           );
 
           await prisma.userSuggestion.create({
@@ -220,7 +220,7 @@ export default (client: Fancycord) => {
               "VIEW_CHANNEL",
               "SEND_MESSAGES",
               "EMBED_LINKS",
-              "USE_EXTERNAL_EMOJIS"
+              "USE_EXTERNAL_EMOJIS",
             )
         ) {
           const response = await client.rest.channels.createMessage(
@@ -236,7 +236,7 @@ export default (client: Fancycord) => {
                 .setColor(client.config.colors.COLOR)
                 .toJSONArray(),
               components: buttons(client, language),
-            }
+            },
           );
 
           await prisma.userSuggestion.create({

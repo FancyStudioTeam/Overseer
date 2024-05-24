@@ -20,7 +20,7 @@ export default new SubCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale, timezone, hour12 }
+    { locale, timezone, hour12 },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(
@@ -32,7 +32,7 @@ export default new SubCommand({
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
             structure: _interaction,
           }),
-        }
+        },
       );
     }
 
@@ -55,7 +55,7 @@ export default new SubCommand({
           ].COMMANDS.CONFIG.PREMIUM.CLAIM.MEMBERSHIP_NOT_FOUND({
             code: _voucherOption,
           }),
-        }
+        },
       );
     }
 
@@ -103,13 +103,13 @@ export default new SubCommand({
                       "en-US",
                       {
                         timeZone: timezone,
-                      }
+                      },
                     ),
-                    hour12
+                    hour12,
                   ),
                   INFINITE: null,
                 }[clientVoucher.general.type],
-              })
+              }),
             )
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
@@ -121,7 +121,7 @@ export default new SubCommand({
             _context: _interaction,
             locale,
           },
-          error
+          error,
         );
       });
   },

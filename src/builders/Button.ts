@@ -54,7 +54,7 @@ export class ButtonBuilder {
   setURL(url: string): this {
     if (this.json.style !== ButtonStyles.LINK) {
       throw new Error(
-        `Cannot establish a link on a button of type "${this.json.style}"`
+        `Cannot establish a link on a button of type "${this.json.style}"`,
       );
     }
 

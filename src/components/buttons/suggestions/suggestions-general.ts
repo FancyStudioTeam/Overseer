@@ -20,7 +20,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language, premium }
+    { language, premium },
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -59,7 +59,7 @@ export default new Component({
       {
         channel: interaction.channelID,
         message: interaction.message.id,
-      }
+      },
     );
   },
 });
@@ -75,7 +75,7 @@ export async function updateGeneralMessage(
   id: {
     channel: string;
     message: string;
-  }
+  },
 ): Promise<void> {
   await main.client.rest.channels
     .editMessage(id.channel, id.message, {
@@ -108,7 +108,7 @@ export async function updateGeneralMessage(
                 threads: data?.threads
                   ? "<:_:1203774493936455730>"
                   : "<:_:1203774491763937300>",
-              }
+              },
             ),
           },
           {
@@ -130,7 +130,7 @@ export async function updateGeneralMessage(
                 review: data?.revision_enabled
                   ? "<:_:1203774493936455730>"
                   : "<:_:1203774491763937300>",
-              }
+              },
             ),
           },
         ])
@@ -146,7 +146,7 @@ export async function updateGeneralMessage(
                   phrase:
                     "commands.configuration.suggestions.row.general.row.channel.label",
                   locale: main.language,
-                })
+                }),
               )
               .setStyle(ButtonStyles.SECONDARY)
               .setEmoji({
@@ -160,12 +160,12 @@ export async function updateGeneralMessage(
                   phrase:
                     "commands.configuration.suggestions.row.general.row.message.label",
                   locale: main.language,
-                })
+                }),
               )
               .setStyle(
                 data?.message_suggestions
                   ? ButtonStyles.SUCCESS
-                  : ButtonStyles.SECONDARY
+                  : ButtonStyles.SECONDARY,
               )
               .setEmoji({
                 name: "_",
@@ -180,10 +180,10 @@ export async function updateGeneralMessage(
                   phrase:
                     "commands.configuration.suggestions.row.general.row.threads.label",
                   locale: main.language,
-                })
+                }),
               )
               .setStyle(
-                data?.threads ? ButtonStyles.SUCCESS : ButtonStyles.SECONDARY
+                data?.threads ? ButtonStyles.SUCCESS : ButtonStyles.SECONDARY,
               )
               .setEmoji({
                 name: "_",
@@ -203,7 +203,7 @@ export async function updateGeneralMessage(
                   phrase:
                     "commands.configuration.suggestions.row.general.row.revision-channel.label",
                   locale: main.language,
-                })
+                }),
               )
               .setStyle(ButtonStyles.SECONDARY)
               .setEmoji({
@@ -217,12 +217,12 @@ export async function updateGeneralMessage(
                   phrase:
                     "commands.configuration.suggestions.row.general.row.revision.label",
                   locale: main.language,
-                })
+                }),
               )
               .setStyle(
                 data?.revision_enabled
                   ? ButtonStyles.SUCCESS
-                  : ButtonStyles.SECONDARY
+                  : ButtonStyles.SECONDARY,
               )
               .setEmoji({
                 name: "_",

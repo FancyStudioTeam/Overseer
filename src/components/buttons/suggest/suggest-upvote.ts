@@ -10,7 +10,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language }
+    { language },
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -69,12 +69,12 @@ export default new Component({
       .then(async (newSchema) => {
         new ButtonBuilder()
           .load(
-            <ButtonComponent>interaction.message.components[0].components[0]
+            <ButtonComponent>interaction.message.components[0].components[0],
           )
           .setLabel(newSchema.votes_up.length.toString());
         new ButtonBuilder()
           .load(
-            <ButtonComponent>interaction.message.components[0].components[1]
+            <ButtonComponent>interaction.message.components[0].components[1],
           )
           .setLabel(newSchema.votes_down.length.toString());
 

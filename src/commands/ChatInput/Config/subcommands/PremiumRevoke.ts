@@ -40,7 +40,7 @@ export default new SubCommand({
       AnyInteractionChannel | Uncached,
       ApplicationCommandTypes.CHAT_INPUT
     >,
-    { locale }
+    { locale },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(_interaction, true, {
@@ -73,7 +73,7 @@ export default new SubCommand({
     const _originalMessageResponse = await _interaction.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.MESSAGE_1
+          Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.MESSAGE_1,
         )
         .setColor(Colors.WARNING)
         .toJSONArray(),
@@ -83,7 +83,7 @@ export default new SubCommand({
             .setCustomID("premium_revoke_confirm")
             .setLabel(
               Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.COMPONENTS
-                .BUTTONS.CONFIRM.LABEL
+                .BUTTONS.CONFIRM.LABEL,
             )
             .setStyle(ButtonStyles.DANGER)
             .setEmoji(parseEmoji(Emojis.CHECK)),
@@ -91,7 +91,7 @@ export default new SubCommand({
             .setCustomID("premium_revoke_cancel")
             .setLabel(
               Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.COMPONENTS
-                .BUTTONS.CANCEL.LABEL
+                .BUTTONS.CANCEL.LABEL,
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.CANCEL)),
@@ -110,7 +110,7 @@ export default new SubCommand({
       componentType: ComponentTypes.BUTTON,
       time: 15_000,
       filter: async (
-        _collectedInteraction: ComponentInteraction<ComponentTypes.BUTTON>
+        _collectedInteraction: ComponentInteraction<ComponentTypes.BUTTON>,
       ) => {
         if (_collectedInteraction.user.id !== _interaction.user.id) {
           await errorMessage(_collectedInteraction, true, {
@@ -164,7 +164,7 @@ export default new SubCommand({
                         embeds: new EmbedBuilder()
                           .setDescription(
                             Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
-                              .COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1
+                              .COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1,
                           )
                           .setColor(Colors.SUCCESS)
                           .toJSONArray(),
@@ -178,7 +178,7 @@ export default new SubCommand({
                         _context: _interaction,
                         locale,
                       },
-                      error
+                      error,
                     );
                   });
 
@@ -192,7 +192,7 @@ export default new SubCommand({
                     embeds: new EmbedBuilder()
                       .setDescription(
                         Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
-                          .COMPONENTS.BUTTONS.CANCEL.MESSAGE_1
+                          .COMPONENTS.BUTTONS.CANCEL.MESSAGE_1,
                       )
                       .setColor(Colors.SUCCESS)
                       .toJSONArray(),
@@ -205,14 +205,14 @@ export default new SubCommand({
             }
           }
         }
-      }
+      },
     );
 
     interactionCollector.once(
       "end",
       async (
         _,
-        _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons
+        _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons,
       ) => {
         if (
           [
@@ -226,7 +226,7 @@ export default new SubCommand({
           return;
 
         await disableComponents(message);
-      }
+      },
     );
   },
 });

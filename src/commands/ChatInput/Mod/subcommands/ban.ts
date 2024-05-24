@@ -18,7 +18,7 @@ export default new SubCommand({
   run: async (
     client: Fancycord,
     interaction: CommandInteraction,
-    { language }
+    { language },
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -33,7 +33,7 @@ export default new SubCommand({
     const member = interaction.data.options.getMember("user");
     const reason = trim(
       interaction.data.options.getString("reason") ?? "No reason",
-      35
+      35,
     );
     const deleteMessages =
       interaction.data.options.getNumber("delete_messages") ?? 0;
@@ -83,8 +83,8 @@ export default new SubCommand({
                   {
                     user: member.user.mention,
                     moderator: interaction.user.mention,
-                  }
-                )
+                  },
+                ),
               )
               .setColor(client.config.colors.SUCCESS)
               .toJSONArray(),
@@ -124,8 +124,8 @@ export default new SubCommand({
                   {
                     user: user.mention,
                     moderator: interaction.user.mention,
-                  }
-                )
+                  },
+                ),
               )
               .setColor(client.config.colors.SUCCESS)
               .toJSONArray(),

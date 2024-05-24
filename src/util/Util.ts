@@ -36,7 +36,7 @@ export async function fetchUser(id: string): Promise<User | Nullish> {
 
 export async function fetchMember(
   context: AnyInteractionGateway | Message,
-  id: string
+  id: string,
 ): Promise<Member | Nullish> {
   if (!(context.inCachedGuildChannel() && context.guild)) return null;
 
@@ -78,7 +78,7 @@ export async function errorMessage(
     _context: AnyInteractionGateway | Message;
     ephemeral?: boolean;
   },
-  embed: EmbedOptions
+  embed: EmbedOptions,
 ): Promise<void> {
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder().load(embed).setColor(Colors.ERROR).toJSONArray(),
@@ -97,7 +97,7 @@ export function cleanContent(content: string): string {
   const elements = message.match(
     urlRegex({
       strict: false,
-    })
+    }),
   );
 
   if (elements) {
@@ -107,7 +107,7 @@ export function cleanContent(content: string): string {
 
       message = message.replace(
         element,
-        element.replace(element, "**_(Link detected)_**")
+        element.replace(element, "**_(Link detected)_**"),
       );
     }
   }
@@ -155,7 +155,7 @@ export async function disableComponents(message: Message): Promise<void> {
 
 export function compareMemberToMember(
   from: Member,
-  to: Member
+  to: Member,
 ): ComparationLevel {
   const a = getHighestRole(from).position ?? -1;
   const b = getHighestRole(to).position ?? -1;
@@ -178,14 +178,14 @@ export function compareMemberToMember(
 export function formatTimestamp(
   date: Date | string,
   hour12 = false,
-  long = true
+  long = true,
 ): string {
   return new Timestamp(
     long
       ? hour12
         ? "DD/MM/YYYY[, ]hh:mm:ss A"
         : "DD/MM/YYYY[, ]HH:mm:ss"
-      : "DD/MM/YYYY"
+      : "DD/MM/YYYY",
   ).display(date);
 }
 
@@ -203,7 +203,7 @@ export function formatUnix(type: UnixType, date: Date): string {
 
 export function search<T extends AvailableSearchTypes>(
   query: string,
-  options: T[]
+  options: T[],
 ): T[] {
   const choices: T[] = [];
   const updatedQuery = query.toLowerCase();
@@ -229,7 +229,7 @@ export async function checkPermissions(
   type: CheckPermissionsFrom,
   checkPermissions: PermissionName[],
   member: Member,
-  channel?: AnyTextableGuildChannel
+  channel?: AnyTextableGuildChannel,
 ): Promise<boolean> {
   const requiredPermissions: PermissionName[] = [];
   let hasPermissions = true;
@@ -264,7 +264,7 @@ export async function checkPermissions(
                   return `\`${Permissions[main.locale][permission]}\``;
                 })
                 .join(", "),
-            })
+            }),
       )
       .setColor(Colors.ERROR)
       .toJSONArray(),
@@ -294,8 +294,8 @@ export function logger(type: LoggerType, content: string): void {
       formatTimestamp(
         new Date().toLocaleString("en-US", {
           timeZone: "Europe/Madrid",
-        })
-      )
+        }),
+      ),
     )}] [${<Record<LoggerType, string>>(<unknown>{
       [LoggerType.ERROR]: colors.brightRed("ERR"),
       [LoggerType.DEBUG]: colors.brightMagenta("DBG"),
@@ -303,7 +303,7 @@ export function logger(type: LoggerType, content: string): void {
       [LoggerType.INFO]: colors.brightBlue("INF"),
       [LoggerType.REQUEST]: colors.brightCyan("REQ"),
       [LoggerType.MISC]: colors.white("MSC"),
-    }[type])}] ${content}`
+    }[type])}] ${content}`,
   );
 }
 
@@ -312,7 +312,7 @@ export async function handleError(
     _context: AnyInteractionGateway | Message;
     locale: Locales;
   },
-  error: Error
+  error: Error,
 ): Promise<void> {
   captureException(error);
   logger(LoggerType.ERROR, error.stack ?? error.message);
@@ -324,7 +324,7 @@ export async function handleError(
       .setDescription(
         Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.DESCRIPTION_1({
           support: Links.SUPPORT,
-        })
+        }),
       )
       .addFields([
         {

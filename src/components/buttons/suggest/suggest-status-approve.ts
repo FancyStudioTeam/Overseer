@@ -14,7 +14,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language, premium }
+    { language, premium },
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -78,7 +78,7 @@ export default new Component({
           "VIEW_CHANNEL",
           "SEND_MESSAGES",
           "EMBED_LINKS",
-          "USE_EXTERNAL_EMOJIS"
+          "USE_EXTERNAL_EMOJIS",
         )
     ) {
       const user = await fetchUser(userSuggestion.user_id);
@@ -118,8 +118,8 @@ export default new Component({
                     },
                     {
                       channel: channel.mention,
-                    }
-                  )
+                    },
+                  ),
                 )
                 .setColor(client.config.colors.SUCCESS)
                 .toJSONArray(),

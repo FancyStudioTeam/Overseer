@@ -67,7 +67,7 @@ _client.on(
         CheckPermissionsFrom.CHANNEL,
         ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
         _interaction.guild.clientMember,
-        _interaction.channel
+        _interaction.channel,
       )
     )
       return;
@@ -85,8 +85,8 @@ _client.on(
           .setName("maintenance.png")
           .setContent(
             readFileSync(
-              join(process.cwd(), "assets/images", "Maintenance.png")
-            )
+              join(process.cwd(), "assets/images", "Maintenance.png"),
+            ),
           )
           .toJSONArray(),
         components: new ActionRowBuilder()
@@ -116,10 +116,10 @@ _client.on(
               description: Translations[locale].GENERAL.USER_IS_LIMITED({
                 resets: formatUnix(
                   UnixType.RELATIVE,
-                  new Date(rateLimit.expires)
+                  new Date(rateLimit.expires),
                 ),
               }),
-            }
+            },
           );
         }
 
@@ -186,10 +186,10 @@ _client.on(
               description: Translations[locale].GENERAL.USER_IS_LIMITED({
                 resets: formatUnix(
                   UnixType.RELATIVE,
-                  new Date(rateLimit.expires)
+                  new Date(rateLimit.expires),
                 ),
               }),
-            }
+            },
           );
         }
 
@@ -234,7 +234,7 @@ _client.on(
         break;
       }
     }
-  }
+  },
 );
 
 async function _handleChatInputCommand(main: {
@@ -245,7 +245,7 @@ async function _handleChatInputCommand(main: {
   premium: boolean;
 }): Promise<void> {
   const command = _client.interactions.chatInput.get(
-    main._interaction.data.name
+    main._interaction.data.name,
   );
 
   if (command?.name) {
@@ -262,7 +262,7 @@ async function _handleChatInputCommand(main: {
             _context: main._interaction,
             locale: main.locale,
           },
-          error
+          error,
         );
       });
   }
@@ -280,7 +280,7 @@ async function _handleChatInputSubCommand(main: {
 
   const name = main._interaction.data.options.getSubCommand(true);
   const command = _client.subcommands.get(
-    `${main._interaction.data.name}_${name.join("_")}`
+    `${main._interaction.data.name}_${name.join("_")}`,
   );
 
   if (command?.name) {
@@ -294,7 +294,7 @@ async function _handleChatInputSubCommand(main: {
         },
         CheckPermissionsFrom.GUILD,
         [command.permissions.user],
-        main._interaction.member
+        main._interaction.member,
       )
     )
       return;
@@ -309,7 +309,7 @@ async function _handleChatInputSubCommand(main: {
         },
         CheckPermissionsFrom.GUILD,
         [command.permissions.bot],
-        main._interaction.guild.clientMember
+        main._interaction.guild.clientMember,
       )
     )
       return;
@@ -327,7 +327,7 @@ async function _handleChatInputSubCommand(main: {
             _context: main._interaction,
             locale: main.locale,
           },
-          error
+          error,
         );
       });
   }
@@ -359,7 +359,7 @@ async function _handleUserCommand(main: {
             _context: main._interaction,
             locale: main.locale,
           },
-          error
+          error,
         );
       });
   }
@@ -373,7 +373,7 @@ async function _handleAutocomplete(main: {
   premium: boolean;
 }): Promise<void> {
   const command = _client.interactions.chatInput.get(
-    main._interaction.data.name
+    main._interaction.data.name,
   );
 
   if (command?.name && command.autocomplete) {
@@ -390,7 +390,7 @@ async function _handleAutocomplete(main: {
             _context: main._interaction,
             locale: main.locale,
           },
-          error
+          error,
         );
       });
   }
@@ -407,7 +407,7 @@ async function _handleButton(main: {
     return;
 
   const component = _client.components.buttons.get(
-    main._interaction.data.customID.split("/")[0]
+    main._interaction.data.customID.split("/")[0],
   );
 
   if (component?.name) {
@@ -421,7 +421,7 @@ async function _handleButton(main: {
         },
         CheckPermissionsFrom.GUILD,
         [component.permissions.user],
-        main._interaction.member
+        main._interaction.member,
       )
     )
       return;
@@ -436,7 +436,7 @@ async function _handleButton(main: {
         },
         CheckPermissionsFrom.GUILD,
         [component.permissions.bot],
-        main._interaction.guild.clientMember
+        main._interaction.guild.clientMember,
       )
     )
       return;
@@ -455,7 +455,7 @@ async function _handleButton(main: {
             _context: main._interaction,
             locale: main.locale,
           },
-          error
+          error,
         );
       });
   }
@@ -472,7 +472,7 @@ async function _handleSelectMenu(main: {
     return;
 
   const component = _client.components.select.get(
-    main._interaction.data.customID.split("/")[0]
+    main._interaction.data.customID.split("/")[0],
   );
 
   if (component?.name) {
@@ -486,7 +486,7 @@ async function _handleSelectMenu(main: {
         },
         CheckPermissionsFrom.GUILD,
         [component.permissions.user],
-        main._interaction.member
+        main._interaction.member,
       )
     )
       return;
@@ -501,7 +501,7 @@ async function _handleSelectMenu(main: {
         },
         CheckPermissionsFrom.GUILD,
         [component.permissions.bot],
-        main._interaction.guild.clientMember
+        main._interaction.guild.clientMember,
       )
     )
       return;
@@ -520,7 +520,7 @@ async function _handleSelectMenu(main: {
             _context: main._interaction,
             locale: main.locale,
           },
-          error
+          error,
         );
       });
   }
@@ -534,7 +534,7 @@ async function _handleModalSubmit(main: {
   premium: boolean;
 }): Promise<void> {
   const component = _client.components.modals.get(
-    main._interaction.data.customID
+    main._interaction.data.customID,
   );
 
   if (component?.name) {
@@ -551,7 +551,7 @@ async function _handleModalSubmit(main: {
             _context: main._interaction,
             locale: main.locale,
           },
-          error
+          error,
         );
       });
   }

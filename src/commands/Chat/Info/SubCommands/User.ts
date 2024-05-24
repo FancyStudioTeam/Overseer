@@ -11,7 +11,7 @@ export default new SubCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale }
+    { locale },
   ) => {
     const _memberOption =
       _interaction.data.options.getMember("user") ?? _interaction.member;
@@ -24,7 +24,7 @@ export default new SubCommand({
         },
         {
           description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
-        }
+        },
       );
     }
 
@@ -35,7 +35,7 @@ export default new SubCommand({
             Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
               name:
                 _memberOption.user.globalName ?? _memberOption.user.username,
-            })
+            }),
           )
           .setThumbnail(_memberOption.user.avatarURL())
           .addFields([
@@ -57,7 +57,7 @@ export default new SubCommand({
               ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2.VALUE({
                 date: formatUnix(
                   UnixType.SHORT_DATE_TIME,
-                  _memberOption.user.createdAt
+                  _memberOption.user.createdAt,
                 ),
               }),
             },

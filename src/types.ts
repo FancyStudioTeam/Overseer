@@ -26,7 +26,7 @@ export interface BaseInterface<T extends AvailableBaseTypes> {
       hour12: boolean;
       premium: boolean;
       variable?: unknown;
-    }
+    },
   ) => Promise<unknown>;
 }
 
@@ -40,7 +40,7 @@ export type ChatInputCommandInterface = {
       timezone: string;
       hour12: boolean;
       premium: boolean;
-    }
+    },
   ) => Promise<unknown>;
 } & BaseInterface<CommandInteraction> &
   CreateChatInputApplicationCommandOptions;

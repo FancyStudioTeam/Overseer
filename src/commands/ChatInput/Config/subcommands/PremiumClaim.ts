@@ -28,7 +28,7 @@ export default new SubCommand({
       AnyInteractionChannel | Uncached,
       ApplicationCommandTypes.CHAT_INPUT
     >,
-    { locale, timezone, hour12 }
+    { locale, timezone, hour12 },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(_interaction, true, {
@@ -93,11 +93,11 @@ export default new SubCommand({
                   0: formatTimestamp(
                     new Date(Date.now() + ms("30 days")).toISOString(),
                     timezone,
-                    hour12
+                    hour12,
                   ),
                   1: undefined,
                 }[clientVoucher.type],
-              })
+              }),
             )
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
@@ -109,7 +109,7 @@ export default new SubCommand({
             _context: _interaction,
             locale,
           },
-          error
+          error,
         );
       });
   },

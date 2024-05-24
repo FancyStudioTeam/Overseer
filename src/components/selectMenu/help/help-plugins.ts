@@ -26,7 +26,7 @@ export default new Component({
             [
               ApplicationCommandOptionTypes.SUB_COMMAND,
               ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
-            ].includes(c.type)
+            ].includes(c.type),
           )
         ) {
           c.options.map((o) => {
@@ -66,7 +66,7 @@ export default new Component({
             .map((c) => {
               return `/${c.name}`;
             })
-            .join("\n")}\`\`\``
+            .join("\n")}\`\`\``,
         )
         .setColor(Colors.COLOR)
         .toJSONArray(),

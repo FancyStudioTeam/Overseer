@@ -16,7 +16,7 @@ export default new SubCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale }
+    { locale },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(
@@ -28,7 +28,7 @@ export default new SubCommand({
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
             structure: _interaction,
           }),
-        }
+        },
       );
     }
 
@@ -42,10 +42,10 @@ export default new SubCommand({
           .setTitle(
             Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.TITLE_1({
               name: _interaction.guild.name,
-            })
+            }),
           )
           .setThumbnail(
-            _interaction.guild.iconURL() ?? _client.user.avatarURL()
+            _interaction.guild.iconURL() ?? _client.user.avatarURL(),
           )
           .addFields([
             {
@@ -78,7 +78,7 @@ export default new SubCommand({
               ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_3.VALUE({
                 date: formatUnix(
                   UnixType.SHORT_DATE_TIME,
-                  _interaction.guild.createdAt
+                  _interaction.guild.createdAt,
                 ),
               }),
             },

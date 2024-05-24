@@ -12,7 +12,7 @@ export default new SubCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale }
+    { locale },
   ) => {
     await _interaction
       .reply({
@@ -20,7 +20,7 @@ export default new SubCommand({
           .setTitle(
             Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.TITLE_1({
               name: _client.user.globalName ?? _client.user.username,
-            })
+            }),
           )
           .setThumbnail(_client.user.avatarURL())
           .addFields([
@@ -33,7 +33,7 @@ export default new SubCommand({
                 version,
                 memory: `${
                   Math.round(
-                    (process.memoryUsage().heapUsed / 1024 / 1024) * 100
+                    (process.memoryUsage().heapUsed / 1024 / 1024) * 100,
                   ) / 100
                 }mb`,
               }),
@@ -46,7 +46,7 @@ export default new SubCommand({
               ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2.VALUE({
                 users: _client.guilds.reduce(
                   (prev, guild) => prev + guild.memberCount,
-                  0
+                  0,
                 ),
                 guilds: _client.guilds.size,
                 shards: _client.shards.size,

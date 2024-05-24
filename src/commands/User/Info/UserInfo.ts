@@ -17,11 +17,11 @@ export default new UserCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale }
+    { locale },
   ) => {
     const _memberOption = await fetchMember(
       _interaction,
-      _interaction.data.targetID ?? ""
+      _interaction.data.targetID ?? "",
     );
 
     if (!_memberOption) {
@@ -32,7 +32,7 @@ export default new UserCommand({
         },
         {
           description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
-        }
+        },
       );
     }
 
@@ -43,7 +43,7 @@ export default new UserCommand({
             Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
               name:
                 _memberOption.user.globalName ?? _memberOption.user.username,
-            })
+            }),
           )
           .setThumbnail(_memberOption.user.avatarURL())
           .addFields([
@@ -65,7 +65,7 @@ export default new UserCommand({
               ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2.VALUE({
                 date: formatUnix(
                   UnixType.SHORT_DATE_TIME,
-                  _memberOption.user.createdAt
+                  _memberOption.user.createdAt,
                 ),
               }),
             },

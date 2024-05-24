@@ -16,7 +16,7 @@ export default new SubCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale }
+    { locale },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(
@@ -28,17 +28,17 @@ export default new SubCommand({
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
             structure: _interaction,
           }),
-        }
+        },
       );
     }
 
     const _timezoneOption = _interaction.data.options.getString(
       "timezone",
-      true
+      true,
     );
     const _12HoursOption = _interaction.data.options.getBoolean(
       "12-hours",
-      true
+      true,
     );
 
     if (!timezones.includes(_timezoneOption)) {
@@ -53,7 +53,7 @@ export default new SubCommand({
           ].COMMANDS.CONFIG.TIMEZONE.ERRORS.TIMEZONE_NOT_FOUND({
             timezone: _timezoneOption,
           }),
-        }
+        },
       );
     }
 
@@ -93,7 +93,7 @@ export default new SubCommand({
             .setDescription(
               Translations[locale].COMMANDS.CONFIG.TIMEZONE.MESSAGE_1({
                 timezone: updatedData.general.timezone,
-              })
+              }),
             )
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
@@ -105,7 +105,7 @@ export default new SubCommand({
             _context: _interaction,
             locale,
           },
-          error
+          error,
         );
       });
   },

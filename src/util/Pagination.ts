@@ -31,7 +31,7 @@ export async function pagination(
     locale: Locales;
     ephemeral?: boolean;
   },
-  pages: EmbedOptions[]
+  pages: EmbedOptions[],
 ): Promise<void> {
   if (!(main._context.inCachedGuildChannel() && main._context.guild)) return;
   if (!main._context.channel) return;
@@ -72,7 +72,7 @@ export async function pagination(
   } else {
     message = await _client.rest.channels.createMessage(
       main._context.channelID,
-      payload
+      payload,
     );
   }
 
@@ -98,7 +98,7 @@ export async function pagination(
           {
             description:
               Translations[main.locale].GENERAL.INVALID_USER_COLLECTOR,
-          }
+          },
         );
 
         return false;
@@ -141,14 +141,14 @@ export async function pagination(
             .catch(() => null);
         }
       }
-    }
+    },
   );
 
   interactionCollector.once(
     "end",
     async (
       _,
-      _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons
+      _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons,
     ) => {
       if (
         [
@@ -162,6 +162,6 @@ export async function pagination(
         return;
 
       await disableComponents(message);
-    }
+    },
   );
 }

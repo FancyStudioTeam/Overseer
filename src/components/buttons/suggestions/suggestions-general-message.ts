@@ -14,7 +14,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language, premium }
+    { language, premium },
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -63,7 +63,7 @@ export default new Component({
           },
           {
             permission: permissions.MANAGE_MESSAGES[language],
-          }
+          },
         ),
       });
     }
@@ -89,7 +89,7 @@ export default new Component({
           {
             channel: interaction.channelID,
             message: interaction.message.id,
-          }
+          },
         );
       });
   },

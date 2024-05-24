@@ -15,7 +15,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language }
+    { language },
   ) => {
     if (!interaction.inCachedGuildChannel() || !interaction.guild) {
       return errorMessage(interaction, true, {
@@ -36,7 +36,7 @@ export default new Component({
           client.locales.__mf({
             phrase: "commands.utility.suggest.row.manage.message",
             locale: language,
-          })
+          }),
         )
         .setColor(client.config.colors.COLOR)
         .toJSONArray(),
@@ -48,7 +48,7 @@ export default new Component({
               client.locales.__({
                 phrase: "commands.utility.suggest.row.manage.row.votes.label",
                 locale: language,
-              })
+              }),
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji({
@@ -61,7 +61,7 @@ export default new Component({
               client.locales.__({
                 phrase: "commands.utility.suggest.row.manage.row.comment.label",
                 locale: language,
-              })
+              }),
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji({
@@ -75,7 +75,7 @@ export default new Component({
               client.locales.__({
                 phrase: "commands.utility.suggest.row.manage.row.approve.label",
                 locale: language,
-              })
+              }),
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji({
@@ -89,7 +89,7 @@ export default new Component({
               client.locales.__({
                 phrase: "commands.utility.suggest.row.manage.row.deny.label",
                 locale: language,
-              })
+              }),
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji({

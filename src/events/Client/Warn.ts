@@ -7,6 +7,6 @@ _client.on("warn", (_info: string, _shard: number | Nullish) => {
   captureException(_info);
   logger(
     LoggerType.WARN,
-    `${isNullOrUndefined(_shard) ? "[No Shard]" : `[Shard ${_shard}]`} ${_info}`
+    `${isNullOrUndefined(_shard) ? "[No Shard]" : `[Shard ${_shard}]`} ${_info}`,
   );
 });

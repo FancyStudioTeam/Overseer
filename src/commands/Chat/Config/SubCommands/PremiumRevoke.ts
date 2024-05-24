@@ -34,7 +34,7 @@ export default new SubCommand({
   run: async (
     _client: Discord,
     _interaction: CommandInteraction,
-    { locale }
+    { locale },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(
@@ -46,7 +46,7 @@ export default new SubCommand({
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
             structure: _interaction,
           }),
-        }
+        },
       );
     }
 
@@ -58,7 +58,7 @@ export default new SubCommand({
         },
         {
           description: Translations[locale].GENERAL.ONLY_GUILD_OWNER,
-        }
+        },
       );
     }
 
@@ -78,14 +78,14 @@ export default new SubCommand({
           description:
             Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
               .INVALID_GUILD_MEMBERSHIP,
-        }
+        },
       );
     }
 
     const _originalMessageResponse = await _interaction.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.MESSAGE_1
+          Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.MESSAGE_1,
         )
         .setColor(Colors.WARNING)
         .toJSONArray(),
@@ -95,7 +95,7 @@ export default new SubCommand({
             .setCustomID("premium_revoke_confirm")
             .setLabel(
               Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.COMPONENTS
-                .BUTTONS.CONFIRM.LABEL
+                .BUTTONS.CONFIRM.LABEL,
             )
             .setStyle(ButtonStyles.DANGER)
             .setEmoji(parseEmoji(Emojis.CHECK)),
@@ -103,7 +103,7 @@ export default new SubCommand({
             .setCustomID("premium_revoke_cancel")
             .setLabel(
               Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.COMPONENTS
-                .BUTTONS.CANCEL.LABEL
+                .BUTTONS.CANCEL.LABEL,
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.CANCEL)),
@@ -130,7 +130,7 @@ export default new SubCommand({
             },
             {
               description: Translations[locale].GENERAL.INVALID_USER_COLLECTOR,
-            }
+            },
           );
 
           return false;
@@ -161,7 +161,7 @@ export default new SubCommand({
                 ].GENERAL.INVALID_GUILD_PROPERTY({
                   structure: _collectedInteraction,
                 }),
-              }
+              },
             );
           }
 
@@ -190,7 +190,7 @@ export default new SubCommand({
                         embeds: new EmbedBuilder()
                           .setDescription(
                             Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
-                              .COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1
+                              .COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1,
                           )
                           .setColor(Colors.SUCCESS)
                           .toJSONArray(),
@@ -204,7 +204,7 @@ export default new SubCommand({
                         _context: _interaction,
                         locale,
                       },
-                      error
+                      error,
                     );
                   });
 
@@ -218,7 +218,7 @@ export default new SubCommand({
                     embeds: new EmbedBuilder()
                       .setDescription(
                         Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
-                          .COMPONENTS.BUTTONS.CANCEL.MESSAGE_1
+                          .COMPONENTS.BUTTONS.CANCEL.MESSAGE_1,
                       )
                       .setColor(Colors.SUCCESS)
                       .toJSONArray(),
@@ -231,14 +231,14 @@ export default new SubCommand({
             }
           }
         }
-      }
+      },
     );
 
     interactionCollector.once(
       "end",
       async (
         _,
-        _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons
+        _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons,
       ) => {
         if (
           [
@@ -252,7 +252,7 @@ export default new SubCommand({
           return;
 
         await disableComponents(message);
-      }
+      },
     );
   },
 });

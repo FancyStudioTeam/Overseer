@@ -106,7 +106,7 @@ export class Discord extends Client {
             LoggerType.ERROR,
             `Prisma Client had an error while connecting: ${
               error.stack ?? error.message
-            }`
+            }`,
           );
         });
     }
@@ -129,7 +129,7 @@ export class Discord extends Client {
       .then((commands) => {
         logger(
           LoggerType.INFO,
-          `The interactions has been deployed | Deployed ${commands.length} interactions`
+          `The interactions has been deployed | Deployed ${commands.length} interactions`,
         );
       })
       .catch(() => null);
@@ -142,7 +142,7 @@ export class Discord extends Client {
     await this._registerSubCommands();
 
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/commands/*/*/*.{ts,js}`
+      `${process.cwd()}/**/commands/*/*/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {
@@ -171,7 +171,7 @@ export class Discord extends Client {
     this.subcommands.clear();
 
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/commands/Chat/*/*/*.{ts,js}`
+      `${process.cwd()}/**/commands/Chat/*/*/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {
@@ -198,7 +198,7 @@ export class Discord extends Client {
     this.components.select.clear();
 
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/components/**/*.{ts,js}`
+      `${process.cwd()}/**/components/**/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {
@@ -227,7 +227,7 @@ export class Discord extends Client {
     this.removeAllListeners();
 
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/events/**/*.{ts,js}`
+      `${process.cwd()}/**/events/**/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {
@@ -240,7 +240,7 @@ export class Discord extends Client {
 
   async _registerModules(): Promise<void> {
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/modules/*.{ts,js}`
+      `${process.cwd()}/**/modules/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {

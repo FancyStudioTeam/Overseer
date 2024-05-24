@@ -141,7 +141,7 @@ export default new ChatInputCommand({
   directory: "configuration",
   autocomplete: async (
     _client: Discord,
-    _interaction: AutocompleteInteraction
+    _interaction: AutocompleteInteraction,
   ) => {
     const _subCommandOption = _interaction.data.options.getSubCommand(true);
 
@@ -175,7 +175,7 @@ export default new ChatInputCommand({
                   }[_interaction.locale] ?? `🌍 Set time zone to "${c}"`,
                 value: c,
               };
-            })
+            }),
           )
           .catch(() => null);
 
@@ -188,6 +188,6 @@ export default new ChatInputCommand({
     _interaction: CommandInteraction<
       AnyInteractionChannel | Uncached,
       ApplicationCommandTypes.CHAT_INPUT
-    >
+    >,
   ) => null,
 });

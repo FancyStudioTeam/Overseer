@@ -18,7 +18,7 @@ export default new Component({
   run: async (
     client: Fancycord,
     interaction: ComponentInteraction,
-    { language }
+    { language },
   ) => {
     await interaction.deferUpdate().catch(() => null);
 
@@ -62,7 +62,7 @@ export default new Component({
                         type: "channel",
                       },
                     ]
-                  : []
+                  : [],
               ),
           ])
           .toJSONArray(),

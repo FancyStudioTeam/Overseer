@@ -24,7 +24,7 @@ export default new SubCommand({
       AnyInteractionChannel | Uncached,
       ApplicationCommandTypes.CHAT_INPUT
     >,
-    { locale }
+    { locale },
   ) => {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
       return await errorMessage(_interaction, true, {
@@ -36,7 +36,7 @@ export default new SubCommand({
 
     const _languageOption = _interaction.data.options.getString(
       "language",
-      true
+      true,
     );
 
     await prisma.guildConfiguration
@@ -57,7 +57,7 @@ export default new SubCommand({
           embeds: new EmbedBuilder()
             .setDescription(
               Translations[<Locales>updatedData.language].COMMANDS.CONFIG
-                .LANGUAGE.MESSAGE_1
+                .LANGUAGE.MESSAGE_1,
             )
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
@@ -69,7 +69,7 @@ export default new SubCommand({
             _context: _interaction,
             locale,
           },
-          error
+          error,
         );
       });
   },
