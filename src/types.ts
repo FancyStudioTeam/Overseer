@@ -11,11 +11,11 @@ import type { Discord } from "./classes/Client";
 
 export type Locales = "EN" | "ES";
 
-export interface BaseInterface<T extends AvailableBaseTypes> {
+export interface BaseInterface<T extends BaseTypes> {
   name: string;
   permissions?: {
-    bot?: PermissionName;
-    user?: PermissionName;
+    bot?: PermissionName[];
+    user?: PermissionName[];
   };
   run: (
     client: Discord,
@@ -45,8 +45,8 @@ export type ChatInputCommandInterface = {
 } & BaseInterface<CommandInteraction> &
   CreateChatInputApplicationCommandOptions;
 
-export type SubCommandInterface = {
-  directory?: string;
+export type ChatInputSubCommandInterface = {
+  directory: string;
 } & BaseInterface<CommandInteraction>;
 
 export type UserCommandInterface = BaseInterface<CommandInteraction> &
@@ -56,7 +56,7 @@ export type ComponentInterface = BaseInterface<ComponentInteraction>;
 
 export type ModalInterface = BaseInterface<ModalSubmitInteraction>;
 
-type AvailableBaseTypes =
+type BaseTypes =
   | CommandInteraction
   | ComponentInteraction
   | ModalSubmitInteraction;
