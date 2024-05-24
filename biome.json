@@ -18,7 +18,8 @@
         "useBlockStatements": "off",
         "noDefaultExport": "off",
         "useEnumInitializers": "off",
-        "useFilenamingConvention": "off"
+        "useFilenamingConvention": "off",
+        "noNamespace": "off"
       }
     }
   }

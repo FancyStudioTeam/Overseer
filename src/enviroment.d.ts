@@ -1,5 +1,4 @@
 declare global {
-  // biome-ignore lint/style/noNamespace:
   namespace NodeJS {
     interface ProcessEnv {
       TOKEN: string;
