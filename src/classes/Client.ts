@@ -92,7 +92,7 @@ export class Discord extends Client {
   }
 
   async _init(): Promise<void> {
-    console.log(textSync("Initializing ..."));
+    console.log(textSync("Initializing ..."), "\n");
 
     if (!this.#dbReady) {
       await prisma
