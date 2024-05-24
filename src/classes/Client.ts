@@ -14,8 +14,8 @@ import type {
   SubCommandInterface,
   UserCommandInterface,
 } from "#types";
+import { LoggerType, logger } from "#util";
 import { prisma } from "#util/Prisma";
-import { LoggerType, logger } from "#util/Util";
 
 const arrayCommands: CreateApplicationCommandOptions[] = [];
 
