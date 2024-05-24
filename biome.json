@@ -1,7 +1,10 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
   "files": {
-    "ignore": ["dist"]
+    "ignore": ["dist", "node_modules"]
+  },
+  "organizeImports": {
+    "enabled": true
   },
   "linter": {
     "enabled": true,
@@ -14,7 +17,8 @@
         "useNamingConvention": "off",
         "useBlockStatements": "off",
         "noDefaultExport": "off",
-        "useEnumInitializers": "off"
+        "useEnumInitializers": "off",
+        "useFilenamingConvention": "off"
       }
     }
   }
