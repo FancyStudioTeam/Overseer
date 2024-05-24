@@ -1,5 +1,5 @@
-import { _client } from "../..";
-import { LoggerType, logger } from "../../util/Util";
+import { _client } from "#index";
+import { LoggerType, logger } from "#util";
 
 _client.on("hello", (_interval: number, _shard: number) => {
   logger(

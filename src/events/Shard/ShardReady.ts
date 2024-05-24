@@ -1,7 +1,7 @@
 import { ActivityTypes } from "oceanic.js";
-import { _client } from "../..";
-import { version } from "../../../package.json";
-import { LoggerType, logger } from "../../util/Util";
+import { _client } from "#index";
+import { version } from "#root/package.json";
+import { LoggerType, logger } from "#util";
 
 _client.on("shardReady", (_id: number) => {
   const shard = _client.shards.get(_id);

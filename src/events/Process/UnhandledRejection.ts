@@ -1,5 +1,5 @@
 import { captureException } from "@sentry/node";
-import { LoggerType, logger } from "../../util/Util";
+import { LoggerType, logger } from "#util";
 
 process.on("unhandledRejection", (_error: Error) => {
   captureException(_error);

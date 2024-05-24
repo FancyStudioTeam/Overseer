@@ -1,7 +1,7 @@
 import type { Nullish } from "@sapphire/utilities";
 import { captureException } from "@sentry/node";
-import { _client } from "../..";
-import { LoggerType, logger } from "../../util/Util";
+import { _client } from "#index";
+import { LoggerType, logger } from "#util";
 
 _client.on("shardDisconnect", (_error: Error | Nullish, _id: number) => {
   if (_error) {
