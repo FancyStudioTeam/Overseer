@@ -4,7 +4,7 @@ import type {
   ModalInterface,
   SubCommandInterface,
   UserCommandInterface,
-} from "../types";
+} from "#types";
 
 export class Component {
   constructor(options: ComponentInterface) {

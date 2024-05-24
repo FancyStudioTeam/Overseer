@@ -13,9 +13,9 @@ import type {
   ModalInterface,
   SubCommandInterface,
   UserCommandInterface,
-} from "../types";
-import { prisma } from "../util/Prisma";
-import { LoggerType, logger } from "../util/Util";
+} from "#types";
+import { prisma } from "#util/Prisma";
+import { LoggerType, logger } from "#util/Util";
 
 const arrayCommands: CreateApplicationCommandOptions[] = [];
 
