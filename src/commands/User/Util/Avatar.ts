@@ -3,24 +3,22 @@ import {
   type CommandInteraction,
   type User,
 } from "oceanic.js";
-import { Colors } from "../../../Constants";
-import { EmbedBuilder } from "../../../builders/Embed";
-import { UserCommand } from "../../../classes/Builders";
-import type { Discord } from "../../../classes/Client";
+import { BaseBuilder, EmbedBuilder } from "#builders";
+import type { Discord } from "#classes";
+import { Colors } from "#constants";
+import type { UserCommandInterface } from "#types";
 
-export default new UserCommand({
+export default new BaseBuilder<UserCommandInterface>({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
-  run: async (_client: Discord, _interaction: CommandInteraction) => {
-    const _userOption = <User>_interaction.data.target;
+  run: async (_client: Discord, _context: CommandInteraction) => {
+    const _userOption = <User>_context.data.target;
 
-    await _interaction
-      .reply({
-        embeds: new EmbedBuilder()
-          .setImage(_userOption.avatarURL())
-          .setColor(Colors.COLOR)
-          .toJSONArray(),
-      })
-      .catch(() => null);
+    await _context.reply({
+      embeds: new EmbedBuilder()
+        .setImage(_userOption.avatarURL())
+        .setColor(Colors.COLOR)
+        .toJSONArray(),
+    });
   },
 });

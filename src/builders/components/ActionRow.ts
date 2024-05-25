@@ -2,7 +2,7 @@ import { ComponentTypes, type MessageActionRow } from "oceanic.js";
 import type {
   ButtonBuilder,
   SelectMenuBuilder,
-} from "#root/src/builders/Index";
+} from "#builders";
 
 export class ActionRowBuilder {
   #json: MessageActionRow;
