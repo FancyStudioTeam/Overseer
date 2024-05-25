@@ -11,49 +11,45 @@ import {
   ComponentTypes,
   InteractionTypes,
 } from "oceanic.js";
-import { Colors, Emojis } from "../../../../Constants";
-import { ActionRowBuilder } from "../../../../builders/ActionRow";
-import { ButtonBuilder } from "../../../../builders/Button";
-import { EmbedBuilder } from "../../../../builders/Embed";
-import { SubCommand } from "../../../../classes/Builders";
-import type { Discord } from "../../../../classes/Client";
-import { Translations } from "../../../../locales";
-import { prisma } from "../../../../util/Prisma";
+import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from "#builders";
+import { BaseBuilder } from "#builders";
+import type { Discord } from "#classes";
+import { Colors, Emojis } from "#constants";
+import { Translations } from "#locales";
+import { type ChatInputSubCommandInterface, Directory } from "#types";
 import {
   disableComponents,
   errorMessage,
   handleError,
   parseEmoji,
-} from "../../../../util/Util";
+} from "#util";
+import { prisma } from "#util/Prisma";
 
-export default new SubCommand({
+export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "premium_revoke",
   permissions: {
-    user: "ADMINISTRATOR",
+    user: ["ADMINISTRATOR"],
   },
-  run: async (
-    _client: Discord,
-    _interaction: CommandInteraction,
-    { locale },
-  ) => {
-    if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
+  directory: Directory.CONFIGURATION,
+  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+    if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage(
         {
-          _context: _interaction,
+          _context,
           ephemeral: true,
         },
         {
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
-            structure: _interaction,
+            structure: _context,
           }),
         },
       );
     }
 
-    if (_interaction.user.id !== _interaction.guild.ownerID) {
+    if (_context.user.id !== _context.guild.ownerID) {
       return await errorMessage(
         {
-          _context: _interaction,
+          _context,
           ephemeral: true,
         },
         {
@@ -64,14 +60,14 @@ export default new SubCommand({
 
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
-        guild_id: _interaction.guild.id,
+        guild_id: _context.guildID,
       },
     });
 
     if (!guildConfiguration?.premium) {
       return await errorMessage(
         {
-          _context: _interaction,
+          _context,
           ephemeral: true,
         },
         {
@@ -82,7 +78,7 @@ export default new SubCommand({
       );
     }
 
-    const _originalMessageResponse = await _interaction.reply({
+    const _originalMessageResponse = await _context.reply({
       embeds: new EmbedBuilder()
         .setDescription(
           Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.MESSAGE_1,
@@ -115,17 +111,17 @@ export default new SubCommand({
       : await _originalMessageResponse.getMessage();
     const interactionCollector = new InteractionCollector(_client, {
       message,
-      channel: _interaction.channel,
-      interaction: _interaction,
-      guild: _interaction.guild,
+      channel: _context.channel,
+      interaction: _context,
+      guild: _context.guild,
       interactionType: InteractionTypes.MESSAGE_COMPONENT,
       componentType: ComponentTypes.BUTTON,
       time: 15_000,
       filter: async (_collectedInteraction: ComponentInteraction) => {
-        if (_collectedInteraction.user.id !== _interaction.user.id) {
+        if (_collectedInteraction.user.id !== _context.user.id) {
           await errorMessage(
             {
-              _context: _interaction,
+              _context,
               ephemeral: true,
             },
             {
@@ -152,7 +148,7 @@ export default new SubCommand({
           ) {
             return await errorMessage(
               {
-                _context: _interaction,
+                _context,
                 ephemeral: true,
               },
               {
@@ -172,49 +168,42 @@ export default new SubCommand({
               case "premium_revoke_confirm": {
                 interactionCollector.stop();
 
-                await prisma.guildConfiguration
-                  .update({
-                    where: {
-                      guild_id: _collectedInteraction.guild.id,
+                await prisma.guildConfiguration.update({
+                  where: {
+                    guild_id: _collectedInteraction.guildID,
+                  },
+                  data: {
+                    premium: {
+                      enabled: false,
+                      expires_at: 0,
                     },
-                    data: {
-                      premium: {
-                        enabled: false,
-                        expires_at: 0,
-                      },
-                    },
-                  })
-                  .then(async () => {
-                    await _client.rest.channels
-                      .editMessage(message.channelID, message.id, {
-                        embeds: new EmbedBuilder()
-                          .setDescription(
-                            Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
-                              .COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1,
-                          )
-                          .setColor(Colors.SUCCESS)
-                          .toJSONArray(),
-                        components: [],
-                      })
-                      .catch(() => null);
-                  })
-                  .catch(async (error) => {
-                    await handleError(
-                      {
-                        _context: _interaction,
-                        locale,
-                      },
-                      error,
-                    );
-                  });
+                  },
+                });
+
+                await _client.rest.channels.editMessage(
+                  message.channelID,
+                  message.id,
+                  {
+                    embeds: new EmbedBuilder()
+                      .setDescription(
+                        Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
+                          .COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1,
+                      )
+                      .setColor(Colors.SUCCESS)
+                      .toJSONArray(),
+                    components: [],
+                  },
+                );
 
                 break;
               }
               case "premium_revoke_cancel": {
                 interactionCollector.stop();
 
-                await _client.rest.channels
-                  .editMessage(message.channelID, message.id, {
+                await _client.rest.channels.editMessage(
+                  message.channelID,
+                  message.id,
+                  {
                     embeds: new EmbedBuilder()
                       .setDescription(
                         Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
@@ -223,8 +212,8 @@ export default new SubCommand({
                       .setColor(Colors.SUCCESS)
                       .toJSONArray(),
                     components: [],
-                  })
-                  .catch(() => null);
+                  },
+                );
 
                 break;
               }

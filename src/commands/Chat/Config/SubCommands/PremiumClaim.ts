@@ -1,42 +1,39 @@
-import ms from "ms";
+import { Duration } from "@sapphire/time-utilities";
 import type { CommandInteraction } from "oceanic.js";
-import { Colors } from "../../../../Constants";
-import { EmbedBuilder } from "../../../../builders/Embed";
-import { SubCommand } from "../../../../classes/Builders";
-import type { Discord } from "../../../../classes/Client";
-import { Translations } from "../../../../locales";
-import { prisma } from "../../../../util/Prisma";
-import {
-  errorMessage,
-  formatTimestamp,
-  handleError,
-} from "../../../../util/Util";
+import { BaseBuilder, EmbedBuilder } from "#builders";
+import type { Discord } from "#classes";
+import { Colors } from "#constants";
+import { Translations } from "#locales";
+import { type ChatInputSubCommandInterface, Directory } from "#types";
+import { errorMessage, formatTimestamp } from "#util";
+import { prisma } from "#util/Prisma";
 
-export default new SubCommand({
+export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "premium_claim",
   permissions: {
-    user: "MANAGE_GUILD",
+    user: ["MANAGE_GUILD"],
   },
+  directory: Directory.CONFIGURATION,
   run: async (
     _client: Discord,
-    _interaction: CommandInteraction,
+    _context: CommandInteraction,
     { locale, timezone, hour12 },
   ) => {
-    if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
+    if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage(
         {
-          _context: _interaction,
+          _context,
           ephemeral: true,
         },
         {
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
-            structure: _interaction,
+            structure: _context,
           }),
         },
       );
     }
 
-    const _voucherOption = _interaction.data.options.getString("code", true);
+    const _voucherOption = _context.data.options.getString("code", true);
     const clientVoucher = await prisma.clientVoucher.findUnique({
       where: {
         voucher_id: _voucherOption.trim(),
@@ -46,7 +43,7 @@ export default new SubCommand({
     if (!clientVoucher) {
       return await errorMessage(
         {
-          _context: _interaction,
+          _context,
           ephemeral: true,
         },
         {
@@ -59,70 +56,58 @@ export default new SubCommand({
       );
     }
 
-    await prisma
-      .$transaction([
-        prisma.guildConfiguration.upsert({
-          where: {
-            guild_id: _interaction.guild.id,
+    await prisma.$transaction([
+      prisma.guildConfiguration.upsert({
+        where: {
+          guild_id: _context.guildID,
+        },
+        update: {
+          premium: {
+            enabled: true,
+            expires_at: {
+              MONTH: Date.now() + new Duration("30 days").offset,
+              INFINITE: 0,
+            }[clientVoucher.general.type],
           },
-          update: {
-            premium: {
-              enabled: true,
-              expires_at: {
-                MONTH: Date.now() + ms("30 days"),
-                INFINITE: 0,
-              }[clientVoucher.general.type],
-            },
+        },
+        create: {
+          guild_id: _context.guildID,
+          general: {},
+          premium: {
+            enabled: true,
+            expires_at: {
+              MONTH: Date.now() + new Duration("30 days").offset,
+              INFINITE: 0,
+            }[clientVoucher.general.type],
           },
-          create: {
-            guild_id: _interaction.guild.id,
-            general: {},
-            premium: {
-              enabled: true,
-              expires_at: {
-                MONTH: Date.now() + ms("30 days"),
-                INFINITE: 0,
-              }[clientVoucher.general.type],
-            },
-          },
-        }),
-        prisma.clientVoucher.delete({
-          where: {
-            voucher_id: clientVoucher.voucher_id,
-          },
-        }),
-      ])
-      .then(async () => {
-        await _interaction.reply({
-          embeds: new EmbedBuilder()
-            .setDescription(
-              Translations[locale].COMMANDS.CONFIG.PREMIUM.CLAIM.MESSAGE_1({
-                expireDate: {
-                  MONTH: formatTimestamp(
-                    new Date(Date.now() + ms("30 days")).toLocaleString(
-                      "en-US",
-                      {
-                        timeZone: timezone,
-                      },
-                    ),
-                    hour12,
-                  ),
-                  INFINITE: null,
-                }[clientVoucher.general.type],
-              }),
-            )
-            .setColor(Colors.SUCCESS)
-            .toJSONArray(),
-        });
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context: _interaction,
-            locale,
-          },
-          error,
-        );
-      });
+        },
+      }),
+      prisma.clientVoucher.delete({
+        where: {
+          voucher_id: clientVoucher.voucher_id,
+        },
+      }),
+    ]);
+
+    await _context.reply({
+      embeds: new EmbedBuilder()
+        .setDescription(
+          Translations[locale].COMMANDS.CONFIG.PREMIUM.CLAIM.MESSAGE_1({
+            expireDate: {
+              MONTH: formatTimestamp(
+                new Date(
+                  Date.now() + new Duration("30 days").offset,
+                ).toLocaleString("en-US", {
+                  timeZone: timezone,
+                }),
+                hour12,
+              ),
+              INFINITE: null,
+            }[clientVoucher.general.type],
+          }),
+        )
+        .setColor(Colors.SUCCESS)
+        .toJSONArray(),
+    });
   },
 });
