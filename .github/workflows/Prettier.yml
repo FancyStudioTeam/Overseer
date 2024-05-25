@@ -13,5 +13,5 @@ jobs:
       - name: Format
         uses: creyD/prettier_action@v4.3
         with:
-          prettier_options: --write **/*.{ts,js,mjs,md,mdx}
+          prettier_options: --write **/*.{ts,js,mjs,json,md,mdx}
           commit_message: "Format files with Prettier"
