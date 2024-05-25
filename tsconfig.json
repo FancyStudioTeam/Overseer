@@ -32,7 +32,17 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "paths": {
-      "#index": ["./src/index.ts"]
+      "#index": ["./src/Index.ts"],
+      "#types": ["./src/Types.ts"],
+      "#classes": ["./src/classes/Client.ts"],
+      "#classes/*": ["./src/classes/*"],
+      "#builders": ["./src/builders/Index.ts"],
+      "#util": ["./src/util/Util.ts"],
+      "#util/*": ["./src/util/*"],
+      "#constants": ["./src/Constants.ts"],
+      "#locales": ["./src/locales/Index.ts"],
+      "#locales/*": ["./src/locales/misc/*"],
+      "#root/*": ["./*"]
     }
   }
 }
