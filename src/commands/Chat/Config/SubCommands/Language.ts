@@ -1,88 +1,74 @@
 import type { CommandInteraction } from "oceanic.js";
-import { Colors } from "../../../../Constants";
-import { EmbedBuilder } from "../../../../builders/Embed";
-import { SubCommand } from "../../../../classes/Builders";
-import type { Discord } from "../../../../classes/Client";
-import { Translations } from "../../../../locales";
-import type { Locales } from "../../../../types";
-import { prisma } from "../../../../util/Prisma";
-import { errorMessage, handleError } from "../../../../util/Util";
+import { EmbedBuilder } from "#builders";
+import { BaseBuilder } from "#builders";
+import type { Discord } from "#classes";
+import { Colors } from "#constants";
+import { Translations } from "#locales";
+import {
+  type ChatInputSubCommandInterface,
+  Directory,
+  type Locales,
+} from "#types";
+import { errorMessage } from "#util";
+import { prisma } from "#util/Prisma";
 
-export default new SubCommand({
+export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "language",
   permissions: {
-    user: "MANAGE_GUILD",
+    user: ["MANAGE_GUILD"],
   },
-  run: async (
-    _client: Discord,
-    _interaction: CommandInteraction,
-    { locale },
-  ) => {
-    if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
+  directory: Directory.CONFIGURATION,
+  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+    if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage(
         {
-          _context: _interaction,
+          _context,
           ephemeral: true,
         },
         {
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
-            structure: _interaction,
+            structure: _context,
           }),
         },
       );
     }
 
-    const _languageOption = _interaction.data.options.getString(
-      "language",
-      true,
-    );
+    const _languageOption = _context.data.options.getString("language", true);
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
-        guild_id: _interaction.guild.id,
+        guild_id: _context.guildID,
       },
       select: {
         general: true,
       },
     });
+    const upsertedGuildConfiguration = await prisma.guildConfiguration.upsert({
+      where: {
+        guild_id: _context.guildID,
+      },
+      update: {
+        general: {
+          ...guildConfiguration?.general,
+          locale: _languageOption,
+        },
+      },
+      create: {
+        guild_id: _context.guildID,
+        general: {
+          locale: _languageOption,
+        },
+        premium: {},
+      },
+    });
 
-    await prisma.guildConfiguration
-      .upsert({
-        where: {
-          guild_id: _interaction.guild.id,
-        },
-        update: {
-          general: {
-            ...guildConfiguration?.general,
-            locale: _languageOption,
-          },
-        },
-        create: {
-          guild_id: _interaction.guild.id,
-          general: {
-            locale: _languageOption,
-          },
-          premium: {},
-        },
-      })
-      .then(async (updatedData) => {
-        await _interaction.reply({
-          embeds: new EmbedBuilder()
-            .setDescription(
-              Translations[<Locales>updatedData.general.locale].COMMANDS.CONFIG
-                .LANGUAGE.MESSAGE_1,
-            )
-            .setColor(Colors.SUCCESS)
-            .toJSONArray(),
-        });
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context: _interaction,
-            locale,
-          },
-          error,
-        );
-      });
+    await _context.reply({
+      embeds: new EmbedBuilder()
+        .setDescription(
+          Translations[<Locales>upsertedGuildConfiguration.general.locale]
+            .COMMANDS.CONFIG.LANGUAGE.MESSAGE_1,
+        )
+        .setColor(Colors.SUCCESS)
+        .toJSONArray(),
+    });
   },
 });
