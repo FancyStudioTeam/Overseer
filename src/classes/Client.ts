@@ -59,6 +59,9 @@ export class Discord extends Client {
         voiceStates: 0,
       },
       gateway: {
+        connectionProperties: {
+          browser: "Discord Android",
+        },
         compress: true,
         intents: [
           "GUILDS",

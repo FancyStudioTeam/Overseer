@@ -9,8 +9,8 @@ _client.on("shardReady", (_id: number) => {
   if (shard) {
     shard.editStatus("online", [
       {
-        name: ".",
-        state: `Shard ${shard.id} | ${version}`,
+        name: "_",
+        state: `🍃 Shard ${shard.id} 📦 ${version}`,
         type: ActivityTypes.CUSTOM,
       },
     ]);
