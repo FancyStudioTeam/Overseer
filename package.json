@@ -14,7 +14,6 @@
     "@colors/colors": "1.6.0",
     "@napi-rs/canvas": "0.1.52",
     "@prisma/client": "5.14.0",
-    "@prisma/extension-optimize": "0.7.1",
     "@sapphire/discord-utilities": "3.3.0",
     "@sapphire/ratelimits": "2.4.9",
     "@sapphire/snowflake": "3.5.3",
@@ -38,10 +37,8 @@
     "@types/node": "20.12.12",
     "@types/url-regex-safe": "1.0.2",
     "figlet": "1.7.0",
-    "husky": "9.0.11",
     "prettier": "3.2.5",
     "prisma": "5.14.0",
-    "simple-git-hooks": "2.11.1",
     "ts-node": "10.9.2",
     "tsx": "4.11.0"
   },
@@ -60,8 +57,5 @@
     "#locales": "./dist/src/locales/Index.js",
     "#locales/*": "./dist/src/locales/misc/*",
     "#root/*": "./*"
-  },
-  "simple-git-hooks": {
-    "pre-push": "npx prettier --write **/*.{ts,js,mjs,json,md,mdx}"
   }
 }
