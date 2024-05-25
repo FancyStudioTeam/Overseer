@@ -1,20 +1,19 @@
+import colors from "@colors/colors";
+import { codeBlock } from "@sapphire/utilities";
 import {
+  ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
-  ButtonStyles,
   type CommandInteraction,
-  ComponentTypes,
 } from "oceanic.js";
-import { Colors, Emojis, Links } from "../../../Constants";
-import { ActionRowBuilder } from "../../../builders/ActionRow";
-import { ButtonBuilder } from "../../../builders/Button";
-import { EmbedBuilder } from "../../../builders/Embed";
-import { SelectMenuBuilder } from "../../../builders/SelectMenu";
-import { ChatInputCommand } from "../../../classes/Builders";
-import type { Discord } from "../../../classes/Client";
-import { Translations } from "../../../locales";
-import { parseEmoji } from "../../../util/Util";
+import { BaseBuilder, EmbedBuilder } from "#builders";
+import type { Discord } from "#classes";
+import { Colors } from "#constants";
+import { Translations } from "#locales";
+import { type ChatInputCommandInterface, Directory } from "#types";
+import { padding } from "#util";
+// import { pagination } from "#util/Pagination";
 
-export default new ChatInputCommand({
+export default new BaseBuilder<ChatInputCommandInterface>({
   name: "help",
   description: "Displays bot commands",
   descriptionLocalizations: {
@@ -23,85 +22,132 @@ export default new ChatInputCommand({
   },
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
-  directory: "",
-  run: async (
-    _client: Discord,
-    _interaction: CommandInteraction,
-    { locale },
-  ) => {
-    await _interaction.reply({
+  directory: Directory.MISCELLANEOUS,
+  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+    const groupedCommands = [
+      Directory.CONFIGURATION,
+      Directory.INFORMATION,
+      Directory.UTILITY,
+    ].map((directory, _) => {
+      return _client.interactions.chatInput.filter(
+        (command) => command?.directory === directory,
+      );
+    });
+
+    const commands = groupedCommands.map((group) => {
+      const data: {
+        base: string;
+        commands: string[];
+      } = {
+        base: "",
+        commands: [],
+      };
+
+      group.map((command) => {
+        data.base = String(command?.name);
+        command?.options?.map((option) => {
+          if (
+            "options" in option &&
+            option.options?.some((option2) =>
+              [
+                ApplicationCommandOptionTypes.SUB_COMMAND,
+                ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
+              ].includes(option2.type),
+            )
+          ) {
+            option.options
+              ?.filter((option2) =>
+                [
+                  ApplicationCommandOptionTypes.SUB_COMMAND,
+                  ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
+                ].includes(option2.type),
+              )
+              .map((option2) => {
+                data.commands.push(
+                  `${colors.reset.cyan(`${option.name} ${option2.name}`)} - ${colors.bold.magenta(
+                    {
+                      EN: option2.description,
+                      ES: option2.descriptionLocalizations?.["es-ES"],
+                    }[locale] ?? option2.description,
+                  )}`,
+                );
+              });
+          } else {
+            data.commands.push(
+              `${colors.reset.cyan(option.name)} - ${colors.bold.magenta(
+                {
+                  EN: option.description,
+                  ES: option.descriptionLocalizations?.["es-ES"],
+                }[locale] ?? option.description,
+              )}`,
+            );
+          }
+        });
+      });
+
+      return data;
+    });
+
+    /*pagination(
+      {
+        _context,
+        locale,
+        ephemeral: false,
+      },
+      commands.map((group) => {
+        return new EmbedBuilder()
+          .setTitle(
+            Translations[locale].HELP.MESSAGE_1.TITLE_1({
+              name: _client.user.globalName ?? _client.user.username,
+            }),
+          )
+          .setDescription(
+            codeBlock(
+              "ansi",
+              padding(
+                group.commands
+                  .map((command) => {
+                    return command;
+                  })
+                  .join("\n"),
+                "-",
+              ),
+            ),
+          )
+          .setColor(Colors.COLOR)
+          .toJSON();
+      }),
+    );*/
+
+    await _context.reply({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].HELP.MESSAGE_1.TITLE_1({
             name: _client.user.globalName ?? _client.user.username,
           }),
         )
-        .setThumbnail(_client.user.avatarURL())
-        .setDescription(
-          Translations[locale].HELP.MESSAGE_1.DESCRIPTION_1({
-            mention: _client.user.mention,
+        .addFields(
+          commands.map((data) => {
+            return {
+              name: Translations[locale].HELP.MESSAGE_1.FIELD_1.FIELD({
+                command: data.base,
+              }),
+              value: codeBlock(
+                "ansi",
+                padding(
+                  data.commands
+                    .map((command) => {
+                      return command;
+                    })
+                    .join("\n"),
+                  "-",
+                ),
+              ),
+            };
           }),
         )
         .setColor(Colors.COLOR)
         .toJSONArray(),
-      components: [
-        new ActionRowBuilder()
-          .addComponents([
-            new ButtonBuilder()
-              .setLabel(
-                Translations[locale].HELP.COMPONENTS.BUTTONS.ADD_TO_DISCORD
-                  .LABEL,
-              )
-              .setStyle(ButtonStyles.LINK)
-              .setEmoji(parseEmoji(Emojis.SUPPORT))
-              .setURL(Links.INVITE),
-            new ButtonBuilder()
-              .setLabel(
-                Translations[locale].HELP.COMPONENTS.BUTTONS.SUPPORT_SERVER
-                  .LABEL,
-              )
-              .setStyle(ButtonStyles.LINK)
-              .setEmoji(parseEmoji(Emojis.SUPPORT))
-              .setURL(Links.SUPPORT),
-          ])
-          .toJSON(),
-        new ActionRowBuilder()
-          .addComponents([
-            new SelectMenuBuilder()
-              .setCustomID("help_plugins")
-              .setPlaceholder(
-                Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
-                  .PLACEHOLDER,
-              )
-              .addOptions(
-                ["configuration", "information", "moderation", "utility"].map(
-                  (e) => {
-                    return {
-                      label:
-                        Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
-                          .OPTIONS[<Plugins>e.toUpperCase()].LABEL,
-                      value: e,
-                      description:
-                        Translations[locale].HELP.COMPONENTS.SELECT_MENU.PLUGINS
-                          .OPTIONS[<Plugins>e.toUpperCase()].DESCRIPTION,
-                      emoji: parseEmoji(
-                        {
-                          configuration: Emojis.GEAR,
-                          information: Emojis.INFO,
-                          moderation: Emojis.GAVEL,
-                          utility: Emojis.SUPPORT,
-                        }[e] ?? "",
-                      ),
-                    };
-                  },
-                ),
-              )
-              .setType(ComponentTypes.STRING_SELECT),
-          ])
-          .toJSON(),
-      ],
     });
   },
 });
-
-type Plugins = "CONFIGURATION" | "INFORMATION" | "MODERATION" | "UTILITY";

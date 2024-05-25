@@ -17,25 +17,28 @@ import {
   type Message,
   MessageFlags,
 } from "oceanic.js";
-import { _client } from "..";
-import { Emojis } from "../Constants";
-import { ActionRowBuilder } from "../builders/ActionRow";
-import { ButtonBuilder } from "../builders/Button";
-import { Translations } from "../locales";
-import type { Locales } from "../types";
-import { disableComponents, errorMessage, parseEmoji } from "./Util";
+import { ActionRowBuilder, ButtonBuilder } from "#builders";
+import { Emojis } from "#constants";
+import { _client } from "#index";
+import { Translations } from "#locales";
+import type { Locales } from "#types";
+import { disableComponents, errorMessage, parseEmoji } from "#util";
 
 export async function pagination(
-  main: {
+  {
+    _context,
+    locale,
+    ephemeral,
+  }: {
     _context: AnyInteractionGateway | Message;
     locale: Locales;
     ephemeral?: boolean;
   },
   pages: EmbedOptions[],
 ): Promise<void> {
-  if (!(main._context.inCachedGuildChannel() && main._context.guild)) return;
-  if (!main._context.channel) return;
-  if (main._context.channel.type !== ChannelTypes.GUILD_TEXT) return;
+  if (!(_context.inCachedGuildChannel() && _context.guild)) return;
+  if (!_context.channel) return;
+  if (_context.channel.type !== ChannelTypes.GUILD_TEXT) return;
 
   let index = 0;
   let message: Message;
@@ -61,34 +64,34 @@ export async function pagination(
           .setDisabled(pages.length < 2),
       ])
       .toJSONArray(),
-    flags: main.ephemeral ? MessageFlags.EPHEMERAL : undefined,
+    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
-  if ("reply" in main._context) {
-    const _originalMessageResponse = await main._context.reply(payload);
+  if ("reply" in _context) {
+    const _originalMessageResponse = await _context.reply(payload);
     message = _originalMessageResponse.hasMessage()
       ? _originalMessageResponse.message
       : await _originalMessageResponse.getMessage();
   } else {
     message = await _client.rest.channels.createMessage(
-      main._context.channelID,
+      _context.channelID,
       payload,
     );
   }
 
   const interactionCollector = new InteractionCollector(_client, {
     message,
-    channel: main._context.channel,
-    guild: main._context.guild,
+    channel: _context.channel,
+    guild: _context.guild,
     interactionType: InteractionTypes.MESSAGE_COMPONENT,
     componentType: ComponentTypes.BUTTON,
     idle: 30_000,
     filter: async (_collectedInteraction: ComponentInteraction) => {
       if (
-        ("user" in main._context &&
-          _collectedInteraction.user.id !== main._context.user.id) ||
-        ("author" in main._context &&
-          _collectedInteraction.user.id !== main._context.author.id)
+        ("user" in _context &&
+          _collectedInteraction.user.id !== _context.user.id) ||
+        ("author" in _context &&
+          _collectedInteraction.user.id !== _context.author.id)
       ) {
         await errorMessage(
           {
@@ -96,8 +99,7 @@ export async function pagination(
             ephemeral: true,
           },
           {
-            description:
-              Translations[main.locale].GENERAL.INVALID_USER_COLLECTOR,
+            description: Translations[locale].GENERAL.INVALID_USER_COLLECTOR,
           },
         );
 
@@ -133,12 +135,14 @@ export async function pagination(
             .load(<ButtonComponent>message.components[0].components[1])
             .setLabel(`${index + 1}/${pages.length}`);
 
-          await _client.rest.channels
-            .editMessage(message.channelID, message.id, {
+          await _client.rest.channels.editMessage(
+            message.channelID,
+            message.id,
+            {
               embeds: [pages[index]],
               components: message.components,
-            })
-            .catch(() => null);
+            },
+          );
         }
       }
     },

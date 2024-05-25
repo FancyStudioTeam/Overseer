@@ -1,9 +1,7 @@
-import EN from "./en";
-import ES from "./es";
-import GL from "./gl";
+import EN from "./Locales/English";
+import ES from "./Locales/Spanish";
 
 export const Translations = {
   EN,
   ES,
-  GL,
 };

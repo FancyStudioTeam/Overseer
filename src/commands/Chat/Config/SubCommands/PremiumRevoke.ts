@@ -17,12 +17,7 @@ import type { Discord } from "#classes";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import {
-  disableComponents,
-  errorMessage,
-  handleError,
-  parseEmoji,
-} from "#util";
+import { disableComponents, errorMessage, parseEmoji } from "#util";
 import { prisma } from "#util/Prisma";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({

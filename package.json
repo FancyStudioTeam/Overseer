@@ -12,6 +12,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@colors/colors": "1.6.0",
+    "@discordjs/formatters": "0.4.0",
     "@napi-rs/canvas": "0.1.52",
     "@prisma/client": "5.14.0",
     "@sapphire/discord-utilities": "3.3.0",

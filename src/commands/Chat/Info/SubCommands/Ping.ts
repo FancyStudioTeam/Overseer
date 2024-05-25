@@ -7,7 +7,7 @@ import { type ChatInputSubCommandInterface, Directory } from "#types";
 import { errorMessage } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
-  name: "Ping",
+  name: "ping",
   directory: Directory.INFORMATION,
   run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
