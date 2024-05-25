@@ -10,7 +10,7 @@ _client.on("shardReady", (_id: number) => {
     shard.editStatus("online", [
       {
         name: "_",
-        state: `🍃 Shard ${shard.id} 📦 ${version}`,
+        state: `🍃 Shard ${shard.id} / v${version}`,
         type: ActivityTypes.CUSTOM,
       },
     ]);
