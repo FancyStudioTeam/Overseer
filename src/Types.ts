@@ -64,5 +64,6 @@ type BaseTypes =
 export enum Directory {
   CONFIGURATION,
   INFORMATION,
-  UTIL,
+  UTILITY,
+  MISCELLANEOUS,
 }

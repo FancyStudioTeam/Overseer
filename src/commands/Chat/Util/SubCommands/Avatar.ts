@@ -6,7 +6,7 @@ import { type ChatInputSubCommandInterface, Directory } from "#types";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "avatar",
-  directory: Directory.UTIL,
+  directory: Directory.UTILITY,
   run: async (_client: Discord, _context: CommandInteraction) => {
     const _userOption = _context.data.options.getUser("user") ?? _context.user;
 
