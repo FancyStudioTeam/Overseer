@@ -7,8 +7,10 @@ import { captureException } from "@sentry/node";
 import {
   type AnyInteractionGateway,
   type AnyTextableGuildChannel,
+  ButtonStyles,
   type CreateMessageOptions,
   type EmbedOptions,
+  type Guild,
   type InteractionContent,
   type Member,
   type Message,
@@ -19,34 +21,35 @@ import {
   type User,
 } from "oceanic.js";
 import urlRegex from "url-regex-safe";
-import { _client } from "..";
-import { Colors, Links } from "../Constants";
-import { EmbedBuilder } from "../builders/Embed";
-import { Translations } from "../locales";
-import { Permissions } from "../locales/misc/Reference";
-import type { Locales } from "../types";
+import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from "#builders";
+import { Colors, Emojis, Links } from "#constants";
+import { _client } from "#index";
+import { Translations } from "#locales";
+import { Permissions } from "#root/src/locales/Miscellaneous/Reference";
+import type { Locales } from "#types";
 
-export async function fetchUser(id: string): Promise<User | Nullish> {
-  const user = _client.users.has(id)
-    ? _client.users.get(id)
-    : await _client.rest.users.get(id).catch(() => null);
-
-  return user;
+export async function fetchUser(
+  type: FetchFrom,
+  id: string,
+): Promise<User | Nullish> {
+  return type === FetchFrom.DEFAULT
+    ? _client.users.get(id) ?? (await _client.rest.users.get(id))
+    : type === FetchFrom.REST
+      ? await _client.rest.users.get(id)
+      : _client.users.get(id);
 }
 
 export async function fetchMember(
-  context: AnyInteractionGateway | Message,
+  type: FetchFrom,
+  guild: Guild,
   id: string,
 ): Promise<Member | Nullish> {
-  if (!(context.inCachedGuildChannel() && context.guild)) return null;
-
-  const member = context.guild.members.has(id)
-    ? context.guild.members.get(id)
-    : await _client.rest.guilds
-        .getMember(context.guild.id, id)
-        .catch(() => null);
-
-  return member;
+  return type === FetchFrom.DEFAULT
+    ? guild.members.get(id) ??
+        (await _client.rest.guilds.getMember(guild.id, id))
+    : type === FetchFrom.REST
+      ? await _client.rest.guilds.getMember(guild.id, id)
+      : guild.members.get(id);
 }
 
 export function padding(content: string, separator: string): string {
@@ -87,9 +90,10 @@ export async function errorMessage(
 
   "reply" in main._context
     ? await main._context.reply(payload)
-    : await _client.rest.channels
-        .createMessage(main._context.channelID, payload)
-        .catch(() => null);
+    : await _client.rest.channels.createMessage(
+        main._context.channelID,
+        payload,
+      );
 }
 
 export function cleanContent(content: string): string {
@@ -146,11 +150,15 @@ export async function disableComponents(message: Message): Promise<void> {
     });
   });
 
-  await _client.rest.channels
-    .editMessage(message.channelID, message.id, {
-      components: message.components,
-    })
-    .catch(() => null);
+  await _client.rest.channels.editMessage(message.channelID, message.id, {
+    components: message.components,
+  });
+}
+
+export function escapeRegex(content: string): string {
+  const regex = /((`){1,3}|(\*){1,3}|(~){2}|(\|){2}|^(>){1,3}|(_){1,2})+/gm;
+
+  return content.replaceAll(regex, "");
 }
 
 export function compareMemberToMember(
@@ -221,7 +229,11 @@ export function search<T extends AvailableSearchTypes>(
 }
 
 export async function checkPermissions(
-  main: {
+  {
+    _context,
+    locale,
+    ephemeral,
+  }: {
     _context: AnyInteractionGateway | Message;
     locale: Locales;
     ephemeral?: boolean;
@@ -231,58 +243,40 @@ export async function checkPermissions(
   member: Member,
   channel?: AnyTextableGuildChannel,
 ): Promise<boolean> {
-  const requiredPermissions: PermissionName[] = [];
   let hasPermissions = true;
 
-  if (!(main._context.inCachedGuildChannel() && main._context.guild))
-    return false;
+  if (!(_context.inCachedGuildChannel() && _context.guild)) return false;
 
-  checkPermissions.forEach((permission, _) => {
-    if (
-      type === CheckPermissionsFrom.GUILD
-        ? !member.permissions.has(permission)
-        : !channel?.permissionsOf(member).has(permission)
-    ) {
-      requiredPermissions.push(permission);
-    }
-  });
-
+  const missingPermissions = checkPermissions.filter((permission) =>
+    type === CheckPermissionsFrom.CHANNEL
+      ? !channel?.permissionsOf(member).has(permission)
+      : !member.permissions.has(permission),
+  );
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder()
       .setDescription(
-        member.user.id === _client.user.id
-          ? Translations[main.locale].GENERAL.PERMISSIONS.GUILD.CLIENT({
-              permissions: requiredPermissions
-                .map((permission, _) => {
-                  return `\`${Permissions[main.locale][permission]}\``;
-                })
-                .join(", "),
+        Translations[locale].GENERAL.PERMISSIONS[
+          type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD"
+        ][member.user.id === _client.user.id ? "CLIENT" : "USER"]({
+          permissions: missingPermissions
+            .map((permission, _) => {
+              return `\`${Permissions[locale][permission]}\``;
             })
-          : Translations[main.locale].GENERAL.PERMISSIONS.GUILD.USER({
-              permissions: requiredPermissions
-                .map((permission, _) => {
-                  return `\`${Permissions[main.locale][permission]}\``;
-                })
-                .join(", "),
-            }),
+            .join(", "),
+          channel: channel ? channel.mention : "",
+        }),
       )
       .setColor(Colors.ERROR)
       .toJSONArray(),
-    flags: main.ephemeral ? MessageFlags.EPHEMERAL : undefined,
+    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
-  if (
-    requiredPermissions.length && type === CheckPermissionsFrom.GUILD
-      ? !member.permissions.has(...requiredPermissions)
-      : !channel?.permissionsOf(member).has(...requiredPermissions)
-  ) {
+  if (missingPermissions.length) {
     hasPermissions = false;
 
-    "reply" in main._context
-      ? await main._context.reply(payload)
-      : await _client.rest.channels
-          .createMessage(main._context.channelID, payload)
-          .catch(() => null);
+    "reply" in _context
+      ? await _context.reply(payload)
+      : await _client.rest.channels.createMessage(_context.channelID, payload);
   }
 
   return hasPermissions;
@@ -308,7 +302,10 @@ export function logger(type: LoggerType, content: string): void {
 }
 
 export async function handleError(
-  main: {
+  {
+    _context,
+    locale,
+  }: {
     _context: AnyInteractionGateway | Message;
     locale: Locales;
   },
@@ -320,33 +317,31 @@ export async function handleError(
   const id = DiscordSnowflake.generate().toString();
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder()
-      .setTitle(Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.TITLE_1)
       .setDescription(
-        Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.DESCRIPTION_1({
-          support: Links.SUPPORT,
+        Translations[locale].GENERAL.SOMETHING_WENT_WRONG.MESSAGE_1({
+          name: error.name,
+          id,
         }),
       )
-      .addFields([
-        {
-          name: Translations[main.locale].GENERAL.SOMETHING_WENT_WRONG.FIELD_1
-            .FIELD,
-          value: Translations[
-            main.locale
-          ].GENERAL.SOMETHING_WENT_WRONG.FIELD_1.VALUE({
-            id,
-            name: error.name,
-          }),
-        },
-      ])
       .setColor(Colors.ERROR)
+      .toJSONArray(),
+    components: new ActionRowBuilder()
+      .addComponents([
+        new ButtonBuilder()
+          .setLabel(
+            Translations[locale].GENERAL.SOMETHING_WENT_WRONG.COMPONENTS.BUTTONS
+              .SUPPORT.LABEL,
+          )
+          .setStyle(ButtonStyles.LINK)
+          .setEmoji(parseEmoji(Emojis.SUPPORT))
+          .setURL(Links.SUPPORT),
+      ])
       .toJSONArray(),
   };
 
-  "reply" in main._context
-    ? await main._context.reply(payload)
-    : await _client.rest.channels
-        .createMessage(main._context.channelID, payload)
-        .catch(() => null);
+  "reply" in _context
+    ? await _context.reply(payload)
+    : await _client.rest.channels.createMessage(_context.channelID, payload);
 }
 
 export function bitFieldValues(bitField: number): number[] {
@@ -365,6 +360,12 @@ export function bitFieldValues(bitField: number): number[] {
 }
 
 export type AvailableSearchTypes = string;
+
+export enum FetchFrom {
+  DEFAULT,
+  CACHE,
+  REST,
+}
 
 export enum CheckPermissionsFrom {
   GUILD,
