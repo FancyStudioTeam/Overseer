@@ -4,7 +4,9 @@
   "scripts": {
     "dev": "tsx watch --ignore ./src/locales src/Index.ts",
     "build": "tsc",
-    "start": "node dist/src/Index.js"
+    "start": "node dist/src/Index.js",
+    "prepare": "husky",
+    "format": "npx prettier --write **/*.{ts,js,mjs,json,md,mdx}"
   },
   "author": "LonelyDeath",
   "license": "BSD-3-Clause",
@@ -36,6 +38,7 @@
     "@types/node": "20.12.12",
     "@types/url-regex-safe": "1.0.2",
     "figlet": "1.7.0",
+    "husky": "9.0.11",
     "prettier": "3.2.5",
     "prisma": "5.14.0",
     "simple-git-hooks": "2.11.1",

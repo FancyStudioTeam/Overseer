@@ -1,1 +1,1 @@
-npx prettier --write **/*.{ts,js,mjs,json,md,mdx}
+npm run format

@@ -7,14 +7,14 @@ import type {
 } from "oceanic.js";
 
 export class EmbedBuilder {
-  private json: Embed;
+  #json: Embed;
 
   constructor() {
-    this.json = {};
+    this.#json = {};
   }
 
   setAuthor(author: EmbedAuthorOptions): this {
-    this.json.author = {
+    this.#json.author = {
       iconURL: author.iconURL ?? "",
       name: author.name ?? "",
       url: author.url,
@@ -24,20 +24,20 @@ export class EmbedBuilder {
   }
 
   setColor(color: number): this {
-    this.json.color = color;
+    this.#json.color = color;
 
     return this;
   }
 
   setDescription(description: string): this {
-    this.json.description = description;
+    this.#json.description = description;
 
     return this;
   }
 
   addField(field: EmbedField): this {
-    this.json.fields = this.json.fields?.length
-      ? [...this.json.fields, field]
+    this.#json.fields = this.#json.fields?.length
+      ? [...this.#json.fields, field]
       : [field];
 
     return this;
@@ -52,7 +52,7 @@ export class EmbedBuilder {
   }
 
   setFooter(footer: EmbedFooterOptions): this {
-    this.json.footer = {
+    this.#json.footer = {
       iconURL: footer.iconURL ?? "",
       text: footer.text ?? "",
     };
@@ -61,7 +61,7 @@ export class EmbedBuilder {
   }
 
   setImage(image: string): this {
-    this.json.image = {
+    this.#json.image = {
       url: image,
     };
 
@@ -69,7 +69,7 @@ export class EmbedBuilder {
   }
 
   setThumbnail(thumbnail: string): this {
-    this.json.thumbnail = {
+    this.#json.thumbnail = {
       url: thumbnail,
     };
 
@@ -77,33 +77,33 @@ export class EmbedBuilder {
   }
 
   setTimestamp(timestamp?: string): this {
-    this.json.timestamp = timestamp ? timestamp : new Date().toISOString();
+    this.#json.timestamp = timestamp ? timestamp : new Date().toISOString();
 
     return this;
   }
 
   setTitle(title: string): this {
-    this.json.title = title;
+    this.#json.title = title;
 
     return this;
   }
 
   setURL(url: string): this {
-    this.json.url = url;
+    this.#json.url = url;
 
     return this;
   }
 
   toJSON(): EmbedOptions {
-    return this.json;
+    return this.#json;
   }
 
   toJSONArray(): EmbedOptions[] {
-    return [this.json];
+    return [this.#json];
   }
 
   load(embed: EmbedOptions): this {
-    this.json = embed;
+    this.#json = embed;
 
     return this;
   }

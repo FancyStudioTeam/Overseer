@@ -1,11 +1,14 @@
 import { ComponentTypes, type MessageActionRow } from "oceanic.js";
-import type { ButtonBuilder, SelectMenuBuilder } from "#builders";
+import type {
+  ButtonBuilder,
+  SelectMenuBuilder,
+} from "#root/src/builders/Index";
 
 export class ActionRowBuilder {
-  private json: MessageActionRow;
+  #json: MessageActionRow;
 
   constructor() {
-    this.json = {
+    this.#json = {
       components: [],
       type: ComponentTypes.ACTION_ROW,
     };
@@ -13,18 +16,18 @@ export class ActionRowBuilder {
 
   addComponents(components: ValidComponent[]): this {
     components.forEach((c, _) => {
-      this.json.components.push(c.toJSON());
+      this.#json.components.push(c.toJSON());
     });
 
     return this;
   }
 
   toJSON(): MessageActionRow {
-    return this.json;
+    return this.#json;
   }
 
   toJSONArray(): MessageActionRow[] {
-    return [this.json];
+    return [this.#json];
   }
 }
 
