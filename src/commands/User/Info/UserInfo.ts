@@ -8,6 +8,7 @@ import {
   FetchFrom,
   UnixType,
   errorMessage,
+  escapeRegex,
   fetchMember,
   formatUnix,
 } from "#util";
@@ -52,7 +53,7 @@ export default new BaseBuilder<UserCommandInterface>({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
-            name: member.user.globalName ?? member.user.username,
+            name: escapeRegex(member.user.globalName ?? member.user.username),
           }),
         )
         .setThumbnail(member.user.avatarURL())

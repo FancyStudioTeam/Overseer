@@ -1,25 +1,46 @@
 import type { CommandInteraction } from "oceanic.js";
-import { Colors, Emojis } from "../../../../Constants";
-import { EmbedBuilder } from "../../../../builders/Embed";
-import { SubCommand } from "../../../../classes/Builders";
-import type { Discord } from "../../../../classes/Client";
-import { Translations } from "../../../../locales";
-import { UnixType, errorMessage, formatUnix } from "../../../../util/Util";
+import { BaseBuilder, EmbedBuilder } from "#builders";
+import type { Discord } from "#classes";
+import { Colors, Emojis } from "#constants";
+import { Translations } from "#locales";
+import { type ChatInputSubCommandInterface, Directory } from "#types";
+import {
+  FetchFrom,
+  UnixType,
+  errorMessage,
+  escapeRegex,
+  fetchMember,
+  formatUnix,
+} from "#util";
 
-export default new SubCommand({
+export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "user",
-  run: async (
-    _client: Discord,
-    _interaction: CommandInteraction,
-    { locale },
-  ) => {
-    const _memberOption =
-      _interaction.data.options.getMember("user") ?? _interaction.member;
-
-    if (!_memberOption) {
+  directory: Directory.INFORMATION,
+  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+    if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage(
         {
-          _context: _interaction,
+          _context,
+          ephemeral: true,
+        },
+        {
+          description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+            structure: _context,
+          }),
+        },
+      );
+    }
+
+    const member = await fetchMember(
+      FetchFrom.DEFAULT,
+      _context.guild,
+      _context.data.options.getMember("user")?.id ?? _context.user.id,
+    );
+
+    if (!member) {
+      return await errorMessage(
+        {
+          _context,
           ephemeral: true,
         },
         {
@@ -28,54 +49,48 @@ export default new SubCommand({
       );
     }
 
-    await _interaction
-      .reply({
-        embeds: new EmbedBuilder()
-          .setTitle(
-            Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
-              name:
-                _memberOption.user.globalName ?? _memberOption.user.username,
+    await _context.reply({
+      embeds: new EmbedBuilder()
+        .setTitle(
+          Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
+            name: escapeRegex(member.user.globalName ?? member.user.username),
+          }),
+        )
+        .setThumbnail(member.user.avatarURL())
+        .addFields([
+          {
+            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1.VALUE({
+              name: member.user.mention,
+              id: member.user.id,
             }),
-          )
-          .setThumbnail(_memberOption.user.avatarURL())
-          .addFields([
-            {
-              name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1
-                .FIELD,
-              value: Translations[
-                locale
-              ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1.VALUE({
-                name: _memberOption.user.mention,
-                id: _memberOption.user.id,
-              }),
-            },
-            {
-              name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2
-                .FIELD,
-              value: Translations[
-                locale
-              ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2.VALUE({
-                date: formatUnix(
-                  UnixType.SHORT_DATE_TIME,
-                  _memberOption.user.createdAt,
-                ),
-              }),
-            },
-            {
-              name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_3
-                .FIELD,
-              value: Translations[
-                locale
-              ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_3.VALUE({
-                date: _memberOption.joinedAt
-                  ? formatUnix(UnixType.SHORT_DATE_TIME, _memberOption.joinedAt)
-                  : Emojis.MARK,
-              }),
-            },
-          ])
-          .setColor(Colors.COLOR)
-          .toJSONArray(),
-      })
-      .catch(() => null);
+          },
+          {
+            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2.VALUE({
+              date: formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt),
+            }),
+          },
+          {
+            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_3
+              .FIELD,
+            value: Translations[
+              locale
+            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_3.VALUE({
+              date: member.joinedAt
+                ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt)
+                : Emojis.MARK,
+            }),
+          },
+        ])
+        .setColor(Colors.COLOR)
+        .toJSONArray(),
+    });
   },
 });

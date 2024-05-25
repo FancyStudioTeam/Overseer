@@ -1,44 +1,39 @@
 import type { CommandInteraction } from "oceanic.js";
-import { Colors } from "../../../../Constants";
-import { EmbedBuilder } from "../../../../builders/Embed";
-import { SubCommand } from "../../../../classes/Builders";
-import type { Discord } from "../../../../classes/Client";
-import { Translations } from "../../../../locales";
-import { errorMessage } from "../../../../util/Util";
+import { BaseBuilder, EmbedBuilder } from "#builders";
+import type { Discord } from "#classes";
+import { Colors } from "#constants";
+import { Translations } from "#locales";
+import { type ChatInputSubCommandInterface, Directory } from "#types";
+import { errorMessage } from "#util";
 
-export default new SubCommand({
-  name: "ping",
-  run: async (
-    _client: Discord,
-    _interaction: CommandInteraction,
-    { locale },
-  ) => {
-    if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) {
+export default new BaseBuilder<ChatInputSubCommandInterface>({
+  name: "Ping",
+  directory: Directory.INFORMATION,
+  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+    if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage(
         {
-          _context: _interaction,
+          _context,
           ephemeral: true,
         },
         {
           description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
-            structure: _interaction,
+            structure: _context,
           }),
         },
       );
     }
 
-    await _interaction
-      .reply({
-        embeds: new EmbedBuilder()
-          .setDescription(
-            Translations[locale].COMMANDS.INFO.PING.MESSAGE_1.DESCRIPTION_1({
-              rest: `${_client.rest.handler.latencyRef.latency}ms`,
-              shard: `${_interaction.guild.shard.latency}ms`,
-            }),
-          )
-          .setColor(Colors.COLOR)
-          .toJSONArray(),
-      })
-      .catch(() => null);
+    await _context.reply({
+      embeds: new EmbedBuilder()
+        .setDescription(
+          Translations[locale].COMMANDS.INFO.PING.MESSAGE_1.DESCRIPTION_1({
+            rest: `${_client.rest.handler.latencyRef.latency}ms`,
+            shard: `${_context.guild.shard.latency}ms`,
+          }),
+        )
+        .setColor(Colors.COLOR)
+        .toJSONArray(),
+    });
   },
 });

@@ -5,14 +5,15 @@ import {
   type CommandInteraction,
   type InteractionOptionsString,
 } from "oceanic.js";
-import { ChatInputCommand } from "../../../classes/Builders";
-import type { Discord } from "../../../classes/Client";
-import timezones from "../../../util/Timezones";
-import { search } from "../../../util/Util";
+import { BaseBuilder } from "#builders";
+import type { Discord } from "#classes";
+import { type ChatInputCommandInterface, Directory } from "#types";
+import { search } from "#util";
+import timezones from "#util/Timezones";
 
-export default new ChatInputCommand({
+export default new BaseBuilder<ChatInputCommandInterface>({
   name: "config",
-  description: ".",
+  description: "_",
   options: [
     {
       name: "language",
@@ -55,7 +56,7 @@ export default new ChatInputCommand({
     },
     {
       name: "premium",
-      description: ".",
+      description: "_",
       type: ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
       options: [
         {
@@ -136,50 +137,45 @@ export default new ChatInputCommand({
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
-  directory: "configuration",
-  autocomplete: async (
-    _client: Discord,
-    _interaction: AutocompleteInteraction,
-  ) => {
-    const _subCommandOption = _interaction.data.options.getSubCommand(true);
+  directory: Directory.CONFIGURATION,
+  autocomplete: async (_client: Discord, _context: AutocompleteInteraction) => {
+    const _subCommandOption = _context.data.options.getSubCommand(true);
 
     switch (_subCommandOption.join("_")) {
       case "timezone": {
         const _focusedOption =
-          _interaction.data.options.getFocused<InteractionOptionsString>(true);
+          _context.data.options.getFocused<InteractionOptionsString>(true);
         const choices = search<string>(_focusedOption.value, timezones);
 
         if (!choices.length) {
-          return await _interaction.result([
+          return await _context.result([
             {
               name:
                 {
                   "es-419": "❌ Sin opciones disponibles",
                   "es-ES": "❌ Sin opciones disponibles",
-                }[_interaction.locale] ?? "❌ No options available",
+                }[_context.locale] ?? "❌ No options available",
               value: "",
             },
           ]);
         }
 
-        await _interaction
-          .result(
-            choices.slice(0, 25).map((c) => {
-              return {
-                name:
-                  {
-                    "es-419": `🌍 Establecer la zona horaria a "${c}"`,
-                    "es-ES": `🌍 Establecer la zona horaria a "${c}"`,
-                  }[_interaction.locale] ?? `🌍 Set time zone to "${c}"`,
-                value: c,
-              };
-            }),
-          )
-          .catch(() => null);
+        await _context.result(
+          choices.slice(0, 25).map((c) => {
+            return {
+              name:
+                {
+                  "es-419": `🌍 Establecer la zona horaria a "${c}"`,
+                  "es-ES": `🌍 Establecer la zona horaria a "${c}"`,
+                }[_context.locale] ?? `🌍 Set time zone to "${c}"`,
+              value: c,
+            };
+          }),
+        );
 
         break;
       }
     }
   },
-  run: async (_client: Discord, _interaction: CommandInteraction) => null,
+  run: async (_client: Discord, _context: CommandInteraction) => null,
 });
