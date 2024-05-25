@@ -41,7 +41,7 @@
       "#util/*": ["./src/util/*"],
       "#constants": ["./src/Constants.ts"],
       "#locales": ["./src/locales/Index.ts"],
-      "#locales/*": ["./src/locales/misc/*"],
+      "#locales/*": ["./src/locales/Miscellaneous/*"],
       "#root/*": ["./*"]
     }
   }

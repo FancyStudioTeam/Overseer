@@ -50,7 +50,7 @@ _client.on(
 
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
       where: {
-        guild_id: _interaction.guild.id,
+        guild_id: _interaction.guildID,
       },
     });
     const locale = <Locales>(
@@ -61,7 +61,7 @@ _client.on(
     const premium = guildConfiguration?.premium.enabled ?? false;
 
     if (
-      !checkPermissions(
+      !(await checkPermissions(
         {
           _context: _interaction,
           locale,
@@ -71,7 +71,7 @@ _client.on(
         ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
         _interaction.guild.clientMember,
         _interaction.channel,
-      )
+      ))
     )
       return;
 
@@ -88,7 +88,7 @@ _client.on(
           .setName("maintenance.png")
           .setContent(
             readFileSync(
-              join(process.cwd(), "assets/images", "Maintenance.png"),
+              join(process.cwd(), "assets/Images", "Maintenance.png"),
             ),
           )
           .toJSONArray(),
@@ -269,7 +269,7 @@ async function _handleChatInputCommand({
       await handleError(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
         },
         error,
       );
@@ -300,31 +300,31 @@ async function _handleChatInputSubCommand({
   if (command?.name) {
     if (
       command.permissions?.user &&
-      !checkPermissions(
+      !(await checkPermissions(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         command.permissions.user,
         _interaction.member,
-      )
+      ))
     )
       return;
 
     if (
       command.permissions?.bot &&
-      !checkPermissions(
+      !(await checkPermissions(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         command.permissions.bot,
         _interaction.guild.clientMember,
-      )
+      ))
     )
       return;
 
@@ -341,7 +341,7 @@ async function _handleChatInputSubCommand({
       await handleError(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
         },
         error,
       );
@@ -380,7 +380,7 @@ async function _handleUserCommand({
       await handleError(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
         },
         error,
       );
@@ -419,7 +419,7 @@ async function _handleAutocomplete({
       await handleError(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
         },
         error,
       );
@@ -449,31 +449,31 @@ async function _handleButton({
   if (component?.name) {
     if (
       component.permissions?.user &&
-      !checkPermissions(
+      !(await checkPermissions(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         component.permissions.user,
         _interaction.member,
-      )
+      ))
     )
       return;
 
     if (
       component.permissions?.bot &&
-      !checkPermissions(
+      !(await checkPermissions(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         component.permissions.bot,
         _interaction.guild.clientMember,
-      )
+      ))
     )
       return;
 
@@ -491,7 +491,7 @@ async function _handleButton({
       await handleError(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
         },
         error,
       );
@@ -521,31 +521,31 @@ async function _handleSelectMenu({
   if (component?.name) {
     if (
       component.permissions?.user &&
-      !checkPermissions(
+      !(await checkPermissions(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         component.permissions.user,
         _interaction.member,
-      )
+      ))
     )
       return;
 
     if (
       component.permissions?.bot &&
-      !checkPermissions(
+      !(await checkPermissions(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         component.permissions.bot,
         _interaction.guild.clientMember,
-      )
+      ))
     )
       return;
 
@@ -563,7 +563,7 @@ async function _handleSelectMenu({
       await handleError(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
         },
         error,
       );
@@ -600,7 +600,7 @@ async function _handleModalSubmit({
       await handleError(
         {
           _context: _interaction,
-          locale: locale,
+          locale,
         },
         error,
       );
