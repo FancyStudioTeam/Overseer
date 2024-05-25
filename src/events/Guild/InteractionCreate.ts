@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { RateLimitManager } from "@sapphire/ratelimits";
+import { Result } from "@sapphire/result";
 import {
   type AnyInteractionGateway,
   ApplicationCommandTypes,
@@ -14,15 +15,16 @@ import {
   MessageFlags,
   type ModalSubmitInteraction,
 } from "oceanic.js";
-import { _client } from "../..";
-import { Colors, Emojis, Links } from "../../Constants";
-import { ActionRowBuilder } from "../../builders/ActionRow";
-import { AttachmentBuilder } from "../../builders/Attachment";
-import { ButtonBuilder } from "../../builders/Button";
-import { EmbedBuilder } from "../../builders/Embed";
-import { Translations } from "../../locales";
-import type { Locales } from "../../types";
-import { prisma } from "../../util/Prisma";
+import {
+  ActionRowBuilder,
+  AttachmentBuilder,
+  ButtonBuilder,
+  EmbedBuilder,
+} from "#builders";
+import { Colors, Emojis, Links } from "#constants";
+import { _client } from "#index";
+import { Translations } from "#locales";
+import type { Locales } from "#types";
 import {
   CheckPermissionsFrom,
   UnixType,
@@ -31,7 +33,8 @@ import {
   formatUnix,
   handleError,
   parseEmoji,
-} from "../../util/Util";
+} from "#util";
+import { prisma } from "#util/Prisma";
 
 const commandRateLimiter = new RateLimitManager(5_000, 3);
 const componentRateLimiter = new RateLimitManager(7_000, 5);
@@ -237,50 +240,61 @@ _client.on(
   },
 );
 
-async function _handleChatInputCommand(main: {
+async function _handleChatInputCommand({
+  _interaction,
+  locale,
+  timezone,
+  hour12,
+  premium,
+}: {
   _interaction: CommandInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  const command = _client.interactions.chatInput.get(
-    main._interaction.data.name,
-  );
+  const command = _client.interactions.chatInput.get(_interaction.data.name);
 
   if (command?.name) {
-    await command
-      .run(_client, main._interaction, {
-        locale: main.locale,
-        timezone: main.timezone,
-        hour12: main.hour12,
-        premium: main.premium,
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context: main._interaction,
-            locale: main.locale,
-          },
-          error,
-        );
+    const result = await Result.fromAsync(async () => {
+      await command.run(_client, _interaction, {
+        locale,
+        timezone,
+        hour12,
+        premium,
       });
+    });
+
+    result.unwrapOrElse(async (error) => {
+      await handleError(
+        {
+          _context: _interaction,
+          locale: locale,
+        },
+        error,
+      );
+    });
   }
 }
 
-async function _handleChatInputSubCommand(main: {
+async function _handleChatInputSubCommand({
+  _interaction,
+  locale,
+  timezone,
+  hour12,
+  premium,
+}: {
   _interaction: CommandInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  if (!(main._interaction.inCachedGuildChannel() && main._interaction.guild))
-    return;
+  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
-  const name = main._interaction.data.options.getSubCommand(true);
+  const name = _interaction.data.options.getSubCommand(true);
   const command = _client.subcommands.get(
-    `${main._interaction.data.name}_${name.join("_")}`,
+    `${_interaction.data.name}_${name.join("_")}`,
   );
 
   if (command?.name) {
@@ -288,13 +302,13 @@ async function _handleChatInputSubCommand(main: {
       command.permissions?.user &&
       !checkPermissions(
         {
-          _context: main._interaction,
-          locale: main.locale,
+          _context: _interaction,
+          locale: locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
-        [command.permissions.user],
-        main._interaction.member,
+        command.permissions.user,
+        _interaction.member,
       )
     )
       return;
@@ -303,111 +317,133 @@ async function _handleChatInputSubCommand(main: {
       command.permissions?.bot &&
       !checkPermissions(
         {
-          _context: main._interaction,
-          locale: main.locale,
+          _context: _interaction,
+          locale: locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
-        [command.permissions.bot],
-        main._interaction.guild.clientMember,
+        command.permissions.bot,
+        _interaction.guild.clientMember,
       )
     )
       return;
 
-    await command
-      .run(_client, main._interaction, {
-        locale: main.locale,
-        timezone: main.timezone,
-        hour12: main.hour12,
-        premium: main.premium,
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context: main._interaction,
-            locale: main.locale,
-          },
-          error,
-        );
+    const result = await Result.fromAsync(async () => {
+      await command.run(_client, _interaction, {
+        locale,
+        timezone,
+        hour12,
+        premium,
       });
+    });
+
+    result.unwrapOrElse(async (error) => {
+      await handleError(
+        {
+          _context: _interaction,
+          locale: locale,
+        },
+        error,
+      );
+    });
   }
 }
 
-async function _handleUserCommand(main: {
+async function _handleUserCommand({
+  _interaction,
+  locale,
+  timezone,
+  hour12,
+  premium,
+}: {
   _interaction: CommandInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  if (!(main._interaction.inCachedGuildChannel() && main._interaction.guild))
-    return;
+  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
-  const command = _client.interactions.user.get(main._interaction.data.name);
+  const command = _client.interactions.user.get(_interaction.data.name);
 
   if (command?.name) {
-    await command
-      .run(_client, main._interaction, {
-        locale: main.locale,
-        timezone: main.timezone,
-        hour12: main.hour12,
-        premium: main.premium,
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context: main._interaction,
-            locale: main.locale,
-          },
-          error,
-        );
+    const result = await Result.fromAsync(async () => {
+      await command.run(_client, _interaction, {
+        locale,
+        timezone,
+        hour12,
+        premium,
       });
+    });
+
+    result.unwrapOrElse(async (error) => {
+      await handleError(
+        {
+          _context: _interaction,
+          locale: locale,
+        },
+        error,
+      );
+    });
   }
 }
 
-async function _handleAutocomplete(main: {
+async function _handleAutocomplete({
+  _interaction,
+  locale,
+  timezone,
+  hour12,
+  premium,
+}: {
   _interaction: AutocompleteInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  const command = _client.interactions.chatInput.get(
-    main._interaction.data.name,
-  );
+  const command = _client.interactions.chatInput.get(_interaction.data.name);
 
-  if (command?.name && command.autocomplete) {
-    await command
-      .autocomplete(_client, main._interaction, {
-        locale: main.locale,
-        timezone: main.timezone,
-        hour12: main.hour12,
-        premium: main.premium,
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context: main._interaction,
-            locale: main.locale,
-          },
-          error,
-        );
-      });
+  if (command?.name) {
+    const result = await Result.fromAsync(async () => {
+      if (command.autocomplete) {
+        await command.autocomplete(_client, _interaction, {
+          locale,
+          timezone,
+          hour12,
+          premium,
+        });
+      }
+    });
+
+    result.unwrapOrElse(async (error) => {
+      await handleError(
+        {
+          _context: _interaction,
+          locale: locale,
+        },
+        error,
+      );
+    });
   }
 }
 
-async function _handleButton(main: {
+async function _handleButton({
+  _interaction,
+  locale,
+  timezone,
+  hour12,
+  premium,
+}: {
   _interaction: ComponentInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  if (!(main._interaction.inCachedGuildChannel() && main._interaction.guild))
-    return;
+  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
   const component = _client.components.buttons.get(
-    main._interaction.data.customID.split("/")[0],
+    _interaction.data.customID.split("/")[0],
   );
 
   if (component?.name) {
@@ -415,13 +451,13 @@ async function _handleButton(main: {
       component.permissions?.user &&
       !checkPermissions(
         {
-          _context: main._interaction,
-          locale: main.locale,
+          _context: _interaction,
+          locale: locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
-        [component.permissions.user],
-        main._interaction.member,
+        component.permissions.user,
+        _interaction.member,
       )
     )
       return;
@@ -430,49 +466,56 @@ async function _handleButton(main: {
       component.permissions?.bot &&
       !checkPermissions(
         {
-          _context: main._interaction,
-          locale: main.locale,
+          _context: _interaction,
+          locale: locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
-        [component.permissions.bot],
-        main._interaction.guild.clientMember,
+        component.permissions.bot,
+        _interaction.guild.clientMember,
       )
     )
       return;
 
-    await component
-      .run(_client, main._interaction, {
-        locale: main.locale,
-        timezone: main.timezone,
-        hour12: main.hour12,
-        premium: main.premium,
-        variable: main._interaction.data.customID.split("/")[1] ?? "",
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context: main._interaction,
-            locale: main.locale,
-          },
-          error,
-        );
+    const result = await Result.fromAsync(async () => {
+      await component.run(_client, _interaction, {
+        locale,
+        timezone,
+        hour12,
+        premium,
+        variable: _interaction.data.customID.split("/")[1] ?? "",
       });
+    });
+
+    result.unwrapOrElse(async (error) => {
+      await handleError(
+        {
+          _context: _interaction,
+          locale: locale,
+        },
+        error,
+      );
+    });
   }
 }
 
-async function _handleSelectMenu(main: {
+async function _handleSelectMenu({
+  _interaction,
+  locale,
+  timezone,
+  hour12,
+  premium,
+}: {
   _interaction: ComponentInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  if (!(main._interaction.inCachedGuildChannel() && main._interaction.guild))
-    return;
+  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
   const component = _client.components.select.get(
-    main._interaction.data.customID.split("/")[0],
+    _interaction.data.customID.split("/")[0],
   );
 
   if (component?.name) {
@@ -480,13 +523,13 @@ async function _handleSelectMenu(main: {
       component.permissions?.user &&
       !checkPermissions(
         {
-          _context: main._interaction,
-          locale: main.locale,
+          _context: _interaction,
+          locale: locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
-        [component.permissions.user],
-        main._interaction.member,
+        component.permissions.user,
+        _interaction.member,
       )
     )
       return;
@@ -495,64 +538,72 @@ async function _handleSelectMenu(main: {
       component.permissions?.bot &&
       !checkPermissions(
         {
-          _context: main._interaction,
-          locale: main.locale,
+          _context: _interaction,
+          locale: locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
-        [component.permissions.bot],
-        main._interaction.guild.clientMember,
+        component.permissions.bot,
+        _interaction.guild.clientMember,
       )
     )
       return;
 
-    await component
-      .run(_client, main._interaction, {
-        locale: main.locale,
-        timezone: main.timezone,
-        hour12: main.hour12,
-        premium: main.premium,
-        variable: main._interaction.data.customID.split("/")[1] ?? "",
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context: main._interaction,
-            locale: main.locale,
-          },
-          error,
-        );
+    const result = await Result.fromAsync(async () => {
+      await component.run(_client, _interaction, {
+        locale,
+        timezone,
+        hour12,
+        premium,
+        variable: _interaction.data.customID.split("/")[1] ?? "",
       });
+    });
+
+    result.unwrapOrElse(async (error) => {
+      await handleError(
+        {
+          _context: _interaction,
+          locale: locale,
+        },
+        error,
+      );
+    });
   }
 }
 
-async function _handleModalSubmit(main: {
+async function _handleModalSubmit({
+  _interaction,
+  locale,
+  timezone,
+  hour12,
+  premium,
+}: {
   _interaction: ModalSubmitInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  const component = _client.components.modals.get(
-    main._interaction.data.customID,
-  );
+  const component = _client.components.modals.get(_interaction.data.customID);
 
   if (component?.name) {
-    await component
-      .run(_client, main._interaction, {
-        locale: main.locale,
-        timezone: main.timezone,
-        hour12: main.hour12,
-        premium: main.premium,
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context: main._interaction,
-            locale: main.locale,
-          },
-          error,
-        );
+    const result = await Result.fromAsync(async () => {
+      await component.run(_client, _interaction, {
+        locale,
+        timezone,
+        hour12,
+        premium,
       });
+    });
+
+    result.unwrapOrElse(async (error) => {
+      await handleError(
+        {
+          _context: _interaction,
+          locale: locale,
+        },
+        error,
+      );
+    });
   }
 }
