@@ -9,9 +9,9 @@ import {
 } from "oceanic.js";
 import type {
   ChatInputCommandInterface,
+  ChatInputSubCommandInterface,
   ComponentInterface,
   ModalInterface,
-  SubCommandInterface,
   UserCommandInterface,
 } from "#types";
 import { LoggerType, logger } from "#util";
@@ -29,7 +29,7 @@ export class Discord extends Client {
     select: Collection<string, ComponentInterface | Nullish>;
     modals: Collection<string, ModalInterface | Nullish>;
   };
-  subcommands: Collection<string, SubCommandInterface | Nullish>;
+  subcommands: Collection<string, ChatInputSubCommandInterface | Nullish>;
   #dbReady: boolean;
   readonly readyAt: Date;
 
@@ -184,10 +184,10 @@ export class Discord extends Client {
         const dividedPath = subCommandPath.split(sep);
         const directory = dividedPath[dividedPath.length - 3];
 
-        this.subcommands.set(`${directory}_${subCommand.name}`.toLowerCase(), {
-          ...subCommand,
-          directory,
-        });
+        this.subcommands.set(
+          `${directory}_${subCommand.name}`.toLowerCase(),
+          subCommand,
+        );
       }
     });
   }
