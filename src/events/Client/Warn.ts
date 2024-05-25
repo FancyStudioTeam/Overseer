@@ -7,6 +7,6 @@ _client.on("warn", (_info: string, _shard: number | Nullish) => {
   captureException(_info);
   logger(
     LoggerType.WARN,
-    `${_shard ? "[No Shard]" : `[Shard ${_shard}]`} ${_info}`,
+    `${_shard ? `[Shard ${_shard}]` : "[No Shard]"} ${_info}`,
   );
 });
