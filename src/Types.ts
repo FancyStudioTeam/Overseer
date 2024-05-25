@@ -31,7 +31,7 @@ export interface BaseInterface<T extends BaseTypes> {
 }
 
 export type ChatInputCommandInterface = {
-  directory: string;
+  directory: Directory;
   autocomplete?: (
     client: Discord,
     interaction: AutocompleteInteraction,
@@ -46,7 +46,7 @@ export type ChatInputCommandInterface = {
   CreateChatInputApplicationCommandOptions;
 
 export type ChatInputSubCommandInterface = {
-  directory: string;
+  directory: Directory;
 } & BaseInterface<CommandInteraction>;
 
 export type UserCommandInterface = BaseInterface<CommandInteraction> &
@@ -60,3 +60,9 @@ type BaseTypes =
   | CommandInteraction
   | ComponentInteraction
   | ModalSubmitInteraction;
+
+export enum Directory {
+  CONFIGURATION,
+  INFORMATION,
+  UTIL,
+}
