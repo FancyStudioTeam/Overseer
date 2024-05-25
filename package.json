@@ -16,6 +16,7 @@
     "@prisma/client": "5.14.0",
     "@sapphire/discord-utilities": "3.3.0",
     "@sapphire/ratelimits": "2.4.9",
+    "@sapphire/result": "2.6.6",
     "@sapphire/snowflake": "3.5.3",
     "@sapphire/time-utilities": "1.7.12",
     "@sapphire/utilities": "3.16.2",

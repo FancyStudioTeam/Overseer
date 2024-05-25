@@ -1,23 +1,21 @@
 import { type ExecException, exec } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { join } from "node:path";
 import { inspect } from "node:util";
-import { codeBlock, cutText } from "@sapphire/utilities";
+import { Result } from "@sapphire/result";
+import { type Nullish, codeBlock, cutText } from "@sapphire/utilities";
 import { ChannelTypes, type Message } from "oceanic.js";
-import { _client } from "../..";
-import { Colors, Developers, Emojis } from "../../Constants";
-import { EmbedBuilder } from "../../builders/Embed";
-import { prisma } from "../../util/Prisma";
+import { EmbedBuilder } from "#builders";
+import { Colors, Developers, Emojis } from "#constants";
+import { _client } from "#index";
+import { prisma } from "#util/Prisma";
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
 _client.on("messageCreate", async (_message: Message) => {
+  const prefix = ">";
+
   if (!(_message.inCachedGuildChannel() && _message.guild)) return;
   if (!_message.channel) return;
   if (_message.channel.type !== ChannelTypes.GUILD_TEXT) return;
   if (_message.author.bot) return;
-
-  const prefix = ">";
-
   if (!_message.content.startsWith(prefix)) return;
   if (!Developers.includes(_message.author.id)) return;
 
@@ -26,73 +24,38 @@ _client.on("messageCreate", async (_message: Message) => {
     .trim()
     .split(" ");
 
-  switch (cmd.toLocaleLowerCase()) {
+  switch (cmd.toLowerCase()) {
     case "voucher": {
-      let emoji = Emojis.SUCCESS;
-
-      await prisma.clientVoucher
-        .create({
-          data: {
-            voucher_id: randomUUID(),
-            general: {
-              type: "MONTH",
-            },
+      const createdClientVoucher = await prisma.clientVoucher.create({
+        data: {
+          voucher_id: randomUUID(),
+          general: {
+            type: "MONTH",
           },
-        })
-        .then(async (createdData) => {
-          emoji = Emojis.SUCCESS;
+        },
+        select: {
+          voucher_id: true,
+        },
+      });
+      const dmChannel = await _client.rest.users
+        .createDM(_message.author.id)
+        .catch(() => null);
 
-          await _client.rest.users
-            .createDM(_message.author.id)
-            .then(async (createdDM) => {
-              await _client.rest.channels
-                .createMessage(createdDM.id, {
-                  embeds: new EmbedBuilder()
-                    .setDescription(
-                      `**${Emojis.RIGHT} ||${createdData.voucher_id}||**`,
-                    )
-                    .setColor(Colors.COLOR)
-                    .toJSONArray(),
-                })
-                .catch(() => null);
-            })
-            .catch(() => null);
-        })
-        .catch(() => {
-          emoji = Emojis.MARK;
-        })
-        .finally(async () => {
-          await _client.rest.channels
-            .createReaction(
-              _message.channelID,
-              _message.id,
-              emoji.replaceAll(/[<>]/g, ""),
+      if (dmChannel) {
+        await _client.rest.channels.createMessage(dmChannel.id, {
+          embeds: new EmbedBuilder()
+            .setDescription(
+              `**${Emojis.RIGHT} ||${createdClientVoucher.voucher_id}||**`,
             )
-            .catch(() => null);
+            .setColor(Colors.COLOR)
+            .toJSONArray(),
         });
+      }
 
       break;
     }
     case "reload": {
-      let emoji = Emojis.SUCCESS;
-
-      await _client
-        ._init()
-        .then(() => {
-          emoji = Emojis.SUCCESS;
-        })
-        .catch(() => {
-          emoji = Emojis.MARK;
-        })
-        .finally(async () => {
-          await _client.rest.channels
-            .createReaction(
-              _message.channelID,
-              _message.id,
-              emoji.replaceAll(/[<>]/g, ""),
-            )
-            .catch(() => null);
-        });
+      await _client._init();
 
       break;
     }
@@ -102,33 +65,19 @@ _client.on("messageCreate", async (_message: Message) => {
       if (!command) return;
 
       exec(
-        `cd "${join(__dirname, "../../..")}" && ${command}`,
-        async (error: ExecException | null, result: string) => {
-          if (error) {
-            await _client.rest.channels.createMessage(_message.channelID, {
-              embeds: new EmbedBuilder()
-                .setAuthor({
-                  name: _client.user.username,
-                  iconURL: _client.user.avatarURL(),
-                })
-                .setDescription(
-                  codeBlock("js", cutText(error.stack ?? error.message, 4000)),
-                )
-                .setColor(Colors.ERROR)
-                .toJSONArray(),
-            });
-          } else {
-            await _client.rest.channels.createMessage(_message.channelID, {
-              embeds: new EmbedBuilder()
-                .setAuthor({
-                  name: _client.user.username,
-                  iconURL: _client.user.avatarURL(),
-                })
-                .setDescription(codeBlock("js", cutText(result, 4000)))
-                .setColor(Colors.SUCCESS)
-                .toJSONArray(),
-            });
-          }
+        `cd "${process.cwd()}" && ${command}`,
+        async (error: ExecException | Nullish, result: string) => {
+          await _client.rest.channels.createMessage(_message.channelID, {
+            embeds: new EmbedBuilder()
+              .setDescription(
+                codeBlock(
+                  error ? "bash" : "js",
+                  cutText(error ? error.stack ?? error.message : result, 4000),
+                ),
+              )
+              .setColor(error ? Colors.ERROR : Colors.COLOR)
+              .toJSONArray(),
+          });
         },
       );
 
@@ -139,11 +88,9 @@ _client.on("messageCreate", async (_message: Message) => {
 
       if (!code) return;
 
-      try {
+      const result = await Result.fromAsync(async () => {
         // biome-ignore lint/security/noGlobalEval:
-        const result = await eval(
-          `const { _client } = require("../..");\n${code}`,
-        );
+        const result = eval(`const { _client } = require("#index");\n${code}`);
         let output = result;
 
         if (typeof result !== "string") {
@@ -152,26 +99,20 @@ _client.on("messageCreate", async (_message: Message) => {
 
         await _client.rest.channels.createMessage(_message.channelID, {
           embeds: new EmbedBuilder()
-            .setAuthor({
-              name: _client.user.username,
-              iconURL: _client.user.avatarURL(),
-            })
             .setDescription(codeBlock("js", cutText(output, 4000)))
-            .setColor(Colors.SUCCESS)
+            .setColor(Colors.COLOR)
             .toJSONArray(),
         });
-      } catch (error) {
+      });
+
+      result.unwrapOrElse(async (error) => {
         await _client.rest.channels.createMessage(_message.channelID, {
           embeds: new EmbedBuilder()
-            .setAuthor({
-              name: _client.user.username,
-              iconURL: _client.user.avatarURL(),
-            })
             .setDescription(codeBlock("js", cutText(String(error), 4000)))
             .setColor(Colors.ERROR)
             .toJSONArray(),
         });
-      }
+      });
 
       break;
     }
