@@ -38,6 +38,7 @@
     "figlet": "1.7.0",
     "prettier": "3.2.5",
     "prisma": "5.14.0",
+    "simple-git-hooks": "2.11.1",
     "ts-node": "10.9.2",
     "tsx": "4.11.0"
   },
@@ -56,5 +57,8 @@
     "#locales": "./dist/src/locales/Index.js",
     "#locales/*": "./dist/src/locales/misc/*",
     "#root/*": "./*"
+  },
+  "simple-git-hooks": {
+    "pre-push": "npx prettier --write **/*.{ts,js,mjs,json,md,mdx}"
   }
 }
