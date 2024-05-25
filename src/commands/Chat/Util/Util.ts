@@ -3,12 +3,13 @@ import {
   ApplicationCommandTypes,
   type CommandInteraction,
 } from "oceanic.js";
-import { ChatInputCommand } from "../../../classes/Builders";
-import type { Discord } from "../../../classes/Client";
+import { BaseBuilder } from "#builders";
+import type { Discord } from "#classes";
+import { type ChatInputCommandInterface, Directory } from "#types";
 
-export default new ChatInputCommand({
+export default new BaseBuilder<ChatInputCommandInterface>({
   name: "util",
-  description: ".",
+  description: "_",
   options: [
     {
       name: "avatar",
@@ -33,6 +34,6 @@ export default new ChatInputCommand({
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
-  directory: "utility",
-  run: async (_client: Discord, _interaction: CommandInteraction) => null,
+  directory: Directory.UTIL,
+  run: async (_client: Discord, _context: CommandInteraction) => null,
 });
