@@ -15,4 +15,4 @@ jobs:
         with:
           version: latest
       - name: Run
-        run: biome check --apply --formatter-enabled=false --linter-enabled=true --organize-imports-enabled=true --config-path="./biome.json" .
+        run: biome check --apply --apply-unsafe --formatter-enabled=false --linter-enabled=true --organize-imports-enabled=true --config-path="./biome.json" .
