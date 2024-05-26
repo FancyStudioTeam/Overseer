@@ -12,8 +12,8 @@ export class ActionRowBuilder {
   }
 
   addComponents(components: ValidComponent[]): this {
-    components.forEach((c, _) => {
-      this.#json.components.push(c.toJSON());
+    components.forEach((component, _) => {
+      this.#json.components.push(component.toJSON());
     });
 
     return this;
