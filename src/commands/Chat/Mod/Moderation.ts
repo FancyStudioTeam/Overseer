@@ -28,6 +28,7 @@ import {
               "es-ES": "Mención del usuario o ID",
             },
             type: ApplicationCommandOptionTypes.USER,
+            required: true,
           },
           {
             name: "reason",
