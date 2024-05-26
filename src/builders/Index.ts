@@ -1,11 +1,11 @@
-import { ActionRowBuilder } from "./components/ActionRow";
-import { AttachmentBuilder } from "./components/Attachment";
-import { BaseBuilder } from "./components/Base";
-import { ButtonBuilder } from "./components/Button";
-import { EmbedBuilder } from "./components/Embed";
-import { ModalBuilder } from "./components/Modal";
-import { SelectMenuBuilder } from "./components/SelectMenu";
-import { TextInputBuilder } from "./components/TextInput";
+import { ActionRowBuilder } from "./Components/ActionRow";
+import { AttachmentBuilder } from "./Components/Attachment";
+import { BaseBuilder } from "./Components/Base";
+import { ButtonBuilder } from "./Components/Button";
+import { EmbedBuilder } from "./Components/Embed";
+import { ModalBuilder } from "./Components/Modal";
+import { SelectMenuBuilder } from "./Components/SelectMenu";
+import { TextInputBuilder } from "./Components/TextInput";
 
 export {
   ActionRowBuilder,

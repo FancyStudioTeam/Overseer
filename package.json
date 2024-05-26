@@ -1,6 +1,7 @@
 {
   "name": "overseer",
   "version": "0.0.0@beta",
+  "main": "dist/src/Index.js",
   "scripts": {
     "dev": "tsx watch --ignore ./src/locales src/Index.ts",
     "build": "tsc",
