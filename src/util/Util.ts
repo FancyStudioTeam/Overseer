@@ -207,6 +207,10 @@ export function compareMemberToMember(
   return ComparationLevel.UNKNOWN;
 }
 
+export function trim(content: string, maxLength: number): string {
+  return content.length > maxLength ? `${content.substring(0, maxLength)}...` : content;
+}
+
 export function formatTimestamp(
   date: Date | string,
   hour12 = false,
