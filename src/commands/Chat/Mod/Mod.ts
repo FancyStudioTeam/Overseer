@@ -34,7 +34,7 @@ import {
     ],
     type: ApplicationCommandTypes.CHAT_INPUT,
     dmPermission: false,
-    directory: Directory.UTILITY,
+    directory: Directory.MOD,
     run: async (_client: Discord, _context: CommandInteraction) => null,
   });
   
