@@ -1,9 +1,9 @@
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder, EmbedBuilder } from "#builders";
-import type { Discord } from "#classes";
+import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
-import { version } from "#root/package.json";
+import { version } from "#package";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
 import { UnixType, escapeRegex, formatUnix } from "#util";
 

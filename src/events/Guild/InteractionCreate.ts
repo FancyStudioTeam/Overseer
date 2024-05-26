@@ -24,6 +24,7 @@ import {
 import { Colors, Emojis, Links } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#locales";
+import { prisma } from "#prisma";
 import type { Locales } from "#types";
 import {
   CheckPermissionsFrom,
@@ -34,7 +35,6 @@ import {
   handleError,
   parseEmoji,
 } from "#util";
-import { prisma } from "#util/Prisma";
 
 const commandRateLimiter = new RateLimitManager(5_000, 3);
 const componentRateLimiter = new RateLimitManager(7_000, 5);

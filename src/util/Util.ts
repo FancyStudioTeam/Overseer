@@ -27,7 +27,7 @@ import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from "#builders";
 import { Colors, Emojis, Links } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#locales";
-import { Permissions } from "#root/src/locales/Miscellaneous/Reference";
+import { Permissions } from "#references";
 import type { Locales } from "#types";
 
 export async function fetchUser(

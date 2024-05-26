@@ -1,12 +1,12 @@
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder, EmbedBuilder } from "#builders";
-import type { Discord } from "#classes";
+import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
+import { prisma } from "#prisma";
+import timezones from "#timezones";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
 import { errorMessage } from "#util";
-import { prisma } from "#util/Prisma";
-import timezones from "#util/Timezones";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "timezone",

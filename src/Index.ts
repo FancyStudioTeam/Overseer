@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { init } from "@sentry/node";
-import { Discord } from "#classes";
+import { Discord } from "#client";
 
 export const _client = new Discord();
 

@@ -1,16 +1,16 @@
 import type { CommandInteraction } from "oceanic.js";
 import { EmbedBuilder } from "#builders";
 import { BaseBuilder } from "#builders";
-import type { Discord } from "#classes";
+import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
+import { prisma } from "#prisma";
 import {
   type ChatInputSubCommandInterface,
   Directory,
   type Locales,
 } from "#types";
 import { errorMessage } from "#util";
-import { prisma } from "#util/Prisma";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "language",

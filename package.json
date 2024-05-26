@@ -1,11 +1,10 @@
 {
   "name": "overseer",
   "version": "0.0.0@beta",
-  "main": "dist/src/Index.js",
   "scripts": {
     "dev": "tsx watch --ignore ./src/locales src/Index.ts",
     "build": "tsc",
-    "start": "node dist/src/Index.js",
+    "start": "cd dist && node src/Index.js",
     "format": "npx prettier --write **/*.{ts,js,mjs,json,md,mdx}",
     "ci": "biome ci --formatter-enabled=false --linter-enabled=true --organize-imports-enabled=true --config-path=\"./biome.json\" ."
   },
@@ -51,17 +50,17 @@
     "seed": "tsx src/seed.ts"
   },
   "imports": {
-    "#index": "./dist/src/Index.js",
-    "#types": "./dist/src/Types.js",
-    "#classes": "./dist/src/classes/Client.js",
-    "#classes/*": "./dist/src/classes/*",
-    "#builders": "./dist/src/builders/Index.js",
-    "#util": "./dist/src/util/Util.js",
-    "#util/*": "./dist/src/util/*",
-    "#constants": "./dist/src/Constants.js",
-    "#locales": "./dist/src/locales/Index.js",
-    "#locales/*": "./dist/src/locales/Miscellaneous/*",
-    "#root/*": "./*"
+    "#builders": "./src/builders/Index.js",
+    "#client": "./src/classes/Client.js",
+    "#constants": "./src/Constants.js",
+    "#index": "./src/Index.js",
+    "#locales": "./src/locales/Index.js",
+    "#package": "./package.json",
+    "#prisma": "./src/util/Prisma.js",
+    "#references": "./src/locales/Miscellaneous/Reference.js",
+    "#timezones": "./src/util/Timezones.js",
+    "#types": "./src/Types.js",
+    "#util": "./src/util/Util.js"
   },
   "packageManager": "pnpm@9.1.2+sha256.19c17528f9ca20bd442e4ca42f00f1b9808a9cb419383cd04ba32ef19322aba7"
 }

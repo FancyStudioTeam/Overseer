@@ -13,12 +13,12 @@ import {
 } from "oceanic.js";
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from "#builders";
 import { BaseBuilder } from "#builders";
-import type { Discord } from "#classes";
+import type { Discord } from "#client";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#locales";
+import { prisma } from "#prisma";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
 import { disableComponents, errorMessage, parseEmoji } from "#util";
-import { prisma } from "#util/Prisma";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "premium_revoke",

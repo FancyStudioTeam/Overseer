@@ -7,7 +7,7 @@ import { ChannelTypes, type Message } from "oceanic.js";
 import { EmbedBuilder } from "#builders";
 import { Colors, Developers, Emojis } from "#constants";
 import { _client } from "#index";
-import { prisma } from "#util/Prisma";
+import { prisma } from "#prisma";
 
 _client.on("messageCreate", async (_message: Message) => {
   const prefix = ">";

@@ -4,7 +4,7 @@ import {
   type User,
 } from "oceanic.js";
 import { BaseBuilder, EmbedBuilder } from "#builders";
-import type { Discord } from "#classes";
+import type { Discord } from "#client";
 import { Colors } from "#constants";
 import type { UserCommandInterface } from "#types";
 

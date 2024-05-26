@@ -7,6 +7,7 @@ import {
   Collection,
   type CreateApplicationCommandOptions,
 } from "oceanic.js";
+import { prisma } from "#prisma";
 import type {
   ChatInputCommandInterface,
   ChatInputSubCommandInterface,
@@ -15,7 +16,6 @@ import type {
   UserCommandInterface,
 } from "#types";
 import { LoggerType, logger } from "#util";
-import { prisma } from "#util/Prisma";
 
 const arrayCommands: CreateApplicationCommandOptions[] = [];
 
@@ -119,10 +119,19 @@ export class Discord extends Client {
     }
 
     await Promise.allSettled([
-      this._registerComponents(),
+      // this._registerComponents(),
       this._registerEvents(),
       this._registerModules(),
-    ]);
+    ])
+      .then(() => {
+        logger(LoggerType.INFO, "Loading components, cvents and modules...");
+      })
+      .catch((error) => {
+        logger(
+          LoggerType.ERROR,
+          `Error while loading: ${error.stack ?? error.message}`,
+        );
+      });
   }
 
   async _deploy(): Promise<void> {
@@ -145,7 +154,7 @@ export class Discord extends Client {
     await this._registerSubCommands();
 
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/commands/*/*/*.{ts,js}`,
+      `${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {
@@ -174,7 +183,7 @@ export class Discord extends Client {
     this.subcommands.clear();
 
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/commands/Chat/*/*/*.{ts,js}`,
+      `${join(__dirname, "..", "commands/Chat")}/*/*/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {
@@ -201,7 +210,7 @@ export class Discord extends Client {
     this.components.select.clear();
 
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/components/**/*.{ts,js}`,
+      `${join(__dirname, "..", "components")}/**/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {
@@ -230,7 +239,7 @@ export class Discord extends Client {
     this.removeAllListeners();
 
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/events/**/*.{ts,js}`,
+      `${join(__dirname, "..", "events")}/*/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {
@@ -243,7 +252,7 @@ export class Discord extends Client {
 
   async _registerModules(): Promise<void> {
     const files = await this.#loadFiles(
-      `${process.cwd()}/**/modules/*.{ts,js}`,
+      `${join(__dirname, "..", "modules")}/*.{ts,js}`,
     );
 
     files.forEach((path, _) => {
@@ -251,7 +260,6 @@ export class Discord extends Client {
       const module = require(modulePath).default;
 
       delete require.cache[require.resolve(modulePath)];
-
       module(this);
     });
   }

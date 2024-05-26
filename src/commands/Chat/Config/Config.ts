@@ -6,10 +6,10 @@ import {
   type InteractionOptionsString,
 } from "oceanic.js";
 import { BaseBuilder } from "#builders";
-import type { Discord } from "#classes";
+import type { Discord } from "#client";
+import timezones from "#timezones";
 import { type ChatInputCommandInterface, Directory } from "#types";
 import { search } from "#util";
-import timezones from "#util/Timezones";
 
 export default new BaseBuilder<ChatInputCommandInterface>({
   name: "config",

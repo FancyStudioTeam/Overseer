@@ -4,7 +4,7 @@ import {
   type CommandInteraction,
 } from "oceanic.js";
 import { BaseBuilder } from "#builders";
-import type { Discord } from "#classes";
+import type { Discord } from "#client";
 import { type ChatInputCommandInterface, Directory } from "#types";
 
 export default new BaseBuilder<ChatInputCommandInterface>({
