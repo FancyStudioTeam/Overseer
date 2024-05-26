@@ -29,12 +29,23 @@ import {
             },
             type: ApplicationCommandOptionTypes.USER,
           },
+          {
+            name: "reason",
+            description: "The reason for the kick",
+            descriptionLocalizations: {
+              "es-419": "La razón de la expulsión",
+              "es-ES": "La razón de la expulsión",
+            },
+            type: ApplicationCommandOptionTypes.STRING,
+            required: false,
+            autocomplete: false,
+          },
         ],
       },
     ],
     type: ApplicationCommandTypes.CHAT_INPUT,
     dmPermission: false,
-    directory: Directory.MOD,
+    directory: Directory.MODERATION,
     run: async (_client: Discord, _context: CommandInteraction) => null,
   });
   

@@ -65,6 +65,6 @@ export enum Directory {
   CONFIGURATION,
   INFORMATION,
   UTILITY,
-  MOD,
+  MODERATION,
   MISCELLANEOUS,
 }
