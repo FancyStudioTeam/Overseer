@@ -1,4 +1,5 @@
 import colors from "@colors/colors";
+import { escapeMarkdown } from "@discordjs/formatters";
 import { ParsedCustomEmojiWithGroups } from "@sapphire/discord-utilities";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Timestamp } from "@sapphire/time-utilities";
@@ -20,6 +21,7 @@ import {
   type Role,
   type User,
 } from "oceanic.js";
+import { match } from "ts-pattern";
 import urlRegex from "url-regex-safe";
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from "#builders";
 import { Colors, Emojis, Links } from "#constants";
@@ -32,11 +34,14 @@ export async function fetchUser(
   type: FetchFrom,
   id: string,
 ): Promise<User | Nullish> {
-  return type === FetchFrom.DEFAULT
-    ? _client.users.get(id) ?? (await _client.rest.users.get(id))
-    : type === FetchFrom.REST
-      ? await _client.rest.users.get(id)
-      : _client.users.get(id);
+  return match(type)
+    .with(
+      FetchFrom.DEFAULT,
+      async () => _client.users.get(id) ?? (await _client.rest.users.get(id)),
+    )
+    .with(FetchFrom.CACHE, () => _client.users.get(id))
+    .with(FetchFrom.REST, async () => await _client.rest.users.get(id))
+    .otherwise(() => null);
 }
 
 export async function fetchMember(
@@ -44,12 +49,19 @@ export async function fetchMember(
   guild: Guild,
   id: string,
 ): Promise<Member | Nullish> {
-  return type === FetchFrom.DEFAULT
-    ? guild.members.get(id) ??
-        (await _client.rest.guilds.getMember(guild.id, id))
-    : type === FetchFrom.REST
-      ? await _client.rest.guilds.getMember(guild.id, id)
-      : guild.members.get(id);
+  return match(type)
+    .with(
+      FetchFrom.DEFAULT,
+      async () =>
+        guild.members.get(id) ??
+        (await _client.rest.guilds.getMember(guild.id, id)),
+    )
+    .with(FetchFrom.CACHE, () => guild.members.get(id))
+    .with(
+      FetchFrom.REST,
+      async () => await _client.rest.guilds.getMember(guild.id, id),
+    )
+    .otherwise(() => null);
 }
 
 export function padding(content: string, separator: string): string {
@@ -156,9 +168,21 @@ export async function disableComponents(message: Message): Promise<void> {
 }
 
 export function escapeRegex(content: string): string {
-  const regex = /((`){1,3}|(\*){1,3}|(~){2}|(\|){2}|^(>){1,3}|(_){1,2})+/gm;
-
-  return content.replaceAll(regex, "");
+  return escapeMarkdown(content, {
+    bold: true,
+    bulletedList: true,
+    codeBlock: true,
+    codeBlockContent: true,
+    escape: true,
+    heading: true,
+    inlineCode: true,
+    inlineCodeContent: true,
+    italic: true,
+    maskedLink: true,
+    spoiler: true,
+    strikethrough: true,
+    underline: true,
+  });
 }
 
 export function compareMemberToMember(
