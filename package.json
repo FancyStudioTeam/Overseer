@@ -29,6 +29,7 @@
     "oceanic-collectors": "1.0.7",
     "oceanic.js": "1.10.4",
     "pako": "2.1.0",
+    "ts-pattern": "5.1.2",
     "url-regex-safe": "4.0.0"
   },
   "devDependencies": {
