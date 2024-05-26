@@ -25,10 +25,10 @@ export class ModalBuilder {
   }
 
   addComponents(components: TextInputBuilder[]): this {
-    components.forEach((c, _) => {
+    components.forEach((component, _) => {
       this.#json.components.push({
         type: ComponentTypes.ACTION_ROW,
-        components: [c.toJSON()],
+        components: [component.toJSON()],
       });
     });
 

@@ -44,8 +44,8 @@ export class EmbedBuilder {
   }
 
   addFields(fields: EmbedField[]): this {
-    fields.forEach((f, _) => {
-      this.addField(f);
+    fields.forEach((field, _) => {
+      this.addField(field);
     });
 
     return this;

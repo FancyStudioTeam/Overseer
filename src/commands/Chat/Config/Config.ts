@@ -161,14 +161,14 @@ export default new BaseBuilder<ChatInputCommandInterface>({
         }
 
         await _context.result(
-          choices.slice(0, 25).map((c) => {
+          choices.slice(0, 25).map((choice) => {
             return {
               name:
                 {
-                  "es-419": `🌍 Establecer la zona horaria a "${c}"`,
-                  "es-ES": `🌍 Establecer la zona horaria a "${c}"`,
-                }[_context.locale] ?? `🌍 Set time zone to "${c}"`,
-              value: c,
+                  "es-419": `🌍 Establecer la zona horaria a "${choice}"`,
+                  "es-ES": `🌍 Establecer la zona horaria a "${choice}"`,
+                }[_context.locale] ?? `🌍 Set time zone to "${choice}"`,
+              value: choice,
             };
           }),
         );

@@ -33,7 +33,6 @@ export default new BaseBuilder<ChatInputCommandInterface>({
         (command) => command?.directory === directory,
       );
     });
-
     const commands = groupedCommands.map((group) => {
       const data: {
         base: string;

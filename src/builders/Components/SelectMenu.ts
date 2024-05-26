@@ -56,8 +56,8 @@ export class SelectMenuBuilder {
   }
 
   addOptions(components: SelectOption[]): this {
-    components.forEach((c, _) => {
-      (<StringSelectMenu>this.#json).options.push(c);
+    components.forEach((component, _) => {
+      (<StringSelectMenu>this.#json).options.push(component);
     });
 
     return this;
