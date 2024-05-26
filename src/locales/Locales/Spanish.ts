@@ -15,13 +15,14 @@ export default {
           MEMBERSHIP_NOT_FOUND: ({ code }: { code: string }) =>
             `**${Emojis.MARK} El código \`${code}\` no ha sido encontrado**`,
           MESSAGE_1: ({ expireDate }: { expireDate: string | Nullish }) =>
-            `**${Emojis.SUCCESS} La membresía premium ha sido reclamada**\n${
-              Emojis.RIGHT
-            } La membresía premium ${
-              isNullOrUndefined(expireDate)
-                ? "`nunca caducará`"
-                : `caducará el \`${expireDate}\``
-            }`,
+            [
+              `**${Emojis.SUCCESS} La membresía premium ha sido reclamada**`,
+              `${Emojis.RIGHT} La membresía premium ${
+                isNullOrUndefined(expireDate)
+                  ? "`nunca caducará`"
+                  : `caducará el \`${expireDate}\``
+              }`,
+            ].join("\n"),
         },
         REVOKE: {
           COMPONENTS: {
@@ -37,7 +38,10 @@ export default {
             },
           },
           INVALID_GUILD_MEMBERSHIP: `**${Emojis.MARK} El servidor no tiene una membresía premium**`,
-          MESSAGE_1: `**${Emojis.WARNING} Estás a punto de cancelar la membresía premium**\n${Emojis.RIGHT} Si lo haces, ya no podrás disfrutar de los beneficios de la membresía`,
+          MESSAGE_1: [
+            `**${Emojis.WARNING} Estás a punto de cancelar la membresía premium**`,
+            `${Emojis.RIGHT} Si lo haces, ya no podrás disfrutar de los beneficios de la membresía`,
+          ].join("\n"),
         },
       },
       TIMEZONE: {
@@ -90,11 +94,14 @@ export default {
             codeBlock(
               "ansi",
               padding(
-                `${colors.reset.cyan(
-                  "Referencia REST",
-                )} - ${colors.bold.magenta(rest)}\n${colors.reset.cyan(
-                  "Conexión WebSocket",
-                )} - ${colors.bold.magenta(shard)}`,
+                [
+                  `${colors.reset.cyan("Referencia REST")} - ${colors.bold.magenta(
+                    rest,
+                  )}`,
+                  `${colors.reset.cyan(
+                    "Conexión WebSocket",
+                  )} - ${colors.bold.magenta(shard)}`,
+                ].join("\n"),
                 "-",
               ),
             ),
@@ -216,10 +223,16 @@ export default {
   },
   GENERAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
-      `**${Emojis.MARK} La propiedad \`guild\` no está presente en la estructura \`${structure.constructor.name}\`**\n${Emojis.RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
+      [
+        `**${Emojis.MARK} La propiedad \`guild\` no está presente en la estructura \`${structure.constructor.name}\`**`,
+        `${Emojis.RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
+      ].join("\n"),
     INVALID_GUILD_MEMBER: `**${Emojis.MARK} El usuario debe de ser miembro del servidor**`,
     USER_IS_LIMITED: ({ resets }: { resets: string }) =>
-      `**${Emojis.MARK} Estas ejecutando demasiadas acciones en poco tiempo**\n${Emojis.RIGHT} Has recibido un bloqueo que se reiniciará en ${resets}`,
+      [
+        `**${Emojis.MARK} Estas ejecutando demasiadas acciones en poco tiempo**`,
+        `${Emojis.RIGHT} Has recibido un bloqueo que se reiniciará en ${resets}`,
+      ].join("\n"),
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>
