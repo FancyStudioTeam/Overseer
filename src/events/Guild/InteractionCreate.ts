@@ -39,206 +39,200 @@ import { prisma } from "#util/Prisma";
 const commandRateLimiter = new RateLimitManager(5_000, 3);
 const componentRateLimiter = new RateLimitManager(7_000, 5);
 
-_client.on(
-  "interactionCreate",
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
-  async (_interaction: AnyInteractionGateway) => {
-    if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
-    if (!_interaction.channel) return;
-    if (_interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;
-    if (_interaction.user.bot) return;
+_client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
+  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
+  if (!_interaction.channel) return;
+  if (_interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;
+  if (_interaction.user.bot) return;
 
-    const guildConfiguration = await prisma.guildConfiguration.findUnique({
-      where: {
-        guild_id: _interaction.guildID,
+  const guildConfiguration = await prisma.guildConfiguration.findUnique({
+    where: {
+      guild_id: _interaction.guildID,
+    },
+  });
+  const locale = <Locales>(
+    (guildConfiguration?.general.locale ?? "en").toUpperCase()
+  );
+  const timezone = guildConfiguration?.general.timezone ?? "UTC";
+  const hour12 = guildConfiguration?.general.use_12_hours ?? false;
+  const premium = guildConfiguration?.premium.enabled ?? false;
+
+  if (
+    !(await checkPermissions(
+      {
+        _context: _interaction,
+        locale,
+        ephemeral: true,
       },
+      CheckPermissionsFrom.CHANNEL,
+      ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
+      _interaction.guild.clientMember,
+      _interaction.channel,
+    ))
+  )
+    return;
+
+  if (
+    process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" &&
+    "reply" in _interaction
+  ) {
+    return await _interaction.reply({
+      embeds: new EmbedBuilder()
+        .setImage("attachment://maintenance.png")
+        .setColor(Colors.COLOR)
+        .toJSONArray(),
+      files: new AttachmentBuilder()
+        .setName("maintenance.png")
+        .setContent(
+          readFileSync(join(process.cwd(), "assets/Images", "Maintenance.png")),
+        )
+        .toJSONArray(),
+      components: new ActionRowBuilder()
+        .addComponents([
+          new ButtonBuilder()
+            .setLabel("Support Server")
+            .setStyle(ButtonStyles.LINK)
+            .setEmoji(parseEmoji(Emojis.SUPPORT))
+            .setURL(Links.SUPPORT),
+        ])
+        .toJSONArray(),
+      flags: MessageFlags.EPHEMERAL,
     });
-    const locale = <Locales>(
-      (guildConfiguration?.general.locale ?? "en").toUpperCase()
-    );
-    const timezone = guildConfiguration?.general.timezone ?? "UTC";
-    const hour12 = guildConfiguration?.general.use_12_hours ?? false;
-    const premium = guildConfiguration?.premium.enabled ?? false;
+  }
 
-    if (
-      !(await checkPermissions(
-        {
-          _context: _interaction,
-          locale,
-          ephemeral: true,
-        },
-        CheckPermissionsFrom.CHANNEL,
-        ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
-        _interaction.guild.clientMember,
-        _interaction.channel,
-      ))
-    )
-      return;
+  switch (_interaction.type) {
+    case InteractionTypes.APPLICATION_COMMAND: {
+      const rateLimit = commandRateLimiter.acquire(_interaction.user.id);
 
-    if (
-      process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" &&
-      "reply" in _interaction
-    ) {
-      return await _interaction.reply({
-        embeds: new EmbedBuilder()
-          .setImage("attachment://maintenance.png")
-          .setColor(Colors.COLOR)
-          .toJSONArray(),
-        files: new AttachmentBuilder()
-          .setName("maintenance.png")
-          .setContent(
-            readFileSync(
-              join(process.cwd(), "assets/Images", "Maintenance.png"),
-            ),
-          )
-          .toJSONArray(),
-        components: new ActionRowBuilder()
-          .addComponents([
-            new ButtonBuilder()
-              .setLabel("Support Server")
-              .setStyle(ButtonStyles.LINK)
-              .setEmoji(parseEmoji(Emojis.SUPPORT))
-              .setURL(Links.SUPPORT),
-          ])
-          .toJSONArray(),
-        flags: MessageFlags.EPHEMERAL,
+      if (rateLimit.limited) {
+        return await errorMessage(
+          {
+            _context: _interaction,
+            ephemeral: true,
+          },
+          {
+            description: Translations[locale].GENERAL.USER_IS_LIMITED({
+              resets: formatUnix(
+                UnixType.RELATIVE,
+                new Date(rateLimit.expires),
+              ),
+            }),
+          },
+        );
+      }
+
+      rateLimit.consume();
+
+      switch (_interaction.data.type) {
+        case ApplicationCommandTypes.CHAT_INPUT: {
+          await _interaction.defer().catch(() => null);
+
+          _interaction.data.options.getSubCommand()
+            ? await _handleChatInputSubCommand({
+                _interaction,
+                locale,
+                timezone,
+                hour12,
+                premium,
+              })
+            : await _handleChatInputCommand({
+                _interaction,
+                locale,
+                timezone,
+                hour12,
+                premium,
+              });
+
+          break;
+        }
+        case ApplicationCommandTypes.USER: {
+          await _handleUserCommand({
+            _interaction,
+            locale,
+            timezone,
+            hour12,
+            premium,
+          });
+
+          break;
+        }
+      }
+
+      break;
+    }
+    case InteractionTypes.APPLICATION_COMMAND_AUTOCOMPLETE: {
+      await _handleAutocomplete({
+        _interaction,
+        locale,
+        timezone,
+        hour12,
+        premium,
       });
+
+      break;
     }
+    case InteractionTypes.MESSAGE_COMPONENT: {
+      const rateLimit = componentRateLimiter.acquire(_interaction.user.id);
 
-    switch (_interaction.type) {
-      case InteractionTypes.APPLICATION_COMMAND: {
-        const rateLimit = commandRateLimiter.acquire(_interaction.user.id);
-
-        if (rateLimit.limited) {
-          return await errorMessage(
-            {
-              _context: _interaction,
-              ephemeral: true,
-            },
-            {
-              description: Translations[locale].GENERAL.USER_IS_LIMITED({
-                resets: formatUnix(
-                  UnixType.RELATIVE,
-                  new Date(rateLimit.expires),
-                ),
-              }),
-            },
-          );
-        }
-
-        rateLimit.consume();
-
-        switch (_interaction.data.type) {
-          case ApplicationCommandTypes.CHAT_INPUT: {
-            await _interaction.defer().catch(() => null);
-
-            _interaction.data.options.getSubCommand()
-              ? await _handleChatInputSubCommand({
-                  _interaction,
-                  locale,
-                  timezone,
-                  hour12,
-                  premium,
-                })
-              : await _handleChatInputCommand({
-                  _interaction,
-                  locale,
-                  timezone,
-                  hour12,
-                  premium,
-                });
-
-            break;
-          }
-          case ApplicationCommandTypes.USER: {
-            await _handleUserCommand({
-              _interaction,
-              locale,
-              timezone,
-              hour12,
-              premium,
-            });
-
-            break;
-          }
-        }
-
-        break;
+      if (rateLimit.limited) {
+        return await errorMessage(
+          {
+            _context: _interaction,
+            ephemeral: true,
+          },
+          {
+            description: Translations[locale].GENERAL.USER_IS_LIMITED({
+              resets: formatUnix(
+                UnixType.RELATIVE,
+                new Date(rateLimit.expires),
+              ),
+            }),
+          },
+        );
       }
-      case InteractionTypes.APPLICATION_COMMAND_AUTOCOMPLETE: {
-        await _handleAutocomplete({
-          _interaction,
-          locale,
-          timezone,
-          hour12,
-          premium,
-        });
 
-        break;
-      }
-      case InteractionTypes.MESSAGE_COMPONENT: {
-        const rateLimit = componentRateLimiter.acquire(_interaction.user.id);
+      rateLimit.consume();
 
-        if (rateLimit.limited) {
-          return await errorMessage(
-            {
-              _context: _interaction,
-              ephemeral: true,
-            },
-            {
-              description: Translations[locale].GENERAL.USER_IS_LIMITED({
-                resets: formatUnix(
-                  UnixType.RELATIVE,
-                  new Date(rateLimit.expires),
-                ),
-              }),
-            },
-          );
+      switch (_interaction.data.componentType) {
+        case ComponentTypes.BUTTON: {
+          await _handleButton({
+            _interaction,
+            locale,
+            timezone,
+            hour12,
+            premium,
+          });
+
+          break;
         }
+        case ComponentTypes.STRING_SELECT: {
+          await _handleSelectMenu({
+            _interaction,
+            locale,
+            timezone,
+            hour12,
+            premium,
+          });
 
-        rateLimit.consume();
-
-        switch (_interaction.data.componentType) {
-          case ComponentTypes.BUTTON: {
-            await _handleButton({
-              _interaction,
-              locale,
-              timezone,
-              hour12,
-              premium,
-            });
-
-            break;
-          }
-          case ComponentTypes.STRING_SELECT: {
-            await _handleSelectMenu({
-              _interaction,
-              locale,
-              timezone,
-              hour12,
-              premium,
-            });
-
-            break;
-          }
+          break;
         }
-
-        break;
       }
-      case InteractionTypes.MODAL_SUBMIT: {
-        await _handleModalSubmit({
-          _interaction,
-          locale,
-          timezone,
-          hour12,
-          premium,
-        });
 
-        break;
-      }
+      break;
     }
-  },
-);
+    case InteractionTypes.MODAL_SUBMIT: {
+      await _handleModalSubmit({
+        _interaction,
+        locale,
+        timezone,
+        hour12,
+        premium,
+      });
+
+      break;
+    }
+  }
+});
 
 async function _handleChatInputCommand({
   _interaction,

@@ -20,6 +20,14 @@
         "useEnumInitializers": "off",
         "useFilenamingConvention": "off",
         "noNamespace": "off"
+      },
+      "complexity": {
+        "noExcessiveCognitiveComplexity": {
+          "level": "warn",
+          "options": {
+            "maxAllowedComplexity": 30
+          }
+        }
       }
     }
   }

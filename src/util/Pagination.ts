@@ -112,7 +112,6 @@ export async function pagination(
 
   interactionCollector.on(
     "collect",
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
     async (_collectedInteraction: AnyInteractionGateway) => {
       if (_collectedInteraction.isComponentInteraction()) {
         if (_collectedInteraction.isButtonComponentInteraction()) {
