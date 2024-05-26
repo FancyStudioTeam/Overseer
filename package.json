@@ -6,7 +6,8 @@
     "build": "tsc",
     "start": "cd dist && node src/Index.js",
     "format": "npx prettier --write **/*.{ts,js,mjs,json,md,mdx}",
-    "ci": "biome ci --formatter-enabled=false --linter-enabled=true --organize-imports-enabled=true --config-path=\"./biome.json\" ."
+    "ci": "biome ci --formatter-enabled=false --linter-enabled=true --organize-imports-enabled=true --config-path=\"./biome.json\" .",
+    "check": "biome check --apply --formatter-enabled=false --linter-enabled=true --organize-imports-enabled=true --config-path=\"./biome.json\" ."
   },
   "author": "LonelyDeath",
   "license": "BSD-3-Clause",
