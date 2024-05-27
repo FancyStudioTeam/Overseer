@@ -32,14 +32,12 @@ import {
           },
           {
             name: "reason",
-            description: "The reason for the kick",
+            description: "Kick reason",
             descriptionLocalizations: {
-              "es-419": "La razón de la expulsión",
-              "es-ES": "La razón de la expulsión",
+              "es-419": "Razón de la expulsión",
+              "es-ES": "Razón de la expulsión",
             },
             type: ApplicationCommandOptionTypes.STRING,
-            required: false,
-            autocomplete: false,
           },
         ],
       },
