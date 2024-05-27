@@ -211,7 +211,7 @@ export default {
         },
       },
     },
-    MODERATION: {
+    MOD: {
       KICK: {
         INVALID_GUILD_MEMBER: `**${Emojis.MARK} The provided user is not a valid member of the server**`,
         CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} You cannot moderate this member**`,
