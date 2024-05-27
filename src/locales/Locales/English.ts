@@ -84,7 +84,6 @@ export default {
           },
           FIELD_3: {
             FIELD: "**Last Reset Date**",
-            VALUE: ({ date }: { date: string }) => `${Emojis.RIGHT} ${date}`,
           },
         },
       },
@@ -146,7 +145,6 @@ export default {
           },
           FIELD_3: {
             FIELD: "**Creation Date**",
-            VALUE: ({ date }: { date: string }) => `${Emojis.RIGHT} ${date}`,
           },
         },
       },
@@ -163,11 +161,9 @@ export default {
           },
           FIELD_2: {
             FIELD: "**Creation Date**",
-            VALUE: ({ date }: { date: string }) => `${Emojis.RIGHT} ${date}`,
           },
           FIELD_3: {
             FIELD: "**Membership Date**",
-            VALUE: ({ date }: { date: string }) => `${Emojis.RIGHT} ${date}`,
           },
         },
       },

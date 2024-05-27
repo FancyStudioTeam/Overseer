@@ -69,14 +69,10 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           {
             name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1
               .FIELD_3.FIELD,
-            value: Translations[
-              locale
-            ].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_3.VALUE({
-              date: formatUnix(
-                UnixType.SHORT_DATE_TIME,
-                _context.guild.createdAt,
-              ),
-            }),
+            value: `${Emojis.RIGHT} ${formatUnix(
+              UnixType.SHORT_DATE_TIME,
+              _context.guild.createdAt,
+            )}`,
           },
         ])
         .setColor(Colors.COLOR)

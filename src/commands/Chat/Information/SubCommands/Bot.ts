@@ -1,7 +1,7 @@
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder, EmbedBuilder } from "#builders";
 import type { Discord } from "#client";
-import { Colors } from "#constants";
+import { Colors, Emojis } from "#constants";
 import { Translations } from "#locales";
 import { version } from "#package";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
@@ -53,11 +53,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           {
             name: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1
               .FIELD_3.FIELD,
-            value: Translations[
-              locale
-            ].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_3.VALUE({
-              date: formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt),
-            }),
+            value: `${Emojis.RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt)}`,
           },
         ])
         .setColor(Colors.COLOR)

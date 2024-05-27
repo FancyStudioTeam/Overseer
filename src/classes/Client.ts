@@ -29,7 +29,7 @@ export class Discord extends Client {
     select: Collection<string, ComponentInterface | Nullish>;
     modals: Collection<string, ModalInterface | Nullish>;
   };
-  subcommands: Collection<string, ChatInputSubCommandInterface | Nullish>;
+  subCommands: Collection<string, ChatInputSubCommandInterface | Nullish>;
   #dbReady: boolean;
   readonly readyAt: Date;
 
@@ -89,7 +89,7 @@ export class Discord extends Client {
       select: new Collection(),
       modals: new Collection(),
     };
-    this.subcommands = new Collection();
+    this.subCommands = new Collection();
     this.#dbReady = false;
     this.readyAt = new Date();
   }
@@ -180,7 +180,7 @@ export class Discord extends Client {
   }
 
   async _registerSubCommands(): Promise<void> {
-    this.subcommands.clear();
+    this.subCommands.clear();
 
     const files = await this.#loadFiles(
       `${join(__dirname, "..", "commands/Chat")}/*/*/*.{ts,js}`,
@@ -196,7 +196,7 @@ export class Discord extends Client {
         const dividedPath = subCommandPath.split(sep);
         const directory = dividedPath[dividedPath.length - 3];
 
-        this.subcommands.set(
+        this.subCommands.set(
           `${directory}_${subCommand.name}`.toLowerCase(),
           subCommand,
         );
