@@ -6,7 +6,7 @@ import { padding } from "#util";
 
 export default {
   COMMANDS: {
-    CONFIG: {
+    CONFIGURATION: {
       LANGUAGE: {
         MESSAGE_1: `**${Emojis.SUCCESS} The language has been set to \`English\`**`,
       },
@@ -53,7 +53,7 @@ export default {
           `**${Emojis.SUCCESS} The timezone has been set to \`${timezone}\`**`,
       },
     },
-    INFO: {
+    INFORMATION: {
       BOT: {
         MESSAGE_1: {
           TITLE_1: ({ name }: { name: string }) => `**${name} Information**`,
@@ -172,7 +172,15 @@ export default {
         },
       },
     },
-    UTIL: {
+    MODERATION: {
+      KICK: {
+        CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} You cannot moderate this member**`,
+        USER_HIGHEST_ROLE: `**${Emojis.MARK} You cannot kick this user because they have a role equal to or higher than yours**`,
+        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
+          `**${Emojis.SUCCESS} The user ${user} has been kicked by ${moderator}**`,
+      },
+    },
+    UTILITY: {
       SUGGEST: {
         COMPONENTS: {
           BUTTONS: {
@@ -211,15 +219,6 @@ export default {
         },
       },
     },
-    MOD: {
-      KICK: {
-        INVALID_GUILD_MEMBER: `**${Emojis.MARK} The provided user is not a valid member of the server**`,
-        CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} You cannot moderate this member**`,
-        USER_HIGHEST_ROLE: `**${Emojis.MARK} You cannot kick this user because they have a role equal to or higher than yours**`,
-        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
-          `**${Emojis.SUCCESS} The user ${user} has been kicked by ${moderator}**`,
-      },
-    },
   },
   HELP: {
     MESSAGE_1: {
@@ -230,7 +229,7 @@ export default {
       },
     },
   },
-  GENERAL: {
+  GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
         `**${Emojis.MARK} The \`guild\` property is not present in the \`${structure.constructor.name}\` structure**`,

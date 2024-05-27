@@ -99,7 +99,7 @@ export async function pagination(
             ephemeral: true,
           },
           {
-            description: Translations[locale].GENERAL.INVALID_USER_COLLECTOR,
+            description: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
           },
         );
 

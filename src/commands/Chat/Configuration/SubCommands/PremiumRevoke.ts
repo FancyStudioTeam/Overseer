@@ -34,7 +34,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
             structure: _context,
           }),
         },
@@ -48,7 +48,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.ONLY_GUILD_OWNER,
+          description: Translations[locale].GLOBAL.ONLY_GUILD_OWNER,
         },
       );
     }
@@ -67,7 +67,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         },
         {
           description:
-            Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
+            Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE
               .INVALID_GUILD_MEMBERSHIP,
         },
       );
@@ -76,7 +76,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     const _originalMessageResponse = await _context.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.MESSAGE_1,
+          Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE.MESSAGE_1,
         )
         .setColor(Colors.WARNING)
         .toJSONArray(),
@@ -85,16 +85,16 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           new ButtonBuilder()
             .setCustomID("premium_revoke_confirm")
             .setLabel(
-              Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.COMPONENTS
-                .BUTTONS.CONFIRM.LABEL,
+              Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE
+                .COMPONENTS.BUTTONS.CONFIRM.LABEL,
             )
             .setStyle(ButtonStyles.DANGER)
             .setEmoji(parseEmoji(Emojis.CHECK)),
           new ButtonBuilder()
             .setCustomID("premium_revoke_cancel")
             .setLabel(
-              Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE.COMPONENTS
-                .BUTTONS.CANCEL.LABEL,
+              Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE
+                .COMPONENTS.BUTTONS.CANCEL.LABEL,
             )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.CANCEL)),
@@ -120,7 +120,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
               ephemeral: true,
             },
             {
-              description: Translations[locale].GENERAL.INVALID_USER_COLLECTOR,
+              description: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
             },
           );
 
@@ -147,11 +147,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
                 ephemeral: true,
               },
               {
-                description: Translations[
-                  locale
-                ].GENERAL.INVALID_GUILD_PROPERTY({
-                  structure: _collectedInteraction,
-                }),
+                description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY(
+                  {
+                    structure: _collectedInteraction,
+                  },
+                ),
               },
             );
           }
@@ -181,8 +181,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
                   {
                     embeds: new EmbedBuilder()
                       .setDescription(
-                        Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
-                          .COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1,
+                        Translations[locale].COMMANDS.CONFIGURATION.PREMIUM
+                          .REVOKE.COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1,
                       )
                       .setColor(Colors.SUCCESS)
                       .toJSONArray(),
@@ -201,8 +201,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
                   {
                     embeds: new EmbedBuilder()
                       .setDescription(
-                        Translations[locale].COMMANDS.CONFIG.PREMIUM.REVOKE
-                          .COMPONENTS.BUTTONS.CANCEL.MESSAGE_1,
+                        Translations[locale].COMMANDS.CONFIGURATION.PREMIUM
+                          .REVOKE.COMPONENTS.BUTTONS.CANCEL.MESSAGE_1,
                       )
                       .setColor(Colors.SUCCESS)
                       .toJSONArray(),

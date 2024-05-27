@@ -22,7 +22,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
             structure: _context,
           }),
         },
@@ -49,7 +49,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         },
         {
           description:
-            Translations[locale].COMMANDS.MOD.KICK.CANNOT_MODERATE_MEMBER,
+            Translations[locale].COMMANDS.MODERATION.KICK
+              .CANNOT_MODERATE_MEMBER,
         },
       );
     }
@@ -60,7 +61,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         await _context.reply({
           embeds: new EmbedBuilder()
             .setDescription(
-              Translations[locale].COMMANDS.MOD.KICK.MESSAGE_1({
+              Translations[locale].COMMANDS.MODERATION.KICK.MESSAGE_1({
                 user: _memberOption.mention,
                 moderator: _context.user.mention,
               }),

@@ -14,7 +14,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     await _context.reply({
       embeds: new EmbedBuilder()
         .setTitle(
-          Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.TITLE_1({
+          Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.TITLE_1({
             name: escapeDiscordMarkdown(
               _client.user.globalName ?? _client.user.username,
             ),
@@ -23,11 +23,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         .setThumbnail(_client.user.avatarURL())
         .addFields([
           {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1
-              .FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1
+              .FIELD_1.FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_1.VALUE({
+            ].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_1.VALUE({
               version,
               memory: `${
                 Math.round(
@@ -37,11 +37,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2
-              .FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1
+              .FIELD_2.FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_2.VALUE({
+            ].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_2.VALUE({
               users: _client.guilds.reduce(
                 (prev, guild) => prev + guild.memberCount,
                 0,
@@ -51,11 +51,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3
-              .FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1
+              .FIELD_3.FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.BOT.MESSAGE_1.FIELD_3.VALUE({
+            ].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_3.VALUE({
               date: formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt),
             }),
           },

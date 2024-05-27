@@ -26,7 +26,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
             structure: _context,
           }),
         },
@@ -65,7 +65,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       embeds: new EmbedBuilder()
         .setDescription(
           Translations[<Locales>upsertedGuildConfiguration.general.locale]
-            .COMMANDS.CONFIG.LANGUAGE.MESSAGE_1,
+            .COMMANDS.CONFIGURATION.LANGUAGE.MESSAGE_1,
         )
         .setColor(Colors.SUCCESS)
         .toJSONArray(),

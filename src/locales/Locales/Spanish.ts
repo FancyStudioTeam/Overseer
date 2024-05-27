@@ -6,7 +6,7 @@ import { padding } from "#util";
 
 export default {
   COMMANDS: {
-    CONFIG: {
+    CONFIGURATION: {
       LANGUAGE: {
         MESSAGE_1: `**${Emojis.SUCCESS} El idioma ha sido establecido a \`Español\`**`,
       },
@@ -53,7 +53,7 @@ export default {
           `**${Emojis.SUCCESS} La zona horaria ha sido establecida a \`${timezone}\`**`,
       },
     },
-    INFO: {
+    INFORMATION: {
       BOT: {
         MESSAGE_1: {
           TITLE_1: ({ name }: { name: string }) => `**Información de ${name}**`,
@@ -172,7 +172,15 @@ export default {
         },
       },
     },
-    UTIL: {
+    MODERATION: {
+      KICK: {
+        CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este miembro**`,
+        USER_HIGHEST_ROLE: `**${Emojis.MARK} No puedes expulsar a este usuario porque tiene un rol igual o superior al tuyo**`,
+        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
+          `**${Emojis.SUCCESS} El usuario ${user} ha sido expulsado por ${moderator}**`,
+      },
+    },
+    UTILITY: {
       SUGGEST: {
         COMPONENTS: {
           BUTTONS: {
@@ -211,15 +219,6 @@ export default {
         },
       },
     },
-    MOD: {
-      KICK: {
-        INVALID_GUILD_MEMBER: `**${Emojis.MARK} El usuario proporcionado no es un miembro válido del servidor**`,
-        CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este miembro**`,
-        USER_HIGHEST_ROLE: `**${Emojis.MARK} No puedes expulsar a este usuario porque tiene un rol igual o superior al tuyo**`,
-        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
-          `**${Emojis.SUCCESS} El usuario ${user} ha sido expulsado por ${moderator}**`,
-      },
-    },
   },
   HELP: {
     MESSAGE_1: {
@@ -230,7 +229,7 @@ export default {
       },
     },
   },
-  GENERAL: {
+  GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
         `**${Emojis.MARK} La propiedad \`guild\` no está presente en la estructura \`${structure.constructor.name}\`**`,

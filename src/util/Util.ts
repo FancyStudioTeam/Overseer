@@ -279,7 +279,7 @@ export async function checkPermissions(
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder()
       .setDescription(
-        Translations[locale].GENERAL.PERMISSIONS[
+        Translations[locale].GLOBAL.PERMISSIONS[
           type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD"
         ][member.user.id === _client.user.id ? "CLIENT" : "USER"]({
           permissions: missingPermissions
@@ -342,7 +342,7 @@ export async function handleError(
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder()
       .setDescription(
-        Translations[locale].GENERAL.SOMETHING_WENT_WRONG.MESSAGE_1({
+        Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.MESSAGE_1({
           name: error.name,
           id,
         }),
@@ -353,7 +353,7 @@ export async function handleError(
       .addComponents([
         new ButtonBuilder()
           .setLabel(
-            Translations[locale].GENERAL.SOMETHING_WENT_WRONG.COMPONENTS.BUTTONS
+            Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.COMPONENTS.BUTTONS
               .SUPPORT.LABEL,
           )
           .setStyle(ButtonStyles.LINK)

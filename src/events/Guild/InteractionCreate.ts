@@ -111,7 +111,7 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
             ephemeral: true,
           },
           {
-            description: Translations[locale].GENERAL.USER_IS_LIMITED({
+            description: Translations[locale].GLOBAL.USER_IS_LIMITED({
               resets: formatUnix(
                 UnixType.RELATIVE,
                 new Date(rateLimit.expires),
@@ -181,7 +181,7 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
             ephemeral: true,
           },
           {
-            description: Translations[locale].GENERAL.USER_IS_LIMITED({
+            description: Translations[locale].GLOBAL.USER_IS_LIMITED({
               resets: formatUnix(
                 UnixType.RELATIVE,
                 new Date(rateLimit.expires),

@@ -17,7 +17,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
             structure: _context,
           }),
         },
@@ -27,7 +27,9 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     await _context.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          Translations[locale].COMMANDS.INFO.PING.MESSAGE_1.DESCRIPTION_1({
+          Translations[
+            locale
+          ].COMMANDS.INFORMATION.PING.MESSAGE_1.DESCRIPTION_1({
             rest: `${_client.rest.handler.latencyRef.latency}ms`,
             shard: `${_context.guild.shard.latency}ms`,
           }),

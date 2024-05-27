@@ -24,7 +24,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
             structure: _context,
           }),
         },
@@ -44,7 +44,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
+          description: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
         },
       );
     }
@@ -52,7 +52,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     await _context.reply({
       embeds: new EmbedBuilder()
         .setTitle(
-          Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
+          Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.TITLE_1({
             name: escapeDiscordMarkdown(
               member.user.globalName ?? member.user.username,
             ),
@@ -61,30 +61,30 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         .setThumbnail(member.user.avatarURL())
         .addFields([
           {
-            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1
-              .FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1
+              .FIELD_1.FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1.VALUE({
+            ].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_1.VALUE({
               name: member.user.mention,
               id: member.user.id,
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2
-              .FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1
+              .FIELD_2.FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2.VALUE({
+            ].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_2.VALUE({
               date: formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt),
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_3
-              .FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1
+              .FIELD_3.FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_3.VALUE({
+            ].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_3.VALUE({
               date: member.joinedAt
                 ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt)
                 : Emojis.MARK,

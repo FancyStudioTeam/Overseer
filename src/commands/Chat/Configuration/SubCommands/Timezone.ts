@@ -22,7 +22,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
             structure: _context,
           }),
         },
@@ -41,7 +41,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         {
           description: Translations[
             locale
-          ].COMMANDS.CONFIG.TIMEZONE.ERRORS.TIMEZONE_NOT_FOUND({
+          ].COMMANDS.CONFIGURATION.TIMEZONE.ERRORS.TIMEZONE_NOT_FOUND({
             timezone: _timezoneOption,
           }),
         },
@@ -80,7 +80,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     await _context.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          Translations[locale].COMMANDS.CONFIG.TIMEZONE.MESSAGE_1({
+          Translations[locale].COMMANDS.CONFIGURATION.TIMEZONE.MESSAGE_1({
             timezone: upsertedGuildConfiguration.general.timezone,
           }),
         )

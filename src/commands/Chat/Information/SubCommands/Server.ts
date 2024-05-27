@@ -24,7 +24,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
             structure: _context,
           }),
         },
@@ -38,40 +38,40 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     await _context.reply({
       embeds: new EmbedBuilder()
         .setTitle(
-          Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.TITLE_1({
+          Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.TITLE_1({
             name: escapeDiscordMarkdown(_context.guild.name),
           }),
         )
         .setThumbnail(_context.guild.iconURL() ?? _client.user.avatarURL())
         .addFields([
           {
-            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_1
-              .FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1
+              .FIELD_1.FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_1.VALUE({
+            ].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.VALUE({
               name: escapeDiscordMarkdown(_context.guild.name),
               id: _context.guildID,
               owner: owner?.mention ?? Emojis.MARK,
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_2
-              .FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1
+              .FIELD_2.FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_2.VALUE({
+            ].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.VALUE({
               members: _context.guild.memberCount,
               channels: _context.guild.channels.size,
               roles: _context.guild.roles.size,
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_3
-              .FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1
+              .FIELD_3.FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_3.VALUE({
+            ].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_3.VALUE({
               date: formatUnix(
                 UnixType.SHORT_DATE_TIME,
                 _context.guild.createdAt,

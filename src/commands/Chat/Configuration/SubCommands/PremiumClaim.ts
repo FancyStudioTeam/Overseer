@@ -26,7 +26,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GENERAL.INVALID_GUILD_PROPERTY({
+          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
             structure: _context,
           }),
         },
@@ -49,7 +49,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         {
           description: Translations[
             locale
-          ].COMMANDS.CONFIG.PREMIUM.CLAIM.MEMBERSHIP_NOT_FOUND({
+          ].COMMANDS.CONFIGURATION.PREMIUM.CLAIM.MEMBERSHIP_NOT_FOUND({
             code: _voucherOption,
           }),
         },
@@ -92,7 +92,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     await _context.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          Translations[locale].COMMANDS.CONFIG.PREMIUM.CLAIM.MESSAGE_1({
+          Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.CLAIM.MESSAGE_1({
             expireDate: {
               MONTH: formatTimestamp(
                 new Date(
