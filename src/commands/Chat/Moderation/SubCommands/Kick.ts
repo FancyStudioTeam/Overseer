@@ -1,15 +1,11 @@
+import { cutText } from "@sapphire/utilities";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder, EmbedBuilder } from "#builders";
 import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
-import {
-  type ChatInputSubCommandInterface,
-  Directory,
-  type Locales,
-} from "#types";
-import { errorMessage, handleError } from "#util";
-import { cutText } from "@sapphire/utilities";
+import { type ChatInputSubCommandInterface, Directory } from "#types";
+import { errorMessage, escapeDiscordMarkdown } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "kick",
@@ -33,24 +29,13 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       );
     }
 
-    const _memberOption = _context.data.options.getUser("user");
+    const _memberOption = _context.data.options.getMember("user", true);
     const _reasonOption = cutText(
-      _context.data.options.getString("reason", true) ?? "No reason",
+      escapeDiscordMarkdown(
+        _context.data.options.getString("reason", true) ?? "No reason",
+      ),
       35,
     );
-
-    if (!_memberOption) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description:
-            Translations[locale].COMMANDS.MOD.KICK.INVALID_GUILD_MEMBER,
-        },
-      );
-    }
 
     if (
       _memberOption.id === _client.user.id ||
@@ -70,7 +55,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     }
 
     await _client.rest.guilds
-      .removeMember(_context.guild.id, _memberOption.id, _reasonOption)
+      .removeMember(_context.guildID, _memberOption.id, _reasonOption)
       .then(async () => {
         await _context.reply({
           embeds: new EmbedBuilder()
@@ -83,15 +68,6 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
         });
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context,
-            locale,
-          },
-          error,
-        );
       });
   },
 });

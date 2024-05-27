@@ -167,7 +167,7 @@ export async function disableComponents(message: Message): Promise<void> {
   });
 }
 
-export function escapeRegex(content: string): string {
+export function escapeDiscordMarkdown(content: string): string {
   return escapeMarkdown(content, {
     bold: true,
     bulletedList: true,
@@ -205,12 +205,6 @@ export function compareMemberToMember(
   }
 
   return ComparationLevel.UNKNOWN;
-}
-
-export function trim(content: string, maxLength: number): string {
-  return content.length > maxLength
-    ? `${content.substring(0, maxLength)}...`
-    : content;
 }
 
 export function formatTimestamp(

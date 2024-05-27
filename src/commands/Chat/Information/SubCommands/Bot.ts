@@ -5,7 +5,7 @@ import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { version } from "#package";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import { UnixType, escapeRegex, formatUnix } from "#util";
+import { UnixType, escapeDiscordMarkdown, formatUnix } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "bot",
@@ -15,7 +15,9 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].COMMANDS.INFO.BOT.MESSAGE_1.TITLE_1({
-            name: escapeRegex(_client.user.globalName ?? _client.user.username),
+            name: escapeDiscordMarkdown(
+              _client.user.globalName ?? _client.user.username,
+            ),
           }),
         )
         .setThumbnail(_client.user.avatarURL())

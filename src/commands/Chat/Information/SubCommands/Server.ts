@@ -8,13 +8,13 @@ import {
   FetchFrom,
   UnixType,
   errorMessage,
-  escapeRegex,
-  fetchMember,
+  escapeDiscordMarkdown,
+  fetchUser,
   formatUnix,
 } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
-  name: "user",
+  name: "server",
   directory: Directory.INFORMATION,
   run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
@@ -31,61 +31,51 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       );
     }
 
-    const member = await fetchMember(
-      FetchFrom.DEFAULT,
-      _context.guild,
-      _context.data.options.getMember("user")?.id ?? _context.user.id,
-    );
-
-    if (!member) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[locale].GENERAL.INVALID_GUILD_MEMBER,
-        },
-      );
-    }
+    const owner =
+      _context.guild.owner ??
+      (await fetchUser(FetchFrom.DEFAULT, _context.guild.ownerID ?? ""));
 
     await _context.reply({
       embeds: new EmbedBuilder()
         .setTitle(
-          Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.TITLE_1({
-            name: escapeRegex(member.user.globalName ?? member.user.username),
+          Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.TITLE_1({
+            name: escapeDiscordMarkdown(_context.guild.name),
           }),
         )
-        .setThumbnail(member.user.avatarURL())
+        .setThumbnail(_context.guild.iconURL() ?? _client.user.avatarURL())
         .addFields([
           {
-            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1
+            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_1
               .FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_1.VALUE({
-              name: member.user.mention,
-              id: member.user.id,
+            ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_1.VALUE({
+              name: escapeDiscordMarkdown(_context.guild.name),
+              id: _context.guildID,
+              owner: owner?.mention ?? Emojis.MARK,
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2
+            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_2
               .FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_2.VALUE({
-              date: formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt),
+            ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_2.VALUE({
+              members: _context.guild.memberCount,
+              channels: _context.guild.channels.size,
+              roles: _context.guild.roles.size,
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFO.USER.MESSAGE_1.FIELD_3
+            name: Translations[locale].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_3
               .FIELD,
             value: Translations[
               locale
-            ].COMMANDS.INFO.USER.MESSAGE_1.FIELD_3.VALUE({
-              date: member.joinedAt
-                ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt)
-                : Emojis.MARK,
+            ].COMMANDS.INFO.SERVER.MESSAGE_1.FIELD_3.VALUE({
+              date: formatUnix(
+                UnixType.SHORT_DATE_TIME,
+                _context.guild.createdAt,
+              ),
             }),
           },
         ])
