@@ -11,6 +11,7 @@ import {
   ComponentTypes,
   InteractionTypes,
 } from "oceanic.js";
+import { match } from "ts-pattern";
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from "#builders";
 import { BaseBuilder } from "#builders";
 import type { Discord } from "#client";
@@ -159,8 +160,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           if (_collectedInteraction.isButtonComponentInteraction()) {
             await _collectedInteraction.deferUpdate().catch(() => null);
 
-            switch (_collectedInteraction.data.customID) {
-              case "premium_revoke_confirm": {
+            match(_collectedInteraction.data.customID)
+              .with("premium_revoke_confirm", async () => {
                 interactionCollector.stop();
 
                 await prisma.guildConfiguration.update({
@@ -189,10 +190,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
                     components: [],
                   },
                 );
-
-                break;
-              }
-              case "premium_revoke_cancel": {
+              })
+              .with("premium_revoke_cancel", async () => {
                 interactionCollector.stop();
 
                 await _client.rest.channels.editMessage(
@@ -209,10 +208,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
                     components: [],
                   },
                 );
-
-                break;
-              }
-            }
+              })
+              .otherwise(() => null);
           }
         }
       },

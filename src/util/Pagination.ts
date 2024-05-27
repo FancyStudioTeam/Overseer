@@ -17,6 +17,7 @@ import {
   type Message,
   MessageFlags,
 } from "oceanic.js";
+import { match } from "ts-pattern";
 import { ActionRowBuilder, ButtonBuilder } from "#builders";
 import { Emojis } from "#constants";
 import { _client } from "#index";
@@ -117,18 +118,14 @@ export async function pagination(
         if (_collectedInteraction.isButtonComponentInteraction()) {
           await _collectedInteraction.deferUpdate().catch(() => null);
 
-          switch (_collectedInteraction.data.customID) {
-            case "pagination_left": {
+          match(_collectedInteraction.data.customID)
+            .with("pagination_left", () => {
               index = index > 0 ? --index : pages.length - 1;
-
-              break;
-            }
-            case "pagination_right": {
+            })
+            .with("pagination_right", () => {
               index = index + 1 < pages.length ? ++index : 0;
-
-              break;
-            }
-          }
+            })
+            .otherwise(() => null);
 
           new ButtonBuilder()
             .load(<ButtonComponent>message.components[0].components[1])

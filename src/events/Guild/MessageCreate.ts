@@ -4,6 +4,7 @@ import { inspect } from "node:util";
 import { Result } from "@sapphire/result";
 import { type Nullish, codeBlock, cutText } from "@sapphire/utilities";
 import { ChannelTypes, type Message } from "oceanic.js";
+import { match } from "ts-pattern";
 import { EmbedBuilder } from "#builders";
 import { Colors, Developers, Emojis } from "#constants";
 import { _client } from "#index";
@@ -19,13 +20,13 @@ _client.on("messageCreate", async (_message: Message) => {
   if (!_message.content.startsWith(prefix)) return;
   if (!Developers.includes(_message.author.id)) return;
 
-  const [cmd, ...args] = _message.content
+  const [command, ...args] = _message.content
     .slice(prefix.length)
     .trim()
     .split(" ");
 
-  switch (cmd.toLowerCase()) {
-    case "voucher": {
+  match(command.toLowerCase())
+    .with("voucher", async () => {
       const createdClientVoucher = await prisma.clientVoucher.create({
         data: {
           voucher_id: randomUUID(),
@@ -51,15 +52,11 @@ _client.on("messageCreate", async (_message: Message) => {
             .toJSONArray(),
         });
       }
-
-      break;
-    }
-    case "reload": {
+    })
+    .with("reload", async () => {
       await _client._init();
-
-      break;
-    }
-    case "exec": {
+    })
+    .with("exec", () => {
       const command = args.join(" ");
 
       if (!command) return;
@@ -80,10 +77,8 @@ _client.on("messageCreate", async (_message: Message) => {
           });
         },
       );
-
-      break;
-    }
-    case "eval": {
+    })
+    .with("eval", async () => {
       const code = args.join(" ");
 
       if (!code) return;
@@ -113,8 +108,6 @@ _client.on("messageCreate", async (_message: Message) => {
             .toJSONArray(),
         });
       });
-
-      break;
-    }
-  }
+    })
+    .otherwise(() => null);
 });

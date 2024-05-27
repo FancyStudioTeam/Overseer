@@ -5,6 +5,7 @@ import {
   type CommandInteraction,
   type InteractionOptionsString,
 } from "oceanic.js";
+import { match } from "ts-pattern";
 import { BaseBuilder } from "#builders";
 import type { Discord } from "#client";
 import timezones from "#timezones";
@@ -141,8 +142,8 @@ export default new BaseBuilder<ChatInputCommandInterface>({
   autocomplete: async (_client: Discord, _context: AutocompleteInteraction) => {
     const _subCommandOption = _context.data.options.getSubCommand(true);
 
-    switch (_subCommandOption.join("_")) {
-      case "timezone": {
+    match(_subCommandOption.join("_"))
+      .with("timezone", async () => {
         const _focusedOption =
           _context.data.options.getFocused<InteractionOptionsString>(true);
         const choices = search<string>(_focusedOption.value, timezones);
@@ -172,10 +173,8 @@ export default new BaseBuilder<ChatInputCommandInterface>({
             };
           }),
         );
-
-        break;
-      }
-    }
+      })
+      .otherwise(() => null);
   },
   run: async (_client: Discord, _context: CommandInteraction) => null,
 });
