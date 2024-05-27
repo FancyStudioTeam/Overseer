@@ -211,6 +211,15 @@ export default {
         },
       },
     },
+    MOD: {
+      KICK: {
+        INVALID_GUILD_MEMBER: `**${Emojis.MARK} El usuario proporcionado no es un miembro válido del servidor**`,
+        CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este miembro**`,
+        USER_HIGHEST_ROLE: `**${Emojis.MARK} No puedes expulsar a este usuario porque tiene un rol igual o superior al tuyo**`,
+        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
+          `**${Emojis.SUCCESS} El usuario ${user} ha sido expulsado por ${moderator}**`,
+      },
+    },
   },
   HELP: {
     MESSAGE_1: {

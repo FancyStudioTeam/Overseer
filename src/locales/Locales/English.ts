@@ -211,6 +211,15 @@ export default {
         },
       },
     },
+    MOD: {
+      KICK: {
+        INVALID_GUILD_MEMBER: `**${Emojis.MARK} The provided user is not a valid member of the server**`,
+        CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} You cannot moderate this member**`,
+        USER_HIGHEST_ROLE: `**${Emojis.MARK} You cannot kick this user because they have a role equal to or higher than yours**`,
+        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
+          `**${Emojis.SUCCESS} The user ${user} has been kicked by ${moderator}**`,
+      },
+    },
   },
   HELP: {
     MESSAGE_1: {
