@@ -168,12 +168,11 @@ export class Discord extends Client {
         const directory = <Commands>(
           dividedPath[dividedPath.length - 3].toUpperCase()
         );
-        const collections: Record<Commands, CommandCollections> = {
+
+        <Record<Commands, CommandCollections>>(<unknown>{
           CHAT: this.interactions.chatInput,
           USER: this.interactions.user,
-        };
-
-        collections[directory].set(command.name, command);
+        }[directory].set(command.name, command));
         arrayCommands.push(command);
       }
     });
@@ -264,7 +263,7 @@ export class Discord extends Client {
     });
   }
 
-  async #loadFiles(path: string): Promise<string[]> {
+  async #loadFiles(path: string | string[]): Promise<string[]> {
     return await glob(path, {
       ignore: ["node_modules/**"],
     });
