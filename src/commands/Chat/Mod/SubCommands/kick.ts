@@ -4,7 +4,8 @@ import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory, type Locales } from "#types";
-import { errorMessage, handleError, trim } from "#util";
+import { errorMessage, handleError } from "#util";
+import { cutText } from "@sapphire/utilities";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "kick",
@@ -16,7 +17,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
   run: async (
     _client: Discord,
     _context: CommandInteraction,
-    { locale }: { locale: Locales },
+    { locale },
   ) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage(
@@ -32,13 +33,13 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       );
     }
 
-    const userOption = _context.data.options.getUser("user");
-    const reason = trim(
+    const _memberOption = _context.data.options.getUser("user");
+    const _reasonOption = cutText(
       _context.data.options.getString("reason", true) ?? "No reason",
       35
     );
 
-    if (!userOption) {
+    if (!_memberOption) {
       return await errorMessage(
         {
           _context,
@@ -51,9 +52,9 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     }
 
     if (
-      userOption.id === _client.user.id ||
-      userOption.id === _context.guild.ownerID ||
-      userOption.id === _context.user.id
+      _memberOption.id === _client.user.id ||
+      _memberOption.id === _context.guild.ownerID ||
+      _memberOption.id === _context.user.id
     ) {
       return await errorMessage(
         {
@@ -67,14 +68,14 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     }
 
     await _client.rest.guilds
-      .removeMember(_context.guild.id, userOption.id, reason)
+      .removeMember(_context.guild.id, _memberOption.id, _reasonOption)
       .then(async () => {
         await _context.reply({
           embeds: new EmbedBuilder()
             .setDescription(
               Translations[locale].COMMANDS.MOD.KICK.MESSAGE_1({
-                user: `<@${userOption.id}>`,
-                moderator: `<@${_context.user.id}>`,
+                user: _memberOption.mention,
+                moderator: _context.user.mention,
               })
             )
             .setColor(Colors.SUCCESS)
