@@ -143,8 +143,7 @@ export class Discord extends Client {
           LoggerType.INFO,
           `The interactions has been deployed | Deployed ${commands.length} interactions`,
         );
-      })
-      .catch(() => null);
+      });
   }
 
   async _registerCommands(): Promise<void> {

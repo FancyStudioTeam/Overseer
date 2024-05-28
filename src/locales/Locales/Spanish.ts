@@ -172,8 +172,14 @@ export default {
       KICK: {
         CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este miembro**`,
         USER_HIGHEST_ROLE: `**${Emojis.MARK} No puedes expulsar a este usuario porque tiene un rol igual o superior al tuyo**`,
-        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
-          `**${Emojis.SUCCESS} El usuario ${user} ha sido expulsado por ${moderator}**`,
+        MESSAGE_1: ({
+          username,
+          moderator,
+        }: {
+          username: string;
+          moderator: string;
+        }) =>
+          `**${Emojis.SUCCESS} El usuario ${username} ha sido expulsado por ${moderator}**`,
       },
     },
     UTILITY: {
