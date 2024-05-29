@@ -3,7 +3,7 @@ import { escapeMarkdown } from "@discordjs/formatters";
 import { ParsedCustomEmojiWithGroups } from "@sapphire/discord-utilities";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Timestamp } from "@sapphire/time-utilities";
-import type { Nullish } from "@sapphire/utilities";
+import { type Nullish, cutText } from "@sapphire/utilities";
 import { captureException } from "@sentry/node";
 import {
   type AnyInteractionGateway,
@@ -64,6 +64,27 @@ export async function fetchMember(
     .otherwise(() => null);
 }
 
+export function sanitizeString(
+  content: string,
+  options: SanitizeStringOptions,
+): string {
+  let sanitizedContent = content;
+
+  if (options.espaceMarkdown) {
+    sanitizedContent = escapeDiscordMarkdown(sanitizedContent);
+  }
+
+  if (options.replaceLinks) {
+    sanitizedContent = replaceLinks(sanitizedContent);
+  }
+
+  if (options.maxLength) {
+    sanitizedContent = cutText(sanitizedContent, options.maxLength);
+  }
+
+  return sanitizedContent;
+}
+
 export function padding(content: string, separator: string): string {
   const lines = content.split("\n");
   let maxLength = 0;
@@ -108,27 +129,24 @@ export async function errorMessage(
       );
 }
 
-export function cleanContent(content: string): string {
-  let message = content;
-  const elements = message.match(
+export function replaceLinks(content: string): string {
+  let sanitizedContent = content;
+  const elements = sanitizedContent.match(
     urlRegex({
       strict: false,
     }),
   );
 
   if (elements) {
-    // biome-ignore lint/style/useForOf:
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i];
-
-      message = message.replace(
+    elements.forEach((element, _) => {
+      sanitizedContent = sanitizedContent.replace(
         element,
-        element.replace(element, "**_(Link detected)_**"),
+        element.replace(element, "**[Link Detected]**"),
       );
-    }
+    });
   }
 
-  return message;
+  return sanitizedContent;
 }
 
 export function parseEmoji(emoji: string): NullablePartialEmoji {
@@ -381,6 +399,12 @@ export function bitFieldValues(bitField: number): number[] {
   }
 
   return array;
+}
+
+interface SanitizeStringOptions {
+  maxLength?: number;
+  espaceMarkdown?: boolean;
+  replaceLinks?: boolean;
 }
 
 export type AvailableSearchTypes = string;
