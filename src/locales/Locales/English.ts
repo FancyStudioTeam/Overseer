@@ -186,7 +186,15 @@ export default {
       TIMEOUT: {
         INVALID_DURATION_TIME: `**${Emojis.MARK} The duration format is invalid**`,
         ALLOWED_DURATION_VALUES: `**${Emojis.MARK} The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**`,
-        MESSAGE_1: ({ user, moderator, timeout }: { user:string, moderator: string, timeout: string}) =>
+        MESSAGE_1: ({
+          user,
+          moderator,
+          timeout,
+        }: {
+          user: string;
+          moderator: string;
+          timeout: string;
+        }) =>
           `**${Emojis.SUCCESS} Moderator ${moderator} has added a timeout of ${timeout} to user ${user}**`,
       },
     },

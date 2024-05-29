@@ -187,9 +187,17 @@ export default {
       TIMEOUT: {
         INVALID_DURATION_TIME: `**${Emojis.MARK} El formato de duración es inválido**`,
         ALLOWED_DURATION_VALUES: `**${Emojis.MARK} La duración debe ser mayor o igual a 5 segundos y menor o igual a 28 días**`,
-        MESSAGE_1: ({ user, moderator, timeout } : { user: string, moderator: string, timeout: string }) =>
-           `**${Emojis.SUCCESS} El moderador ${moderator} ha añadido un tiempo de espera de ${timeout} al usuario ${user}**`,
-      }
+        MESSAGE_1: ({
+          user,
+          moderator,
+          timeout,
+        }: {
+          user: string;
+          moderator: string;
+          timeout: string;
+        }) =>
+          `**${Emojis.SUCCESS} El moderador ${moderator} ha añadido un tiempo de espera de ${timeout} al usuario ${user}**`,
+      },
     },
     UTILITY: {
       SUGGEST: {

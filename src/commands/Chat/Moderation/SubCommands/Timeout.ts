@@ -34,12 +34,12 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     const _memberOption = _context.data.options.getMember("user", true);
     const _durationOption = _context.data.options.getString("duration", true);
     const _reasonOption = sanitizeString(
-        _context.data.options.getString("reason") ?? "No reason",
-        {
-          maxLength: 35,
-          espaceMarkdown: true,
-        },
-      );
+      _context.data.options.getString("reason") ?? "No reason",
+      {
+        maxLength: 35,
+        espaceMarkdown: true,
+      },
+    );
 
     if (
       _memberOption.id === _client.user.id ||
@@ -67,7 +67,9 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].COMMANDS.MODERATION.TIMEOUT.INVALID_DURATION_TIME,
+          description:
+            Translations[locale].COMMANDS.MODERATION.TIMEOUT
+              .INVALID_DURATION_TIME,
         },
       );
       return;
@@ -80,22 +82,21 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].COMMANDS.MODERATION.TIMEOUT.ALLOWED_DURATION_VALUES,
+          description:
+            Translations[locale].COMMANDS.MODERATION.TIMEOUT
+              .ALLOWED_DURATION_VALUES,
         },
       );
       return;
     }
 
-    await _client.rest.guilds.editMember(
-      _context.guildID,
-      _memberOption.id,
-      {
-        communicationDisabledUntil: parsedTime > ms("0 seconds")
+    await _client.rest.guilds.editMember(_context.guildID, _memberOption.id, {
+      communicationDisabledUntil:
+        parsedTime > ms("0 seconds")
           ? new Date(Date.now() + parsedTime).toISOString()
           : null,
-        reason: _reasonOption,
-      }
-    );
+      reason: _reasonOption,
+    });
 
     await _context.reply({
       embeds: [
@@ -105,7 +106,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
               moderator: _context.user.mention,
               user: _context.user.mention,
               timeout: humanize(parsedTime, { language: locale }),
-            })
+            }),
           )
           .setColor(Colors.SUCCESS)
           .toJSON(),
