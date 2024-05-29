@@ -170,7 +170,6 @@ export default {
     },
     MODERATION: {
       KICK: {
-        CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este miembro**`,
         USER_HIGHEST_ROLE: `**${Emojis.MARK} No puedes expulsar a este usuario porque tiene un rol igual o superior al tuyo**`,
         MESSAGE_1: ({
           username,
@@ -180,6 +179,11 @@ export default {
           moderator: string;
         }) =>
           `**${Emojis.SUCCESS} El usuario ${username} ha sido expulsado por ${moderator}**`,
+      },
+      BAN: {
+        USER_HIGHEST_ROLE: `**${Emojis.MARK} No puedes banear a este usuario porque tiene un rol igual o superior al tuyo**`,
+        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
+          `**${Emojis.SUCCESS} El usuario ${user} ha sido baneado por ${moderator}**`,
       },
     },
     UTILITY: {
@@ -243,6 +247,7 @@ export default {
         `**${Emojis.MARK} Estas ejecutando demasiadas acciones en poco tiempo**`,
         `${Emojis.RIGHT} Has recibido un bloqueo que se reiniciará en ${resets}`,
       ].join("\n"),
+    CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este miembro**`,
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>

@@ -5,13 +5,13 @@ import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import { errorMessage, escapeDiscordMarkdown } from "#util";
+import { errorMessage, escapeDiscordMarkdown, handleError } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
-  name: "kick",
+  name: "ban",
   permissions: {
-    user: ["KICK_MEMBERS"],
-    bot: ["KICK_MEMBERS"],
+    user: ["BAN_MEMBERS"],
+    bot: ["BAN_MEMBERS"],
   },
   directory: Directory.MODERATION,
   run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
@@ -32,10 +32,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     const _memberOption = _context.data.options.getMember("user", true);
     const _reasonOption = cutText(
       escapeDiscordMarkdown(
-        _context.data.options.getString("reason", true) ?? "No reason",
+        _context.data.options.getString("reason") ?? "No reason",
       ),
       35,
     );
+    const _deleteMessagesOption = _context.data.options.getNumber("delete_messages") ?? 0;
 
     if (
       _memberOption.id === _client.user.id ||
@@ -48,26 +49,37 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description:
-            Translations[locale].GLOBAL.CANNOT_MODERATE_MEMBER,
+          description: Translations[locale].GLOBAL.CANNOT_MODERATE_MEMBER,
         },
       );
     }
 
     await _client.rest.guilds
-      .removeMember(_context.guildID, _memberOption.id, _reasonOption)
-      .then(async () => {
-        await _context.reply({
+      .createBan(_context.guildID, _memberOption.id, {
+        deleteMessageSeconds: _deleteMessagesOption,
+        reason: _reasonOption,
+      })
+      .then(() => {
+        _context.reply({
           embeds: new EmbedBuilder()
             .setDescription(
-              Translations[locale].COMMANDS.MODERATION.KICK.MESSAGE_1({
-                username: _memberOption.mention,
+              Translations[locale].COMMANDS.MODERATION.BAN.MESSAGE_1({
+                user: _memberOption.mention,
                 moderator: _context.user.mention,
-              }),
+              })
             )
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
         });
+      })
+      .catch(async (error) => {
+        await handleError(
+          {
+            _context,
+            locale,
+          },
+          error
+        );
       });
   },
 });

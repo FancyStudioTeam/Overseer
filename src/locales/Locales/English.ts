@@ -170,7 +170,6 @@ export default {
     },
     MODERATION: {
       KICK: {
-        CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} You cannot moderate this member**`,
         USER_HIGHEST_ROLE: `**${Emojis.MARK} You cannot kick this user because they have a role equal to or higher than yours**`,
         MESSAGE_1: ({
           username,
@@ -180,6 +179,11 @@ export default {
           moderator: string;
         }) =>
           `**${Emojis.SUCCESS} The user ${username} has been kicked by ${moderator}**`,
+      },
+      BAN: {
+        USER_HIGHEST_ROLE: `**${Emojis.MARK} You cannot ban this user because they have a role equal to or higher than yours**`,
+        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
+          `**${Emojis.SUCCESS} The user ${user} has been banned by ${moderator}**`,
       },
     },
     UTILITY: {
@@ -243,6 +247,7 @@ export default {
         `**${Emojis.MARK} You are executing too many actions in too little time**`,
         `${Emojis.RIGHT} You have received a block which will be reset in ${resets}`,
       ].join("\n"),
+    CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} You cannot moderate this member**`,
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>
