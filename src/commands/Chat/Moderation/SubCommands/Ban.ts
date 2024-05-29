@@ -32,7 +32,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     const _memberOption = _context.data.options.getMember("user", true);
     const _reasonOption = cutText(
       escapeDiscordMarkdown(
-        _context.data.options.getString("reason", true) ?? "No reason",
+        _context.data.options.getString("reason") ?? "No reason",
       ),
       35,
     );
