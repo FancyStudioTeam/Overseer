@@ -36,7 +36,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       ),
       35,
     );
-    const _deleteMessages = _context.data.options.getNumber("delete_messages") ?? 0;
+    const _deleteMessagesOption = _context.data.options.getNumber("delete_messages") ?? 0;
 
     if (
       _memberOption.id === _client.user.id ||
@@ -55,8 +55,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     }
 
     await _client.rest.guilds
-      .createBan(_context.guild.id, _memberOption.id, {
-        deleteMessageSeconds: _deleteMessages,
+      .createBan(_context.guildID, _memberOption.id, {
+        deleteMessageSeconds: _deleteMessagesOption,
         reason: _reasonOption,
       })
       .then(() => {
