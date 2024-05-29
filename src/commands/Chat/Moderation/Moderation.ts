@@ -10,10 +10,6 @@ import { type ChatInputCommandInterface, Directory } from "#types";
 export default new BaseBuilder<ChatInputCommandInterface>({
   name: "mod",
   description: "_",
-  descriptionLocalizations: {
-    "es-419": "_",
-    "es-ES": "_",
-  },
   options: [
     {
       name: "kick",
