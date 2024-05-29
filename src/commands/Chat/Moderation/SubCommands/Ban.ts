@@ -5,7 +5,7 @@ import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import { errorMessage, escapeDiscordMarkdown, handleError } from "#util";
+import { errorMessage, escapeDiscordMarkdown } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "ban",
@@ -55,32 +55,21 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       );
     }
 
-    await _client.rest.guilds
-      .createBan(_context.guildID, _memberOption.id, {
-        deleteMessageSeconds: _deleteMessagesOption,
-        reason: _reasonOption,
-      })
-      .then(() => {
-        _context.reply({
-          embeds: new EmbedBuilder()
-            .setDescription(
-              Translations[locale].COMMANDS.MODERATION.BAN.MESSAGE_1({
-                user: _memberOption.mention,
-                moderator: _context.user.mention,
-              }),
-            )
-            .setColor(Colors.SUCCESS)
-            .toJSONArray(),
-        });
-      })
-      .catch(async (error) => {
-        await handleError(
-          {
-            _context,
-            locale,
-          },
-          error,
-        );
-      });
+    await _client.rest.guilds.createBan(_context.guildID, _memberOption.id, {
+      deleteMessageSeconds: _deleteMessagesOption,
+      reason: _reasonOption,
+    });
+
+    _context.reply({
+      embeds: new EmbedBuilder()
+        .setDescription(
+          Translations[locale].COMMANDS.MODERATION.BAN.MESSAGE_1({
+            user: _memberOption.mention,
+            moderator: _context.user.mention,
+          }),
+        )
+        .setColor(Colors.SUCCESS)
+        .toJSONArray(),
+    });
   },
 });
