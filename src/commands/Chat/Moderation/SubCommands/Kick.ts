@@ -48,8 +48,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description:
-            Translations[locale].GLOBAL.CANNOT_MODERATE_MEMBER,
+          description: Translations[locale].GLOBAL.CANNOT_MODERATE_MEMBER,
         },
       );
     }

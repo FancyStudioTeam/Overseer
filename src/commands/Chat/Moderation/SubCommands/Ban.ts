@@ -36,7 +36,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       ),
       35,
     );
-    const _deleteMessagesOption = _context.data.options.getNumber("delete_messages") ?? 0;
+    const _deleteMessagesOption =
+      _context.data.options.getNumber("delete_messages") ?? 0;
 
     if (
       _memberOption.id === _client.user.id ||
@@ -66,7 +67,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
               Translations[locale].COMMANDS.MODERATION.BAN.MESSAGE_1({
                 user: _memberOption.mention,
                 moderator: _context.user.mention,
-              })
+              }),
             )
             .setColor(Colors.SUCCESS)
             .toJSONArray(),
@@ -78,7 +79,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             _context,
             locale,
           },
-          error
+          error,
         );
       });
   },
