@@ -170,7 +170,6 @@ export default {
     },
     MODERATION: {
       KICK: {
-        USER_HIGHEST_ROLE: `**${Emojis.MARK} You cannot kick this user because they have a role equal to or higher than yours**`,
         MESSAGE_1: ({
           username,
           moderator,
@@ -181,9 +180,14 @@ export default {
           `**${Emojis.SUCCESS} The user ${username} has been kicked by ${moderator}**`,
       },
       BAN: {
-        USER_HIGHEST_ROLE: `**${Emojis.MARK} You cannot ban this user because they have a role equal to or higher than yours**`,
         MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
           `**${Emojis.SUCCESS} The user ${user} has been banned by ${moderator}**`,
+      },
+      TIMEOUT: {
+        INVALID_DURATION_TIME: `**${Emojis.MARK} The duration format is invalid**`,
+        ALLOWED_DURATION_VALUES: `**${Emojis.MARK} The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**`,
+        MESSAGE_1: ({ user, moderator, timeout }: { user:string, moderator: string, timeout: string}) =>
+          `**${Emojis.SUCCESS} Moderator ${moderator} has added a timeout of ${timeout} to user ${user}**`,
       },
     },
     UTILITY: {
@@ -248,6 +252,7 @@ export default {
         `${Emojis.RIGHT} You have received a block which will be reset in ${resets}`,
       ].join("\n"),
     CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} You cannot moderate this member**`,
+    USER_HIGHEST_ROLE: `**${Emojis.MARK} You cannot moderate someone with a higher or equal role than yours**`,
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>

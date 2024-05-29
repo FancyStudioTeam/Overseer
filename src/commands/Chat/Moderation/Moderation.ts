@@ -139,6 +139,48 @@ export default new BaseBuilder<ChatInputCommandInterface>({
         },
       ],
     },
+    {
+      name: "timeout",
+      description: "Adds a timeout to a user",
+      descriptionLocalizations: {
+        "es-419": "Silencia a un usuario",
+        "es-ES": "Silencia a un usuario",
+      },
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      options: [
+        {
+          name: "user",
+          description: "User mention or ID",
+          descriptionLocalizations: {
+            "es-419": "Mención del usuario o ID",
+            "es-ES": "Mención del usuario o ID",
+          },
+          type: ApplicationCommandOptionTypes.USER,
+          required: true,
+        },
+        {
+          name: "duration",
+          description: "Duration in days / hours / minutes / seconds",
+          descriptionLocalizations: {
+            "es-419": "Duración en días / horas / minutos / segundos",
+            "es-ES": "Duración en días / horas / minutos / segundos",
+          },
+          type: ApplicationCommandOptionTypes.STRING,
+          required: true,
+        },
+        {
+          name: "reason",
+          description: "Timeout reason",
+          descriptionLocalizations: {
+            "es-419": "Razón del silencio",
+            "es-ES": "Razón del silencio",
+          },
+          type: ApplicationCommandOptionTypes.STRING,
+          required: false,
+          maxLength: 35,
+        },
+      ],
+    },
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,

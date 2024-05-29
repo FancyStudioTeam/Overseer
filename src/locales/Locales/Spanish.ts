@@ -170,7 +170,6 @@ export default {
     },
     MODERATION: {
       KICK: {
-        USER_HIGHEST_ROLE: `**${Emojis.MARK} No puedes expulsar a este usuario porque tiene un rol igual o superior al tuyo**`,
         MESSAGE_1: ({
           username,
           moderator,
@@ -185,6 +184,12 @@ export default {
         MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
           `**${Emojis.SUCCESS} El usuario ${user} ha sido baneado por ${moderator}**`,
       },
+      TIMEOUT: {
+        INVALID_DURATION_TIME: `**${Emojis.MARK} El formato de duración es inválido**`,
+        ALLOWED_DURATION_VALUES: `**${Emojis.MARK} La duración debe ser mayor o igual a 5 segundos y menor o igual a 28 días**`,
+        MESSAGE_1: ({ user, moderator, timeout } : { user: string, moderator: string, timeout: string }) =>
+           `**${Emojis.SUCCESS} El moderador ${moderator} ha añadido un tiempo de espera de ${timeout} al usuario ${user}**`,
+      }
     },
     UTILITY: {
       SUGGEST: {
@@ -248,6 +253,7 @@ export default {
         `${Emojis.RIGHT} Has recibido un bloqueo que se reiniciará en ${resets}`,
       ].join("\n"),
     CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este miembro**`,
+    USER_HIGHEST_ROLE: `**${Emojis.MARK} No puedes expulsar a este usuario porque tiene un rol igual o superior al tuyo**`,
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>
