@@ -38,20 +38,16 @@ _client.on("messageCreate", async (_message: Message) => {
           voucher_id: true,
         },
       });
-      const dmChannel = await _client.rest.users
-        .createDM(_message.author.id)
-        .catch(() => null);
+      const dmChannel = await _client.rest.users.createDM(_message.author.id);
 
-      if (dmChannel) {
-        await _client.rest.channels.createMessage(dmChannel.id, {
-          embeds: new EmbedBuilder()
-            .setDescription(
-              `**${Emojis.RIGHT} ||${createdClientVoucher.voucher_id}||**`,
-            )
-            .setColor(Colors.COLOR)
-            .toJSONArray(),
-        });
-      }
+      await _client.rest.channels.createMessage(dmChannel.id, {
+        embeds: new EmbedBuilder()
+          .setDescription(
+            `**${Emojis.RIGHT} ||${createdClientVoucher.voucher_id}||**`,
+          )
+          .setColor(Colors.COLOR)
+          .toJSONArray(),
+      });
     })
     .with("reload", async () => {
       await _client._init();

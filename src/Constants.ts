@@ -8,6 +8,7 @@ export const Emojis = {
   BROWSE: "<:_:1239279185353113692>",
   CHECK: "<:_:1234938824056897619>",
   CANCEL: "<:_:1234938825713782844>",
+  SCHEDULE: "<:_:1245049753482428427>",
 };
 
 export const Colors = {
