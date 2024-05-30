@@ -230,19 +230,6 @@ export default {
             `**${Emojis.SUCCESS} The user ${user} has been muted by ${moderator}**`,
             `${Emojis.RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
-        MESSAGE_2: ({
-          user,
-          moderator,
-          reason,
-        }: {
-          user: string;
-          moderator: string;
-          reason: string;
-        }) =>
-          [
-            `**${Emojis.SUCCESS} The user ${user} has been unmuted by ${moderator}**`,
-            `${Emojis.RIGHT} **Reason**: ${reason}`,
-          ].join("\n"),
       },
     },
     UTILITY: {
