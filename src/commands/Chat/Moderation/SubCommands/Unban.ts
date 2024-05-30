@@ -31,7 +31,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       );
     }
 
-    const _userOption = _context.data.options.getUser("user");
+    const _userOption = _context.data.options.getUser("user", true);
     const _reasonOption = sanitizeString(
         _context.data.options.getString("reason") ?? "No reason",
         {
@@ -53,6 +53,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     }
 
     const bannedUser = await _client.rest.guilds.getBan(_context.guildID, _userOption.id);
+
     if (!bannedUser) {
       return await errorMessage(
         {
@@ -60,7 +61,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
+          description: Translations[locale].COMMANDS.MODERATION.UNBAN.INVALID_BANNED_USER,
         },
       );
     }
