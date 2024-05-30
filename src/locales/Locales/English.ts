@@ -231,6 +231,21 @@ export default {
             `${Emojis.RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
+      UNBAN: {
+        MESSAGE_1: ({
+          user,
+          moderator,
+          reason,
+        }: {
+          user: string;
+          moderator: string;
+          reason: string;
+        }) =>
+          [
+            `**${Emojis.SUCCESS} The user ${user} has been unbanned by ${moderator}**`,
+            `${Emojis.RIGHT} **Reason**: ${reason}`,
+          ].join("\n"),
+      },
     },
     UTILITY: {
       SUGGEST: {
