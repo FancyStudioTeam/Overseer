@@ -231,6 +231,22 @@ export default {
             `${Emojis.RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
+      UNBAN: {
+        INVALID_BANNED_USER: `**${Emojis.MARK} The user is not banned**`,
+        MESSAGE_1: ({
+          user,
+          moderator,
+          reason,
+        }: {
+          user: string;
+          moderator: string;
+          reason: string;
+        }) =>
+          [
+            `**${Emojis.SUCCESS} The user ${user} has been unbanned by ${moderator}**`,
+            `${Emojis.RIGHT} **Reason**: ${reason}`,
+          ].join("\n"),
+      },
     },
     UTILITY: {
       SUGGEST: {

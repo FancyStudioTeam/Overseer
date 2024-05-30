@@ -209,6 +209,36 @@ export default new BaseBuilder<ChatInputCommandInterface>({
         },
       ],
     },
+    {
+      name: "unban",
+      description: "Unbans a user",
+      descriptionLocalizations: {
+        "es-419": "Desbanea a un usuario",
+        "es-ES": "Desbanea a un usuario",
+      },
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      options: [
+        {
+          name: "user",
+          description: "User mention or ID",
+          descriptionLocalizations: {
+            "es-419": "Mención del usuario o ID",
+            "es-ES": "Mención del usuario o ID",
+          },
+          type: ApplicationCommandOptionTypes.USER,
+          required: true,
+        },
+        {
+          name: "reason",
+          description: "Unban reason",
+          descriptionLocalizations: {
+            "es-419": "Razón del desbaneo",
+            "es-ES": "Razón del desbaneo",
+          },
+          type: ApplicationCommandOptionTypes.STRING,
+        },
+      ],
+    },
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
