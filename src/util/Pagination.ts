@@ -119,6 +119,7 @@ export async function pagination(
           await _collectedInteraction.deferUpdate().catch(() => null);
 
           match(_collectedInteraction.data.customID)
+            .returnType<void>()
             .with("pagination_left", () => {
               index = index > 0 ? --index : pages.length - 1;
             })
