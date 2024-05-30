@@ -161,6 +161,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             await _collectedInteraction.deferUpdate().catch(() => null);
 
             match(_collectedInteraction.data.customID)
+              .returnType<void>()
               .with("premium_revoke_confirm", async () => {
                 interactionCollector.stop();
 

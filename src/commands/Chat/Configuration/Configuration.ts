@@ -27,10 +27,10 @@ export default new BaseBuilder<ChatInputCommandInterface>({
       options: [
         {
           name: "language",
-          description: "Bot language",
+          description: "Choose an option",
           descriptionLocalizations: {
-            "es-419": "Idioma del bot",
-            "es-ES": "Idioma del bot",
+            "es-419": "Elige una opción",
+            "es-ES": "Elige una opción",
           },
           type: ApplicationCommandOptionTypes.STRING,
           required: true,
@@ -143,6 +143,7 @@ export default new BaseBuilder<ChatInputCommandInterface>({
     const _subCommandOption = _context.data.options.getSubCommand(true);
 
     match(_subCommandOption.join("_"))
+      .returnType<void>()
       .with("timezone", async () => {
         const _focusedOption =
           _context.data.options.getFocused<InteractionOptionsString>(true);

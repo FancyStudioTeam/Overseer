@@ -26,6 +26,7 @@ _client.on("messageCreate", async (_message: Message) => {
     .split(" ");
 
   match(command.toLowerCase())
+    .returnType<void>()
     .with("voucher", async () => {
       const createdClientVoucher = await prisma.clientVoucher.create({
         data: {
