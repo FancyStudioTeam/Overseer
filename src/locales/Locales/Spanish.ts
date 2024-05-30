@@ -169,37 +169,67 @@ export default {
       },
     },
     MODERATION: {
+      BAN: {
+        MESSAGE_1: ({
+          user,
+          moderator,
+          reason,
+        }: {
+          user: string;
+          moderator: string;
+          reason: string;
+        }) =>
+          [
+            `**${Emojis.SUCCESS} El usuario ${user} ha sido baneado por ${moderator}**`,
+            `${Emojis.RIGHT} **Razón**: ${reason}`,
+          ].join("\n"),
+      },
       KICK: {
         MESSAGE_1: ({
           username,
           moderator,
+          reason,
         }: {
           username: string;
           moderator: string;
+          reason: string;
         }) =>
-          `**${Emojis.SUCCESS} El usuario ${username} ha sido expulsado por ${moderator}**`,
+          [
+            `**${Emojis.SUCCESS} El usuario ${username} ha sido expulsado por ${moderator}**`,
+            `${Emojis.RIGHT} **Razón**: ${reason}`,
+          ].join("\n"),
       },
-      BAN: {
-        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
-          `**${Emojis.SUCCESS} El usuario ${user} ha sido baneado por ${moderator}**`,
-      },
-      TIMEOUT: {
-        INVALID_DURATION_TIME: `**${Emojis.MARK} El formato de duración es inválido**`,
-        ALLOWED_DURATION_VALUES: `**${Emojis.MARK} La duración debe ser mayor o igual a 5 segundos y menor o igual a 28 días**`,
+      SOFTBAN: {
         MESSAGE_1: ({
           user,
           moderator,
-          timeout,
+          reason,
         }: {
           user: string;
           moderator: string;
-          timeout: string;
+          reason: string;
         }) =>
-          `**${Emojis.SUCCESS} El moderador ${moderator} ha añadido un tiempo de espera de ${timeout} al usuario ${user}**`,
+          [
+            `**${Emojis.SUCCESS} El usuario ${user} ha sido softbaneado por ${moderator}**`,
+            `${Emojis.RIGHT} **Razón**: ${reason}`,
+          ].join("\n"),
       },
-      SOFTBAN: {
-        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
-          `**${Emojis.SUCCESS} El usuario ${user} ha sido softbaneado por ${moderator} para eliminar sus mensajes**`,
+      TIMEOUT: {
+        INVALID_DURATION_FORMAT: `**${Emojis.MARK} La duración devolvió un formato inválido**`,
+        ALLOWED_DURATION_VALUES: `**${Emojis.MARK} La duración debe ser mayor o igual a 0 segundos y menor o igual a 28 días**`,
+        MESSAGE_1: ({
+          user,
+          moderator,
+          reason,
+        }: {
+          user: string;
+          moderator: string;
+          reason: string;
+        }) =>
+          [
+            `**${Emojis.SUCCESS} El moderador ${moderator} ha añadido un tiempo de espera al usuario ${user}**`,
+            `${Emojis.RIGHT} **Razón**: ${reason}`,
+          ].join("\n"),
       },
     },
     UTILITY: {
@@ -257,14 +287,17 @@ export default {
         `**${Emojis.MARK} La propiedad \`guild\` no está presente en la estructura \`${structure.constructor.name}\`**`,
         `${Emojis.RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
       ].join("\n"),
-    INVALID_GUILD_MEMBER: `**${Emojis.MARK} El usuario debe de ser miembro del servidor**`,
+    INVALID_GUILD_MEMBER: `**${Emojis.MARK} El usuario debe ser miembro de este servidor**`,
     USER_IS_LIMITED: ({ resets }: { resets: string }) =>
       [
         `**${Emojis.MARK} Estas ejecutando demasiadas acciones en poco tiempo**`,
         `${Emojis.RIGHT} Has recibido un bloqueo que se reiniciará en ${resets}`,
       ].join("\n"),
-    CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este miembro**`,
-    USER_HIGHEST_ROLE: `**${Emojis.MARK} No puedes expulsar a este usuario porque tiene un rol igual o superior al tuyo**`,
+    CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este usuario**`,
+    HIERARCHY: {
+      USER: `**${Emojis.MARK} No puedes moderar a un usuario con una jerarquía igual o superior que tu jerarquía**`,
+      CLIENT: `**${Emojis.MARK} No puedo moderar a un usuario con una jerarquía igual o superior que la jerarquía del bot**`,
+    },
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>

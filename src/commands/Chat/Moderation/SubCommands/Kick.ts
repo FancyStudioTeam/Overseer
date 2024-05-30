@@ -4,7 +4,12 @@ import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import { errorMessage, sanitizeString } from "#util";
+import {
+  ComparationLevel,
+  compareMemberToMember,
+  errorMessage,
+  sanitizeString,
+} from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "kick",
@@ -28,14 +33,26 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       );
     }
 
-    const _memberOption = _context.data.options.getMember("user", true);
+    const _memberOption = _context.data.options.getMember("user");
     const _reasonOption = sanitizeString(
       _context.data.options.getString("reason") ?? "No reason",
       {
-        maxLength: 35,
+        maxLength: 50,
         espaceMarkdown: true,
       },
     );
+
+    if (!_memberOption) {
+      return await errorMessage(
+        {
+          _context,
+          ephemeral: true,
+        },
+        {
+          description: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
+        },
+      );
+    }
 
     if (
       _memberOption.id === _client.user.id ||
@@ -53,6 +70,37 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       );
     }
 
+    if (
+      compareMemberToMember(_context.guild.clientMember, _memberOption) !==
+      ComparationLevel.HIGHER
+    ) {
+      return await errorMessage(
+        {
+          _context,
+          ephemeral: true,
+        },
+        {
+          description: Translations[locale].GLOBAL.HIERARCHY.CLIENT,
+        },
+      );
+    }
+
+    if (
+      _context.user.id !== _context.guild.ownerID &&
+      compareMemberToMember(_context.member, _memberOption) !==
+        ComparationLevel.HIGHER
+    ) {
+      return await errorMessage(
+        {
+          _context,
+          ephemeral: true,
+        },
+        {
+          description: Translations[locale].GLOBAL.HIERARCHY.USER,
+        },
+      );
+    }
+
     await _client.rest.guilds.removeMember(
       _context.guildID,
       _memberOption.id,
@@ -65,6 +113,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           Translations[locale].COMMANDS.MODERATION.KICK.MESSAGE_1({
             username: _memberOption.mention,
             moderator: _context.user.mention,
+            reason: _reasonOption,
           }),
         )
         .setColor(Colors.SUCCESS)

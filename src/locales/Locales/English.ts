@@ -169,37 +169,80 @@ export default {
       },
     },
     MODERATION: {
+      BAN: {
+        MESSAGE_1: ({
+          user,
+          moderator,
+          reason,
+        }: {
+          user: string;
+          moderator: string;
+          reason: string;
+        }) =>
+          [
+            `**${Emojis.SUCCESS} The user ${user} has been banned by ${moderator}**`,
+            `${Emojis.RIGHT} **Reason**: ${reason}`,
+          ].join("\n"),
+      },
       KICK: {
         MESSAGE_1: ({
           username,
           moderator,
+          reason,
         }: {
           username: string;
           moderator: string;
+          reason: string;
         }) =>
-          `**${Emojis.SUCCESS} The user ${username} has been kicked by ${moderator}**`,
+          [
+            `**${Emojis.SUCCESS} The user ${username} has been kicked by ${moderator}**`,
+            `${Emojis.RIGHT} **Reason**: ${reason}`,
+          ].join("\n"),
       },
-      BAN: {
-        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
-          `**${Emojis.SUCCESS} The user ${user} has been banned by ${moderator}**`,
+      SOFTBAN: {
+        MESSAGE_1: ({
+          user,
+          moderator,
+          reason,
+        }: {
+          user: string;
+          moderator: string;
+          reason: string;
+        }) =>
+          [
+            `**${Emojis.SUCCESS} The user ${user} has been softbanned by ${moderator}**`,
+            `${Emojis.RIGHT} **Reason**: ${reason}`,
+          ].join("\n"),
       },
       TIMEOUT: {
-        INVALID_DURATION_TIME: `**${Emojis.MARK} The duration format is invalid**`,
+        INVALID_DURATION_FORMAT: `**${Emojis.MARK} The duration returned an invalid format**`,
         ALLOWED_DURATION_VALUES: `**${Emojis.MARK} The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**`,
         MESSAGE_1: ({
           user,
           moderator,
-          timeout,
+          reason,
         }: {
           user: string;
           moderator: string;
-          timeout: string;
+          reason: string;
         }) =>
-          `**${Emojis.SUCCESS} Moderator ${moderator} has added a timeout of ${timeout} to user ${user}**`,
-      },
-      SOFTBAN: {
-        MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
-          `**${Emojis.SUCCESS} The user ${user} has been soft-banned by ${moderator}**`,
+          [
+            `**${Emojis.SUCCESS} The user ${user} has been muted by ${moderator}**`,
+            `${Emojis.RIGHT} **Reason**: ${reason}`,
+          ].join("\n"),
+        MESSAGE_2: ({
+          user,
+          moderator,
+          reason,
+        }: {
+          user: string;
+          moderator: string;
+          reason: string;
+        }) =>
+          [
+            `**${Emojis.SUCCESS} The user ${user} has been unmuted by ${moderator}**`,
+            `${Emojis.RIGHT} **Reason**: ${reason}`,
+          ].join("\n"),
       },
     },
     UTILITY: {
@@ -257,14 +300,17 @@ export default {
         `**${Emojis.MARK} The \`guild\` property is not present in the \`${structure.constructor.name}\` structure**`,
         `${Emojis.RIGHT} Attempts to re-execute the action within a server`,
       ].join("\n"),
-    INVALID_GUILD_MEMBER: `**${Emojis.MARK} The user must be a member of the server**`,
+    INVALID_GUILD_MEMBER: `**${Emojis.MARK} The user must be a member of this server**`,
     USER_IS_LIMITED: ({ resets }: { resets: string }) =>
       [
         `**${Emojis.MARK} You are executing too many actions in too little time**`,
         `${Emojis.RIGHT} You have received a block which will be reset in ${resets}`,
       ].join("\n"),
     CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} You cannot moderate this member**`,
-    USER_HIGHEST_ROLE: `**${Emojis.MARK} You cannot moderate someone with a higher or equal role than yours**`,
+    HIERARCHY: {
+      USER: `**${Emojis.MARK} You cannot moderate a user with a hierarchy equal to or higher than your hierarchy**`,
+      CLIENT: `**${Emojis.MARK} I cannot moderate a user with a hierarchy equal to or higher than the bot's hierarchy**`,
+    },
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>

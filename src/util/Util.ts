@@ -78,11 +78,48 @@ export function sanitizeString(
   let sanitizedContent = content;
 
   if (options.espaceMarkdown) {
-    sanitizedContent = escapeDiscordMarkdown(sanitizedContent);
+    const escapeDiscordMarkdown = () => {
+      return escapeMarkdown(sanitizedContent, {
+        bold: true,
+        bulletedList: true,
+        codeBlock: true,
+        codeBlockContent: true,
+        escape: true,
+        heading: true,
+        inlineCode: true,
+        inlineCodeContent: true,
+        italic: true,
+        maskedLink: true,
+        spoiler: true,
+        strikethrough: true,
+        underline: true,
+      });
+    };
+
+    sanitizedContent = escapeDiscordMarkdown();
   }
 
   if (options.replaceLinks) {
-    sanitizedContent = replaceLinks(sanitizedContent);
+    const replaceLinks = () => {
+      const elements = sanitizedContent.match(
+        urlRegex({
+          strict: false,
+        }),
+      );
+
+      if (elements) {
+        elements.forEach((element, _) => {
+          sanitizedContent = sanitizedContent.replace(
+            element,
+            element.replace(element, "**[Link Detected]**"),
+          );
+        });
+      }
+
+      return sanitizedContent;
+    };
+
+    sanitizedContent = replaceLinks();
   }
 
   if (options.maxLength) {
@@ -90,44 +127,6 @@ export function sanitizeString(
   }
 
   return sanitizedContent;
-}
-
-function replaceLinks(content: string): string {
-  let sanitizedContent = content;
-  const elements = sanitizedContent.match(
-    urlRegex({
-      strict: false,
-    }),
-  );
-
-  if (elements) {
-    elements.forEach((element, _) => {
-      sanitizedContent = sanitizedContent.replace(
-        element,
-        element.replace(element, "**[Link Detected]**"),
-      );
-    });
-  }
-
-  return sanitizedContent;
-}
-
-function escapeDiscordMarkdown(content: string): string {
-  return escapeMarkdown(content, {
-    bold: true,
-    bulletedList: true,
-    codeBlock: true,
-    codeBlockContent: true,
-    escape: true,
-    heading: true,
-    inlineCode: true,
-    inlineCodeContent: true,
-    italic: true,
-    maskedLink: true,
-    spoiler: true,
-    strikethrough: true,
-    underline: true,
-  });
 }
 
 export function padding(content: string, separator: string): string {
