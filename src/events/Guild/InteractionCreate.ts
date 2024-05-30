@@ -288,14 +288,7 @@ async function _handleChatInputSubCommand({
 
   const name = _interaction.data.options.getSubCommand(true);
   const command = _client.subCommands.get(
-    `${(
-      {
-        CONFIG: "CONFIGURATION",
-        INFO: "INFORMATION",
-        MOD: "MODERATION",
-        UTIL: "UTILITY",
-      }[_interaction.data.name.toUpperCase()] ?? ""
-    ).toLowerCase()}_${name.join("_")}`,
+    `${_interaction.data.name}_${name.join("_")}`,
   );
 
   if (command?.name) {

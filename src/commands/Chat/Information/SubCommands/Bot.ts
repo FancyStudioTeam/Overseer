@@ -32,7 +32,9 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             value: Translations[
               locale
             ].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_1.VALUE({
-              version,
+              version: sanitizeString(version, {
+                espaceMarkdown: true,
+              }),
               memory: `${
                 Math.round(
                   (process.memoryUsage().heapUsed / 1024 / 1024) * 100,
