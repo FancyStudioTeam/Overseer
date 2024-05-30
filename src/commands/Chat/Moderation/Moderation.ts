@@ -1,3 +1,4 @@
+import { Duration } from "@sapphire/time-utilities";
 import {
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
@@ -12,38 +13,8 @@ export default new BaseBuilder<ChatInputCommandInterface>({
   description: "_",
   options: [
     {
-      name: "kick",
-      description: "Kick a user",
-      descriptionLocalizations: {
-        "es-419": "Expulsa a un usuario",
-        "es-ES": "Expulsa a un usuario",
-      },
-      type: ApplicationCommandOptionTypes.SUB_COMMAND,
-      options: [
-        {
-          name: "user",
-          description: "User mention or ID",
-          descriptionLocalizations: {
-            "es-419": "Mención del usuario o ID",
-            "es-ES": "Mención del usuario o ID",
-          },
-          type: ApplicationCommandOptionTypes.USER,
-          required: true,
-        },
-        {
-          name: "reason",
-          description: "Kick reason",
-          descriptionLocalizations: {
-            "es-419": "Razón de la expulsión",
-            "es-ES": "Razón de la expulsión",
-          },
-          type: ApplicationCommandOptionTypes.STRING,
-        },
-      ],
-    },
-    {
       name: "ban",
-      description: "Ban a user",
+      description: "Bans a user",
       descriptionLocalizations: {
         "es-419": "Banea a un usuario",
         "es-ES": "Banea a un usuario",
@@ -76,77 +47,104 @@ export default new BaseBuilder<ChatInputCommandInterface>({
             "es-419": "Elige una opción",
             "es-ES": "Elige una opción",
           },
-          type: ApplicationCommandOptionTypes.NUMBER,
-          required: false,
+          type: ApplicationCommandOptionTypes.INTEGER,
           choices: [
             {
-              name: "Retain messages",
+              name: "❌ Do not delete messages",
               nameLocalizations: {
-                "es-419": "Retener mensajes",
-                "es-ES": "Retener mensajes",
+                "es-419": "❌ No eliminar mensajes",
+                "es-ES": "❌ No eliminar mensajes",
               },
-              value: 0,
+              value: new Duration("0 seconds").offset,
             },
             {
-              name: "Within the past hour",
+              name: "⏱️ Within the past hour",
               nameLocalizations: {
-                "es-419": "En la última hora",
-                "es-ES": "En la última hora",
+                "es-419": "⏱️ En la última hora",
+                "es-ES": "⏱️ En la última hora",
               },
-              value: 3600,
+              value: new Duration("1 hour").offset,
             },
             {
-              name: "Within the past 6 hours",
+              name: "⏱️ Within the past 6 hours",
               nameLocalizations: {
-                "es-419": "En las últimas 6 horas",
-                "es-ES": "En las últimas 6 horas",
+                "es-419": "⏱️ En las últimas 6 horas",
+                "es-ES": "⏱️ En las últimas 6 horas",
               },
-              value: 21600,
+              value: new Duration("6 hours").offset,
             },
             {
-              name: "Within the past 12 hours",
+              name: "⏱️ Within the past 12 hours",
               nameLocalizations: {
-                "es-419": "En las últimas 12 horas",
-                "es-ES": "En las últimas 12 horas",
+                "es-419": "⏱️ En las últimas 12 horas",
+                "es-ES": "⏱️ En las últimas 12 horas",
               },
-              value: 43200,
+              value: new Duration("12 hours").offset,
             },
             {
-              name: "Within the past 24 hours",
+              name: "⏱️ Within the past 24 hours",
               nameLocalizations: {
-                "es-419": "En las últimas 24 horas",
-                "es-ES": "En las últimas 24 horas",
+                "es-419": "⏱️ En las últimas 24 horas",
+                "es-ES": "⏱️ En las últimas 24 horas",
               },
-              value: 86400,
+              value: new Duration("24 hours").offset,
             },
             {
-              name: "Within the past 3 days",
+              name: "⏱️ Within the past 3 days",
               nameLocalizations: {
-                "es-419": "En los últimos 3 días",
-                "es-ES": "En los últimos 3 días",
+                "es-419": "⏱️ En los últimos 3 días",
+                "es-ES": "⏱️ En los últimos 3 días",
               },
-              value: 259200,
+              value: new Duration("3 days").offset,
             },
             {
-              name: "Within the past 7 days",
+              name: "⏱️ Within the past 7 days",
               nameLocalizations: {
-                "es-419": "En los últimos 7 días",
-                "es-ES": "En los últimos 7 días",
+                "es-419": "⏱️ En los últimos 7 días",
+                "es-ES": "⏱️ En los últimos 7 días",
               },
-              value: 604800,
+              value: new Duration("7 days").offset,
             },
           ],
         },
       ],
     },
     {
-      name: "softban",
-      description: "Ban and immediate unban to delete user messages.",
+      name: "kick",
+      description: "Kicks a user",
       descriptionLocalizations: {
-        "es-419":
-          "Banea y desbanea inmediatamente para eliminar los mensajes del usuario.",
-        "es-ES":
-          "Banea y desbanea inmediatamente para eliminar los mensajes del usuario.",
+        "es-419": "Expulsa a un usuario",
+        "es-ES": "Expulsa a un usuario",
+      },
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      options: [
+        {
+          name: "user",
+          description: "User mention or ID",
+          descriptionLocalizations: {
+            "es-419": "Mención del usuario o ID",
+            "es-ES": "Mención del usuario o ID",
+          },
+          type: ApplicationCommandOptionTypes.USER,
+          required: true,
+        },
+        {
+          name: "reason",
+          description: "Kick reason",
+          descriptionLocalizations: {
+            "es-419": "Razón de la expulsión",
+            "es-ES": "Razón de la expulsión",
+          },
+          type: ApplicationCommandOptionTypes.STRING,
+        },
+      ],
+    },
+    {
+      name: "softban",
+      description: "Bans and unban a user to delete his messages",
+      descriptionLocalizations: {
+        "es-419": "Banea y desbanea a un usuario para eliminar sus mensajes",
+        "es-ES": "Banea y desbanea a un usuario para eliminar sus mensajes",
       },
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
       options: [
@@ -175,8 +173,8 @@ export default new BaseBuilder<ChatInputCommandInterface>({
       name: "timeout",
       description: "Adds a timeout to a user",
       descriptionLocalizations: {
-        "es-419": "Silencia a un usuario",
-        "es-ES": "Silencia a un usuario",
+        "es-419": "Añade un tiempo de espera a un usuario",
+        "es-ES": "Añade un tiempo de espera a un usuario",
       },
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
       options: [
@@ -204,12 +202,10 @@ export default new BaseBuilder<ChatInputCommandInterface>({
           name: "reason",
           description: "Timeout reason",
           descriptionLocalizations: {
-            "es-419": "Razón del silencio",
-            "es-ES": "Razón del silencio",
+            "es-419": "Razón del tiempo de espera",
+            "es-ES": "Razón del tiempo de espera",
           },
           type: ApplicationCommandOptionTypes.STRING,
-          required: false,
-          maxLength: 35,
         },
       ],
     },
