@@ -36,19 +36,6 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         espaceMarkdown: true,
       },
     );
-
-    if (!_userOption) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
-        },
-      );
-    }
-
     const bannedUser = await _client.rest.guilds
       .getBan(_context.guildID, _userOption.id)
       .catch(() => null);
