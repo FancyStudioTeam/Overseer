@@ -8,9 +8,9 @@ import {
   FetchFrom,
   UnixType,
   errorMessage,
-  escapeDiscordMarkdown,
   fetchMember,
   formatUnix,
+  sanitizeString,
 } from "#util";
 
 export default new BaseBuilder<UserCommandInterface>({
@@ -53,8 +53,12 @@ export default new BaseBuilder<UserCommandInterface>({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.TITLE_1({
-            name: escapeDiscordMarkdown(
+            name: sanitizeString(
               member.user.globalName ?? member.user.username,
+              {
+                maxLength: 50,
+                espaceMarkdown: true,
+              },
             ),
           }),
         )

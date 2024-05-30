@@ -8,9 +8,9 @@ import {
   FetchFrom,
   UnixType,
   errorMessage,
-  escapeDiscordMarkdown,
   fetchUser,
   formatUnix,
+  sanitizeString,
 } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
@@ -39,7 +39,10 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.TITLE_1({
-            name: escapeDiscordMarkdown(_context.guild.name),
+            name: sanitizeString(_context.guild.name, {
+              maxLength: 50,
+              espaceMarkdown: true,
+            }),
           }),
         )
         .setThumbnail(_context.guild.iconURL() ?? _client.user.avatarURL())
@@ -50,7 +53,10 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             value: Translations[
               locale
             ].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.VALUE({
-              name: escapeDiscordMarkdown(_context.guild.name),
+              name: sanitizeString(_context.guild.name, {
+                maxLength: 50,
+                espaceMarkdown: true,
+              }),
               id: _context.guildID,
               owner: owner?.mention ?? Emojis.MARK,
             }),
