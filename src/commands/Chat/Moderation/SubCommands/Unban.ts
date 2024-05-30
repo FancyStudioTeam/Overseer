@@ -49,10 +49,9 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       );
     }
 
-    const bannedUser = await _client.rest.guilds.getBan(
-      _context.guildID,
-      _userOption.id,
-    );
+    const bannedUser = await _client.rest.guilds
+      .getBan(_context.guildID, _userOption.id)
+      .catch(() => null);
 
     if (!bannedUser) {
       return await errorMessage(
@@ -61,8 +60,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description:
-            Translations[locale].COMMANDS.MODERATION.UNBAN.INVALID_BANNED_USER,
+          description: Translations[
+            locale
+          ].COMMANDS.MODERATION.UNBAN.BAN_NOT_FOUND({
+            ban: _userOption.id,
+          }),
         },
       );
     }

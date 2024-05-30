@@ -1,6 +1,10 @@
 import colors from "@colors/colors";
-import { type Nullish, codeBlock } from "@sapphire/utilities";
-import { isNullOrUndefined } from "@sapphire/utilities";
+import {
+  type Nullish,
+  codeBlock,
+  inlineCodeBlock,
+  isNullOrUndefined,
+} from "@sapphire/utilities";
 import { Emojis } from "#constants";
 import { padding } from "#util";
 
@@ -8,19 +12,19 @@ export default {
   COMMANDS: {
     CONFIGURATION: {
       LANGUAGE: {
-        MESSAGE_1: `**${Emojis.SUCCESS} The language has been set to \`English\`**`,
+        MESSAGE_1: `**${Emojis.SUCCESS} The language has been set to ${inlineCodeBlock("English")}**`,
       },
       PREMIUM: {
         CLAIM: {
           MEMBERSHIP_NOT_FOUND: ({ code }: { code: string }) =>
-            `**${Emojis.MARK} The code \`${code}\` has not been found**`,
+            `**${Emojis.MARK} The code ${inlineCodeBlock(code)} has not been found**`,
           MESSAGE_1: ({ expireDate }: { expireDate: string | Nullish }) =>
             [
               `**${Emojis.SUCCESS} The premium membership has been claimed**`,
               `${Emojis.RIGHT} The premium membership will ${
                 isNullOrUndefined(expireDate)
                   ? "`never expire`"
-                  : `expire on \`${expireDate}\``
+                  : `expire on ${inlineCodeBlock(expireDate)}`
               }`,
             ].join("\n"),
         },
@@ -47,10 +51,10 @@ export default {
       TIMEZONE: {
         ERRORS: {
           TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
-            `**${Emojis.MARK} The timezone \`${timezone}\` has not been found**`,
+            `**${Emojis.MARK} The timezone ${inlineCodeBlock(timezone)} has not been found**`,
         },
         MESSAGE_1: ({ timezone }: { timezone: string }) =>
-          `**${Emojis.SUCCESS} The timezone has been set to \`${timezone}\`**`,
+          `**${Emojis.SUCCESS} The timezone has been set to ${inlineCodeBlock(timezone)}**`,
       },
     },
     INFORMATION: {
@@ -232,7 +236,8 @@ export default {
           ].join("\n"),
       },
       UNBAN: {
-        INVALID_BANNED_USER: `**${Emojis.MARK} The user is not banned**`,
+        BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
+          `**${Emojis.MARK} The ban ${inlineCodeBlock(ban)} has not been found**`,
         MESSAGE_1: ({
           user,
           moderator,
@@ -293,14 +298,14 @@ export default {
       TITLE_1: ({ name }: { name: string }) => `**${name} Help Panel**`,
       FIELD_1: {
         FIELD: ({ command }: { command: string }) =>
-          `**\`/${command}\` Subcommands**`,
+          `**${inlineCodeBlock(`/${command}`)} Subcommands**`,
       },
     },
   },
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
-        `**${Emojis.MARK} The \`guild\` property is not present in the \`${structure.constructor.name}\` structure**`,
+        `**${Emojis.MARK} The ${inlineCodeBlock("guild")} property is not present in the ${inlineCodeBlock(structure.constructor.name)} structure**`,
         `${Emojis.RIGHT} Attempts to re-execute the action within a server`,
       ].join("\n"),
     INVALID_GUILD_MEMBER: `**${Emojis.MARK} The user must be a member of this server**`,
@@ -350,7 +355,7 @@ export default {
       },
       MESSAGE_1: ({ name, id }: { name: string; id: string }) =>
         [
-          `**${Emojis.MARK} The server returned an error of type \`${name}\`**`,
+          `**${Emojis.MARK} The server returned an error of type ${inlineCodeBlock(name)}**`,
           `${Emojis.RIGHT} **Report ID**: ${id}`,
         ].join("\n"),
     },
