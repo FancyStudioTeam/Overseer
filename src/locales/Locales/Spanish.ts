@@ -232,6 +232,7 @@ export default {
           ].join("\n"),
       },
       UNBAN: {
+        INVALID_BANNED_USER: `**${Emojis.MARK} El usuario no está baneado**`,
         MESSAGE_1: ({
           user,
           moderator,
