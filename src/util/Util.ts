@@ -3,7 +3,12 @@ import { escapeMarkdown } from "@discordjs/formatters";
 import { ParsedCustomEmojiWithGroups } from "@sapphire/discord-utilities";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Timestamp } from "@sapphire/time-utilities";
-import { type Nullish, cutText } from "@sapphire/utilities";
+import {
+  type Awaitable,
+  type Nullish,
+  cutText,
+  inlineCodeBlock,
+} from "@sapphire/utilities";
 import { captureException } from "@sentry/node";
 import {
   type AnyInteractionGateway,
@@ -35,6 +40,7 @@ export async function fetchUser(
   id: string,
 ): Promise<User | Nullish> {
   return match(type)
+    .returnType<Awaitable<User | Nullish>>()
     .with(
       FetchFrom.DEFAULT,
       async () => _client.users.get(id) ?? (await _client.rest.users.get(id)),
@@ -50,6 +56,7 @@ export async function fetchMember(
   id: string,
 ): Promise<Member | Nullish> {
   return match(type)
+    .returnType<Awaitable<Member | Nullish>>()
     .with(
       FetchFrom.DEFAULT,
       async () =>
@@ -85,6 +92,44 @@ export function sanitizeString(
   return sanitizedContent;
 }
 
+function replaceLinks(content: string): string {
+  let sanitizedContent = content;
+  const elements = sanitizedContent.match(
+    urlRegex({
+      strict: false,
+    }),
+  );
+
+  if (elements) {
+    elements.forEach((element, _) => {
+      sanitizedContent = sanitizedContent.replace(
+        element,
+        element.replace(element, "**[Link Detected]**"),
+      );
+    });
+  }
+
+  return sanitizedContent;
+}
+
+function escapeDiscordMarkdown(content: string): string {
+  return escapeMarkdown(content, {
+    bold: true,
+    bulletedList: true,
+    codeBlock: true,
+    codeBlockContent: true,
+    escape: true,
+    heading: true,
+    inlineCode: true,
+    inlineCodeContent: true,
+    italic: true,
+    maskedLink: true,
+    spoiler: true,
+    strikethrough: true,
+    underline: true,
+  });
+}
+
 export function padding(content: string, separator: string): string {
   const lines = content.split("\n");
   let maxLength = 0;
@@ -110,7 +155,10 @@ export function padding(content: string, separator: string): string {
 }
 
 export async function errorMessage(
-  main: {
+  {
+    _context,
+    ephemeral,
+  }: {
     _context: AnyInteractionGateway | Message;
     ephemeral?: boolean;
   },
@@ -118,45 +166,25 @@ export async function errorMessage(
 ): Promise<void> {
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder().load(embed).setColor(Colors.ERROR).toJSONArray(),
-    flags: main.ephemeral ? MessageFlags.EPHEMERAL : undefined,
+    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
-  "reply" in main._context
-    ? await main._context.reply(payload)
-    : await _client.rest.channels.createMessage(
-        main._context.channelID,
-        payload,
-      );
-}
-
-export function replaceLinks(content: string): string {
-  let sanitizedContent = content;
-  const elements = sanitizedContent.match(
-    urlRegex({
-      strict: false,
-    }),
-  );
-
-  if (elements) {
-    elements.forEach((element, _) => {
-      sanitizedContent = sanitizedContent.replace(
-        element,
-        element.replace(element, "**[Link Detected]**"),
-      );
-    });
-  }
-
-  return sanitizedContent;
+  "reply" in _context
+    ? await _context.reply(payload)
+    : await _client.rest.channels.createMessage(_context.channelID, payload);
 }
 
 export function parseEmoji(emoji: string): NullablePartialEmoji {
-  // biome-ignore lint/style/noNonNullAssertion:
-  const match = emoji.match(ParsedCustomEmojiWithGroups)!;
+  const match = emoji.match(ParsedCustomEmojiWithGroups);
 
-  return {
-    name: match[2],
-    id: match[3],
-  };
+  if (match) {
+    return {
+      name: match[2],
+      id: match[3],
+    };
+  }
+
+  return {};
 }
 
 export function getHighestRole(member: Member): Role {
@@ -185,44 +213,31 @@ export async function disableComponents(message: Message): Promise<void> {
   });
 }
 
-export function escapeDiscordMarkdown(content: string): string {
-  return escapeMarkdown(content, {
-    bold: true,
-    bulletedList: true,
-    codeBlock: true,
-    codeBlockContent: true,
-    escape: true,
-    heading: true,
-    inlineCode: true,
-    inlineCodeContent: true,
-    italic: true,
-    maskedLink: true,
-    spoiler: true,
-    strikethrough: true,
-    underline: true,
-  });
-}
-
 export function compareMemberToMember(
   from: Member,
   to: Member,
 ): ComparationLevel {
-  const a = getHighestRole(from).position ?? -1;
-  const b = getHighestRole(to).position ?? -1;
+  const roleFrom = getHighestRole(from).position ?? -1;
+  const roleTo = getHighestRole(to).position ?? -1;
 
-  if (a > b) {
-    return ComparationLevel.HIGHER;
-  }
-
-  if (a < b) {
-    return ComparationLevel.LOWER;
-  }
-
-  if (a === b) {
-    return ComparationLevel.EQUAL;
-  }
-
-  return ComparationLevel.UNKNOWN;
+  return match([roleFrom, roleTo])
+    .returnType<ComparationLevel>()
+    .with(
+      [roleFrom, roleTo],
+      ([from, to]) => from > to,
+      () => ComparationLevel.HIGHER,
+    )
+    .with(
+      [roleFrom, roleTo],
+      ([from, to]) => from < to,
+      () => ComparationLevel.LOWER,
+    )
+    .with(
+      [roleFrom, roleTo],
+      ([from, to]) => from === to,
+      () => ComparationLevel.EQUAL,
+    )
+    .otherwise(() => ComparationLevel.UNKNOWN);
 }
 
 export function formatTimestamp(
@@ -240,15 +255,17 @@ export function formatTimestamp(
 }
 
 export function formatUnix(type: UnixType, date: Date): string {
-  return `<t:${Math.floor(date.getTime() / 1_000)}:${<Record<UnixType, string>>(
-    (<unknown>{
-      [UnixType.SHORT_TIME]: "t",
-      [UnixType.SHORT_DATE]: "d",
-      [UnixType.RELATIVE]: "R",
-      [UnixType.SHORT_DATE_TIME]: "f",
-      [UnixType.LONG_DATE_TIME]: "F",
-    }[type])
-  )}>`;
+  const unix: Record<UnixType, string> = {
+    [UnixType.SHORT_TIME]: "t",
+    [UnixType.SHORT_DATE]: "d",
+    [UnixType.RELATIVE]: "R",
+    [UnixType.SHORT_DATE_TIME]: "f",
+    [UnixType.LONG_DATE_TIME]: "F",
+    [UnixType.LONG_TIME]: "T",
+    [UnixType.LONG_DATE]: "D",
+  };
+
+  return `<t:${Math.floor(date.getTime() / 1_000)}:${unix[type]}>`;
 }
 
 export function search<T extends AvailableSearchTypes>(
@@ -289,23 +306,24 @@ export async function checkPermissions(
 
   if (!(_context.inCachedGuildChannel() && _context.guild)) return false;
 
+  const clientOrUser = member.id === _client.user.id ? "CLIENT" : "USER";
+  const channelOrGuild =
+    type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD";
   const missingPermissions = checkPermissions.filter((permission) =>
-    type === CheckPermissionsFrom.CHANNEL
+    channelOrGuild === "CHANNEL"
       ? !channel?.permissionsOf(member).has(permission)
       : !member.permissions.has(permission),
   );
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder()
       .setDescription(
-        Translations[locale].GLOBAL.PERMISSIONS[
-          type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD"
-        ][member.user.id === _client.user.id ? "CLIENT" : "USER"]({
+        Translations[locale].GLOBAL.PERMISSIONS[channelOrGuild][clientOrUser]({
           permissions: missingPermissions
             .map((permission, _) => {
-              return `\`${Permissions[locale][permission]}\``;
+              return inlineCodeBlock(Permissions[locale][permission]);
             })
             .join(", "),
-          channel: channel ? channel.mention : "",
+          channel: channel?.mention ?? "",
         }),
       )
       .setColor(Colors.ERROR)
@@ -325,6 +343,15 @@ export async function checkPermissions(
 }
 
 export function logger(type: LoggerType, content: string): void {
+  const level: Record<LoggerType, string> = {
+    [LoggerType.ERROR]: colors.brightRed("ERR"),
+    [LoggerType.DEBUG]: colors.brightMagenta("DBG"),
+    [LoggerType.WARN]: colors.brightYellow("WRN"),
+    [LoggerType.INFO]: colors.brightBlue("INF"),
+    [LoggerType.REQUEST]: colors.brightCyan("REQ"),
+    [LoggerType.MISC]: colors.white("MSC"),
+  };
+
   console.log(
     `[${colors.grey(
       formatTimestamp(
@@ -332,14 +359,7 @@ export function logger(type: LoggerType, content: string): void {
           timeZone: "Europe/Madrid",
         }),
       ),
-    )}] [${<Record<LoggerType, string>>(<unknown>{
-      [LoggerType.ERROR]: colors.brightRed("ERR"),
-      [LoggerType.DEBUG]: colors.brightMagenta("DBG"),
-      [LoggerType.WARN]: colors.brightYellow("WRN"),
-      [LoggerType.INFO]: colors.brightBlue("INF"),
-      [LoggerType.REQUEST]: colors.brightCyan("REQ"),
-      [LoggerType.MISC]: colors.white("MSC"),
-    }[type])}] ${content}`,
+    )}] [${level[type]}] ${content}`,
   );
 }
 
@@ -387,18 +407,18 @@ export async function handleError(
 }
 
 export function bitFieldValues(bitField: number): number[] {
-  const array = [];
+  const fields = [];
 
   for (let i = 0; i < Math.log2(bitField) + 1; i++) {
     const power = 2 ** i;
     const result = bitField & power;
 
     if (result !== 0) {
-      array.push(result);
+      fields.push(result);
     }
   }
 
-  return array;
+  return fields;
 }
 
 interface SanitizeStringOptions {
@@ -442,4 +462,6 @@ export enum UnixType {
   RELATIVE,
   SHORT_DATE_TIME,
   LONG_DATE_TIME,
+  LONG_TIME,
+  LONG_DATE,
 }
