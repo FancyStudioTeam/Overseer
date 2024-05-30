@@ -143,8 +143,10 @@ export default new BaseBuilder<ChatInputCommandInterface>({
       name: "softban",
       description: "Ban and immediate unban to delete user messages.",
       descriptionLocalizations: {
-        "es-419": "Banea y desbanea inmediatamente para eliminar los mensajes del usuario.",
-        "es-ES": "Banea y desbanea inmediatamente para eliminar los mensajes del usuario."
+        "es-419":
+          "Banea y desbanea inmediatamente para eliminar los mensajes del usuario.",
+        "es-ES":
+          "Banea y desbanea inmediatamente para eliminar los mensajes del usuario.",
       },
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
       options: [
@@ -153,21 +155,21 @@ export default new BaseBuilder<ChatInputCommandInterface>({
           description: "User mention or ID",
           descriptionLocalizations: {
             "es-419": "Mención del usuario o ID",
-            "es-ES": "Mención del usuario o ID"
+            "es-ES": "Mención del usuario o ID",
           },
           type: ApplicationCommandOptionTypes.USER,
-          required: true
+          required: true,
         },
         {
           name: "reason",
           description: "Reason for the soft ban",
           descriptionLocalizations: {
             "es-419": "Razón para el soft ban",
-            "es-ES": "Razón para el soft ban"
+            "es-ES": "Razón para el soft ban",
           },
-          type: ApplicationCommandOptionTypes.STRING
-        }
-      ]
+          type: ApplicationCommandOptionTypes.STRING,
+        },
+      ],
     },
     {
       name: "timeout",

@@ -201,7 +201,7 @@ export default {
         MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
           `**${Emojis.SUCCESS} El usuario ${user} ha sido softbaneado por ${moderator} para eliminar sus mensajes**`,
       },
-    },  
+    },
     UTILITY: {
       SUGGEST: {
         COMPONENTS: {

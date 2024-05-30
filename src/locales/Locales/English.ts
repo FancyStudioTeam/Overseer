@@ -200,7 +200,7 @@ export default {
       SOFTBAN: {
         MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
           `**${Emojis.SUCCESS} The user ${user} has been soft-banned by ${moderator}**`,
-      }
+      },
     },
     UTILITY: {
       SUGGEST: {

@@ -58,7 +58,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       reason: _reasonOption,
     });
 
-    await _client.rest.guilds.removeBan(_context.guildID, _memberOption.id, "Soft ban");
+    await _client.rest.guilds.removeBan(
+      _context.guildID,
+      _memberOption.id,
+      "Soft ban",
+    );
 
     _context.reply({
       embeds: new EmbedBuilder()
