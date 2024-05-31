@@ -153,18 +153,23 @@ export function padding(content: string, separator: string): string {
   return lines.join("\n");
 }
 
-export async function errorMessage(
-  {
-    _context,
-    ephemeral,
-  }: {
-    _context: AnyInteractionGateway | Message;
-    ephemeral?: boolean;
-  },
-  embed: EmbedOptions,
-): Promise<void> {
+export async function errorMessage({
+  _context,
+  ephemeral,
+  embed,
+}: {
+  _context: AnyInteractionGateway | Message;
+  ephemeral?: boolean;
+  embed: EmbedOptions | string;
+}): Promise<void> {
   const payload: CreateMessageOptions & InteractionContent = {
-    embeds: new EmbedBuilder().load(embed).setColor(Colors.ERROR).toJSONArray(),
+    embeds:
+      typeof embed === "string"
+        ? new EmbedBuilder()
+            .setDescription(embed)
+            .setColor(Colors.ERROR)
+            .toJSONArray()
+        : new EmbedBuilder().load(embed).setColor(Colors.ERROR).toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
