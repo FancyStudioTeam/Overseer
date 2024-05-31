@@ -110,6 +110,36 @@ export default new BaseBuilder<ChatInputCommandInterface>({
       ],
     },
     {
+      name: "unban",
+      description: "Unbans a user",
+      descriptionLocalizations: {
+        "es-419": "Desbanea a un usuario",
+        "es-ES": "Desbanea a un usuario",
+      },
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      options: [
+        {
+          name: "user",
+          description: "User mention or ID",
+          descriptionLocalizations: {
+            "es-419": "Mención del usuario o ID",
+            "es-ES": "Mención del usuario o ID",
+          },
+          type: ApplicationCommandOptionTypes.USER,
+          required: true,
+        },
+        {
+          name: "reason",
+          description: "Unban reason",
+          descriptionLocalizations: {
+            "es-419": "Razón del desbaneo",
+            "es-ES": "Razón del desbaneo",
+          },
+          type: ApplicationCommandOptionTypes.STRING,
+        },
+      ],
+    },
+    {
       name: "kick",
       description: "Kicks a user",
       descriptionLocalizations: {
@@ -141,7 +171,7 @@ export default new BaseBuilder<ChatInputCommandInterface>({
     },
     {
       name: "softban",
-      description: "Bans and unban a user to delete his messages",
+      description: "Bans and unbans a user to delete their messages",
       descriptionLocalizations: {
         "es-419": "Banea y desbanea a un usuario para eliminar sus mensajes",
         "es-ES": "Banea y desbanea a un usuario para eliminar sus mensajes",
@@ -210,11 +240,11 @@ export default new BaseBuilder<ChatInputCommandInterface>({
       ],
     },
     {
-      name: "unban",
-      description: "Unbans a user",
+      name: "untimeout",
+      description: "Removes a timeout from a user",
       descriptionLocalizations: {
-        "es-419": "Desbanea a un usuario",
-        "es-ES": "Desbanea a un usuario",
+        "es-419": "Elimina un tiempo de espera de un usuario",
+        "es-ES": "Elimina un tiempo de espera de un usuario",
       },
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
       options: [
@@ -230,10 +260,10 @@ export default new BaseBuilder<ChatInputCommandInterface>({
         },
         {
           name: "reason",
-          description: "Unban reason",
+          description: "Un-timeout reason",
           descriptionLocalizations: {
-            "es-419": "Razón del desbaneo",
-            "es-ES": "Razón del desbaneo",
+            "es-419": "Razón para eliminar el tiempo de espera",
+            "es-ES": "Razón para eliminar el tiempo de espera",
           },
           type: ApplicationCommandOptionTypes.STRING,
         },
