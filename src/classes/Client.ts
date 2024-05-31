@@ -124,7 +124,7 @@ export class Discord extends Client {
       this._registerModules(),
     ])
       .then(() => {
-        logger(LoggerType.INFO, "Loading components, cvents and modules...");
+        logger(LoggerType.INFO, "Loading components, events and modules...");
       })
       .catch((error) => {
         logger(

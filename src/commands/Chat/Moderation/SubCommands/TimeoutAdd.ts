@@ -1,3 +1,4 @@
+import { Duration } from "@sapphire/time-utilities";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder, EmbedBuilder } from "#builders";
 import type { Discord } from "#client";
@@ -12,7 +13,7 @@ import {
 } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
-  name: "untimeout",
+  name: "timeout_add",
   permissions: {
     user: ["MODERATE_MEMBERS"],
     bot: ["MODERATE_MEMBERS"],
@@ -35,6 +36,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     }
 
     const _memberOption = _context.data.options.getMember("user");
+    const _durationOption = _context.data.options.getString("duration", true);
     const _reasonOption = sanitizeString(
       _context.data.options.getString("reason") ?? "No reason",
       {
@@ -102,7 +104,9 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       );
     }
 
-    if (!_memberOption.communicationDisabledUntil) {
+    const parsedDuration = new Duration(_durationOption).offset;
+
+    if (Number.isNaN(parsedDuration)) {
       return await errorMessage(
         {
           _context,
@@ -110,13 +114,33 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         },
         {
           description:
-            Translations[locale].COMMANDS.MODERATION.UNTIMEOUT.NOT_TIMED_OUT,
+            Translations[locale].COMMANDS.MODERATION.TIMEOUT.ADD
+              .INVALID_DURATION_FORMAT,
+        },
+      );
+    }
+
+    if (
+      parsedDuration < new Duration("5 seconds").offset ||
+      parsedDuration > new Duration("28 days").offset
+    ) {
+      return await errorMessage(
+        {
+          _context,
+          ephemeral: true,
+        },
+        {
+          description:
+            Translations[locale].COMMANDS.MODERATION.TIMEOUT.ADD
+              .ALLOWED_DURATION_VALUES,
         },
       );
     }
 
     await _client.rest.guilds.editMember(_context.guildID, _memberOption.id, {
-      communicationDisabledUntil: null,
+      communicationDisabledUntil: new Date(
+        Date.now() + parsedDuration,
+      ).toISOString(),
       reason: _reasonOption,
     });
 
@@ -124,7 +148,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       embeds: [
         new EmbedBuilder()
           .setDescription(
-            Translations[locale].COMMANDS.MODERATION.UNTIMEOUT.MESSAGE_1({
+            Translations[locale].COMMANDS.MODERATION.TIMEOUT.ADD.MESSAGE_1({
               user: _memberOption.mention,
               moderator: _context.user.mention,
               reason: _reasonOption,

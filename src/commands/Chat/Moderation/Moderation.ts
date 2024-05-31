@@ -201,71 +201,78 @@ export default new BaseBuilder<ChatInputCommandInterface>({
     },
     {
       name: "timeout",
-      description: "Adds a timeout to a user",
-      descriptionLocalizations: {
-        "es-419": "Añade un tiempo de espera a un usuario",
-        "es-ES": "Añade un tiempo de espera a un usuario",
-      },
-      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      description: "_",
+      type: ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
       options: [
         {
-          name: "user",
-          description: "User mention or ID",
+          name: "add",
+          description: "Adds a timeout to a user",
           descriptionLocalizations: {
-            "es-419": "Mención del usuario o ID",
-            "es-ES": "Mención del usuario o ID",
+            "es-419": "Añade un tiempo de espera a un usuario",
+            "es-ES": "Añade un tiempo de espera a un usuario",
           },
-          type: ApplicationCommandOptionTypes.USER,
-          required: true,
+          type: ApplicationCommandOptionTypes.SUB_COMMAND,
+          options: [
+            {
+              name: "user",
+              description: "User mention or ID",
+              descriptionLocalizations: {
+                "es-419": "Mención del usuario o ID",
+                "es-ES": "Mención del usuario o ID",
+              },
+              type: ApplicationCommandOptionTypes.USER,
+              required: true,
+            },
+            {
+              name: "duration",
+              description: "Duration in days / hours / minutes / seconds",
+              descriptionLocalizations: {
+                "es-419": "Duración en días / horas / minutos / segundos",
+                "es-ES": "Duración en días / horas / minutos / segundos",
+              },
+              type: ApplicationCommandOptionTypes.STRING,
+              required: true,
+            },
+            {
+              name: "reason",
+              description: "Timeout reason",
+              descriptionLocalizations: {
+                "es-419": "Razón del tiempo de espera",
+                "es-ES": "Razón del tiempo de espera",
+              },
+              type: ApplicationCommandOptionTypes.STRING,
+            },
+          ],
         },
         {
-          name: "duration",
-          description: "Duration in days / hours / minutes / seconds",
+          name: "remove",
+          description: "Removes a timeout from a user",
           descriptionLocalizations: {
-            "es-419": "Duración en días / horas / minutos / segundos",
-            "es-ES": "Duración en días / horas / minutos / segundos",
+            "es-419": "Elimina un tiempo de espera de un usuario",
+            "es-ES": "Elimina un tiempo de espera de un usuario",
           },
-          type: ApplicationCommandOptionTypes.STRING,
-          required: true,
-        },
-        {
-          name: "reason",
-          description: "Timeout reason",
-          descriptionLocalizations: {
-            "es-419": "Razón del tiempo de espera",
-            "es-ES": "Razón del tiempo de espera",
-          },
-          type: ApplicationCommandOptionTypes.STRING,
-        },
-      ],
-    },
-    {
-      name: "untimeout",
-      description: "Removes a timeout from a user",
-      descriptionLocalizations: {
-        "es-419": "Elimina un tiempo de espera de un usuario",
-        "es-ES": "Elimina un tiempo de espera de un usuario",
-      },
-      type: ApplicationCommandOptionTypes.SUB_COMMAND,
-      options: [
-        {
-          name: "user",
-          description: "User mention or ID",
-          descriptionLocalizations: {
-            "es-419": "Mención del usuario o ID",
-            "es-ES": "Mención del usuario o ID",
-          },
-          type: ApplicationCommandOptionTypes.USER,
-          required: true,
-        },
-        {
-          name: "reason",
-          description: "Un-timeout reason",
-          descriptionLocalizations: {
-            "es-419": "Razón para eliminar el tiempo de espera",
-            "es-ES": "Razón para eliminar el tiempo de espera",
-          },
-          type: ApplicationCommandOptionTypes.STRING,
+          type: ApplicationCommandOptionTypes.SUB_COMMAND,
+          options: [
+            {
+              name: "user",
+              description: "User mention or ID",
+              descriptionLocalizations: {
+                "es-419": "Mención del usuario o ID",
+                "es-ES": "Mención del usuario o ID",
+              },
+              type: ApplicationCommandOptionTypes.USER,
+              required: true,
+            },
+            {
+              name: "reason",
+              description: "Un-timeout reason",
+              descriptionLocalizations: {
+                "es-419": "Razón para eliminar el tiempo de espera",
+                "es-ES": "Razón para eliminar el tiempo de espera",
+              },
+              type: ApplicationCommandOptionTypes.STRING,
+            },
+          ],
         },
       ],
     },

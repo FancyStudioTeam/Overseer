@@ -219,21 +219,39 @@ export default {
           ].join("\n"),
       },
       TIMEOUT: {
-        INVALID_DURATION_FORMAT: `**${Emojis.MARK} The duration returned an invalid format**`,
-        ALLOWED_DURATION_VALUES: `**${Emojis.MARK} The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**`,
-        MESSAGE_1: ({
-          user,
-          moderator,
-          reason,
-        }: {
-          user: string;
-          moderator: string;
-          reason: string;
-        }) =>
-          [
-            `**${Emojis.SUCCESS} The user ${user} has been muted by ${moderator}**`,
-            `${Emojis.RIGHT} **Reason**: ${reason}`,
-          ].join("\n"),
+        ADD: {
+          INVALID_DURATION_FORMAT: `**${Emojis.MARK} The duration returned an invalid format**`,
+          ALLOWED_DURATION_VALUES: `**${Emojis.MARK} The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**`,
+          MESSAGE_1: ({
+            user,
+            moderator,
+            reason,
+          }: {
+            user: string;
+            moderator: string;
+            reason: string;
+          }) =>
+            [
+              `**${Emojis.SUCCESS} The moderator ${moderator} has added a timeout for user ${user}**`,
+              `${Emojis.RIGHT} **Reason**: ${reason}`,
+            ].join("\n"),
+        },
+        REMOVE: {
+          USER_NOT_TIMEOUTED: `**${Emojis.MARK} The user does not have a timeout**`,
+          MESSAGE_1: ({
+            user,
+            moderator,
+            reason,
+          }: {
+            user: string;
+            moderator: string;
+            reason: string;
+          }) =>
+            [
+              `**${Emojis.SUCCESS} The moderator ${moderator} has removed the timeout of the user ${user}**`,
+              `${Emojis.RIGHT} **Reason**: ${reason}`,
+            ].join("\n"),
+        },
       },
       UNBAN: {
         BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
@@ -249,22 +267,6 @@ export default {
         }) =>
           [
             `**${Emojis.SUCCESS} The user ${user} has been unbanned by ${moderator}**`,
-            `${Emojis.RIGHT} **Reason**: ${reason}`,
-          ].join("\n"),
-      },
-      UNTIMEOUT: {
-        NOT_TIMED_OUT: `**${Emojis.MARK} That user isn't currently muted**`,
-        MESSAGE_1: ({
-          user,
-          moderator,
-          reason,
-        }: {
-          user: string;
-          moderator: string;
-          reason: string;
-        }) =>
-          [
-            `**${Emojis.SUCCESS} The user ${user} has been unmuted by ${moderator}**`,
             `${Emojis.RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },

@@ -219,21 +219,39 @@ export default {
           ].join("\n"),
       },
       TIMEOUT: {
-        INVALID_DURATION_FORMAT: `**${Emojis.MARK} La duración devolvió un formato inválido**`,
-        ALLOWED_DURATION_VALUES: `**${Emojis.MARK} La duración debe ser mayor o igual a 0 segundos y menor o igual a 28 días**`,
-        MESSAGE_1: ({
-          user,
-          moderator,
-          reason,
-        }: {
-          user: string;
-          moderator: string;
-          reason: string;
-        }) =>
-          [
-            `**${Emojis.SUCCESS} El moderador ${moderator} ha añadido un tiempo de espera al usuario ${user}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
-          ].join("\n"),
+        ADD: {
+          INVALID_DURATION_FORMAT: `**${Emojis.MARK} La duración devolvió un formato inválido**`,
+          ALLOWED_DURATION_VALUES: `**${Emojis.MARK} La duración debe ser mayor o igual a 5 segundos y menor o igual a 28 días**`,
+          MESSAGE_1: ({
+            user,
+            moderator,
+            reason,
+          }: {
+            user: string;
+            moderator: string;
+            reason: string;
+          }) =>
+            [
+              `**${Emojis.SUCCESS} El moderador ${moderator} ha añadido un tiempo de espera al usuario ${user}**`,
+              `${Emojis.RIGHT} **Razón**: ${reason}`,
+            ].join("\n"),
+        },
+        REMOVE: {
+          USER_NOT_TIMEOUTED: `**${Emojis.MARK} El usuario no tiene un tiempo de espera**`,
+          MESSAGE_1: ({
+            user,
+            moderator,
+            reason,
+          }: {
+            user: string;
+            moderator: string;
+            reason: string;
+          }) =>
+            [
+              `**${Emojis.SUCCESS} El moderador ${moderator} ha eliminado el tiempo de espera del usuario ${user}**`,
+              `${Emojis.RIGHT} **Razón**: ${reason}`,
+            ].join("\n"),
+        },
       },
       UNBAN: {
         BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
@@ -249,22 +267,6 @@ export default {
         }) =>
           [
             `**${Emojis.SUCCESS} El usuario ${user} ha sido desbaneado por ${moderator}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
-          ].join("\n"),
-      },
-      UNTIMEOUT: {
-        NOT_TIMED_OUT: `**${Emojis.MARK} Ese usuario no está actualmente muteado**`,
-        MESSAGE_1: ({
-          user,
-          moderator,
-          reason,
-        }: {
-          user: string;
-          moderator: string;
-          reason: string;
-        }) =>
-          [
-            `**${Emojis.SUCCESS} El usuario ${user} ha sido unmuteado por ${moderator}**`,
             `${Emojis.RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
       },
