@@ -21,7 +21,7 @@ export default new BaseBuilder<UserCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+        message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
           structure: _context,
         }),
       });
@@ -37,7 +37,7 @@ export default new BaseBuilder<UserCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        embed: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
+        message: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
       });
     }
 

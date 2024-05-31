@@ -94,15 +94,11 @@ export async function pagination(
         ("author" in _context &&
           _collectedInteraction.user.id !== _context.author.id)
       ) {
-        await errorMessage(
-          {
-            _context: _collectedInteraction,
-            ephemeral: true,
-          },
-          {
-            description: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
-          },
-        );
+        await errorMessage({
+          _context: _collectedInteraction,
+          ephemeral: true,
+          message: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
+        });
 
         return false;
       }

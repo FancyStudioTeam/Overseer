@@ -18,7 +18,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+        message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
           structure: _context,
         }),
       });
@@ -40,7 +40,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        embed: Translations[locale].COMMANDS.MODERATION.UNBAN.BAN_NOT_FOUND({
+        message: Translations[locale].COMMANDS.MODERATION.UNBAN.BAN_NOT_FOUND({
           ban: _userOption.id,
         }),
       });

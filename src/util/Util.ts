@@ -15,7 +15,6 @@ import {
   type AnyTextableGuildChannel,
   ButtonStyles,
   type CreateMessageOptions,
-  type EmbedOptions,
   type Guild,
   type InteractionContent,
   type Member,
@@ -156,20 +155,17 @@ export function padding(content: string, separator: string): string {
 export async function errorMessage({
   _context,
   ephemeral,
-  embed,
+  message,
 }: {
   _context: AnyInteractionGateway | Message;
   ephemeral?: boolean;
-  embed: EmbedOptions | string;
+  message: string;
 }): Promise<void> {
   const payload: CreateMessageOptions & InteractionContent = {
-    embeds:
-      typeof embed === "string"
-        ? new EmbedBuilder()
-            .setDescription(embed)
-            .setColor(Colors.ERROR)
-            .toJSONArray()
-        : new EmbedBuilder().load(embed).setColor(Colors.ERROR).toJSONArray(),
+    embeds: new EmbedBuilder()
+      .setDescription(message)
+      .setColor(Colors.ERROR)
+      .toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 

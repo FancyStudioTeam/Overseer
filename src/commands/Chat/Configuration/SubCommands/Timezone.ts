@@ -19,7 +19,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+        message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
           structure: _context,
         }),
       });
@@ -32,7 +32,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        embed: Translations[
+        message: Translations[
           locale
         ].COMMANDS.CONFIGURATION.TIMEZONE.TIMEZONE_NOT_FOUND({
           timezone: _timezoneOption,

@@ -32,7 +32,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+        message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
           structure: _context,
         }),
       });
@@ -42,7 +42,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        embed: Translations[locale].GLOBAL.ONLY_GUILD_OWNER,
+        message: Translations[locale].GLOBAL.ONLY_GUILD_OWNER,
       });
     }
 
@@ -56,7 +56,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        embed:
+        message:
           Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE
             .INVALID_GUILD_MEMBERSHIP,
       });
@@ -106,7 +106,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           await errorMessage({
             _context,
             ephemeral: true,
-            embed: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
+            message: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
           });
 
           return false;
@@ -129,7 +129,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             return await errorMessage({
               _context,
               ephemeral: true,
-              embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+              message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
                 structure: _collectedInteraction,
               }),
             });

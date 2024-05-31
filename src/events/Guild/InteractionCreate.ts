@@ -108,7 +108,7 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
         return await errorMessage({
           _context: _interaction,
           ephemeral: true,
-          embed: Translations[locale].GLOBAL.USER_IS_LIMITED({
+          message: Translations[locale].GLOBAL.USER_IS_LIMITED({
             resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
           }),
         });
@@ -171,7 +171,7 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
         return await errorMessage({
           _context: _interaction,
           ephemeral: true,
-          embed: Translations[locale].GLOBAL.USER_IS_LIMITED({
+          message: Translations[locale].GLOBAL.USER_IS_LIMITED({
             resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
           }),
         });
