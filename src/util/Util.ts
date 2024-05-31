@@ -3,12 +3,7 @@ import { escapeMarkdown } from "@discordjs/formatters";
 import { ParsedCustomEmojiWithGroups } from "@sapphire/discord-utilities";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Timestamp } from "@sapphire/time-utilities";
-import {
-  type Awaitable,
-  type Nullish,
-  cutText,
-  inlineCodeBlock,
-} from "@sapphire/utilities";
+import { type Awaitable, type Nullish, cutText, inlineCodeBlock } from "@sapphire/utilities";
 import { captureException } from "@sentry/node";
 import {
   type AnyInteractionGateway,
@@ -34,46 +29,25 @@ import { Translations } from "#locales";
 import { Permissions } from "#references";
 import type { Locales } from "#types";
 
-export async function fetchUser(
-  type: FetchFrom,
-  id: string,
-): Promise<User | Nullish> {
+export async function fetchUser(type: FetchFrom, id: string): Promise<User | Nullish> {
   return match(type)
     .returnType<Awaitable<User | Nullish>>()
-    .with(
-      FetchFrom.DEFAULT,
-      async () => _client.users.get(id) ?? (await _client.rest.users.get(id)),
-    )
+    .with(FetchFrom.DEFAULT, async () => _client.users.get(id) ?? (await _client.rest.users.get(id)))
     .with(FetchFrom.CACHE, () => _client.users.get(id))
     .with(FetchFrom.REST, async () => await _client.rest.users.get(id))
     .otherwise(() => null);
 }
 
-export async function fetchMember(
-  type: FetchFrom,
-  guild: Guild,
-  id: string,
-): Promise<Member | Nullish> {
+export async function fetchMember(type: FetchFrom, guild: Guild, id: string): Promise<Member | Nullish> {
   return match(type)
     .returnType<Awaitable<Member | Nullish>>()
-    .with(
-      FetchFrom.DEFAULT,
-      async () =>
-        guild.members.get(id) ??
-        (await _client.rest.guilds.getMember(guild.id, id)),
-    )
+    .with(FetchFrom.DEFAULT, async () => guild.members.get(id) ?? (await _client.rest.guilds.getMember(guild.id, id)))
     .with(FetchFrom.CACHE, () => guild.members.get(id))
-    .with(
-      FetchFrom.REST,
-      async () => await _client.rest.guilds.getMember(guild.id, id),
-    )
+    .with(FetchFrom.REST, async () => await _client.rest.guilds.getMember(guild.id, id))
     .otherwise(() => null);
 }
 
-export function sanitizeString(
-  content: string,
-  options: SanitizeStringOptions,
-): string {
+export function sanitizeString(content: string, options: SanitizeStringOptions): string {
   let sanitizedContent = content;
 
   if (options.espaceMarkdown) {
@@ -108,10 +82,7 @@ export function sanitizeString(
 
       if (elements) {
         elements.forEach((element, _) => {
-          sanitizedContent = sanitizedContent.replace(
-            element,
-            element.replace(element, "**[Link Detected]**"),
-          );
+          sanitizedContent = sanitizedContent.replace(element, element.replace(element, "**[Link Detected]**"));
         });
       }
 
@@ -162,10 +133,7 @@ export async function errorMessage({
   message: string;
 }): Promise<void> {
   const payload: CreateMessageOptions & InteractionContent = {
-    embeds: new EmbedBuilder()
-      .setDescription(message)
-      .setColor(Colors.ERROR)
-      .toJSONArray(),
+    embeds: new EmbedBuilder().setDescription(message).setColor(Colors.ERROR).toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
@@ -213,10 +181,7 @@ export async function disableComponents(message: Message): Promise<void> {
   });
 }
 
-export function compareMemberToMember(
-  from: Member,
-  to: Member,
-): ComparationLevel {
+export function compareMemberToMember(from: Member, to: Member): ComparationLevel {
   const roleFrom = getHighestRole(from).position ?? -1;
   const roleTo = getHighestRole(to).position ?? -1;
 
@@ -240,18 +205,10 @@ export function compareMemberToMember(
     .otherwise(() => ComparationLevel.UNKNOWN);
 }
 
-export function formatTimestamp(
-  date: Date | string,
-  hour12 = false,
-  long = true,
-): string {
-  return new Timestamp(
-    long
-      ? hour12
-        ? "DD/MM/YYYY[, ]hh:mm:ss A"
-        : "DD/MM/YYYY[, ]HH:mm:ss"
-      : "DD/MM/YYYY",
-  ).display(date);
+export function formatTimestamp(date: Date | string, hour12 = false, long = true): string {
+  return new Timestamp(long ? (hour12 ? "DD/MM/YYYY[, ]hh:mm:ss A" : "DD/MM/YYYY[, ]HH:mm:ss") : "DD/MM/YYYY").display(
+    date,
+  );
 }
 
 export function formatUnix(type: UnixType, date: Date): string {
@@ -268,10 +225,7 @@ export function formatUnix(type: UnixType, date: Date): string {
   return `<t:${Math.floor(date.getTime() / 1_000)}:${unix[type]}>`;
 }
 
-export function search<T extends AvailableSearchTypes>(
-  query: string,
-  options: T[],
-): T[] {
+export function search<T extends AvailableSearchTypes>(query: string, options: T[]): T[] {
   const choices: T[] = [];
   const updatedQuery = query.toLowerCase();
 
@@ -307,8 +261,7 @@ export async function checkPermissions(
   if (!(_context.inCachedGuildChannel() && _context.guild)) return false;
 
   const clientOrUser = member.id === _client.user.id ? "CLIENT" : "USER";
-  const channelOrGuild =
-    type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD";
+  const channelOrGuild = type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD";
   const missingPermissions = checkPermissions.filter((permission) =>
     channelOrGuild === "CHANNEL"
       ? !channel?.permissionsOf(member).has(permission)
@@ -390,10 +343,7 @@ export async function handleError(
     components: new ActionRowBuilder()
       .addComponents([
         new ButtonBuilder()
-          .setLabel(
-            Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.COMPONENTS.BUTTONS
-              .SUPPORT.LABEL,
-          )
+          .setLabel(Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.COMPONENTS.BUTTONS.SUPPORT.LABEL)
           .setStyle(ButtonStyles.LINK)
           .setEmoji(parseEmoji(Emojis.SUPPORT))
           .setURL(Links.SUPPORT),

@@ -74,10 +74,7 @@ export async function pagination(
       ? _originalMessageResponse.message
       : await _originalMessageResponse.getMessage();
   } else {
-    message = await _client.rest.channels.createMessage(
-      _context.channelID,
-      payload,
-    );
+    message = await _client.rest.channels.createMessage(_context.channelID, payload);
   }
 
   const interactionCollector = new InteractionCollector(_client, {
@@ -89,10 +86,8 @@ export async function pagination(
     idle: 30_000,
     filter: async (_collectedInteraction: ComponentInteraction) => {
       if (
-        ("user" in _context &&
-          _collectedInteraction.user.id !== _context.user.id) ||
-        ("author" in _context &&
-          _collectedInteraction.user.id !== _context.author.id)
+        ("user" in _context && _collectedInteraction.user.id !== _context.user.id) ||
+        ("author" in _context && _collectedInteraction.user.id !== _context.author.id)
       ) {
         await errorMessage({
           _context: _collectedInteraction,
@@ -107,58 +102,36 @@ export async function pagination(
     },
   });
 
-  interactionCollector.on(
-    "collect",
-    async (_collectedInteraction: AnyInteractionGateway) => {
-      if (_collectedInteraction.isComponentInteraction()) {
-        if (_collectedInteraction.isButtonComponentInteraction()) {
-          await _collectedInteraction.deferUpdate().catch(() => null);
+  interactionCollector.on("collect", async (_collectedInteraction: AnyInteractionGateway) => {
+    if (_collectedInteraction.isComponentInteraction()) {
+      if (_collectedInteraction.isButtonComponentInteraction()) {
+        await _collectedInteraction.deferUpdate().catch(() => null);
 
-          match(_collectedInteraction.data.customID)
-            .returnType<void>()
-            .with("pagination_left", () => {
-              index = index > 0 ? --index : pages.length - 1;
-            })
-            .with("pagination_right", () => {
-              index = index + 1 < pages.length ? ++index : 0;
-            })
-            .otherwise(() => null);
+        match(_collectedInteraction.data.customID)
+          .returnType<void>()
+          .with("pagination_left", () => {
+            index = index > 0 ? --index : pages.length - 1;
+          })
+          .with("pagination_right", () => {
+            index = index + 1 < pages.length ? ++index : 0;
+          })
+          .otherwise(() => null);
 
-          new ButtonBuilder()
-            .load(<ButtonComponent>message.components[0].components[1])
-            .setLabel(`${index + 1}/${pages.length}`);
+        new ButtonBuilder()
+          .load(<ButtonComponent>message.components[0].components[1])
+          .setLabel(`${index + 1}/${pages.length}`);
 
-          await _client.rest.channels.editMessage(
-            message.channelID,
-            message.id,
-            {
-              embeds: [pages[index]],
-              components: message.components,
-            },
-          );
-        }
+        await _client.rest.channels.editMessage(message.channelID, message.id, {
+          embeds: [pages[index]],
+          components: message.components,
+        });
       }
-    },
-  );
+    }
+  });
 
-  interactionCollector.once(
-    "end",
-    async (
-      _,
-      _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons,
-    ) => {
-      if (
-        [
-          "user",
-          "guildDelete",
-          "channelDelete",
-          "threadDelete",
-          "messageDelete",
-        ].includes(_endReason)
-      )
-        return;
+  interactionCollector.once("end", async (_, _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons) => {
+    if (["user", "guildDelete", "channelDelete", "threadDelete", "messageDelete"].includes(_endReason)) return;
 
-      await disableComponents(message);
-    },
-  );
+    await disableComponents(message);
+  });
 }

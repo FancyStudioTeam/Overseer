@@ -20,10 +20,7 @@ _client.on("messageCreate", async (_message: Message) => {
   if (!_message.content.startsWith(prefix)) return;
   if (!Developers.includes(_message.author.id)) return;
 
-  const [command, ...args] = _message.content
-    .slice(prefix.length)
-    .trim()
-    .split(" ");
+  const [command, ...args] = _message.content.slice(prefix.length).trim().split(" ");
 
   match(command.toLowerCase())
     .returnType<void>()
@@ -43,9 +40,7 @@ _client.on("messageCreate", async (_message: Message) => {
 
       await _client.rest.channels.createMessage(dmChannel.id, {
         embeds: new EmbedBuilder()
-          .setDescription(
-            `**${Emojis.RIGHT} ||${createdClientVoucher.voucher_id}||**`,
-          )
+          .setDescription(`**${Emojis.RIGHT} ||${createdClientVoucher.voucher_id}||**`)
           .setColor(Colors.COLOR)
           .toJSONArray(),
       });
@@ -58,22 +53,16 @@ _client.on("messageCreate", async (_message: Message) => {
 
       if (!command) return;
 
-      exec(
-        `cd "${process.cwd()}" && ${command}`,
-        async (error: ExecException | Nullish, result: string) => {
-          await _client.rest.channels.createMessage(_message.channelID, {
-            embeds: new EmbedBuilder()
-              .setDescription(
-                codeBlock(
-                  error ? "bash" : "js",
-                  cutText(error ? error.stack ?? error.message : result, 4000),
-                ),
-              )
-              .setColor(error ? Colors.ERROR : Colors.COLOR)
-              .toJSONArray(),
-          });
-        },
-      );
+      exec(`cd "${process.cwd()}" && ${command}`, async (error: ExecException | Nullish, result: string) => {
+        await _client.rest.channels.createMessage(_message.channelID, {
+          embeds: new EmbedBuilder()
+            .setDescription(
+              codeBlock(error ? "bash" : "js", cutText(error ? error.stack ?? error.message : result, 4000)),
+            )
+            .setColor(error ? Colors.ERROR : Colors.COLOR)
+            .toJSONArray(),
+        });
+      });
     })
     .with("eval", async () => {
       const code = args.join(" ");

@@ -11,10 +11,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     const _userOption = _context.data.options.getUser("user") ?? _context.user;
 
     await _context.reply({
-      embeds: new EmbedBuilder()
-        .setImage(_userOption.avatarURL())
-        .setColor(Colors.COLOR)
-        .toJSONArray(),
+      embeds: new EmbedBuilder().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSONArray(),
     });
   },
 });

@@ -4,12 +4,7 @@ import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import {
-  ComparationLevel,
-  compareMemberToMember,
-  errorMessage,
-  sanitizeString,
-} from "#util";
+import { ComparationLevel, compareMemberToMember, errorMessage, sanitizeString } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "ban",
@@ -30,15 +25,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     }
 
     const _memberOption = _context.data.options.getMember("user");
-    const _reasonOption = sanitizeString(
-      _context.data.options.getString("reason") ?? "No reason",
-      {
-        maxLength: 50,
-        espaceMarkdown: true,
-      },
-    );
-    const _deleteMessagesOption =
-      _context.data.options.getInteger("delete_messages") ?? 0;
+    const _reasonOption = sanitizeString(_context.data.options.getString("reason") ?? "No reason", {
+      maxLength: 50,
+      espaceMarkdown: true,
+    });
+    const _deleteMessagesOption = _context.data.options.getInteger("delete_messages") ?? 0;
 
     if (!_memberOption) {
       return await errorMessage({
@@ -60,10 +51,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       });
     }
 
-    if (
-      compareMemberToMember(_context.guild.clientMember, _memberOption) !==
-      ComparationLevel.HIGHER
-    ) {
+    if (compareMemberToMember(_context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
       return await errorMessage({
         _context,
         ephemeral: true,
@@ -73,8 +61,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
 
     if (
       _context.user.id !== _context.guild.ownerID &&
-      compareMemberToMember(_context.member, _memberOption) !==
-        ComparationLevel.HIGHER
+      compareMemberToMember(_context.member, _memberOption) !== ComparationLevel.HIGHER
     ) {
       return await errorMessage({
         _context,

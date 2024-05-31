@@ -1,9 +1,5 @@
 import { Duration } from "@sapphire/time-utilities";
-import {
-  ApplicationCommandOptionTypes,
-  ApplicationCommandTypes,
-  type CommandInteraction,
-} from "oceanic.js";
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#builders";
 import type { Discord } from "#client";
 import { type ChatInputCommandInterface, Directory } from "#types";

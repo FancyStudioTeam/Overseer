@@ -145,8 +145,7 @@ export default new BaseBuilder<ChatInputCommandInterface>({
     match(_subCommandOption.join("_"))
       .returnType<void>()
       .with("timezone", async () => {
-        const _focusedOption =
-          _context.data.options.getFocused<InteractionOptionsString>(true);
+        const _focusedOption = _context.data.options.getFocused<InteractionOptionsString>(true);
         const choices = search<string>(_focusedOption.value, timezones);
 
         if (!choices.length) {

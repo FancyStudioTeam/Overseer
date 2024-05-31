@@ -32,9 +32,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        message: Translations[
-          locale
-        ].COMMANDS.CONFIGURATION.TIMEZONE.TIMEZONE_NOT_FOUND({
+        message: Translations[locale].COMMANDS.CONFIGURATION.TIMEZONE.TIMEZONE_NOT_FOUND({
           timezone: _timezoneOption,
         }),
       });

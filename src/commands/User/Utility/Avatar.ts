@@ -1,8 +1,4 @@
-import {
-  ApplicationCommandTypes,
-  type CommandInteraction,
-  type User,
-} from "oceanic.js";
+import { ApplicationCommandTypes, type CommandInteraction, type User } from "oceanic.js";
 import { BaseBuilder, EmbedBuilder } from "#builders";
 import type { Discord } from "#client";
 import { Colors } from "#constants";
@@ -15,10 +11,7 @@ export default new BaseBuilder<UserCommandInterface>({
     const _userOption = <User>_context.data.target;
 
     await _context.reply({
-      embeds: new EmbedBuilder()
-        .setImage(_userOption.avatarURL())
-        .setColor(Colors.COLOR)
-        .toJSONArray(),
+      embeds: new EmbedBuilder().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSONArray(),
     });
   },
 });

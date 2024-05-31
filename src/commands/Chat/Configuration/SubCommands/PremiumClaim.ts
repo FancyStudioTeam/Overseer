@@ -14,11 +14,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     user: ["MANAGE_GUILD"],
   },
   directory: Directory.CONFIGURATION,
-  run: async (
-    _client: Discord,
-    _context: CommandInteraction,
-    { locale, timezone, hour12 },
-  ) => {
+  run: async (_client: Discord, _context: CommandInteraction, { locale, timezone, hour12 }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage({
         _context,
@@ -40,9 +36,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       return await errorMessage({
         _context,
         ephemeral: true,
-        message: Translations[
-          locale
-        ].COMMANDS.CONFIGURATION.PREMIUM.CLAIM.MEMBERSHIP_NOT_FOUND({
+        message: Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.CLAIM.MEMBERSHIP_NOT_FOUND({
           code: _voucherOption,
         }),
       });
@@ -87,9 +81,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.CLAIM.MESSAGE_1({
             expireDate: {
               MONTH: formatTimestamp(
-                new Date(
-                  Date.now() + new Duration("30 days").offset,
-                ).toLocaleString("en-US", {
+                new Date(Date.now() + new Duration("30 days").offset).toLocaleString("en-US", {
                   timeZone: timezone,
                 }),
                 hour12,

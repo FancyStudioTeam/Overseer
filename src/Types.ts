@@ -49,17 +49,13 @@ export type ChatInputSubCommandInterface = {
   directory: Directory;
 } & BaseInterface<CommandInteraction>;
 
-export type UserCommandInterface = BaseInterface<CommandInteraction> &
-  CreateUserApplicationCommandOptions;
+export type UserCommandInterface = BaseInterface<CommandInteraction> & CreateUserApplicationCommandOptions;
 
 export type ComponentInterface = BaseInterface<ComponentInteraction>;
 
 export type ModalInterface = BaseInterface<ModalSubmitInteraction>;
 
-type BaseTypes =
-  | CommandInteraction
-  | ComponentInteraction
-  | ModalSubmitInteraction;
+type BaseTypes = CommandInteraction | ComponentInteraction | ModalSubmitInteraction;
 
 export enum Directory {
   CONFIGURATION,

@@ -1,10 +1,4 @@
-import type {
-  Embed,
-  EmbedAuthorOptions,
-  EmbedField,
-  EmbedFooterOptions,
-  EmbedOptions,
-} from "oceanic.js";
+import type { Embed, EmbedAuthorOptions, EmbedField, EmbedFooterOptions, EmbedOptions } from "oceanic.js";
 
 export class EmbedBuilder {
   #json: Embed;
@@ -36,9 +30,7 @@ export class EmbedBuilder {
   }
 
   addField(field: EmbedField): this {
-    this.#json.fields = this.#json.fields?.length
-      ? [...this.#json.fields, field]
-      : [field];
+    this.#json.fields = this.#json.fields?.length ? [...this.#json.fields, field] : [field];
 
     return this;
   }

@@ -4,14 +4,7 @@ import type { Discord } from "#client";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import {
-  FetchFrom,
-  UnixType,
-  errorMessage,
-  fetchUser,
-  formatUnix,
-  sanitizeString,
-} from "#util";
+import { FetchFrom, UnixType, errorMessage, fetchUser, formatUnix, sanitizeString } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "server",
@@ -27,9 +20,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       });
     }
 
-    const owner =
-      _context.guild.owner ??
-      (await fetchUser(FetchFrom.DEFAULT, _context.guild.ownerID ?? ""));
+    const owner = _context.guild.owner ?? (await fetchUser(FetchFrom.DEFAULT, _context.guild.ownerID ?? ""));
 
     await _context.reply({
       embeds: new EmbedBuilder()
@@ -44,11 +35,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         .setThumbnail(_context.guild.iconURL() ?? _client.user.avatarURL())
         .addFields([
           {
-            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1
-              .FIELD_1.FIELD,
-            value: Translations[
-              locale
-            ].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.VALUE({
+            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.FIELD,
+            value: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.VALUE({
               name: sanitizeString(_context.guild.name, {
                 maxLength: 50,
                 espaceMarkdown: true,
@@ -58,23 +46,16 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1
-              .FIELD_2.FIELD,
-            value: Translations[
-              locale
-            ].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.VALUE({
+            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.FIELD,
+            value: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.VALUE({
               members: _context.guild.memberCount,
               channels: _context.guild.channels.size,
               roles: _context.guild.roles.size,
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1
-              .FIELD_3.FIELD,
-            value: `${Emojis.RIGHT} ${formatUnix(
-              UnixType.SHORT_DATE_TIME,
-              _context.guild.createdAt,
-            )}`,
+            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_3.FIELD,
+            value: `${Emojis.RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _context.guild.createdAt)}`,
           },
         ])
         .setColor(Colors.COLOR)

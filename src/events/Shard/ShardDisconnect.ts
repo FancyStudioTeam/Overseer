@@ -8,9 +8,7 @@ _client.on("shardDisconnect", (_error: Error | Nullish, _id: number) => {
     captureException(_error);
     logger(
       LoggerType.ERROR,
-      `[Shard ${_id}] Shard has been disconnected by an error: ${
-        _error.stack ?? _error.message
-      }`,
+      `[Shard ${_id}] Shard has been disconnected by an error: ${_error.stack ?? _error.message}`,
     );
   }
 

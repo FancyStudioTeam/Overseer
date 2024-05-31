@@ -2,11 +2,7 @@ import { join, sep } from "node:path";
 import type { Nullish } from "@sapphire/utilities";
 import { textSync } from "figlet";
 import { glob } from "glob";
-import {
-  Client,
-  Collection,
-  type CreateApplicationCommandOptions,
-} from "oceanic.js";
+import { Client, Collection, type CreateApplicationCommandOptions } from "oceanic.js";
 import { prisma } from "#prisma";
 import type {
   ChatInputCommandInterface,
@@ -63,12 +59,7 @@ export class Discord extends Client {
           browser: "Discord Android",
         },
         compress: true,
-        intents: [
-          "GUILDS",
-          "GUILD_MEMBERS",
-          "GUILD_MESSAGES",
-          "MESSAGE_CONTENT",
-        ],
+        intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "MESSAGE_CONTENT"],
         maxShards: "auto",
         concurrency: "auto",
         autoReconnect: true,
@@ -105,12 +96,7 @@ export class Discord extends Client {
           this.#dbReady = true;
         })
         .catch((error) => {
-          logger(
-            LoggerType.ERROR,
-            `Prisma Client had an error while connecting: ${
-              error.stack ?? error.message
-            }`,
-          );
+          logger(LoggerType.ERROR, `Prisma Client had an error while connecting: ${error.stack ?? error.message}`);
         });
     }
 
@@ -118,32 +104,20 @@ export class Discord extends Client {
       await this.connect();
     }
 
-    await Promise.allSettled([
-      this._registerComponents(),
-      this._registerEvents(),
-      this._registerModules(),
-    ])
+    await Promise.allSettled([this._registerComponents(), this._registerEvents(), this._registerModules()])
       .then(() => {
         logger(LoggerType.INFO, "Loading components, events and modules...");
       })
       .catch((error) => {
-        logger(
-          LoggerType.ERROR,
-          `Error while loading: ${error.stack ?? error.message}`,
-        );
+        logger(LoggerType.ERROR, `Error while loading: ${error.stack ?? error.message}`);
       });
   }
 
   async _deploy(): Promise<void> {
     await this._registerCommands();
-    await this.rest.applications
-      .bulkEditGlobalCommands(this.application.id, arrayCommands)
-      .then((commands) => {
-        logger(
-          LoggerType.INFO,
-          `The interactions has been deployed | Deployed ${commands.length} interactions`,
-        );
-      });
+    await this.rest.applications.bulkEditGlobalCommands(this.application.id, arrayCommands).then((commands) => {
+      logger(LoggerType.INFO, `The interactions has been deployed | Deployed ${commands.length} interactions`);
+    });
   }
 
   async _registerCommands(): Promise<void> {
@@ -152,9 +126,7 @@ export class Discord extends Client {
 
     await this._registerSubCommands();
 
-    const files = await this.#loadFiles(
-      `${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`,
-    );
+    const files = await this.#loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const commandPath = join(process.cwd(), path);
@@ -164,9 +136,7 @@ export class Discord extends Client {
 
       if (command?.name) {
         const dividedPath = commandPath.split(sep);
-        const directory = <Commands>(
-          dividedPath[dividedPath.length - 3].toUpperCase()
-        );
+        const directory = <Commands>dividedPath[dividedPath.length - 3].toUpperCase();
 
         <Record<Commands, CommandCollections>>(<unknown>{
           CHAT: this.interactions.chatInput,
@@ -180,9 +150,7 @@ export class Discord extends Client {
   async _registerSubCommands(): Promise<void> {
     this.subCommands.clear();
 
-    const files = await this.#loadFiles(
-      `${join(__dirname, "..", "commands/Chat")}/*/*/*.{ts,js}`,
-    );
+    const files = await this.#loadFiles(`${join(__dirname, "..", "commands/Chat")}/*/*/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const subCommandPath = join(process.cwd(), path);
@@ -200,12 +168,7 @@ export class Discord extends Client {
           UTILITY: "UTIL",
         };
 
-        this.subCommands.set(
-          `${directories[directory].toLowerCase()}_${
-            subCommand.name
-          }`.toLowerCase(),
-          subCommand,
-        );
+        this.subCommands.set(`${directories[directory].toLowerCase()}_${subCommand.name}`.toLowerCase(), subCommand);
       }
     });
   }
@@ -215,9 +178,7 @@ export class Discord extends Client {
     this.components.modals.clear();
     this.components.select.clear();
 
-    const files = await this.#loadFiles(
-      `${join(__dirname, "..", "components")}/**/*.{ts,js}`,
-    );
+    const files = await this.#loadFiles(`${join(__dirname, "..", "components")}/**/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const componentPath = join(process.cwd(), path);
@@ -227,9 +188,7 @@ export class Discord extends Client {
 
       if (component?.name) {
         const dividedPath = componentPath.split(sep);
-        const directory = <Components>(
-          dividedPath[dividedPath.length - 3].toUpperCase()
-        );
+        const directory = <Components>dividedPath[dividedPath.length - 3].toUpperCase();
         const collections: Record<Components, ComponentCollections> = {
           BUTTONS: this.components.buttons,
           MODALS: this.components.modals,
@@ -244,9 +203,7 @@ export class Discord extends Client {
   async _registerEvents(): Promise<void> {
     this.removeAllListeners();
 
-    const files = await this.#loadFiles(
-      `${join(__dirname, "..", "events")}/*/*.{ts,js}`,
-    );
+    const files = await this.#loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const eventPath = join(process.cwd(), path);
@@ -257,9 +214,7 @@ export class Discord extends Client {
   }
 
   async _registerModules(): Promise<void> {
-    const files = await this.#loadFiles(
-      `${join(__dirname, "..", "modules")}/*.{ts,js}`,
-    );
+    const files = await this.#loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const modulePath = join(process.cwd(), path);

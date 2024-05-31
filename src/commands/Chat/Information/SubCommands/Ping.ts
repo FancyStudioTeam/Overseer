@@ -23,9 +23,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     await _context.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          Translations[
-            locale
-          ].COMMANDS.INFORMATION.PING.MESSAGE_1.DESCRIPTION_1({
+          Translations[locale].COMMANDS.INFORMATION.PING.MESSAGE_1.DESCRIPTION_1({
             rest: `${_client.rest.handler.latencyRef.latency}ms`,
             shard: `${_context.guild.shard.latency}ms`,
           }),

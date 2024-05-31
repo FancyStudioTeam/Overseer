@@ -1,10 +1,6 @@
 import colors from "@colors/colors";
 import { codeBlock } from "@sapphire/utilities";
-import {
-  ApplicationCommandOptionTypes,
-  ApplicationCommandTypes,
-  type CommandInteraction,
-} from "oceanic.js";
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { BaseBuilder, EmbedBuilder } from "#builders";
 import type { Discord } from "#client";
 import { Colors } from "#constants";
@@ -30,9 +26,7 @@ export default new BaseBuilder<ChatInputCommandInterface>({
       Directory.MODERATION,
       Directory.UTILITY,
     ].map((directory, _) => {
-      return _client.interactions.chatInput.filter(
-        (command) => command?.directory === directory,
-      );
+      return _client.interactions.chatInput.filter((command) => command?.directory === directory);
     });
     const commands = groupedCommands.map((group) => {
       const data: {
@@ -49,24 +43,20 @@ export default new BaseBuilder<ChatInputCommandInterface>({
           if (
             "options" in option &&
             option.options?.some((option2) =>
-              [
-                ApplicationCommandOptionTypes.SUB_COMMAND,
-                ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
-              ].includes(option2.type),
+              [ApplicationCommandOptionTypes.SUB_COMMAND, ApplicationCommandOptionTypes.SUB_COMMAND_GROUP].includes(
+                option2.type,
+              ),
             )
           ) {
             option.options
               ?.filter((option2) =>
-                [
-                  ApplicationCommandOptionTypes.SUB_COMMAND,
-                  ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
-                ].includes(option2.type),
+                [ApplicationCommandOptionTypes.SUB_COMMAND, ApplicationCommandOptionTypes.SUB_COMMAND_GROUP].includes(
+                  option2.type,
+                ),
               )
               .map((option2) => {
                 data.commands.push(
-                  `${colors.reset.cyan(
-                    `${option.name} ${option2.name}`,
-                  )} - ${colors.bold.magenta(
+                  `${colors.reset.cyan(`${option.name} ${option2.name}`)} - ${colors.bold.magenta(
                     {
                       EN: option2.description,
                       ES: option2.descriptionLocalizations?.["es-ES"],

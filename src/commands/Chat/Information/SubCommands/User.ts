@@ -4,14 +4,7 @@ import type { Discord } from "#client";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import {
-  FetchFrom,
-  UnixType,
-  errorMessage,
-  fetchMember,
-  formatUnix,
-  sanitizeString,
-} from "#util";
+import { FetchFrom, UnixType, errorMessage, fetchMember, formatUnix, sanitizeString } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "user",
@@ -45,42 +38,29 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       embeds: new EmbedBuilder()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.TITLE_1({
-            name: sanitizeString(
-              member.user.globalName ?? member.user.username,
-              {
-                maxLength: 50,
-                espaceMarkdown: true,
-              },
-            ),
+            name: sanitizeString(member.user.globalName ?? member.user.username, {
+              maxLength: 50,
+              espaceMarkdown: true,
+            }),
           }),
         )
         .setThumbnail(member.user.avatarURL())
         .addFields([
           {
-            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1
-              .FIELD_1.FIELD,
-            value: Translations[
-              locale
-            ].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_1.VALUE({
+            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_1.FIELD,
+            value: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_1.VALUE({
               name: member.user.mention,
               id: member.user.id,
             }),
           },
           {
-            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1
-              .FIELD_2.FIELD,
-            value: `${Emojis.RIGHT} ${formatUnix(
-              UnixType.SHORT_DATE_TIME,
-              member.user.createdAt,
-            )}`,
+            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_2.FIELD,
+            value: `${Emojis.RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt)}`,
           },
           {
-            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1
-              .FIELD_3.FIELD,
+            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_3.FIELD,
             value: `${Emojis.RIGHT} ${
-              member.joinedAt
-                ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt)
-                : Emojis.MARK
+              member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.MARK
             }`,
           },
         ])

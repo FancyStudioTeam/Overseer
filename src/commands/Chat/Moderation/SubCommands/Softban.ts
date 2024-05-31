@@ -5,12 +5,7 @@ import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import {
-  ComparationLevel,
-  compareMemberToMember,
-  errorMessage,
-  sanitizeString,
-} from "#util";
+import { ComparationLevel, compareMemberToMember, errorMessage, sanitizeString } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "softban",
@@ -31,13 +26,10 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     }
 
     const _memberOption = _context.data.options.getMember("user");
-    const _reasonOption = sanitizeString(
-      _context.data.options.getString("reason") ?? "No reason",
-      {
-        maxLength: 50,
-        espaceMarkdown: true,
-      },
-    );
+    const _reasonOption = sanitizeString(_context.data.options.getString("reason") ?? "No reason", {
+      maxLength: 50,
+      espaceMarkdown: true,
+    });
 
     if (!_memberOption) {
       return await errorMessage({
@@ -59,10 +51,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       });
     }
 
-    if (
-      compareMemberToMember(_context.guild.clientMember, _memberOption) !==
-      ComparationLevel.HIGHER
-    ) {
+    if (compareMemberToMember(_context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
       return await errorMessage({
         _context,
         ephemeral: true,
@@ -72,8 +61,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
 
     if (
       _context.user.id !== _context.guild.ownerID &&
-      compareMemberToMember(_context.member, _memberOption) !==
-        ComparationLevel.HIGHER
+      compareMemberToMember(_context.member, _memberOption) !== ComparationLevel.HIGHER
     ) {
       return await errorMessage({
         _context,
@@ -86,11 +74,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       deleteMessageSeconds: new Duration("7 days").offset / 1_000,
       reason: _reasonOption,
     });
-    await _client.rest.guilds.removeBan(
-      _context.guildID,
-      _memberOption.id,
-      _reasonOption,
-    );
+    await _client.rest.guilds.removeBan(_context.guildID, _memberOption.id, _reasonOption);
 
     await _context.reply({
       embeds: new EmbedBuilder()

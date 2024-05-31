@@ -5,11 +5,7 @@ import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { prisma } from "#prisma";
-import {
-  type ChatInputSubCommandInterface,
-  Directory,
-  type Locales,
-} from "#types";
+import { type ChatInputSubCommandInterface, Directory, type Locales } from "#types";
 import { errorMessage } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
@@ -60,8 +56,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     await _context.reply({
       embeds: new EmbedBuilder()
         .setDescription(
-          Translations[<Locales>upsertedGuildConfiguration.general.locale]
-            .COMMANDS.CONFIGURATION.LANGUAGE.MESSAGE_1,
+          Translations[<Locales>upsertedGuildConfiguration.general.locale].COMMANDS.CONFIGURATION.LANGUAGE.MESSAGE_1,
         )
         .setColor(Colors.SUCCESS)
         .toJSONArray(),

@@ -15,12 +15,7 @@ import {
   MessageFlags,
   type ModalSubmitInteraction,
 } from "oceanic.js";
-import {
-  ActionRowBuilder,
-  AttachmentBuilder,
-  ButtonBuilder,
-  EmbedBuilder,
-} from "#builders";
+import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, EmbedBuilder } from "#builders";
 import { Colors, Emojis, Links } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#locales";
@@ -50,9 +45,7 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
       guild_id: _interaction.guildID,
     },
   });
-  const locale = <Locales>(
-    (guildConfiguration?.general.locale ?? "en").toUpperCase()
-  );
+  const locale = <Locales>(guildConfiguration?.general.locale ?? "en").toUpperCase();
   const timezone = guildConfiguration?.general.timezone ?? "UTC";
   const hour12 = guildConfiguration?.general.use_12_hours ?? false;
   const premium = guildConfiguration?.premium.enabled ?? false;
@@ -72,20 +65,12 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
   )
     return;
 
-  if (
-    process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" &&
-    "reply" in _interaction
-  ) {
+  if (process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" && "reply" in _interaction) {
     return await _interaction.reply({
-      embeds: new EmbedBuilder()
-        .setImage("attachment://maintenance.png")
-        .setColor(Colors.COLOR)
-        .toJSONArray(),
+      embeds: new EmbedBuilder().setImage("attachment://maintenance.png").setColor(Colors.COLOR).toJSONArray(),
       files: new AttachmentBuilder()
         .setName("maintenance.png")
-        .setContent(
-          readFileSync(join(process.cwd(), "assets/Images", "Maintenance.png")),
-        )
+        .setContent(readFileSync(join(process.cwd(), "assets/Images", "Maintenance.png")))
         .toJSONArray(),
       components: new ActionRowBuilder()
         .addComponents([
@@ -273,9 +258,7 @@ async function _handleChatInputSubCommand({
   if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
   const name = _interaction.data.options.getSubCommand(true);
-  const command = _client.subCommands.get(
-    `${_interaction.data.name}_${name.join("_")}`,
-  );
+  const command = _client.subCommands.get(`${_interaction.data.name}_${name.join("_")}`);
 
   if (command?.name) {
     if (
@@ -422,9 +405,7 @@ async function _handleButton({
 }): Promise<void> {
   if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
-  const component = _client.components.buttons.get(
-    _interaction.data.customID.split("/")[0],
-  );
+  const component = _client.components.buttons.get(_interaction.data.customID.split("/")[0]);
 
   if (component?.name) {
     if (
@@ -494,9 +475,7 @@ async function _handleSelectMenu({
 }): Promise<void> {
   if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
-  const component = _client.components.select.get(
-    _interaction.data.customID.split("/")[0],
-  );
+  const component = _client.components.select.get(_interaction.data.customID.split("/")[0]);
 
   if (component?.name) {
     if (

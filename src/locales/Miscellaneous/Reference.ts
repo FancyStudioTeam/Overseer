@@ -96,8 +96,7 @@ export const Permissions: Record<Locales, Record<PermissionName, string>> = {
     SEND_MESSAGES_IN_THREADS: "Enviar Mensajes en Hilos",
     USE_EMBEDDED_ACTIVITIES: "Usar Actividades Incrustadas",
     MODERATE_MEMBERS: "Moderar Miembros",
-    VIEW_CREATOR_MONETIZATION_ANALYTICS:
-      "Ver Analíticas de Monetización del Creador",
+    VIEW_CREATOR_MONETIZATION_ANALYTICS: "Ver Analíticas de Monetización del Creador",
     USE_SOUNDBOARD: "Usar Panel de Sonidos",
     CREATE_GUILD_EXPRESSIONS: "Crear Expresiones del Servidor",
     CREATE_EVENTS: "Crear Eventos",
