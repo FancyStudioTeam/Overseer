@@ -27,6 +27,7 @@ export default new BaseBuilder<ChatInputCommandInterface>({
     const groupedCommands = [
       Directory.CONFIGURATION,
       Directory.INFORMATION,
+      Directory.MODERATION,
       Directory.UTILITY,
     ].map((directory, _) => {
       return _client.interactions.chatInput.filter(

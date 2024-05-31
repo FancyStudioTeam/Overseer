@@ -58,7 +58,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
 
     await _client.rest.guilds.removeBan(
       _context.guildID,
-      _userOption.id,
+      bannedUser.user.id,
       _reasonOption,
     );
 
