@@ -12,12 +12,16 @@ export default {
   COMMANDS: {
     CONFIGURATION: {
       LANGUAGE: {
-        MESSAGE_1: `**${Emojis.SUCCESS} El idioma ha sido establecido a ${inlineCodeBlock("Español")}**`,
+        MESSAGE_1: `**${
+          Emojis.SUCCESS
+        } El idioma ha sido establecido a ${inlineCodeBlock("Español")}**`,
       },
       PREMIUM: {
         CLAIM: {
           MEMBERSHIP_NOT_FOUND: ({ code }: { code: string }) =>
-            `**${Emojis.MARK} El código ${inlineCodeBlock(code)} no ha sido encontrado**`,
+            `**${Emojis.MARK} El código ${inlineCodeBlock(
+              code,
+            )} no ha sido encontrado**`,
           MESSAGE_1: ({ expireDate }: { expireDate: string | Nullish }) =>
             [
               `**${Emojis.SUCCESS} La membresía premium ha sido reclamada**`,
@@ -51,10 +55,16 @@ export default {
       TIMEZONE: {
         ERRORS: {
           TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
-            `**${Emojis.MARK} La zona horaria ${inlineCodeBlock(timezone)} no ha sido encontrada**`,
+            `**${Emojis.MARK} La zona horaria ${inlineCodeBlock(
+              timezone,
+            )} no ha sido encontrada**`,
         },
         MESSAGE_1: ({ timezone }: { timezone: string }) =>
-          `**${Emojis.SUCCESS} La zona horaria ha sido establecida a ${inlineCodeBlock(timezone)}**`,
+          `**${
+            Emojis.SUCCESS
+          } La zona horaria ha sido establecida a ${inlineCodeBlock(
+            timezone,
+          )}**`,
       },
     },
     INFORMATION: {
@@ -98,9 +108,9 @@ export default {
               "ansi",
               padding(
                 [
-                  `${colors.reset.cyan("Referencia REST")} - ${colors.bold.magenta(
-                    rest,
-                  )}`,
+                  `${colors.reset.cyan(
+                    "Referencia REST",
+                  )} - ${colors.bold.magenta(rest)}`,
                   `${colors.reset.cyan(
                     "Conexión WebSocket",
                   )} - ${colors.bold.magenta(shard)}`,
@@ -255,7 +265,9 @@ export default {
       },
       UNBAN: {
         BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
-          `**${Emojis.MARK} El baneo ${inlineCodeBlock(ban)} no ha sido encontrado**`,
+          `**${Emojis.MARK} El baneo ${inlineCodeBlock(
+            ban,
+          )} no ha sido encontrado**`,
         MESSAGE_1: ({
           user,
           moderator,
@@ -323,7 +335,11 @@ export default {
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
-        `**${Emojis.MARK} La propiedad ${inlineCodeBlock("guild")} no está presente en la estructura ${inlineCodeBlock(structure.constructor.name)}**`,
+        `**${Emojis.MARK} La propiedad ${inlineCodeBlock(
+          "guild",
+        )} no está presente en la estructura ${inlineCodeBlock(
+          structure.constructor.name,
+        )}**`,
         `${Emojis.RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
       ].join("\n"),
     INVALID_GUILD_MEMBER: `**${Emojis.MARK} El usuario debe ser miembro de este servidor**`,
@@ -373,7 +389,9 @@ export default {
       },
       MESSAGE_1: ({ name, id }: { name: string; id: string }) =>
         [
-          `**${Emojis.MARK} El servidor devolvió un error de tipo ${inlineCodeBlock(name)}**`,
+          `**${
+            Emojis.MARK
+          } El servidor devolvió un error de tipo ${inlineCodeBlock(name)}**`,
           `${Emojis.RIGHT} **ID del Reporte**: ${id}`,
         ].join("\n"),
     },

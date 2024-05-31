@@ -6,6 +6,18 @@
   "organizeImports": {
     "enabled": true
   },
+  "formatter": {
+    "enabled": true,
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "indentStyle": "space"
+  },
+  "json": {
+    "formatter": {
+      "enabled": true
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {

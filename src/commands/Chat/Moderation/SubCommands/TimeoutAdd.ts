@@ -21,7 +21,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
   directory: Directory.MODERATION,
   run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
-      await errorMessage(
+      return await errorMessage(
         {
           _context,
           ephemeral: true,
@@ -32,7 +32,6 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           }),
         },
       );
-      return;
     }
 
     const _memberOption = _context.data.options.getMember("user");

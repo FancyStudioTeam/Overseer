@@ -64,7 +64,9 @@ export default new BaseBuilder<ChatInputCommandInterface>({
               )
               .map((option2) => {
                 data.commands.push(
-                  `${colors.reset.cyan(`${option.name} ${option2.name}`)} - ${colors.bold.magenta(
+                  `${colors.reset.cyan(
+                    `${option.name} ${option2.name}`,
+                  )} - ${colors.bold.magenta(
                     {
                       EN: option2.description,
                       ES: option2.descriptionLocalizations?.["es-ES"],

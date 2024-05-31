@@ -77,7 +77,10 @@ export default new BaseBuilder<UserCommandInterface>({
           {
             name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1
               .FIELD_2.FIELD,
-            value: `${Emojis.RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt)}`,
+            value: `${Emojis.RIGHT} ${formatUnix(
+              UnixType.SHORT_DATE_TIME,
+              member.user.createdAt,
+            )}`,
           },
           {
             name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1

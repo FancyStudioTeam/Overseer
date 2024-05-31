@@ -59,7 +59,10 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           {
             name: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1
               .FIELD_3.FIELD,
-            value: `${Emojis.RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt)}`,
+            value: `${Emojis.RIGHT} ${formatUnix(
+              UnixType.SHORT_DATE_TIME,
+              _client.readyAt,
+            )}`,
           },
         ])
         .setColor(Colors.COLOR)

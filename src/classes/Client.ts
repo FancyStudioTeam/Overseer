@@ -201,7 +201,9 @@ export class Discord extends Client {
         };
 
         this.subCommands.set(
-          `${directories[directory].toLowerCase()}_${subCommand.name}`.toLowerCase(),
+          `${directories[directory].toLowerCase()}_${
+            subCommand.name
+          }`.toLowerCase(),
           subCommand,
         );
       }
