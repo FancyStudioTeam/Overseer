@@ -252,6 +252,22 @@ export default {
             `${Emojis.RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
       },
+      UNTIMEOUT: {
+        NOT_TIMED_OUT: `**${Emojis.MARK} Ese usuario no está actualmente muteado**`,
+        MESSAGE_1: ({
+          user,
+          moderator,
+          reason,
+        }: {
+          user: string;
+          moderator: string;
+          reason: string;
+        }) =>
+          [
+            `**${Emojis.SUCCESS} El usuario ${user} ha sido unmuteado por ${moderator}**`,
+            `${Emojis.RIGHT} **Razón**: ${reason}`,
+          ].join("\n"),
+      }
     },
     UTILITY: {
       SUGGEST: {
