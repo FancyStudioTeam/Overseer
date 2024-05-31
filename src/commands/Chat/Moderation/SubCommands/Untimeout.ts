@@ -109,7 +109,8 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           ephemeral: true,
         },
         {
-          description: Translations[locale].COMMANDS.MODERATION.UNTIMEOUT.NOT_TIMED_OUT,
+          description:
+            Translations[locale].COMMANDS.MODERATION.UNTIMEOUT.NOT_TIMED_OUT,
         },
       );
     }

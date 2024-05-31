@@ -267,7 +267,7 @@ export default {
             `**${Emojis.SUCCESS} El usuario ${user} ha sido unmuteado por ${moderator}**`,
             `${Emojis.RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
-      }
+      },
     },
     UTILITY: {
       SUGGEST: {
