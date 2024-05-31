@@ -20,17 +20,13 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     { locale, timezone, hour12 },
   ) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-            structure: _context,
-          }),
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+          structure: _context,
+        }),
+      });
     }
 
     const _voucherOption = _context.data.options.getString("code", true);
@@ -41,19 +37,15 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     });
 
     if (!clientVoucher) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[
-            locale
-          ].COMMANDS.CONFIGURATION.PREMIUM.CLAIM.MEMBERSHIP_NOT_FOUND({
-            code: _voucherOption,
-          }),
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[
+          locale
+        ].COMMANDS.CONFIGURATION.PREMIUM.CLAIM.MEMBERSHIP_NOT_FOUND({
+          code: _voucherOption,
+        }),
+      });
     }
 
     await prisma.$transaction([

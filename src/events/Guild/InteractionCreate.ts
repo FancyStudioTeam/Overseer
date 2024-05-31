@@ -105,20 +105,13 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
       const rateLimit = commandRateLimiter.acquire(_interaction.user.id);
 
       if (rateLimit.limited) {
-        return await errorMessage(
-          {
-            _context: _interaction,
-            ephemeral: true,
-          },
-          {
-            description: Translations[locale].GLOBAL.USER_IS_LIMITED({
-              resets: formatUnix(
-                UnixType.RELATIVE,
-                new Date(rateLimit.expires),
-              ),
-            }),
-          },
-        );
+        return await errorMessage({
+          _context: _interaction,
+          ephemeral: true,
+          embed: Translations[locale].GLOBAL.USER_IS_LIMITED({
+            resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
+          }),
+        });
       }
 
       rateLimit.consume();
@@ -175,20 +168,13 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
       const rateLimit = componentRateLimiter.acquire(_interaction.user.id);
 
       if (rateLimit.limited) {
-        return await errorMessage(
-          {
-            _context: _interaction,
-            ephemeral: true,
-          },
-          {
-            description: Translations[locale].GLOBAL.USER_IS_LIMITED({
-              resets: formatUnix(
-                UnixType.RELATIVE,
-                new Date(rateLimit.expires),
-              ),
-            }),
-          },
-        );
+        return await errorMessage({
+          _context: _interaction,
+          ephemeral: true,
+          embed: Translations[locale].GLOBAL.USER_IS_LIMITED({
+            resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
+          }),
+        });
       }
 
       rateLimit.consume();

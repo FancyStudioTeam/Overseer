@@ -29,29 +29,21 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
   directory: Directory.CONFIGURATION,
   run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-            structure: _context,
-          }),
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+          structure: _context,
+        }),
+      });
     }
 
     if (_context.user.id !== _context.guild.ownerID) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[locale].GLOBAL.ONLY_GUILD_OWNER,
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[locale].GLOBAL.ONLY_GUILD_OWNER,
+      });
     }
 
     const guildConfiguration = await prisma.guildConfiguration.findUnique({
@@ -61,17 +53,13 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     });
 
     if (!guildConfiguration?.premium) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description:
-            Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE
-              .INVALID_GUILD_MEMBERSHIP,
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed:
+          Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE
+            .INVALID_GUILD_MEMBERSHIP,
+      });
     }
 
     const _originalMessageResponse = await _context.reply({
@@ -115,15 +103,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       time: 15_000,
       filter: async (_collectedInteraction: ComponentInteraction) => {
         if (_collectedInteraction.user.id !== _context.user.id) {
-          await errorMessage(
-            {
-              _context,
-              ephemeral: true,
-            },
-            {
-              description: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
-            },
-          );
+          await errorMessage({
+            _context,
+            ephemeral: true,
+            embed: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
+          });
 
           return false;
         }
@@ -142,19 +126,13 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
               _collectedInteraction.guild
             )
           ) {
-            return await errorMessage(
-              {
-                _context,
-                ephemeral: true,
-              },
-              {
-                description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY(
-                  {
-                    structure: _collectedInteraction,
-                  },
-                ),
-              },
-            );
+            return await errorMessage({
+              _context,
+              ephemeral: true,
+              embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+                structure: _collectedInteraction,
+              }),
+            });
           }
 
           if (_collectedInteraction.isButtonComponentInteraction()) {

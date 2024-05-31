@@ -16,36 +16,28 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
   directory: Directory.CONFIGURATION,
   run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-            structure: _context,
-          }),
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+          structure: _context,
+        }),
+      });
     }
 
     const _timezoneOption = _context.data.options.getString("timezone", true);
     const _12HoursOption = _context.data.options.getBoolean("12-hours", true);
 
     if (!timezones.includes(_timezoneOption)) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[
-            locale
-          ].COMMANDS.CONFIGURATION.TIMEZONE.ERRORS.TIMEZONE_NOT_FOUND({
-            timezone: _timezoneOption,
-          }),
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[
+          locale
+        ].COMMANDS.CONFIGURATION.TIMEZONE.TIMEZONE_NOT_FOUND({
+          timezone: _timezoneOption,
+        }),
+      });
     }
 
     const guildConfiguration = await prisma.guildConfiguration.findUnique({

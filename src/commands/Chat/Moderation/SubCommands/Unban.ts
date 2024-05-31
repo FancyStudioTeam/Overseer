@@ -15,17 +15,13 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
   directory: Directory.MODERATION,
   run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-            structure: _context,
-          }),
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+          structure: _context,
+        }),
+      });
     }
 
     const _userOption = _context.data.options.getUser("user", true);
@@ -41,19 +37,13 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       .catch(() => null);
 
     if (!bannedUser) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[
-            locale
-          ].COMMANDS.MODERATION.UNBAN.BAN_NOT_FOUND({
-            ban: _userOption.id,
-          }),
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[locale].COMMANDS.MODERATION.UNBAN.BAN_NOT_FOUND({
+          ban: _userOption.id,
+        }),
+      });
     }
 
     await _client.rest.guilds.removeBan(

@@ -18,17 +18,13 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
   directory: Directory.INFORMATION,
   run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-            structure: _context,
-          }),
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+          structure: _context,
+        }),
+      });
     }
 
     const member = await fetchMember(
@@ -38,15 +34,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     );
 
     if (!member) {
-      return await errorMessage(
-        {
-          _context,
-          ephemeral: true,
-        },
-        {
-          description: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
-        },
-      );
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        embed: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
+      });
     }
 
     await _context.reply({

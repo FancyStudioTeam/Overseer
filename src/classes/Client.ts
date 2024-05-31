@@ -119,7 +119,7 @@ export class Discord extends Client {
     }
 
     await Promise.allSettled([
-      // this._registerComponents(),
+      this._registerComponents(),
       this._registerEvents(),
       this._registerModules(),
     ])
