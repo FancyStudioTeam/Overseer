@@ -20,7 +20,7 @@ export const Colors = {
 
 export const Links = {
   INVITE:
-    "https://discord.com/oauth2/authorize?client_id=1167172866823954582&permissions=277025737728&scope=bot",
+    "https://discord.com/oauth2/authorize?client_id=1228065406196125810&permissions=117760&scope=bot",
   SUPPORT: "https://discord.gg/gud55BjNFC",
 };
 
