@@ -56,9 +56,7 @@ _client.on("messageCreate", async (_message: Message) => {
       exec(`cd "${process.cwd()}" && ${command}`, async (error: ExecException | Nullish, result: string) => {
         await _client.rest.channels.createMessage(_message.channelID, {
           embeds: new EmbedBuilder()
-            .setDescription(
-              codeBlock(error ? "bash" : "js", cutText(error ? error.stack ?? error.message : result, 4000)),
-            )
+            .setDescription(codeBlock(error ? "bash" : "js", cutText(error ? error.stack ?? error.message : result, 4000)))
             .setColor(error ? Colors.ERROR : Colors.COLOR)
             .toJSONArray(),
         });

@@ -40,11 +40,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       });
     }
 
-    if (
-      _memberOption.id === _client.user.id ||
-      _memberOption.id === _context.guild.ownerID ||
-      _memberOption.id === _context.user.id
-    ) {
+    if (_memberOption.id === _client.user.id || _memberOption.id === _context.guild.ownerID || _memberOption.id === _context.user.id) {
       return await errorMessage({
         _context,
         ephemeral: true,
@@ -60,10 +56,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       });
     }
 
-    if (
-      _context.user.id !== _context.guild.ownerID &&
-      compareMemberToMember(_context.member, _memberOption) !== ComparationLevel.HIGHER
-    ) {
+    if (_context.user.id !== _context.guild.ownerID && compareMemberToMember(_context.member, _memberOption) !== ComparationLevel.HIGHER) {
       return await errorMessage({
         _context,
         ephemeral: true,

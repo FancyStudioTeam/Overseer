@@ -1,8 +1,4 @@
-import {
-  type BaseCollectorEndReasons,
-  InteractionCollector,
-  type InteractionCollectorEndReasons,
-} from "oceanic-collectors";
+import { type BaseCollectorEndReasons, InteractionCollector, type InteractionCollectorEndReasons } from "oceanic-collectors";
 import {
   type AnyInteractionGateway,
   type ButtonComponent,
@@ -70,9 +66,7 @@ export async function pagination(
 
   if ("reply" in _context) {
     const _originalMessageResponse = await _context.reply(payload);
-    message = _originalMessageResponse.hasMessage()
-      ? _originalMessageResponse.message
-      : await _originalMessageResponse.getMessage();
+    message = _originalMessageResponse.hasMessage() ? _originalMessageResponse.message : await _originalMessageResponse.getMessage();
   } else {
     message = await _client.rest.channels.createMessage(_context.channelID, payload);
   }
@@ -117,9 +111,7 @@ export async function pagination(
           })
           .otherwise(() => null);
 
-        new ButtonBuilder()
-          .load(<ButtonComponent>message.components[0].components[1])
-          .setLabel(`${index + 1}/${pages.length}`);
+        new ButtonBuilder().load(<ButtonComponent>message.components[0].components[1]).setLabel(`${index + 1}/${pages.length}`);
 
         await _client.rest.channels.editMessage(message.channelID, message.id, {
           embeds: [pages[index]],

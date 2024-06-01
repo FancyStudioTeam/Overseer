@@ -20,11 +20,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       });
     }
 
-    const member = await fetchMember(
-      FetchFrom.DEFAULT,
-      _context.guild,
-      _context.data.options.getMember("user")?.id ?? _context.user.id,
-    );
+    const member = await fetchMember(FetchFrom.DEFAULT, _context.guild, _context.data.options.getMember("user")?.id ?? _context.user.id);
 
     if (!member) {
       return await errorMessage({
@@ -59,9 +55,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           },
           {
             name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_3.FIELD,
-            value: `${Emojis.RIGHT} ${
-              member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.MARK
-            }`,
+            value: `${Emojis.RIGHT} ${member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.MARK}`,
           },
         ])
         .setColor(Colors.COLOR)

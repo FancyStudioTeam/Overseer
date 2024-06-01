@@ -1,8 +1,4 @@
-import {
-  type BaseCollectorEndReasons,
-  InteractionCollector,
-  type InteractionCollectorEndReasons,
-} from "oceanic-collectors";
+import { type BaseCollectorEndReasons, InteractionCollector, type InteractionCollectorEndReasons } from "oceanic-collectors";
 import {
   type AnyInteractionGateway,
   ButtonStyles,
@@ -80,9 +76,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
         ])
         .toJSONArray(),
     });
-    const message = _originalMessageResponse.hasMessage()
-      ? _originalMessageResponse.message
-      : await _originalMessageResponse.getMessage();
+    const message = _originalMessageResponse.hasMessage() ? _originalMessageResponse.message : await _originalMessageResponse.getMessage();
     const interactionCollector = new InteractionCollector(_client, {
       message,
       channel: _context.channel,
@@ -140,9 +134,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
 
               await _client.rest.channels.editMessage(message.channelID, message.id, {
                 embeds: new EmbedBuilder()
-                  .setDescription(
-                    Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE.COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1,
-                  )
+                  .setDescription(Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE.COMPONENTS.BUTTONS.CONFIRM.MESSAGE_1)
                   .setColor(Colors.SUCCESS)
                   .toJSONArray(),
                 components: [],
@@ -153,9 +145,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
 
               await _client.rest.channels.editMessage(message.channelID, message.id, {
                 embeds: new EmbedBuilder()
-                  .setDescription(
-                    Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE.COMPONENTS.BUTTONS.CANCEL.MESSAGE_1,
-                  )
+                  .setDescription(Translations[locale].COMMANDS.CONFIGURATION.PREMIUM.REVOKE.COMPONENTS.BUTTONS.CANCEL.MESSAGE_1)
                   .setColor(Colors.SUCCESS)
                   .toJSONArray(),
                 components: [],
@@ -166,13 +156,10 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       }
     });
 
-    interactionCollector.once(
-      "end",
-      async (_, _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons) => {
-        if (["user", "guildDelete", "channelDelete", "threadDelete", "messageDelete"].includes(_endReason)) return;
+    interactionCollector.once("end", async (_, _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons) => {
+      if (["user", "guildDelete", "channelDelete", "threadDelete", "messageDelete"].includes(_endReason)) return;
 
-        await disableComponents(message);
-      },
-    );
+      await disableComponents(message);
+    });
   },
 });

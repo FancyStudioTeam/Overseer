@@ -137,9 +137,7 @@ export async function errorMessage({
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
-  "reply" in _context
-    ? await _context.reply(payload)
-    : await _client.rest.channels.createMessage(_context.channelID, payload);
+  "reply" in _context ? await _context.reply(payload) : await _client.rest.channels.createMessage(_context.channelID, payload);
 }
 
 export function parseEmoji(emoji: string): NullablePartialEmoji {
@@ -206,9 +204,7 @@ export function compareMemberToMember(from: Member, to: Member): ComparationLeve
 }
 
 export function formatTimestamp(date: Date | string, hour12 = false, long = true): string {
-  return new Timestamp(long ? (hour12 ? "DD/MM/YYYY[, ]hh:mm:ss A" : "DD/MM/YYYY[, ]HH:mm:ss") : "DD/MM/YYYY").display(
-    date,
-  );
+  return new Timestamp(long ? (hour12 ? "DD/MM/YYYY[, ]hh:mm:ss A" : "DD/MM/YYYY[, ]HH:mm:ss") : "DD/MM/YYYY").display(date);
 }
 
 export function formatUnix(type: UnixType, date: Date): string {
@@ -263,9 +259,7 @@ export async function checkPermissions(
   const clientOrUser = member.id === _client.user.id ? "CLIENT" : "USER";
   const channelOrGuild = type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD";
   const missingPermissions = checkPermissions.filter((permission) =>
-    channelOrGuild === "CHANNEL"
-      ? !channel?.permissionsOf(member).has(permission)
-      : !member.permissions.has(permission),
+    channelOrGuild === "CHANNEL" ? !channel?.permissionsOf(member).has(permission) : !member.permissions.has(permission),
   );
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: new EmbedBuilder()
@@ -287,9 +281,7 @@ export async function checkPermissions(
   if (missingPermissions.length) {
     hasPermissions = false;
 
-    "reply" in _context
-      ? await _context.reply(payload)
-      : await _client.rest.channels.createMessage(_context.channelID, payload);
+    "reply" in _context ? await _context.reply(payload) : await _client.rest.channels.createMessage(_context.channelID, payload);
   }
 
   return hasPermissions;
@@ -351,9 +343,7 @@ export async function handleError(
       .toJSONArray(),
   };
 
-  "reply" in _context
-    ? await _context.reply(payload)
-    : await _client.rest.channels.createMessage(_context.channelID, payload);
+  "reply" in _context ? await _context.reply(payload) : await _client.rest.channels.createMessage(_context.channelID, payload);
 }
 
 export function bitFieldValues(bitField: number): number[] {

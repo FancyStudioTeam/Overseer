@@ -1,11 +1,4 @@
-import {
-  type ButtonComponent,
-  ButtonStyles,
-  ComponentTypes,
-  type NullablePartialEmoji,
-  type TextButton,
-  type URLButton,
-} from "oceanic.js";
+import { type ButtonComponent, ButtonStyles, ComponentTypes, type NullablePartialEmoji, type TextButton, type URLButton } from "oceanic.js";
 
 export class ButtonBuilder {
   #json: ButtonComponent;

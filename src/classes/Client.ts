@@ -236,10 +236,6 @@ type Commands = "CHAT" | "USER";
 
 type Components = "BUTTONS" | "MODALS" | "SELECT";
 
-type CommandCollections =
-  | Collection<string, ChatInputCommandInterface | Nullish>
-  | Collection<string, UserCommandInterface | Nullish>;
+type CommandCollections = Collection<string, ChatInputCommandInterface | Nullish> | Collection<string, UserCommandInterface | Nullish>;
 
-type ComponentCollections =
-  | Collection<string, ComponentInterface | Nullish>
-  | Collection<string, ModalInterface | Nullish>;
+type ComponentCollections = Collection<string, ComponentInterface | Nullish> | Collection<string, ModalInterface | Nullish>;

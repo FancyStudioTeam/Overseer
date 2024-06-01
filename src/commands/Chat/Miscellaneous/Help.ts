@@ -20,14 +20,11 @@ export default new BaseBuilder<ChatInputCommandInterface>({
   dmPermission: false,
   directory: Directory.MISCELLANEOUS,
   run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
-    const groupedCommands = [
-      Directory.CONFIGURATION,
-      Directory.INFORMATION,
-      Directory.MODERATION,
-      Directory.UTILITY,
-    ].map((directory, _) => {
-      return _client.interactions.chatInput.filter((command) => command?.directory === directory);
-    });
+    const groupedCommands = [Directory.CONFIGURATION, Directory.INFORMATION, Directory.MODERATION, Directory.UTILITY].map(
+      (directory, _) => {
+        return _client.interactions.chatInput.filter((command) => command?.directory === directory);
+      },
+    );
     const commands = groupedCommands.map((group) => {
       const data: {
         base: string;
@@ -43,16 +40,12 @@ export default new BaseBuilder<ChatInputCommandInterface>({
           if (
             "options" in option &&
             option.options?.some((option2) =>
-              [ApplicationCommandOptionTypes.SUB_COMMAND, ApplicationCommandOptionTypes.SUB_COMMAND_GROUP].includes(
-                option2.type,
-              ),
+              [ApplicationCommandOptionTypes.SUB_COMMAND, ApplicationCommandOptionTypes.SUB_COMMAND_GROUP].includes(option2.type),
             )
           ) {
             option.options
               ?.filter((option2) =>
-                [ApplicationCommandOptionTypes.SUB_COMMAND, ApplicationCommandOptionTypes.SUB_COMMAND_GROUP].includes(
-                  option2.type,
-                ),
+                [ApplicationCommandOptionTypes.SUB_COMMAND, ApplicationCommandOptionTypes.SUB_COMMAND_GROUP].includes(option2.type),
               )
               .map((option2) => {
                 data.commands.push(

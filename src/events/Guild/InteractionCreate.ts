@@ -21,15 +21,7 @@ import { _client } from "#index";
 import { Translations } from "#locales";
 import { prisma } from "#prisma";
 import type { Locales } from "#types";
-import {
-  CheckPermissionsFrom,
-  UnixType,
-  checkPermissions,
-  errorMessage,
-  formatUnix,
-  handleError,
-  parseEmoji,
-} from "#util";
+import { CheckPermissionsFrom, UnixType, checkPermissions, errorMessage, formatUnix, handleError, parseEmoji } from "#util";
 
 const commandRateLimiter = new RateLimitManager(5_000, 3);
 const componentRateLimiter = new RateLimitManager(7_000, 5);

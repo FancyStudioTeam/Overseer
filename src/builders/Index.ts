@@ -7,13 +7,4 @@ import { ModalBuilder } from "./Components/Modal";
 import { SelectMenuBuilder } from "./Components/SelectMenu";
 import { TextInputBuilder } from "./Components/TextInput";
 
-export {
-  ActionRowBuilder,
-  AttachmentBuilder,
-  ButtonBuilder,
-  EmbedBuilder,
-  ModalBuilder,
-  SelectMenuBuilder,
-  TextInputBuilder,
-  BaseBuilder,
-};
+export { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, EmbedBuilder, ModalBuilder, SelectMenuBuilder, TextInputBuilder, BaseBuilder };
