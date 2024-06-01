@@ -10,7 +10,7 @@
     "enabled": true,
     "indentWidth": 2,
     "lineEnding": "crlf",
-    "lineWidth": 120,
+    "lineWidth": 140,
     "indentStyle": "space"
   },
   "json": {
