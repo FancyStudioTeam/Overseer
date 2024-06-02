@@ -1,39 +1,39 @@
 import type { File } from "oceanic.js";
 
 export class AttachmentBuilder {
-  #json: File;
+    #json: File;
 
-  constructor() {
-    this.#json = {
-      contents: Buffer.alloc(0),
-      index: 0,
-      name: "",
-    };
-  }
+    constructor() {
+        this.#json = {
+            contents: Buffer.alloc(0),
+            index: 0,
+            name: "",
+        };
+    }
 
-  setContent(content: Buffer): this {
-    this.#json.contents = content;
+    setContent(content: Buffer): this {
+        this.#json.contents = content;
 
-    return this;
-  }
+        return this;
+    }
 
-  setName(name: string): this {
-    this.#json.name = name;
+    setName(name: string): this {
+        this.#json.name = name;
 
-    return this;
-  }
+        return this;
+    }
 
-  setIndex(index: number): this {
-    this.#json.index = index;
+    setIndex(index: number): this {
+        this.#json.index = index;
 
-    return this;
-  }
+        return this;
+    }
 
-  toJSON(): File {
-    return this.#json;
-  }
+    toJSON(): File {
+        return this.#json;
+    }
 
-  toJSONArray(): File[] {
-    return [this.#json];
-  }
+    toJSONArray(): File[] {
+        return [this.#json];
+    }
 }

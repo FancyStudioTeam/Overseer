@@ -1,102 +1,102 @@
 import type { Embed, EmbedAuthorOptions, EmbedField, EmbedFooterOptions, EmbedOptions } from "oceanic.js";
 
 export class EmbedBuilder {
-  #json: Embed;
+    #json: Embed;
 
-  constructor() {
-    this.#json = {};
-  }
+    constructor() {
+        this.#json = {};
+    }
 
-  setAuthor(author: EmbedAuthorOptions): this {
-    this.#json.author = {
-      iconURL: author.iconURL ?? "",
-      name: author.name ?? "",
-      url: author.url,
-    };
+    setAuthor(author: EmbedAuthorOptions): this {
+        this.#json.author = {
+            iconURL: author.iconURL ?? "",
+            name: author.name ?? "",
+            url: author.url,
+        };
 
-    return this;
-  }
+        return this;
+    }
 
-  setColor(color: number): this {
-    this.#json.color = color;
+    setColor(color: number): this {
+        this.#json.color = color;
 
-    return this;
-  }
+        return this;
+    }
 
-  setDescription(description: string): this {
-    this.#json.description = description;
+    setDescription(description: string): this {
+        this.#json.description = description;
 
-    return this;
-  }
+        return this;
+    }
 
-  addField(field: EmbedField): this {
-    this.#json.fields = this.#json.fields?.length ? [...this.#json.fields, field] : [field];
+    addField(field: EmbedField): this {
+        this.#json.fields = this.#json.fields?.length ? [...this.#json.fields, field] : [field];
 
-    return this;
-  }
+        return this;
+    }
 
-  addFields(fields: EmbedField[]): this {
-    fields.forEach((field, _) => {
-      this.addField(field);
-    });
+    addFields(fields: EmbedField[]): this {
+        fields.forEach((field, _) => {
+            this.addField(field);
+        });
 
-    return this;
-  }
+        return this;
+    }
 
-  setFooter(footer: EmbedFooterOptions): this {
-    this.#json.footer = {
-      iconURL: footer.iconURL ?? "",
-      text: footer.text ?? "",
-    };
+    setFooter(footer: EmbedFooterOptions): this {
+        this.#json.footer = {
+            iconURL: footer.iconURL ?? "",
+            text: footer.text ?? "",
+        };
 
-    return this;
-  }
+        return this;
+    }
 
-  setImage(image: string): this {
-    this.#json.image = {
-      url: image,
-    };
+    setImage(image: string): this {
+        this.#json.image = {
+            url: image,
+        };
 
-    return this;
-  }
+        return this;
+    }
 
-  setThumbnail(thumbnail: string): this {
-    this.#json.thumbnail = {
-      url: thumbnail,
-    };
+    setThumbnail(thumbnail: string): this {
+        this.#json.thumbnail = {
+            url: thumbnail,
+        };
 
-    return this;
-  }
+        return this;
+    }
 
-  setTimestamp(timestamp?: string): this {
-    this.#json.timestamp = timestamp ? timestamp : new Date().toISOString();
+    setTimestamp(timestamp?: string): this {
+        this.#json.timestamp = timestamp ? timestamp : new Date().toISOString();
 
-    return this;
-  }
+        return this;
+    }
 
-  setTitle(title: string): this {
-    this.#json.title = title;
+    setTitle(title: string): this {
+        this.#json.title = title;
 
-    return this;
-  }
+        return this;
+    }
 
-  setURL(url: string): this {
-    this.#json.url = url;
+    setURL(url: string): this {
+        this.#json.url = url;
 
-    return this;
-  }
+        return this;
+    }
 
-  toJSON(): EmbedOptions {
-    return this.#json;
-  }
+    toJSON(): EmbedOptions {
+        return this.#json;
+    }
 
-  toJSONArray(): EmbedOptions[] {
-    return [this.#json];
-  }
+    toJSONArray(): EmbedOptions[] {
+        return [this.#json];
+    }
 
-  load(embed: EmbedOptions): this {
-    this.#json = embed;
+    load(embed: EmbedOptions): this {
+        this.#json = embed;
 
-    return this;
-  }
+        return this;
+    }
 }

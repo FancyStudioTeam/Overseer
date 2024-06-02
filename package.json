@@ -1,61 +1,61 @@
 {
-  "name": "overseer",
-  "version": "0.0.0_beta",
-  "scripts": {
-    "dev": "SET NODE_ENV=\"DEVELOPMENT\" && tsx watch --ignore ./src/locales src/Index.ts",
-    "build": "tsc",
-    "start": "SET NODE_ENV=\"PRODUCTION\" && cd dist && node src/Index.js",
-    "biome:ci": "pnpx @biomejs/biome ci --config-path=\"./biome.json\" .",
-    "biome:check": "pnpx @biomejs/biome check --apply --config-path=\"./biome.json\" ."
-  },
-  "author": "LonelyDeath",
-  "license": "BSD-3-Clause",
-  "dependencies": {
-    "@colors/colors": "1.6.0",
-    "@discordjs/formatters": "0.4.0",
-    "@napi-rs/canvas": "0.1.52",
-    "@prisma/client": "5.14.0",
-    "@prisma/extension-optimize": "0.7.1",
-    "@sapphire/discord-utilities": "3.3.0",
-    "@sapphire/ratelimits": "2.4.9",
-    "@sapphire/result": "2.6.6",
-    "@sapphire/snowflake": "3.5.3",
-    "@sapphire/time-utilities": "1.7.12",
-    "@sapphire/utilities": "3.16.2",
-    "@sentry/node": "8.7.0",
-    "dotenv": "16.4.5",
-    "glob": "10.4.1",
-    "oceanic-collectors": "1.0.7",
-    "oceanic.js": "1.10.5-dev.9f95b4a",
-    "pako": "2.1.0",
-    "ts-pattern": "5.1.2",
-    "url-regex-safe": "4.0.0"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.7.3",
-    "@types/figlet": "1.5.8",
-    "@types/node": "20.13.0",
-    "@types/url-regex-safe": "1.0.2",
-    "figlet": "1.7.0",
-    "prisma": "5.14.0",
-    "tsx": "4.11.0",
-    "typescript": "5.4.5"
-  },
-  "prisma": {
-    "seed": "tsx src/seed.ts"
-  },
-  "imports": {
-    "#builders": "./src/builders/Index.js",
-    "#client": "./src/classes/Client.js",
-    "#constants": "./src/util/Constants.js",
-    "#index": "./src/Index.js",
-    "#locales": "./src/locales/Index.js",
-    "#package": "./package.json",
-    "#prisma": "./src/util/Prisma.js",
-    "#references": "./src/locales/Miscellaneous/Reference.js",
-    "#timezones": "./src/util/Timezones.js",
-    "#types": "./src/Types.js",
-    "#util": "./src/util/Util.js"
-  },
-  "packageManager": "pnpm@9.1.4+sha256.30a1801ac4e723779efed13a21f4c39f9eb6c9fbb4ced101bce06b422593d7c9"
+    "name": "overseer",
+    "version": "0.0.0_beta",
+    "scripts": {
+        "dev": "SET NODE_ENV=\"DEVELOPMENT\" && tsx watch --ignore ./src/locales src/Index.ts",
+        "build": "tsc",
+        "start": "SET NODE_ENV=\"PRODUCTION\" && cd dist && node src/Index.js",
+        "biome:ci": "pnpx @biomejs/biome ci --config-path=\"./biome.json\" .",
+        "biome:check": "pnpx @biomejs/biome check --apply --config-path=\"./biome.json\" ."
+    },
+    "author": "LonelyDeath",
+    "license": "BSD-3-Clause",
+    "dependencies": {
+        "@colors/colors": "1.6.0",
+        "@discordjs/formatters": "0.4.0",
+        "@napi-rs/canvas": "0.1.52",
+        "@prisma/client": "5.14.0",
+        "@prisma/extension-optimize": "0.7.1",
+        "@sapphire/discord-utilities": "3.3.0",
+        "@sapphire/ratelimits": "2.4.9",
+        "@sapphire/result": "2.6.6",
+        "@sapphire/snowflake": "3.5.3",
+        "@sapphire/time-utilities": "1.7.12",
+        "@sapphire/utilities": "3.16.2",
+        "@sentry/node": "8.7.0",
+        "dotenv": "16.4.5",
+        "glob": "10.4.1",
+        "oceanic-collectors": "1.0.7",
+        "oceanic.js": "1.10.5-dev.9f95b4a",
+        "pako": "2.1.0",
+        "ts-pattern": "5.1.2",
+        "url-regex-safe": "4.0.0"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.7.3",
+        "@types/figlet": "1.5.8",
+        "@types/node": "20.13.0",
+        "@types/url-regex-safe": "1.0.2",
+        "figlet": "1.7.0",
+        "prisma": "5.14.0",
+        "tsx": "4.11.0",
+        "typescript": "5.4.5"
+    },
+    "prisma": {
+        "seed": "tsx src/seed.ts"
+    },
+    "imports": {
+        "#builders": "./src/builders/Index.js",
+        "#client": "./src/classes/Client.js",
+        "#constants": "./src/util/Constants.js",
+        "#index": "./src/Index.js",
+        "#locales": "./src/locales/Index.js",
+        "#package": "./package.json",
+        "#prisma": "./src/util/Prisma.js",
+        "#references": "./src/locales/Miscellaneous/Reference.js",
+        "#timezones": "./src/util/Timezones.js",
+        "#types": "./src/Types.js",
+        "#util": "./src/util/Util.js"
+    },
+    "packageManager": "pnpm@9.1.4+sha256.30a1801ac4e723779efed13a21f4c39f9eb6c9fbb4ced101bce06b422593d7c9"
 }

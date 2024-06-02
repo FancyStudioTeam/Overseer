@@ -1,88 +1,88 @@
 import {
-  type ChannelSelectMenu,
-  type ChannelTypes,
-  ComponentTypes,
-  type SelectMenuComponent,
-  type SelectMenuDefaultValue,
-  type SelectOption,
-  type StringSelectMenu,
+    type ChannelSelectMenu,
+    type ChannelTypes,
+    ComponentTypes,
+    type SelectMenuComponent,
+    type SelectMenuDefaultValue,
+    type SelectOption,
+    type StringSelectMenu,
 } from "oceanic.js";
 
 export class SelectMenuBuilder {
-  #json: SelectMenuComponent;
+    #json: SelectMenuComponent;
 
-  constructor() {
-    this.#json = {
-      customID: "",
-      options: [],
-      type: ComponentTypes.STRING_SELECT,
-    };
-  }
+    constructor() {
+        this.#json = {
+            customID: "",
+            options: [],
+            type: ComponentTypes.STRING_SELECT,
+        };
+    }
 
-  setChannelTypes(types: ChannelTypes[]): this {
-    (<ChannelSelectMenu>this.#json).channelTypes = types;
+    setChannelTypes(types: ChannelTypes[]): this {
+        (<ChannelSelectMenu>this.#json).channelTypes = types;
 
-    return this;
-  }
+        return this;
+    }
 
-  setCustomID(id: string): this {
-    this.#json.customID = id;
+    setCustomID(id: string): this {
+        this.#json.customID = id;
 
-    return this;
-  }
+        return this;
+    }
 
-  setDefaultValues(values: SelectMenuDefaultValue[]): this {
-    (<ChannelSelectMenu>this.#json).defaultValues = values;
+    setDefaultValues(values: SelectMenuDefaultValue[]): this {
+        (<ChannelSelectMenu>this.#json).defaultValues = values;
 
-    return this;
-  }
+        return this;
+    }
 
-  setDisabled(disabled: boolean): this {
-    this.#json.disabled = disabled;
+    setDisabled(disabled: boolean): this {
+        this.#json.disabled = disabled;
 
-    return this;
-  }
+        return this;
+    }
 
-  setMaxValues(value: number): this {
-    this.#json.maxValues = value;
+    setMaxValues(value: number): this {
+        this.#json.maxValues = value;
 
-    return this;
-  }
+        return this;
+    }
 
-  setMinValues(value: number): this {
-    this.#json.minValues = value;
+    setMinValues(value: number): this {
+        this.#json.minValues = value;
 
-    return this;
-  }
+        return this;
+    }
 
-  addOptions(components: SelectOption[]): this {
-    components.forEach((component, _) => {
-      (<StringSelectMenu>this.#json).options.push(component);
-    });
+    addOptions(components: SelectOption[]): this {
+        components.forEach((component, _) => {
+            (<StringSelectMenu>this.#json).options.push(component);
+        });
 
-    return this;
-  }
+        return this;
+    }
 
-  setPlaceholder(placeholder: string): this {
-    this.#json.placeholder = placeholder;
+    setPlaceholder(placeholder: string): this {
+        this.#json.placeholder = placeholder;
 
-    return this;
-  }
+        return this;
+    }
 
-  setType(type: ValidType): this {
-    this.#json.type = type;
+    setType(type: ValidType): this {
+        this.#json.type = type;
 
-    return this;
-  }
+        return this;
+    }
 
-  toJSON(): SelectMenuComponent {
-    return this.#json;
-  }
+    toJSON(): SelectMenuComponent {
+        return this.#json;
+    }
 }
 
 type ValidType =
-  | ComponentTypes.CHANNEL_SELECT
-  | ComponentTypes.MENTIONABLE_SELECT
-  | ComponentTypes.ROLE_SELECT
-  | ComponentTypes.STRING_SELECT
-  | ComponentTypes.USER_SELECT;
+    | ComponentTypes.CHANNEL_SELECT
+    | ComponentTypes.MENTIONABLE_SELECT
+    | ComponentTypes.ROLE_SELECT
+    | ComponentTypes.STRING_SELECT
+    | ComponentTypes.USER_SELECT;

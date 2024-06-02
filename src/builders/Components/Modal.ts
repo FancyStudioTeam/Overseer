@@ -2,40 +2,40 @@ import { ComponentTypes, type ModalData } from "oceanic.js";
 import type { TextInputBuilder } from "#builders";
 
 export class ModalBuilder {
-  #json: ModalData;
+    #json: ModalData;
 
-  constructor() {
-    this.#json = {
-      components: [],
-      customID: "",
-      title: "",
-    };
-  }
+    constructor() {
+        this.#json = {
+            components: [],
+            customID: "",
+            title: "",
+        };
+    }
 
-  setCustomID(id: string): this {
-    this.#json.customID = id;
+    setCustomID(id: string): this {
+        this.#json.customID = id;
 
-    return this;
-  }
+        return this;
+    }
 
-  setTitle(title: string): this {
-    this.#json.title = title;
+    setTitle(title: string): this {
+        this.#json.title = title;
 
-    return this;
-  }
+        return this;
+    }
 
-  addComponents(components: TextInputBuilder[]): this {
-    components.forEach((component, _) => {
-      this.#json.components.push({
-        type: ComponentTypes.ACTION_ROW,
-        components: [component.toJSON()],
-      });
-    });
+    addComponents(components: TextInputBuilder[]): this {
+        components.forEach((component, _) => {
+            this.#json.components.push({
+                type: ComponentTypes.ACTION_ROW,
+                components: [component.toJSON()],
+            });
+        });
 
-    return this;
-  }
+        return this;
+    }
 
-  toJSON(): ModalData {
-    return this.#json;
-  }
+    toJSON(): ModalData {
+        return this.#json;
+    }
 }
