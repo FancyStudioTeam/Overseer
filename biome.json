@@ -34,12 +34,7 @@
                 "noNamespace": "off"
             },
             "complexity": {
-                "noExcessiveCognitiveComplexity": {
-                    "level": "warn",
-                    "options": {
-                        "maxAllowedComplexity": 30
-                    }
-                }
+                "noExcessiveCognitiveComplexity": "off"
             }
         }
     }
