@@ -104,13 +104,7 @@ export class Discord extends Client {
       await this.connect();
     }
 
-    await Promise.allSettled([this._registerComponents(), this._registerEvents(), this._registerModules()])
-      .then(() => {
-        logger(LoggerType.INFO, "Loading components, events and modules...");
-      })
-      .catch((error) => {
-        logger(LoggerType.ERROR, `Error while loading: ${error.stack ?? error.message}`);
-      });
+    await Promise.allSettled([this._registerComponents(), this._registerEvents(), this._registerModules()]);
   }
 
   async _deploy(): Promise<void> {

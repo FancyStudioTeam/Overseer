@@ -15,6 +15,7 @@
     "@discordjs/formatters": "0.4.0",
     "@napi-rs/canvas": "0.1.52",
     "@prisma/client": "5.14.0",
+    "@prisma/extension-optimize": "0.7.1",
     "@sapphire/discord-utilities": "3.3.0",
     "@sapphire/ratelimits": "2.4.9",
     "@sapphire/result": "2.6.6",
@@ -36,9 +37,7 @@
     "@types/node": "20.13.0",
     "@types/url-regex-safe": "1.0.2",
     "figlet": "1.7.0",
-    "prettier": "3.2.5",
     "prisma": "5.14.0",
-    "ts-node": "10.9.2",
     "tsx": "4.11.0",
     "typescript": "5.4.5"
   },
@@ -48,7 +47,7 @@
   "imports": {
     "#builders": "./src/builders/Index.js",
     "#client": "./src/classes/Client.js",
-    "#constants": "./src/Constants.js",
+    "#constants": "./src/util/Constants.js",
     "#index": "./src/Index.js",
     "#locales": "./src/locales/Index.js",
     "#package": "./package.json",

@@ -34,7 +34,7 @@
     "paths": {
       "#builders": ["./src/builders/Index.ts"],
       "#client": ["./src/classes/Client.ts"],
-      "#constants": ["./src/Constants.ts"],
+      "#constants": ["./src/util/Constants.ts"],
       "#index": ["./src/Index.ts"],
       "#locales": ["./src/locales/Index.ts"],
       "#package": ["./package.json"],

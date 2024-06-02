@@ -1,10 +1,5 @@
 import colors from "@colors/colors";
-import {
-  type Nullish,
-  codeBlock,
-  inlineCodeBlock,
-  isNullOrUndefined,
-} from "@sapphire/utilities";
+import { type Nullish, codeBlock, inlineCodeBlock, isNullOrUndefined } from "@sapphire/utilities";
 import { Emojis } from "#constants";
 import { padding } from "#util";
 
@@ -12,23 +7,17 @@ export default {
   COMMANDS: {
     CONFIGURATION: {
       LANGUAGE: {
-        MESSAGE_1: `**${
-          Emojis.SUCCESS
-        } El idioma ha sido establecido a ${inlineCodeBlock("Español")}**`,
+        MESSAGE_1: `**${Emojis.SUCCESS} El idioma ha sido establecido a ${inlineCodeBlock("Español")}**`,
       },
       PREMIUM: {
         CLAIM: {
           MEMBERSHIP_NOT_FOUND: ({ code }: { code: string }) =>
-            `**${Emojis.MARK} El código ${inlineCodeBlock(
-              code,
-            )} no ha sido encontrado**`,
+            `**${Emojis.MARK} El código ${inlineCodeBlock(code)} no ha sido encontrado**`,
           MESSAGE_1: ({ expireDate }: { expireDate: string | Nullish }) =>
             [
               `**${Emojis.SUCCESS} La membresía premium ha sido reclamada**`,
               `${Emojis.RIGHT} La membresía premium ${
-                isNullOrUndefined(expireDate)
-                  ? "`nunca caducará`"
-                  : `caducará el ${inlineCodeBlock(expireDate)}`
+                isNullOrUndefined(expireDate) ? "`nunca caducará`" : `caducará el ${inlineCodeBlock(expireDate)}`
               }`,
             ].join("\n"),
         },
@@ -53,18 +42,10 @@ export default {
         },
       },
       TIMEZONE: {
-        ERRORS: {
-          TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
-            `**${Emojis.MARK} La zona horaria ${inlineCodeBlock(
-              timezone,
-            )} no ha sido encontrada**`,
-        },
+        TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
+          `**${Emojis.MARK} La zona horaria ${inlineCodeBlock(timezone)} no ha sido encontrada**`,
         MESSAGE_1: ({ timezone }: { timezone: string }) =>
-          `**${
-            Emojis.SUCCESS
-          } La zona horaria ha sido establecida a ${inlineCodeBlock(
-            timezone,
-          )}**`,
+          `**${Emojis.SUCCESS} La zona horaria ha sido establecida a ${inlineCodeBlock(timezone)}**`,
       },
     },
     INFORMATION: {
@@ -74,10 +55,7 @@ export default {
           FIELD_1: {
             FIELD: "**Información General**",
             VALUE: ({ version, memory }: { version: string; memory: string }) =>
-              [
-                `${Emojis.RIGHT} **Versión**: ${version}`,
-                `${Emojis.RIGHT} **Uso de RAM**: ${memory}`,
-              ].join("\n"),
+              [`${Emojis.RIGHT} **Versión**: ${version}`, `${Emojis.RIGHT} **Uso de RAM**: ${memory}`].join("\n"),
           },
           FIELD_2: {
             FIELD: "**Estadísticas**",
@@ -108,12 +86,8 @@ export default {
               "ansi",
               padding(
                 [
-                  `${colors.reset.cyan(
-                    "Referencia REST",
-                  )} - ${colors.bold.magenta(rest)}`,
-                  `${colors.reset.cyan(
-                    "Conexión WebSocket",
-                  )} - ${colors.bold.magenta(shard)}`,
+                  `${colors.reset.cyan("Referencia REST")} - ${colors.bold.magenta(rest)}`,
+                  `${colors.reset.cyan("Conexión WebSocket")} - ${colors.bold.magenta(shard)}`,
                 ].join("\n"),
                 "-",
               ),
@@ -134,11 +108,9 @@ export default {
               id: string;
               owner: string;
             }) =>
-              [
-                `${Emojis.RIGHT} **Nombre**: ${name}`,
-                `${Emojis.RIGHT} **ID**: ${id}`,
-                `${Emojis.RIGHT} **Propietario**: ${owner}`,
-              ].join("\n"),
+              [`${Emojis.RIGHT} **Nombre**: ${name}`, `${Emojis.RIGHT} **ID**: ${id}`, `${Emojis.RIGHT} **Propietario**: ${owner}`].join(
+                "\n",
+              ),
           },
           FIELD_2: {
             FIELD: "**Estadísticas**",
@@ -168,10 +140,7 @@ export default {
           FIELD_1: {
             FIELD: "**Información General**",
             VALUE: ({ name, id }: { name: string; id: string }) =>
-              [
-                `${Emojis.RIGHT} **Usuario**: ${name}`,
-                `${Emojis.RIGHT} **ID**: ${id}`,
-              ].join("\n"),
+              [`${Emojis.RIGHT} **Usuario**: ${name}`, `${Emojis.RIGHT} **ID**: ${id}`].join("\n"),
           },
           FIELD_2: {
             FIELD: "**Fecha de Creación**",
@@ -193,10 +162,7 @@ export default {
           moderator: string;
           reason: string;
         }) =>
-          [
-            `**${Emojis.SUCCESS} El usuario ${user} ha sido baneado por ${moderator}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
-          ].join("\n"),
+          [`**${Emojis.SUCCESS} El usuario ${user} ha sido baneado por ${moderator}**`, `${Emojis.RIGHT} **Razón**: ${reason}`].join("\n"),
       },
       KICK: {
         MESSAGE_1: ({
@@ -208,10 +174,9 @@ export default {
           moderator: string;
           reason: string;
         }) =>
-          [
-            `**${Emojis.SUCCESS} El usuario ${username} ha sido expulsado por ${moderator}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
-          ].join("\n"),
+          [`**${Emojis.SUCCESS} El usuario ${username} ha sido expulsado por ${moderator}**`, `${Emojis.RIGHT} **Razón**: ${reason}`].join(
+            "\n",
+          ),
       },
       SOFTBAN: {
         MESSAGE_1: ({
@@ -223,10 +188,9 @@ export default {
           moderator: string;
           reason: string;
         }) =>
-          [
-            `**${Emojis.SUCCESS} El usuario ${user} ha sido softbaneado por ${moderator}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
-          ].join("\n"),
+          [`**${Emojis.SUCCESS} El usuario ${user} ha sido softbaneado por ${moderator}**`, `${Emojis.RIGHT} **Razón**: ${reason}`].join(
+            "\n",
+          ),
       },
       TIMEOUT: {
         ADD: {
@@ -264,10 +228,7 @@ export default {
         },
       },
       UNBAN: {
-        BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
-          `**${Emojis.MARK} El baneo ${inlineCodeBlock(
-            ban,
-          )} no ha sido encontrado**`,
+        BAN_NOT_FOUND: ({ ban }: { ban: string }) => `**${Emojis.MARK} El baneo ${inlineCodeBlock(ban)} no ha sido encontrado**`,
         MESSAGE_1: ({
           user,
           moderator,
@@ -277,10 +238,9 @@ export default {
           moderator: string;
           reason: string;
         }) =>
-          [
-            `**${Emojis.SUCCESS} El usuario ${user} ha sido desbaneado por ${moderator}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
-          ].join("\n"),
+          [`**${Emojis.SUCCESS} El usuario ${user} ha sido desbaneado por ${moderator}**`, `${Emojis.RIGHT} **Razón**: ${reason}`].join(
+            "\n",
+          ),
       },
     },
     UTILITY: {
@@ -302,24 +262,23 @@ export default {
             },
           },
         },
+        SYSTEM_NOT_ENABLED: `**${Emojis.MARK} El sistema de sugerencias no está habilitado**`,
         SUGGESTIONS_NOT_FOUND: `**${Emojis.MARK} El canal de sugerencias no ha sido encontrado**`,
         REVIEW_NOT_FOUND: `**${Emojis.MARK} El canal de revisión no ha sido encontrado**`,
+        SUGGESTION_NOT_FOUND: ({ id }: { id: string }) => `**${Emojis.MARK} La sugerencia ${inlineCodeBlock(id)} no ha sido encontrada**`,
         MESSAGE_1: {
-          TITLE_1: ({ username }: { username: string }) =>
-            `**Sugerencia de ${username}**`,
+          TITLE_1: ({ username }: { username: string }) => `**Sugerencia de ${username}**`,
           FIELD_1: {
-            FIELD: ({ moderator }: { moderator: string }) =>
-              `**Comentario de ${moderator}**`,
+            FIELD: ({ moderator }: { moderator: string }) => `**Comentario de ${moderator}**`,
           },
           FIELD_2: {
-            FIELD: ({ moderator }: { moderator: string }) =>
-              `**Sugerencia aprobada por ${moderator}**`,
+            FIELD: ({ moderator }: { moderator: string }) => `**Sugerencia aprobada por ${moderator}**`,
           },
           FIELD_3: {
-            FIELD: ({ moderator }: { moderator: string }) =>
-              `**Sugerencia denegada por ${moderator}**`,
+            FIELD: ({ moderator }: { moderator: string }) => `**Sugerencia denegada por ${moderator}**`,
           },
         },
+        MESSAGE_2: `**${Emojis.WARNING} Esta sugerencia requiere una aprobación antes de ser pública**`,
       },
     },
   },
@@ -327,17 +286,14 @@ export default {
     MESSAGE_1: {
       TITLE_1: ({ name }: { name: string }) => `**Panel de Ayuda de ${name}**`,
       FIELD_1: {
-        FIELD: ({ command }: { command: string }) =>
-          `**Subcomandos de ${inlineCodeBlock(`/${command}`)}**`,
+        FIELD: ({ command }: { command: string }) => `**Subcomandos de ${inlineCodeBlock(`/${command}`)}**`,
       },
     },
   },
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
-        `**${Emojis.MARK} La propiedad ${inlineCodeBlock(
-          "guild",
-        )} no está presente en la estructura ${inlineCodeBlock(
+        `**${Emojis.MARK} La propiedad ${inlineCodeBlock("guild")} no está presente en la estructura ${inlineCodeBlock(
           structure.constructor.name,
         )}**`,
         `${Emojis.RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
@@ -389,9 +345,7 @@ export default {
       },
       MESSAGE_1: ({ name, id }: { name: string; id: string }) =>
         [
-          `**${
-            Emojis.MARK
-          } El servidor devolvió un error de tipo ${inlineCodeBlock(name)}**`,
+          `**${Emojis.MARK} El servidor devolvió un error de tipo ${inlineCodeBlock(name)}**`,
           `${Emojis.RIGHT} **ID del Reporte**: ${id}`,
         ].join("\n"),
     },

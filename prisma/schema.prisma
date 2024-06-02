@@ -72,6 +72,7 @@ type GuildSuggestionGeneral {
   use_self_vote Boolean @default(true)
   use_threads   Boolean @default(false)
   use_forums    Boolean @default(false)
+  thread_id     String?
 }
 
 type GuildSuggestionReview {

@@ -38,23 +38,16 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       });
     }
 
-    const guildConfiguration = await prisma.guildConfiguration.findUnique({
-      where: {
-        guild_id: _context.guildID,
-      },
-      select: {
-        general: true,
-      },
-    });
     const upsertedGuildConfiguration = await prisma.guildConfiguration.upsert({
       where: {
         guild_id: _context.guildID,
       },
       update: {
         general: {
-          ...guildConfiguration?.general,
-          timezone: _timezoneOption,
-          use_12_hours: _12HoursOption,
+          update: {
+            timezone: _timezoneOption,
+            use_12_hours: _12HoursOption,
+          },
         },
       },
       create: {
