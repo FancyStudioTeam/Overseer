@@ -45,17 +45,18 @@
         "seed": "tsx src/seed.ts"
     },
     "imports": {
-        "#builders": "./src/builders/Index.js",
-        "#client": "./src/classes/Client.js",
-        "#constants": "./src/util/Constants.js",
-        "#index": "./src/Index.js",
-        "#locales": "./src/locales/Index.js",
-        "#package": "./package.json",
-        "#prisma": "./src/util/Prisma.js",
-        "#references": "./src/locales/Miscellaneous/Reference.js",
-        "#timezones": "./src/util/Timezones.js",
-        "#types": "./src/Types.js",
-        "#util": "./src/util/Util.js"
+        "#commandUtils": ["./src/util/CommandUtils.ts"],
+        "#builders": ["./src/builders/Index.js"],
+        "#client": ["./src/classes/Client.js"],
+        "#constants": ["./src/util/Constants.js"],
+        "#index": ["./src/Index.js"],
+        "#locales": ["./src/locales/Index.js"],
+        "#package": ["./package.json"],
+        "#prisma": ["./src/util/Prisma.js"],
+        "#references": ["./src/locales/Miscellaneous/Reference.js"],
+        "#timezones": ["./src/util/Timezones.js"],
+        "#types": ["./src/Types.js"],
+        "#util": ["./src/util/Util.js"]
     },
     "packageManager": "pnpm@9.1.4+sha256.30a1801ac4e723779efed13a21f4c39f9eb6c9fbb4ced101bce06b422593d7c9"
 }

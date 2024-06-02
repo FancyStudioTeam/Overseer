@@ -23,7 +23,7 @@
         "removeComments": false,
         "importHelpers": false,
         "incremental": true,
-        "newLine": "lf",
+        "newLine": "crlf",
         "noEmitHelpers": false,
         "noFallthroughCasesInSwitch": true,
         "preserveConstEnums": true,
@@ -32,6 +32,7 @@
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "paths": {
+            "#commandUtils": ["./src/util/CommandUtils.ts"],
             "#builders": ["./src/builders/Index.ts"],
             "#client": ["./src/classes/Client.ts"],
             "#constants": ["./src/util/Constants.ts"],
