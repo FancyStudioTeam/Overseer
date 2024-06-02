@@ -48,7 +48,10 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
 
         await _context.reply({
             embeds: new EmbedBuilder()
-                .setDescription(Translations[<Locales>upsertedGuildConfiguration.general.locale].COMMANDS.CONFIGURATION.LANGUAGE.MESSAGE_1)
+                .setDescription(
+                    Translations[<Locales>upsertedGuildConfiguration.general.locale].COMMANDS.CONFIGURATION.LANGUAGE
+                        .MESSAGE_1,
+                )
                 .setColor(Colors.SUCCESS)
                 .toJSONArray(),
         });

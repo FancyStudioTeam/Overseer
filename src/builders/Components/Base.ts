@@ -12,4 +12,9 @@ export class BaseBuilder<T extends BuilderTypes> {
     }
 }
 
-type BuilderTypes = ChatInputCommandInterface | ChatInputSubCommandInterface | UserCommandInterface | ComponentInterface | ModalInterface;
+type BuilderTypes =
+    | ChatInputCommandInterface
+    | ChatInputSubCommandInterface
+    | UserCommandInterface
+    | ComponentInterface
+    | ModalInterface;

@@ -40,7 +40,11 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             });
         }
 
-        if (_memberOption.id === _client.user.id || _memberOption.id === _context.guild.ownerID || _memberOption.id === _context.user.id) {
+        if (
+            _memberOption.id === _client.user.id ||
+            _memberOption.id === _context.guild.ownerID ||
+            _memberOption.id === _context.user.id
+        ) {
             return await errorMessage({
                 _context,
                 ephemeral: true,

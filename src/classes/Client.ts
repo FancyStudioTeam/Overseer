@@ -96,7 +96,10 @@ export class Discord extends Client {
                     this.#dbReady = true;
                 })
                 .catch((error) => {
-                    logger(LoggerType.ERROR, `Prisma Client had an error while connecting: ${error.stack ?? error.message}`);
+                    logger(
+                        LoggerType.ERROR,
+                        `Prisma Client had an error while connecting: ${error.stack ?? error.message}`,
+                    );
                 });
         }
 
@@ -162,7 +165,10 @@ export class Discord extends Client {
                     UTILITY: "UTIL",
                 };
 
-                this.subCommands.set(`${directories[directory].toLowerCase()}_${subCommand.name}`.toLowerCase(), subCommand);
+                this.subCommands.set(
+                    `${directories[directory].toLowerCase()}_${subCommand.name}`.toLowerCase(),
+                    subCommand,
+                );
             }
         });
     }
@@ -230,6 +236,10 @@ type Commands = "CHAT" | "USER";
 
 type Components = "BUTTONS" | "MODALS" | "SELECT";
 
-type CommandCollections = Collection<string, ChatInputCommandInterface | Nullish> | Collection<string, UserCommandInterface | Nullish>;
+type CommandCollections =
+    | Collection<string, ChatInputCommandInterface | Nullish>
+    | Collection<string, UserCommandInterface | Nullish>;
 
-type ComponentCollections = Collection<string, ComponentInterface | Nullish> | Collection<string, ModalInterface | Nullish>;
+type ComponentCollections =
+    | Collection<string, ComponentInterface | Nullish>
+    | Collection<string, ModalInterface | Nullish>;

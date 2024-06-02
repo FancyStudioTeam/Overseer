@@ -41,7 +41,10 @@ export async function fetchUser(type: FetchFrom, id: string): Promise<User | Nul
 export async function fetchMember(type: FetchFrom, guild: Guild, id: string): Promise<Member | Nullish> {
     return match(type)
         .returnType<Awaitable<Member | Nullish>>()
-        .with(FetchFrom.DEFAULT, async () => guild.members.get(id) ?? (await _client.rest.guilds.getMember(guild.id, id)))
+        .with(
+            FetchFrom.DEFAULT,
+            async () => guild.members.get(id) ?? (await _client.rest.guilds.getMember(guild.id, id)),
+        )
         .with(FetchFrom.CACHE, () => guild.members.get(id))
         .with(FetchFrom.REST, async () => await _client.rest.guilds.getMember(guild.id, id))
         .otherwise(() => null);
@@ -82,7 +85,10 @@ export function sanitizeString(content: string, options: SanitizeStringOptions):
 
             if (elements) {
                 elements.forEach((element, _) => {
-                    sanitizedContent = sanitizedContent.replace(element, element.replace(element, "**[Link Detected]**"));
+                    sanitizedContent = sanitizedContent.replace(
+                        element,
+                        element.replace(element, "**[Link Detected]**"),
+                    );
                 });
             }
 
@@ -137,7 +143,9 @@ export async function errorMessage({
         flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
     };
 
-    "reply" in _context ? await _context.reply(payload) : await _client.rest.channels.createMessage(_context.channelID, payload);
+    "reply" in _context
+        ? await _context.reply(payload)
+        : await _client.rest.channels.createMessage(_context.channelID, payload);
 }
 
 export function parseEmoji(emoji: string): NullablePartialEmoji {
@@ -204,7 +212,9 @@ export function compareMemberToMember(from: Member, to: Member): ComparationLeve
 }
 
 export function formatTimestamp(date: Date | string, hour12 = false, long = true): string {
-    return new Timestamp(long ? (hour12 ? "DD/MM/YYYY[, ]hh:mm:ss A" : "DD/MM/YYYY[, ]HH:mm:ss") : "DD/MM/YYYY").display(date);
+    return new Timestamp(
+        long ? (hour12 ? "DD/MM/YYYY[, ]hh:mm:ss A" : "DD/MM/YYYY[, ]HH:mm:ss") : "DD/MM/YYYY",
+    ).display(date);
 }
 
 export function formatUnix(type: UnixType, date: Date): string {
@@ -259,7 +269,9 @@ export async function checkPermissions(
     const clientOrUser = member.id === _client.user.id ? "CLIENT" : "USER";
     const channelOrGuild = type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD";
     const missingPermissions = checkPermissions.filter((permission) =>
-        channelOrGuild === "CHANNEL" ? !channel?.permissionsOf(member).has(permission) : !member.permissions.has(permission),
+        channelOrGuild === "CHANNEL"
+            ? !channel?.permissionsOf(member).has(permission)
+            : !member.permissions.has(permission),
     );
     const payload: CreateMessageOptions & InteractionContent = {
         embeds: new EmbedBuilder()
@@ -281,7 +293,9 @@ export async function checkPermissions(
     if (missingPermissions.length) {
         hasPermissions = false;
 
-        "reply" in _context ? await _context.reply(payload) : await _client.rest.channels.createMessage(_context.channelID, payload);
+        "reply" in _context
+            ? await _context.reply(payload)
+            : await _client.rest.channels.createMessage(_context.channelID, payload);
     }
 
     return hasPermissions;
@@ -343,7 +357,9 @@ export async function handleError(
             .toJSONArray(),
     };
 
-    "reply" in _context ? await _context.reply(payload) : await _client.rest.channels.createMessage(_context.channelID, payload);
+    "reply" in _context
+        ? await _context.reply(payload)
+        : await _client.rest.channels.createMessage(_context.channelID, payload);
 }
 
 export function bitFieldValues(bitField: number): number[] {
