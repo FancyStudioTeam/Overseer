@@ -26,7 +26,6 @@ import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from "#builders";
 import { Colors, Emojis, Links } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#locales";
-import { Permissions } from "#references";
 import type { Locales } from "#types";
 
 export async function fetchUser(type: FetchFrom, id: string): Promise<User | Nullish> {
@@ -279,7 +278,7 @@ export async function checkPermissions(
                 Translations[locale].GLOBAL.PERMISSIONS[channelOrGuild][clientOrUser]({
                     permissions: missingPermissions
                         .map((permission, _) => {
-                            return inlineCodeBlock(Permissions[locale][permission]);
+                            return inlineCodeBlock(Translations[locale].PERMISSIONS[permission]);
                         })
                         .join(", "),
                     channel: channel?.mention ?? "",

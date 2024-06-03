@@ -17,7 +17,9 @@ export default {
                         [
                             `**${Emojis.SUCCESS} La membresía premium ha sido reclamada**`,
                             `${Emojis.RIGHT} La membresía premium ${
-                                isNullOrUndefined(expireDate) ? "`nunca caducará`" : `caducará el ${inlineCodeBlock(expireDate)}`
+                                isNullOrUndefined(expireDate)
+                                    ? "`nunca caducará`"
+                                    : `caducará el ${inlineCodeBlock(expireDate)}`
                             }`,
                         ].join("\n"),
                 },
@@ -41,6 +43,110 @@ export default {
                     ].join("\n"),
                 },
             },
+            SUGGESTIONS: {
+                COMPONENTS: {
+                    BUTTONS: {
+                        GENERAL: {
+                            COMPONENTS: {
+                                BUTTONS: {
+                                    CHANNEL: {
+                                        LABEL: "Canal de Sugerencias",
+                                    },
+                                },
+                                SELECT_MENU: {
+                                    PLACEHOLDER: "Habilita/Deshabilita una opción adicional",
+                                    OPTIONS: {
+                                        USE_MESSAGES: {
+                                            LABEL: "Sugerencias mediante mensajes (Usar mensajes)",
+                                            DESCRIPTION:
+                                                "Los usuarios pueden crear sugerencias envíando un mensaje en el canal de sugerencias",
+                                        },
+                                        USE_SELF_VOTE: {
+                                            LABEL: "Permitir Autovoto (Usar autovoto)",
+                                            DESCRIPTION: "El autor de una sugerencia puede votar su propia sugerencia",
+                                        },
+                                        USE_THREADS: {
+                                            LABEL: "Crear hilos (Usar hilos)",
+                                            DESCRIPTION: "Se crearán hilos en nuevas sugerencias",
+                                        },
+                                        USE_FORUMS: {
+                                            LABEL: "Sugerencias en foros (Usar foros)",
+                                            DESCRIPTION: "Se crearán las sugerencias mediante publicaciones de un foro",
+                                        },
+                                    },
+                                },
+                            },
+                            LABEL: "General",
+                            MESSAGE_1: {
+                                TITLE_1: "**Panel de Configuración**",
+                                FIELD_1: {
+                                    FIELD: "**Configuración General**",
+                                    VALUE: ({ channel }: { channel: string }) =>
+                                        codeBlock(
+                                            "ansi",
+                                            padding(
+                                                [
+                                                    `${colors.reset.cyan(
+                                                        "Canal de Sugerencias",
+                                                    )} - ${colors.bold.magenta(channel)}`,
+                                                ].join("\n"),
+                                                "-",
+                                            ),
+                                        ),
+                                },
+                                FIELD_2: {
+                                    FIELD: "**Opciones Adicionales**",
+                                    VALUE: ({
+                                        useMessages,
+                                        useSelfVote,
+                                        useThreads,
+                                        useForums,
+                                    }: {
+                                        useMessages: string;
+                                        useSelfVote: string;
+                                        useThreads: string;
+                                        useForums: string;
+                                    }) =>
+                                        codeBlock(
+                                            "ansi",
+                                            padding(
+                                                [
+                                                    `${colors.reset.cyan("Usar mensajes")} - ${colors.bold.magenta(
+                                                        useMessages,
+                                                    )}`,
+                                                    `${colors.reset.cyan("Usar autovoto")} - ${colors.bold.magenta(
+                                                        useSelfVote,
+                                                    )}`,
+                                                    `${colors.reset.cyan("Usar hilos")} - ${colors.bold.magenta(
+                                                        useThreads,
+                                                    )}`,
+                                                    `${colors.reset.cyan("Usar foros")} - ${colors.bold.magenta(
+                                                        useForums,
+                                                    )}`,
+                                                ].join("\n"),
+                                                "-",
+                                            ),
+                                        ),
+                                },
+                            },
+                        },
+                        REVIEW: {
+                            LABEL: "Revisión",
+                        },
+                        ENABLE: {
+                            LABEL: "Habilitar",
+                        },
+                        DISABLE: {
+                            LABEL: "Deshabilitar",
+                        },
+                    },
+                },
+                SYSTEM_NOT_ENABLED: `**${Emojis.MARK} El sistema de sugerencias no está habilitado**`,
+                MESSAGE_1: [
+                    `**${Emojis.WAVE} Bienvenido al panel del sistema de sugerencias**`,
+                    `${Emojis.RIGHT} Puedes empezar a configurar el sistema de sugerencias aquí`,
+                ].join("\n"),
+            },
             TIMEZONE: {
                 TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
                     `**${Emojis.MARK} La zona horaria ${inlineCodeBlock(timezone)} no ha sido encontrada**`,
@@ -55,7 +161,10 @@ export default {
                     FIELD_1: {
                         FIELD: "**Información General**",
                         VALUE: ({ version, memory }: { version: string; memory: string }) =>
-                            [`${Emojis.RIGHT} **Versión**: ${version}`, `${Emojis.RIGHT} **Uso de RAM**: ${memory}`].join("\n"),
+                            [
+                                `${Emojis.RIGHT} **Versión**: ${version}`,
+                                `${Emojis.RIGHT} **Uso de RAM**: ${memory}`,
+                            ].join("\n"),
                     },
                     FIELD_2: {
                         FIELD: "**Estadísticas**",
@@ -235,7 +344,8 @@ export default {
                 },
             },
             UNBAN: {
-                BAN_NOT_FOUND: ({ ban }: { ban: string }) => `**${Emojis.MARK} El baneo ${inlineCodeBlock(ban)} no ha sido encontrado**`,
+                BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
+                    `**${Emojis.MARK} El baneo ${inlineCodeBlock(ban)} no ha sido encontrado**`,
                 MESSAGE_1: ({
                     user,
                     moderator,
@@ -302,9 +412,9 @@ export default {
     GLOBAL: {
         INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
             [
-                `**${Emojis.MARK} La propiedad ${inlineCodeBlock("guild")} no está presente en la estructura ${inlineCodeBlock(
-                    structure.constructor.name,
-                )}**`,
+                `**${Emojis.MARK} La propiedad ${inlineCodeBlock(
+                    "guild",
+                )} no está presente en la estructura ${inlineCodeBlock(structure.constructor.name)}**`,
                 `${Emojis.RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
             ].join("\n"),
         INVALID_GUILD_MEMBER: `**${Emojis.MARK} El usuario debe ser miembro de este servidor**`,
@@ -360,5 +470,57 @@ export default {
         },
         ONLY_GUILD_OWNER: `**${Emojis.MARK} Esta acción solamente la puede ejecutar el propietario del servidor**`,
         INVALID_USER_COLLECTOR: `**${Emojis.MARK} No puedes ejecutar este componente**`,
+    },
+    PERMISSIONS: {
+        CREATE_INSTANT_INVITE: "Crear Invitación Instantánea",
+        KICK_MEMBERS: "Expulsar Miembros",
+        BAN_MEMBERS: "Banear Miembros",
+        ADMINISTRATOR: "Administrador",
+        MANAGE_CHANNELS: "Gestionar Canales",
+        MANAGE_GUILD: "Gestionar Servidor",
+        ADD_REACTIONS: "Añadir Reacciones",
+        VIEW_AUDIT_LOG: "Ver Registro de Auditoria",
+        PRIORITY_SPEAKER: "Prioridad de Palabra",
+        STREAM: "Compartir Pantalla",
+        VIEW_CHANNEL: "Ver Canal",
+        SEND_MESSAGES: "Enviar Mensajes",
+        SEND_TTS_MESSAGES: "Enviar Mensajes TTS",
+        MANAGE_MESSAGES: "Gestionar Mensajes",
+        EMBED_LINKS: "Enlaces Incrustados",
+        ATTACH_FILES: "Adjuntar Archivos",
+        READ_MESSAGE_HISTORY: "Leer Historial de Mensajes",
+        MENTION_EVERYONE: "Mencionar Everyone",
+        USE_EXTERNAL_EMOJIS: "Usar Emojis Externos",
+        VIEW_GUILD_INSIGHTS: "Ver Información del Servidor",
+        CONNECT: "Conectar",
+        SPEAK: "Hablar",
+        MUTE_MEMBERS: "Silenciar Miembros",
+        DEAFEN_MEMBERS: "Ensordecer Miembros",
+        MOVE_MEMBERS: "Mover Miembros",
+        USE_VAD: "Usar VAD",
+        CHANGE_NICKNAME: "Cambiar Apodo",
+        MANAGE_NICKNAMES: "Gestionar Apodos",
+        MANAGE_ROLES: "Gestionar Roles",
+        MANAGE_WEBHOOKS: "Gestionar Webhooks",
+        MANAGE_GUILD_EXPRESSIONS: "Gestionar Expresiones del Servidor",
+        USE_APPLICATION_COMMANDS: "Usar Comandos de Aplicaciones",
+        REQUEST_TO_SPEAK: "Solicitar Hablar",
+        MANAGE_EVENTS: "Gestionar Eventos",
+        MANAGE_THREADS: "Gestionar Hilos",
+        CREATE_PUBLIC_THREADS: "Crear Hilos Públicos",
+        CREATE_PRIVATE_THREADS: "Crear Hilos Privados",
+        USE_EXTERNAL_STICKERS: "Usar Stickers Externos",
+        SEND_MESSAGES_IN_THREADS: "Enviar Mensajes en Hilos",
+        USE_EMBEDDED_ACTIVITIES: "Usar Actividades Incrustadas",
+        MODERATE_MEMBERS: "Moderar Miembros",
+        VIEW_CREATOR_MONETIZATION_ANALYTICS: "Ver Analíticas de Monetización del Creador",
+        USE_SOUNDBOARD: "Usar Panel de Sonidos",
+        CREATE_GUILD_EXPRESSIONS: "Crear Expresiones del Servidor",
+        CREATE_EVENTS: "Crear Eventos",
+        USE_EXTERNAL_SOUNDS: "Usar Sonidos Externos",
+        SEND_VOICE_MESSAGES: "Enviar Mensajes de Voz",
+        USE_CLYDE_AI: "Usar IA de Clyde",
+        SET_VOICE_CHANNEL_STATUS: "Establecer Estado del Canal de Voz",
+        SEND_POLLS: "Enviar Encuestas",
     },
 };

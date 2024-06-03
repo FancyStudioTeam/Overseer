@@ -17,7 +17,9 @@ export default {
                         [
                             `**${Emojis.SUCCESS} The premium membership has been claimed**`,
                             `${Emojis.RIGHT} The premium membership will ${
-                                isNullOrUndefined(expireDate) ? "`never expire`" : `expire on ${inlineCodeBlock(expireDate)}`
+                                isNullOrUndefined(expireDate)
+                                    ? "`never expire`"
+                                    : `expire on ${inlineCodeBlock(expireDate)}`
                             }`,
                         ].join("\n"),
                 },
@@ -41,6 +43,110 @@ export default {
                     ].join("\n"),
                 },
             },
+            SUGGESTIONS: {
+                COMPONENTS: {
+                    BUTTONS: {
+                        GENERAL: {
+                            COMPONENTS: {
+                                BUTTONS: {
+                                    CHANNEL: {
+                                        LABEL: "Suggestions Channel",
+                                    },
+                                },
+                                SELECT_MENU: {
+                                    PLACEHOLDER: "Enables/Disables an additional option",
+                                    OPTIONS: {
+                                        USE_MESSAGES: {
+                                            LABEL: "Suggestions through messages (Use messages)",
+                                            DESCRIPTION:
+                                                "The users can create suggestions by sending a message in the suggestions channel",
+                                        },
+                                        USE_SELF_VOTE: {
+                                            LABEL: "Allow Self Vote (Use selfvote)",
+                                            DESCRIPTION: "The author of a suggestion can vote on his own suggestion",
+                                        },
+                                        USE_THREADS: {
+                                            LABEL: "Create threads (Use threads)",
+                                            DESCRIPTION: "Threads will be created in new suggestions",
+                                        },
+                                        USE_FORUMS: {
+                                            LABEL: "Suggestions in forums (Use forums)",
+                                            DESCRIPTION: "Suggestions will be created by means of forum postings",
+                                        },
+                                    },
+                                },
+                            },
+                            LABEL: "General",
+                            MESSAGE_1: {
+                                TITLE_1: "**Configuration Panel**",
+                                FIELD_1: {
+                                    FIELD: "**General Configuration**",
+                                    VALUE: ({ channel }: { channel: string }) =>
+                                        codeBlock(
+                                            "ansi",
+                                            padding(
+                                                [
+                                                    `${colors.reset.cyan(
+                                                        "Suggestions Channel",
+                                                    )} - ${colors.bold.magenta(channel)}`,
+                                                ].join("\n"),
+                                                "-",
+                                            ),
+                                        ),
+                                },
+                                FIELD_2: {
+                                    FIELD: "**Additional Options**",
+                                    VALUE: ({
+                                        useMessages,
+                                        useSelfVote,
+                                        useThreads,
+                                        useForums,
+                                    }: {
+                                        useMessages: string;
+                                        useSelfVote: string;
+                                        useThreads: string;
+                                        useForums: string;
+                                    }) =>
+                                        codeBlock(
+                                            "ansi",
+                                            padding(
+                                                [
+                                                    `${colors.reset.cyan("Use messages")} - ${colors.bold.magenta(
+                                                        useMessages,
+                                                    )}`,
+                                                    `${colors.reset.cyan("Use selfvote")} - ${colors.bold.magenta(
+                                                        useSelfVote,
+                                                    )}`,
+                                                    `${colors.reset.cyan("Use threads")} - ${colors.bold.magenta(
+                                                        useThreads,
+                                                    )}`,
+                                                    `${colors.reset.cyan("Use forums")} - ${colors.bold.magenta(
+                                                        useForums,
+                                                    )}`,
+                                                ].join("\n"),
+                                                "-",
+                                            ),
+                                        ),
+                                },
+                            },
+                        },
+                        REVIEW: {
+                            LABEL: "Review",
+                        },
+                        ENABLE: {
+                            LABEL: "Enable",
+                        },
+                        DISABLE: {
+                            LABEL: "Disable",
+                        },
+                    },
+                },
+                SYSTEM_NOT_ENABLED: `**${Emojis.MARK} The suggestion system is not enabled**`,
+                MESSAGE_1: [
+                    `**${Emojis.WAVE} Welcome to the suggestion system dashboard**`,
+                    `${Emojis.RIGHT} You can start configuring the suggestion system here`,
+                ].join("\n"),
+            },
             TIMEZONE: {
                 TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
                     `**${Emojis.MARK} The timezone ${inlineCodeBlock(timezone)} has not been found**`,
@@ -55,7 +161,10 @@ export default {
                     FIELD_1: {
                         FIELD: "**General Information**",
                         VALUE: ({ version, memory }: { version: string; memory: string }) =>
-                            [`${Emojis.RIGHT} **Version**: ${version}`, `${Emojis.RIGHT} **RAM Usage**: ${memory}`].join("\n"),
+                            [
+                                `${Emojis.RIGHT} **Version**: ${version}`,
+                                `${Emojis.RIGHT} **RAM Usage**: ${memory}`,
+                            ].join("\n"),
                     },
                     FIELD_2: {
                         FIELD: "**Statistics**",
@@ -235,7 +344,8 @@ export default {
                 },
             },
             UNBAN: {
-                BAN_NOT_FOUND: ({ ban }: { ban: string }) => `**${Emojis.MARK} The ban ${inlineCodeBlock(ban)} has not been found**`,
+                BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
+                    `**${Emojis.MARK} The ban ${inlineCodeBlock(ban)} has not been found**`,
                 MESSAGE_1: ({
                     user,
                     moderator,
@@ -360,5 +470,57 @@ export default {
         },
         ONLY_GUILD_OWNER: `**${Emojis.MARK} This action can only be performed by the owner of the server**`,
         INVALID_USER_COLLECTOR: `**${Emojis.MARK} You cannot run this component**`,
+    },
+    PERMISSIONS: {
+        CREATE_INSTANT_INVITE: "Create Instant Invite",
+        KICK_MEMBERS: "Kick Members",
+        BAN_MEMBERS: "Ban Members",
+        ADMINISTRATOR: "Administrator",
+        MANAGE_CHANNELS: "Manage Channels",
+        MANAGE_GUILD: "Manage Server",
+        ADD_REACTIONS: "Add Reactions",
+        VIEW_AUDIT_LOG: "View Audit Log",
+        PRIORITY_SPEAKER: "Priority Speaker",
+        STREAM: "Share Screen",
+        VIEW_CHANNEL: "View Channel",
+        SEND_MESSAGES: "Send Messages",
+        SEND_TTS_MESSAGES: "Send TTS Messages",
+        MANAGE_MESSAGES: "Manage Messages",
+        EMBED_LINKS: "Embed Links",
+        ATTACH_FILES: "Attach Files",
+        READ_MESSAGE_HISTORY: "Read Message History",
+        MENTION_EVERYONE: "Mention Everyone",
+        USE_EXTERNAL_EMOJIS: "Use External Emojis",
+        VIEW_GUILD_INSIGHTS: "View Server Insights",
+        CONNECT: "Connect",
+        SPEAK: "Speak",
+        MUTE_MEMBERS: "Mute Members",
+        DEAFEN_MEMBERS: "Deafen Members",
+        MOVE_MEMBERS: "Move Members",
+        USE_VAD: "Use VAD",
+        CHANGE_NICKNAME: "Change Nickname",
+        MANAGE_NICKNAMES: "Manage Nicknames",
+        MANAGE_ROLES: "Manage Roles",
+        MANAGE_WEBHOOKS: "Manage Webhooks",
+        MANAGE_GUILD_EXPRESSIONS: "Manage Server Expressions",
+        USE_APPLICATION_COMMANDS: "Use Application Commands",
+        REQUEST_TO_SPEAK: "Request to Speak",
+        MANAGE_EVENTS: "Manage Events",
+        MANAGE_THREADS: "Manage Threads",
+        CREATE_PUBLIC_THREADS: "Create Public Threads",
+        CREATE_PRIVATE_THREADS: "Create Private Threads",
+        USE_EXTERNAL_STICKERS: "Use External Stickers",
+        SEND_MESSAGES_IN_THREADS: "Send Messages in Threads",
+        USE_EMBEDDED_ACTIVITIES: "Use Embedded Activities",
+        MODERATE_MEMBERS: "Moderate Members",
+        VIEW_CREATOR_MONETIZATION_ANALYTICS: "View Creator Monetization Analytics",
+        USE_SOUNDBOARD: "Use Soundboard",
+        CREATE_GUILD_EXPRESSIONS: "Create Server Expressions",
+        CREATE_EVENTS: "Create Events",
+        USE_EXTERNAL_SOUNDS: "Use External Sounds",
+        SEND_VOICE_MESSAGES: "Send Voice Messages",
+        USE_CLYDE_AI: "Use Clyde AI",
+        SET_VOICE_CHANNEL_STATUS: "Set Voice Channel Status",
+        SEND_POLLS: "Send Polls",
     },
 };

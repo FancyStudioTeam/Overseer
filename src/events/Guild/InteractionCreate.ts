@@ -475,7 +475,7 @@ async function _handleSelectMenu({
 }): Promise<void> {
     if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
-    const component = _client.components.select.get(_interaction.data.customID.split("/")[0]);
+    const component = _client.components.selects.get(_interaction.data.customID.split("/")[0]);
 
     if (component?.name) {
         if (

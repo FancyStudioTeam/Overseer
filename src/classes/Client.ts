@@ -22,7 +22,7 @@ export class Discord extends Client {
     };
     components: {
         buttons: Collection<string, ComponentInterface | Nullish>;
-        select: Collection<string, ComponentInterface | Nullish>;
+        selects: Collection<string, ComponentInterface | Nullish>;
         modals: Collection<string, ModalInterface | Nullish>;
     };
     subCommands: Collection<string, ChatInputSubCommandInterface | Nullish>;
@@ -77,7 +77,7 @@ export class Discord extends Client {
         };
         this.components = {
             buttons: new Collection(),
-            select: new Collection(),
+            selects: new Collection(),
             modals: new Collection(),
         };
         this.subCommands = new Collection();
@@ -134,11 +134,12 @@ export class Discord extends Client {
             if (command?.name) {
                 const dividedPath = commandPath.split(sep);
                 const directory = <Commands>dividedPath[dividedPath.length - 3].toUpperCase();
-
-                <Record<Commands, CommandCollections>>(<unknown>{
+                const collections: Record<Commands, CommandCollections> = {
                     CHAT: this.interactions.chatInput,
                     USER: this.interactions.user,
-                }[directory].set(command.name, command));
+                };
+
+                collections[directory].set(command.name, command);
                 arrayCommands.push(command);
             }
         });
@@ -176,7 +177,7 @@ export class Discord extends Client {
     async _registerComponents(): Promise<void> {
         this.components.buttons.clear();
         this.components.modals.clear();
-        this.components.select.clear();
+        this.components.selects.clear();
 
         const files = await this.#loadFiles(`${join(__dirname, "..", "components")}/**/*.{ts,js}`);
 
@@ -192,7 +193,7 @@ export class Discord extends Client {
                 const collections: Record<Components, ComponentCollections> = {
                     BUTTONS: this.components.buttons,
                     MODALS: this.components.modals,
-                    SELECT: this.components.select,
+                    SELECTS: this.components.selects,
                 };
 
                 collections[directory].set(component.name, component);
@@ -234,7 +235,7 @@ export class Discord extends Client {
 
 type Commands = "CHAT" | "USER";
 
-type Components = "BUTTONS" | "MODALS" | "SELECT";
+type Components = "BUTTONS" | "MODALS" | "SELECTS";
 
 type CommandCollections =
     | Collection<string, ChatInputCommandInterface | Nullish>
