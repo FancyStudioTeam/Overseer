@@ -15,4 +15,4 @@ jobs:
         with:
           version: latest
       - name: Run
-        run: pnpm biome:check
+        run: pnpx @biomejs/biome check --write --config-path=\"./biome.json\" .
