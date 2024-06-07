@@ -1,0 +1,9 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["tracing", "prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_DB")
+}

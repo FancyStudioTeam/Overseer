@@ -1,0 +1,15 @@
+model UserWarn {
+    id         String          @id @default(auto()) @map("_id") @db.ObjectId
+    guild_id   String
+    general    UserWarnGeneral
+    created_at DateTime        @default(now())
+
+    @@unique([general.warn_id])
+}
+
+type UserWarnGeneral {
+    user_id      String
+    warn_id      String
+    moderator_id String
+    reason       String @default("No reason")
+}
