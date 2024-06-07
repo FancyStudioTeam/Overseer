@@ -1,5 +1,6 @@
 import colors from "@colors/colors";
 import { type Nullish, codeBlock, inlineCodeBlock, isNullOrUndefined } from "@sapphire/utilities";
+import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 import { padding } from "#util";
 
@@ -42,110 +43,6 @@ export default {
                         `${Emojis.RIGHT} If you do so, you will no longer be able to enjoy the benefits of membership`,
                     ].join("\n"),
                 },
-            },
-            SUGGESTIONS: {
-                COMPONENTS: {
-                    BUTTONS: {
-                        GENERAL: {
-                            COMPONENTS: {
-                                BUTTONS: {
-                                    CHANNEL: {
-                                        LABEL: "Suggestions Channel",
-                                    },
-                                },
-                                SELECT_MENU: {
-                                    PLACEHOLDER: "Enables/Disables an additional option",
-                                    OPTIONS: {
-                                        USE_MESSAGES: {
-                                            LABEL: "Suggestions through messages (Use messages)",
-                                            DESCRIPTION:
-                                                "The users can create suggestions by sending a message in the suggestions channel",
-                                        },
-                                        USE_SELF_VOTE: {
-                                            LABEL: "Allow Self Vote (Use selfvote)",
-                                            DESCRIPTION: "The author of a suggestion can vote on his own suggestion",
-                                        },
-                                        USE_THREADS: {
-                                            LABEL: "Create threads (Use threads)",
-                                            DESCRIPTION: "Threads will be created in new suggestions",
-                                        },
-                                        USE_FORUMS: {
-                                            LABEL: "Suggestions in forums (Use forums)",
-                                            DESCRIPTION: "Suggestions will be created by means of forum postings",
-                                        },
-                                    },
-                                },
-                            },
-                            LABEL: "General",
-                            MESSAGE_1: {
-                                TITLE_1: "**Configuration Panel**",
-                                FIELD_1: {
-                                    FIELD: "**General Configuration**",
-                                    VALUE: ({ channel }: { channel: string }) =>
-                                        codeBlock(
-                                            "ansi",
-                                            padding(
-                                                [
-                                                    `${colors.reset.cyan(
-                                                        "Suggestions Channel",
-                                                    )} - ${colors.bold.magenta(channel)}`,
-                                                ].join("\n"),
-                                                "-",
-                                            ),
-                                        ),
-                                },
-                                FIELD_2: {
-                                    FIELD: "**Additional Options**",
-                                    VALUE: ({
-                                        useMessages,
-                                        useSelfVote,
-                                        useThreads,
-                                        useForums,
-                                    }: {
-                                        useMessages: string;
-                                        useSelfVote: string;
-                                        useThreads: string;
-                                        useForums: string;
-                                    }) =>
-                                        codeBlock(
-                                            "ansi",
-                                            padding(
-                                                [
-                                                    `${colors.reset.cyan("Use messages")} - ${colors.bold.magenta(
-                                                        useMessages,
-                                                    )}`,
-                                                    `${colors.reset.cyan("Use selfvote")} - ${colors.bold.magenta(
-                                                        useSelfVote,
-                                                    )}`,
-                                                    `${colors.reset.cyan("Use threads")} - ${colors.bold.magenta(
-                                                        useThreads,
-                                                    )}`,
-                                                    `${colors.reset.cyan("Use forums")} - ${colors.bold.magenta(
-                                                        useForums,
-                                                    )}`,
-                                                ].join("\n"),
-                                                "-",
-                                            ),
-                                        ),
-                                },
-                            },
-                        },
-                        REVIEW: {
-                            LABEL: "Review",
-                        },
-                        ENABLE: {
-                            LABEL: "Enable",
-                        },
-                        DISABLE: {
-                            LABEL: "Disable",
-                        },
-                    },
-                },
-                SYSTEM_NOT_ENABLED: `**${Emojis.MARK} The suggestion system is not enabled**`,
-                MESSAGE_1: [
-                    `**${Emojis.WAVE} Welcome to the suggestion system dashboard**`,
-                    `${Emojis.RIGHT} You can start configuring the suggestion system here`,
-                ].join("\n"),
             },
             TIMEZONE: {
                 TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
@@ -522,5 +419,5 @@ export default {
         USE_CLYDE_AI: "Use Clyde AI",
         SET_VOICE_CHANNEL_STATUS: "Set Voice Channel Status",
         SEND_POLLS: "Send Polls",
-    },
+    } satisfies Record<PermissionName, string>,
 };

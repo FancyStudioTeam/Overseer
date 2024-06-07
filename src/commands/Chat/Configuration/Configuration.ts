@@ -95,15 +95,6 @@ export default new BaseBuilder<ChatInputCommandInterface>({
             ],
         },
         {
-            name: "suggestions",
-            description: "Configures the suggestion system",
-            descriptionLocalizations: {
-                "es-419": "Configura el sistema de sugerencias",
-                "es-ES": "Configura el sistema de sugerencias",
-            },
-            type: ApplicationCommandOptionTypes.SUB_COMMAND,
-        },
-        {
             name: "timezone",
             description: "Sets the bot's time zone",
             descriptionLocalizations: {
@@ -141,11 +132,25 @@ export default new BaseBuilder<ChatInputCommandInterface>({
     directory: Directory.CONFIGURATION,
     autocomplete: async (_client: Discord, _context: AutocompleteInteraction) => {
         const _subCommandOption = _context.data.options.getSubCommand(true);
+        const _focusedOption = _context.data.options.getFocused<InteractionOptionsString>(true);
+
+        if (!(_context.inCachedGuildChannel() && _context.guild)) {
+            return await _context.result([
+                {
+                    name:
+                        {
+                            "es-419": `❌ La propiedad "guild" no está presente en la estructura ${_context.constructor.name}`,
+                            "es-ES": `❌ La propiedad "guild" no está presente en la estructura ${_context.constructor.name}`,
+                        }[_context.locale] ??
+                        `❌ The "guild" property is not present in the ${_context.constructor.name} structure`,
+                    value: "",
+                },
+            ]);
+        }
 
         match(_subCommandOption.join("_"))
             .returnType<void>()
             .with("timezone", async () => {
-                const _focusedOption = _context.data.options.getFocused<InteractionOptionsString>(true);
                 const choices = search<string>(_focusedOption.value, timezones);
 
                 if (!choices.length) {

@@ -13,8 +13,8 @@ export const Emojis = {
 
 export const Colors = {
     COLOR: 0x2b2d31,
-    ERROR: /*0xf43f5e*/ 0x2b2d31,
-    SUCCESS: /*0x10b981*/ 0x2b2d31,
+    ERROR: 0xf43f5e,
+    SUCCESS: 0x10b981,
     WARNING: 0x2b2d31,
 };
 

@@ -1,5 +1,6 @@
 import colors from "@colors/colors";
 import { type Nullish, codeBlock, inlineCodeBlock, isNullOrUndefined } from "@sapphire/utilities";
+import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 import { padding } from "#util";
 
@@ -42,110 +43,6 @@ export default {
                         `${Emojis.RIGHT} Si lo haces, ya no podrás disfrutar de los beneficios de la membresía`,
                     ].join("\n"),
                 },
-            },
-            SUGGESTIONS: {
-                COMPONENTS: {
-                    BUTTONS: {
-                        GENERAL: {
-                            COMPONENTS: {
-                                BUTTONS: {
-                                    CHANNEL: {
-                                        LABEL: "Canal de Sugerencias",
-                                    },
-                                },
-                                SELECT_MENU: {
-                                    PLACEHOLDER: "Habilita/Deshabilita una opción adicional",
-                                    OPTIONS: {
-                                        USE_MESSAGES: {
-                                            LABEL: "Sugerencias mediante mensajes (Usar mensajes)",
-                                            DESCRIPTION:
-                                                "Los usuarios pueden crear sugerencias envíando un mensaje en el canal de sugerencias",
-                                        },
-                                        USE_SELF_VOTE: {
-                                            LABEL: "Permitir Autovoto (Usar autovoto)",
-                                            DESCRIPTION: "El autor de una sugerencia puede votar su propia sugerencia",
-                                        },
-                                        USE_THREADS: {
-                                            LABEL: "Crear hilos (Usar hilos)",
-                                            DESCRIPTION: "Se crearán hilos en nuevas sugerencias",
-                                        },
-                                        USE_FORUMS: {
-                                            LABEL: "Sugerencias en foros (Usar foros)",
-                                            DESCRIPTION: "Se crearán las sugerencias mediante publicaciones de un foro",
-                                        },
-                                    },
-                                },
-                            },
-                            LABEL: "General",
-                            MESSAGE_1: {
-                                TITLE_1: "**Panel de Configuración**",
-                                FIELD_1: {
-                                    FIELD: "**Configuración General**",
-                                    VALUE: ({ channel }: { channel: string }) =>
-                                        codeBlock(
-                                            "ansi",
-                                            padding(
-                                                [
-                                                    `${colors.reset.cyan(
-                                                        "Canal de Sugerencias",
-                                                    )} - ${colors.bold.magenta(channel)}`,
-                                                ].join("\n"),
-                                                "-",
-                                            ),
-                                        ),
-                                },
-                                FIELD_2: {
-                                    FIELD: "**Opciones Adicionales**",
-                                    VALUE: ({
-                                        useMessages,
-                                        useSelfVote,
-                                        useThreads,
-                                        useForums,
-                                    }: {
-                                        useMessages: string;
-                                        useSelfVote: string;
-                                        useThreads: string;
-                                        useForums: string;
-                                    }) =>
-                                        codeBlock(
-                                            "ansi",
-                                            padding(
-                                                [
-                                                    `${colors.reset.cyan("Usar mensajes")} - ${colors.bold.magenta(
-                                                        useMessages,
-                                                    )}`,
-                                                    `${colors.reset.cyan("Usar autovoto")} - ${colors.bold.magenta(
-                                                        useSelfVote,
-                                                    )}`,
-                                                    `${colors.reset.cyan("Usar hilos")} - ${colors.bold.magenta(
-                                                        useThreads,
-                                                    )}`,
-                                                    `${colors.reset.cyan("Usar foros")} - ${colors.bold.magenta(
-                                                        useForums,
-                                                    )}`,
-                                                ].join("\n"),
-                                                "-",
-                                            ),
-                                        ),
-                                },
-                            },
-                        },
-                        REVIEW: {
-                            LABEL: "Revisión",
-                        },
-                        ENABLE: {
-                            LABEL: "Habilitar",
-                        },
-                        DISABLE: {
-                            LABEL: "Deshabilitar",
-                        },
-                    },
-                },
-                SYSTEM_NOT_ENABLED: `**${Emojis.MARK} El sistema de sugerencias no está habilitado**`,
-                MESSAGE_1: [
-                    `**${Emojis.WAVE} Bienvenido al panel del sistema de sugerencias**`,
-                    `${Emojis.RIGHT} Puedes empezar a configurar el sistema de sugerencias aquí`,
-                ].join("\n"),
             },
             TIMEZONE: {
                 TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
@@ -522,5 +419,5 @@ export default {
         USE_CLYDE_AI: "Usar IA de Clyde",
         SET_VOICE_CHANNEL_STATUS: "Establecer Estado del Canal de Voz",
         SEND_POLLS: "Enviar Encuestas",
-    },
+    } satisfies Record<PermissionName, string>,
 };
