@@ -15,4 +15,4 @@ jobs:
         with:
           version: latest
       - name: Run
-        run: biome check --apply --config-path="./biome.json" .
+        run: pnpm biome:check
