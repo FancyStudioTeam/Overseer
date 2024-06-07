@@ -14,15 +14,15 @@
         "@colors/colors": "1.6.0",
         "@discordjs/formatters": "0.4.0",
         "@napi-rs/canvas": "0.1.52",
-        "@prisma/client": "5.14.0",
-        "@prisma/extension-optimize": "0.7.1",
+        "@prisma/client": "5.15.0",
+        "@prisma/extension-optimize": "0.8.0",
         "@sapphire/discord-utilities": "3.3.0",
         "@sapphire/ratelimits": "2.4.9",
         "@sapphire/result": "2.6.6",
         "@sapphire/snowflake": "3.5.3",
         "@sapphire/time-utilities": "1.7.12",
         "@sapphire/utilities": "3.16.2",
-        "@sentry/node": "8.7.0",
+        "@sentry/node": "8.8.0",
         "dotenv": "16.4.5",
         "glob": "10.4.1",
         "oceanic-collectors": "1.0.7",
@@ -32,13 +32,13 @@
         "url-regex-safe": "4.0.0"
     },
     "devDependencies": {
-        "@biomejs/biome": "1.7.3",
+        "@biomejs/biome": "1.8.0",
         "@types/figlet": "1.5.8",
-        "@types/node": "20.13.0",
+        "@types/node": "20.14.2",
         "@types/url-regex-safe": "1.0.2",
         "figlet": "1.7.0",
-        "prisma": "5.14.0",
-        "tsx": "4.11.0",
+        "prisma": "5.15.0",
+        "tsx": "4.13.2",
         "typescript": "5.4.5"
     },
     "prisma": {
@@ -57,5 +57,5 @@
         "#types": ["./src/Types.js"],
         "#util": ["./src/util/Util.js"]
     },
-    "packageManager": "pnpm@9.1.4+sha256.30a1801ac4e723779efed13a21f4c39f9eb6c9fbb4ced101bce06b422593d7c9"
+    "packageManager": "pnpm@9.2.0+sha256.94fab213df221c55b6956b14a2264c21c6203cca9f0b3b95ff2fe9b84b120390"
 }
