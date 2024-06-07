@@ -7,85 +7,85 @@ import { type ChatInputSubCommandInterface, Directory } from "#types";
 import { ComparationLevel, compareMemberToMember, errorMessage, sanitizeString } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
-    name: "ban",
-    permissions: {
-        user: ["BAN_MEMBERS"],
-        bot: ["BAN_MEMBERS"],
-    },
-    directory: Directory.MODERATION,
-    run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
-        if (!(_context.inCachedGuildChannel() && _context.guild)) {
-            return await errorMessage({
-                _context,
-                ephemeral: true,
-                message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-                    structure: _context,
-                }),
-            });
-        }
+  name: "ban",
+  permissions: {
+    user: ["BAN_MEMBERS"],
+    bot: ["BAN_MEMBERS"],
+  },
+  directory: Directory.MODERATION,
+  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+    if (!(_context.inCachedGuildChannel() && _context.guild)) {
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+          structure: _context,
+        }),
+      });
+    }
 
-        const _memberOption = _context.data.options.getMember("user");
-        const _reasonOption = sanitizeString(_context.data.options.getString("reason") ?? "No reason", {
-            maxLength: 50,
-            espaceMarkdown: true,
-        });
-        const _deleteMessagesOption = _context.data.options.getInteger("delete_messages") ?? 0;
+    const _memberOption = _context.data.options.getMember("user");
+    const _reasonOption = sanitizeString(_context.data.options.getString("reason") ?? "No reason", {
+      maxLength: 50,
+      espaceMarkdown: true,
+    });
+    const _deleteMessagesOption = _context.data.options.getInteger("delete_messages") ?? 0;
 
-        if (!_memberOption) {
-            return await errorMessage({
-                _context,
-                ephemeral: true,
-                message: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
-            });
-        }
+    if (!_memberOption) {
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        message: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
+      });
+    }
 
-        if (
-            _memberOption.id === _client.user.id ||
-            _memberOption.id === _context.guild.ownerID ||
-            _memberOption.id === _context.user.id
-        ) {
-            return await errorMessage({
-                _context,
-                ephemeral: true,
-                message: Translations[locale].GLOBAL.CANNOT_MODERATE_MEMBER,
-            });
-        }
+    if (
+      _memberOption.id === _client.user.id ||
+      _memberOption.id === _context.guild.ownerID ||
+      _memberOption.id === _context.user.id
+    ) {
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        message: Translations[locale].GLOBAL.CANNOT_MODERATE_MEMBER,
+      });
+    }
 
-        if (compareMemberToMember(_context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
-            return await errorMessage({
-                _context,
-                ephemeral: true,
-                message: Translations[locale].GLOBAL.HIERARCHY.CLIENT,
-            });
-        }
+    if (compareMemberToMember(_context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        message: Translations[locale].GLOBAL.HIERARCHY.CLIENT,
+      });
+    }
 
-        if (
-            _context.user.id !== _context.guild.ownerID &&
-            compareMemberToMember(_context.member, _memberOption) !== ComparationLevel.HIGHER
-        ) {
-            return await errorMessage({
-                _context,
-                ephemeral: true,
-                message: Translations[locale].GLOBAL.HIERARCHY.USER,
-            });
-        }
+    if (
+      _context.user.id !== _context.guild.ownerID &&
+      compareMemberToMember(_context.member, _memberOption) !== ComparationLevel.HIGHER
+    ) {
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        message: Translations[locale].GLOBAL.HIERARCHY.USER,
+      });
+    }
 
-        await _client.rest.guilds.createBan(_context.guildID, _memberOption.id, {
-            deleteMessageSeconds: _deleteMessagesOption / 1_000,
+    await _client.rest.guilds.createBan(_context.guildID, _memberOption.id, {
+      deleteMessageSeconds: _deleteMessagesOption / 1_000,
+      reason: _reasonOption,
+    });
+
+    await _context.reply({
+      embeds: new EmbedBuilder()
+        .setDescription(
+          Translations[locale].COMMANDS.MODERATION.BAN.MESSAGE_1({
+            user: _memberOption.mention,
+            moderator: _context.user.mention,
             reason: _reasonOption,
-        });
-
-        await _context.reply({
-            embeds: new EmbedBuilder()
-                .setDescription(
-                    Translations[locale].COMMANDS.MODERATION.BAN.MESSAGE_1({
-                        user: _memberOption.mention,
-                        moderator: _context.user.mention,
-                        reason: _reasonOption,
-                    }),
-                )
-                .setColor(Colors.SUCCESS)
-                .toJSONArray(),
-        });
-    },
+          }),
+        )
+        .setColor(Colors.SUCCESS)
+        .toJSONArray(),
+    });
+  },
 });

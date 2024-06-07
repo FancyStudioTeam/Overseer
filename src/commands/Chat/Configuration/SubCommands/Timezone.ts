@@ -9,66 +9,66 @@ import { type ChatInputSubCommandInterface, Directory } from "#types";
 import { errorMessage } from "#util";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
-    name: "timezone",
-    permissions: {
-        user: ["MANAGE_GUILD"],
-    },
-    directory: Directory.CONFIGURATION,
-    run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
-        if (!(_context.inCachedGuildChannel() && _context.guild)) {
-            return await errorMessage({
-                _context,
-                ephemeral: true,
-                message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-                    structure: _context,
-                }),
-            });
-        }
+  name: "timezone",
+  permissions: {
+    user: ["MANAGE_GUILD"],
+  },
+  directory: Directory.CONFIGURATION,
+  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+    if (!(_context.inCachedGuildChannel() && _context.guild)) {
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
+          structure: _context,
+        }),
+      });
+    }
 
-        const _timezoneOption = _context.data.options.getString("timezone", true);
-        const _12HoursOption = _context.data.options.getBoolean("12-hours", true);
+    const _timezoneOption = _context.data.options.getString("timezone", true);
+    const _12HoursOption = _context.data.options.getBoolean("12-hours", true);
 
-        if (!timezones.includes(_timezoneOption)) {
-            return await errorMessage({
-                _context,
-                ephemeral: true,
-                message: Translations[locale].COMMANDS.CONFIGURATION.TIMEZONE.TIMEZONE_NOT_FOUND({
-                    timezone: _timezoneOption,
-                }),
-            });
-        }
+    if (!timezones.includes(_timezoneOption)) {
+      return await errorMessage({
+        _context,
+        ephemeral: true,
+        message: Translations[locale].COMMANDS.CONFIGURATION.TIMEZONE.TIMEZONE_NOT_FOUND({
+          timezone: _timezoneOption,
+        }),
+      });
+    }
 
-        const upsertedGuildConfiguration = await prisma.guildConfiguration.upsert({
-            where: {
-                guild_id: _context.guildID,
-            },
-            update: {
-                general: {
-                    update: {
-                        timezone: _timezoneOption,
-                        use_12_hours: _12HoursOption,
-                    },
-                },
-            },
-            create: {
-                guild_id: _context.guildID,
-                general: {
-                    timezone: _timezoneOption,
-                    use_12_hours: _12HoursOption,
-                },
-                premium: {},
-            },
-        });
+    const upsertedGuildConfiguration = await prisma.guildConfiguration.upsert({
+      where: {
+        guild_id: _context.guildID,
+      },
+      update: {
+        general: {
+          update: {
+            timezone: _timezoneOption,
+            use_12_hours: _12HoursOption,
+          },
+        },
+      },
+      create: {
+        guild_id: _context.guildID,
+        general: {
+          timezone: _timezoneOption,
+          use_12_hours: _12HoursOption,
+        },
+        premium: {},
+      },
+    });
 
-        await _context.reply({
-            embeds: new EmbedBuilder()
-                .setDescription(
-                    Translations[locale].COMMANDS.CONFIGURATION.TIMEZONE.MESSAGE_1({
-                        timezone: upsertedGuildConfiguration.general.timezone,
-                    }),
-                )
-                .setColor(Colors.SUCCESS)
-                .toJSONArray(),
-        });
-    },
+    await _context.reply({
+      embeds: new EmbedBuilder()
+        .setDescription(
+          Translations[locale].COMMANDS.CONFIGURATION.TIMEZONE.MESSAGE_1({
+            timezone: upsertedGuildConfiguration.general.timezone,
+          }),
+        )
+        .setColor(Colors.SUCCESS)
+        .toJSONArray(),
+    });
+  },
 });

@@ -1,66 +1,66 @@
 import { ComponentTypes, type TextInput, TextInputStyles } from "oceanic.js";
 
 export class TextInputBuilder {
-    #json: TextInput;
+  #json: TextInput;
 
-    constructor() {
-        this.#json = {
-            customID: "",
-            label: "",
-            style: TextInputStyles.SHORT,
-            type: ComponentTypes.TEXT_INPUT,
-        };
-    }
+  constructor() {
+    this.#json = {
+      customID: "",
+      label: "",
+      style: TextInputStyles.SHORT,
+      type: ComponentTypes.TEXT_INPUT,
+    };
+  }
 
-    setCustomID(id: string): this {
-        this.#json.customID = id;
+  setCustomID(id: string): this {
+    this.#json.customID = id;
 
-        return this;
-    }
+    return this;
+  }
 
-    setLabel(label: string): this {
-        this.#json.label = label;
+  setLabel(label: string): this {
+    this.#json.label = label;
 
-        return this;
-    }
+    return this;
+  }
 
-    setMaxLength(length: number): this {
-        this.#json.maxLength = length;
+  setMaxLength(length: number): this {
+    this.#json.maxLength = length;
 
-        return this;
-    }
+    return this;
+  }
 
-    setMinLength(length: number): this {
-        this.#json.minLength = length;
+  setMinLength(length: number): this {
+    this.#json.minLength = length;
 
-        return this;
-    }
+    return this;
+  }
 
-    setPlaceholder(placeholder: string): this {
-        this.#json.placeholder = placeholder;
+  setPlaceholder(placeholder: string): this {
+    this.#json.placeholder = placeholder;
 
-        return this;
-    }
+    return this;
+  }
 
-    setRequired(required: boolean): this {
-        this.#json.required = required;
+  setRequired(required: boolean): this {
+    this.#json.required = required;
 
-        return this;
-    }
+    return this;
+  }
 
-    setStyle(style: TextInputStyles): this {
-        this.#json.style = style;
+  setStyle(style: TextInputStyles): this {
+    this.#json.style = style;
 
-        return this;
-    }
+    return this;
+  }
 
-    setValue(value: string): this {
-        this.#json.value = value;
+  setValue(value: string): this {
+    this.#json.value = value;
 
-        return this;
-    }
+    return this;
+  }
 
-    toJSON(): TextInput {
-        return this.#json;
-    }
+  toJSON(): TextInput {
+    return this.#json;
+  }
 }

@@ -8,12 +8,12 @@ import { SelectMenuBuilder } from "./Components/SelectMenu";
 import { TextInputBuilder } from "./Components/TextInput";
 
 export {
-    ActionRowBuilder,
-    AttachmentBuilder,
-    ButtonBuilder,
-    EmbedBuilder,
-    ModalBuilder,
-    SelectMenuBuilder,
-    TextInputBuilder,
-    BaseBuilder,
+  ActionRowBuilder,
+  AttachmentBuilder,
+  ButtonBuilder,
+  EmbedBuilder,
+  ModalBuilder,
+  SelectMenuBuilder,
+  TextInputBuilder,
+  BaseBuilder,
 };
