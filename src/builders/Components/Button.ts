@@ -7,11 +7,11 @@ import {
   type URLButton,
 } from "oceanic.js";
 
-export class ButtonBuilder {
+export default class ButtonBuilder {
   #json: ButtonComponent;
 
-  constructor() {
-    this.#json = {
+  constructor(button?: ButtonComponent) {
+    this.#json = button ?? {
       customID: "",
       style: ButtonStyles.SECONDARY,
       type: ComponentTypes.BUTTON,
@@ -63,11 +63,5 @@ export class ButtonBuilder {
 
   toJSON(): ButtonComponent {
     return this.#json;
-  }
-
-  load(button: ButtonComponent): this {
-    this.#json = button;
-
-    return this;
   }
 }

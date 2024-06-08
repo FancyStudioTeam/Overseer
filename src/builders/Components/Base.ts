@@ -6,7 +6,7 @@ import type {
   UserCommandInterface,
 } from "#types";
 
-export class BaseBuilder<T extends BuilderTypes> {
+export default class BaseBuilder<T extends BuilderTypes> {
   constructor(options: T) {
     Object.assign(this, options);
   }

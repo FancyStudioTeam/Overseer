@@ -8,7 +8,7 @@ import {
   type StringSelectMenu,
 } from "oceanic.js";
 
-export class SelectMenuBuilder {
+export default class SelectMenuBuilder {
   #json: SelectMenuComponent;
 
   constructor() {

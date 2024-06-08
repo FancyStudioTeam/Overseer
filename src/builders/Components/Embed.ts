@@ -1,10 +1,10 @@
 import type { Embed, EmbedAuthorOptions, EmbedField, EmbedFooterOptions, EmbedOptions } from "oceanic.js";
 
-export class EmbedBuilder {
+export default class EmbedBuilder {
   #json: Embed;
 
-  constructor() {
-    this.#json = {};
+  constructor(embed?: EmbedOptions) {
+    this.#json = embed ?? {};
   }
 
   setAuthor(author: EmbedAuthorOptions): this {
@@ -92,11 +92,5 @@ export class EmbedBuilder {
 
   toJSONArray(): EmbedOptions[] {
     return [this.#json];
-  }
-
-  load(embed: EmbedOptions): this {
-    this.#json = embed;
-
-    return this;
   }
 }

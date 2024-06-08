@@ -1,6 +1,6 @@
 import { ComponentTypes, type TextInput, TextInputStyles } from "oceanic.js";
 
-export class TextInputBuilder {
+export default class TextInputBuilder {
   #json: TextInput;
 
   constructor() {

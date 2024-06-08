@@ -1,6 +1,6 @@
 import type { File } from "oceanic.js";
 
-export class AttachmentBuilder {
+export default class AttachmentBuilder {
   #json: File;
 
   constructor() {
