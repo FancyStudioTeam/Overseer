@@ -15,4 +15,4 @@ jobs:
         with:
           version: latest
       - name: Run
-        run: biome ci --write --config-path="./biome.json" .
+        run: biome ci --config-path="./biome.json" .
