@@ -117,9 +117,9 @@ export async function pagination(
           })
           .otherwise(() => null);
 
-        new ButtonBuilder()
-          .load(<ButtonComponent>message.components[0].components[1])
-          .setLabel(`${index + 1}/${pages.length}`);
+        new ButtonBuilder(<ButtonComponent>message.components[0].components[1]).setLabel(
+          `${index + 1}/${pages.length}`,
+        );
 
         await _client.rest.channels.editMessage(message.channelID, message.id, {
           embeds: [pages[index]],
