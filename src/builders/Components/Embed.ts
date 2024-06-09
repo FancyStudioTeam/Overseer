@@ -1,14 +1,14 @@
 import type { Embed, EmbedAuthorOptions, EmbedField, EmbedFooterOptions, EmbedOptions } from "oceanic.js";
 
 export default class EmbedBuilder {
-  #json: Embed;
+  private readonly json: Embed;
 
   constructor(embed?: EmbedOptions) {
-    this.#json = embed ?? {};
+    this.json = embed ?? {};
   }
 
   setAuthor(author: EmbedAuthorOptions): this {
-    this.#json.author = {
+    this.json.author = {
       iconURL: author.iconURL ?? "",
       name: author.name ?? "",
       url: author.url,
@@ -18,19 +18,19 @@ export default class EmbedBuilder {
   }
 
   setColor(color: number): this {
-    this.#json.color = color;
+    this.json.color = color;
 
     return this;
   }
 
   setDescription(description: string): this {
-    this.#json.description = description;
+    this.json.description = description;
 
     return this;
   }
 
   addField(field: EmbedField): this {
-    this.#json.fields = this.#json.fields?.length ? [...this.#json.fields, field] : [field];
+    this.json.fields = this.json.fields?.length ? [...this.json.fields, field] : [field];
 
     return this;
   }
@@ -44,7 +44,7 @@ export default class EmbedBuilder {
   }
 
   setFooter(footer: EmbedFooterOptions): this {
-    this.#json.footer = {
+    this.json.footer = {
       iconURL: footer.iconURL ?? "",
       text: footer.text ?? "",
     };
@@ -53,7 +53,7 @@ export default class EmbedBuilder {
   }
 
   setImage(image: string): this {
-    this.#json.image = {
+    this.json.image = {
       url: image,
     };
 
@@ -61,7 +61,7 @@ export default class EmbedBuilder {
   }
 
   setThumbnail(thumbnail: string): this {
-    this.#json.thumbnail = {
+    this.json.thumbnail = {
       url: thumbnail,
     };
 
@@ -69,28 +69,28 @@ export default class EmbedBuilder {
   }
 
   setTimestamp(timestamp?: string): this {
-    this.#json.timestamp = timestamp ? timestamp : new Date().toISOString();
+    this.json.timestamp = timestamp ?? new Date().toISOString();
 
     return this;
   }
 
   setTitle(title: string): this {
-    this.#json.title = title;
+    this.json.title = title;
 
     return this;
   }
 
   setURL(url: string): this {
-    this.#json.url = url;
+    this.json.url = url;
 
     return this;
   }
 
   toJSON(): EmbedOptions {
-    return this.#json;
+    return this.json;
   }
 
   toJSONArray(): EmbedOptions[] {
-    return [this.#json];
+    return [this.json];
   }
 }

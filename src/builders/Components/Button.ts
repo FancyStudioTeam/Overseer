@@ -8,10 +8,10 @@ import {
 } from "oceanic.js";
 
 export default class ButtonBuilder {
-  #json: ButtonComponent;
+  private readonly json: ButtonComponent;
 
   constructor(button?: ButtonComponent) {
-    this.#json = button ?? {
+    this.json = button ?? {
       customID: "",
       style: ButtonStyles.SECONDARY,
       type: ComponentTypes.BUTTON,
@@ -19,19 +19,19 @@ export default class ButtonBuilder {
   }
 
   setCustomID(id: string): this {
-    (<TextButton>this.#json).customID = id;
+    (<TextButton>this.json).customID = id;
 
     return this;
   }
 
   setDisabled(disabled: boolean): this {
-    this.#json.disabled = disabled;
+    this.json.disabled = disabled;
 
     return this;
   }
 
   setEmoji(emoji: NullablePartialEmoji): this {
-    this.#json.emoji = {
+    this.json.emoji = {
       id: emoji.id ?? "",
       name: emoji.name ?? "",
     };
@@ -40,28 +40,24 @@ export default class ButtonBuilder {
   }
 
   setLabel(label: string): this {
-    this.#json.label = label;
+    this.json.label = label;
 
     return this;
   }
 
   setStyle(style: ButtonStyles): this {
-    this.#json.style = style;
+    this.json.style = style;
 
     return this;
   }
 
   setURL(url: string): this {
-    if (this.#json.style !== ButtonStyles.LINK) {
-      throw new Error(`Cannot establish a link on a button of type "${this.#json.style}"`);
-    }
-
-    (<URLButton>this.#json).url = url;
+    (<URLButton>this.json).url = url;
 
     return this;
   }
 
   toJSON(): ButtonComponent {
-    return this.#json;
+    return this.json;
   }
 }

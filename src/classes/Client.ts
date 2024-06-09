@@ -16,17 +16,17 @@ import { LoggerType, logger } from "#util";
 const arrayCommands: CreateApplicationCommandOptions[] = [];
 
 export class Discord extends Client {
-  interactions: {
+  readonly interactions: {
     chatInput: Collection<string, ChatInputCommandInterface | Nullish>;
     user: Collection<string, UserCommandInterface | Nullish>;
   };
-  components: {
+  readonly components: {
     buttons: Collection<string, ComponentInterface | Nullish>;
     selects: Collection<string, ComponentInterface | Nullish>;
     modals: Collection<string, ModalInterface | Nullish>;
   };
-  subCommands: Collection<string, ChatInputSubCommandInterface | Nullish>;
-  #dbReady: boolean;
+  readonly subCommands: Collection<string, ChatInputSubCommandInterface | Nullish>;
+  private dbReady: boolean;
   readonly readyAt: Date;
 
   constructor() {
@@ -81,19 +81,24 @@ export class Discord extends Client {
       modals: new Collection(),
     };
     this.subCommands = new Collection();
-    this.#dbReady = false;
+    this.dbReady = false;
     this.readyAt = new Date();
+
+    (async () => {
+      await this._init();
+      this.setMaxListeners(10);
+    })();
   }
 
   async _init(): Promise<void> {
     console.log(textSync("Initializing ..."), "\n");
 
-    if (!this.#dbReady) {
+    if (!this.dbReady) {
       await prisma
         .$connect()
         .then(() => {
           logger(LoggerType.INFO, "Prisma Client has been connected");
-          this.#dbReady = true;
+          this.dbReady = true;
         })
         .catch((error) => {
           logger(LoggerType.ERROR, `Prisma Client had an error while connecting: ${error.stack ?? error.message}`);
@@ -120,7 +125,7 @@ export class Discord extends Client {
 
     await this._registerSubCommands();
 
-    const files = await this.#loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`);
+    const files = await this.loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const commandPath = join(process.cwd(), path);
@@ -145,7 +150,7 @@ export class Discord extends Client {
   async _registerSubCommands(): Promise<void> {
     this.subCommands.clear();
 
-    const files = await this.#loadFiles(`${join(__dirname, "..", "commands/Chat")}/*/*/*.{ts,js}`);
+    const files = await this.loadFiles(`${join(__dirname, "..", "commands/Chat")}/*/*/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const subCommandPath = join(process.cwd(), path);
@@ -173,7 +178,7 @@ export class Discord extends Client {
     this.components.modals.clear();
     this.components.selects.clear();
 
-    const files = await this.#loadFiles(`${join(__dirname, "..", "components")}/**/*.{ts,js}`);
+    const files = await this.loadFiles(`${join(__dirname, "..", "components")}/**/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const componentPath = join(process.cwd(), path);
@@ -198,7 +203,7 @@ export class Discord extends Client {
   async _registerEvents(): Promise<void> {
     this.removeAllListeners();
 
-    const files = await this.#loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`);
+    const files = await this.loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const eventPath = join(process.cwd(), path);
@@ -209,7 +214,7 @@ export class Discord extends Client {
   }
 
   async _registerModules(): Promise<void> {
-    const files = await this.#loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`);
+    const files = await this.loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`);
 
     files.forEach((path, _) => {
       const modulePath = join(process.cwd(), path);
@@ -220,7 +225,7 @@ export class Discord extends Client {
     });
   }
 
-  async #loadFiles(path: string | string[]): Promise<string[]> {
+  private async loadFiles(path: string | string[]): Promise<string[]> {
     return await glob(path, {
       ignore: ["node_modules/**"],
     });

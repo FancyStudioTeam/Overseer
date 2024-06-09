@@ -13,8 +13,3 @@ init({
   release: version,
   tracesSampleRate: 0.5,
 });
-
-(async () => {
-  await _client._init();
-  _client.setMaxListeners(10);
-})();

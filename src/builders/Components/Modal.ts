@@ -2,10 +2,10 @@ import { ComponentTypes, type ModalData } from "oceanic.js";
 import type { TextInputBuilder } from "#builders";
 
 export default class ModalBuilder {
-  #json: ModalData;
+  private readonly json: ModalData;
 
   constructor() {
-    this.#json = {
+    this.json = {
       components: [],
       customID: "",
       title: "",
@@ -13,20 +13,20 @@ export default class ModalBuilder {
   }
 
   setCustomID(id: string): this {
-    this.#json.customID = id;
+    this.json.customID = id;
 
     return this;
   }
 
   setTitle(title: string): this {
-    this.#json.title = title;
+    this.json.title = title;
 
     return this;
   }
 
   addComponents(components: TextInputBuilder[]): this {
     components.forEach((component, _) => {
-      this.#json.components.push({
+      this.json.components.push({
         type: ComponentTypes.ACTION_ROW,
         components: [component.toJSON()],
       });
@@ -36,6 +36,6 @@ export default class ModalBuilder {
   }
 
   toJSON(): ModalData {
-    return this.#json;
+    return this.json;
   }
 }

@@ -9,10 +9,10 @@ import {
 } from "oceanic.js";
 
 export default class SelectMenuBuilder {
-  #json: SelectMenuComponent;
+  private readonly json: SelectMenuComponent;
 
   constructor() {
-    this.#json = {
+    this.json = {
       customID: "",
       options: [],
       type: ComponentTypes.STRING_SELECT,
@@ -20,63 +20,63 @@ export default class SelectMenuBuilder {
   }
 
   setChannelTypes(types: ChannelTypes[]): this {
-    (<ChannelSelectMenu>this.#json).channelTypes = types;
+    (<ChannelSelectMenu>this.json).channelTypes = types;
 
     return this;
   }
 
   setCustomID(id: string): this {
-    this.#json.customID = id;
+    this.json.customID = id;
 
     return this;
   }
 
   setDefaultValues(values: SelectMenuDefaultValue[]): this {
-    (<ChannelSelectMenu>this.#json).defaultValues = values;
+    (<ChannelSelectMenu>this.json).defaultValues = values;
 
     return this;
   }
 
   setDisabled(disabled: boolean): this {
-    this.#json.disabled = disabled;
+    this.json.disabled = disabled;
 
     return this;
   }
 
   setMaxValues(value: number): this {
-    this.#json.maxValues = value;
+    this.json.maxValues = value;
 
     return this;
   }
 
   setMinValues(value: number): this {
-    this.#json.minValues = value;
+    this.json.minValues = value;
 
     return this;
   }
 
   addOptions(components: SelectOption[]): this {
     components.forEach((component, _) => {
-      (<StringSelectMenu>this.#json).options.push(component);
+      (<StringSelectMenu>this.json).options.push(component);
     });
 
     return this;
   }
 
   setPlaceholder(placeholder: string): this {
-    this.#json.placeholder = placeholder;
+    this.json.placeholder = placeholder;
 
     return this;
   }
 
   setType(type: ValidType): this {
-    this.#json.type = type;
+    this.json.type = type;
 
     return this;
   }
 
   toJSON(): SelectMenuComponent {
-    return this.#json;
+    return this.json;
   }
 }
 
