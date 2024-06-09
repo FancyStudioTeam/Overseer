@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "oceanic-builders";
 import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
-import { BaseBuilder } from "#builders";
+import { BaseBuilder } from "#base";
 import type { Discord } from "#client";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#locales";

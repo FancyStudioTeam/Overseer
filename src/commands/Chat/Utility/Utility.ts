@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
-import { BaseBuilder } from "#builders";
+import { BaseBuilder } from "#base";
 import type { Discord } from "#client";
 import { type ChatInputCommandInterface, Directory } from "#types";
 

@@ -39,7 +39,8 @@
       "#locales": ["./src/locales/Index.ts"],
       "#package": ["./package.json"],
       "#types": ["./src/Types.ts"],
-      "#util/*": ["./src/util/*"]
+      "#util/*": ["./src/util/*"],
+      "#base": ["./src/classes/Base.ts"]
     }
   }
 }

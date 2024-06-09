@@ -1,5 +1,5 @@
+import type { TextInputBuilder } from "oceanic-builders";
 import { ComponentTypes, type ModalData } from "oceanic.js";
-import type { TextInputBuilder } from "#builders";
 
 export default class ModalBuilder {
   private readonly json: ModalData;

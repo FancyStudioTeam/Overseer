@@ -1,7 +1,7 @@
 import { Duration } from "@sapphire/time-utilities";
 import { EmbedBuilder } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
-import { BaseBuilder } from "#builders";
+import { BaseBuilder } from "#base";
 import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
