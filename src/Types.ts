@@ -58,7 +58,6 @@ export type ModalInterface = BaseInterface<ModalSubmitInteraction>;
 type BaseTypes = CommandInteraction | ComponentInteraction | ModalSubmitInteraction;
 
 export enum Directory {
-  CONFIGURATION,
   INFORMATION,
   MISCELLANEOUS,
   MODERATION,
