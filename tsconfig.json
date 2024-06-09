@@ -38,10 +38,8 @@
       "#index": ["./src/Index.ts"],
       "#locales": ["./src/locales/Index.ts"],
       "#package": ["./package.json"],
-      "#prisma": ["./src/util/Prisma.ts"],
-      "#timezones": ["./src/util/Timezones.ts"],
       "#types": ["./src/Types.ts"],
-      "#util": ["./src/util/Util.ts"]
+      "#util/*": ["./src/util/*"]
     }
   }
 }

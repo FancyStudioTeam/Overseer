@@ -23,7 +23,8 @@
     "rules": {
       "all": true,
       "suspicious": {
-        "noConsoleLog": "off"
+        "noConsoleLog": "off",
+        "noAssignInExpressions": "off"
       },
       "style": {
         "useNamingConvention": "off",
