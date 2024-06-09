@@ -125,9 +125,9 @@ export class Discord extends Client {
 
     await this._registerSubCommands();
 
-    const files = await this.loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`);
+    const paths = await this.loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`);
 
-    files.forEach((path, _) => {
+    for (const path of paths) {
       const commandPath = join(process.cwd(), path);
       const command = require(commandPath).default;
 
@@ -144,15 +144,15 @@ export class Discord extends Client {
         collections[directory].set(command.name, command);
         arrayCommands.push(command);
       }
-    });
+    }
   }
 
   async _registerSubCommands(): Promise<void> {
     this.subCommands.clear();
 
-    const files = await this.loadFiles(`${join(__dirname, "..", "commands/Chat")}/*/*/*.{ts,js}`);
+    const paths = await this.loadFiles(`${join(__dirname, "..", "commands/Chat")}/*/*/*.{ts,js}`);
 
-    files.forEach((path, _) => {
+    for (const path of paths) {
       const subCommandPath = join(process.cwd(), path);
       const subCommand = require(subCommandPath).default;
 
@@ -170,7 +170,7 @@ export class Discord extends Client {
 
         this.subCommands.set(`${directories[directory].toLowerCase()}_${subCommand.name}`.toLowerCase(), subCommand);
       }
-    });
+    }
   }
 
   async _registerComponents(): Promise<void> {
@@ -178,9 +178,9 @@ export class Discord extends Client {
     this.components.modals.clear();
     this.components.selects.clear();
 
-    const files = await this.loadFiles(`${join(__dirname, "..", "components")}/**/*.{ts,js}`);
+    const paths = await this.loadFiles(`${join(__dirname, "..", "components")}/**/*.{ts,js}`);
 
-    files.forEach((path, _) => {
+    for (const path of paths) {
       const componentPath = join(process.cwd(), path);
       const component = require(componentPath).default;
 
@@ -197,32 +197,32 @@ export class Discord extends Client {
 
         collections[directory].set(component.name, component);
       }
-    });
+    }
   }
 
   async _registerEvents(): Promise<void> {
     this.removeAllListeners();
 
-    const files = await this.loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`);
+    const paths = await this.loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`);
 
-    files.forEach((path, _) => {
+    for (const path of paths) {
       const eventPath = join(process.cwd(), path);
 
       delete require.cache[require.resolve(eventPath)];
       require(eventPath).default;
-    });
+    }
   }
 
   async _registerModules(): Promise<void> {
-    const files = await this.loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`);
+    const paths = await this.loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`);
 
-    files.forEach((path, _) => {
+    for (const path of paths) {
       const modulePath = join(process.cwd(), path);
       const module = require(modulePath).default;
 
       delete require.cache[require.resolve(modulePath)];
       module(this);
-    });
+    }
   }
 
   private async loadFiles(path: string | string[]): Promise<string[]> {

@@ -12,9 +12,9 @@ export default class ActionRowBuilder {
   }
 
   addComponents(components: ValidComponent[]): this {
-    components.forEach((component, _) => {
+    for (const component of components) {
       this.json.components.push(component.toJSON());
-    });
+    }
 
     return this;
   }

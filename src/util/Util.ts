@@ -80,9 +80,9 @@ export function sanitizeString(content: string, options: SanitizeStringOptions):
       );
 
       if (elements) {
-        elements.forEach((element, _) => {
+        for (const element of elements) {
           sanitizedContent = sanitizedContent.replace(element, element.replace(element, "**[Link Detected]**"));
-        });
+        }
       }
 
       return sanitizedContent;
@@ -157,23 +157,23 @@ export function parseEmoji(emoji: string): NullablePartialEmoji {
 export function getHighestRole(member: Member): Role {
   const roles: Role[] = [<Role>member.guild.roles.get(member.guildID)];
 
-  member.roles.forEach((id, _) => {
+  for (const id of member.roles) {
     const role = member.guild.roles.get(id);
 
     if (role) {
       roles.push(role);
     }
-  });
+  }
 
   return roles.sort((a, b) => b.position - a.position)[0];
 }
 
 export async function disableComponents(message: Message): Promise<void> {
-  message.components.forEach((row, _) => {
-    row.components.forEach((component, _) => {
+  for (const row of message.components) {
+    for (const component of row.components) {
       component.disabled = true;
-    });
-  });
+    }
+  }
 
   await _client.rest.channels.editMessage(message.channelID, message.id, {
     components: message.components,

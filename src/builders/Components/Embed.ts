@@ -36,9 +36,9 @@ export default class EmbedBuilder {
   }
 
   addFields(fields: EmbedField[]): this {
-    fields.forEach((field, _) => {
+    for (const field of fields) {
       this.addField(field);
-    });
+    }
 
     return this;
   }
