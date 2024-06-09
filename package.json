@@ -13,7 +13,7 @@
   "dependencies": {
     "@colors/colors": "1.6.0",
     "@discordjs/formatters": "0.4.0",
-    "@napi-rs/canvas": "0.1.52",
+    "@napi-rs/canvas": "0.1.53",
     "@prisma/client": "5.15.0",
     "@prisma/extension-optimize": "0.8.0",
     "@sapphire/discord-utilities": "3.3.0",

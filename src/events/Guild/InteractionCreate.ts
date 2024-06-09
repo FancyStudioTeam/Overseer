@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { Result } from "@sapphire/result";
-import { EmbedBuilder } from "oceanic-builders";
+import { ButtonBuilder, EmbedBuilder } from "oceanic-builders";
 import {
   type AnyInteractionGateway,
   ApplicationCommandTypes,
@@ -16,7 +16,7 @@ import {
   MessageFlags,
   type ModalSubmitInteraction,
 } from "oceanic.js";
-import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder } from "#builders";
+import { ActionRowBuilder, AttachmentBuilder } from "#builders";
 import { Colors, Emojis, Links } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#locales";
