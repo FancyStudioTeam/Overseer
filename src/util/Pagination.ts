@@ -1,4 +1,4 @@
-import { ButtonBuilder } from "oceanic-builders";
+import { ActionRowBuilder, ButtonBuilder } from "oceanic-builders";
 import {
   type BaseCollectorEndReasons,
   InteractionCollector,
@@ -19,7 +19,6 @@ import {
   MessageFlags,
 } from "oceanic.js";
 import { match } from "ts-pattern";
-import { ActionRowBuilder } from "#builders";
 import { Emojis } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#locales";
