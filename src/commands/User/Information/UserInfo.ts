@@ -4,7 +4,7 @@ import type { Discord } from "#client";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#locales";
 import type { UserCommandInterface } from "#types";
-import { FetchFrom, UnixType, errorMessage, fetchMember, formatUnix, sanitizeString } from "#util";
+import { FetchFrom, UnixType, errorMessage, fetchMember, formatUnix, sanitizeString } from "#util/Util.js";
 
 export default new BaseBuilder<UserCommandInterface>({
   name: "User Info",

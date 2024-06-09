@@ -19,8 +19,8 @@ import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, EmbedBuilder } from
 import { Colors, Emojis, Links } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#locales";
-import { prisma } from "#prisma";
 import type { Locales } from "#types";
+import { prisma } from "#util/Prisma.js";
 import {
   CheckPermissionsFrom,
   UnixType,
@@ -29,7 +29,7 @@ import {
   formatUnix,
   handleError,
   parseEmoji,
-} from "#util";
+} from "#util/Util.js";
 
 const commandRateLimiter = new RateLimitManager(5_000, 3);
 const componentRateLimiter = new RateLimitManager(7_000, 5);

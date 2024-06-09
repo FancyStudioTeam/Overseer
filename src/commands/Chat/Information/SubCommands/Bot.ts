@@ -5,7 +5,7 @@ import { Colors, Emojis } from "#constants";
 import { Translations } from "#locales";
 import { version } from "#package";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import { UnixType, formatUnix, sanitizeString } from "#util";
+import { UnixType, formatUnix, sanitizeString } from "#util/Util.js";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "bot",

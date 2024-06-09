@@ -6,7 +6,7 @@ import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputCommandInterface, Directory } from "#types";
-import { padding } from "#util";
+import { padding } from "#util/Util.js";
 // import { pagination } from "#util/Pagination";
 
 export default new BaseBuilder<ChatInputCommandInterface>({

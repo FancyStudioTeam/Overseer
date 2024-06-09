@@ -23,7 +23,7 @@ import { Emojis } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#locales";
 import type { Locales } from "#types";
-import { disableComponents, errorMessage, parseEmoji } from "#util";
+import { disableComponents, errorMessage, parseEmoji } from "#util/Util.js";
 
 export async function pagination(
   {
@@ -109,12 +109,8 @@ export async function pagination(
 
         match(_collectedInteraction.data.customID)
           .returnType<void>()
-          .with("pagination_left", () => {
-            index = index > 0 ? --index : pages.length - 1;
-          })
-          .with("pagination_right", () => {
-            index = index + 1 < pages.length ? ++index : 0;
-          })
+          .with("pagination_left", () => (index = index > 0 ? --index : pages.length - 1))
+          .with("pagination_right", () => (index = index + 1 < pages.length ? ++index : 0))
           .otherwise(() => null);
 
         new ButtonBuilder(<ButtonComponent>message.components[0].components[1]).setLabel(

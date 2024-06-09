@@ -3,7 +3,6 @@ import type { Nullish } from "@sapphire/utilities";
 import { textSync } from "figlet";
 import { glob } from "glob";
 import { Client, Collection, type CreateApplicationCommandOptions } from "oceanic.js";
-import { prisma } from "#prisma";
 import type {
   ChatInputCommandInterface,
   ChatInputSubCommandInterface,
@@ -11,7 +10,8 @@ import type {
   ModalInterface,
   UserCommandInterface,
 } from "#types";
-import { LoggerType, logger } from "#util";
+import { prisma } from "#util/Prisma.js";
+import { LoggerType, logger } from "#util/Util.js";
 
 const arrayCommands: CreateApplicationCommandOptions[] = [];
 

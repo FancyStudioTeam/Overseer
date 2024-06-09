@@ -4,7 +4,7 @@ import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import { errorMessage } from "#util";
+import { errorMessage } from "#util/Util.js";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "ping",

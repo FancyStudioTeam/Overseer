@@ -2,7 +2,7 @@ import colors from "@colors/colors";
 import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
-import { padding } from "#util";
+import { padding } from "#util/Util.js";
 
 export default {
   COMMANDS: {

@@ -8,7 +8,7 @@ import { match } from "ts-pattern";
 import { EmbedBuilder } from "#builders";
 import { Colors, Developers, Emojis } from "#constants";
 import { _client } from "#index";
-import { prisma } from "#prisma";
+import { prisma } from "#util/Prisma.js";
 
 _client.on("messageCreate", async (_message: Message) => {
   const prefix = ">";

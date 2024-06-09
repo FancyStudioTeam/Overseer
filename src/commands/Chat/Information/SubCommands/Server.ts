@@ -4,7 +4,7 @@ import type { Discord } from "#client";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#locales";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
-import { FetchFrom, UnixType, errorMessage, fetchUser, formatUnix, sanitizeString } from "#util";
+import { FetchFrom, UnixType, errorMessage, fetchUser, formatUnix, sanitizeString } from "#util/Util.js";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "server",

@@ -1,5 +1,5 @@
 import { _client } from "#index";
-import { LoggerType, logger } from "#util";
+import { LoggerType, logger } from "#util/Util.js";
 
 _client.once("ready", async () => {
   await _client._deploy();
