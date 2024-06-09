@@ -1,7 +1,8 @@
 import colors from "@colors/colors";
 import { codeBlock } from "@sapphire/utilities";
+import { EmbedBuilder } from "oceanic-builders";
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
-import { BaseBuilder, EmbedBuilder } from "#builders";
+import { BaseBuilder } from "#builders";
 import type { Discord } from "#client";
 import { Colors } from "#constants";
 import { Translations } from "#locales";

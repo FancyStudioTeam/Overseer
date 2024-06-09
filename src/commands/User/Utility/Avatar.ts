@@ -1,5 +1,6 @@
+import { EmbedBuilder } from "oceanic-builders";
 import { ApplicationCommandTypes, type CommandInteraction, type User } from "oceanic.js";
-import { BaseBuilder, EmbedBuilder } from "#builders";
+import { BaseBuilder } from "#builders";
 import type { Discord } from "#client";
 import { Colors } from "#constants";
 import type { UserCommandInterface } from "#types";
