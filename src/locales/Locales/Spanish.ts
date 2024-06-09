@@ -1,54 +1,11 @@
 import colors from "@colors/colors";
-import { type Nullish, codeBlock, inlineCodeBlock, isNullOrUndefined } from "@sapphire/utilities";
+import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 import { padding } from "#util";
 
 export default {
   COMMANDS: {
-    CONFIGURATION: {
-      LANGUAGE: {
-        MESSAGE_1: `**${Emojis.SUCCESS} El idioma ha sido establecido a ${inlineCodeBlock("Español")}**`,
-      },
-      PREMIUM: {
-        CLAIM: {
-          MEMBERSHIP_NOT_FOUND: ({ code }: { code: string }) =>
-            `**${Emojis.MARK} El código ${inlineCodeBlock(code)} no ha sido encontrado**`,
-          MESSAGE_1: ({ expireDate }: { expireDate: string | Nullish }) =>
-            [
-              `**${Emojis.SUCCESS} La membresía premium ha sido reclamada**`,
-              `${Emojis.RIGHT} La membresía premium ${
-                isNullOrUndefined(expireDate) ? "`nunca caducará`" : `caducará el ${inlineCodeBlock(expireDate)}`
-              }`,
-            ].join("\n"),
-        },
-        REVOKE: {
-          COMPONENTS: {
-            BUTTONS: {
-              CONFIRM: {
-                LABEL: "Confirmar",
-                MESSAGE_1: `**${Emojis.SUCCESS} La membresía premium ha sido revocada**`,
-              },
-              CANCEL: {
-                LABEL: "Cancelar",
-                MESSAGE_1: `**${Emojis.SUCCESS} La revocación ha sido cancelada**`,
-              },
-            },
-          },
-          INVALID_GUILD_MEMBERSHIP: `**${Emojis.MARK} El servidor no tiene una membresía premium**`,
-          MESSAGE_1: [
-            `**${Emojis.WARNING} Estás a punto de cancelar la membresía premium**`,
-            `${Emojis.RIGHT} Si lo haces, ya no podrás disfrutar de los beneficios de la membresía`,
-          ].join("\n"),
-        },
-      },
-      TIMEZONE: {
-        TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
-          `**${Emojis.MARK} La zona horaria ${inlineCodeBlock(timezone)} no ha sido encontrada**`,
-        MESSAGE_1: ({ timezone }: { timezone: string }) =>
-          `**${Emojis.SUCCESS} La zona horaria ha sido establecida a ${inlineCodeBlock(timezone)}**`,
-      },
-    },
     INFORMATION: {
       BOT: {
         MESSAGE_1: {

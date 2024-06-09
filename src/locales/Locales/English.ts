@@ -1,54 +1,11 @@
 import colors from "@colors/colors";
-import { type Nullish, codeBlock, inlineCodeBlock, isNullOrUndefined } from "@sapphire/utilities";
+import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 import { padding } from "#util";
 
 export default {
   COMMANDS: {
-    CONFIGURATION: {
-      LANGUAGE: {
-        MESSAGE_1: `**${Emojis.SUCCESS} The language has been set to ${inlineCodeBlock("English")}**`,
-      },
-      PREMIUM: {
-        CLAIM: {
-          MEMBERSHIP_NOT_FOUND: ({ code }: { code: string }) =>
-            `**${Emojis.MARK} The code ${inlineCodeBlock(code)} has not been found**`,
-          MESSAGE_1: ({ expireDate }: { expireDate: string | Nullish }) =>
-            [
-              `**${Emojis.SUCCESS} The premium membership has been claimed**`,
-              `${Emojis.RIGHT} The premium membership will ${
-                isNullOrUndefined(expireDate) ? "`never expire`" : `expire on ${inlineCodeBlock(expireDate)}`
-              }`,
-            ].join("\n"),
-        },
-        REVOKE: {
-          COMPONENTS: {
-            BUTTONS: {
-              CONFIRM: {
-                LABEL: "Confirm",
-                MESSAGE_1: `**${Emojis.SUCCESS} The premium membership has been revoked**`,
-              },
-              CANCEL: {
-                LABEL: "Cancel",
-                MESSAGE_1: `**${Emojis.SUCCESS} The revocation has been cancelled**`,
-              },
-            },
-          },
-          INVALID_GUILD_MEMBERSHIP: `**${Emojis.MARK} The server does not have a premium membership**`,
-          MESSAGE_1: [
-            `**${Emojis.WARNING} You are about to cancel the premium membership**`,
-            `${Emojis.RIGHT} If you do so, you will no longer be able to enjoy the benefits of membership`,
-          ].join("\n"),
-        },
-      },
-      TIMEZONE: {
-        TIMEZONE_NOT_FOUND: ({ timezone }: { timezone: string }) =>
-          `**${Emojis.MARK} The timezone ${inlineCodeBlock(timezone)} has not been found**`,
-        MESSAGE_1: ({ timezone }: { timezone: string }) =>
-          `**${Emojis.SUCCESS} The timezone has been set to ${inlineCodeBlock(timezone)}**`,
-      },
-    },
     INFORMATION: {
       BOT: {
         MESSAGE_1: {
