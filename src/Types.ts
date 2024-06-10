@@ -7,7 +7,7 @@ import type {
   ModalSubmitInteraction,
   PermissionName,
 } from "oceanic.js";
-import type { Discord } from "./classes/Client";
+import type { Discord } from "#client";
 
 export type Locales = "EN" | "ES";
 
