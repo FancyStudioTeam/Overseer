@@ -31,8 +31,8 @@ import {
   parseEmoji,
 } from "#util/Util.js";
 
-const commandRateLimiter = new RateLimitManager(5_000, 3);
-const componentRateLimiter = new RateLimitManager(7_000, 5);
+const commandRateLimiter = new RateLimitManager(5000, 3);
+const componentRateLimiter = new RateLimitManager(7000, 5);
 
 _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
   if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
@@ -103,7 +103,7 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
 
       switch (_interaction.data.type) {
         case ApplicationCommandTypes.CHAT_INPUT: {
-          await _interaction.defer().catch(() => null);
+          await _interaction.defer().catch(() => undefined);
 
           _interaction.data.options.getSubCommand()
             ? await _handleChatInputSubCommand({

@@ -72,7 +72,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     }
 
     await _client.rest.guilds.createBan(_context.guildID, _memberOption.id, {
-      deleteMessageSeconds: new Duration("7 days").offset / 1_000,
+      deleteMessageSeconds: new Duration("7 days").offset / 1000,
       reason: _reasonOption,
     });
     await _client.rest.guilds.removeBan(_context.guildID, _memberOption.id, _reasonOption);

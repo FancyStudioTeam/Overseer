@@ -30,7 +30,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
       maxLength: 50,
       espaceMarkdown: true,
     });
-    const bannedUser = await _client.rest.guilds.getBan(_context.guildID, _userOption.id).catch(() => null);
+    const bannedUser = await _client.rest.guilds.getBan(_context.guildID, _userOption.id).catch(() => undefined);
 
     if (!bannedUser) {
       return await errorMessage({

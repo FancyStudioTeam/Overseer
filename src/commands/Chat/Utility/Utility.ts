@@ -31,5 +31,5 @@ export default new BaseBuilder<ChatInputCommandInterface>({
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: Directory.UTILITY,
-  run: async (_client: Discord, _context: CommandInteraction) => null,
+  run: async (_client: Discord, _context: CommandInteraction) => undefined,
 });

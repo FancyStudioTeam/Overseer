@@ -95,5 +95,5 @@ _client.on("messageCreate", async (_message: Message) => {
         });
       });
     })
-    .otherwise(() => null);
+    .otherwise(() => undefined);
 });

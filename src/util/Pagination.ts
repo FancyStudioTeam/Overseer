@@ -105,13 +105,13 @@ export async function pagination(
   interactionCollector.on("collect", async (_collectedInteraction: AnyInteractionGateway) => {
     if (_collectedInteraction.isComponentInteraction()) {
       if (_collectedInteraction.isButtonComponentInteraction()) {
-        await _collectedInteraction.deferUpdate().catch(() => null);
+        await _collectedInteraction.deferUpdate().catch(() => undefined);
 
         match(_collectedInteraction.data.customID)
           .returnType<void>()
           .with("pagination_left", () => (index = index > 0 ? --index : pages.length - 1))
           .with("pagination_right", () => (index = index + 1 < pages.length ? ++index : 0))
-          .otherwise(() => null);
+          .otherwise(() => undefined);
 
         new ButtonBuilder(<ButtonComponent>message.components[0].components[1]).setLabel(
           `${index + 1}/${pages.length}`,

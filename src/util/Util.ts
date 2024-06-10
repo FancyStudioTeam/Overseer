@@ -34,7 +34,7 @@ export async function fetchUser(type: FetchFrom, id: string): Promise<User | Nul
     .with(FetchFrom.DEFAULT, async () => _client.users.get(id) ?? (await _client.rest.users.get(id)))
     .with(FetchFrom.CACHE, () => _client.users.get(id))
     .with(FetchFrom.REST, async () => await _client.rest.users.get(id))
-    .otherwise(() => null);
+    .otherwise(() => undefined);
 }
 
 export async function fetchMember(type: FetchFrom, guild: Guild, id: string): Promise<Member | Nullish> {
@@ -43,7 +43,7 @@ export async function fetchMember(type: FetchFrom, guild: Guild, id: string): Pr
     .with(FetchFrom.DEFAULT, async () => guild.members.get(id) ?? (await _client.rest.guilds.getMember(guild.id, id)))
     .with(FetchFrom.CACHE, () => guild.members.get(id))
     .with(FetchFrom.REST, async () => await _client.rest.guilds.getMember(guild.id, id))
-    .otherwise(() => null);
+    .otherwise(() => undefined);
 }
 
 export function sanitizeString(content: string, options: SanitizeStringOptions): string {
@@ -221,7 +221,7 @@ export function formatUnix(type: UnixType, date: Date): string {
     [UnixType.LONG_DATE]: "D",
   };
 
-  return `<t:${Math.floor(date.getTime() / 1_000)}:${unix[type]}>`;
+  return `<t:${Math.floor(date.getTime() / 1000)}:${unix[type]}>`;
 }
 
 export function search<T extends AvailableSearchTypes>(query: string, options: T[]): T[] {
@@ -283,7 +283,7 @@ export async function checkPermissions(
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
-  if (missingPermissions.length) {
+  if (missingPermissions.length > 0) {
     hasPermissions = false;
 
     "reply" in _context
