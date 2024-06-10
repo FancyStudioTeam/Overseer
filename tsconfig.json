@@ -32,7 +32,6 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "paths": {
-      "#builders": ["./src/builders/Index.ts"],
       "#client": ["./src/classes/Client.ts"],
       "#constants": ["./src/util/Constants.ts"],
       "#index": ["./src/Index.ts"],

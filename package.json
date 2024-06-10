@@ -33,7 +33,7 @@
     "url-regex-safe": "4.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.0",
+    "@biomejs/biome": "1.8.1",
     "@types/figlet": "1.5.8",
     "@types/node": "20.14.2",
     "@types/url-regex-safe": "1.0.2",
@@ -46,7 +46,6 @@
     "seed": "tsx src/seed.ts"
   },
   "imports": {
-    "#builders": "./src/builders/Index.js",
     "#client": "./src/classes/Client.js",
     "#constants": "./src/util/Constants.js",
     "#index": "./src/Index.js",
