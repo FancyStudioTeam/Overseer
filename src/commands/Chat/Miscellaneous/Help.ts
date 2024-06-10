@@ -5,7 +5,7 @@ import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInt
 import { BaseBuilder } from "#base";
 import type { Discord } from "#client";
 import { Colors } from "#constants";
-import { Translations } from "#locales";
+import { Translations } from "#translations";
 import { type ChatInputCommandInterface, Directory } from "#types";
 import { padding } from "#util/Util.js";
 // import { pagination } from "#util/Pagination";

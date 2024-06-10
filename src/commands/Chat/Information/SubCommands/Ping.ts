@@ -3,7 +3,7 @@ import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import type { Discord } from "#client";
 import { Colors } from "#constants";
-import { Translations } from "#locales";
+import { Translations } from "#translations";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
 import { errorMessage } from "#util/Util.js";
 

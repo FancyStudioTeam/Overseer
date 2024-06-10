@@ -46,15 +46,15 @@
     "seed": "tsx src/seed.ts"
   },
   "imports": {
-    "#/*": ["./src/*"],
+    "#base": ["./src/classes/Base.js"],
     "#client": ["./src/classes/Client.js"],
     "#constants": ["./src/util/Constants.js"],
     "#index": ["./src/Index.js"],
-    "#locales": ["./src/locales/Index.js"],
+    "#locales/*": ["./src/locales/Locales/*"],
     "#package": ["./package.json"],
+    "#translations": ["./src/locales/Index.js"],
     "#types": ["./src/Types.js"],
-    "#util/*": ["./src/util/*"],
-    "#base": ["./src/classes/Base.js"]
+    "#util/*": ["./src/util/*"]
   },
   "packageManager": "pnpm@9.2.0+sha256.94fab213df221c55b6956b14a2264c21c6203cca9f0b3b95ff2fe9b84b120390"
 }

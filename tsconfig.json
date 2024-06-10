@@ -32,15 +32,15 @@
     "noImplicitAny": true,
     "experimentalDecorators": true,
     "paths": {
-      "#/*": ["./src/*"],
+      "#base": ["./src/classes/Base.ts"],
       "#client": ["./src/classes/Client.ts"],
       "#constants": ["./src/util/Constants.ts"],
       "#index": ["./src/Index.ts"],
-      "#locales": ["./src/locales/Index.ts"],
+      "#locales/*": ["./src/locales/Locales/*"],
       "#package": ["./package.json"],
+      "#translations": ["./src/locales/Index.ts"],
       "#types": ["./src/Types.ts"],
-      "#util/*": ["./src/util/*"],
-      "#base": ["./src/classes/Base.ts"]
+      "#util/*": ["./src/util/*"]
     }
   }
 }

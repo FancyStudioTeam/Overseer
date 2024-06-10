@@ -25,7 +25,7 @@ import { match } from "ts-pattern";
 import urlRegex from "url-regex-safe";
 import { Colors, Emojis, Links } from "#constants";
 import { _client } from "#index";
-import { Translations } from "#locales";
+import { Translations } from "#translations";
 import type { Locales } from "#types";
 
 export async function fetchUser(type: FetchFrom, id: string): Promise<User | Nullish> {

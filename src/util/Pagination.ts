@@ -21,7 +21,7 @@ import {
 import { match } from "ts-pattern";
 import { Emojis } from "#constants";
 import { _client } from "#index";
-import { Translations } from "#locales";
+import { Translations } from "#translations";
 import type { Locales } from "#types";
 import { disableComponents, errorMessage, parseEmoji } from "#util/Util.js";
 
