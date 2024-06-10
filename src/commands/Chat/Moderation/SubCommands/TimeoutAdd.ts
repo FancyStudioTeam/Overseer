@@ -96,18 +96,16 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     });
 
     await _context.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(
-            Translations[locale].COMMANDS.MODERATION.TIMEOUT.ADD.MESSAGE_1({
-              user: _memberOption.mention,
-              moderator: _context.user.mention,
-              reason: _reasonOption,
-            }),
-          )
-          .setColor(Colors.SUCCESS)
-          .toJSON(),
-      ],
+      embeds: new EmbedBuilder()
+        .setDescription(
+          Translations[locale].COMMANDS.MODERATION.TIMEOUT.ADD.MESSAGE_1({
+            user: _memberOption.mention,
+            moderator: _context.user.mention,
+            reason: _reasonOption,
+          }),
+        )
+        .setColor(Colors.SUCCESS)
+        .toJSONArray(),
     });
   },
 });
