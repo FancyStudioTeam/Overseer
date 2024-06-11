@@ -23,7 +23,7 @@
     "@sapphire/snowflake": "3.5.3",
     "@sapphire/time-utilities": "1.7.12",
     "@sapphire/utilities": "3.16.2",
-    "@sentry/node": "8.8.0",
+    "@sentry/node": "8.9.1",
     "dotenv": "16.4.5",
     "glob": "10.4.1",
     "oceanic-builders": "github:FancyStudioTeam/OceanicBuilders",
@@ -42,7 +42,7 @@
     "husky": "9.0.11",
     "lint-staged": "15.2.5",
     "prisma": "5.15.0",
-    "tsx": "4.15.1",
+    "tsx": "4.15.2",
     "typescript": "5.4.5"
   },
   "prisma": {
