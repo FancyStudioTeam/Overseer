@@ -42,12 +42,12 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
 
   const guildConfiguration = await prisma.guildConfiguration.findUnique({
     where: {
-      guild_id: _interaction.guildID,
+      guildID: _interaction.guildID,
     },
   });
   const locale = <Locales>(guildConfiguration?.general.locale ?? "en").toUpperCase();
   const timezone = guildConfiguration?.general.timezone ?? "UTC";
-  const hour12 = guildConfiguration?.general.use_12_hours ?? false;
+  const hour12 = guildConfiguration?.general.use12Hours ?? false;
   const premium = guildConfiguration?.premium.enabled ?? false;
 
   if (
