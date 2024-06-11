@@ -9,7 +9,7 @@
   "formatter": {
     "enabled": true,
     "indentWidth": 2,
-    "lineEnding": "crlf",
+    "lineEnding": "lf",
     "lineWidth": 120,
     "indentStyle": "space"
   },
