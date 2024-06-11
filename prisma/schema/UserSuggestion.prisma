@@ -1,32 +1,32 @@
 model UserSuggestion {
-    id         String                @id @default(auto()) @map("_id") @db.ObjectId
-    guild_id   String
-    general    UserSuggestionGeneral
-    votes      UserSuggestionVotes
-    created_at DateTime              @default(now())
+  id         String                @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id   String
+  general    UserSuggestionGeneral
+  votes      UserSuggestionVotes
+  created_at DateTime              @default(now())
 
-    @@unique([general.message_id, general.suggestion_id])
+  @@unique([general.message_id, general.suggestion_id])
 }
 
 enum UserSuggestionStatus {
-    PENDING
-    APPROVED
-    DENIED
-    IN_PENDING_REVIEW
+  PENDING
+  APPROVED
+  DENIED
+  IN_PENDING_REVIEW
 }
 
 type UserSuggestionGeneral {
-    message_id    String
-    user_id       String
-    suggestion_id String
-    title         String               @default("New Suggestion")
-    content       String
-    status        UserSuggestionStatus @default(PENDING)
-    images        String[]             @default([])
-    comments      String[]             @default([])
+  message_id    String
+  user_id       String
+  suggestion_id String
+  title         String               @default("New Suggestion")
+  content       String
+  status        UserSuggestionStatus @default(PENDING)
+  images        String[]             @default([])
+  comments      String[]             @default([])
 }
 
 type UserSuggestionVotes {
-    up   String[] @default([])
-    down String[] @default([])
+  up   String[] @default([])
+  down String[] @default([])
 }

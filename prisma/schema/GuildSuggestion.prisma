@@ -1,21 +1,21 @@
 model GuildSuggestion {
-    id       String                 @id @default(auto()) @map("_id") @db.ObjectId
-    guild_id String                 @unique
-    general  GuildSuggestionGeneral
-    review   GuildSuggestionReview
+  id       String                 @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id String                 @unique
+  general  GuildSuggestionGeneral
+  review   GuildSuggestionReview
 }
 
 type GuildSuggestionGeneral {
-    channel_id    String  @default("")
-    use_messages  Boolean @default(false)
-    use_images    Boolean @default(false)
-    use_self_vote Boolean @default(true)
-    use_threads   Boolean @default(false)
-    use_forums    Boolean @default(false)
-    thread_id     String  @default("")
+  channel_id    String  @default("")
+  use_messages  Boolean @default(false)
+  use_images    Boolean @default(false)
+  use_self_vote Boolean @default(true)
+  use_threads   Boolean @default(false)
+  use_forums    Boolean @default(false)
+  thread_id     String  @default("")
 }
 
 type GuildSuggestionReview {
-    channel_id String  @default("")
-    enabled    Boolean @default(false)
+  channel_id String  @default("")
+  enabled    Boolean @default(false)
 }

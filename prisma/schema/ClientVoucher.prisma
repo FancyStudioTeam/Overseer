@@ -1,15 +1,15 @@
 model ClientVoucher {
-    id         String               @id @default(auto()) @map("_id") @db.ObjectId
-    voucher_id String               @unique
-    general    ClientVoucherGeneral
+  id         String               @id @default(auto()) @map("_id") @db.ObjectId
+  voucher_id String               @unique
+  general    ClientVoucherGeneral
 }
 
 enum ClientVoucherType {
-    MONTH
-    INFINITE
+  MONTH
+  INFINITE
 }
 
 type ClientVoucherGeneral {
-    type       ClientVoucherType @default(MONTH)
-    is_claimed Boolean           @default(false)
+  type       ClientVoucherType @default(MONTH)
+  is_claimed Boolean           @default(false)
 }

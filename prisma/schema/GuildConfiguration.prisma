@@ -1,17 +1,17 @@
 model GuildConfiguration {
-    id       String                           @id @default(auto()) @map("_id") @db.ObjectId
-    guild_id String                           @unique
-    general  GuildConfigurationGeneral
-    premium  GuildConfigurationGeneralPremium
+  id       String                           @id @default(auto()) @map("_id") @db.ObjectId
+  guild_id String                           @unique
+  general  GuildConfigurationGeneral
+  premium  GuildConfigurationGeneralPremium
 }
 
 type GuildConfigurationGeneral {
-    locale       String  @default("EN")
-    timezone     String  @default("UTC")
-    use_12_hours Boolean @default(false)
+  locale       String  @default("EN")
+  timezone     String  @default("UTC")
+  use_12_hours Boolean @default(false)
 }
 
 type GuildConfigurationGeneralPremium {
-    enabled    Boolean @default(false)
-    expires_at Int     @default(0)
+  enabled    Boolean @default(false)
+  expires_at Int     @default(0)
 }
