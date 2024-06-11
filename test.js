@@ -1,1 +1,3 @@
-console.log("Hello");
+const name = "Discord User";
+
+console.log(name);
