@@ -6,7 +6,8 @@
     "biome:ci": "pnpx @biomejs/biome ci --config-path=\"./biome.json\" .",
     "build": "tsc",
     "dev": "SET NODE_ENV=\"DEVELOPMENT\" && tsx watch --ignore ./src/locales src/Index.ts",
-    "start": "SET NODE_ENV=\"PRODUCTION\" && cd dist && node src/Index.js"
+    "start": "SET NODE_ENV=\"PRODUCTION\" && cd dist && node src/Index.js",
+    "prepare": "husky"
   },
   "author": "LonelyDeath",
   "license": "BSD-3-Clause",
@@ -38,6 +39,7 @@
     "@types/node": "20.14.2",
     "@types/url-regex-safe": "1.0.2",
     "figlet": "1.7.0",
+    "husky": "9.0.11",
     "prisma": "5.15.0",
     "tsx": "4.15.1",
     "typescript": "5.4.5"
@@ -46,15 +48,33 @@
     "seed": "tsx src/seed.ts"
   },
   "imports": {
-    "#base": ["./src/classes/Base.js"],
-    "#client": ["./src/classes/Client.js"],
-    "#constants": ["./src/util/Constants.js"],
-    "#index": ["./src/Index.js"],
-    "#locales/*": ["./src/locales/Locales/*"],
-    "#package": ["./package.json"],
-    "#translations": ["./src/locales/Index.js"],
-    "#types": ["./src/Types.js"],
-    "#util/*": ["./src/util/*"]
+    "#base": [
+      "./src/classes/Base.js"
+    ],
+    "#client": [
+      "./src/classes/Client.js"
+    ],
+    "#constants": [
+      "./src/util/Constants.js"
+    ],
+    "#index": [
+      "./src/Index.js"
+    ],
+    "#locales/*": [
+      "./src/locales/Locales/*"
+    ],
+    "#package": [
+      "./package.json"
+    ],
+    "#translations": [
+      "./src/locales/Index.js"
+    ],
+    "#types": [
+      "./src/Types.js"
+    ],
+    "#util/*": [
+      "./src/util/*"
+    ]
   },
-  "packageManager": "pnpm@9.2.0+sha256.94fab213df221c55b6956b14a2264c21c6203cca9f0b3b95ff2fe9b84b120390"
+  "packageManager": "pnpm@9.3.0+sha256.e1f9e8d1a16607a46dd3c158b5f7a7dc7945501d1c6222d454d63d033d1d918f"
 }
