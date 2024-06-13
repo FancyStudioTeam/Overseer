@@ -295,54 +295,36 @@ export async function checkPermissions(
 }
 
 export function logger(type: LoggerType, content: string): void {
-  const timestamp = colors.reset.grey(
+  const array = (elements: string[]): string[] => ["", ...elements, ""];
+  const spaces = (content: string, max: number): string => {
+    const spaces = " ".repeat(max);
+
+    return [spaces, content, spaces].join("");
+  };
+  const timestamp = spaces(
     formatTimestamp(
       new Date().toLocaleString("en-US", {
         timeZone: "Europe/Madrid",
       }),
     ),
+    1,
   );
   const levels: Record<LoggerType, string> = {
-    [LoggerType.ERROR]: [
-      colors.bgBrightRed(" "),
-      timestamp,
-      colors.bgBrightRed(" "),
-      colors.brightRed("ERR"),
-      colors.bgBrightRed(" "),
-      colors.brightRed(content),
-    ].join(" "),
-    [LoggerType.DEBUG]: [
-      colors.bgBrightMagenta(" "),
-      timestamp,
-      colors.bgBrightMagenta(" "),
-      colors.brightMagenta("DBG"),
-      colors.bgBrightMagenta(" "),
-      colors.brightMagenta(content),
-    ].join(" "),
-    [LoggerType.WARN]: [
-      colors.bgBrightYellow(" "),
-      timestamp,
-      colors.bgBrightYellow(" "),
-      colors.brightYellow("WRN"),
-      colors.bgBrightYellow(" "),
-      colors.brightYellow(content),
-    ].join(" "),
-    [LoggerType.INFO]: [
-      colors.bgBrightBlue(" "),
-      timestamp,
-      colors.bgBrightBlue(" "),
-      colors.brightBlue("INF"),
-      colors.bgBrightBlue(" "),
-      colors.brightBlue(content),
-    ].join(" "),
-    [LoggerType.REQUEST]: [
-      colors.bgBrightCyan(" "),
-      timestamp,
-      colors.bgBrightCyan(" "),
-      colors.brightCyan("REQ"),
-      colors.bgBrightCyan(" "),
-      colors.brightCyan(content),
-    ].join(" "),
+    [LoggerType.ERROR]: colors.brightRed(
+      [array([timestamp, spaces("ERR", 1)]).join(colors.bgBrightRed(" ")), content].join(" "),
+    ),
+    [LoggerType.DEBUG]: colors.brightMagenta(
+      [array([timestamp, spaces("DBG", 1)]).join(colors.bgBrightMagenta(" ")), content].join(" "),
+    ),
+    [LoggerType.WARN]: colors.brightYellow(
+      [array([timestamp, spaces("WRN", 1)]).join(colors.bgBrightYellow(" ")), content].join(" "),
+    ),
+    [LoggerType.INFO]: colors.brightBlue(
+      [array([timestamp, spaces("INF", 1)]).join(colors.bgBrightBlue(" ")), content].join(" "),
+    ),
+    [LoggerType.REQUEST]: colors.brightCyan(
+      [array([timestamp, spaces("REQ", 1)]).join(colors.bgBrightCyan(" ")), content].join(" "),
+    ),
   };
 
   console.log(levels[type]);

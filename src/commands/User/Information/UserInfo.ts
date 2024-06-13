@@ -56,9 +56,7 @@ export default new BaseBuilder<UserCommandInterface>({
           },
           {
             name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_3.FIELD,
-            value: `${Emojis.RIGHT} ${
-              member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.MARK
-            }`,
+            value: `${Emojis.RIGHT} ${member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.MARK}`,
           },
         ])
         .setColor(Colors.COLOR)
