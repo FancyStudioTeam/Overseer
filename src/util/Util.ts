@@ -295,24 +295,57 @@ export async function checkPermissions(
 }
 
 export function logger(type: LoggerType, content: string): void {
-  const level: Record<LoggerType, string> = {
-    [LoggerType.ERROR]: colors.brightRed("ERR"),
-    [LoggerType.DEBUG]: colors.brightMagenta("DBG"),
-    [LoggerType.WARN]: colors.brightYellow("WRN"),
-    [LoggerType.INFO]: colors.brightBlue("INF"),
-    [LoggerType.REQUEST]: colors.brightCyan("REQ"),
-    [LoggerType.MISC]: colors.white("MSC"),
+  const timestamp = colors.reset.grey(
+    formatTimestamp(
+      new Date().toLocaleString("en-US", {
+        timeZone: "Europe/Madrid",
+      }),
+    ),
+  );
+  const levels: Record<LoggerType, string> = {
+    [LoggerType.ERROR]: [
+      colors.bgBrightRed(" "),
+      timestamp,
+      colors.bgBrightRed(" "),
+      colors.brightRed("ERR"),
+      colors.bgBrightRed(" "),
+      colors.brightRed(content),
+    ].join(" "),
+    [LoggerType.DEBUG]: [
+      colors.bgBrightMagenta(" "),
+      timestamp,
+      colors.bgBrightMagenta(" "),
+      colors.brightMagenta("DBG"),
+      colors.bgBrightMagenta(" "),
+      colors.brightMagenta(content),
+    ].join(" "),
+    [LoggerType.WARN]: [
+      colors.bgBrightYellow(" "),
+      timestamp,
+      colors.bgBrightYellow(" "),
+      colors.brightYellow("WRN"),
+      colors.bgBrightYellow(" "),
+      colors.brightYellow(content),
+    ].join(" "),
+    [LoggerType.INFO]: [
+      colors.bgBrightBlue(" "),
+      timestamp,
+      colors.bgBrightBlue(" "),
+      colors.brightBlue("INF"),
+      colors.bgBrightBlue(" "),
+      colors.brightBlue(content),
+    ].join(" "),
+    [LoggerType.REQUEST]: [
+      colors.bgBrightCyan(" "),
+      timestamp,
+      colors.bgBrightCyan(" "),
+      colors.brightCyan("REQ"),
+      colors.bgBrightCyan(" "),
+      colors.brightCyan(content),
+    ].join(" "),
   };
 
-  console.log(
-    `[${colors.grey(
-      formatTimestamp(
-        new Date().toLocaleString("en-US", {
-          timeZone: "Europe/Madrid",
-        }),
-      ),
-    )}] [${level[type]}] ${content}`,
-  );
+  console.log(levels[type]);
 }
 
 export async function handleError(
@@ -395,7 +428,6 @@ export enum LoggerType {
   WARN,
   INFO,
   REQUEST,
-  MISC,
 }
 
 export enum ComparationLevel {

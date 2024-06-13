@@ -161,7 +161,7 @@ export class Discord extends Client {
       if (subCommand?.name) {
         const dividedPath = subCommandPath.split(sep);
         const directory = dividedPath[dividedPath.length - 3].toUpperCase();
-        const directories: { [key: string]: string } = {
+        const directories: Record<string, string> = {
           CONFIGURATION: "CONFIG",
           INFORMATION: "INFO",
           MODERATION: "MOD",
