@@ -320,7 +320,11 @@ export default {
     ONLY_GUILD_OWNER: `**${Emojis.MARK} Esta acción solamente la puede ejecutar el propietario del servidor**`,
     INVALID_USER_COLLECTOR: `**${Emojis.MARK} No puedes ejecutar este componente**`,
   },
-  PERMISSIONS: {
+  PERMISSIONS: permissions(),
+};
+
+function permissions(): Record<PermissionName, string> {
+  return {
     CREATE_INSTANT_INVITE: "Crear Invitación Instantánea",
     KICK_MEMBERS: "Expulsar Miembros",
     BAN_MEMBERS: "Banear Miembros",
@@ -371,5 +375,6 @@ export default {
     USE_CLYDE_AI: "Usar IA de Clyde",
     SET_VOICE_CHANNEL_STATUS: "Establecer Estado del Canal de Voz",
     SEND_POLLS: "Enviar Encuestas",
-  } satisfies Record<PermissionName, string>,
-};
+    USE_EXTERNAL_APPS: "Usar Aplicaciones Externas",
+  };
+}
