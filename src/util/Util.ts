@@ -1,6 +1,5 @@
 import colors from "@colors/colors";
 import { escapeMarkdown } from "@discordjs/formatters";
-import { ParsedCustomEmojiWithGroups } from "@sapphire/discord-utilities";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Timestamp } from "@sapphire/time-utilities";
 import { type Awaitable, type Nullish, cutText, inlineCodeBlock } from "@sapphire/utilities";
@@ -142,7 +141,7 @@ export async function errorMessage({
 }
 
 export function parseEmoji(emoji: string): NullablePartialEmoji {
-  const match = emoji.match(ParsedCustomEmojiWithGroups);
+  const match = emoji.match(/(?<animated>a?):(?<name>[^:]+):(?<id>\d{17,20})/);
 
   if (match) {
     return {

@@ -1,6 +1,5 @@
 import { join, sep } from "node:path";
 import type { Nullish } from "@sapphire/utilities";
-import { textSync } from "figlet";
 import { glob } from "glob";
 import { Client, Collection, type CreateApplicationCommandOptions } from "oceanic.js";
 import type {
@@ -58,7 +57,6 @@ export class Discord extends Client {
         connectionProperties: {
           browser: "Discord Android",
         },
-        compress: true,
         intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "MESSAGE_CONTENT"],
         maxShards: "auto",
         concurrency: "auto",
@@ -91,8 +89,6 @@ export class Discord extends Client {
   }
 
   async _init(): Promise<void> {
-    console.log(textSync("Initializing ..."), "\n");
-
     if (!this.dbReady) {
       await prisma
         .$connect()
