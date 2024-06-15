@@ -5,5 +5,6 @@ export default {
   tabWidth: 2,
   semi: true,
   endOfLine: "crlf",
-  printWidth: 120
+  printWidth: 120,
+  useTabs: false
 }

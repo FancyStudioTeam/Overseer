@@ -7,6 +7,7 @@
     "build": "tsc",
     "dev": "tsx watch --ignore ./src/locales src/Index.ts",
     "start": "cd dist && node src/Index.js",
+    "check": "pnpm biome && pnpm prettier",
     "prepare": "husky"
   },
   "author": "LonelyDeath",
@@ -57,8 +58,7 @@
   "packageManager": "pnpm@9.3.0+sha256.e1f9e8d1a16607a46dd3c158b5f7a7dc7945501d1c6222d454d63d033d1d918f",
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "pnpm biome",
-      "pnpm prettier"
+      "pnpm check"
     ]
   }
 }
