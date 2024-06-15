@@ -13,9 +13,3 @@ init({
   release: version,
   tracesSampleRate: 0.5,
 });
-
-const obj = {
-  a: true,
-  b: true,
-  𐊧: true,
-};
