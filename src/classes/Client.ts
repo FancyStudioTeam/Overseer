@@ -127,8 +127,6 @@ export class Discord extends Client {
       const commandPath = join(process.cwd(), path);
       const command = require(commandPath).default;
 
-      delete require.cache[require.resolve(commandPath)];
-
       if (command?.name) {
         const dividedPath = commandPath.split(sep);
         const directory = <Commands>dividedPath[dividedPath.length - 3].toUpperCase();
@@ -151,8 +149,6 @@ export class Discord extends Client {
     for (const path of paths) {
       const subCommandPath = join(process.cwd(), path);
       const subCommand = require(subCommandPath).default;
-
-      delete require.cache[require.resolve(subCommandPath)];
 
       if (subCommand?.name) {
         const dividedPath = subCommandPath.split(sep);
@@ -180,8 +176,6 @@ export class Discord extends Client {
       const componentPath = join(process.cwd(), path);
       const component = require(componentPath).default;
 
-      delete require.cache[require.resolve(componentPath)];
-
       if (component?.name) {
         const dividedPath = componentPath.split(sep);
         const directory = <Components>dividedPath[dividedPath.length - 3].toUpperCase();
@@ -204,7 +198,6 @@ export class Discord extends Client {
     for (const path of paths) {
       const eventPath = join(process.cwd(), path);
 
-      delete require.cache[require.resolve(eventPath)];
       require(eventPath).default;
     }
   }
@@ -216,7 +209,6 @@ export class Discord extends Client {
       const modulePath = join(process.cwd(), path);
       const module = require(modulePath).default;
 
-      delete require.cache[require.resolve(modulePath)];
       module(this);
     }
   }

@@ -45,9 +45,6 @@ _client.on("messageCreate", async (_message: Message) => {
           .toJSONArray(),
       });
     })
-    .with("reload", async () => {
-      await _client._init();
-    })
     .with("exec", () => {
       const command = args.join(" ");
 
