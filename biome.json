@@ -7,16 +7,7 @@
     "enabled": true
   },
   "formatter": {
-    "enabled": true,
-    "indentWidth": 2,
-    "lineEnding": "crlf",
-    "lineWidth": 120,
-    "indentStyle": "space"
-  },
-  "json": {
-    "formatter": {
-      "enabled": true
-    }
+    "enabled": false
   },
   "linter": {
     "enabled": true,

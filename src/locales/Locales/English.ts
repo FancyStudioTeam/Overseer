@@ -17,15 +17,7 @@ export default {
           },
           FIELD_2: {
             FIELD: "**Statistics**",
-            VALUE: ({
-              users,
-              guilds,
-              shards,
-            }: {
-              users: number;
-              guilds: number;
-              shards: number;
-            }) =>
+            VALUE: ({ users, guilds, shards }: { users: number; guilds: number; shards: number }) =>
               [
                 `${Emojis.RIGHT} **Users**: ${users} users`,
                 `${Emojis.RIGHT} **Servers**: ${guilds} servers`,
@@ -57,15 +49,7 @@ export default {
           TITLE_1: ({ name }: { name: string }) => `**${name} Information**`,
           FIELD_1: {
             FIELD: "**General Information**",
-            VALUE: ({
-              name,
-              id,
-              owner,
-            }: {
-              name: string;
-              id: string;
-              owner: string;
-            }) =>
+            VALUE: ({ name, id, owner }: { name: string; id: string; owner: string }) =>
               [
                 `${Emojis.RIGHT} **Name**: ${name}`,
                 `${Emojis.RIGHT} **ID**: ${id}`,
@@ -74,15 +58,7 @@ export default {
           },
           FIELD_2: {
             FIELD: "**Statistics**",
-            VALUE: ({
-              members,
-              channels,
-              roles,
-            }: {
-              members: number;
-              channels: number;
-              roles: number;
-            }) =>
+            VALUE: ({ members, channels, roles }: { members: number; channels: number; roles: number }) =>
               [
                 `${Emojis.RIGHT} **Members**: ${members} members`,
                 `${Emojis.RIGHT} **Channels**: ${channels} channels`,
@@ -113,45 +89,21 @@ export default {
     },
     MODERATION: {
       BAN: {
-        MESSAGE_1: ({
-          user,
-          moderator,
-          reason,
-        }: {
-          user: string;
-          moderator: string;
-          reason: string;
-        }) =>
+        MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
             `**${Emojis.SUCCESS} The user ${user} has been banned by ${moderator}**`,
             `${Emojis.RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
       KICK: {
-        MESSAGE_1: ({
-          username,
-          moderator,
-          reason,
-        }: {
-          username: string;
-          moderator: string;
-          reason: string;
-        }) =>
+        MESSAGE_1: ({ username, moderator, reason }: { username: string; moderator: string; reason: string }) =>
           [
             `**${Emojis.SUCCESS} The user ${username} has been kicked by ${moderator}**`,
             `${Emojis.RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
       SOFTBAN: {
-        MESSAGE_1: ({
-          user,
-          moderator,
-          reason,
-        }: {
-          user: string;
-          moderator: string;
-          reason: string;
-        }) =>
+        MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
             `**${Emojis.SUCCESS} The user ${user} has been softbanned by ${moderator}**`,
             `${Emojis.RIGHT} **Reason**: ${reason}`,
@@ -161,15 +113,7 @@ export default {
         ADD: {
           INVALID_DURATION_FORMAT: `**${Emojis.MARK} The duration returned an invalid format**`,
           ALLOWED_DURATION_VALUES: `**${Emojis.MARK} The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**`,
-          MESSAGE_1: ({
-            user,
-            moderator,
-            reason,
-          }: {
-            user: string;
-            moderator: string;
-            reason: string;
-          }) =>
+          MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
             [
               `**${Emojis.SUCCESS} The moderator ${moderator} has added a timeout for user ${user}**`,
               `${Emojis.RIGHT} **Reason**: ${reason}`,
@@ -177,15 +121,7 @@ export default {
         },
         REMOVE: {
           USER_NOT_TIMEOUTED: `**${Emojis.MARK} The user does not have a timeout**`,
-          MESSAGE_1: ({
-            user,
-            moderator,
-            reason,
-          }: {
-            user: string;
-            moderator: string;
-            reason: string;
-          }) =>
+          MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
             [
               `**${Emojis.SUCCESS} The moderator ${moderator} has removed the timeout of the user ${user}**`,
               `${Emojis.RIGHT} **Reason**: ${reason}`,
@@ -195,15 +131,7 @@ export default {
       UNBAN: {
         BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
           `**${Emojis.MARK} The ban ${inlineCodeBlock(ban)} has not been found**`,
-        MESSAGE_1: ({
-          user,
-          moderator,
-          reason,
-        }: {
-          user: string;
-          moderator: string;
-          reason: string;
-        }) =>
+        MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
             `**${Emojis.SUCCESS} The user ${user} has been unbanned by ${moderator}**`,
             `${Emojis.RIGHT} **Reason**: ${reason}`,
@@ -285,21 +213,9 @@ export default {
           `**${Emojis.MARK} This action could not be performed because I need the ${permissions} permission on the server**`,
       },
       CHANNEL: {
-        USER: ({
-          permissions,
-          channel,
-        }: {
-          permissions: string;
-          channel: string;
-        }) =>
+        USER: ({ permissions, channel }: { permissions: string; channel: string }) =>
           `**${Emojis.MARK} This action could not be performed because you need the ${permissions} permission on the channel ${channel}**`,
-        CLIENT: ({
-          permissions,
-          channel,
-        }: {
-          permissions: string;
-          channel: string;
-        }) =>
+        CLIENT: ({ permissions, channel }: { permissions: string; channel: string }) =>
           `**${Emojis.MARK} This action could not be performed because I need the ${permissions} permission on the channel ${channel}**`,
       },
     },
