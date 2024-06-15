@@ -31,7 +31,12 @@
         "useBlockStatements": "off",
         "noDefaultExport": "off",
         "useEnumInitializers": "off",
-        "useFilenamingConvention": "off",
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["export", "PascalCase"]
+          }
+        },
         "noNamespace": "off"
       },
       "complexity": {
