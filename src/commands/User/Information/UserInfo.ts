@@ -1,7 +1,6 @@
 import { EmbedBuilder } from "oceanic-builders";
 import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
-import type { Discord } from "#client";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#translations";
 import type { UserCommandInterface } from "#types";
@@ -10,7 +9,7 @@ import { FetchFrom, UnixType, errorMessage, fetchMember, formatUnix, sanitizeStr
 export default new BaseBuilder<UserCommandInterface>({
   name: "User Info",
   type: ApplicationCommandTypes.USER,
-  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+  run: async (_context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage({
         _context,

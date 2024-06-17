@@ -1,8 +1,8 @@
 import { EmbedBuilder } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
-import type { Discord } from "#client";
 import { Colors } from "#constants";
+import { _client } from "#index";
 import { Translations } from "#translations";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
 import { ComparationLevel, compareMemberToMember, errorMessage, sanitizeString } from "#util/Util.js";
@@ -14,7 +14,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     bot: ["BAN_MEMBERS"],
   },
   directory: Directory.MODERATION,
-  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+  run: async (_context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage({
         _context,

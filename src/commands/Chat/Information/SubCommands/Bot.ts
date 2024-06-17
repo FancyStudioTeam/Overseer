@@ -1,8 +1,8 @@
 import { EmbedBuilder } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
-import type { Discord } from "#client";
 import { Colors, Emojis } from "#constants";
+import { _client } from "#index";
 import { version } from "#package";
 import { Translations } from "#translations";
 import { type ChatInputSubCommandInterface, Directory } from "#types";
@@ -11,7 +11,7 @@ import { UnixType, formatUnix, sanitizeString } from "#util/Util.js";
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "bot",
   directory: Directory.INFORMATION,
-  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+  run: async (_context: CommandInteraction, { locale }) => {
     await _context.reply({
       embeds: new EmbedBuilder()
         .setTitle(

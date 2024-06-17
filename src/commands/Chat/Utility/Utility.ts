@@ -1,6 +1,5 @@
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
-import type { Discord } from "#client";
 import { type ChatInputCommandInterface, Directory } from "#types";
 
 export default new BaseBuilder<ChatInputCommandInterface>({
@@ -31,5 +30,5 @@ export default new BaseBuilder<ChatInputCommandInterface>({
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: Directory.UTILITY,
-  run: async (_client: Discord, _context: CommandInteraction) => undefined,
+  run: async (_context: CommandInteraction) => undefined,
 });

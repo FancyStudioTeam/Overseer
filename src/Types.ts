@@ -7,7 +7,6 @@ import type {
   ModalSubmitInteraction,
   PermissionName,
 } from "oceanic.js";
-import type { Discord } from "#client";
 
 export type Locales = "EN" | "ES";
 
@@ -18,7 +17,6 @@ export interface BaseInterface<T extends BaseTypes> {
     user?: PermissionName[];
   };
   run: (
-    client: Discord,
     interaction: T,
     config: {
       locale: Locales;
@@ -33,7 +31,6 @@ export interface BaseInterface<T extends BaseTypes> {
 export type ChatInputCommandInterface = {
   directory: Directory;
   autocomplete?: (
-    client: Discord,
     interaction: AutocompleteInteraction,
     config: {
       locale: Locales;

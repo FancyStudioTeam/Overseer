@@ -222,7 +222,7 @@ async function _handleChatInputCommand({
 
   if (command?.name) {
     const result = await Result.fromAsync(async () => {
-      await command.run(_client, _interaction, {
+      await command.run(_interaction, {
         locale,
         timezone,
         hour12,
@@ -292,7 +292,7 @@ async function _handleChatInputSubCommand({
       return;
 
     const result = await Result.fromAsync(async () => {
-      await command.run(_client, _interaction, {
+      await command.run(_interaction, {
         locale,
         timezone,
         hour12,
@@ -331,7 +331,7 @@ async function _handleUserCommand({
 
   if (command?.name) {
     const result = await Result.fromAsync(async () => {
-      await command.run(_client, _interaction, {
+      await command.run(_interaction, {
         locale,
         timezone,
         hour12,
@@ -369,7 +369,7 @@ async function _handleAutocomplete({
   if (command?.name) {
     const result = await Result.fromAsync(async () => {
       if (command.autocomplete) {
-        await command.autocomplete(_client, _interaction, {
+        await command.autocomplete(_interaction, {
           locale,
           timezone,
           hour12,
@@ -439,7 +439,7 @@ async function _handleButton({
       return;
 
     const result = await Result.fromAsync(async () => {
-      await component.run(_client, _interaction, {
+      await component.run(_interaction, {
         locale,
         timezone,
         hour12,
@@ -509,7 +509,7 @@ async function _handleSelectMenu({
       return;
 
     const result = await Result.fromAsync(async () => {
-      await component.run(_client, _interaction, {
+      await component.run(_interaction, {
         locale,
         timezone,
         hour12,
@@ -547,7 +547,7 @@ async function _handleModalSubmit({
 
   if (component?.name) {
     const result = await Result.fromAsync(async () => {
-      await component.run(_client, _interaction, {
+      await component.run(_interaction, {
         locale,
         timezone,
         hour12,

@@ -3,8 +3,8 @@ import { codeBlock } from "@sapphire/utilities";
 import { EmbedBuilder } from "oceanic-builders";
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
-import type { Discord } from "#client";
 import { Colors } from "#constants";
+import { _client } from "#index";
 import { Translations } from "#translations";
 import { type ChatInputCommandInterface, Directory } from "#types";
 import { padding } from "#util/Util.js";
@@ -20,7 +20,7 @@ export default new BaseBuilder<ChatInputCommandInterface>({
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: Directory.MISCELLANEOUS,
-  run: async (_client: Discord, _context: CommandInteraction, { locale }) => {
+  run: async (_context: CommandInteraction, { locale }) => {
     const groupedCommands = [Directory.INFORMATION, Directory.MODERATION, Directory.UTILITY].map((directory, _) => {
       return _client.interactions.chatInput.filter((command) => command?.directory === directory);
     });
