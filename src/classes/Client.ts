@@ -2,13 +2,7 @@ import { join, sep } from "node:path";
 import type { Nullish } from "@sapphire/utilities";
 import { glob } from "glob";
 import { Client, Collection, type CreateApplicationCommandOptions } from "oceanic.js";
-import type {
-  ChatInputCommandInterface,
-  ChatInputSubCommandInterface,
-  ComponentInterface,
-  ModalInterface,
-  UserCommandInterface,
-} from "#types";
+import type { ChatInputCommand, ChatInputSubCommand, Component, Modal, UserCommand } from "#types";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
 
@@ -16,15 +10,15 @@ const arrayCommands: CreateApplicationCommandOptions[] = [];
 
 export class Discord extends Client {
   readonly interactions: {
-    chatInput: Collection<string, ChatInputCommandInterface | Nullish>;
-    user: Collection<string, UserCommandInterface | Nullish>;
+    chatInput: Collection<string, ChatInputCommand | Nullish>;
+    user: Collection<string, UserCommand | Nullish>;
   };
   readonly components: {
-    buttons: Collection<string, ComponentInterface | Nullish>;
-    selects: Collection<string, ComponentInterface | Nullish>;
-    modals: Collection<string, ModalInterface | Nullish>;
+    buttons: Collection<string, Component | Nullish>;
+    selects: Collection<string, Component | Nullish>;
+    modals: Collection<string, Modal | Nullish>;
   };
-  readonly subCommands: Collection<string, ChatInputSubCommandInterface | Nullish>;
+  readonly subCommands: Collection<string, ChatInputSubCommand | Nullish>;
   private dbReady: boolean;
   readonly readyAt: Date;
 
@@ -224,10 +218,6 @@ type Commands = "CHAT" | "USER";
 
 type Components = "BUTTONS" | "MODALS" | "SELECTS";
 
-type CommandCollections =
-  | Collection<string, ChatInputCommandInterface | Nullish>
-  | Collection<string, UserCommandInterface | Nullish>;
+type CommandCollections = Collection<string, ChatInputCommand | Nullish> | Collection<string, UserCommand | Nullish>;
 
-type ComponentCollections =
-  | Collection<string, ComponentInterface | Nullish>
-  | Collection<string, ModalInterface | Nullish>;
+type ComponentCollections = Collection<string, Component | Nullish> | Collection<string, Modal | Nullish>;

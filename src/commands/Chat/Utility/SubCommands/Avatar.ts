@@ -2,9 +2,9 @@ import { EmbedBuilder } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors } from "#constants";
-import { type ChatInputSubCommandInterface, Directories } from "#types";
+import { type ChatInputSubCommand, Directories } from "#types";
 
-export default new BaseBuilder<ChatInputSubCommandInterface>({
+export default new BaseBuilder<ChatInputSubCommand>({
   name: "avatar",
   directory: Directories.UTILITY,
   run: async (_context: CommandInteraction) => {

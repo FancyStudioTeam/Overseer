@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
 import { BaseBuilder } from "#base";
-import { type ChatInputCommandInterface, Directories } from "#types";
+import { type ChatInputCommand, Directories } from "#types";
 
-export default new BaseBuilder<ChatInputCommandInterface>({
+export default new BaseBuilder<ChatInputCommand>({
   name: "info",
   description: "_",
   options: [

@@ -1,10 +1,4 @@
-import type {
-  ChatInputCommandInterface,
-  ChatInputSubCommandInterface,
-  ComponentInterface,
-  ModalInterface,
-  UserCommandInterface,
-} from "#types";
+import type { ChatInputCommand, ChatInputSubCommand, Component, Modal, UserCommand } from "#types";
 
 export class BaseBuilder<T extends BuilderTypes> {
   constructor(options: T) {
@@ -12,9 +6,4 @@ export class BaseBuilder<T extends BuilderTypes> {
   }
 }
 
-type BuilderTypes =
-  | ChatInputCommandInterface
-  | ChatInputSubCommandInterface
-  | UserCommandInterface
-  | ComponentInterface
-  | ModalInterface;
+type BuilderTypes = ChatInputCommand | ChatInputSubCommand | UserCommand | Component | Modal;

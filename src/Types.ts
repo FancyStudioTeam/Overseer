@@ -10,7 +10,7 @@ import type {
 
 export type Locales = "EN" | "ES";
 
-export interface BaseInterface<T extends Interactions> {
+interface Base<T extends Interactions> {
   name: string;
   permissions?: {
     bot?: PermissionName[];
@@ -28,7 +28,7 @@ export interface BaseInterface<T extends Interactions> {
   ) => Promise<unknown>;
 }
 
-export type ChatInputCommandInterface = {
+export type ChatInputCommand = {
   directory: Directories;
   autocomplete?: (
     interaction: AutocompleteInteraction,
@@ -39,18 +39,18 @@ export type ChatInputCommandInterface = {
       premium: boolean;
     },
   ) => Promise<unknown>;
-} & Omit<BaseInterface<CommandInteraction>, "run"> &
+} & Omit<Base<CommandInteraction>, "run"> &
   CreateChatInputApplicationCommandOptions;
 
-export type ChatInputSubCommandInterface = {
+export type ChatInputSubCommand = {
   directory: Directories;
-} & BaseInterface<CommandInteraction>;
+} & Base<CommandInteraction>;
 
-export type UserCommandInterface = BaseInterface<CommandInteraction> & CreateUserApplicationCommandOptions;
+export type UserCommand = Base<CommandInteraction> & CreateUserApplicationCommandOptions;
 
-export type ComponentInterface = BaseInterface<ComponentInteraction>;
+export type Component = Base<ComponentInteraction>;
 
-export type ModalInterface = BaseInterface<ModalSubmitInteraction>;
+export type Modal = Base<ModalSubmitInteraction>;
 
 type Interactions = CommandInteraction | ComponentInteraction | ModalSubmitInteraction;
 
