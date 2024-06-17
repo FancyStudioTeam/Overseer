@@ -1,7 +1,7 @@
 import { Duration } from "@sapphire/time-utilities";
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
 import { BaseBuilder } from "#base";
-import { type ChatInputCommandInterface, Directory } from "#types";
+import { type ChatInputCommandInterface, Directories } from "#types";
 
 export default new BaseBuilder<ChatInputCommandInterface>({
   name: "mod",
@@ -53,50 +53,50 @@ export default new BaseBuilder<ChatInputCommandInterface>({
               value: new Duration("0 seconds").offset,
             },
             {
-              name: "⏱️ Within the past hour",
+              name: "⏰ Within the past hour",
               nameLocalizations: {
-                "es-419": "⏱️ En la última hora",
-                "es-ES": "⏱️ En la última hora",
+                "es-419": "⏰ En la última hora",
+                "es-ES": "⏰ En la última hora",
               },
               value: new Duration("1 hour").offset,
             },
             {
-              name: "⏱️ Within the past 6 hours",
+              name: "⏰ Within the past 6 hours",
               nameLocalizations: {
-                "es-419": "⏱️ En las últimas 6 horas",
-                "es-ES": "⏱️ En las últimas 6 horas",
+                "es-419": "⏰ En las últimas 6 horas",
+                "es-ES": "⏰ En las últimas 6 horas",
               },
               value: new Duration("6 hours").offset,
             },
             {
-              name: "⏱️ Within the past 12 hours",
+              name: "⏰ Within the past 12 hours",
               nameLocalizations: {
-                "es-419": "⏱️ En las últimas 12 horas",
-                "es-ES": "⏱️ En las últimas 12 horas",
+                "es-419": "⏰ En las últimas 12 horas",
+                "es-ES": "⏰ En las últimas 12 horas",
               },
               value: new Duration("12 hours").offset,
             },
             {
-              name: "⏱️ Within the past 24 hours",
+              name: "⏰ Within the past 24 hours",
               nameLocalizations: {
-                "es-419": "⏱️ En las últimas 24 horas",
-                "es-ES": "⏱️ En las últimas 24 horas",
+                "es-419": "⏰ En las últimas 24 horas",
+                "es-ES": "⏰ En las últimas 24 horas",
               },
               value: new Duration("24 hours").offset,
             },
             {
-              name: "⏱️ Within the past 3 days",
+              name: "⏰ Within the past 3 days",
               nameLocalizations: {
-                "es-419": "⏱️ En los últimos 3 días",
-                "es-ES": "⏱️ En los últimos 3 días",
+                "es-419": "⏰ En los últimos 3 días",
+                "es-ES": "⏰ En los últimos 3 días",
               },
               value: new Duration("3 days").offset,
             },
             {
-              name: "⏱️ Within the past 7 days",
+              name: "⏰ Within the past 7 days",
               nameLocalizations: {
-                "es-419": "⏱️ En los últimos 7 días",
-                "es-ES": "⏱️ En los últimos 7 días",
+                "es-419": "⏰ En los últimos 7 días",
+                "es-ES": "⏰ En los últimos 7 días",
               },
               value: new Duration("7 days").offset,
             },
@@ -274,6 +274,5 @@ export default new BaseBuilder<ChatInputCommandInterface>({
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
-  directory: Directory.MODERATION,
-  run: async (_context: CommandInteraction) => undefined,
+  directory: Directories.MODERATION,
 });

@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
 import { BaseBuilder } from "#base";
-import { type ChatInputCommandInterface, Directory } from "#types";
+import { type ChatInputCommandInterface, Directories } from "#types";
 
 export default new BaseBuilder<ChatInputCommandInterface>({
   name: "info",
@@ -12,6 +12,15 @@ export default new BaseBuilder<ChatInputCommandInterface>({
       descriptionLocalizations: {
         "es-419": "Muestra la información del bot",
         "es-ES": "Muestra la información del bot",
+      },
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+    },
+    {
+      name: "help",
+      description: "Displays bot commands",
+      descriptionLocalizations: {
+        "es-419": "Muestra los comandos del bot",
+        "es-ES": "Muestra los comandos del bot",
       },
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
     },
@@ -56,6 +65,5 @@ export default new BaseBuilder<ChatInputCommandInterface>({
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
-  directory: Directory.INFORMATION,
-  run: async (_context: CommandInteraction) => undefined,
+  directory: Directories.INFORMATION,
 });

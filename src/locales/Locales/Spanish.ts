@@ -32,6 +32,14 @@ export default {
           },
         },
       },
+      HELP: {
+        MESSAGE_1: {
+          TITLE_1: ({ name }: { name: string }) => `**Panel de Ayuda de ${name}**`,
+          FIELD_1: {
+            FIELD: ({ command }: { command: string }) => `**Subcomandos de ${inlineCodeBlock(`/${command}`)}**`,
+          },
+        },
+      },
       PING: {
         MESSAGE_1: {
           DESCRIPTION_1: ({ rest, shard }: { rest: string; shard: string }) =>
@@ -181,14 +189,6 @@ export default {
           },
         },
         MESSAGE_2: `**${Emojis.ERROR} Esta sugerencia requiere una aprobación antes de ser pública**`,
-      },
-    },
-  },
-  HELP: {
-    MESSAGE_1: {
-      TITLE_1: ({ name }: { name: string }) => `**Panel de Ayuda de ${name}**`,
-      FIELD_1: {
-        FIELD: ({ command }: { command: string }) => `**Subcomandos de ${inlineCodeBlock(`/${command}`)}**`,
       },
     },
   },

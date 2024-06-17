@@ -105,21 +105,13 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
         case ApplicationCommandTypes.CHAT_INPUT: {
           await _interaction.defer().catch(() => undefined);
 
-          _interaction.data.options.getSubCommand()
-            ? await _handleChatInputSubCommand({
-                _interaction,
-                locale,
-                timezone,
-                hour12,
-                premium,
-              })
-            : await _handleChatInputCommand({
-                _interaction,
-                locale,
-                timezone,
-                hour12,
-                premium,
-              });
+          await _handleChatInputSubCommand({
+            _interaction,
+            locale,
+            timezone,
+            hour12,
+            premium,
+          });
 
           break;
         }
@@ -204,43 +196,6 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
     }
   }
 });
-
-async function _handleChatInputCommand({
-  _interaction,
-  locale,
-  timezone,
-  hour12,
-  premium,
-}: {
-  _interaction: CommandInteraction;
-  locale: Locales;
-  timezone: string;
-  hour12: boolean;
-  premium: boolean;
-}): Promise<void> {
-  const command = _client.interactions.chatInput.get(_interaction.data.name);
-
-  if (command?.name) {
-    const result = await Result.fromAsync(async () => {
-      await command.run(_interaction, {
-        locale,
-        timezone,
-        hour12,
-        premium,
-      });
-    });
-
-    result.unwrapOrElse(async (error) => {
-      await handleError(
-        {
-          _context: _interaction,
-          locale,
-        },
-        error,
-      );
-    });
-  }
-}
 
 async function _handleChatInputSubCommand({
   _interaction,

@@ -5,12 +5,12 @@ import { Colors, Emojis } from "#constants";
 import { _client } from "#index";
 import { version } from "#package";
 import { Translations } from "#translations";
-import { type ChatInputSubCommandInterface, Directory } from "#types";
+import { type ChatInputSubCommandInterface, Directories } from "#types";
 import { UnixType, formatUnix, sanitizeString } from "#util/Util.js";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "bot",
-  directory: Directory.INFORMATION,
+  directory: Directories.INFORMATION,
   run: async (_context: CommandInteraction, { locale }) => {
     await _context.reply({
       embeds: new EmbedBuilder()

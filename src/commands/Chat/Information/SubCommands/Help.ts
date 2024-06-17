@@ -1,29 +1,24 @@
 import colors from "@colors/colors";
 import { codeBlock } from "@sapphire/utilities";
 import { EmbedBuilder } from "oceanic-builders";
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
+import { ApplicationCommandOptionTypes, type CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#translations";
-import { type ChatInputCommandInterface, Directory } from "#types";
+import { type ChatInputSubCommandInterface, Directories } from "#types";
 import { padding } from "#util/Util.js";
 // import { pagination } from "#util/Pagination";
 
-export default new BaseBuilder<ChatInputCommandInterface>({
+export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "help",
-  description: "Displays bot commands",
-  descriptionLocalizations: {
-    "es-419": "Muestra los comandos del bot",
-    "es-ES": "Muestra los comandos del bot",
-  },
-  type: ApplicationCommandTypes.CHAT_INPUT,
-  dmPermission: false,
-  directory: Directory.MISCELLANEOUS,
+  directory: Directories.INFORMATION,
   run: async (_context: CommandInteraction, { locale }) => {
-    const groupedCommands = [Directory.INFORMATION, Directory.MODERATION, Directory.UTILITY].map((directory, _) => {
-      return _client.interactions.chatInput.filter((command) => command?.directory === directory);
-    });
+    const groupedCommands = [Directories.INFORMATION, Directories.MODERATION, Directories.UTILITY].map(
+      (directory, _) => {
+        return _client.interactions.chatInput.filter((command) => command?.directory === directory);
+      },
+    );
     const commands = groupedCommands.map((group) => {
       const data: {
         base: string;
@@ -110,14 +105,14 @@ export default new BaseBuilder<ChatInputCommandInterface>({
     await _context.reply({
       embeds: new EmbedBuilder()
         .setTitle(
-          Translations[locale].HELP.MESSAGE_1.TITLE_1({
+          Translations[locale].COMMANDS.INFORMATION.HELP.MESSAGE_1.TITLE_1({
             name: _client.user.globalName ?? _client.user.username,
           }),
         )
         .addFields(
           commands.map((data) => {
             return {
-              name: Translations[locale].HELP.MESSAGE_1.FIELD_1.FIELD({
+              name: Translations[locale].COMMANDS.INFORMATION.HELP.MESSAGE_1.FIELD_1.FIELD({
                 command: data.base,
               }),
               value: codeBlock(

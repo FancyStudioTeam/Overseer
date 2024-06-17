@@ -3,12 +3,12 @@ import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#translations";
-import { type ChatInputSubCommandInterface, Directory } from "#types";
+import { type ChatInputSubCommandInterface, Directories } from "#types";
 import { FetchFrom, UnixType, errorMessage, fetchMember, formatUnix, sanitizeString } from "#util/Util.js";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
   name: "user",
-  directory: Directory.INFORMATION,
+  directory: Directories.INFORMATION,
   run: async (_context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage({

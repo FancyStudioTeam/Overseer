@@ -32,6 +32,14 @@ export default {
           },
         },
       },
+      HELP: {
+        MESSAGE_1: {
+          TITLE_1: ({ name }: { name: string }) => `**${name} Help Panel**`,
+          FIELD_1: {
+            FIELD: ({ command }: { command: string }) => `**${inlineCodeBlock(`/${command}`)} Subcommands**`,
+          },
+        },
+      },
       PING: {
         MESSAGE_1: {
           DESCRIPTION_1: ({ rest, shard }: { rest: string; shard: string }) =>
@@ -180,14 +188,6 @@ export default {
           },
         },
         MESSAGE_2: `**${Emojis.ERROR} This suggestion requires approval before being made public**`,
-      },
-    },
-  },
-  HELP: {
-    MESSAGE_1: {
-      TITLE_1: ({ name }: { name: string }) => `**${name} Help Panel**`,
-      FIELD_1: {
-        FIELD: ({ command }: { command: string }) => `**${inlineCodeBlock(`/${command}`)} Subcommands**`,
       },
     },
   },

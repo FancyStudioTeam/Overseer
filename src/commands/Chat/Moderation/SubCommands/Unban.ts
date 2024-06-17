@@ -4,7 +4,7 @@ import { BaseBuilder } from "#base";
 import { Colors } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#translations";
-import { type ChatInputSubCommandInterface, Directory } from "#types";
+import { type ChatInputSubCommandInterface, Directories } from "#types";
 import { errorMessage, sanitizeString } from "#util/Util.js";
 
 export default new BaseBuilder<ChatInputSubCommandInterface>({
@@ -13,7 +13,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
     user: ["BAN_MEMBERS"],
     bot: ["BAN_MEMBERS"],
   },
-  directory: Directory.MODERATION,
+  directory: Directories.MODERATION,
   run: async (_context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
       return await errorMessage({
