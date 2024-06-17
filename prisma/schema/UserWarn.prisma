@@ -1,14 +1,15 @@
 model UserWarn {
-    id          String          @id @default(auto()) @map("_id") @db.ObjectId
-    guildID     String
-    general     UserWarnGeneral
-    createdAt   DateTime        @default(now())
-    @@unique([general.warningID])
+  id        String          @id @default(auto()) @map("_id") @db.ObjectId
+  guildID   String
+  general   UserWarnGeneral
+  createdAt DateTime        @default(now())
+
+  @@unique([general.warningID])
 }
 
 type UserWarnGeneral {
-    userID       String
-    warningID    String
-    moderatorID  String
-    reason       String @default("No reason")
+  userID      String
+  warningID   String
+  moderatorID String
+  reason      String @default("No reason")
 }
