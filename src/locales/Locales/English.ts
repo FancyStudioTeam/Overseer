@@ -13,15 +13,18 @@ export default {
           FIELD_1: {
             FIELD: "**General Information**",
             VALUE: ({ version, memory }: { version: string; memory: string }) =>
-              [`${Emojis.RIGHT} **Version**: ${version}`, `${Emojis.RIGHT} **RAM Usage**: ${memory}`].join("\n"),
+              [
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Version**: ${version}`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **RAM Usage**: ${memory}`,
+              ].join("\n"),
           },
           FIELD_2: {
             FIELD: "**Statistics**",
             VALUE: ({ users, guilds, shards }: { users: number; guilds: number; shards: number }) =>
               [
-                `${Emojis.RIGHT} **Users**: ${users} users`,
-                `${Emojis.RIGHT} **Servers**: ${guilds} servers`,
-                `${Emojis.RIGHT} **Shards**: ${shards} shards`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Users**: ${users} users`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Servers**: ${guilds} servers`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Shards**: ${shards} shards`,
               ].join("\n"),
           },
           FIELD_3: {
@@ -51,18 +54,18 @@ export default {
             FIELD: "**General Information**",
             VALUE: ({ name, id, owner }: { name: string; id: string; owner: string }) =>
               [
-                `${Emojis.RIGHT} **Name**: ${name}`,
-                `${Emojis.RIGHT} **ID**: ${id}`,
-                `${Emojis.RIGHT} **Owner**: ${owner}`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Name**: ${name}`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **ID**: ${id}`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Owner**: ${owner}`,
               ].join("\n"),
           },
           FIELD_2: {
             FIELD: "**Statistics**",
             VALUE: ({ members, channels, roles }: { members: number; channels: number; roles: number }) =>
               [
-                `${Emojis.RIGHT} **Members**: ${members} members`,
-                `${Emojis.RIGHT} **Channels**: ${channels} channels`,
-                `${Emojis.RIGHT} **Roles**: ${roles} roles`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Members**: ${members} members`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Channels**: ${channels} channels`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Roles**: ${roles} roles`,
               ].join("\n"),
           },
           FIELD_3: {
@@ -76,7 +79,9 @@ export default {
           FIELD_1: {
             FIELD: "**General Information**",
             VALUE: ({ name, id }: { name: string; id: string }) =>
-              [`${Emojis.RIGHT} **User**: ${name}`, `${Emojis.RIGHT} **ID**: ${id}`].join("\n"),
+              [`${Emojis.EXPAND_CIRCLE_RIGHT} **User**: ${name}`, `${Emojis.EXPAND_CIRCLE_RIGHT} **ID**: ${id}`].join(
+                "\n",
+              ),
           },
           FIELD_2: {
             FIELD: "**Creation Date**",
@@ -91,50 +96,50 @@ export default {
       BAN: {
         MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.SUCCESS} The user ${user} has been banned by ${moderator}**`,
-            `${Emojis.RIGHT} **Reason**: ${reason}`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} The user ${user} has been banned by ${moderator}**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
       KICK: {
         MESSAGE_1: ({ username, moderator, reason }: { username: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.SUCCESS} The user ${username} has been kicked by ${moderator}**`,
-            `${Emojis.RIGHT} **Reason**: ${reason}`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} The user ${username} has been kicked by ${moderator}**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
       SOFTBAN: {
         MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.SUCCESS} The user ${user} has been softbanned by ${moderator}**`,
-            `${Emojis.RIGHT} **Reason**: ${reason}`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} The user ${user} has been softbanned by ${moderator}**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
       TIMEOUT: {
         ADD: {
-          INVALID_DURATION_FORMAT: `**${Emojis.MARK} The duration returned an invalid format**`,
-          ALLOWED_DURATION_VALUES: `**${Emojis.MARK} The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**`,
+          INVALID_DURATION_FORMAT: `**${Emojis.CANCEL_CIRCLE_COLOR} The duration returned an invalid format**`,
+          ALLOWED_DURATION_VALUES: `**${Emojis.CANCEL_CIRCLE_COLOR} The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**`,
           MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
             [
-              `**${Emojis.SUCCESS} The moderator ${moderator} has added a timeout for user ${user}**`,
-              `${Emojis.RIGHT} **Reason**: ${reason}`,
+              `**${Emojis.CHECK_CIRCLE_COLOR} The moderator ${moderator} has added a timeout for user ${user}**`,
+              `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
             ].join("\n"),
         },
         REMOVE: {
-          USER_NOT_TIMEOUTED: `**${Emojis.MARK} The user does not have a timeout**`,
+          USER_NOT_TIMEOUTED: `**${Emojis.CANCEL_CIRCLE_COLOR} The user does not have a timeout**`,
           MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
             [
-              `**${Emojis.SUCCESS} The moderator ${moderator} has removed the timeout of the user ${user}**`,
-              `${Emojis.RIGHT} **Reason**: ${reason}`,
+              `**${Emojis.CHECK_CIRCLE_COLOR} The moderator ${moderator} has removed the timeout of the user ${user}**`,
+              `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
             ].join("\n"),
         },
       },
       UNBAN: {
         BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
-          `**${Emojis.MARK} The ban ${inlineCodeBlock(ban)} has not been found**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} The ban ${inlineCodeBlock(ban)} has not been found**`,
         MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.SUCCESS} The user ${user} has been unbanned by ${moderator}**`,
-            `${Emojis.RIGHT} **Reason**: ${reason}`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} The user ${user} has been unbanned by ${moderator}**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
     },
@@ -157,11 +162,11 @@ export default {
             },
           },
         },
-        SYSTEM_NOT_ENABLED: `**${Emojis.MARK} The suggestion system is not enabled**`,
-        SUGGESTIONS_NOT_FOUND: `**${Emojis.MARK} The suggestions channel has not been found**`,
-        REVIEW_NOT_FOUND: `**${Emojis.MARK} The review channel has not been found**`,
+        SYSTEM_NOT_ENABLED: `**${Emojis.CANCEL_CIRCLE_COLOR} The suggestion system is not enabled**`,
+        SUGGESTIONS_NOT_FOUND: `**${Emojis.CANCEL_CIRCLE_COLOR} The suggestions channel has not been found**`,
+        REVIEW_NOT_FOUND: `**${Emojis.CANCEL_CIRCLE_COLOR} The review channel has not been found**`,
         SUGGESTION_NOT_FOUND: ({ id }: { id: string }) =>
-          `**${Emojis.MARK} The suggestion ${inlineCodeBlock(id)} has not been found**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} The suggestion ${inlineCodeBlock(id)} has not been found**`,
         MESSAGE_1: {
           TITLE_1: ({ username }: { username: string }) => `**${username} Suggestion**`,
           FIELD_1: {
@@ -174,7 +179,7 @@ export default {
             FIELD: ({ moderator }: { moderator: string }) => `**Suggestion denied by ${moderator}**`,
           },
         },
-        MESSAGE_2: `**${Emojis.WARNING} This suggestion requires approval before being made public**`,
+        MESSAGE_2: `**${Emojis.ERROR} This suggestion requires approval before being made public**`,
       },
     },
   },
@@ -189,34 +194,34 @@ export default {
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
-        `**${Emojis.MARK} The ${inlineCodeBlock("guild")} property is not present in the ${inlineCodeBlock(
+        `**${Emojis.CANCEL_CIRCLE_COLOR} The ${inlineCodeBlock("guild")} property is not present in the ${inlineCodeBlock(
           structure.constructor.name,
         )} structure**`,
-        `${Emojis.RIGHT} Attempts to re-execute the action within a server`,
+        `${Emojis.EXPAND_CIRCLE_RIGHT} Attempts to re-execute the action within a server`,
       ].join("\n"),
-    INVALID_GUILD_MEMBER: `**${Emojis.MARK} The user must be a member of this server**`,
+    INVALID_GUILD_MEMBER: `**${Emojis.CANCEL_CIRCLE_COLOR} The user must be a member of this server**`,
     USER_IS_LIMITED: ({ resets }: { resets: string }) =>
       [
-        `**${Emojis.MARK} You are executing too many actions in too little time**`,
-        `${Emojis.RIGHT} You have received a block which will be reset in ${resets}`,
+        `**${Emojis.CANCEL_CIRCLE_COLOR} You are executing too many actions in too little time**`,
+        `${Emojis.EXPAND_CIRCLE_RIGHT} You have received a block which will be reset in ${resets}`,
       ].join("\n"),
-    CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} You cannot moderate this member**`,
+    CANNOT_MODERATE_MEMBER: `**${Emojis.CANCEL_CIRCLE_COLOR} You cannot moderate this member**`,
     HIERARCHY: {
-      USER: `**${Emojis.MARK} You cannot moderate a user with a hierarchy equal to or higher than your hierarchy**`,
-      CLIENT: `**${Emojis.MARK} I cannot moderate a user with a hierarchy equal to or higher than the bot's hierarchy**`,
+      USER: `**${Emojis.CANCEL_CIRCLE_COLOR} You cannot moderate a user with a hierarchy equal to or higher than your hierarchy**`,
+      CLIENT: `**${Emojis.CANCEL_CIRCLE_COLOR} I cannot moderate a user with a hierarchy equal to or higher than the bot's hierarchy**`,
     },
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.MARK} This action could not be performed because you need the ${permissions} permission on the server**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} This action could not be performed because you need the ${permissions} permission on the server**`,
         CLIENT: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.MARK} This action could not be performed because I need the ${permissions} permission on the server**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} This action could not be performed because I need the ${permissions} permission on the server**`,
       },
       CHANNEL: {
         USER: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.MARK} This action could not be performed because you need the ${permissions} permission on the channel ${channel}**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} This action could not be performed because you need the ${permissions} permission on the channel ${channel}**`,
         CLIENT: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.MARK} This action could not be performed because I need the ${permissions} permission on the channel ${channel}**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} This action could not be performed because I need the ${permissions} permission on the channel ${channel}**`,
       },
     },
     SOMETHING_WENT_WRONG: {
@@ -229,12 +234,12 @@ export default {
       },
       MESSAGE_1: ({ name, id }: { name: string; id: string }) =>
         [
-          `**${Emojis.MARK} The server returned an error of type ${inlineCodeBlock(name)}**`,
-          `${Emojis.RIGHT} **Report ID**: ${id}`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} The server returned an error of type ${inlineCodeBlock(name)}**`,
+          `${Emojis.EXPAND_CIRCLE_RIGHT} **Report ID**: ${id}`,
         ].join("\n"),
     },
-    ONLY_GUILD_OWNER: `**${Emojis.MARK} This action can only be performed by the owner of the server**`,
-    INVALID_USER_COLLECTOR: `**${Emojis.MARK} You cannot run this component**`,
+    ONLY_GUILD_OWNER: `**${Emojis.CANCEL_CIRCLE_COLOR} This action can only be performed by the owner of the server**`,
+    INVALID_USER_COLLECTOR: `**${Emojis.CANCEL_CIRCLE_COLOR} You cannot run this component**`,
   },
   PERMISSIONS: permissions(),
 };

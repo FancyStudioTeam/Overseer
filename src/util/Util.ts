@@ -131,7 +131,7 @@ export async function errorMessage({
   message: string;
 }): Promise<void> {
   const payload: CreateMessageOptions & InteractionContent = {
-    embeds: new EmbedBuilder().setDescription(message).setColor(Colors.ERROR).toJSONArray(),
+    embeds: new EmbedBuilder().setDescription(message).setColor(Colors.RED).toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
@@ -277,7 +277,7 @@ export async function checkPermissions(
           channel: channel?.mention ?? "",
         }),
       )
-      .setColor(Colors.ERROR)
+      .setColor(Colors.RED)
       .toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
@@ -351,7 +351,7 @@ export async function handleError(
           id,
         }),
       )
-      .setColor(Colors.ERROR)
+      .setColor(Colors.RED)
       .toJSONArray(),
     components: new ActionRowBuilder()
       .addComponents([

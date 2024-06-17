@@ -40,7 +40,7 @@ _client.on("messageCreate", async (_message: Message) => {
 
       await _client.rest.channels.createMessage(dmChannel.id, {
         embeds: new EmbedBuilder()
-          .setDescription(`**${Emojis.RIGHT} ||${createdClientVoucher.voucherID}||**`)
+          .setDescription(`**${Emojis.EXPAND_CIRCLE_RIGHT} ||${createdClientVoucher.voucherID}||**`)
           .setColor(Colors.COLOR)
           .toJSONArray(),
       });
@@ -56,7 +56,7 @@ _client.on("messageCreate", async (_message: Message) => {
             .setDescription(
               codeBlock(error ? "bash" : "js", cutText(error ? error.stack ?? error.message : result, 4000)),
             )
-            .setColor(error ? Colors.ERROR : Colors.COLOR)
+            .setColor(error ? Colors.RED : Colors.COLOR)
             .toJSONArray(),
         });
       });
@@ -87,7 +87,7 @@ _client.on("messageCreate", async (_message: Message) => {
         await _client.rest.channels.createMessage(_message.channelID, {
           embeds: new EmbedBuilder()
             .setDescription(codeBlock("js", cutText(String(error), 4000)))
-            .setColor(Colors.ERROR)
+            .setColor(Colors.RED)
             .toJSONArray(),
         });
       });

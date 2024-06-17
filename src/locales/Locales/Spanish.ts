@@ -13,15 +13,18 @@ export default {
           FIELD_1: {
             FIELD: "**Información General**",
             VALUE: ({ version, memory }: { version: string; memory: string }) =>
-              [`${Emojis.RIGHT} **Versión**: ${version}`, `${Emojis.RIGHT} **Uso de RAM**: ${memory}`].join("\n"),
+              [
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Versión**: ${version}`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Uso de RAM**: ${memory}`,
+              ].join("\n"),
           },
           FIELD_2: {
             FIELD: "**Estadísticas**",
             VALUE: ({ users, guilds, shards }: { users: number; guilds: number; shards: number }) =>
               [
-                `${Emojis.RIGHT} **Usuarios**: ${users} usuarios`,
-                `${Emojis.RIGHT} **Servidores**: ${guilds} servidores`,
-                `${Emojis.RIGHT} **Shards**: ${shards} shards`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Usuarios**: ${users} usuarios`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Servidores**: ${guilds} servidores`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Shards**: ${shards} shards`,
               ].join("\n"),
           },
           FIELD_3: {
@@ -51,18 +54,18 @@ export default {
             FIELD: "**Información General**",
             VALUE: ({ name, id, owner }: { name: string; id: string; owner: string }) =>
               [
-                `${Emojis.RIGHT} **Nombre**: ${name}`,
-                `${Emojis.RIGHT} **ID**: ${id}`,
-                `${Emojis.RIGHT} **Propietario**: ${owner}`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Nombre**: ${name}`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **ID**: ${id}`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Propietario**: ${owner}`,
               ].join("\n"),
           },
           FIELD_2: {
             FIELD: "**Estadísticas**",
             VALUE: ({ members, channels, roles }: { members: number; channels: number; roles: number }) =>
               [
-                `${Emojis.RIGHT} **Miembros**: ${members} miembros`,
-                `${Emojis.RIGHT} **Canales**: ${channels} canales`,
-                `${Emojis.RIGHT} **Roles**: ${roles} roles`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Miembros**: ${members} miembros`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Canales**: ${channels} canales`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Roles**: ${roles} roles`,
               ].join("\n"),
           },
           FIELD_3: {
@@ -76,7 +79,10 @@ export default {
           FIELD_1: {
             FIELD: "**Información General**",
             VALUE: ({ name, id }: { name: string; id: string }) =>
-              [`${Emojis.RIGHT} **Usuario**: ${name}`, `${Emojis.RIGHT} **ID**: ${id}`].join("\n"),
+              [
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **Usuario**: ${name}`,
+                `${Emojis.EXPAND_CIRCLE_RIGHT} **ID**: ${id}`,
+              ].join("\n"),
           },
           FIELD_2: {
             FIELD: "**Fecha de Creación**",
@@ -91,50 +97,50 @@ export default {
       BAN: {
         MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.SUCCESS} El usuario ${user} ha sido baneado por ${moderator}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} El usuario ${user} ha sido baneado por ${moderator}**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
       },
       KICK: {
         MESSAGE_1: ({ username, moderator, reason }: { username: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.SUCCESS} El usuario ${username} ha sido expulsado por ${moderator}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} El usuario ${username} ha sido expulsado por ${moderator}**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
       },
       SOFTBAN: {
         MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.SUCCESS} El usuario ${user} ha sido softbaneado por ${moderator}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} El usuario ${user} ha sido softbaneado por ${moderator}**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
       },
       TIMEOUT: {
         ADD: {
-          INVALID_DURATION_FORMAT: `**${Emojis.MARK} La duración devolvió un formato inválido**`,
-          ALLOWED_DURATION_VALUES: `**${Emojis.MARK} La duración debe ser mayor o igual a 5 segundos y menor o igual a 28 días**`,
+          INVALID_DURATION_FORMAT: `**${Emojis.CANCEL_CIRCLE_COLOR} La duración devolvió un formato inválido**`,
+          ALLOWED_DURATION_VALUES: `**${Emojis.CANCEL_CIRCLE_COLOR} La duración debe ser mayor o igual a 5 segundos y menor o igual a 28 días**`,
           MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
             [
-              `**${Emojis.SUCCESS} El moderador ${moderator} ha añadido un tiempo de espera al usuario ${user}**`,
-              `${Emojis.RIGHT} **Razón**: ${reason}`,
+              `**${Emojis.CHECK_CIRCLE_COLOR} El moderador ${moderator} ha añadido un tiempo de espera al usuario ${user}**`,
+              `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
             ].join("\n"),
         },
         REMOVE: {
-          USER_NOT_TIMEOUTED: `**${Emojis.MARK} El usuario no tiene un tiempo de espera**`,
+          USER_NOT_TIMEOUTED: `**${Emojis.CANCEL_CIRCLE_COLOR} El usuario no tiene un tiempo de espera**`,
           MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
             [
-              `**${Emojis.SUCCESS} El moderador ${moderator} ha eliminado el tiempo de espera del usuario ${user}**`,
-              `${Emojis.RIGHT} **Razón**: ${reason}`,
+              `**${Emojis.CHECK_CIRCLE_COLOR} El moderador ${moderator} ha eliminado el tiempo de espera del usuario ${user}**`,
+              `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
             ].join("\n"),
         },
       },
       UNBAN: {
         BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
-          `**${Emojis.MARK} El baneo ${inlineCodeBlock(ban)} no ha sido encontrado**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} El baneo ${inlineCodeBlock(ban)} no ha sido encontrado**`,
         MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.SUCCESS} El usuario ${user} ha sido desbaneado por ${moderator}**`,
-            `${Emojis.RIGHT} **Razón**: ${reason}`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} El usuario ${user} ha sido desbaneado por ${moderator}**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
       },
     },
@@ -157,11 +163,11 @@ export default {
             },
           },
         },
-        SYSTEM_NOT_ENABLED: `**${Emojis.MARK} El sistema de sugerencias no está habilitado**`,
-        SUGGESTIONS_NOT_FOUND: `**${Emojis.MARK} El canal de sugerencias no ha sido encontrado**`,
-        REVIEW_NOT_FOUND: `**${Emojis.MARK} El canal de revisión no ha sido encontrado**`,
+        SYSTEM_NOT_ENABLED: `**${Emojis.CANCEL_CIRCLE_COLOR} El sistema de sugerencias no está habilitado**`,
+        SUGGESTIONS_NOT_FOUND: `**${Emojis.CANCEL_CIRCLE_COLOR} El canal de sugerencias no ha sido encontrado**`,
+        REVIEW_NOT_FOUND: `**${Emojis.CANCEL_CIRCLE_COLOR} El canal de revisión no ha sido encontrado**`,
         SUGGESTION_NOT_FOUND: ({ id }: { id: string }) =>
-          `**${Emojis.MARK} La sugerencia ${inlineCodeBlock(id)} no ha sido encontrada**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} La sugerencia ${inlineCodeBlock(id)} no ha sido encontrada**`,
         MESSAGE_1: {
           TITLE_1: ({ username }: { username: string }) => `**Sugerencia de ${username}**`,
           FIELD_1: {
@@ -174,7 +180,7 @@ export default {
             FIELD: ({ moderator }: { moderator: string }) => `**Sugerencia denegada por ${moderator}**`,
           },
         },
-        MESSAGE_2: `**${Emojis.WARNING} Esta sugerencia requiere una aprobación antes de ser pública**`,
+        MESSAGE_2: `**${Emojis.ERROR} Esta sugerencia requiere una aprobación antes de ser pública**`,
       },
     },
   },
@@ -189,34 +195,34 @@ export default {
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
-        `**${Emojis.MARK} La propiedad ${inlineCodeBlock(
+        `**${Emojis.CANCEL_CIRCLE_COLOR} La propiedad ${inlineCodeBlock(
           "guild",
         )} no está presente en la estructura ${inlineCodeBlock(structure.constructor.name)}**`,
-        `${Emojis.RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
+        `${Emojis.EXPAND_CIRCLE_RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
       ].join("\n"),
-    INVALID_GUILD_MEMBER: `**${Emojis.MARK} El usuario debe ser miembro de este servidor**`,
+    INVALID_GUILD_MEMBER: `**${Emojis.CANCEL_CIRCLE_COLOR} El usuario debe ser miembro de este servidor**`,
     USER_IS_LIMITED: ({ resets }: { resets: string }) =>
       [
-        `**${Emojis.MARK} Estas ejecutando demasiadas acciones en poco tiempo**`,
-        `${Emojis.RIGHT} Has recibido un bloqueo que se reiniciará en ${resets}`,
+        `**${Emojis.CANCEL_CIRCLE_COLOR} Estas ejecutando demasiadas acciones en poco tiempo**`,
+        `${Emojis.EXPAND_CIRCLE_RIGHT} Has recibido un bloqueo que se reiniciará en ${resets}`,
       ].join("\n"),
-    CANNOT_MODERATE_MEMBER: `**${Emojis.MARK} No puedes moderar a este usuario**`,
+    CANNOT_MODERATE_MEMBER: `**${Emojis.CANCEL_CIRCLE_COLOR} No puedes moderar a este usuario**`,
     HIERARCHY: {
-      USER: `**${Emojis.MARK} No puedes moderar a un usuario con una jerarquía igual o superior que tu jerarquía**`,
-      CLIENT: `**${Emojis.MARK} No puedo moderar a un usuario con una jerarquía igual o superior que la jerarquía del bot**`,
+      USER: `**${Emojis.CANCEL_CIRCLE_COLOR} No puedes moderar a un usuario con una jerarquía igual o superior que tu jerarquía**`,
+      CLIENT: `**${Emojis.CANCEL_CIRCLE_COLOR} No puedo moderar a un usuario con una jerarquía igual o superior que la jerarquía del bot**`,
     },
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.MARK} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el servidor**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el servidor**`,
         CLIENT: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.MARK} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el servidor**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el servidor**`,
       },
       CHANNEL: {
         USER: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.MARK} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el canal ${channel}**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el canal ${channel}**`,
         CLIENT: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.MARK} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el canal ${channel}**`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el canal ${channel}**`,
       },
     },
     SOMETHING_WENT_WRONG: {
@@ -229,12 +235,12 @@ export default {
       },
       MESSAGE_1: ({ name, id }: { name: string; id: string }) =>
         [
-          `**${Emojis.MARK} El servidor devolvió un error de tipo ${inlineCodeBlock(name)}**`,
-          `${Emojis.RIGHT} **ID del Reporte**: ${id}`,
+          `**${Emojis.CANCEL_CIRCLE_COLOR} El servidor devolvió un error de tipo ${inlineCodeBlock(name)}**`,
+          `${Emojis.EXPAND_CIRCLE_RIGHT} **ID del Reporte**: ${id}`,
         ].join("\n"),
     },
-    ONLY_GUILD_OWNER: `**${Emojis.MARK} Esta acción solamente la puede ejecutar el propietario del servidor**`,
-    INVALID_USER_COLLECTOR: `**${Emojis.MARK} No puedes ejecutar este componente**`,
+    ONLY_GUILD_OWNER: `**${Emojis.CANCEL_CIRCLE_COLOR} Esta acción solamente la puede ejecutar el propietario del servidor**`,
+    INVALID_USER_COLLECTOR: `**${Emojis.CANCEL_CIRCLE_COLOR} No puedes ejecutar este componente**`,
   },
   PERMISSIONS: permissions(),
 };

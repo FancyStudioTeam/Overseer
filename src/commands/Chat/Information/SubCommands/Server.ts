@@ -43,7 +43,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
                 espaceMarkdown: true,
               }),
               id: _context.guildID,
-              owner: owner?.mention ?? Emojis.MARK,
+              owner: owner?.mention ?? Emojis.CANCEL_CIRCLE_COLOR,
             }),
           },
           {
@@ -56,7 +56,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
           },
           {
             name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_3.FIELD,
-            value: `${Emojis.RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _context.guild.createdAt)}`,
+            value: `${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _context.guild.createdAt)}`,
           },
         ])
         .setColor(Colors.COLOR)

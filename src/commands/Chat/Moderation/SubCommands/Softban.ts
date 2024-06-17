@@ -86,7 +86,7 @@ export default new BaseBuilder<ChatInputSubCommandInterface>({
             reason: _reasonOption,
           }),
         )
-        .setColor(Colors.SUCCESS)
+        .setColor(Colors.GREEN)
         .toJSONArray(),
     });
   },

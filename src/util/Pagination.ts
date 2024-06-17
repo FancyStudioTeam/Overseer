@@ -50,7 +50,7 @@ export async function pagination(
         new ButtonBuilder()
           .setCustomID("pagination_left")
           .setStyle(ButtonStyles.SECONDARY)
-          .setEmoji(parseEmoji(Emojis.LEFT))
+          .setEmoji(parseEmoji(Emojis.EXPAND_CIRCLE_LEFT))
           .setDisabled(pages.length < 2),
         new ButtonBuilder()
           .setCustomID("pagination_pages")
@@ -61,7 +61,7 @@ export async function pagination(
         new ButtonBuilder()
           .setCustomID("pagination_right")
           .setStyle(ButtonStyles.SECONDARY)
-          .setEmoji(parseEmoji(Emojis.RIGHT))
+          .setEmoji(parseEmoji(Emojis.EXPAND_CIRCLE_RIGHT))
           .setDisabled(pages.length < 2),
       ])
       .toJSONArray(),
