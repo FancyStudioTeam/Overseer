@@ -123,6 +123,12 @@ export default {
             `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
       },
+      PURGE: {
+        INVALID_AMOUNT: `**${Emojis.CANCEL_CIRCLE_COLOR} La cantidad de mensajes debe de ser mayor a 1 y menor que 100**`,
+        NO_MESSAGES: `**${Emojis.CANCEL_CIRCLE_COLOR} No hay mensajes para eliminar**`,
+        SUCCESS_MESSAGE: ({ count }: { count: number }) =>
+          `**${Emojis.CHECK_CIRCLE_COLOR} Se eliminaron ${count} mensajes exitosamente**`,
+      },
       TIMEOUT: {
         ADD: {
           INVALID_DURATION_FORMAT: `**${Emojis.CANCEL_CIRCLE_COLOR} La duración devolvió un formato inválido**`,

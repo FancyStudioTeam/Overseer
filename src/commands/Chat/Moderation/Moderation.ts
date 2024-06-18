@@ -271,6 +271,29 @@ export default new BaseBuilder<ChatInputCommand>({
         },
       ],
     },
+    {
+      name: "purge",
+      description: "Delete a specified number of messages",
+      descriptionLocalizations: {
+        "es-419": "Elimina un número especificado de mensajes",
+        "es-ES": "Elimina un número especificado de mensajes",
+      },
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      options: [
+        {
+          name: "amount",
+          description: "Number of messages to delete",
+          descriptionLocalizations: {
+            "es-419": "Número de mensajes a eliminar",
+            "es-ES": "Número de mensajes a eliminar",
+          },
+          type: ApplicationCommandOptionTypes.INTEGER,
+          required: true,
+          minValue: 1,
+          maxValue: 100,
+        },
+      ],
+    },
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,

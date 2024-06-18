@@ -122,6 +122,12 @@ export default {
             `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
+      PURGE: {
+        INVALID_AMOUNT: `**${Emojis.CANCEL_CIRCLE_COLOR} The number of messages must be greater than 1 and less than 100**`,
+        NO_MESSAGES: `**${Emojis.CANCEL_CIRCLE_COLOR} There are no messages to delete**`,
+        SUCCESS_MESSAGE: ({ count }: { count: number }) =>
+          `**${Emojis.CHECK_CIRCLE_COLOR} Successfully deleted ${count} messages**`,
+      },
       TIMEOUT: {
         ADD: {
           INVALID_DURATION_FORMAT: `**${Emojis.CANCEL_CIRCLE_COLOR} The duration returned an invalid format**`,
