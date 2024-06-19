@@ -1,9 +1,9 @@
 import type { ChatInputCommand, ChatInputSubCommand, Component, Modal, UserCommand } from "#types";
 
-export class BaseBuilder<T extends BuilderTypes> {
+export class Base<T extends BaseTypes> {
   constructor(options: T) {
     Object.assign(this, options);
   }
 }
 
-type BuilderTypes = ChatInputCommand | ChatInputSubCommand | UserCommand | Component | Modal;
+type BaseTypes = ChatInputCommand | ChatInputSubCommand | UserCommand | Component | Modal;

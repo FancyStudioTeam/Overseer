@@ -2,7 +2,7 @@ import colors from "@colors/colors";
 import { codeBlock } from "@sapphire/utilities";
 import { Embed } from "oceanic-builders";
 import { ApplicationCommandOptionTypes, type CommandInteraction } from "oceanic.js";
-import { BaseBuilder } from "#base";
+import { Base } from "#base";
 import { Colors } from "#constants";
 import { _client } from "#index";
 import { Translations } from "#translations";
@@ -10,7 +10,7 @@ import { type ChatInputSubCommand, Directories } from "#types";
 import { padding } from "#util/Util.js";
 // import { pagination } from "#util/Pagination";
 
-export default new BaseBuilder<ChatInputSubCommand>({
+export default new Base<ChatInputSubCommand>({
   name: "help",
   directory: Directories.INFORMATION,
   run: async (_context: CommandInteraction, { locale }) => {

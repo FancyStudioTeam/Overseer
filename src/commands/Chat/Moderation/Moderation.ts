@@ -1,9 +1,9 @@
 import { Duration } from "@sapphire/time-utilities";
 import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
-import { BaseBuilder } from "#base";
+import { Base } from "#base";
 import { type ChatInputCommand, Directories } from "#types";
 
-export default new BaseBuilder<ChatInputCommand>({
+export default new Base<ChatInputCommand>({
   name: "mod",
   description: "_",
   options: [

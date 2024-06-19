@@ -1,6 +1,6 @@
 import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
-import { BaseBuilder } from "#base";
+import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
 import { _client } from "#index";
 import { version } from "#package";
@@ -8,7 +8,7 @@ import { Translations } from "#translations";
 import { type ChatInputSubCommand, Directories } from "#types";
 import { UnixType, formatUnix, sanitizeString } from "#util/Util.js";
 
-export default new BaseBuilder<ChatInputSubCommand>({
+export default new Base<ChatInputSubCommand>({
   name: "bot",
   directory: Directories.INFORMATION,
   run: async (_context: CommandInteraction, { locale }) => {

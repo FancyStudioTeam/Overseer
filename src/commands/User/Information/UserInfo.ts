@@ -1,12 +1,12 @@
 import { Embed } from "oceanic-builders";
 import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
-import { BaseBuilder } from "#base";
+import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#translations";
 import type { UserCommand } from "#types";
 import { FetchFrom, UnixType, errorMessage, fetchMember, formatUnix, sanitizeString } from "#util/Util.js";
 
-export default new BaseBuilder<UserCommand>({
+export default new Base<UserCommand>({
   name: "User Info",
   type: ApplicationCommandTypes.USER,
   run: async (_context: CommandInteraction, { locale }) => {
