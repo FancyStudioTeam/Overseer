@@ -1,6 +1,6 @@
 import colors from "@colors/colors";
 import { codeBlock } from "@sapphire/utilities";
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import { ApplicationCommandOptionTypes, type CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors } from "#constants";
@@ -78,7 +78,7 @@ export default new BaseBuilder<ChatInputSubCommand>({
         ephemeral: false,
       },
       commands.map((group) => {
-        return new EmbedBuilder()
+        return new Embed()
           .setTitle(
             Translations[locale].HELP.MESSAGE_1.TITLE_1({
               name: _client.user.globalName ?? _client.user.username,
@@ -103,7 +103,7 @@ export default new BaseBuilder<ChatInputSubCommand>({
     );*/
 
     await _context.reply({
-      embeds: new EmbedBuilder()
+      embeds: new Embed()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.HELP.MESSAGE_1.TITLE_1({
             name: _client.user.globalName ?? _client.user.username,

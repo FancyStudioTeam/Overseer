@@ -4,7 +4,7 @@ import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Timestamp } from "@sapphire/time-utilities";
 import { type Awaitable, type Nullish, cutText, inlineCodeBlock } from "@sapphire/utilities";
 import { captureException } from "@sentry/node";
-import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from "oceanic-builders";
+import { ActionRow, Button, Embed } from "oceanic-builders";
 import {
   type AnyInteractionGateway,
   type AnyTextableGuildChannel,
@@ -131,7 +131,7 @@ export async function errorMessage({
   message: string;
 }): Promise<void> {
   const payload: CreateMessageOptions & InteractionContent = {
-    embeds: new EmbedBuilder().setDescription(message).setColor(Colors.RED).toJSONArray(),
+    embeds: new Embed().setDescription(message).setColor(Colors.RED).toJSONArray(),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
@@ -266,7 +266,7 @@ export async function checkPermissions(
       : !member.permissions.has(permission),
   );
   const payload: CreateMessageOptions & InteractionContent = {
-    embeds: new EmbedBuilder()
+    embeds: new Embed()
       .setDescription(
         Translations[locale].GLOBAL.PERMISSIONS[channelOrGuild][clientOrUser]({
           permissions: missingPermissions
@@ -344,7 +344,7 @@ export async function handleError(
 
   const id = DiscordSnowflake.generate().toString();
   const payload: CreateMessageOptions & InteractionContent = {
-    embeds: new EmbedBuilder()
+    embeds: new Embed()
       .setDescription(
         Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.MESSAGE_1({
           name: error.name,
@@ -353,9 +353,9 @@ export async function handleError(
       )
       .setColor(Colors.RED)
       .toJSONArray(),
-    components: new ActionRowBuilder()
+    components: new ActionRow<Button>()
       .addComponents([
-        new ButtonBuilder()
+        new Button()
           .setLabel(Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.COMPONENTS.BUTTONS.SUPPORT.LABEL)
           .setStyle(ButtonStyles.LINK)
           .setEmoji(parseEmoji(Emojis.SUPPORT))

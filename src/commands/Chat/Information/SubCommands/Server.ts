@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors, Emojis } from "#constants";
@@ -24,7 +24,7 @@ export default new BaseBuilder<ChatInputSubCommand>({
     const owner = _context.guild.owner ?? (await fetchUser(FetchFrom.DEFAULT, _context.guild.ownerID ?? ""));
 
     await _context.reply({
-      embeds: new EmbedBuilder()
+      embeds: new Embed()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.TITLE_1({
             name: sanitizeString(_context.guild.name, {

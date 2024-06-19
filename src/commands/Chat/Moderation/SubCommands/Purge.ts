@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors } from "#constants";
@@ -50,7 +50,7 @@ export default new BaseBuilder<ChatInputSubCommand>({
     await _context.channel.deleteMessages(messagesToDelete.map((msg) => msg.id));
 
     await _context.reply({
-      embeds: new EmbedBuilder()
+      embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.PURGE.SUCCESS_MESSAGE({
             count: _amountOption,

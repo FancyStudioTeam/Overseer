@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder } from "oceanic-builders";
+import { ActionRow, Button } from "oceanic-builders";
 import {
   type BaseCollectorEndReasons,
   InteractionCollector,
@@ -45,20 +45,20 @@ export async function pagination(
   let message: Message;
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: [pages[index]],
-    components: new ActionRowBuilder()
+    components: new ActionRow<Button>()
       .addComponents([
-        new ButtonBuilder()
+        new Button()
           .setCustomID("pagination_left")
           .setStyle(ButtonStyles.SECONDARY)
           .setEmoji(parseEmoji(Emojis.EXPAND_CIRCLE_LEFT))
           .setDisabled(pages.length < 2),
-        new ButtonBuilder()
+        new Button()
           .setCustomID("pagination_pages")
           .setStyle(ButtonStyles.SECONDARY)
           .setLabel(`${index + 1}/${pages.length}`)
           .setEmoji(parseEmoji(Emojis.BROWSE))
           .setDisabled(true),
-        new ButtonBuilder()
+        new Button()
           .setCustomID("pagination_right")
           .setStyle(ButtonStyles.SECONDARY)
           .setEmoji(parseEmoji(Emojis.EXPAND_CIRCLE_RIGHT))
@@ -113,9 +113,7 @@ export async function pagination(
           .with("pagination_right", () => (index = index + 1 < pages.length ? ++index : 0))
           .otherwise(() => undefined);
 
-        new ButtonBuilder(<ButtonComponent>message.components[0].components[1]).setLabel(
-          `${index + 1}/${pages.length}`,
-        );
+        new Button(<ButtonComponent>message.components[0].components[1]).setLabel(`${index + 1}/${pages.length}`);
 
         await _client.rest.channels.editMessage(message.channelID, message.id, {
           embeds: [pages[index]],

@@ -105,36 +105,6 @@ export default new BaseBuilder<ChatInputCommand>({
       ],
     },
     {
-      name: "unban",
-      description: "Unbans a user",
-      descriptionLocalizations: {
-        "es-419": "Desbanea a un usuario",
-        "es-ES": "Desbanea a un usuario",
-      },
-      type: ApplicationCommandOptionTypes.SUB_COMMAND,
-      options: [
-        {
-          name: "user",
-          description: "User mention or ID",
-          descriptionLocalizations: {
-            "es-419": "Mención del usuario o ID",
-            "es-ES": "Mención del usuario o ID",
-          },
-          type: ApplicationCommandOptionTypes.USER,
-          required: true,
-        },
-        {
-          name: "reason",
-          description: "Unban reason",
-          descriptionLocalizations: {
-            "es-419": "Razón del desbaneo",
-            "es-ES": "Razón del desbaneo",
-          },
-          type: ApplicationCommandOptionTypes.STRING,
-        },
-      ],
-    },
-    {
       name: "kick",
       description: "Kicks a user",
       descriptionLocalizations: {
@@ -161,6 +131,29 @@ export default new BaseBuilder<ChatInputCommand>({
             "es-ES": "Razón de la expulsión",
           },
           type: ApplicationCommandOptionTypes.STRING,
+        },
+      ],
+    },
+    {
+      name: "purge",
+      description: "Deletes a number of messages",
+      descriptionLocalizations: {
+        "es-419": "Elimina una cantidad de mensajes",
+        "es-ES": "Elimina una cantidad de mensajes",
+      },
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+      options: [
+        {
+          name: "amount",
+          description: "Amount of messages",
+          descriptionLocalizations: {
+            "es-419": "Cantidad de mensajes",
+            "es-ES": "Cantidad de mensajes",
+          },
+          type: ApplicationCommandOptionTypes.INTEGER,
+          required: true,
+          maxValue: 100,
+          minValue: 1,
         },
       ],
     },
@@ -272,25 +265,32 @@ export default new BaseBuilder<ChatInputCommand>({
       ],
     },
     {
-      name: "purge",
-      description: "Delete a specified number of messages",
+      name: "unban",
+      description: "Unbans a user",
       descriptionLocalizations: {
-        "es-419": "Elimina un número especificado de mensajes",
-        "es-ES": "Elimina un número especificado de mensajes",
+        "es-419": "Desbanea a un usuario",
+        "es-ES": "Desbanea a un usuario",
       },
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
       options: [
         {
-          name: "amount",
-          description: "Number of messages to delete",
+          name: "user",
+          description: "User mention or ID",
           descriptionLocalizations: {
-            "es-419": "Número de mensajes a eliminar",
-            "es-ES": "Número de mensajes a eliminar",
+            "es-419": "Mención del usuario o ID",
+            "es-ES": "Mención del usuario o ID",
           },
-          type: ApplicationCommandOptionTypes.INTEGER,
+          type: ApplicationCommandOptionTypes.USER,
           required: true,
-          minValue: 1,
-          maxValue: 100,
+        },
+        {
+          name: "reason",
+          description: "Unban reason",
+          descriptionLocalizations: {
+            "es-419": "Razón del desbaneo",
+            "es-ES": "Razón del desbaneo",
+          },
+          type: ApplicationCommandOptionTypes.STRING,
         },
       ],
     },

@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors } from "#constants";
@@ -22,7 +22,7 @@ export default new BaseBuilder<ChatInputSubCommand>({
     }
 
     await _context.reply({
-      embeds: new EmbedBuilder()
+      embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.INFORMATION.PING.MESSAGE_1.DESCRIPTION_1({
             rest: `${_client.rest.handler.latencyRef.latency}ms`,

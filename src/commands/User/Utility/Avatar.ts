@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import { ApplicationCommandTypes, type CommandInteraction, type User } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors } from "#constants";
@@ -11,7 +11,7 @@ export default new BaseBuilder<UserCommand>({
     const _userOption = <User>_context.data.target;
 
     await _context.reply({
-      embeds: new EmbedBuilder().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSONArray(),
+      embeds: new Embed().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSONArray(),
     });
   },
 });

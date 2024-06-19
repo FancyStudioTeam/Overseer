@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors } from "#constants";
@@ -73,7 +73,7 @@ export default new BaseBuilder<ChatInputSubCommand>({
     await _client.rest.guilds.removeMember(_context.guildID, _memberOption.id, _reasonOption);
 
     await _context.reply({
-      embeds: new EmbedBuilder()
+      embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.KICK.MESSAGE_1({
             username: _memberOption.mention,

@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors, Emojis } from "#constants";
@@ -31,7 +31,7 @@ export default new BaseBuilder<UserCommand>({
     }
 
     await _context.reply({
-      embeds: new EmbedBuilder()
+      embeds: new Embed()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.TITLE_1({
             name: sanitizeString(member.user.globalName ?? member.user.username, {

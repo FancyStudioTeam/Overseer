@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors } from "#constants";
@@ -45,7 +45,7 @@ export default new BaseBuilder<ChatInputSubCommand>({
     await _client.rest.guilds.removeBan(_context.guildID, bannedUser.user.id, _reasonOption);
 
     await _context.reply({
-      embeds: new EmbedBuilder()
+      embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.UNBAN.MESSAGE_1({
             user: _userOption.mention,

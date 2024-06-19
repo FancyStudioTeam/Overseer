@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { inspect } from "node:util";
 import { Result } from "@sapphire/result";
 import { type Nullish, codeBlock, cutText } from "@sapphire/utilities";
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import { ChannelTypes, type Message } from "oceanic.js";
 import { match } from "ts-pattern";
 import { Colors, Developers, Emojis } from "#constants";
@@ -39,7 +39,7 @@ _client.on("messageCreate", async (_message: Message) => {
       const dmChannel = await _client.rest.users.createDM(_message.author.id);
 
       await _client.rest.channels.createMessage(dmChannel.id, {
-        embeds: new EmbedBuilder()
+        embeds: new Embed()
           .setDescription(`**${Emojis.EXPAND_CIRCLE_RIGHT} ||${createdClientVoucher.voucherID}||**`)
           .setColor(Colors.COLOR)
           .toJSONArray(),
@@ -52,7 +52,7 @@ _client.on("messageCreate", async (_message: Message) => {
 
       exec(`cd "${process.cwd()}" && ${command}`, async (error: ExecException | Nullish, result: string) => {
         await _client.rest.channels.createMessage(_message.channelID, {
-          embeds: new EmbedBuilder()
+          embeds: new Embed()
             .setDescription(
               codeBlock(error ? "bash" : "js", cutText(error ? error.stack ?? error.message : result, 4000)),
             )
@@ -76,7 +76,7 @@ _client.on("messageCreate", async (_message: Message) => {
         }
 
         await _client.rest.channels.createMessage(_message.channelID, {
-          embeds: new EmbedBuilder()
+          embeds: new Embed()
             .setDescription(codeBlock("js", cutText(output, 4000)))
             .setColor(Colors.COLOR)
             .toJSONArray(),
@@ -85,7 +85,7 @@ _client.on("messageCreate", async (_message: Message) => {
 
       result.unwrapOrElse(async (error) => {
         await _client.rest.channels.createMessage(_message.channelID, {
-          embeds: new EmbedBuilder()
+          embeds: new Embed()
             .setDescription(codeBlock("js", cutText(String(error), 4000)))
             .setColor(Colors.RED)
             .toJSONArray(),

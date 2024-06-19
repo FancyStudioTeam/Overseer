@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { Result } from "@sapphire/result";
-import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, EmbedBuilder } from "oceanic-builders";
+import { ActionRow, Attachment, Button, Embed } from "oceanic-builders";
 import {
   type AnyInteractionGateway,
   ApplicationCommandTypes,
@@ -67,14 +67,14 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
 
   if (process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" && "reply" in _interaction) {
     return await _interaction.reply({
-      embeds: new EmbedBuilder().setImage("attachment://maintenance.png").setColor(Colors.COLOR).toJSONArray(),
-      files: new AttachmentBuilder()
+      embeds: new Embed().setImage("attachment://maintenance.png").setColor(Colors.COLOR).toJSONArray(),
+      files: new Attachment()
         .setName("maintenance.png")
         .setContent(readFileSync(join(process.cwd(), "assets/Images", "Maintenance.png")))
         .toJSONArray(),
-      components: new ActionRowBuilder()
+      components: new ActionRow<Button>()
         .addComponents([
-          new ButtonBuilder()
+          new Button()
             .setLabel("Support Server")
             .setStyle(ButtonStyles.LINK)
             .setEmoji(parseEmoji(Emojis.SUPPORT))

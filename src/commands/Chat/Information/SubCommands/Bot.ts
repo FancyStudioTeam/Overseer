@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "oceanic-builders";
+import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
 import { Colors, Emojis } from "#constants";
@@ -13,7 +13,7 @@ export default new BaseBuilder<ChatInputSubCommand>({
   directory: Directories.INFORMATION,
   run: async (_context: CommandInteraction, { locale }) => {
     await _context.reply({
-      embeds: new EmbedBuilder()
+      embeds: new Embed()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.TITLE_1({
             name: sanitizeString(_client.user.globalName ?? _client.user.username, {
