@@ -115,18 +115,17 @@ export default {
             `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
+      PURGE: {
+        NO_RECENT_MESSAGES: `**${Emojis.CANCEL_CIRCLE_COLOR} There are no recent messages**`,
+        MESSAGE_1: ({ messages }: { messages: number }) =>
+          `**${Emojis.CHECK_CIRCLE_COLOR} ${inlineCodeBlock(messages.toString())} messages have been deleted**`,
+      },
       SOFTBAN: {
         MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
             `**${Emojis.CHECK_CIRCLE_COLOR} The user ${user} has been softbanned by ${moderator}**`,
             `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
-      },
-      PURGE: {
-        INVALID_AMOUNT: `**${Emojis.CANCEL_CIRCLE_COLOR} The number of messages must be greater than 1 and less than 100**`,
-        NO_MESSAGES: `**${Emojis.CANCEL_CIRCLE_COLOR} There are no messages to delete**`,
-        SUCCESS_MESSAGE: ({ count }: { count: number }) =>
-          `**${Emojis.CHECK_CIRCLE_COLOR} Successfully deleted ${count} messages**`,
       },
       TIMEOUT: {
         ADD: {
