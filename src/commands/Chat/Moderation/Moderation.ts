@@ -152,7 +152,7 @@ export default new BaseBuilder<ChatInputCommand>({
           },
           type: ApplicationCommandOptionTypes.INTEGER,
           required: true,
-          maxValue: 100,
+          maxValue: 500,
           minValue: 1,
         },
       ],

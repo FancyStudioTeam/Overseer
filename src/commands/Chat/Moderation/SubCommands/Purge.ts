@@ -1,5 +1,6 @@
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Duration } from "@sapphire/time-utilities";
+import { chunk } from "@sapphire/utilities";
 import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { BaseBuilder } from "#base";
@@ -42,9 +43,7 @@ export default new BaseBuilder<ChatInputSubCommand>({
 
     const filteredMessages = fetchedMessages
       .slice(1)
-      .filter(
-        (message) => Date.now() - DiscordSnowflake.timestampFrom(message.id) < new Duration("14 days").offset / 1000,
-      )
+      .filter((message) => Date.now() - DiscordSnowflake.timestampFrom(message.id) < new Duration("14 days").offset)
       .map((message) => message.id);
 
     if (!filteredMessages.length) {
@@ -55,7 +54,12 @@ export default new BaseBuilder<ChatInputSubCommand>({
       });
     }
 
-    const purgedMessages = await _context.channel.deleteMessages(filteredMessages);
+    const chunks = chunk(filteredMessages, 100);
+    let purgedMessages = 0;
+
+    for (const chunk of chunks) {
+      purgedMessages += await _client.rest.channels.deleteMessages(_context.channelID, chunk);
+    }
 
     await _context.reply({
       embeds: new Embed()
