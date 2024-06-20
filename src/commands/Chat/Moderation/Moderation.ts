@@ -294,6 +294,100 @@ export default new Base<ChatInputCommand>({
         },
       ],
     },
+    {
+      name: "warn",
+      description: "Manage user warnings",
+      descriptionLocalizations: {
+        "es-419": "Gestionar advertencias de usuarios",
+        "es-ES": "Gestionar advertencias de usuarios",
+      },
+      type: ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
+      options: [
+        {
+          name: "add",
+          description: "Adds a warning to a user",
+          descriptionLocalizations: {
+            "es-419": "Añade una advertencia a un usuario",
+            "es-ES": "Añade una advertencia a un usuario",
+          },
+          type: ApplicationCommandOptionTypes.SUB_COMMAND,
+          options: [
+            {
+              name: "user",
+              description: "User mention or ID",
+              descriptionLocalizations: {
+                "es-419": "Mención del usuario o ID",
+                "es-ES": "Mención del usuario o ID",
+              },
+              type: ApplicationCommandOptionTypes.USER,
+              required: true,
+            },
+            {
+              name: "reason",
+              description: "Reason for the warning",
+              descriptionLocalizations: {
+                "es-419": "Razón de la advertencia",
+                "es-ES": "Razón de la advertencia",
+              },
+              type: ApplicationCommandOptionTypes.STRING,
+              required: true,
+            },
+          ],
+        },
+        {
+          name: "delete",
+          description: "Deletes a warning from a user",
+          descriptionLocalizations: {
+            "es-419": "Elimina una advertencia de un usuario",
+            "es-ES": "Elimina una advertencia de un usuario",
+          },
+          type: ApplicationCommandOptionTypes.SUB_COMMAND,
+          options: [
+            {
+              name: "user",
+              description: "User mention or ID",
+              descriptionLocalizations: {
+                "es-419": "Mención del usuario o ID",
+                "es-ES": "Mención del usuario o ID",
+              },
+              type: ApplicationCommandOptionTypes.USER,
+              required: true,
+            },
+            {
+              name: "warning_id",
+              description: "ID of the warning to delete",
+              descriptionLocalizations: {
+                "es-419": "ID de la advertencia a eliminar",
+                "es-ES": "ID de la advertencia a eliminar",
+              },
+              type: ApplicationCommandOptionTypes.STRING,
+              required: true,
+            },
+          ],
+        },
+        {
+          name: "list",
+          description: "Lists all warnings for a user",
+          descriptionLocalizations: {
+            "es-419": "Lista todas las advertencias de un usuario",
+            "es-ES": "Lista todas las advertencias de un usuario",
+          },
+          type: ApplicationCommandOptionTypes.SUB_COMMAND,
+          options: [
+            {
+              name: "user",
+              description: "User mention or ID",
+              descriptionLocalizations: {
+                "es-419": "Mención del usuario o ID",
+                "es-ES": "Mención del usuario o ID",
+              },
+              type: ApplicationCommandOptionTypes.USER,
+              required: true,
+            },
+          ],
+        },
+      ],
+    },
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
