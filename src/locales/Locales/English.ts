@@ -156,6 +156,14 @@ export default {
           ].join("\n"),
       },
       WARN: {
+        DELETE: {
+          INVALID_WARNING_ID: `**${Emojis.CANCEL_CIRCLE_COLOR} That warning ID is not valid**`,
+          NOT_FOUND: `**${Emojis.CANCEL_CIRCLE_COLOR} That warning has not been found**`,
+          MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
+            [
+              `**${Emojis.CHECK_CIRCLE_COLOR} The moderator ${moderator} has deleted a warning from the user ${user}**`,
+            ].join("\n"),
+        },
         ADD: {
           MAX_WARNINGS_ALLOWED: [
             `**${Emojis.CANCEL_CIRCLE_COLOR} The user already has the maximum number of warnings**`,
