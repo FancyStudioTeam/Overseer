@@ -26,7 +26,7 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const _memberOption = _context.data.options.getMember("user", true);
+    const _memberOption = _context.data.options.getMember("user");
     const _reasonOption = sanitizeString(_context.data.options.getString("reason") ?? "No reason", {
       maxLength: 50,
       espaceMarkdown: true,
@@ -75,18 +75,18 @@ export default new Base<ChatInputSubCommand>({
       where: {
         guildID: _context.guild.id,
         general: {
-          userID: _memberOption.id,
+          is: {
+            userID: _memberOption.id,
+          },
         },
       },
     });
-
-    console.log("User Warns:", userWarns); // Aquí se agrega el console log
 
     if (userWarns.length >= 10) {
       return await errorMessage({
         _context,
         ephemeral: true,
-        message: Translations[locale].COMMANDS.MODERATION.WARN.ADD.MAX_WARNINGS,
+        message: Translations[locale].COMMANDS.MODERATION.WARN.ADD.MAX_WARNINGS_ALLOWED,
       });
     }
 
@@ -95,7 +95,7 @@ export default new Base<ChatInputSubCommand>({
         guildID: _context.guild.id,
         general: {
           userID: _memberOption.id,
-          warningID: DiscordSnowflake.generate().toString(), // Genera un nuevo warningID
+          warningID: DiscordSnowflake.generate().toString(),
           moderatorID: _context.user.id,
           reason: _reasonOption,
         },
@@ -106,10 +106,10 @@ export default new Base<ChatInputSubCommand>({
       embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.WARN.ADD.MESSAGE_1({
-            user: _memberOption.mention,
             moderator: _context.user.mention,
+            user: _memberOption.mention,
             reason: _reasonOption,
-          }).join(" "),
+          }),
         )
         .setColor(Colors.GREEN)
         .toJSONArray(),

@@ -1,11 +1,6 @@
-<div align="center">
-  <img src="./assets/Images/Banner.png" />
-</div>
+# Overseer
 
----
-
-> [!WARNING]
-> This project is still under development. **It may have bugs and Breaking Changes**
+> ⚠️ This project is still under development. **It may have bugs and Breaking Changes**
 
 # Discord Links
 

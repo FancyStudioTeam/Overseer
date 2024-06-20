@@ -158,11 +158,15 @@ export default {
       },
       WARN: {
         ADD: {
-          MAX_WARNINGS: "El usuario ha alcanzado el límite de 10 avisos",
-          MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) => [
-            `**${Emojis.CHECK_CIRCLE_COLOR} El moderador ${moderator} ha añadido un aviso al usuario ${user}**`,
-            `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
-          ],
+          MAX_WARNINGS_ALLOWED: [
+            `**${Emojis.CANCEL_CIRCLE_COLOR} El usuario ya tiene el número máximo de advertencias**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Límite**: 10 advertencias por usuario`,
+          ].join("\n"),
+          MESSAGE_1: ({ moderator, user, reason }: { moderator: string; user: string; reason: string }) =>
+            [
+              `**${Emojis.CHECK_CIRCLE_COLOR} El moderador ${moderator} ha añadido una advertencia al usuario ${user}**`,
+              `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
+            ].join("\n"),
         },
       },
     },

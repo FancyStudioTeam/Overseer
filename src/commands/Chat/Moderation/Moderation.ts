@@ -296,11 +296,7 @@ export default new Base<ChatInputCommand>({
     },
     {
       name: "warn",
-      description: "Manage user warnings",
-      descriptionLocalizations: {
-        "es-419": "Gestionar advertencias de usuarios",
-        "es-ES": "Gestionar advertencias de usuarios",
-      },
+      description: "_",
       type: ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
       options: [
         {
@@ -330,13 +326,12 @@ export default new Base<ChatInputCommand>({
                 "es-ES": "Razón de la advertencia",
               },
               type: ApplicationCommandOptionTypes.STRING,
-              required: true,
             },
           ],
         },
         {
           name: "delete",
-          description: "Deletes a warning from a user",
+          description: "Removes a warning from a user",
           descriptionLocalizations: {
             "es-419": "Elimina una advertencia de un usuario",
             "es-ES": "Elimina una advertencia de un usuario",
@@ -354,11 +349,11 @@ export default new Base<ChatInputCommand>({
               required: true,
             },
             {
-              name: "warning_id",
-              description: "ID of the warning to delete",
+              name: "warning",
+              description: "Warning ID",
               descriptionLocalizations: {
-                "es-419": "ID de la advertencia a eliminar",
-                "es-ES": "ID de la advertencia a eliminar",
+                "es-419": "ID de la advertencia",
+                "es-ES": "ID de la advertencia",
               },
               type: ApplicationCommandOptionTypes.STRING,
               required: true,
@@ -367,10 +362,10 @@ export default new Base<ChatInputCommand>({
         },
         {
           name: "list",
-          description: "Lists all warnings for a user",
+          description: "Displays user warnings",
           descriptionLocalizations: {
-            "es-419": "Lista todas las advertencias de un usuario",
-            "es-ES": "Lista todas las advertencias de un usuario",
+            "es-419": "Muestra las advertencias del usuario",
+            "es-ES": "Muestra las advertencias del usuario",
           },
           type: ApplicationCommandOptionTypes.SUB_COMMAND,
           options: [
