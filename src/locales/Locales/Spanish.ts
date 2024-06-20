@@ -156,6 +156,15 @@ export default {
             `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
       },
+      WARN: {
+        ADD: {
+          MAX_WARNINGS: "El usuario ha alcanzado el límite de 10 avisos",
+          MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) => [
+            `**${Emojis.CHECK_CIRCLE_COLOR} El moderador ${moderator} ha añadido un aviso al usuario ${user}**`,
+            `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
+          ],
+        },
+      },
     },
     UTILITY: {
       SUGGEST: {
