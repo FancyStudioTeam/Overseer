@@ -157,14 +157,6 @@ export default {
           ].join("\n"),
       },
       WARN: {
-        DELETE: {
-          INVALID_WARNING_ID: `**${Emojis.CANCEL_CIRCLE_COLOR} Esa ID no es válida**`,
-          NOT_FOUND: `**${Emojis.CANCEL_CIRCLE_COLOR} Esa advertencia no ha sido encontrada**`,
-          MESSAGE_1: ({ user, moderator }: { user: string; moderator: string }) =>
-            [`**${Emojis.CHECK_CIRCLE_COLOR} El moderador ${moderator} ha eliminado una advertencia de ${user}**`].join(
-              "\n",
-            ),
-        },
         ADD: {
           MAX_WARNINGS_ALLOWED: [
             `**${Emojis.CANCEL_CIRCLE_COLOR} El usuario ya tiene el número máximo de advertencias**`,
@@ -173,6 +165,15 @@ export default {
           MESSAGE_1: ({ moderator, user, reason }: { moderator: string; user: string; reason: string }) =>
             [
               `**${Emojis.CHECK_CIRCLE_COLOR} El moderador ${moderator} ha añadido una advertencia al usuario ${user}**`,
+              `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
+            ].join("\n"),
+        },
+        REMOVE: {
+          WARNING_NOT_FOUND: ({ id }: { id: string }) =>
+            `**${Emojis.CANCEL_CIRCLE_COLOR} La advertencia ${inlineCodeBlock(id)} no ha sido encontrada**`,
+          MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
+            [
+              `**${Emojis.CHECK_CIRCLE_COLOR} El moderador ${moderator} ha eliminado una advertencia del usuario ${user}**`,
               `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
             ].join("\n"),
         },

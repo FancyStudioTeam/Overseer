@@ -1,8 +1,8 @@
 export const Colors = {
   COLOR: 0x2b2d31,
-  GREEN: 0x10b981,
-  ORANGE: 0xfbbf24,
-  RED: 0xf43f5e,
+  GREEN: /*0x10b981*/ 0x2b2d31,
+  ORANGE: /*0xfbbf24*/ 0x2b2d31,
+  RED: /*0xf43f5e*/ 0x2b2d31,
 };
 
 export const Developers = ["945029082314338407"];

@@ -9,7 +9,7 @@ import { prisma } from "#util/Prisma.js";
 import { ComparationLevel, compareMemberToMember, errorMessage, sanitizeString } from "#util/Util.js";
 
 export default new Base<ChatInputSubCommand>({
-  name: "warn_delete",
+  name: "warn_remove",
   permissions: {
     user: ["MANAGE_GUILD"],
   },
@@ -26,7 +26,10 @@ export default new Base<ChatInputSubCommand>({
     }
 
     const _memberOption = _context.data.options.getMember("user");
-    const warningID = sanitizeString(_context.data.options.getString("id") ?? "", {
+    const _warningOption = sanitizeString(_context.data.options.getString("warning", true), {
+      espaceMarkdown: true,
+    });
+    const _reasonOption = sanitizeString(_context.data.options.getString("reason") ?? "No reason", {
       maxLength: 50,
       espaceMarkdown: true,
     });
@@ -70,41 +73,32 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    if (!warningID) {
-      return await errorMessage({
-        _context,
-        ephemeral: true,
-        message: Translations[locale].COMMANDS.MODERATION.WARN.DELETE.INVALID_WARNING_ID,
-      });
-    }
-
-    const warning = await prisma.userWarn.findUnique({
+    const userWarn = await prisma.userWarn.findFirst({
       where: {
         guildID: _context.guild.id,
-        id: warningID,
         general: {
           is: {
+            warningID: _warningOption,
             userID: _memberOption.id,
           },
         },
       },
     });
 
-    if (!warning || warning.guildID !== _context.guild.id) {
+    if (!userWarn) {
       return await errorMessage({
         _context,
         ephemeral: true,
-        message: Translations[locale].COMMANDS.MODERATION.WARN.DELETE.NOT_FOUND,
+        message: Translations[locale].COMMANDS.MODERATION.WARN.REMOVE.WARNING_NOT_FOUND({ id: _warningOption }),
       });
     }
 
     await prisma.userWarn.delete({
       where: {
-        guildID: _context.guild.id,
-        id: warningID,
+        id: userWarn.id,
         general: {
           is: {
-            userID: _memberOption.id,
+            warningID: userWarn.general.warningID,
           },
         },
       },
@@ -113,9 +107,10 @@ export default new Base<ChatInputSubCommand>({
     await _context.reply({
       embeds: new Embed()
         .setDescription(
-          Translations[locale].COMMANDS.MODERATION.WARN.DELETE.MESSAGE_1({
+          Translations[locale].COMMANDS.MODERATION.WARN.REMOVE.MESSAGE_1({
             moderator: _context.user.mention,
             user: _memberOption.mention,
+            reason: _reasonOption,
           }),
         )
         .setColor(Colors.RED)

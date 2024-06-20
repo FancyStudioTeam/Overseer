@@ -253,7 +253,7 @@ export default new Base<ChatInputCommand>({
             },
             {
               name: "reason",
-              description: "Un-timeout reason",
+              description: "Reason for removing the timeout",
               descriptionLocalizations: {
                 "es-419": "Razón para eliminar el tiempo de espera",
                 "es-ES": "Razón para eliminar el tiempo de espera",
@@ -330,7 +330,7 @@ export default new Base<ChatInputCommand>({
           ],
         },
         {
-          name: "delete",
+          name: "remove",
           description: "Removes a warning from a user",
           descriptionLocalizations: {
             "es-419": "Elimina una advertencia de un usuario",
@@ -357,6 +357,15 @@ export default new Base<ChatInputCommand>({
               },
               type: ApplicationCommandOptionTypes.STRING,
               required: true,
+            },
+            {
+              name: "reason",
+              description: "Reason for removing the warning",
+              descriptionLocalizations: {
+                "es-419": "Razón para eliminar la advertencia",
+                "es-ES": "Razón para eliminar la advertencia",
+              },
+              type: ApplicationCommandOptionTypes.STRING,
             },
           ],
         },
