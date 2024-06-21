@@ -157,6 +157,14 @@ export default {
           ].join("\n"),
       },
       WARN: {
+        LIST: {
+          NO_WARNINGS_FOUND: "El usuario no tiene advertencias",
+          EMBED_TITLE: ({ user }: { user: string }) => `**${Emojis.CANCEL_CIRCLE_COLOR} Advertencias de ${user}**`,
+          EMBED_FIELD_TITLE: ({ warningID }: { warningID: string }) =>
+            `**${Emojis.CANCEL_CIRCLE_COLOR} Advertencia #${warningID}**`,
+          EMBED_FIELD_DESCRIPTION: ({ reason, moderator, date }: { reason: string; moderator: string; date: string }) =>
+            `**Razón: ${reason}\nModerador: ${moderator}\nFecha: ${date}**`,
+        },
         ADD: {
           MAX_WARNINGS_ALLOWED: [
             `**${Emojis.CANCEL_CIRCLE_COLOR} El usuario ya tiene el número máximo de advertencias**`,

@@ -156,6 +156,14 @@ export default {
           ].join("\n"),
       },
       WARN: {
+        LIST: {
+          NO_WARNINGS_FOUND: "This user has no warnings",
+          EMBED_TITLE: ({ user }: { user: string }) => `**${Emojis.CANCEL_CIRCLE_COLOR} Warnings for ${user}**`,
+          EMBED_FIELD_TITLE: ({ warningID }: { warningID: string }) =>
+            `**${Emojis.CANCEL_CIRCLE_COLOR} Warning #${warningID}**`,
+          EMBED_FIELD_DESCRIPTION: ({ reason, moderator, date }: { reason: string; moderator: string; date: string }) =>
+            `**Reason: ${reason}\nModerator: ${moderator}\nDate: ${date}**`,
+        },
         ADD: {
           MAX_WARNINGS_ALLOWED: [
             `**${Emojis.CANCEL_CIRCLE_COLOR} The user already has the maximum number of warnings**`,
