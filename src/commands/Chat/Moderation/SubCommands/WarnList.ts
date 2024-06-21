@@ -1,17 +1,15 @@
 import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
-import { Colors } from "#constants";
+import { Colors, Emojis } from "#constants";
 import { Translations } from "#translations";
 import { type ChatInputSubCommand, Directories } from "#types";
+import { pagination } from "#util/Pagination";
 import { prisma } from "#util/Prisma.js";
-import { errorMessage } from "#util/Util.js";
+import { UnixType, errorMessage, formatUnix, sanitizeString } from "#util/Util.js";
 
 export default new Base<ChatInputSubCommand>({
   name: "warn_list",
-  permissions: {
-    user: ["MANAGE_GUILD"],
-  },
   directory: Directories.MODERATION,
   run: async (_context: CommandInteraction, { locale }) => {
     if (!(_context.inCachedGuildChannel() && _context.guild)) {
@@ -24,22 +22,13 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const _memberOption = _context.data.options.getMember("user");
-
-    if (!_memberOption) {
-      return await errorMessage({
-        _context,
-        ephemeral: true,
-        message: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
-      });
-    }
-
+    const _userOption = _context.data.options.getUser("user") ?? _context.user;
     const userWarns = await prisma.userWarn.findMany({
       where: {
         guildID: _context.guild.id,
         general: {
           is: {
-            userID: _memberOption.id,
+            userID: _userOption.id,
           },
         },
       },
@@ -48,38 +37,48 @@ export default new Base<ChatInputSubCommand>({
       },
     });
 
-    if (userWarns.length === 0) {
+    if (!userWarns.length) {
       return await errorMessage({
         _context,
         ephemeral: true,
-        message: Translations[locale].COMMANDS.MODERATION.WARN.LIST.NO_WARNINGS_FOUND,
+        message: Translations[locale].COMMANDS.MODERATION.WARN.LIST.WARNINGS_NOT_FOUND({
+          user: _userOption.mention,
+        }),
       });
     }
 
-    const fields = userWarns.map((warn) => ({
-      name: Translations[locale].COMMANDS.MODERATION.WARN.LIST.EMBED_FIELD_TITLE({
-        warningID: warn.general.warningID,
+    pagination(
+      { _context, locale, ephemeral: false },
+      userWarns.map((warning) => {
+        return new Embed()
+          .setTitle(
+            Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.TITLE_1({
+              user: sanitizeString(_userOption.globalName ?? _userOption.username, {
+                maxLength: 50,
+                espaceMarkdown: true,
+              }),
+            }),
+          )
+          .setThumbnail(_userOption.avatarURL())
+          .addFields([
+            {
+              name: Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_1.FIELD({
+                warning: warning.general.warningID,
+              }),
+              value: Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_1.VALUE({
+                moderator:
+                  _context.guild.members.get(warning.general.moderatorID)?.mention ?? Emojis.CANCEL_CIRCLE_COLOR,
+                reason: warning.general.reason,
+              }),
+            },
+            {
+              name: Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_2.FIELD,
+              value: `${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, warning.createdAt)}`,
+            },
+          ])
+          .setColor(Colors.COLOR)
+          .toJSON();
       }),
-      value: Translations[locale].COMMANDS.MODERATION.WARN.LIST.EMBED_FIELD_DESCRIPTION({
-        reason: warn.general.reason,
-        moderator: `<@${warn.general.moderatorID}>`,
-        date: warn.createdAt.toLocaleString(),
-      }),
-      inline: false,
-    }));
-
-    const embed = new Embed()
-      .setTitle(
-        Translations[locale].COMMANDS.MODERATION.WARN.LIST.EMBED_TITLE({
-          user: _memberOption.user.username,
-        }),
-      )
-      .setColor(Colors.GREEN)
-      .setThumbnail(_memberOption.user.avatarURL())
-      .addFields(fields);
-
-    await _context.reply({
-      embeds: [embed.toJSON()],
-    });
+    );
   },
 });

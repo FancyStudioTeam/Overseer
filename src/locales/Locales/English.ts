@@ -109,9 +109,9 @@ export default {
           ].join("\n"),
       },
       KICK: {
-        MESSAGE_1: ({ username, moderator, reason }: { username: string; moderator: string; reason: string }) =>
+        MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.CHECK_CIRCLE_COLOR} The user ${username} has been kicked by ${moderator}**`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} The user ${user} has been kicked by ${moderator}**`,
             `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
           ].join("\n"),
       },
@@ -177,12 +177,22 @@ export default {
             ].join("\n"),
         },
         LIST: {
-          NO_WARNINGS_FOUND: "This user has no warnings",
-          EMBED_TITLE: ({ user }: { user: string }) => `**${Emojis.CANCEL_CIRCLE_COLOR} Warnings for ${user}**`,
-          EMBED_FIELD_TITLE: ({ warningID }: { warningID: string }) =>
-            `**${Emojis.CANCEL_CIRCLE_COLOR} Warning #${warningID}**`,
-          EMBED_FIELD_DESCRIPTION: ({ reason, moderator, date }: { reason: string; moderator: string; date: string }) =>
-            `**Reason: ${reason}\nModerator: ${moderator}\nDate: ${date}**`,
+          WARNINGS_NOT_FOUND: ({ user }: { user: string }) =>
+            `**${Emojis.CANCEL_CIRCLE_COLOR} The user ${user} has no warnings**`,
+          MESSAGE_1: {
+            TITLE_1: ({ user }: { user: string }) => `**${user} Warnings**`,
+            FIELD_1: {
+              FIELD: ({ warning }: { warning: string }) => `Warning ${inlineCodeBlock(warning)}`,
+              VALUE: ({ moderator, reason }: { moderator: string; reason: string }) =>
+                [
+                  `${Emojis.EXPAND_CIRCLE_RIGHT} **Moderator**: ${moderator}`,
+                  `${Emojis.EXPAND_CIRCLE_RIGHT} **Reason**: ${reason}`,
+                ].join("\n"),
+            },
+            FIELD_2: {
+              FIELD: "Warning Date",
+            },
+          },
         },
       },
     },
@@ -211,7 +221,7 @@ export default {
         SUGGESTION_NOT_FOUND: ({ id }: { id: string }) =>
           `**${Emojis.CANCEL_CIRCLE_COLOR} The suggestion ${inlineCodeBlock(id)} has not been found**`,
         MESSAGE_1: {
-          TITLE_1: ({ username }: { username: string }) => `**${username} Suggestion**`,
+          TITLE_1: ({ user }: { user: string }) => `**${user} Suggestion**`,
           FIELD_1: {
             FIELD: ({ moderator }: { moderator: string }) => `**Comment by ${moderator}**`,
           },

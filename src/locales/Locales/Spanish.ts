@@ -110,9 +110,9 @@ export default {
           ].join("\n"),
       },
       KICK: {
-        MESSAGE_1: ({ username, moderator, reason }: { username: string; moderator: string; reason: string }) =>
+        MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
           [
-            `**${Emojis.CHECK_CIRCLE_COLOR} El usuario ${username} ha sido expulsado por ${moderator}**`,
+            `**${Emojis.CHECK_CIRCLE_COLOR} El usuario ${user} ha sido expulsado por ${moderator}**`,
             `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
           ].join("\n"),
       },
@@ -178,12 +178,22 @@ export default {
             ].join("\n"),
         },
         LIST: {
-          NO_WARNINGS_FOUND: "El usuario no tiene advertencias",
-          EMBED_TITLE: ({ user }: { user: string }) => `**${Emojis.CANCEL_CIRCLE_COLOR} Advertencias de ${user}**`,
-          EMBED_FIELD_TITLE: ({ warningID }: { warningID: string }) =>
-            `**${Emojis.CANCEL_CIRCLE_COLOR} Advertencia #${warningID}**`,
-          EMBED_FIELD_DESCRIPTION: ({ reason, moderator, date }: { reason: string; moderator: string; date: string }) =>
-            `**Razón: ${reason}\nModerador: ${moderator}\nFecha: ${date}**`,
+          WARNINGS_NOT_FOUND: ({ user }: { user: string }) =>
+            `**${Emojis.CANCEL_CIRCLE_COLOR} El usuario ${user} no tiene advertencias**`,
+          MESSAGE_1: {
+            TITLE_1: ({ user }: { user: string }) => `**Advertencias de ${user}**`,
+            FIELD_1: {
+              FIELD: ({ warning }: { warning: string }) => `Advertencia ${inlineCodeBlock(warning)}`,
+              VALUE: ({ moderator, reason }: { moderator: string; reason: string }) =>
+                [
+                  `${Emojis.EXPAND_CIRCLE_RIGHT} **Moderador**: ${moderator}`,
+                  `${Emojis.EXPAND_CIRCLE_RIGHT} **Razón**: ${reason}`,
+                ].join("\n"),
+            },
+            FIELD_2: {
+              FIELD: "Fecha de la Advertencia",
+            },
+          },
         },
       },
     },
@@ -212,7 +222,7 @@ export default {
         SUGGESTION_NOT_FOUND: ({ id }: { id: string }) =>
           `**${Emojis.CANCEL_CIRCLE_COLOR} La sugerencia ${inlineCodeBlock(id)} no ha sido encontrada**`,
         MESSAGE_1: {
-          TITLE_1: ({ username }: { username: string }) => `**Sugerencia de ${username}**`,
+          TITLE_1: ({ user }: { user: string }) => `**Sugerencia de ${user}**`,
           FIELD_1: {
             FIELD: ({ moderator }: { moderator: string }) => `**Comentario de ${moderator}**`,
           },

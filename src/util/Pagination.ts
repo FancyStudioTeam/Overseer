@@ -113,11 +113,17 @@ export async function pagination(
           .with("pagination_right", () => (index = index + 1 < pages.length ? ++index : 0))
           .otherwise(() => undefined);
 
-        new Button(<ButtonComponent>message.components[0].components[1]).setLabel(`${index + 1}/${pages.length}`);
+        const row = message.components[0].components;
 
         await _client.rest.channels.editMessage(message.channelID, message.id, {
           embeds: [pages[index]],
-          components: message.components,
+          components: new ActionRow<Button>()
+            .addComponents([
+              new Button(<ButtonComponent>row[0]),
+              new Button(<ButtonComponent>row[1]).setLabel(`${index + 1}/${pages.length}`),
+              new Button(<ButtonComponent>row[2]),
+            ])
+            .toJSONArray(),
         });
       }
     }

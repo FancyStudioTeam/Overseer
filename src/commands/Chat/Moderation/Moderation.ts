@@ -386,7 +386,6 @@ export default new Base<ChatInputCommand>({
                 "es-ES": "Mención del usuario o ID",
               },
               type: ApplicationCommandOptionTypes.USER,
-              required: true,
             },
           ],
         },
