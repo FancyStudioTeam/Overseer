@@ -1,7 +1,15 @@
 import { Duration } from "@sapphire/time-utilities";
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
+import {
+  ApplicationCommandOptionTypes,
+  ApplicationCommandTypes,
+  type AutocompleteInteraction,
+  type InteractionOptionsString,
+} from "oceanic.js";
+import { match } from "ts-pattern";
 import { Base } from "#base";
 import { type ChatInputCommand, Directories } from "#types";
+import { prisma } from "#util/Prisma";
+import { search } from "#util/Util";
 
 export default new Base<ChatInputCommand>({
   name: "mod",
@@ -357,6 +365,7 @@ export default new Base<ChatInputCommand>({
               },
               type: ApplicationCommandOptionTypes.STRING,
               required: true,
+              autocomplete: true,
             },
             {
               name: "reason",
@@ -395,4 +404,87 @@ export default new Base<ChatInputCommand>({
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: Directories.MODERATION,
+  autocomplete: async (_context: AutocompleteInteraction) => {
+    const subCommandOption = _context.data.options.getSubCommand(true);
+
+    if (!(_context.inCachedGuildChannel() && _context.guildID)) {
+      return await errorMessageAutocomplete({
+        _context,
+        message:
+          {
+            "es-419": "❌ Esta acción no puede ser ejecutada fuera de un servidor",
+            "es-ES": "❌ Esta acción no puede ser ejecutada fuera de un servidor",
+          }[_context.locale] ?? "❌ This action cannot be executed outside a server",
+      });
+    }
+
+    match(subCommandOption.join("_"))
+      .returnType<void>()
+      .with("warn_remove", async () => {
+        const focusedOption = _context.data.options.getFocused<InteractionOptionsString>(true);
+        const userOption = _context.data.options.getUserOption("user");
+
+        if (!userOption) {
+          return await errorMessageAutocomplete({
+            _context,
+            message:
+              {
+                "es-419": "❌ El usuario no ha sido encontrado",
+                "es-ES": "❌ El usuario no ha sido encontrado",
+              }[_context.locale] ?? "❌ The user has not been found",
+          });
+        }
+
+        const userWarns = await prisma.userWarn.findMany({
+          where: {
+            guildID: _context.guildID,
+            general: {
+              is: {
+                userID: userOption.value,
+              },
+            },
+          },
+        });
+        const choices = search<string>(
+          focusedOption.value,
+          userWarns.map((warning) => warning.general.warningID),
+        );
+
+        if (!choices.length) {
+          return await errorMessageAutocomplete({
+            _context,
+            message:
+              {
+                "es-419": "❌ El usuario no tiene advertencias",
+                "es-ES": "❌ El usuario no tiene advertencias",
+              }[_context.locale] ?? "❌ The user has no warnings",
+          });
+        }
+
+        await _context.result(
+          choices.map((choice) => {
+            return {
+              name:
+                {
+                  "es-419": `🗑️ Eliminar advertencia "${choice}"`,
+                  "es-ES": `🗑️ Eliminar advertencia "${choice}"`,
+                }[_context.locale] ?? `🗑️ Remove warning "${choice}"`,
+              value: choice,
+            };
+          }),
+        );
+      });
+  },
 });
+
+async function errorMessageAutocomplete({
+  _context,
+  message,
+}: { _context: AutocompleteInteraction; message: string }): Promise<void> {
+  await _context.result([
+    {
+      name: message,
+      value: "",
+    },
+  ]);
+}
