@@ -76,7 +76,7 @@ export default new Base<ChatInputSubCommand>({
       embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.KICK.MESSAGE_1({
-            username: _memberOption.mention,
+            user: _memberOption.mention,
             moderator: _context.user.mention,
             reason: _reasonOption,
           }),
