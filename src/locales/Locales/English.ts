@@ -1,7 +1,7 @@
 import colors from "@colors/colors";
 import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
 import type { PermissionName } from "oceanic.js";
-import { Emojis } from "#constants";
+import { Emojis, Links } from "#constants";
 import { padding } from "#util/Util.js";
 
 export default {
@@ -34,10 +34,7 @@ export default {
       },
       HELP: {
         MESSAGE_1: {
-          TITLE_1: ({ name }: { name: string }) => `**${name} Help Panel**`,
-          FIELD_1: {
-            FIELD: ({ command }: { command: string }) => `**${inlineCodeBlock(`/${command}`)} Subcommands**`,
-          },
+          DESCRIPTION_1: `**You can see the list of commands [here](${Links.WEBSITE}/commands)**`,
         },
       },
       PING: {

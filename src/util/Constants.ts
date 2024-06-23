@@ -20,4 +20,5 @@ export const Emojis = {
 export const Links = {
   INVITE: "https://discord.com/oauth2/authorize?client_id=1228065406196125810&permissions=117760&scope=bot",
   SUPPORT: "https://discord.gg/gud55BjNFC",
+  WEBSITE: "https://overseer-bot.pages.dev",
 };

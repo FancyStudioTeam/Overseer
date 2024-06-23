@@ -4,7 +4,7 @@ import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
 import { Translations } from "#translations";
 import { type ChatInputSubCommand, Directories } from "#types";
-import { pagination } from "#util/Pagination";
+import { pagination } from "#util/Pagination.js";
 import { prisma } from "#util/Prisma.js";
 import { UnixType, errorMessage, formatUnix, sanitizeString } from "#util/Util.js";
 

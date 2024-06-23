@@ -8,8 +8,8 @@ import {
 import { match } from "ts-pattern";
 import { Base } from "#base";
 import { type ChatInputCommand, Directories } from "#types";
-import { prisma } from "#util/Prisma";
-import { search } from "#util/Util";
+import { prisma } from "#util/Prisma.js";
+import { search } from "#util/Util.js";
 
 export default new Base<ChatInputCommand>({
   name: "mod",

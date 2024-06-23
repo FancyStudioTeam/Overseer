@@ -5,7 +5,7 @@
     "biome": "biome check --write --config-path=\"./biome.json\" .",
     "build": "tsc",
     "dev": "tsx watch --ignore ./src/locales --env-file=\".env\" src/Index.ts",
-    "start": "cd dist && node --env-file=\".env\" src/Index.js",
+    "start": "cd dist && node --env-file=\"../.env\" src/Index.js",
     "check": "pnpm biome",
     "prepare": "husky"
   },
