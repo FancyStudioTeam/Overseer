@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { init } from "@sentry/node";
 import { Discord } from "#client";
 import { version } from "#package";

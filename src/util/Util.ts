@@ -45,7 +45,14 @@ export async function fetchMember(type: FetchFrom, guild: Guild, id: string): Pr
     .otherwise(() => undefined);
 }
 
-export function sanitizeString(content: string, options: SanitizeStringOptions): string {
+export function sanitizeString(
+  content: string,
+  options: {
+    maxLength?: number;
+    espaceMarkdown?: boolean;
+    replaceLinks?: boolean;
+  },
+): string {
   let sanitizedContent = content;
 
   if (options.espaceMarkdown) {
@@ -382,12 +389,6 @@ export function bitFieldValues(bitField: number): number[] {
   }
 
   return fields;
-}
-
-interface SanitizeStringOptions {
-  maxLength?: number;
-  espaceMarkdown?: boolean;
-  replaceLinks?: boolean;
 }
 
 export type AvailableSearchTypes = string;
