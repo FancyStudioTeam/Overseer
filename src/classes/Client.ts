@@ -19,7 +19,6 @@ export class Discord extends Client {
     modals: Collection<string, Modal | Nullish>;
   };
   readonly subCommands: Collection<string, ChatInputSubCommand | Nullish>;
-  private dbReady: boolean;
   readonly readyAt: Date;
 
   constructor() {
@@ -73,7 +72,6 @@ export class Discord extends Client {
       modals: new Collection(),
     };
     this.subCommands = new Collection();
-    this.dbReady = false;
     this.readyAt = new Date();
 
     (async () => {
@@ -83,22 +81,15 @@ export class Discord extends Client {
   }
 
   async _init(): Promise<void> {
-    if (!this.dbReady) {
-      await prisma
-        .$connect()
-        .then(() => {
-          logger(LoggerType.INFO, "Prisma Client has been connected");
-          this.dbReady = true;
-        })
-        .catch((error) => {
-          logger(LoggerType.ERROR, `Prisma Client had an error while connecting: ${error.stack ?? error.message}`);
-        });
-    }
-
-    if (!this.ready) {
-      await this.connect();
-    }
-
+    await this.connect();
+    await prisma
+      .$connect()
+      .then(() => {
+        logger(LoggerType.INFO, "Prisma Client has been connected");
+      })
+      .catch((error) => {
+        logger(LoggerType.ERROR, `Prisma Client had an error while connecting: ${error.stack ?? error.message}`);
+      });
     await Promise.allSettled([this._registerComponents(), this._registerEvents(), this._registerModules()]);
   }
 
@@ -115,10 +106,10 @@ export class Discord extends Client {
 
     await this._registerSubCommands();
 
-    const paths = await this.loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`);
+    const paths = await this._loadFiles(`${join(process.cwd(), "src/commands")}/*/*/*.{ts,js}`);
 
     for (const path of paths) {
-      const commandPath = join(process.cwd(), path);
+      const commandPath = this._resolve(path);
       const command = require(commandPath).default;
 
       if (command?.name) {
@@ -138,10 +129,10 @@ export class Discord extends Client {
   async _registerSubCommands(): Promise<void> {
     this.subCommands.clear();
 
-    const paths = await this.loadFiles(`${join(__dirname, "..", "commands/Chat")}/*/*/*.{ts,js}`);
+    const paths = await this._loadFiles(`${join(process.cwd(), "src/commands/Chat")}/*/*/*.{ts,js}`);
 
     for (const path of paths) {
-      const subCommandPath = join(process.cwd(), path);
+      const subCommandPath = this._resolve(path);
       const subCommand = require(subCommandPath).default;
 
       if (subCommand?.name) {
@@ -164,10 +155,10 @@ export class Discord extends Client {
     this.components.modals.clear();
     this.components.selects.clear();
 
-    const paths = await this.loadFiles(`${join(__dirname, "..", "components")}/**/*.{ts,js}`);
+    const paths = await this._loadFiles(`${join(process.cwd(), "src/components")}/**/*.{ts,js}`);
 
     for (const path of paths) {
-      const componentPath = join(process.cwd(), path);
+      const componentPath = this._resolve(path);
       const component = require(componentPath).default;
 
       if (component?.name) {
@@ -187,27 +178,31 @@ export class Discord extends Client {
   async _registerEvents(): Promise<void> {
     this.removeAllListeners();
 
-    const paths = await this.loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`);
+    const paths = await this._loadFiles(`${join(process.cwd(), "src/events")}/*/*.{ts,js}`);
 
     for (const path of paths) {
-      const eventPath = join(process.cwd(), path);
+      const eventPath = this._resolve(path);
 
-      require(eventPath).default;
+      require(eventPath);
     }
   }
 
   async _registerModules(): Promise<void> {
-    const paths = await this.loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`);
+    const paths = await this._loadFiles(`${join(process.cwd(), "src/modules")}/*.{ts,js}`);
 
     for (const path of paths) {
-      const modulePath = join(process.cwd(), path);
+      const modulePath = this._resolve(path);
       const module = require(modulePath).default;
 
       module(this);
     }
   }
 
-  private async loadFiles(path: string | string[]): Promise<string[]> {
+  private _resolve(path: string): string {
+    return path.split(sep).includes("dist") ? path : join(process.cwd(), path);
+  }
+
+  private async _loadFiles(path: string | string[]): Promise<string[]> {
     return await glob(path, {
       ignore: ["node_modules/**"],
     });
