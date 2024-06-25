@@ -20,7 +20,7 @@
     "@sapphire/snowflake": "3.5.3",
     "@sapphire/time-utilities": "1.7.12",
     "@sapphire/utilities": "3.16.2",
-    "@sentry/node": "8.11.0",
+    "@sentry/node": "8.12.0",
     "glob": "10.4.2",
     "oceanic-builders": "0.0.18-alpha",
     "oceanic-collectors": "1.0.7",
