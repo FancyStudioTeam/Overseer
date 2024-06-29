@@ -114,7 +114,7 @@ export default new Base<ChatInputSubCommand>({
           }),
         )
         .setColor(Colors.RED)
-        .toJSONArray(),
+        .toJSON(true),
     });
   },
 });

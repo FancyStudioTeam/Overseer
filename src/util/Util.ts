@@ -138,7 +138,7 @@ export async function errorMessage({
   message: string;
 }): Promise<void> {
   const payload: CreateMessageOptions & InteractionContent = {
-    embeds: new Embed().setDescription(message).setColor(Colors.RED).toJSONArray(),
+    embeds: new Embed().setDescription(message).setColor(Colors.RED).toJSON(true),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
@@ -285,7 +285,7 @@ export async function checkPermissions(
         }),
       )
       .setColor(Colors.RED)
-      .toJSONArray(),
+      .toJSON(true),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
@@ -359,7 +359,7 @@ export async function handleError(
         }),
       )
       .setColor(Colors.RED)
-      .toJSONArray(),
+      .toJSON(true),
     components: new ActionRow<Button>()
       .addComponents([
         new Button()
@@ -368,7 +368,7 @@ export async function handleError(
           .setEmoji(parseEmoji(Emojis.SUPPORT))
           .setURL(Links.SUPPORT),
       ])
-      .toJSONArray(),
+      .toJSON(true),
   };
 
   "reply" in _context

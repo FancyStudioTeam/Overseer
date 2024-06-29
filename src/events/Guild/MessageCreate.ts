@@ -42,7 +42,7 @@ _client.on("messageCreate", async (_message: Message) => {
         embeds: new Embed()
           .setDescription(`**${Emojis.EXPAND_CIRCLE_RIGHT} ||${createdClientVoucher.voucherID}||**`)
           .setColor(Colors.COLOR)
-          .toJSONArray(),
+          .toJSON(true),
       });
     })
     .with("exec", () => {
@@ -57,7 +57,7 @@ _client.on("messageCreate", async (_message: Message) => {
               codeBlock(error ? "bash" : "js", cutText(error ? error.stack ?? error.message : result, 4000)),
             )
             .setColor(error ? Colors.RED : Colors.COLOR)
-            .toJSONArray(),
+            .toJSON(true),
         });
       });
     })
@@ -79,7 +79,7 @@ _client.on("messageCreate", async (_message: Message) => {
           embeds: new Embed()
             .setDescription(codeBlock("js", cutText(output, 4000)))
             .setColor(Colors.COLOR)
-            .toJSONArray(),
+            .toJSON(true),
         });
       });
 
@@ -88,7 +88,7 @@ _client.on("messageCreate", async (_message: Message) => {
           embeds: new Embed()
             .setDescription(codeBlock("js", cutText(String(error), 4000)))
             .setColor(Colors.RED)
-            .toJSONArray(),
+            .toJSON(true),
         });
       });
     })

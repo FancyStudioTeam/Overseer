@@ -60,7 +60,7 @@ export default new Base<ChatInputSubCommand>({
           },
         ])
         .setColor(Colors.COLOR)
-        .toJSONArray(),
+        .toJSON(true),
     });
   },
 });
