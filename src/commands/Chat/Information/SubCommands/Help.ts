@@ -13,7 +13,7 @@ export default new Base<ChatInputSubCommand>({
       embeds: new Embed()
         .setDescription(Translations[locale].COMMANDS.INFORMATION.HELP.MESSAGE_1.DESCRIPTION_1)
         .setColor(Colors.COLOR)
-        .toJSONArray(),
+        .toJSON(true),
     });
   },
 });

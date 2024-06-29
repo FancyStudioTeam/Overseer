@@ -112,7 +112,7 @@ export default new Base<ChatInputSubCommand>({
           }),
         )
         .setColor(Colors.GREEN)
-        .toJSONArray(),
+        .toJSON(true),
     });
   },
 });

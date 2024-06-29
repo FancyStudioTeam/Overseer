@@ -59,7 +59,7 @@ export default new Base<UserCommand>({
           },
         ])
         .setColor(Colors.COLOR)
-        .toJSONArray(),
+        .toJSON(true),
     });
   },
 });

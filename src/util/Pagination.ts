@@ -64,7 +64,7 @@ export async function pagination(
           .setEmoji(parseEmoji(Emojis.EXPAND_CIRCLE_RIGHT))
           .setDisabled(pages.length < 2),
       ])
-      .toJSONArray(),
+      .toJSON(true),
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
@@ -123,7 +123,7 @@ export async function pagination(
               new Button(<ButtonComponent>row[1]).setLabel(`${index + 1}/${pages.length}`),
               new Button(<ButtonComponent>row[2]),
             ])
-            .toJSONArray(),
+            .toJSON(true),
         });
       }
     }

@@ -67,11 +67,11 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
 
   if (process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" && "reply" in _interaction) {
     return await _interaction.reply({
-      embeds: new Embed().setImage("attachment://maintenance.png").setColor(Colors.COLOR).toJSONArray(),
+      embeds: new Embed().setImage("attachment://maintenance.png").setColor(Colors.COLOR).toJSON(true),
       files: new Attachment()
         .setName("maintenance.png")
         .setContent(readFileSync(join(process.cwd(), "assets/Images", "Maintenance.png")))
-        .toJSONArray(),
+        .toJSON(true),
       components: new ActionRow<Button>()
         .addComponents([
           new Button()
@@ -80,7 +80,7 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
             .setEmoji(parseEmoji(Emojis.SUPPORT))
             .setURL(Links.SUPPORT),
         ])
-        .toJSONArray(),
+        .toJSON(true),
       flags: MessageFlags.EPHEMERAL,
     });
   }

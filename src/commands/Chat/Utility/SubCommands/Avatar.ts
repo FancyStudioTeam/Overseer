@@ -11,7 +11,7 @@ export default new Base<ChatInputSubCommand>({
     const _userOption = _context.data.options.getUser("user") ?? _context.user;
 
     await _context.reply({
-      embeds: new Embed().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSONArray(),
+      embeds: new Embed().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSON(true),
     });
   },
 });

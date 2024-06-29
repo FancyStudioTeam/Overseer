@@ -11,7 +11,7 @@ export default new Base<UserCommand>({
     const _userOption = <User>_context.data.target;
 
     await _context.reply({
-      embeds: new Embed().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSONArray(),
+      embeds: new Embed().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSON(true),
     });
   },
 });
