@@ -1,6 +1,6 @@
 import colors from "@colors/colors";
 import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
-import type { PermissionName } from "oceanic.js";
+import type { PermissionName, UserFlags } from "oceanic.js";
 import { Emojis, Links } from "#constants";
 import { padding } from "#util/Util.js";
 
@@ -54,9 +54,8 @@ export default {
       },
       SERVER: {
         MESSAGE_1: {
-          TITLE_1: ({ name }: { name: string }) => `**Información de ${name}**`,
           FIELD_1: {
-            FIELD: "**Información General**",
+            FIELD: "Información General",
             VALUE: ({ name, id, owner }: { name: string; id: string; owner: string }) =>
               [
                 `${Emojis.EXPAND_CIRCLE_RIGHT} **Nombre**: ${name}`,
@@ -65,7 +64,7 @@ export default {
               ].join("\n"),
           },
           FIELD_2: {
-            FIELD: "**Estadísticas**",
+            FIELD: "Estadísticas",
             VALUE: ({ members, channels, roles }: { members: number; channels: number; roles: number }) =>
               [
                 `${Emojis.EXPAND_CIRCLE_RIGHT} **Miembros**: ${members} miembros`,
@@ -74,7 +73,7 @@ export default {
               ].join("\n"),
           },
           FIELD_3: {
-            FIELD: "**Fecha de Creación**",
+            FIELD: "Fecha de Creación",
           },
         },
       },
@@ -285,6 +284,7 @@ export default {
     INVALID_USER_COLLECTOR: `**${Emojis.CANCEL_CIRCLE_COLOR} No puedes ejecutar este componente**`,
   },
   PERMISSIONS: permissions(),
+  USER_FLAGS: userFlags(),
 };
 
 function permissions(): Record<PermissionName, string> {
@@ -340,5 +340,46 @@ function permissions(): Record<PermissionName, string> {
     SET_VOICE_CHANNEL_STATUS: "Establecer Estado del Canal de Voz",
     SEND_POLLS: "Enviar Encuestas",
     USE_EXTERNAL_APPS: "Usar Aplicaciones Externas",
+  };
+}
+
+function userFlags(): Record<UserFlags, string> {
+  return {
+    1: "Personal de Discord",
+    2: "Propietario de Servidor Asociado",
+    4: "Eventos de Hype Squad",
+    8: "Cazador de Errores de Discord Nivel 1",
+    16: "MFA SMS",
+    32: "Promoción Premium Descartada",
+    64: "Hype Squad Bravery",
+    128: "Hype Squad Brilliance",
+    256: "Hype Squad Balance",
+    512: "Partidario Temprano",
+    1024: "Usuario de Pseudo Equipo",
+    2048: "Aplicación Interna",
+    4096: "Sistema",
+    8192: "Tiene Mensajes Urgentes No Leídos",
+    16384: "Cazador de Errores de Discord Nivel 2",
+    32768: "Eliminado por Menor de Edad",
+    65536: "Aplicación Verificada",
+    131072: "Desarrollador de Bots con Verificación Temprana",
+    262144: "Alumni de los Programas de Moderación",
+    524288: "Interacciones HTTP",
+    1048576: "Spammer",
+    2097152: "Desactivar Premium",
+    4194304: "Desarrollador Activo",
+    8589934592: "Límite de Tasa Global Alto",
+    17179869184: "Eliminado",
+    34359738368: "Desactivar Actividad Sospechosa",
+    68719476736: "Autoeliminado",
+    137438953472: "Discriminador Premium",
+    274877906944: "Cliente de Escritorio Utilizado",
+    549755813888: "Cliente Web Utilizado",
+    1099511627776: "Cliente Móvil Utilizado",
+    2199023255552: "Deshabilitado",
+    8796093022208: "Correo Electrónico Verificado",
+    17592186044416: "Cuarentena",
+    1125899906842624: "Colaborador",
+    2251799813685248: "Colaborador Restringido",
   };
 }

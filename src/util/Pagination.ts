@@ -114,16 +114,11 @@ export async function pagination(
           .otherwise(() => undefined);
 
         const row = message.components[0].components;
+        row[1] = new Button(<ButtonComponent>row[1]).setLabel(`${index + 1}/${pages.length}`).toJSON();
 
         await _client.rest.channels.editMessage(message.channelID, message.id, {
           embeds: [pages[index]],
-          components: new ActionRow<Button>()
-            .addComponents([
-              new Button(<ButtonComponent>row[0]),
-              new Button(<ButtonComponent>row[1]).setLabel(`${index + 1}/${pages.length}`),
-              new Button(<ButtonComponent>row[2]),
-            ])
-            .toJSON(true),
+          components: message.components,
         });
       }
     }

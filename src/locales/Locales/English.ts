@@ -1,6 +1,6 @@
 import colors from "@colors/colors";
 import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
-import type { PermissionName } from "oceanic.js";
+import type { PermissionName, UserFlags } from "oceanic.js";
 import { Emojis, Links } from "#constants";
 import { padding } from "#util/Util.js";
 
@@ -54,9 +54,8 @@ export default {
       },
       SERVER: {
         MESSAGE_1: {
-          TITLE_1: ({ name }: { name: string }) => `**${name} Information**`,
           FIELD_1: {
-            FIELD: "**General Information**",
+            FIELD: "General Information",
             VALUE: ({ name, id, owner }: { name: string; id: string; owner: string }) =>
               [
                 `${Emojis.EXPAND_CIRCLE_RIGHT} **Name**: ${name}`,
@@ -65,7 +64,7 @@ export default {
               ].join("\n"),
           },
           FIELD_2: {
-            FIELD: "**Statistics**",
+            FIELD: "Statistics",
             VALUE: ({ members, channels, roles }: { members: number; channels: number; roles: number }) =>
               [
                 `${Emojis.EXPAND_CIRCLE_RIGHT} **Members**: ${members} members`,
@@ -74,7 +73,7 @@ export default {
               ].join("\n"),
           },
           FIELD_3: {
-            FIELD: "**Creation Date**",
+            FIELD: "Creation Date",
           },
         },
       },
@@ -284,6 +283,7 @@ export default {
     INVALID_USER_COLLECTOR: `**${Emojis.CANCEL_CIRCLE_COLOR} You cannot run this component**`,
   },
   PERMISSIONS: permissions(),
+  USER_FLAGS: userFlags(),
 };
 
 function permissions(): Record<PermissionName, string> {
@@ -339,5 +339,46 @@ function permissions(): Record<PermissionName, string> {
     SET_VOICE_CHANNEL_STATUS: "Set Voice Channel Status",
     SEND_POLLS: "Send Polls",
     USE_EXTERNAL_APPS: "Use External Apps",
+  };
+}
+
+function userFlags(): Record<UserFlags, string> {
+  return {
+    1: "Discord Staff",
+    2: "Partenered Server Owner",
+    4: "Hype Squad Events",
+    8: "Discord Bug Hunter Tier 1",
+    16: "MFA SMS",
+    32: "Premium Promo Dismissed",
+    64: "Hype Squad Bravery",
+    128: "Hype Squad Brilliance",
+    256: "Hype Squad Balance",
+    512: "Early Supporter",
+    1024: "Pseudo Team User",
+    2048: "Internal Application",
+    4096: "System",
+    8192: "Has Unread Urgent Messages",
+    16384: "Discord Bug Hunter Tier 2",
+    32768: "Underage Deleted",
+    65536: "Verified App",
+    131072: "Early Verified Bot Developer",
+    262144: "Moderator Programs Alumni",
+    524288: "HTTP Interactions",
+    1048576: "Spammer",
+    2097152: "Disable Premium",
+    4194304: "Active Developer",
+    8589934592: "High Global Rate Limit",
+    17179869184: "Deleted",
+    34359738368: "Disable Suspicious Activity",
+    68719476736: "Self Deleted",
+    137438953472: "Premium Discriminator",
+    274877906944: "Used Desktop Client",
+    549755813888: "Used Web Client",
+    1099511627776: "Used Mobile Client",
+    2199023255552: "Disabled",
+    8796093022208: "Verified Email",
+    17592186044416: "Quarintined",
+    1125899906842624: "Collaborator",
+    2251799813685248: "Restricted Collaborator",
   };
 }
