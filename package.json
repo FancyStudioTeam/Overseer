@@ -9,7 +9,7 @@
     "check": "pnpm biome",
     "prepare": "husky"
   },
-  "author": "LonelyDeath",
+  "author": "FancyStudio",
   "license": "BSD-3-Clause",
   "dependencies": {
     "@colors/colors": "1.6.0",
@@ -24,7 +24,7 @@
     "glob": "10.4.2",
     "oceanic-builders": "0.0.21-alpha",
     "oceanic-collectors": "1.0.7",
-    "oceanic.js": "1.11.1-dev.da45a22",
+    "oceanic.js": "1.11.1-dev.05899ff",
     "ts-pattern": "5.2.0",
     "url-regex-safe": "4.0.0"
   },
@@ -35,8 +35,8 @@
     "husky": "9.0.11",
     "lint-staged": "15.2.7",
     "prisma": "5.16.1",
-    "tsx": "4.16.0",
-    "typescript": "5.5.2"
+    "tsx": "4.16.2",
+    "typescript": "5.5.3"
   },
   "prisma": {
     "seed": "tsx src/seed.ts"
