@@ -23,7 +23,7 @@ export class Discord extends Client {
 
   constructor() {
     super({
-      auth: `Bot ${process.env.TOKEN}`,
+      auth: `Bot ${process.env.CLIENT_TOKEN}`,
       collectionLimits: {
         auditLogEntries: 0,
         autoModerationRules: 0,

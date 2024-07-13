@@ -5,7 +5,7 @@ import { version } from "#package";
 export const _client = new Discord();
 
 init({
-  dsn: process.env.SENTRY_DNS,
+  dsn: process.env.SENTRY_DSN_URL,
   _experiments: {
     metricsAggregator: true,
   },

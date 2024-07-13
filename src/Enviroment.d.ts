@@ -1,10 +1,9 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      TOKEN: string;
-      MONGO_DB: string;
-      SENTRY_DNS: string;
-      GITHUB_TOKEN: string;
+      CLIENT_TOKEN: string;
+      MONGO_DB_URL: string;
+      SENTRY_DSN_URL: string;
     }
   }
 }
