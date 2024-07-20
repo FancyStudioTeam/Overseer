@@ -1,4 +1,4 @@
-import { Embed } from "oceanic-builders";
+import { Embed, EmbedField } from "oceanic-builders";
 import { ApplicationCommandTypes, type CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
@@ -42,21 +42,20 @@ export default new Base<UserCommand>({
         )
         .setThumbnail(member.user.avatarURL())
         .addFields([
-          {
-            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_1.FIELD,
-            value: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_1.VALUE({
+          new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_1.FIELD).setValue(
+            Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_1.VALUE({
               name: member.user.mention,
               id: member.user.id,
             }),
-          },
-          {
-            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_2.FIELD,
-            value: `${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt)}`,
-          },
-          {
-            name: Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_3.FIELD,
-            value: `${Emojis.EXPAND_CIRCLE_RIGHT} ${member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.CANCEL_CIRCLE_COLOR}`,
-          },
+          ),
+          new EmbedField()
+            .setName(Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_2.FIELD)
+            .setValue(`${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt)}`),
+          new EmbedField()
+            .setName(Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_3.FIELD)
+            .setValue(
+              `${Emojis.EXPAND_CIRCLE_RIGHT} ${member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.CANCEL_CIRCLE_COLOR}`,
+            ),
         ])
         .setColor(Colors.COLOR)
         .toJSON(true),

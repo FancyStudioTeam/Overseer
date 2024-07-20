@@ -1,4 +1,4 @@
-import { Embed } from "oceanic-builders";
+import { Embed, EmbedField } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
@@ -61,20 +61,22 @@ export default new Base<ChatInputSubCommand>({
           )
           .setThumbnail(_userOption.avatarURL())
           .addFields([
-            {
-              name: Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_1.FIELD({
-                warning: warning.general.warningID,
-              }),
-              value: Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_1.VALUE({
-                moderator:
-                  _context.guild.members.get(warning.general.moderatorID)?.mention ?? Emojis.CANCEL_CIRCLE_COLOR,
-                reason: warning.general.reason,
-              }),
-            },
-            {
-              name: Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_2.FIELD,
-              value: `${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, warning.createdAt)}`,
-            },
+            new EmbedField()
+              .setName(
+                Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_1.FIELD({
+                  warning: warning.general.warningID,
+                }),
+              )
+              .setValue(
+                Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_1.VALUE({
+                  moderator:
+                    _context.guild.members.get(warning.general.moderatorID)?.mention ?? Emojis.CANCEL_CIRCLE_COLOR,
+                  reason: warning.general.reason,
+                }),
+              ),
+            new EmbedField()
+              .setName(Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_2.FIELD)
+              .setValue(`${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, warning.createdAt)}`),
           ])
           .setColor(Colors.COLOR)
           .toJSON();

@@ -1,4 +1,4 @@
-import { Embed } from "oceanic-builders";
+import { Embed, EmbedField } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
@@ -25,19 +25,18 @@ export default new Base<ChatInputSubCommand>({
 
     await _context.reply({
       embeds: new Embed()
-        .setTitle(
-          Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.TITLE_1({
+        /*.setTitle(
+          Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.TITL({
             name: sanitizeString(_context.guild.name, {
               maxLength: 50,
               espaceMarkdown: true,
             }),
           }),
-        )
+        )*/
         .setThumbnail(_context.guild.iconURL() ?? _client.user.avatarURL())
         .addFields([
-          {
-            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.FIELD,
-            value: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.VALUE({
+          new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.FIELD).setValue(
+            Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.VALUE({
               name: sanitizeString(_context.guild.name, {
                 maxLength: 50,
                 espaceMarkdown: true,
@@ -45,19 +44,19 @@ export default new Base<ChatInputSubCommand>({
               id: _context.guildID,
               owner: owner?.mention ?? Emojis.CANCEL_CIRCLE_COLOR,
             }),
-          },
-          {
-            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.FIELD,
-            value: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.VALUE({
+          ),
+          new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.FIELD).setValue(
+            Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.VALUE({
               members: _context.guild.memberCount,
               channels: _context.guild.channels.size,
               roles: _context.guild.roles.size,
             }),
-          },
-          {
-            name: Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_3.FIELD,
-            value: `${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _context.guild.createdAt)}`,
-          },
+          ),
+          new EmbedField()
+            .setName(Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_3.FIELD)
+            .setValue(
+              `${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _context.guild.createdAt)}`,
+            ),
         ])
         .setColor(Colors.COLOR)
         .toJSON(true),

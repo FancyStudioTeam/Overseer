@@ -1,4 +1,4 @@
-import { Embed } from "oceanic-builders";
+import { Embed, EmbedField } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
@@ -24,27 +24,24 @@ export default new Base<ChatInputSubCommand>({
         )
         .setThumbnail(_client.user.avatarURL())
         .addFields([
-          {
-            name: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_1.FIELD,
-            value: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_1.VALUE({
+          new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_1.FIELD).setValue(
+            Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_1.VALUE({
               version: sanitizeString(version, {
                 espaceMarkdown: true,
               }),
               memory: `${Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100}mb`,
             }),
-          },
-          {
-            name: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_2.FIELD,
-            value: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_2.VALUE({
+          ),
+          new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_2.FIELD).setValue(
+            Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_2.VALUE({
               users: _client.guilds.reduce((prev, guild) => prev + guild.memberCount, 0),
               guilds: _client.guilds.size,
               shards: _client.shards.size,
             }),
-          },
-          {
-            name: Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_3.FIELD,
-            value: `${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt)}`,
-          },
+          ),
+          new EmbedField()
+            .setName(Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_3.FIELD)
+            .setValue(`${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt)}`),
         ])
         .setColor(Colors.COLOR)
         .toJSON(true),
