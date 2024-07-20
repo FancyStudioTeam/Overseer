@@ -360,7 +360,7 @@ export async function handleError(
       )
       .setColor(Colors.RED)
       .toJSON(true),
-    components: new ActionRow<Button>()
+    components: new ActionRow()
       .addComponents([
         new Button()
           .setLabel(Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.COMPONENTS.BUTTONS.SUPPORT.LABEL)

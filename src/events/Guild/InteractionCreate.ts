@@ -70,9 +70,9 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
       embeds: new Embed().setImage("attachment://maintenance.png").setColor(Colors.COLOR).toJSON(true),
       files: new Attachment()
         .setName("maintenance.png")
-        .setContent(readFileSync(join(process.cwd(), "assets/Images", "Maintenance.png")))
+        .setContents(readFileSync(join(process.cwd(), "assets/Images", "Maintenance.png")))
         .toJSON(true),
-      components: new ActionRow<Button>()
+      components: new ActionRow()
         .addComponents([
           new Button()
             .setLabel("Support Server")
