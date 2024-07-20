@@ -77,7 +77,7 @@ _client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
           new Button()
             .setLabel("Support Server")
             .setStyle(ButtonStyles.LINK)
-            .setEmoji(parseEmoji(Emojis.SUPPORT))
+            .setEmoji(parseEmoji(Emojis.LIFE_BUOY))
             .setURL(Links.SUPPORT),
         ])
         .toJSON(true),

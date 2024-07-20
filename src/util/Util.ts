@@ -365,7 +365,7 @@ export async function handleError(
         new Button()
           .setLabel(Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.COMPONENTS.BUTTONS.SUPPORT.LABEL)
           .setStyle(ButtonStyles.LINK)
-          .setEmoji(parseEmoji(Emojis.SUPPORT))
+          .setEmoji(parseEmoji(Emojis.LIFE_BUOY))
           .setURL(Links.SUPPORT),
       ])
       .toJSON(true),

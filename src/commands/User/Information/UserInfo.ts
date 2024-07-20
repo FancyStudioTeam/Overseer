@@ -50,11 +50,11 @@ export default new Base<UserCommand>({
           ),
           new EmbedField()
             .setName(Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_2.FIELD)
-            .setValue(`${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt)}`),
+            .setValue(`${Emojis.CIRCLE_CHEVRON_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt)}`),
           new EmbedField()
             .setName(Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_3.FIELD)
             .setValue(
-              `${Emojis.EXPAND_CIRCLE_RIGHT} ${member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.CANCEL_CIRCLE_COLOR}`,
+              `${Emojis.CIRCLE_CHEVRON_RIGHT} ${member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.CIRCLE_X_COLOR}`,
             ),
         ])
         .setColor(Colors.COLOR)

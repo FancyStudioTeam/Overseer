@@ -54,11 +54,11 @@ export default new Base<ChatInputSubCommand>({
           ),
           new EmbedField()
             .setName(Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_2.FIELD)
-            .setValue(`${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt)}`),
+            .setValue(`${Emojis.CIRCLE_CHEVRON_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, member.user.createdAt)}`),
           new EmbedField()
             .setName(Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.FIELD_3.FIELD)
             .setValue(
-              `${Emojis.EXPAND_CIRCLE_RIGHT} ${member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.CANCEL_CIRCLE_COLOR}`,
+              `${Emojis.CIRCLE_CHEVRON_RIGHT} ${member.joinedAt ? formatUnix(UnixType.SHORT_DATE_TIME, member.joinedAt) : Emojis.CIRCLE_X_COLOR}`,
             ),
         ])
         .setColor(Colors.COLOR)
@@ -79,12 +79,12 @@ export default new Base<ChatInputSubCommand>({
     128: UserFlagsEmojis.HYPE_SQUAD_BRILLIANCE,
     256: UserFlagsEmojis.HYPE_SQUAD_BALANCE,
     512: UserFlagsEmojis.EARLY_SUPPORTER,
-    1024: Emojis.GROUP,
+    1024: Emojis.USERS,
     16384: UserFlagsEmojis.DISCORD_BUG_HUNTER_TIER_2,
     65536: UserFlagsEmojis.VERIFIED_APP,
     131072: UserFlagsEmojis.EARLY_VERIFIED_BOT_DEVELOPER,
     262144: UserFlagsEmojis.MODERATOR_PROGRAMS_ALUMNI,
-    524288: Emojis.HTTP,
+    524288: Emojis.SATELLITE_DISH,
     4194304: UserFlagsEmojis.ACTIVE_DEVELOPER,
   };
 

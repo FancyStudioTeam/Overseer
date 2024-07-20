@@ -42,7 +42,7 @@ export default new Base<ChatInputSubCommand>({
                 espaceMarkdown: true,
               }),
               id: _context.guildID,
-              owner: owner?.mention ?? Emojis.CANCEL_CIRCLE_COLOR,
+              owner: owner?.mention ?? Emojis.CIRCLE_X_COLOR,
             }),
           ),
           new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.FIELD).setValue(
@@ -55,7 +55,7 @@ export default new Base<ChatInputSubCommand>({
           new EmbedField()
             .setName(Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_3.FIELD)
             .setValue(
-              `${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _context.guild.createdAt)}`,
+              `${Emojis.CIRCLE_CHEVRON_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _context.guild.createdAt)}`,
             ),
         ])
         .setColor(Colors.COLOR)

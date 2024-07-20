@@ -41,7 +41,7 @@ export default new Base<ChatInputSubCommand>({
           ),
           new EmbedField()
             .setName(Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_3.FIELD)
-            .setValue(`${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt)}`),
+            .setValue(`${Emojis.CIRCLE_CHEVRON_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt)}`),
         ])
         .setColor(Colors.COLOR)
         .toJSON(true),

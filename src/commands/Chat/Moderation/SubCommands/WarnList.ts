@@ -69,14 +69,13 @@ export default new Base<ChatInputSubCommand>({
               )
               .setValue(
                 Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_1.VALUE({
-                  moderator:
-                    _context.guild.members.get(warning.general.moderatorID)?.mention ?? Emojis.CANCEL_CIRCLE_COLOR,
+                  moderator: _context.guild.members.get(warning.general.moderatorID)?.mention ?? Emojis.CIRCLE_X_COLOR,
                   reason: warning.general.reason,
                 }),
               ),
             new EmbedField()
               .setName(Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_2.FIELD)
-              .setValue(`${Emojis.EXPAND_CIRCLE_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, warning.createdAt)}`),
+              .setValue(`${Emojis.CIRCLE_CHEVRON_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, warning.createdAt)}`),
           ])
           .setColor(Colors.COLOR)
           .toJSON();

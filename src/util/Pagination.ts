@@ -50,18 +50,18 @@ export async function pagination(
         new Button()
           .setCustomID("pagination_left")
           .setStyle(ButtonStyles.SECONDARY)
-          .setEmoji(parseEmoji(Emojis.EXPAND_CIRCLE_LEFT))
+          .setEmoji(parseEmoji(Emojis.CIRCLE_CHEVRON_LEFT))
           .setDisabled(pages.length < 2),
         new Button()
           .setCustomID("pagination_pages")
           .setStyle(ButtonStyles.SECONDARY)
           .setLabel(`${index + 1}/${pages.length}`)
-          .setEmoji(parseEmoji(Emojis.BROWSE))
+          .setEmoji(parseEmoji(Emojis.COMPASS))
           .setDisabled(true),
         new Button()
           .setCustomID("pagination_right")
           .setStyle(ButtonStyles.SECONDARY)
-          .setEmoji(parseEmoji(Emojis.EXPAND_CIRCLE_RIGHT))
+          .setEmoji(parseEmoji(Emojis.CIRCLE_CHEVRON_RIGHT))
           .setDisabled(pages.length < 2),
       ])
       .toJSON(true),

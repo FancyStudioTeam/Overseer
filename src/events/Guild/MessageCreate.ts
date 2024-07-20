@@ -40,7 +40,7 @@ _client.on("messageCreate", async (_message: Message) => {
 
       await _client.rest.channels.createMessage(dmChannel.id, {
         embeds: new Embed()
-          .setDescription(`**${Emojis.EXPAND_CIRCLE_RIGHT} ||${createdClientVoucher.voucherID}||**`)
+          .setDescription(`**${Emojis.CIRCLE_CHEVRON_RIGHT} ||${createdClientVoucher.voucherID}||**`)
           .setColor(Colors.COLOR)
           .toJSON(true),
       });
