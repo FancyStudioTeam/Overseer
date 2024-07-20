@@ -47,9 +47,6 @@ export class Discord extends Client {
         voiceStates: 0,
       },
       gateway: {
-        connectionProperties: {
-          browser: "Discord Android",
-        },
         intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "MESSAGE_CONTENT"],
         maxShards: "auto",
         concurrency: "auto",
