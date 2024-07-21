@@ -1,8 +1,6 @@
-import colors from "@colors/colors";
-import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
+import { inlineCodeBlock } from "@sapphire/utilities";
 import type { PermissionName, UserFlags } from "oceanic.js";
 import { Emojis, Links } from "#constants";
-import { padding } from "#util/Util.js";
 
 export default {
   COMMANDS: {
@@ -39,17 +37,12 @@ export default {
       },
       PING: {
         MESSAGE_1: {
-          DESCRIPTION_1: ({ rest, shard }: { rest: string; shard: string }) =>
-            codeBlock(
-              "ansi",
-              padding(
-                [
-                  `${colors.reset.cyan("REST Reference")} - ${colors.bold.magenta(rest)}`,
-                  `${colors.reset.cyan("WebSocket Connection")} - ${colors.bold.magenta(shard)}`,
-                ].join("\n"),
-                "-",
-              ),
-            ),
+          FIELD_1: {
+            FIELD: `${Emojis.SATELLITE_DISH} REST Reference`,
+          },
+          FIELD_2: {
+            FIELD: `${Emojis.NETWORK} Server Shard`,
+          },
         },
       },
       SERVER: {

@@ -104,30 +104,6 @@ export function sanitizeString(
   return sanitizedContent;
 }
 
-export function padding(content: string, separator: string): string {
-  const lines = content.split("\n");
-  let maxLength = 0;
-
-  for (const line of lines) {
-    const length = line.split(` ${separator} `)[0].length;
-    if (length > maxLength) {
-      maxLength = length;
-    }
-  }
-
-  for (let i = 0; i < lines.length; i++) {
-    const parts = lines[i].split(` ${separator} `);
-
-    while (parts[0].length < maxLength) {
-      parts[0] += " ";
-    }
-
-    lines[i] = parts.join(` ${separator} `);
-  }
-
-  return lines.join("\n");
-}
-
 export async function errorMessage({
   _context,
   ephemeral,
