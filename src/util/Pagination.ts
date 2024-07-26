@@ -45,7 +45,7 @@ export async function pagination(
   let message: Message;
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: [pages[index]],
-    components: new ActionRow<Button>()
+    components: new ActionRow()
       .addComponents([
         new Button()
           .setCustomID("pagination_left")
