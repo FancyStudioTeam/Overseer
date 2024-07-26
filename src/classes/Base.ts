@@ -1,6 +1,6 @@
 import type { ChatInputCommand, ChatInputSubCommand, Component, Modal, UserCommand } from "#types";
 
-export class Base<T extends BaseTypes> {
+export class Base<T extends BaseTypes = BaseTypes> {
   constructor(options: T) {
     Object.assign(this, options);
   }
