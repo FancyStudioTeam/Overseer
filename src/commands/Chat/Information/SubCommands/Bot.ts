@@ -2,7 +2,7 @@ import { Embed, EmbedField } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
-import { _client } from "#index";
+import { client } from "#index";
 import { version } from "#package";
 import { Translations } from "#translations";
 import { type ChatInputSubCommand, Directories } from "#types";
@@ -16,13 +16,13 @@ export default new Base<ChatInputSubCommand>({
       embeds: new Embed()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.TITLE_1({
-            name: sanitizeString(_client.user.globalName ?? _client.user.username, {
+            name: sanitizeString(client.user.globalName ?? client.user.username, {
               maxLength: 35,
               espaceMarkdown: true,
             }),
           }),
         )
-        .setThumbnail(_client.user.avatarURL())
+        .setThumbnail(client.user.avatarURL())
         .addFields([
           new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_1.FIELD).setValue(
             Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_1.VALUE({
@@ -34,14 +34,14 @@ export default new Base<ChatInputSubCommand>({
           ),
           new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_2.FIELD).setValue(
             Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_2.VALUE({
-              users: _client.guilds.reduce((prev, guild) => prev + guild.memberCount, 0),
-              guilds: _client.guilds.size,
-              shards: _client.shards.size,
+              users: client.guilds.reduce((prev, guild) => prev + guild.memberCount, 0),
+              guilds: client.guilds.size,
+              shards: client.shards.size,
             }),
           ),
           new EmbedField()
             .setName(Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.FIELD_3.FIELD)
-            .setValue(`${Emojis.CIRCLE_CHEVRON_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _client.readyAt)}`),
+            .setValue(`${Emojis.CIRCLE_CHEVRON_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, client.readyAt)}`),
         ])
         .setColor(Colors.COLOR)
         .toJSON(true),

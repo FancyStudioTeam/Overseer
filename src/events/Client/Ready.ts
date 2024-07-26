@@ -1,7 +1,7 @@
-import { _client } from "#index";
+import { client } from "#index";
 import { LoggerType, logger } from "#util/Util.js";
 
-_client.once("ready", async () => {
-  await _client._deploy();
-  logger(LoggerType.INFO, `[${_client.user.username}] ${_client.user.username} has been connected`);
+client.once("ready", async () => {
+  await client._deploy();
+  logger(LoggerType.INFO, `[${client.user.username}] ${client.user.username} has been connected`);
 });

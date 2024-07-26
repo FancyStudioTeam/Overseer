@@ -23,25 +23,25 @@ import {
 import { match } from "ts-pattern";
 import urlRegex from "url-regex-safe";
 import { Colors, Emojis, Links } from "#constants";
-import { _client } from "#index";
+import { client } from "#index";
 import { Translations } from "#translations";
 import type { Locales } from "#types";
 
 export async function fetchUser(type: FetchFrom, id: string): Promise<User | Nullish> {
   return match(type)
     .returnType<Awaitable<User | Nullish>>()
-    .with(FetchFrom.DEFAULT, async () => _client.users.get(id) ?? (await _client.rest.users.get(id)))
-    .with(FetchFrom.CACHE, () => _client.users.get(id))
-    .with(FetchFrom.REST, async () => await _client.rest.users.get(id))
+    .with(FetchFrom.DEFAULT, async () => client.users.get(id) ?? (await client.rest.users.get(id)))
+    .with(FetchFrom.CACHE, () => client.users.get(id))
+    .with(FetchFrom.REST, async () => await client.rest.users.get(id))
     .otherwise(() => undefined);
 }
 
 export async function fetchMember(type: FetchFrom, guild: Guild, id: string): Promise<Member | Nullish> {
   return match(type)
     .returnType<Awaitable<Member | Nullish>>()
-    .with(FetchFrom.DEFAULT, async () => guild.members.get(id) ?? (await _client.rest.guilds.getMember(guild.id, id)))
+    .with(FetchFrom.DEFAULT, async () => guild.members.get(id) ?? (await client.rest.guilds.getMember(guild.id, id)))
     .with(FetchFrom.CACHE, () => guild.members.get(id))
-    .with(FetchFrom.REST, async () => await _client.rest.guilds.getMember(guild.id, id))
+    .with(FetchFrom.REST, async () => await client.rest.guilds.getMember(guild.id, id))
     .otherwise(() => undefined);
 }
 
@@ -120,7 +120,7 @@ export async function errorMessage({
 
   "reply" in _context
     ? await _context.reply(payload)
-    : await _client.rest.channels.createMessage(_context.channelID, payload);
+    : await client.rest.channels.createMessage(_context.channelID, payload);
 }
 
 export function parseEmoji(emoji: string): NullablePartialEmoji {
@@ -157,7 +157,7 @@ export async function disableComponents(message: Message): Promise<void> {
     }
   }
 
-  await _client.rest.channels.editMessage(message.channelID, message.id, {
+  await client.rest.channels.editMessage(message.channelID, message.id, {
     components: message.components,
   });
 }
@@ -241,7 +241,7 @@ export async function checkPermissions(
 
   if (!(_context.inCachedGuildChannel() && _context.guild)) return false;
 
-  const clientOrUser = member.id === _client.user.id ? "CLIENT" : "USER";
+  const clientOrUser = member.id === client.user.id ? "CLIENT" : "USER";
   const channelOrGuild = type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD";
   const missingPermissions = checkPermissions.filter((permission) =>
     channelOrGuild === "CHANNEL"
@@ -270,7 +270,7 @@ export async function checkPermissions(
 
     "reply" in _context
       ? await _context.reply(payload)
-      : await _client.rest.channels.createMessage(_context.channelID, payload);
+      : await client.rest.channels.createMessage(_context.channelID, payload);
   }
 
   return hasPermissions;
@@ -349,7 +349,7 @@ export async function handleError(
 
   "reply" in _context
     ? await _context.reply(payload)
-    : await _client.rest.channels.createMessage(_context.channelID, payload);
+    : await client.rest.channels.createMessage(_context.channelID, payload);
 }
 
 export function bitFieldValues(bitField: number): number[] {

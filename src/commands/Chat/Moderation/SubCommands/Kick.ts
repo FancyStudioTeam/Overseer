@@ -2,7 +2,7 @@ import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors } from "#constants";
-import { _client } from "#index";
+import { client } from "#index";
 import { Translations } from "#translations";
 import { type ChatInputSubCommand, Directories } from "#types";
 import { ComparationLevel, compareMemberToMember, errorMessage, sanitizeString } from "#util/Util.js";
@@ -40,7 +40,7 @@ export default new Base<ChatInputSubCommand>({
     }
 
     if (
-      _memberOption.id === _client.user.id ||
+      _memberOption.id === client.user.id ||
       _memberOption.id === _context.guild.ownerID ||
       _memberOption.id === _context.user.id
     ) {
@@ -70,7 +70,7 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    await _client.rest.guilds.removeMember(_context.guildID, _memberOption.id, _reasonOption);
+    await client.rest.guilds.removeMember(_context.guildID, _memberOption.id, _reasonOption);
 
     await _context.reply({
       embeds: new Embed()

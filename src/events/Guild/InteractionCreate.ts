@@ -17,7 +17,7 @@ import {
   type ModalSubmitInteraction,
 } from "oceanic.js";
 import { Colors, Emojis, Links } from "#constants";
-import { _client } from "#index";
+import { client } from "#index";
 import { Translations } from "#translations";
 import type { Locales } from "#types";
 import { prisma } from "#util/Prisma.js";
@@ -34,7 +34,7 @@ import {
 const commandRateLimiter = new RateLimitManager(5000, 3);
 const componentRateLimiter = new RateLimitManager(7000, 5);
 
-_client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
+client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
   if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
   if (!_interaction.channel) return;
   if (_interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;
@@ -213,7 +213,7 @@ async function _handleChatInputSubCommand({
   if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
   const name = _interaction.data.options.getSubCommand(true);
-  const command = _client.subCommands.get(`${_interaction.data.name}_${name.join("_")}`);
+  const command = client.subCommands.get(`${_interaction.data.name}_${name.join("_")}`);
 
   if (command?.name) {
     if (
@@ -282,7 +282,7 @@ async function _handleUserCommand({
 }): Promise<void> {
   if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
-  const command = _client.interactions.user.get(_interaction.data.name);
+  const command = client.interactions.user.get(_interaction.data.name);
 
   if (command?.name) {
     const result = await Result.fromAsync(async () => {
@@ -319,7 +319,7 @@ async function _handleAutocomplete({
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  const command = _client.interactions.chatInput.get(_interaction.data.name);
+  const command = client.interactions.chatInput.get(_interaction.data.name);
 
   if (command?.name) {
     const result = await Result.fromAsync(async () => {
@@ -360,7 +360,7 @@ async function _handleButton({
 }): Promise<void> {
   if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
-  const component = _client.components.buttons.get(_interaction.data.customID.split("/")[0]);
+  const component = client.components.buttons.get(_interaction.data.customID.split("/")[0]);
 
   if (component?.name) {
     if (
@@ -430,7 +430,7 @@ async function _handleSelectMenu({
 }): Promise<void> {
   if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
 
-  const component = _client.components.selects.get(_interaction.data.customID.split("/")[0]);
+  const component = client.components.selects.get(_interaction.data.customID.split("/")[0]);
 
   if (component?.name) {
     if (
@@ -498,7 +498,7 @@ async function _handleModalSubmit({
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  const component = _client.components.modals.get(_interaction.data.customID);
+  const component = client.components.modals.get(_interaction.data.customID);
 
   if (component?.name) {
     const result = await Result.fromAsync(async () => {

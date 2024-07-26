@@ -2,7 +2,7 @@ import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors } from "#constants";
-import { _client } from "#index";
+import { client } from "#index";
 import { Translations } from "#translations";
 import { type ChatInputSubCommand, Directories } from "#types";
 import { errorMessage, sanitizeString } from "#util/Util.js";
@@ -30,7 +30,7 @@ export default new Base<ChatInputSubCommand>({
       maxLength: 50,
       espaceMarkdown: true,
     });
-    const bannedUser = await _client.rest.guilds.getBan(_context.guildID, _userOption.id).catch(() => undefined);
+    const bannedUser = await client.rest.guilds.getBan(_context.guildID, _userOption.id).catch(() => undefined);
 
     if (!bannedUser) {
       return await errorMessage({
@@ -42,7 +42,7 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    await _client.rest.guilds.removeBan(_context.guildID, bannedUser.user.id, _reasonOption);
+    await client.rest.guilds.removeBan(_context.guildID, bannedUser.user.id, _reasonOption);
 
     await _context.reply({
       embeds: new Embed()

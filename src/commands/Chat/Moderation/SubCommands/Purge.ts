@@ -5,7 +5,7 @@ import { Embed } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors } from "#constants";
-import { _client } from "#index";
+import { client } from "#index";
 import { Translations } from "#translations";
 import { type ChatInputSubCommand, Directories } from "#types";
 import { errorMessage } from "#util/Util.js";
@@ -29,7 +29,7 @@ export default new Base<ChatInputSubCommand>({
     }
 
     const _amountOption = _context.data.options.getInteger("amount", true);
-    const fetchedMessages = await _client.rest.channels.getMessages(_context.channelID, {
+    const fetchedMessages = await client.rest.channels.getMessages(_context.channelID, {
       limit: _amountOption + 1,
     });
 
@@ -58,7 +58,7 @@ export default new Base<ChatInputSubCommand>({
     let purgedMessages = 0;
 
     for (const chunk of chunks) {
-      purgedMessages += await _client.rest.channels.deleteMessages(_context.channelID, chunk);
+      purgedMessages += await client.rest.channels.deleteMessages(_context.channelID, chunk);
     }
 
     await _context.reply({

@@ -2,7 +2,7 @@ import { Embed, EmbedField } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
-import { _client } from "#index";
+import { client } from "#index";
 import { Translations } from "#translations";
 import { type ChatInputSubCommand, Directories } from "#types";
 import { FetchFrom, UnixType, errorMessage, fetchUser, formatUnix, sanitizeString } from "#util/Util.js";
@@ -33,7 +33,7 @@ export default new Base<ChatInputSubCommand>({
             }),
           }),
         )*/
-        .setThumbnail(_context.guild.iconURL() ?? _client.user.avatarURL())
+        .setThumbnail(_context.guild.iconURL() ?? client.user.avatarURL())
         .addFields([
           new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.FIELD).setValue(
             Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.VALUE({

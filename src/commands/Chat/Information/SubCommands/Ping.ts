@@ -3,7 +3,7 @@ import { Embed, EmbedField } from "oceanic-builders";
 import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
-import { _client } from "#index";
+import { client } from "#index";
 import { Translations } from "#translations";
 import { type ChatInputSubCommand, Directories } from "#types";
 import { errorMessage } from "#util/Util.js";
@@ -23,7 +23,7 @@ export default new Base<ChatInputSubCommand>({
     }
 
     const { rest, shard } = {
-      rest: _client.rest.handler.latencyRef.latency,
+      rest: client.rest.handler.latencyRef.latency,
       shard: _context.guild.shard.latency,
     };
     const signal = (latency: number): string =>

@@ -20,7 +20,7 @@ import {
 } from "oceanic.js";
 import { match } from "ts-pattern";
 import { Emojis } from "#constants";
-import { _client } from "#index";
+import { client } from "#index";
 import { Translations } from "#translations";
 import type { Locales } from "#types";
 import { disableComponents, errorMessage, parseEmoji } from "#util/Util.js";
@@ -74,10 +74,10 @@ export async function pagination(
       ? _originalMessageResponse.message
       : await _originalMessageResponse.getMessage();
   } else {
-    message = await _client.rest.channels.createMessage(_context.channelID, payload);
+    message = await client.rest.channels.createMessage(_context.channelID, payload);
   }
 
-  const interactionCollector = new InteractionCollector(_client, {
+  const interactionCollector = new InteractionCollector(client, {
     message,
     channel: _context.channel,
     guild: _context.guild,
@@ -116,7 +116,7 @@ export async function pagination(
         const row = message.components[0].components;
         row[1] = new Button(<ButtonComponent>row[1]).setLabel(`${index + 1}/${pages.length}`).toJSON();
 
-        await _client.rest.channels.editMessage(message.channelID, message.id, {
+        await client.rest.channels.editMessage(message.channelID, message.id, {
           embeds: [pages[index]],
           components: message.components,
         });
