@@ -34,15 +34,15 @@ import {
 const commandRateLimiter = new RateLimitManager(5000, 3);
 const componentRateLimiter = new RateLimitManager(7000, 5);
 
-client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
-  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
-  if (!_interaction.channel) return;
-  if (_interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;
-  if (_interaction.user.bot) return;
+client.on("interactionCreate", async (interaction: AnyInteractionGateway) => {
+  if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
+  if (!interaction.channel) return;
+  if (interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;
+  if (interaction.user.bot) return;
 
   const guildConfiguration = await prisma.guildConfiguration.findUnique({
     where: {
-      guildID: _interaction.guildID,
+      guildID: interaction.guildID,
     },
   });
   const locale = <Locales>(guildConfiguration?.general.locale ?? "en").toUpperCase();
@@ -53,20 +53,20 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
   if (
     !(await checkPermissions(
       {
-        context: _interaction,
+        context: interaction,
         locale,
         ephemeral: true,
       },
       CheckPermissionsFrom.CHANNEL,
       ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
-      _interaction.guild.clientMember,
-      _interaction.channel,
+      interaction.guild.clientMember,
+      interaction.channel,
     ))
   )
     return;
 
-  if (process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" && "reply" in _interaction) {
-    return await _interaction.reply({
+  if (process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" && "reply" in interaction) {
+    return await interaction.reply({
       embeds: new Embed().setImage("attachment://maintenance.png").setColor(Colors.COLOR).toJSON(true),
       files: new Attachment()
         .setName("maintenance.png")
@@ -85,13 +85,13 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
     });
   }
 
-  switch (_interaction.type) {
+  switch (interaction.type) {
     case InteractionTypes.APPLICATION_COMMAND: {
-      const rateLimit = commandRateLimiter.acquire(_interaction.user.id);
+      const rateLimit = commandRateLimiter.acquire(interaction.user.id);
 
       if (rateLimit.limited) {
         return await errorMessage({
-          context: _interaction,
+          context: interaction,
           ephemeral: true,
           message: Translations[locale].GLOBAL.USER_IS_LIMITED({
             resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
@@ -101,12 +101,12 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
 
       rateLimit.consume();
 
-      switch (_interaction.data.type) {
+      switch (interaction.data.type) {
         case ApplicationCommandTypes.CHAT_INPUT: {
-          await _interaction.defer().catch(() => undefined);
+          await interaction.defer().catch(() => undefined);
 
           await _handleChatInputSubCommand({
-            _interaction,
+            interaction,
             locale,
             timezone,
             hour12,
@@ -117,7 +117,7 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
         }
         case ApplicationCommandTypes.USER: {
           await _handleUserCommand({
-            _interaction,
+            interaction,
             locale,
             timezone,
             hour12,
@@ -132,7 +132,7 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
     }
     case InteractionTypes.APPLICATION_COMMAND_AUTOCOMPLETE: {
       await _handleAutocomplete({
-        _interaction,
+        interaction,
         locale,
         timezone,
         hour12,
@@ -142,11 +142,11 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
       break;
     }
     case InteractionTypes.MESSAGE_COMPONENT: {
-      const rateLimit = componentRateLimiter.acquire(_interaction.user.id);
+      const rateLimit = componentRateLimiter.acquire(interaction.user.id);
 
       if (rateLimit.limited) {
         return await errorMessage({
-          context: _interaction,
+          context: interaction,
           ephemeral: true,
           message: Translations[locale].GLOBAL.USER_IS_LIMITED({
             resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
@@ -156,10 +156,10 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
 
       rateLimit.consume();
 
-      switch (_interaction.data.componentType) {
+      switch (interaction.data.componentType) {
         case ComponentTypes.BUTTON: {
           await _handleButton({
-            _interaction,
+            interaction,
             locale,
             timezone,
             hour12,
@@ -170,7 +170,7 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
         }
         case ComponentTypes.STRING_SELECT: {
           await _handleSelectMenu({
-            _interaction,
+            interaction,
             locale,
             timezone,
             hour12,
@@ -185,7 +185,7 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
     }
     case InteractionTypes.MODAL_SUBMIT: {
       await _handleModalSubmit({
-        _interaction,
+        interaction,
         locale,
         timezone,
         hour12,
@@ -198,35 +198,35 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
 });
 
 async function _handleChatInputSubCommand({
-  _interaction,
+  interaction,
   locale,
   timezone,
   hour12,
   premium,
 }: {
-  _interaction: CommandInteraction;
+  interaction: CommandInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
+  if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
 
-  const name = _interaction.data.options.getSubCommand(true);
-  const command = client.subCommands.get(`${_interaction.data.name}_${name.join("_")}`);
+  const name = interaction.data.options.getSubCommand(true);
+  const command = client.subCommands.get(`${interaction.data.name}_${name.join("_")}`);
 
   if (command?.name) {
     if (
       command.permissions?.user &&
       !(await checkPermissions(
         {
-          context: _interaction,
+          context: interaction,
           locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         command.permissions.user,
-        _interaction.member,
+        interaction.member,
       ))
     )
       return;
@@ -235,19 +235,19 @@ async function _handleChatInputSubCommand({
       command.permissions?.bot &&
       !(await checkPermissions(
         {
-          context: _interaction,
+          context: interaction,
           locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         command.permissions.bot,
-        _interaction.guild.clientMember,
+        interaction.guild.clientMember,
       ))
     )
       return;
 
     const result = await Result.fromAsync(async () => {
-      await command.run(_interaction, {
+      await command.run(interaction, {
         locale,
         timezone,
         hour12,
@@ -258,7 +258,7 @@ async function _handleChatInputSubCommand({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          context: _interaction,
+          context: interaction,
           locale,
         },
         error,
@@ -268,25 +268,25 @@ async function _handleChatInputSubCommand({
 }
 
 async function _handleUserCommand({
-  _interaction,
+  interaction,
   locale,
   timezone,
   hour12,
   premium,
 }: {
-  _interaction: CommandInteraction;
+  interaction: CommandInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
+  if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
 
-  const command = client.interactions.user.get(_interaction.data.name);
+  const command = client.interactions.user.get(interaction.data.name);
 
   if (command?.name) {
     const result = await Result.fromAsync(async () => {
-      await command.run(_interaction, {
+      await command.run(interaction, {
         locale,
         timezone,
         hour12,
@@ -297,7 +297,7 @@ async function _handleUserCommand({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          context: _interaction,
+          context: interaction,
           locale,
         },
         error,
@@ -307,24 +307,24 @@ async function _handleUserCommand({
 }
 
 async function _handleAutocomplete({
-  _interaction,
+  interaction,
   locale,
   timezone,
   hour12,
   premium,
 }: {
-  _interaction: AutocompleteInteraction;
+  interaction: AutocompleteInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  const command = client.interactions.chatInput.get(_interaction.data.name);
+  const command = client.interactions.chatInput.get(interaction.data.name);
 
   if (command?.name) {
     const result = await Result.fromAsync(async () => {
       if (command.autocomplete) {
-        await command.autocomplete(_interaction, {
+        await command.autocomplete(interaction, {
           locale,
           timezone,
           hour12,
@@ -336,7 +336,7 @@ async function _handleAutocomplete({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          context: _interaction,
+          context: interaction,
           locale,
         },
         error,
@@ -346,34 +346,34 @@ async function _handleAutocomplete({
 }
 
 async function _handleButton({
-  _interaction,
+  interaction,
   locale,
   timezone,
   hour12,
   premium,
 }: {
-  _interaction: ComponentInteraction;
+  interaction: ComponentInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
+  if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
 
-  const component = client.components.buttons.get(_interaction.data.customID.split("/")[0]);
+  const component = client.components.buttons.get(interaction.data.customID.split("/")[0]);
 
   if (component?.name) {
     if (
       component.permissions?.user &&
       !(await checkPermissions(
         {
-          context: _interaction,
+          context: interaction,
           locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         component.permissions.user,
-        _interaction.member,
+        interaction.member,
       ))
     )
       return;
@@ -382,31 +382,31 @@ async function _handleButton({
       component.permissions?.bot &&
       !(await checkPermissions(
         {
-          context: _interaction,
+          context: interaction,
           locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         component.permissions.bot,
-        _interaction.guild.clientMember,
+        interaction.guild.clientMember,
       ))
     )
       return;
 
     const result = await Result.fromAsync(async () => {
-      await component.run(_interaction, {
+      await component.run(interaction, {
         locale,
         timezone,
         hour12,
         premium,
-        variable: _interaction.data.customID.split("/")[1] ?? "",
+        variable: interaction.data.customID.split("/")[1] ?? "",
       });
     });
 
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          context: _interaction,
+          context: interaction,
           locale,
         },
         error,
@@ -416,34 +416,34 @@ async function _handleButton({
 }
 
 async function _handleSelectMenu({
-  _interaction,
+  interaction,
   locale,
   timezone,
   hour12,
   premium,
 }: {
-  _interaction: ComponentInteraction;
+  interaction: ComponentInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  if (!(_interaction.inCachedGuildChannel() && _interaction.guild)) return;
+  if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
 
-  const component = client.components.selects.get(_interaction.data.customID.split("/")[0]);
+  const component = client.components.selects.get(interaction.data.customID.split("/")[0]);
 
   if (component?.name) {
     if (
       component.permissions?.user &&
       !(await checkPermissions(
         {
-          context: _interaction,
+          context: interaction,
           locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         component.permissions.user,
-        _interaction.member,
+        interaction.member,
       ))
     )
       return;
@@ -452,31 +452,31 @@ async function _handleSelectMenu({
       component.permissions?.bot &&
       !(await checkPermissions(
         {
-          context: _interaction,
+          context: interaction,
           locale,
           ephemeral: true,
         },
         CheckPermissionsFrom.GUILD,
         component.permissions.bot,
-        _interaction.guild.clientMember,
+        interaction.guild.clientMember,
       ))
     )
       return;
 
     const result = await Result.fromAsync(async () => {
-      await component.run(_interaction, {
+      await component.run(interaction, {
         locale,
         timezone,
         hour12,
         premium,
-        variable: _interaction.data.customID.split("/")[1] ?? "",
+        variable: interaction.data.customID.split("/")[1] ?? "",
       });
     });
 
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          context: _interaction,
+          context: interaction,
           locale,
         },
         error,
@@ -486,23 +486,23 @@ async function _handleSelectMenu({
 }
 
 async function _handleModalSubmit({
-  _interaction,
+  interaction,
   locale,
   timezone,
   hour12,
   premium,
 }: {
-  _interaction: ModalSubmitInteraction;
+  interaction: ModalSubmitInteraction;
   locale: Locales;
   timezone: string;
   hour12: boolean;
   premium: boolean;
 }): Promise<void> {
-  const component = client.components.modals.get(_interaction.data.customID);
+  const component = client.components.modals.get(interaction.data.customID);
 
   if (component?.name) {
     const result = await Result.fromAsync(async () => {
-      await component.run(_interaction, {
+      await component.run(interaction, {
         locale,
         timezone,
         hour12,
@@ -513,7 +513,7 @@ async function _handleModalSubmit({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          context: _interaction,
+          context: interaction,
           locale,
         },
         error,

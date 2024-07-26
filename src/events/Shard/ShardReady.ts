@@ -2,8 +2,8 @@ import { ActivityTypes } from "oceanic.js";
 import { client } from "#index";
 import { LoggerType, logger } from "#util/Util.js";
 
-client.on("shardReady", (_id: number) => {
-  const shard = client.shards.get(_id);
+client.on("shardReady", (id: number) => {
+  const shard = client.shards.get(id);
 
   if (shard) {
     shard.editStatus("online", [
@@ -15,5 +15,5 @@ client.on("shardReady", (_id: number) => {
     ]);
   }
 
-  logger(LoggerType.INFO, `[Shard ${_id}] Shard has been connected`);
+  logger(LoggerType.INFO, `[Shard ${id}] Shard has been connected`);
 });

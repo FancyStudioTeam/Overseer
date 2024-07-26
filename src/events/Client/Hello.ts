@@ -1,6 +1,6 @@
 import { client } from "#index";
 import { LoggerType, logger } from "#util/Util.js";
 
-client.on("hello", (_interval: number, _shard: number) => {
-  logger(LoggerType.DEBUG, `[Shard ${_shard}] Received hello opcode with an interval of ${_interval}`);
+client.on("hello", (interval: number, shard: number) => {
+  logger(LoggerType.DEBUG, `[Shard ${shard}] Received hello opcode with an interval of ${interval}`);
 });

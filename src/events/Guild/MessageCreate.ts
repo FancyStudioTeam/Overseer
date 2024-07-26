@@ -10,17 +10,17 @@ import { Colors, Developers, Emojis } from "#constants";
 import { client } from "#index";
 import { prisma } from "#util/Prisma.js";
 
-client.on("messageCreate", async (_message: Message) => {
+client.on("messageCreate", async (message: Message) => {
   const prefix = ">";
 
-  if (!(_message.inCachedGuildChannel() && _message.guild)) return;
-  if (!_message.channel) return;
-  if (_message.channel.type !== ChannelTypes.GUILD_TEXT) return;
-  if (_message.author.bot) return;
-  if (!_message.content.startsWith(prefix)) return;
-  if (!Developers.includes(_message.author.id)) return;
+  if (!(message.inCachedGuildChannel() && message.guild)) return;
+  if (!message.channel) return;
+  if (message.channel.type !== ChannelTypes.GUILD_TEXT) return;
+  if (message.author.bot) return;
+  if (!message.content.startsWith(prefix)) return;
+  if (!Developers.includes(message.author.id)) return;
 
-  const [command, ...args] = _message.content.slice(prefix.length).trim().split(" ");
+  const [command, ...args] = message.content.slice(prefix.length).trim().split(" ");
 
   match(command.toLowerCase())
     .returnType<void>()
@@ -36,7 +36,7 @@ client.on("messageCreate", async (_message: Message) => {
           voucherID: true,
         },
       });
-      const dmChannel = await client.rest.users.createDM(_message.author.id);
+      const dmChannel = await client.rest.users.createDM(message.author.id);
 
       await client.rest.channels.createMessage(dmChannel.id, {
         embeds: new Embed()
@@ -51,7 +51,7 @@ client.on("messageCreate", async (_message: Message) => {
       if (!command) return;
 
       exec(`cd "${process.cwd()}" && ${command}`, async (error: ExecException | Nullish, result: string) => {
-        await client.rest.channels.createMessage(_message.channelID, {
+        await client.rest.channels.createMessage(message.channelID, {
           embeds: new Embed()
             .setDescription(
               codeBlock(error ? "bash" : "js", cutText(error ? error.stack ?? error.message : result, 4000)),
@@ -75,7 +75,7 @@ client.on("messageCreate", async (_message: Message) => {
           output = inspect(result);
         }
 
-        await client.rest.channels.createMessage(_message.channelID, {
+        await client.rest.channels.createMessage(message.channelID, {
           embeds: new Embed()
             .setDescription(codeBlock("js", cutText(output, 4000)))
             .setColor(Colors.COLOR)
@@ -84,7 +84,7 @@ client.on("messageCreate", async (_message: Message) => {
       });
 
       result.unwrapOrElse(async (error) => {
-        await client.rest.channels.createMessage(_message.channelID, {
+        await client.rest.channels.createMessage(message.channelID, {
           embeds: new Embed()
             .setDescription(codeBlock("js", cutText(String(error), 4000)))
             .setColor(Colors.RED)
