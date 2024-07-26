@@ -24,16 +24,16 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const _memberOption = context.data.options.getMember("user");
-    const _warningOption = sanitizeString(context.data.options.getString("warning", true), {
+    const memberOption = context.data.options.getMember("user");
+    const warningOption = sanitizeString(context.data.options.getString("warning", true), {
       espaceMarkdown: true,
     });
-    const _reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
+    const reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
       maxLength: 50,
       espaceMarkdown: true,
     });
 
-    if (!_memberOption) {
+    if (!memberOption) {
       return await errorMessage({
         context,
         ephemeral: true,
@@ -42,9 +42,9 @@ export default new Base<ChatInputSubCommand>({
     }
 
     if (
-      _memberOption.id === client.user.id ||
-      _memberOption.id === context.guild.ownerID ||
-      _memberOption.id === context.user.id
+      memberOption.id === client.user.id ||
+      memberOption.id === context.guild.ownerID ||
+      memberOption.id === context.user.id
     ) {
       return await errorMessage({
         context,
@@ -53,7 +53,7 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    if (compareMemberToMember(context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
+    if (compareMemberToMember(context.guild.clientMember, memberOption) !== ComparationLevel.HIGHER) {
       return await errorMessage({
         context,
         ephemeral: true,
@@ -63,7 +63,7 @@ export default new Base<ChatInputSubCommand>({
 
     if (
       context.user.id !== context.guild.ownerID &&
-      compareMemberToMember(context.member, _memberOption) !== ComparationLevel.HIGHER
+      compareMemberToMember(context.member, memberOption) !== ComparationLevel.HIGHER
     ) {
       return await errorMessage({
         context,
@@ -77,8 +77,8 @@ export default new Base<ChatInputSubCommand>({
         guildID: context.guild.id,
         general: {
           is: {
-            warningID: _warningOption,
-            userID: _memberOption.id,
+            warningID: warningOption,
+            userID: memberOption.id,
           },
         },
       },
@@ -88,7 +88,9 @@ export default new Base<ChatInputSubCommand>({
       return await errorMessage({
         context,
         ephemeral: true,
-        message: Translations[locale].COMMANDS.MODERATION.WARN.REMOVE.WARNING_NOT_FOUND({ id: _warningOption }),
+        message: Translations[locale].COMMANDS.MODERATION.WARN.REMOVE.WARNING_NOT_FOUND({
+          id: warningOption,
+        }),
       });
     }
 
@@ -108,8 +110,8 @@ export default new Base<ChatInputSubCommand>({
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.WARN.REMOVE.MESSAGE_1({
             moderator: context.user.mention,
-            user: _memberOption.mention,
-            reason: _reasonOption,
+            user: memberOption.mention,
+            reason: reasonOption,
           }),
         )
         .setColor(Colors.RED)

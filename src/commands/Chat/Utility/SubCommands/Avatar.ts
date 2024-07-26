@@ -7,10 +7,10 @@ export default new Base<ChatInputSubCommand>({
   name: "avatar",
   directory: Directories.UTILITY,
   run: async ({ context }) => {
-    const _userOption = context.data.options.getUser("user") ?? context.user;
+    const userOption = context.data.options.getUser("user") ?? context.user;
 
     await context.reply({
-      embeds: new Embed().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSON(true),
+      embeds: new Embed().setImage(userOption.avatarURL()).setColor(Colors.COLOR).toJSON(true),
     });
   },
 });

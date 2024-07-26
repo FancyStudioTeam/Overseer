@@ -25,14 +25,14 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const _memberOption = context.data.options.getMember("user");
-    const _durationOption = context.data.options.getString("duration", true);
-    const _reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
+    const memberOption = context.data.options.getMember("user");
+    const durationOption = context.data.options.getString("duration", true);
+    const reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
       maxLength: 50,
       espaceMarkdown: true,
     });
 
-    if (!_memberOption) {
+    if (!memberOption) {
       return await errorMessage({
         context,
         ephemeral: true,
@@ -41,9 +41,9 @@ export default new Base<ChatInputSubCommand>({
     }
 
     if (
-      _memberOption.id === client.user.id ||
-      _memberOption.id === context.guild.ownerID ||
-      _memberOption.id === context.user.id
+      memberOption.id === client.user.id ||
+      memberOption.id === context.guild.ownerID ||
+      memberOption.id === context.user.id
     ) {
       return await errorMessage({
         context,
@@ -52,7 +52,7 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    if (compareMemberToMember(context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
+    if (compareMemberToMember(context.guild.clientMember, memberOption) !== ComparationLevel.HIGHER) {
       return await errorMessage({
         context,
         ephemeral: true,
@@ -62,7 +62,7 @@ export default new Base<ChatInputSubCommand>({
 
     if (
       context.user.id !== context.guild.ownerID &&
-      compareMemberToMember(context.member, _memberOption) !== ComparationLevel.HIGHER
+      compareMemberToMember(context.member, memberOption) !== ComparationLevel.HIGHER
     ) {
       return await errorMessage({
         context,
@@ -71,7 +71,7 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const parsedDuration = new Duration(_durationOption).offset;
+    const parsedDuration = new Duration(durationOption).offset;
 
     if (Number.isNaN(parsedDuration)) {
       return await errorMessage({
@@ -89,18 +89,18 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    await client.rest.guilds.editMember(context.guildID, _memberOption.id, {
+    await client.rest.guilds.editMember(context.guildID, memberOption.id, {
       communicationDisabledUntil: new Date(Date.now() + parsedDuration).toISOString(),
-      reason: _reasonOption,
+      reason: reasonOption,
     });
 
     await context.reply({
       embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.TIMEOUT.ADD.MESSAGE_1({
-            user: _memberOption.mention,
+            user: memberOption.mention,
             moderator: context.user.mention,
-            reason: _reasonOption,
+            reason: reasonOption,
           }),
         )
         .setColor(Colors.GREEN)

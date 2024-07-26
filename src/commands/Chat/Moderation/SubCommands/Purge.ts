@@ -27,9 +27,9 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const _amountOption = context.data.options.getInteger("amount", true);
+    const amountOption = context.data.options.getInteger("amount", true);
     const fetchedMessages = await client.rest.channels.getMessages(context.channelID, {
-      limit: _amountOption + 1,
+      limit: amountOption + 1,
     });
 
     if (!fetchedMessages.length) {

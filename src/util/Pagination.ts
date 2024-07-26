@@ -69,10 +69,10 @@ export async function pagination(
   };
 
   if ("reply" in context) {
-    const _originalMessageResponse = await context.reply(payload);
-    message = _originalMessageResponse.hasMessage()
-      ? _originalMessageResponse.message
-      : await _originalMessageResponse.getMessage();
+    const originalMessageResponse = await context.reply(payload);
+    message = originalMessageResponse.hasMessage()
+      ? originalMessageResponse.message
+      : await originalMessageResponse.getMessage();
   } else {
     message = await client.rest.channels.createMessage(context.channelID, payload);
   }

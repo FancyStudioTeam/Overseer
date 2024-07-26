@@ -8,10 +8,10 @@ export default new Base<UserCommand>({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
   run: async ({ context }) => {
-    const _userOption = <User>context.data.target;
+    const userOption = <User>context.data.target;
 
     await context.reply({
-      embeds: new Embed().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSON(true),
+      embeds: new Embed().setImage(userOption.avatarURL()).setColor(Colors.COLOR).toJSON(true),
     });
   },
 });

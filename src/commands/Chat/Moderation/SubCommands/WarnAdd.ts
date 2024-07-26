@@ -25,13 +25,13 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const _memberOption = context.data.options.getMember("user");
-    const _reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
+    const memberOption = context.data.options.getMember("user");
+    const reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
       maxLength: 50,
       espaceMarkdown: true,
     });
 
-    if (!_memberOption) {
+    if (!memberOption) {
       return await errorMessage({
         context,
         ephemeral: true,
@@ -40,9 +40,9 @@ export default new Base<ChatInputSubCommand>({
     }
 
     if (
-      _memberOption.id === client.user.id ||
-      _memberOption.id === context.guild.ownerID ||
-      _memberOption.id === context.user.id
+      memberOption.id === client.user.id ||
+      memberOption.id === context.guild.ownerID ||
+      memberOption.id === context.user.id
     ) {
       return await errorMessage({
         context,
@@ -51,7 +51,7 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    if (compareMemberToMember(context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
+    if (compareMemberToMember(context.guild.clientMember, memberOption) !== ComparationLevel.HIGHER) {
       return await errorMessage({
         context,
         ephemeral: true,
@@ -61,7 +61,7 @@ export default new Base<ChatInputSubCommand>({
 
     if (
       context.user.id !== context.guild.ownerID &&
-      compareMemberToMember(context.member, _memberOption) !== ComparationLevel.HIGHER
+      compareMemberToMember(context.member, memberOption) !== ComparationLevel.HIGHER
     ) {
       return await errorMessage({
         context,
@@ -75,7 +75,7 @@ export default new Base<ChatInputSubCommand>({
         guildID: context.guild.id,
         general: {
           is: {
-            userID: _memberOption.id,
+            userID: memberOption.id,
           },
         },
       },
@@ -93,10 +93,10 @@ export default new Base<ChatInputSubCommand>({
       data: {
         guildID: context.guild.id,
         general: {
-          userID: _memberOption.id,
+          userID: memberOption.id,
           warningID: DiscordSnowflake.generate().toString(),
           moderatorID: context.user.id,
-          reason: _reasonOption,
+          reason: reasonOption,
         },
       },
     });
@@ -106,8 +106,8 @@ export default new Base<ChatInputSubCommand>({
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.WARN.ADD.MESSAGE_1({
             moderator: context.user.mention,
-            user: _memberOption.mention,
-            reason: _reasonOption,
+            user: memberOption.mention,
+            reason: reasonOption,
           }),
         )
         .setColor(Colors.GREEN)

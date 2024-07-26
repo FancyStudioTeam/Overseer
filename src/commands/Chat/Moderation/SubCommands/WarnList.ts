@@ -21,13 +21,13 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const _userOption = context.data.options.getUser("user") ?? context.user;
+    const userOption = context.data.options.getUser("user") ?? context.user;
     const userWarns = await prisma.userWarn.findMany({
       where: {
         guildID: context.guild.id,
         general: {
           is: {
-            userID: _userOption.id,
+            userID: userOption.id,
           },
         },
       },
@@ -41,7 +41,7 @@ export default new Base<ChatInputSubCommand>({
         context,
         ephemeral: true,
         message: Translations[locale].COMMANDS.MODERATION.WARN.LIST.WARNINGS_NOT_FOUND({
-          user: _userOption.mention,
+          user: userOption.mention,
         }),
       });
     }
@@ -52,13 +52,13 @@ export default new Base<ChatInputSubCommand>({
         return new Embed()
           .setTitle(
             Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.TITLE_1({
-              user: sanitizeString(_userOption.globalName ?? _userOption.username, {
+              user: sanitizeString(userOption.globalName ?? userOption.username, {
                 maxLength: 50,
                 espaceMarkdown: true,
               }),
             }),
           )
-          .setThumbnail(_userOption.avatarURL())
+          .setThumbnail(userOption.avatarURL())
           .addFields([
             new EmbedField()
               .setName(

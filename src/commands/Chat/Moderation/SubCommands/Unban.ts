@@ -24,32 +24,32 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const _userOption = context.data.options.getUser("user", true);
-    const _reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
+    const userOption = context.data.options.getUser("user", true);
+    const reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
       maxLength: 50,
       espaceMarkdown: true,
     });
-    const bannedUser = await client.rest.guilds.getBan(context.guildID, _userOption.id).catch(() => undefined);
+    const bannedUser = await client.rest.guilds.getBan(context.guildID, userOption.id).catch(() => undefined);
 
     if (!bannedUser) {
       return await errorMessage({
         context,
         ephemeral: true,
         message: Translations[locale].COMMANDS.MODERATION.UNBAN.BAN_NOT_FOUND({
-          ban: _userOption.id,
+          ban: userOption.id,
         }),
       });
     }
 
-    await client.rest.guilds.removeBan(context.guildID, bannedUser.user.id, _reasonOption);
+    await client.rest.guilds.removeBan(context.guildID, bannedUser.user.id, reasonOption);
 
     await context.reply({
       embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.UNBAN.MESSAGE_1({
-            user: _userOption.mention,
+            user: userOption.mention,
             moderator: context.user.mention,
-            reason: _reasonOption,
+            reason: reasonOption,
           }),
         )
         .setColor(Colors.GREEN)

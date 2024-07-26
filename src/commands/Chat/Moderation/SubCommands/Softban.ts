@@ -25,13 +25,13 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    const _memberOption = context.data.options.getMember("user");
-    const _reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
+    const memberOption = context.data.options.getMember("user");
+    const reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
       maxLength: 50,
       espaceMarkdown: true,
     });
 
-    if (!_memberOption) {
+    if (!memberOption) {
       return await errorMessage({
         context,
         ephemeral: true,
@@ -40,9 +40,9 @@ export default new Base<ChatInputSubCommand>({
     }
 
     if (
-      _memberOption.id === client.user.id ||
-      _memberOption.id === context.guild.ownerID ||
-      _memberOption.id === context.user.id
+      memberOption.id === client.user.id ||
+      memberOption.id === context.guild.ownerID ||
+      memberOption.id === context.user.id
     ) {
       return await errorMessage({
         context,
@@ -51,7 +51,7 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    if (compareMemberToMember(context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
+    if (compareMemberToMember(context.guild.clientMember, memberOption) !== ComparationLevel.HIGHER) {
       return await errorMessage({
         context,
         ephemeral: true,
@@ -61,7 +61,7 @@ export default new Base<ChatInputSubCommand>({
 
     if (
       context.user.id !== context.guild.ownerID &&
-      compareMemberToMember(context.member, _memberOption) !== ComparationLevel.HIGHER
+      compareMemberToMember(context.member, memberOption) !== ComparationLevel.HIGHER
     ) {
       return await errorMessage({
         context,
@@ -70,19 +70,19 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    await client.rest.guilds.createBan(context.guildID, _memberOption.id, {
+    await client.rest.guilds.createBan(context.guildID, memberOption.id, {
       deleteMessageSeconds: new Duration("7 days").offset / 1000,
-      reason: _reasonOption,
+      reason: reasonOption,
     });
-    await client.rest.guilds.removeBan(context.guildID, _memberOption.id, _reasonOption);
+    await client.rest.guilds.removeBan(context.guildID, memberOption.id, reasonOption);
 
     await context.reply({
       embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.SOFTBAN.MESSAGE_1({
-            user: _memberOption.mention,
+            user: memberOption.mention,
             moderator: context.user.mention,
-            reason: _reasonOption,
+            reason: reasonOption,
           }),
         )
         .setColor(Colors.GREEN)
