@@ -36,7 +36,6 @@
       "#client": ["./src/classes/Client.ts"],
       "#constants": ["./src/util/Constants.ts"],
       "#index": ["./src/Index.ts"],
-      "#locales/*": ["./src/locales/Locales/*"],
       "#package": ["./package.json"],
       "#translations": ["./src/locales/Index.ts"],
       "#types": ["./src/Types.ts"],

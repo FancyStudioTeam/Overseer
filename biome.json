@@ -27,10 +27,11 @@
         "noAssignInExpressions": "off"
       },
       "style": {
-        "useNamingConvention": "off",
-        "useBlockStatements": "off",
         "noDefaultExport": "off",
+        "noNamespaceImport": "off",
+        "useBlockStatements": "off",
         "useEnumInitializers": "off",
+        "useNamingConvention": "off",
         "useFilenamingConvention": {
           "level": "error",
           "options": {

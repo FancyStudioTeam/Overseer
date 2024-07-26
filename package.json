@@ -4,9 +4,9 @@
   "scripts": {
     "biome": "biome check --write --config-path=\"./biome.json\" .",
     "build": "tsc",
-    "dev": "tsx watch --ignore ./src/locales src/Index.ts",
+    "dev": "set NODE_ENV=development && tsx watch --ignore ./src/locales src/Index.ts",
     "prepare": "husky",
-    "start": "cd dist && node src/Index.js"
+    "start": "set NODE_ENV=production && cd dist && node src/Index.js"
   },
   "author": "FancyStudio",
   "license": "BSD-3-Clause",
@@ -46,7 +46,6 @@
     "#client": "./src/classes/Client.js",
     "#constants": "./src/util/Constants.js",
     "#index": "./src/Index.js",
-    "#locales/*": "./src/locales/Locales/*",
     "#package": "./package.json",
     "#translations": "./src/locales/Index.js",
     "#types": "./src/Types.js",
