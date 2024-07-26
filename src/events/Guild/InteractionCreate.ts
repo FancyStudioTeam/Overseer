@@ -4,7 +4,6 @@ import { RateLimitManager } from "@sapphire/ratelimits";
 import { Result } from "@sapphire/result";
 import { ActionRow, Attachment, Button, Embed } from "oceanic-builders";
 import {
-  type AnyInteractionGateway,
   ApplicationCommandTypes,
   type AutocompleteInteraction,
   ButtonStyles,
@@ -34,7 +33,7 @@ import {
 const commandRateLimiter = new RateLimitManager(5000, 3);
 const componentRateLimiter = new RateLimitManager(7000, 5);
 
-client.on("interactionCreate", async (interaction: AnyInteractionGateway) => {
+client.on("interactionCreate", async (interaction) => {
   if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
   if (!interaction.channel) return;
   if (interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;

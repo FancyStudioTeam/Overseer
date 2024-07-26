@@ -4,13 +4,13 @@ import { inspect } from "node:util";
 import { Result } from "@sapphire/result";
 import { type Nullish, codeBlock, cutText } from "@sapphire/utilities";
 import { Embed } from "oceanic-builders";
-import { ChannelTypes, type Message } from "oceanic.js";
+import { ChannelTypes } from "oceanic.js";
 import { match } from "ts-pattern";
 import { Colors, Developers, Emojis } from "#constants";
 import { client } from "#index";
 import { prisma } from "#util/Prisma.js";
 
-client.on("messageCreate", async (message: Message) => {
+client.on("messageCreate", async (message) => {
   const prefix = ">";
 
   if (!(message.inCachedGuildChannel() && message.guild)) return;

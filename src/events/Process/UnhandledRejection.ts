@@ -1,7 +1,10 @@
 import { captureException } from "@sentry/node";
 import { LoggerType, logger } from "#util/Util.js";
 
-process.on("unhandledRejection", (error: Error) => {
+process.on("unhandledRejection", (error) => {
   captureException(error);
-  logger(LoggerType.ERROR, `Unhandled Rejection: ${error.stack ?? error.message}`);
+
+  if (error instanceof Error) {
+    logger(LoggerType.ERROR, `Unhandled Rejection: ${error.stack ?? error.message}`);
+  }
 });

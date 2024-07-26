@@ -2,7 +2,7 @@ import { ActivityTypes } from "oceanic.js";
 import { client } from "#index";
 import { LoggerType, logger } from "#util/Util.js";
 
-client.on("shardReady", (id: number) => {
+client.on("shardReady", (id) => {
   const shard = client.shards.get(id);
 
   if (shard) {
