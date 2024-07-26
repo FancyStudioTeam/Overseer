@@ -16,29 +16,25 @@ interface Base<T extends Interactions> {
     bot?: PermissionName[];
     user?: PermissionName[];
   };
-  run: (
-    interaction: T,
-    config: {
-      locale: Locales;
-      timezone: string;
-      hour12: boolean;
-      premium: boolean;
-      variable?: unknown;
-    },
-  ) => Promise<unknown>;
+  run: (config: {
+    context: T;
+    locale: Locales;
+    timezone: string;
+    hour12: boolean;
+    premium: boolean;
+    variable?: unknown;
+  }) => Promise<unknown>;
 }
 
 export type ChatInputCommand = {
   directory: Directories;
-  autocomplete?: (
-    interaction: AutocompleteInteraction,
-    config: {
-      locale: Locales;
-      timezone: string;
-      hour12: boolean;
-      premium: boolean;
-    },
-  ) => Promise<unknown>;
+  autocomplete?: (config: {
+    context: AutocompleteInteraction;
+    locale: Locales;
+    timezone: string;
+    hour12: boolean;
+    premium: boolean;
+  }) => Promise<unknown>;
 } & Omit<Base<CommandInteraction>, "run"> &
   CreateChatInputApplicationCommandOptions;
 

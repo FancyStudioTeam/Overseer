@@ -1,6 +1,5 @@
 import { inlineCodeBlock } from "@sapphire/utilities";
 import { Embed, EmbedField } from "oceanic-builders";
-import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
 import { client } from "#index";
@@ -11,7 +10,7 @@ import { errorMessage } from "#util/Util.js";
 export default new Base<ChatInputSubCommand>({
   name: "ping",
   directory: Directories.INFORMATION,
-  run: async (context: CommandInteraction, { locale }) => {
+  run: async ({ context, locale }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) {
       return await errorMessage({
         context,

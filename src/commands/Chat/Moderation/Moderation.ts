@@ -404,7 +404,7 @@ export default new Base<ChatInputCommand>({
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: Directories.MODERATION,
-  autocomplete: async (context: AutocompleteInteraction) => {
+  autocomplete: async ({ context }) => {
     const subCommandOption = context.data.options.getSubCommand(true);
 
     if (!(context.inCachedGuildChannel() && context.guildID)) {

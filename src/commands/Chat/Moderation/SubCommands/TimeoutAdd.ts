@@ -1,6 +1,5 @@
 import { Duration } from "@sapphire/time-utilities";
 import { Embed } from "oceanic-builders";
-import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors } from "#constants";
 import { client } from "#index";
@@ -15,7 +14,7 @@ export default new Base<ChatInputSubCommand>({
     bot: ["MODERATE_MEMBERS"],
   },
   directory: Directories.MODERATION,
-  run: async (context: CommandInteraction, { locale }) => {
+  run: async ({ context, locale }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) {
       return await errorMessage({
         context,

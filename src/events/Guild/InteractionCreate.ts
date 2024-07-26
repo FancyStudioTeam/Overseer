@@ -246,7 +246,8 @@ async function _handleChatInputSubCommand({
       return;
 
     const result = await Result.fromAsync(async () => {
-      await command.run(interaction, {
+      await command.run({
+        context: interaction,
         locale,
         timezone,
         hour12,
@@ -285,7 +286,8 @@ async function _handleUserCommand({
 
   if (command?.name) {
     const result = await Result.fromAsync(async () => {
-      await command.run(interaction, {
+      await command.run({
+        context: interaction,
         locale,
         timezone,
         hour12,
@@ -323,7 +325,8 @@ async function _handleAutocomplete({
   if (command?.name) {
     const result = await Result.fromAsync(async () => {
       if (command.autocomplete) {
-        await command.autocomplete(interaction, {
+        await command.autocomplete({
+          context: interaction,
           locale,
           timezone,
           hour12,
@@ -393,7 +396,8 @@ async function _handleButton({
       return;
 
     const result = await Result.fromAsync(async () => {
-      await component.run(interaction, {
+      await component.run({
+        context: interaction,
         locale,
         timezone,
         hour12,
@@ -463,7 +467,8 @@ async function _handleSelectMenu({
       return;
 
     const result = await Result.fromAsync(async () => {
-      await component.run(interaction, {
+      await component.run({
+        context: interaction,
         locale,
         timezone,
         hour12,
@@ -501,7 +506,8 @@ async function _handleModalSubmit({
 
   if (component?.name) {
     const result = await Result.fromAsync(async () => {
-      await component.run(interaction, {
+      await component.run({
+        context: interaction,
         locale,
         timezone,
         hour12,

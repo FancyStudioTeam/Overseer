@@ -1,5 +1,4 @@
 import { Embed, EmbedField } from "oceanic-builders";
-import type { CommandInteraction } from "oceanic.js";
 import { Base } from "#base";
 import { Colors, Emojis } from "#constants";
 import { client } from "#index";
@@ -11,7 +10,7 @@ import { UnixType, formatUnix, sanitizeString } from "#util/Util.js";
 export default new Base<ChatInputSubCommand>({
   name: "bot",
   directory: Directories.INFORMATION,
-  run: async (context: CommandInteraction, { locale }) => {
+  run: async ({ context, locale }) => {
     await context.reply({
       embeds: new Embed()
         .setTitle(

@@ -1,5 +1,5 @@
 import { Embed } from "oceanic-builders";
-import { ApplicationCommandTypes, type CommandInteraction, type User } from "oceanic.js";
+import { ApplicationCommandTypes, type User } from "oceanic.js";
 import { Base } from "#base";
 import { Colors } from "#constants";
 import type { UserCommand } from "#types";
@@ -7,7 +7,7 @@ import type { UserCommand } from "#types";
 export default new Base<UserCommand>({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
-  run: async (context: CommandInteraction) => {
+  run: async ({ context }) => {
     const _userOption = <User>context.data.target;
 
     await context.reply({
