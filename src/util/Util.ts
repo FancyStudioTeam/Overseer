@@ -105,11 +105,11 @@ export function sanitizeString(
 }
 
 export async function errorMessage({
-  _context,
+  context,
   ephemeral,
   message,
 }: {
-  _context: AnyInteractionGateway | Message;
+  context: AnyInteractionGateway | Message;
   ephemeral?: boolean;
   message: string;
 }): Promise<void> {
@@ -118,9 +118,9 @@ export async function errorMessage({
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
-  "reply" in _context
-    ? await _context.reply(payload)
-    : await client.rest.channels.createMessage(_context.channelID, payload);
+  "reply" in context
+    ? await context.reply(payload)
+    : await client.rest.channels.createMessage(context.channelID, payload);
 }
 
 export function parseEmoji(emoji: string): NullablePartialEmoji {
@@ -224,11 +224,11 @@ export function search<T extends AvailableSearchTypes>(query: string, options: T
 
 export async function checkPermissions(
   {
-    _context,
+    context,
     locale,
     ephemeral,
   }: {
-    _context: AnyInteractionGateway | Message;
+    context: AnyInteractionGateway | Message;
     locale: Locales;
     ephemeral?: boolean;
   },
@@ -239,7 +239,7 @@ export async function checkPermissions(
 ): Promise<boolean> {
   let hasPermissions = true;
 
-  if (!(_context.inCachedGuildChannel() && _context.guild)) return false;
+  if (!(context.inCachedGuildChannel() && context.guild)) return false;
 
   const clientOrUser = member.id === client.user.id ? "CLIENT" : "USER";
   const channelOrGuild = type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD";
@@ -268,9 +268,9 @@ export async function checkPermissions(
   if (missingPermissions.length > 0) {
     hasPermissions = false;
 
-    "reply" in _context
-      ? await _context.reply(payload)
-      : await client.rest.channels.createMessage(_context.channelID, payload);
+    "reply" in context
+      ? await context.reply(payload)
+      : await client.rest.channels.createMessage(context.channelID, payload);
   }
 
   return hasPermissions;
@@ -314,10 +314,10 @@ export function logger(type: LoggerType, content: string): void {
 
 export async function handleError(
   {
-    _context,
+    context,
     locale,
   }: {
-    _context: AnyInteractionGateway | Message;
+    context: AnyInteractionGateway | Message;
     locale: Locales;
   },
   error: Error,
@@ -347,9 +347,9 @@ export async function handleError(
       .toJSON(true),
   };
 
-  "reply" in _context
-    ? await _context.reply(payload)
-    : await client.rest.channels.createMessage(_context.channelID, payload);
+  "reply" in context
+    ? await context.reply(payload)
+    : await client.rest.channels.createMessage(context.channelID, payload);
 }
 
 export function bitFieldValues(bitField: number): number[] {

@@ -404,40 +404,40 @@ export default new Base<ChatInputCommand>({
   type: ApplicationCommandTypes.CHAT_INPUT,
   dmPermission: false,
   directory: Directories.MODERATION,
-  autocomplete: async (_context: AutocompleteInteraction) => {
-    const subCommandOption = _context.data.options.getSubCommand(true);
+  autocomplete: async (context: AutocompleteInteraction) => {
+    const subCommandOption = context.data.options.getSubCommand(true);
 
-    if (!(_context.inCachedGuildChannel() && _context.guildID)) {
+    if (!(context.inCachedGuildChannel() && context.guildID)) {
       return await errorMessageAutocomplete({
-        _context,
+        context,
         message:
           {
             "es-419": "❌ Esta acción no puede ser ejecutada fuera de un servidor",
             "es-ES": "❌ Esta acción no puede ser ejecutada fuera de un servidor",
-          }[_context.locale] ?? "❌ This action cannot be executed outside a server",
+          }[context.locale] ?? "❌ This action cannot be executed outside a server",
       });
     }
 
     match(subCommandOption.join("_"))
       .returnType<void>()
       .with("warn_remove", async () => {
-        const focusedOption = _context.data.options.getFocused<InteractionOptionsString>(true);
-        const userOption = _context.data.options.getUserOption("user");
+        const focusedOption = context.data.options.getFocused<InteractionOptionsString>(true);
+        const userOption = context.data.options.getUserOption("user");
 
         if (!userOption) {
           return await errorMessageAutocomplete({
-            _context,
+            context,
             message:
               {
                 "es-419": "❌ El usuario no ha sido encontrado",
                 "es-ES": "❌ El usuario no ha sido encontrado",
-              }[_context.locale] ?? "❌ The user has not been found",
+              }[context.locale] ?? "❌ The user has not been found",
           });
         }
 
         const userWarns = await prisma.userWarn.findMany({
           where: {
-            guildID: _context.guildID,
+            guildID: context.guildID,
             general: {
               is: {
                 userID: userOption.value,
@@ -452,23 +452,23 @@ export default new Base<ChatInputCommand>({
 
         if (!choices.length) {
           return await errorMessageAutocomplete({
-            _context,
+            context,
             message:
               {
                 "es-419": "❌ El usuario no tiene advertencias",
                 "es-ES": "❌ El usuario no tiene advertencias",
-              }[_context.locale] ?? "❌ The user has no warnings",
+              }[context.locale] ?? "❌ The user has no warnings",
           });
         }
 
-        await _context.result(
+        await context.result(
           choices.map((choice) => {
             return {
               name:
                 {
                   "es-419": `🗑️ Eliminar advertencia "${choice}"`,
                   "es-ES": `🗑️ Eliminar advertencia "${choice}"`,
-                }[_context.locale] ?? `🗑️ Remove warning "${choice}"`,
+                }[context.locale] ?? `🗑️ Remove warning "${choice}"`,
               value: choice,
             };
           }),
@@ -478,10 +478,10 @@ export default new Base<ChatInputCommand>({
 });
 
 async function errorMessageAutocomplete({
-  _context,
+  context,
   message,
-}: { _context: AutocompleteInteraction; message: string }): Promise<void> {
-  await _context.result([
+}: { context: AutocompleteInteraction; message: string }): Promise<void> {
+  await context.result([
     {
       name: message,
       value: "",

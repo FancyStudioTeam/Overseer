@@ -17,25 +17,25 @@ export default new Base<ChatInputSubCommand>({
     bot: ["MANAGE_MESSAGES"],
   },
   directory: Directories.MODERATION,
-  run: async (_context: CommandInteraction, { locale }) => {
-    if (!(_context.inCachedGuildChannel() && _context.guild)) {
+  run: async (context: CommandInteraction, { locale }) => {
+    if (!(context.inCachedGuildChannel() && context.guild)) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-          structure: _context,
+          structure: context,
         }),
       });
     }
 
-    const _amountOption = _context.data.options.getInteger("amount", true);
-    const fetchedMessages = await client.rest.channels.getMessages(_context.channelID, {
+    const _amountOption = context.data.options.getInteger("amount", true);
+    const fetchedMessages = await client.rest.channels.getMessages(context.channelID, {
       limit: _amountOption + 1,
     });
 
     if (!fetchedMessages.length) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].COMMANDS.MODERATION.PURGE.NO_RECENT_MESSAGES,
       });
@@ -48,7 +48,7 @@ export default new Base<ChatInputSubCommand>({
 
     if (!filteredMessages.length) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].COMMANDS.MODERATION.PURGE.NO_RECENT_MESSAGES,
       });
@@ -58,10 +58,10 @@ export default new Base<ChatInputSubCommand>({
     let purgedMessages = 0;
 
     for (const chunk of chunks) {
-      purgedMessages += await client.rest.channels.deleteMessages(_context.channelID, chunk);
+      purgedMessages += await client.rest.channels.deleteMessages(context.channelID, chunk);
     }
 
-    await _context.reply({
+    await context.reply({
       embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.PURGE.MESSAGE_1({

@@ -11,8 +11,8 @@ import { UnixType, formatUnix, sanitizeString } from "#util/Util.js";
 export default new Base<ChatInputSubCommand>({
   name: "bot",
   directory: Directories.INFORMATION,
-  run: async (_context: CommandInteraction, { locale }) => {
-    await _context.reply({
+  run: async (context: CommandInteraction, { locale }) => {
+    await context.reply({
       embeds: new Embed()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.BOT.MESSAGE_1.TITLE_1({

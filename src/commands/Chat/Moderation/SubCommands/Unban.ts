@@ -14,27 +14,27 @@ export default new Base<ChatInputSubCommand>({
     bot: ["BAN_MEMBERS"],
   },
   directory: Directories.MODERATION,
-  run: async (_context: CommandInteraction, { locale }) => {
-    if (!(_context.inCachedGuildChannel() && _context.guild)) {
+  run: async (context: CommandInteraction, { locale }) => {
+    if (!(context.inCachedGuildChannel() && context.guild)) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-          structure: _context,
+          structure: context,
         }),
       });
     }
 
-    const _userOption = _context.data.options.getUser("user", true);
-    const _reasonOption = sanitizeString(_context.data.options.getString("reason") ?? "No reason", {
+    const _userOption = context.data.options.getUser("user", true);
+    const _reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
       maxLength: 50,
       espaceMarkdown: true,
     });
-    const bannedUser = await client.rest.guilds.getBan(_context.guildID, _userOption.id).catch(() => undefined);
+    const bannedUser = await client.rest.guilds.getBan(context.guildID, _userOption.id).catch(() => undefined);
 
     if (!bannedUser) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].COMMANDS.MODERATION.UNBAN.BAN_NOT_FOUND({
           ban: _userOption.id,
@@ -42,14 +42,14 @@ export default new Base<ChatInputSubCommand>({
       });
     }
 
-    await client.rest.guilds.removeBan(_context.guildID, bannedUser.user.id, _reasonOption);
+    await client.rest.guilds.removeBan(context.guildID, bannedUser.user.id, _reasonOption);
 
-    await _context.reply({
+    await context.reply({
       embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.UNBAN.MESSAGE_1({
             user: _userOption.mention,
-            moderator: _context.user.mention,
+            moderator: context.user.mention,
             reason: _reasonOption,
           }),
         )

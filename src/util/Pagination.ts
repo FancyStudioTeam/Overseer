@@ -27,19 +27,19 @@ import { disableComponents, errorMessage, parseEmoji } from "#util/Util.js";
 
 export async function pagination(
   {
-    _context,
+    context,
     locale,
     ephemeral,
   }: {
-    _context: AnyInteractionGateway | Message;
+    context: AnyInteractionGateway | Message;
     locale: Locales;
     ephemeral?: boolean;
   },
   pages: EmbedOptions[],
 ): Promise<void> {
-  if (!(_context.inCachedGuildChannel() && _context.guild)) return;
-  if (!_context.channel) return;
-  if (_context.channel.type !== ChannelTypes.GUILD_TEXT) return;
+  if (!(context.inCachedGuildChannel() && context.guild)) return;
+  if (!context.channel) return;
+  if (context.channel.type !== ChannelTypes.GUILD_TEXT) return;
 
   let index = 0;
   let message: Message;
@@ -68,29 +68,29 @@ export async function pagination(
     flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
-  if ("reply" in _context) {
-    const _originalMessageResponse = await _context.reply(payload);
+  if ("reply" in context) {
+    const _originalMessageResponse = await context.reply(payload);
     message = _originalMessageResponse.hasMessage()
       ? _originalMessageResponse.message
       : await _originalMessageResponse.getMessage();
   } else {
-    message = await client.rest.channels.createMessage(_context.channelID, payload);
+    message = await client.rest.channels.createMessage(context.channelID, payload);
   }
 
   const interactionCollector = new InteractionCollector(client, {
     message,
-    channel: _context.channel,
-    guild: _context.guild,
+    channel: context.channel,
+    guild: context.guild,
     interactionType: InteractionTypes.MESSAGE_COMPONENT,
     componentType: ComponentTypes.BUTTON,
     idle: 30_000,
     filter: async (_collectedInteraction: ComponentInteraction) => {
       if (
-        ("user" in _context && _collectedInteraction.user.id !== _context.user.id) ||
-        ("author" in _context && _collectedInteraction.user.id !== _context.author.id)
+        ("user" in context && _collectedInteraction.user.id !== context.user.id) ||
+        ("author" in context && _collectedInteraction.user.id !== context.author.id)
       ) {
         await errorMessage({
-          _context: _collectedInteraction,
+          context: _collectedInteraction,
           ephemeral: true,
           message: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
         });

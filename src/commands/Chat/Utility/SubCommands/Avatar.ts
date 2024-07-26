@@ -7,10 +7,10 @@ import { type ChatInputSubCommand, Directories } from "#types";
 export default new Base<ChatInputSubCommand>({
   name: "avatar",
   directory: Directories.UTILITY,
-  run: async (_context: CommandInteraction) => {
-    const _userOption = _context.data.options.getUser("user") ?? _context.user;
+  run: async (context: CommandInteraction) => {
+    const _userOption = context.data.options.getUser("user") ?? context.user;
 
-    await _context.reply({
+    await context.reply({
       embeds: new Embed().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSON(true),
     });
   },

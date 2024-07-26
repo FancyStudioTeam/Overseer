@@ -11,20 +11,20 @@ import { errorMessage } from "#util/Util.js";
 export default new Base<ChatInputSubCommand>({
   name: "ping",
   directory: Directories.INFORMATION,
-  run: async (_context: CommandInteraction, { locale }) => {
-    if (!(_context.inCachedGuildChannel() && _context.guild)) {
+  run: async (context: CommandInteraction, { locale }) => {
+    if (!(context.inCachedGuildChannel() && context.guild)) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-          structure: _context,
+          structure: context,
         }),
       });
     }
 
     const { rest, shard } = {
       rest: client.rest.handler.latencyRef.latency,
-      shard: _context.guild.shard.latency,
+      shard: context.guild.shard.latency,
     };
     const signal = (latency: number): string =>
       latency <= 100
@@ -35,7 +35,7 @@ export default new Base<ChatInputSubCommand>({
             ? Emojis.SIGNAL_RED
             : Emojis.SIGNAL_RED;
 
-    await _context.reply({
+    await context.reply({
       embeds: new Embed()
         .addFields([
           new EmbedField()

@@ -53,7 +53,7 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
   if (
     !(await checkPermissions(
       {
-        _context: _interaction,
+        context: _interaction,
         locale,
         ephemeral: true,
       },
@@ -91,7 +91,7 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
 
       if (rateLimit.limited) {
         return await errorMessage({
-          _context: _interaction,
+          context: _interaction,
           ephemeral: true,
           message: Translations[locale].GLOBAL.USER_IS_LIMITED({
             resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
@@ -146,7 +146,7 @@ client.on("interactionCreate", async (_interaction: AnyInteractionGateway) => {
 
       if (rateLimit.limited) {
         return await errorMessage({
-          _context: _interaction,
+          context: _interaction,
           ephemeral: true,
           message: Translations[locale].GLOBAL.USER_IS_LIMITED({
             resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
@@ -220,7 +220,7 @@ async function _handleChatInputSubCommand({
       command.permissions?.user &&
       !(await checkPermissions(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
           ephemeral: true,
         },
@@ -235,7 +235,7 @@ async function _handleChatInputSubCommand({
       command.permissions?.bot &&
       !(await checkPermissions(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
           ephemeral: true,
         },
@@ -258,7 +258,7 @@ async function _handleChatInputSubCommand({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
         },
         error,
@@ -297,7 +297,7 @@ async function _handleUserCommand({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
         },
         error,
@@ -336,7 +336,7 @@ async function _handleAutocomplete({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
         },
         error,
@@ -367,7 +367,7 @@ async function _handleButton({
       component.permissions?.user &&
       !(await checkPermissions(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
           ephemeral: true,
         },
@@ -382,7 +382,7 @@ async function _handleButton({
       component.permissions?.bot &&
       !(await checkPermissions(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
           ephemeral: true,
         },
@@ -406,7 +406,7 @@ async function _handleButton({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
         },
         error,
@@ -437,7 +437,7 @@ async function _handleSelectMenu({
       component.permissions?.user &&
       !(await checkPermissions(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
           ephemeral: true,
         },
@@ -452,7 +452,7 @@ async function _handleSelectMenu({
       component.permissions?.bot &&
       !(await checkPermissions(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
           ephemeral: true,
         },
@@ -476,7 +476,7 @@ async function _handleSelectMenu({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
         },
         error,
@@ -513,7 +513,7 @@ async function _handleModalSubmit({
     result.unwrapOrElse(async (error) => {
       await handleError(
         {
-          _context: _interaction,
+          context: _interaction,
           locale,
         },
         error,

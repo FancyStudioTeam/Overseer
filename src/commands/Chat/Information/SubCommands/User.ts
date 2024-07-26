@@ -9,32 +9,32 @@ import { FetchFrom, UnixType, errorMessage, fetchMember, formatUnix, sanitizeStr
 export default new Base<ChatInputSubCommand>({
   name: "user",
   directory: Directories.INFORMATION,
-  run: async (_context: CommandInteraction, { locale }) => {
-    if (!(_context.inCachedGuildChannel() && _context.guild)) {
+  run: async (context: CommandInteraction, { locale }) => {
+    if (!(context.inCachedGuildChannel() && context.guild)) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-          structure: _context,
+          structure: context,
         }),
       });
     }
 
     const member = await fetchMember(
       FetchFrom.DEFAULT,
-      _context.guild,
-      _context.data.options.getMember("user")?.id ?? _context.user.id,
+      context.guild,
+      context.data.options.getMember("user")?.id ?? context.user.id,
     );
 
     if (!member) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
       });
     }
 
-    await _context.reply({
+    await context.reply({
       embeds: new Embed()
         .setTitle(
           Translations[locale].COMMANDS.INFORMATION.USER.MESSAGE_1.TITLE_1({

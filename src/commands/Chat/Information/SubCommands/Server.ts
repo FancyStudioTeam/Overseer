@@ -10,52 +10,52 @@ import { FetchFrom, UnixType, errorMessage, fetchUser, formatUnix, sanitizeStrin
 export default new Base<ChatInputSubCommand>({
   name: "server",
   directory: Directories.INFORMATION,
-  run: async (_context: CommandInteraction, { locale }) => {
-    if (!(_context.inCachedGuildChannel() && _context.guild)) {
+  run: async (context: CommandInteraction, { locale }) => {
+    if (!(context.inCachedGuildChannel() && context.guild)) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-          structure: _context,
+          structure: context,
         }),
       });
     }
 
-    const owner = _context.guild.owner ?? (await fetchUser(FetchFrom.DEFAULT, _context.guild.ownerID ?? ""));
+    const owner = context.guild.owner ?? (await fetchUser(FetchFrom.DEFAULT, context.guild.ownerID ?? ""));
 
-    await _context.reply({
+    await context.reply({
       embeds: new Embed()
         /*.setTitle(
           Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.TITL({
-            name: sanitizeString(_context.guild.name, {
+            name: sanitizeString(context.guild.name, {
               maxLength: 50,
               espaceMarkdown: true,
             }),
           }),
         )*/
-        .setThumbnail(_context.guild.iconURL() ?? client.user.avatarURL())
+        .setThumbnail(context.guild.iconURL() ?? client.user.avatarURL())
         .addFields([
           new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.FIELD).setValue(
             Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_1.VALUE({
-              name: sanitizeString(_context.guild.name, {
+              name: sanitizeString(context.guild.name, {
                 maxLength: 50,
                 espaceMarkdown: true,
               }),
-              id: _context.guildID,
+              id: context.guildID,
               owner: owner?.mention ?? Emojis.CIRCLE_X_COLOR,
             }),
           ),
           new EmbedField().setName(Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.FIELD).setValue(
             Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_2.VALUE({
-              members: _context.guild.memberCount,
-              channels: _context.guild.channels.size,
-              roles: _context.guild.roles.size,
+              members: context.guild.memberCount,
+              channels: context.guild.channels.size,
+              roles: context.guild.roles.size,
             }),
           ),
           new EmbedField()
             .setName(Translations[locale].COMMANDS.INFORMATION.SERVER.MESSAGE_1.FIELD_3.FIELD)
             .setValue(
-              `${Emojis.CIRCLE_CHEVRON_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, _context.guild.createdAt)}`,
+              `${Emojis.CIRCLE_CHEVRON_RIGHT} ${formatUnix(UnixType.SHORT_DATE_TIME, context.guild.createdAt)}`,
             ),
         ])
         .setColor(Colors.COLOR)

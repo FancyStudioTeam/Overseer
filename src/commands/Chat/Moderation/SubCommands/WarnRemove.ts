@@ -14,29 +14,29 @@ export default new Base<ChatInputSubCommand>({
     user: ["MANAGE_GUILD"],
   },
   directory: Directories.MODERATION,
-  run: async (_context: CommandInteraction, { locale }) => {
-    if (!(_context.inCachedGuildChannel() && _context.guild)) {
+  run: async (context: CommandInteraction, { locale }) => {
+    if (!(context.inCachedGuildChannel() && context.guild)) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-          structure: _context,
+          structure: context,
         }),
       });
     }
 
-    const _memberOption = _context.data.options.getMember("user");
-    const _warningOption = sanitizeString(_context.data.options.getString("warning", true), {
+    const _memberOption = context.data.options.getMember("user");
+    const _warningOption = sanitizeString(context.data.options.getString("warning", true), {
       espaceMarkdown: true,
     });
-    const _reasonOption = sanitizeString(_context.data.options.getString("reason") ?? "No reason", {
+    const _reasonOption = sanitizeString(context.data.options.getString("reason") ?? "No reason", {
       maxLength: 50,
       espaceMarkdown: true,
     });
 
     if (!_memberOption) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.INVALID_GUILD_MEMBER,
       });
@@ -44,30 +44,30 @@ export default new Base<ChatInputSubCommand>({
 
     if (
       _memberOption.id === client.user.id ||
-      _memberOption.id === _context.guild.ownerID ||
-      _memberOption.id === _context.user.id
+      _memberOption.id === context.guild.ownerID ||
+      _memberOption.id === context.user.id
     ) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.CANNOT_MODERATE_MEMBER,
       });
     }
 
-    if (compareMemberToMember(_context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
+    if (compareMemberToMember(context.guild.clientMember, _memberOption) !== ComparationLevel.HIGHER) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.HIERARCHY.CLIENT,
       });
     }
 
     if (
-      _context.user.id !== _context.guild.ownerID &&
-      compareMemberToMember(_context.member, _memberOption) !== ComparationLevel.HIGHER
+      context.user.id !== context.guild.ownerID &&
+      compareMemberToMember(context.member, _memberOption) !== ComparationLevel.HIGHER
     ) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.HIERARCHY.USER,
       });
@@ -75,7 +75,7 @@ export default new Base<ChatInputSubCommand>({
 
     const userWarn = await prisma.userWarn.findFirst({
       where: {
-        guildID: _context.guild.id,
+        guildID: context.guild.id,
         general: {
           is: {
             warningID: _warningOption,
@@ -87,7 +87,7 @@ export default new Base<ChatInputSubCommand>({
 
     if (!userWarn) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].COMMANDS.MODERATION.WARN.REMOVE.WARNING_NOT_FOUND({ id: _warningOption }),
       });
@@ -104,11 +104,11 @@ export default new Base<ChatInputSubCommand>({
       },
     });
 
-    await _context.reply({
+    await context.reply({
       embeds: new Embed()
         .setDescription(
           Translations[locale].COMMANDS.MODERATION.WARN.REMOVE.MESSAGE_1({
-            moderator: _context.user.mention,
+            moderator: context.user.mention,
             user: _memberOption.mention,
             reason: _reasonOption,
           }),

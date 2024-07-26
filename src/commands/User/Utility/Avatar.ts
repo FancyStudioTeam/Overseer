@@ -7,10 +7,10 @@ import type { UserCommand } from "#types";
 export default new Base<UserCommand>({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
-  run: async (_context: CommandInteraction) => {
-    const _userOption = <User>_context.data.target;
+  run: async (context: CommandInteraction) => {
+    const _userOption = <User>context.data.target;
 
-    await _context.reply({
+    await context.reply({
       embeds: new Embed().setImage(_userOption.avatarURL()).setColor(Colors.COLOR).toJSON(true),
     });
   },

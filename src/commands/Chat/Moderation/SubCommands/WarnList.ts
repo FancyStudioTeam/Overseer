@@ -11,21 +11,21 @@ import { UnixType, errorMessage, formatUnix, sanitizeString } from "#util/Util.j
 export default new Base<ChatInputSubCommand>({
   name: "warn_list",
   directory: Directories.MODERATION,
-  run: async (_context: CommandInteraction, { locale }) => {
-    if (!(_context.inCachedGuildChannel() && _context.guild)) {
+  run: async (context: CommandInteraction, { locale }) => {
+    if (!(context.inCachedGuildChannel() && context.guild)) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].GLOBAL.INVALID_GUILD_PROPERTY({
-          structure: _context,
+          structure: context,
         }),
       });
     }
 
-    const _userOption = _context.data.options.getUser("user") ?? _context.user;
+    const _userOption = context.data.options.getUser("user") ?? context.user;
     const userWarns = await prisma.userWarn.findMany({
       where: {
-        guildID: _context.guild.id,
+        guildID: context.guild.id,
         general: {
           is: {
             userID: _userOption.id,
@@ -39,7 +39,7 @@ export default new Base<ChatInputSubCommand>({
 
     if (!userWarns.length) {
       return await errorMessage({
-        _context,
+        context,
         ephemeral: true,
         message: Translations[locale].COMMANDS.MODERATION.WARN.LIST.WARNINGS_NOT_FOUND({
           user: _userOption.mention,
@@ -48,7 +48,7 @@ export default new Base<ChatInputSubCommand>({
     }
 
     pagination(
-      { _context, locale, ephemeral: false },
+      { context, locale, ephemeral: false },
       userWarns.map((warning) => {
         return new Embed()
           .setTitle(
@@ -69,7 +69,7 @@ export default new Base<ChatInputSubCommand>({
               )
               .setValue(
                 Translations[locale].COMMANDS.MODERATION.WARN.LIST.MESSAGE_1.FIELD_1.VALUE({
-                  moderator: _context.guild.members.get(warning.general.moderatorID)?.mention ?? Emojis.CIRCLE_X_COLOR,
+                  moderator: context.guild.members.get(warning.general.moderatorID)?.mention ?? Emojis.CIRCLE_X_COLOR,
                   reason: warning.general.reason,
                 }),
               ),
