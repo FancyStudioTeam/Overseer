@@ -4,9 +4,9 @@
   "scripts": {
     "biome": "biome check --write --config-path=\"./biome.json\" .",
     "build": "tsc",
-    "dev": "tsx watch --ignore ./src/locales --env-file=\".env\" src/Index.ts",
+    "dev": "tsx watch --ignore ./src/locales src/Index.ts",
     "prepare": "husky",
-    "start": "cd dist && node --env-file=\"../.env\" src/Index.js"
+    "start": "cd dist && node src/Index.js"
   },
   "author": "FancyStudio",
   "license": "BSD-3-Clause",
@@ -20,6 +20,7 @@
     "@sapphire/time-utilities": "1.7.12",
     "@sapphire/utilities": "3.17.0",
     "@sentry/node": "8.20.0",
+    "dotenv": "16.4.5",
     "glob": "11.0.0",
     "oceanic-builders": "1.0.1",
     "oceanic-collectors": "1.0.7",
