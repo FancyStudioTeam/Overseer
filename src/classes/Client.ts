@@ -6,7 +6,7 @@ import type { ChatInputCommand, ChatInputSubCommand, Component, Modal, UserComma
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
 
-const arrayCommands: CreateApplicationCommandOptions[] = [];
+const commandsArray: CreateApplicationCommandOptions[] = [];
 
 export class Discord extends Client {
   readonly interactions: {
@@ -92,7 +92,7 @@ export class Discord extends Client {
 
   async deploy(): Promise<void> {
     await this.registerCommands();
-    await this.rest.applications.bulkEditGlobalCommands(this.application.id, arrayCommands).then((commands) => {
+    await this.rest.applications.bulkEditGlobalCommands(this.application.id, commandsArray).then((commands) => {
       logger(LoggerType.INFO, `The interactions has been deployed | Deployed ${commands.length} interactions`);
     });
   }
@@ -118,7 +118,7 @@ export class Discord extends Client {
         };
 
         collections[directory].set(command.name, command);
-        arrayCommands.push(command);
+        commandsArray.push(command);
       }
     }
   }
@@ -142,7 +142,7 @@ export class Discord extends Client {
           UTILITY: "UTIL",
         };
 
-        this.subCommands.set(`${directories[directory].toLowerCase()}${subCommand.name}`.toLowerCase(), subCommand);
+        this.subCommands.set(`${directories[directory].toLowerCase()}_${subCommand.name}`.toLowerCase(), subCommand);
       }
     }
   }
