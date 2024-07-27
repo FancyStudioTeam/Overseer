@@ -2,7 +2,9 @@ import { Duration } from "@sapphire/time-utilities";
 import {
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
+  ApplicationIntegrationTypes,
   type AutocompleteInteraction,
+  InteractionContextTypes,
   type InteractionOptionsString,
 } from "oceanic.js";
 import { match } from "ts-pattern";
@@ -402,7 +404,8 @@ export default new Base<ChatInputCommand>({
     },
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
-  dmPermission: false,
+  contexts: [InteractionContextTypes.GUILD],
+  integrationTypes: [ApplicationIntegrationTypes.GUILD_INSTALL],
   directory: Directories.MODERATION,
   autocomplete: async ({ context }) => {
     const subCommandOption = context.data.options.getSubCommand(true);
@@ -445,10 +448,10 @@ export default new Base<ChatInputCommand>({
             },
           },
         });
-        const choices = search<string>(
-          focusedOption.value,
-          userWarns.map((warning) => warning.general.warningID),
-        );
+        const choices = search<string>({
+          options: userWarns.map((warning) => warning.general.warningID),
+          query: focusedOption.value,
+        });
 
         if (!choices.length) {
           return await errorMessageAutocomplete({

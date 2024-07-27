@@ -1,4 +1,9 @@
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
+import {
+  ApplicationCommandOptionTypes,
+  ApplicationCommandTypes,
+  ApplicationIntegrationTypes,
+  InteractionContextTypes,
+} from "oceanic.js";
 import { Base } from "#base";
 import { type ChatInputCommand, Directories } from "#types";
 
@@ -64,6 +69,7 @@ export default new Base<ChatInputCommand>({
     },
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
-  dmPermission: false,
+  contexts: [InteractionContextTypes.GUILD],
+  integrationTypes: [ApplicationIntegrationTypes.GUILD_INSTALL],
   directory: Directories.INFORMATION,
 });
