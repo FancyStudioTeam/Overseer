@@ -91,7 +91,7 @@ export async function pagination(
       ) {
         await errorMessage({
           context: _collectedInteraction,
-          ephemeral: true,
+          shouldBeEphemeral: true,
           message: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
         });
 
