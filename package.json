@@ -1,6 +1,6 @@
 {
   "name": "overseer",
-  "version": "0.0.1_alpha",
+  "version": "0.0.2_alpha",
   "scripts": {
     "biome": "biome check --write --config-path=\"./biome.json\" .",
     "build": "tsc",
@@ -29,15 +29,12 @@
     "url-regex-safe": "4.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
-    "@types/node": "20.14.12",
+    "@types/node": "22.0.0",
     "@types/url-regex-safe": "1.0.2",
     "cross-env": "7.0.3",
     "husky": "9.1.3",
     "lint-staged": "15.2.7",
-    "prisma": "5.17.0",
-    "tsx": "4.16.2",
-    "typescript": "5.5.4"
+    "prisma": "5.17.0"
   },
   "prisma": {
     "seed": "tsx src/seed.ts"
