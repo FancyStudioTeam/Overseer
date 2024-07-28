@@ -23,75 +23,74 @@ import { Emojis } from "#constants";
 import { client } from "#index";
 import { Translations } from "#translations";
 import type { Locales } from "#types";
-import { disableComponents, errorMessage, parseEmoji } from "#util/Util.js";
+import { disableMessageComponents, errorMessage, parseEmoji } from "#util/Util.js";
 
-export async function pagination(
-  {
-    context,
-    locale,
-    ephemeral,
-  }: {
-    context: AnyInteractionGateway | Message;
-    locale: Locales;
-    ephemeral?: boolean;
-  },
-  pages: EmbedOptions[],
-): Promise<void> {
+export async function pagination({
+  context,
+  embeds,
+  locale,
+  shouldBeEphemeral = false,
+  timeBeforeExpiration = 30_000,
+}: {
+  context: AnyInteractionGateway | Message;
+  embeds: EmbedOptions[];
+  locale: Locales;
+  shouldBeEphemeral?: boolean;
+  timeBeforeExpiration?: number;
+}): Promise<void> {
   if (!(context.inCachedGuildChannel() && context.guild)) return;
   if (!context.channel) return;
   if (context.channel.type !== ChannelTypes.GUILD_TEXT) return;
 
   let index = 0;
-  let message: Message;
-  const payload: CreateMessageOptions & InteractionContent = {
-    embeds: [pages[index]],
+  let replyMessage: Message;
+  const messagePayload: CreateMessageOptions & InteractionContent = {
+    embeds: [embeds[index]],
     components: new ActionRow()
       .addComponents([
         new Button()
           .setCustomID("pagination_left")
           .setStyle(ButtonStyles.SECONDARY)
           .setEmoji(parseEmoji(Emojis.CIRCLE_CHEVRON_LEFT))
-          .setDisabled(pages.length < 2),
+          .setDisabled(embeds.length < 2),
         new Button()
           .setCustomID("pagination_pages")
           .setStyle(ButtonStyles.SECONDARY)
-          .setLabel(`${index + 1}/${pages.length}`)
+          .setLabel(`${index + 1}/${embeds.length}`)
           .setEmoji(parseEmoji(Emojis.COMPASS))
           .setDisabled(true),
         new Button()
           .setCustomID("pagination_right")
           .setStyle(ButtonStyles.SECONDARY)
           .setEmoji(parseEmoji(Emojis.CIRCLE_CHEVRON_RIGHT))
-          .setDisabled(pages.length < 2),
+          .setDisabled(embeds.length < 2),
       ])
       .toJSON(true),
-    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
+    flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
   if ("reply" in context) {
-    const originalMessageResponse = await context.reply(payload);
-    message = originalMessageResponse.hasMessage()
-      ? originalMessageResponse.message
-      : await originalMessageResponse.getMessage();
+    const replyMessageResponse = await context.reply(messagePayload);
+    replyMessage = replyMessageResponse.hasMessage()
+      ? replyMessageResponse.message
+      : await replyMessageResponse.getMessage();
   } else {
-    message = await client.rest.channels.createMessage(context.channelID, payload);
+    replyMessage = await client.rest.channels.createMessage(context.channelID, messagePayload);
   }
 
   const interactionCollector = new InteractionCollector(client, {
-    message,
+    message: replyMessage,
     channel: context.channel,
-    guild: context.guild,
     interactionType: InteractionTypes.MESSAGE_COMPONENT,
     componentType: ComponentTypes.BUTTON,
-    idle: 30_000,
-    filter: async (_collectedInteraction: ComponentInteraction) => {
+    idle: timeBeforeExpiration,
+    filter: async (collectedInteraction: ComponentInteraction) => {
       if (
-        ("user" in context && _collectedInteraction.user.id !== context.user.id) ||
-        ("author" in context && _collectedInteraction.user.id !== context.author.id)
+        ("user" in context && collectedInteraction.user.id !== context.user.id) ||
+        ("author" in context && collectedInteraction.user.id !== context.author.id)
       ) {
         await errorMessage({
-          context: _collectedInteraction,
-          shouldBeEphemeral: true,
+          context: collectedInteraction,
           message: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
         });
 
@@ -102,23 +101,23 @@ export async function pagination(
     },
   });
 
-  interactionCollector.on("collect", async (_collectedInteraction: AnyInteractionGateway) => {
-    if (_collectedInteraction.isComponentInteraction()) {
-      if (_collectedInteraction.isButtonComponentInteraction()) {
-        await _collectedInteraction.deferUpdate().catch(() => undefined);
+  interactionCollector.on("collect", async (collectedInteraction) => {
+    if (collectedInteraction.isComponentInteraction()) {
+      if (collectedInteraction.isButtonComponentInteraction()) {
+        await collectedInteraction.deferUpdate().catch(() => undefined);
 
-        match(_collectedInteraction.data.customID)
+        match(collectedInteraction.data.customID)
           .returnType<void>()
-          .with("pagination_left", () => (index = index > 0 ? --index : pages.length - 1))
-          .with("pagination_right", () => (index = index + 1 < pages.length ? ++index : 0))
+          .with("pagination_left", () => (index = index > 0 ? --index : embeds.length - 1))
+          .with("pagination_right", () => (index = index + 1 < embeds.length ? ++index : 0))
           .otherwise(() => undefined);
 
-        const row = message.components[0].components;
-        row[1] = new Button(<ButtonComponent>row[1]).setLabel(`${index + 1}/${pages.length}`).toJSON();
+        const row = replyMessage.components[0].components;
+        row[1] = new Button(<ButtonComponent>row[1]).setLabel(`${index + 1}/${embeds.length}`).toJSON();
 
-        await client.rest.channels.editMessage(message.channelID, message.id, {
-          embeds: [pages[index]],
-          components: message.components,
+        await client.rest.channels.editMessage(replyMessage.channelID, replyMessage.id, {
+          embeds: [embeds[index]],
+          components: replyMessage.components,
         });
       }
     }
@@ -127,6 +126,6 @@ export async function pagination(
   interactionCollector.once("end", async (_, _endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons) => {
     if (["user", "guildDelete", "channelDelete", "threadDelete", "messageDelete"].includes(_endReason)) return;
 
-    await disableComponents(message);
+    await disableMessageComponents(replyMessage);
   });
 }
