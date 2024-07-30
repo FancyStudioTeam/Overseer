@@ -1,230 +1,8 @@
 import { inlineCodeBlock } from "@sapphire/utilities";
 import type { PermissionName, UserFlags } from "oceanic.js";
-import { Emojis, Links } from "#constants";
+import { Emojis } from "#constants";
 
 export default {
-  COMMANDS: {
-    INFORMATION: {
-      BOT: {
-        MESSAGE_1: {
-          TITLE_1: ({ name }: { name: string }) => `**${name} Information**`,
-          FIELD_1: {
-            FIELD: "**General Information**",
-            VALUE: ({ version, memory }: { version: string; memory: string }) =>
-              [
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **Version**: ${version}`,
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **RAM Usage**: ${memory}`,
-              ].join("\n"),
-          },
-          FIELD_2: {
-            FIELD: "**Statistics**",
-            VALUE: ({ users, guilds, shards }: { users: number; guilds: number; shards: number }) =>
-              [
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **Users**: ${users} users`,
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **Servers**: ${guilds} servers`,
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **Shards**: ${shards} shards`,
-              ].join("\n"),
-          },
-          FIELD_3: {
-            FIELD: "**Last Reset Date**",
-          },
-        },
-      },
-      HELP: {
-        MESSAGE_1: {
-          DESCRIPTION_1: `**You can see the list of commands [here](${Links.WEBSITE}/commands)**`,
-        },
-      },
-      PING: {
-        MESSAGE_1: {
-          FIELD_1: {
-            FIELD: `${Emojis.SATELLITE_DISH} REST Reference`,
-          },
-          FIELD_2: {
-            FIELD: `${Emojis.NETWORK} Server Shard`,
-          },
-        },
-      },
-      SERVER: {
-        MESSAGE_1: {
-          FIELD_1: {
-            FIELD: "General Information",
-            VALUE: ({ name, id, owner }: { name: string; id: string; owner: string }) =>
-              [
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **Name**: ${name}`,
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **ID**: ${id}`,
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **Owner**: ${owner}`,
-              ].join("\n"),
-          },
-          FIELD_2: {
-            FIELD: "Statistics",
-            VALUE: ({ members, channels, roles }: { members: number; channels: number; roles: number }) =>
-              [
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **Members**: ${members} members`,
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **Channels**: ${channels} channels`,
-                `${Emojis.CIRCLE_CHEVRON_RIGHT} **Roles**: ${roles} roles`,
-              ].join("\n"),
-          },
-          FIELD_3: {
-            FIELD: "Creation Date",
-          },
-        },
-      },
-      USER: {
-        MESSAGE_1: {
-          TITLE_1: ({ name }: { name: string }) => `**${name} Information**`,
-          FIELD_1: {
-            FIELD: "**General Information**",
-            VALUE: ({ name, id }: { name: string; id: string }) =>
-              [`${Emojis.CIRCLE_CHEVRON_RIGHT} **User**: ${name}`, `${Emojis.CIRCLE_CHEVRON_RIGHT} **ID**: ${id}`].join(
-                "\n",
-              ),
-          },
-          FIELD_2: {
-            FIELD: "**Creation Date**",
-          },
-          FIELD_3: {
-            FIELD: "**Membership Date**",
-          },
-        },
-      },
-    },
-    MODERATION: {
-      BAN: {
-        MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
-          [
-            `**${Emojis.CIRCLE_CHECK_COLOR} The user ${user} has been banned by ${moderator}**`,
-            `${Emojis.CIRCLE_CHEVRON_RIGHT} **Reason**: ${reason}`,
-          ].join("\n"),
-      },
-      KICK: {
-        MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
-          [
-            `**${Emojis.CIRCLE_CHECK_COLOR} The user ${user} has been kicked by ${moderator}**`,
-            `${Emojis.CIRCLE_CHEVRON_RIGHT} **Reason**: ${reason}`,
-          ].join("\n"),
-      },
-      PURGE: {
-        NO_RECENT_MESSAGES: `**${Emojis.CIRCLE_X_COLOR} There are no recent messages**`,
-        MESSAGE_1: ({ messages }: { messages: number }) =>
-          `**${Emojis.CIRCLE_CHECK_COLOR} ${inlineCodeBlock(messages.toString())} messages have been deleted**`,
-      },
-      SOFTBAN: {
-        MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
-          [
-            `**${Emojis.CIRCLE_CHECK_COLOR} The user ${user} has been softbanned by ${moderator}**`,
-            `${Emojis.CIRCLE_CHEVRON_RIGHT} **Reason**: ${reason}`,
-          ].join("\n"),
-      },
-      TIMEOUT: {
-        ADD: {
-          INVALID_DURATION_FORMAT: `**${Emojis.CIRCLE_X_COLOR} The duration returned an invalid format**`,
-          ALLOWED_DURATION_VALUES: `**${Emojis.CIRCLE_X_COLOR} The duration must be greater than or equal to 5 seconds and less than or equal to 28 days**`,
-          MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
-            [
-              `**${Emojis.CIRCLE_CHECK_COLOR} The moderator ${moderator} has added a timeout for user ${user}**`,
-              `${Emojis.CIRCLE_CHEVRON_RIGHT} **Reason**: ${reason}`,
-            ].join("\n"),
-        },
-        REMOVE: {
-          USER_NOT_TIMEOUTED: `**${Emojis.CIRCLE_X_COLOR} The user does not have a timeout**`,
-          MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
-            [
-              `**${Emojis.CIRCLE_CHECK_COLOR} The moderator ${moderator} has removed the timeout of the user ${user}**`,
-              `${Emojis.CIRCLE_CHEVRON_RIGHT} **Reason**: ${reason}`,
-            ].join("\n"),
-        },
-      },
-      UNBAN: {
-        BAN_NOT_FOUND: ({ ban }: { ban: string }) =>
-          `**${Emojis.CIRCLE_X_COLOR} The ban ${inlineCodeBlock(ban)} has not been found**`,
-        MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
-          [
-            `**${Emojis.CIRCLE_CHECK_COLOR} The user ${user} has been unbanned by ${moderator}**`,
-            `${Emojis.CIRCLE_CHEVRON_RIGHT} **Reason**: ${reason}`,
-          ].join("\n"),
-      },
-      WARN: {
-        ADD: {
-          MAX_WARNINGS_ALLOWED: [
-            `**${Emojis.CIRCLE_X_COLOR} The user already has the maximum number of warnings**`,
-            `${Emojis.CIRCLE_CHEVRON_RIGHT} **Limit**: 10 warnings per user`,
-          ].join("\n"),
-          MESSAGE_1: ({ moderator, user, reason }: { moderator: string; user: string; reason: string }) =>
-            [
-              `**${Emojis.CIRCLE_CHECK_COLOR} The moderator ${moderator} has added a warning to the user ${user}**`,
-              `${Emojis.CIRCLE_CHEVRON_RIGHT} **Reason**: ${reason}`,
-            ].join("\n"),
-        },
-        REMOVE: {
-          WARNING_NOT_FOUND: ({ id }: { id: string }) =>
-            `**${Emojis.CIRCLE_X_COLOR} The warning ${inlineCodeBlock(id)} has not been found**`,
-          MESSAGE_1: ({ user, moderator, reason }: { user: string; moderator: string; reason: string }) =>
-            [
-              `**${Emojis.CIRCLE_CHECK_COLOR} The moderator ${moderator} has removed a warning from the user ${user}**`,
-              `${Emojis.CIRCLE_CHEVRON_RIGHT} **Reason**: ${reason}`,
-            ].join("\n"),
-        },
-        LIST: {
-          WARNINGS_NOT_FOUND: ({ user }: { user: string }) =>
-            `**${Emojis.CIRCLE_X_COLOR} The user ${user} has no warnings**`,
-          MESSAGE_1: {
-            TITLE_1: ({ user }: { user: string }) => `**${user} Warnings**`,
-            FIELD_1: {
-              FIELD: ({ warning }: { warning: string }) => `Warning ${inlineCodeBlock(warning)}`,
-              VALUE: ({ moderator, reason }: { moderator: string; reason: string }) =>
-                [
-                  `${Emojis.CIRCLE_CHEVRON_RIGHT} **Moderator**: ${moderator}`,
-                  `${Emojis.CIRCLE_CHEVRON_RIGHT} **Reason**: ${reason}`,
-                ].join("\n"),
-            },
-            FIELD_2: {
-              FIELD: "Warning Date",
-            },
-          },
-        },
-      },
-    },
-    UTILITY: {
-      SUGGEST: {
-        COMPONENTS: {
-          BUTTONS: {
-            MANAGE: {
-              REPORT: {
-                LABEL: "Report",
-              },
-            },
-            STATUS: {
-              APPROVE: {
-                LABEL: "Approve",
-              },
-              DENY: {
-                LABEL: "Deny",
-              },
-            },
-          },
-        },
-        SYSTEM_NOT_ENABLED: `**${Emojis.CIRCLE_X_COLOR} The suggestion system is not enabled**`,
-        SUGGESTIONS_NOT_FOUND: `**${Emojis.CIRCLE_X_COLOR} The suggestions channel has not been found**`,
-        REVIEW_NOT_FOUND: `**${Emojis.CIRCLE_X_COLOR} The review channel has not been found**`,
-        SUGGESTION_NOT_FOUND: ({ id }: { id: string }) =>
-          `**${Emojis.CIRCLE_X_COLOR} The suggestion ${inlineCodeBlock(id)} has not been found**`,
-        MESSAGE_1: {
-          TITLE_1: ({ user }: { user: string }) => `**${user} Suggestion**`,
-          FIELD_1: {
-            FIELD: ({ moderator }: { moderator: string }) => `**Comment by ${moderator}**`,
-          },
-          FIELD_2: {
-            FIELD: ({ moderator }: { moderator: string }) => `**Suggestion approved by ${moderator}**`,
-          },
-          FIELD_3: {
-            FIELD: ({ moderator }: { moderator: string }) => `**Suggestion denied by ${moderator}**`,
-          },
-        },
-        MESSAGE_2: `**${Emojis.CIRCLE_ALERT} This suggestion requires approval before being made public**`,
-      },
-    },
-  },
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
@@ -281,57 +59,57 @@ export default {
 
 function permissions(): Record<PermissionName, string> {
   return {
-    CREATE_INSTANT_INVITE: "Create Instant Invite",
-    KICK_MEMBERS: "Kick Members",
-    BAN_MEMBERS: "Ban Members",
-    ADMINISTRATOR: "Administrator",
-    MANAGE_CHANNELS: "Manage Channels",
-    MANAGE_GUILD: "Manage Server",
     ADD_REACTIONS: "Add Reactions",
-    VIEW_AUDIT_LOG: "View Audit Log",
-    PRIORITY_SPEAKER: "Priority Speaker",
-    STREAM: "Share Screen",
-    VIEW_CHANNEL: "View Channel",
-    SEND_MESSAGES: "Send Messages",
-    SEND_TTS_MESSAGES: "Send TTS Messages",
-    MANAGE_MESSAGES: "Manage Messages",
-    EMBED_LINKS: "Embed Links",
+    ADMINISTRATOR: "Administrator",
     ATTACH_FILES: "Attach Files",
-    READ_MESSAGE_HISTORY: "Read Message History",
-    MENTION_EVERYONE: "Mention Everyone",
-    USE_EXTERNAL_EMOJIS: "Use External Emojis",
-    VIEW_GUILD_INSIGHTS: "View Server Insights",
-    CONNECT: "Connect",
-    SPEAK: "Speak",
-    MUTE_MEMBERS: "Mute Members",
-    DEAFEN_MEMBERS: "Deafen Members",
-    MOVE_MEMBERS: "Move Members",
-    USE_VAD: "Use VAD",
+    BAN_MEMBERS: "Ban Members",
     CHANGE_NICKNAME: "Change Nickname",
+    CONNECT: "Connect",
+    CREATE_EVENTS: "Create Events",
+    CREATE_GUILD_EXPRESSIONS: "Create Server Expressions",
+    CREATE_INSTANT_INVITE: "Create Instant Invite",
+    CREATE_PRIVATE_THREADS: "Create Private Threads",
+    CREATE_PUBLIC_THREADS: "Create Public Threads",
+    DEAFEN_MEMBERS: "Deafen Members",
+    EMBED_LINKS: "Embed Links",
+    KICK_MEMBERS: "Kick Members",
+    MANAGE_CHANNELS: "Manage Channels",
+    MANAGE_EVENTS: "Manage Events",
+    MANAGE_GUILD: "Manage Server",
+    MANAGE_GUILD_EXPRESSIONS: "Manage Server Expressions",
+    MANAGE_MESSAGES: "Manage Messages",
     MANAGE_NICKNAMES: "Manage Nicknames",
     MANAGE_ROLES: "Manage Roles",
-    MANAGE_WEBHOOKS: "Manage Webhooks",
-    MANAGE_GUILD_EXPRESSIONS: "Manage Server Expressions",
-    USE_APPLICATION_COMMANDS: "Use Application Commands",
-    REQUEST_TO_SPEAK: "Request to Speak",
-    MANAGE_EVENTS: "Manage Events",
     MANAGE_THREADS: "Manage Threads",
-    CREATE_PUBLIC_THREADS: "Create Public Threads",
-    CREATE_PRIVATE_THREADS: "Create Private Threads",
-    USE_EXTERNAL_STICKERS: "Use External Stickers",
-    SEND_MESSAGES_IN_THREADS: "Send Messages in Threads",
-    USE_EMBEDDED_ACTIVITIES: "Use Embedded Activities",
+    MANAGE_WEBHOOKS: "Manage Webhooks",
+    MENTION_EVERYONE: "Mention Everyone",
     MODERATE_MEMBERS: "Moderate Members",
-    VIEW_CREATOR_MONETIZATION_ANALYTICS: "View Creator Monetization Analytics",
-    USE_SOUNDBOARD: "Use Soundboard",
-    CREATE_GUILD_EXPRESSIONS: "Create Server Expressions",
-    CREATE_EVENTS: "Create Events",
-    USE_EXTERNAL_SOUNDS: "Use External Sounds",
-    SEND_VOICE_MESSAGES: "Send Voice Messages",
-    USE_CLYDE_AI: "Use Clyde AI",
-    SET_VOICE_CHANNEL_STATUS: "Set Voice Channel Status",
+    MOVE_MEMBERS: "Move Members",
+    MUTE_MEMBERS: "Mute Members",
+    PRIORITY_SPEAKER: "Priority Speaker",
+    READ_MESSAGE_HISTORY: "Read Message History",
+    REQUEST_TO_SPEAK: "Request to Speak",
+    SEND_MESSAGES: "Send Messages",
+    SEND_MESSAGES_IN_THREADS: "Send Messages in Threads",
     SEND_POLLS: "Send Polls",
+    SEND_TTS_MESSAGES: "Send TTS Messages",
+    SEND_VOICE_MESSAGES: "Send Voice Messages",
+    SET_VOICE_CHANNEL_STATUS: "Set Voice Channel Status",
+    SPEAK: "Speak",
+    STREAM: "Share Screen",
+    USE_APPLICATION_COMMANDS: "Use Application Commands",
+    USE_CLYDE_AI: "Use Clyde AI",
+    USE_EMBEDDED_ACTIVITIES: "Use Embedded Activities",
     USE_EXTERNAL_APPS: "Use External Apps",
+    USE_EXTERNAL_EMOJIS: "Use External Emojis",
+    USE_EXTERNAL_SOUNDS: "Use External Sounds",
+    USE_EXTERNAL_STICKERS: "Use External Stickers",
+    USE_SOUNDBOARD: "Use Soundboard",
+    USE_VAD: "Use VAD",
+    VIEW_AUDIT_LOG: "View Audit Log",
+    VIEW_CHANNEL: "View Channel",
+    VIEW_CREATOR_MONETIZATION_ANALYTICS: "View Creator Monetization Analytics",
+    VIEW_GUILD_INSIGHTS: "View Server Insights",
   };
 }
 
