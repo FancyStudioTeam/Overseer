@@ -27,35 +27,55 @@ import { client } from "#index";
 import { Translations } from "#translations";
 import type { Locales } from "#types";
 
-export async function fetchUser(type: FetchFrom, id: string): Promise<User | Nullish> {
+export async function fetchUser({
+  type,
+  userID,
+}: {
+  type: FetchFrom;
+  userID: string;
+}): Promise<User | Nullish> {
   return match(type)
     .returnType<Awaitable<User | Nullish>>()
-    .with(FetchFrom.DEFAULT, async () => client.users.get(id) ?? (await client.rest.users.get(id)))
-    .with(FetchFrom.CACHE, () => client.users.get(id))
-    .with(FetchFrom.REST, async () => await client.rest.users.get(id))
+    .with(FetchFrom.DEFAULT, async () => client.users.get(userID) ?? (await client.rest.users.get(userID)))
+    .with(FetchFrom.CACHE, () => client.users.get(userID))
+    .with(FetchFrom.REST, async () => await client.rest.users.get(userID))
     .otherwise(() => undefined);
 }
 
-export async function fetchMember(type: FetchFrom, guild: Guild, id: string): Promise<Member | Nullish> {
+export async function fetchMember({
+  guild,
+  memberID,
+  type,
+}: {
+  guild: Guild;
+  memberID: string;
+  type: FetchFrom;
+}): Promise<Member | Nullish> {
   return match(type)
     .returnType<Awaitable<Member | Nullish>>()
-    .with(FetchFrom.DEFAULT, async () => guild.members.get(id) ?? (await client.rest.guilds.getMember(guild.id, id)))
-    .with(FetchFrom.CACHE, () => guild.members.get(id))
-    .with(FetchFrom.REST, async () => await client.rest.guilds.getMember(guild.id, id))
+    .with(
+      FetchFrom.DEFAULT,
+      async () => guild.members.get(memberID) ?? (await client.rest.guilds.getMember(guild.id, memberID)),
+    )
+    .with(FetchFrom.CACHE, () => guild.members.get(memberID))
+    .with(FetchFrom.REST, async () => await client.rest.guilds.getMember(guild.id, memberID))
     .otherwise(() => undefined);
 }
 
-export function sanitizeString(
-  content: string,
+export function sanitizeString({
+  content,
+  options,
+}: {
+  content: string;
   options: {
     maxLength?: number;
-    espaceMarkdown?: boolean;
-    replaceLinks?: boolean;
-  },
-): string {
+    shouldEscapeMarkdown?: boolean;
+    shouldReplaceLinks?: boolean;
+  };
+}): string {
   let sanitizedContent = content;
 
-  if (options.espaceMarkdown) {
+  if (options.shouldEscapeMarkdown) {
     const escapeDiscordMarkdown = () => {
       return escapeMarkdown(sanitizedContent, {
         bold: true,
@@ -77,7 +97,7 @@ export function sanitizeString(
     sanitizedContent = escapeDiscordMarkdown();
   }
 
-  if (options.replaceLinks) {
+  if (options.shouldReplaceLinks) {
     const replaceLinks = () => {
       const elements = sanitizedContent.match(
         urlRegex({
@@ -106,16 +126,16 @@ export function sanitizeString(
 
 export async function errorMessage({
   context,
-  ephemeral,
   message,
+  shouldBeEphemeral = true,
 }: {
   context: AnyInteractionGateway | Message;
-  ephemeral?: boolean;
   message: string;
+  shouldBeEphemeral?: boolean;
 }): Promise<void> {
   const payload: CreateMessageOptions & InteractionContent = {
     embeds: new Embed().setDescription(message).setColor(Colors.RED).toJSON(true),
-    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
+    flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
   "reply" in context
@@ -150,7 +170,7 @@ export function getHighestRole(member: Member): Role {
   return roles.sort((a, b) => b.position - a.position)[0];
 }
 
-export async function disableComponents(message: Message): Promise<void> {
+export async function disableMessageComponents(message: Message): Promise<void> {
   for (const row of message.components) {
     for (const component of row.components) {
       component.disabled = true;
@@ -162,7 +182,13 @@ export async function disableComponents(message: Message): Promise<void> {
   });
 }
 
-export function compareMemberToMember(from: Member, to: Member): ComparationLevel {
+export function compareMemberToMember({
+  from,
+  to,
+}: {
+  from: Member;
+  to: Member;
+}): ComparationLevel {
   const roleFrom = getHighestRole(from).position ?? -1;
   const roleTo = getHighestRole(to).position ?? -1;
 
@@ -186,13 +212,27 @@ export function compareMemberToMember(from: Member, to: Member): ComparationLeve
     .otherwise(() => ComparationLevel.UNKNOWN);
 }
 
-export function formatTimestamp(date: Date | string, hour12 = false, long = true): string {
-  return new Timestamp(long ? (hour12 ? "DD/MM/YYYY[, ]hh:mm:ss A" : "DD/MM/YYYY[, ]HH:mm:ss") : "DD/MM/YYYY").display(
-    date,
-  );
+export function formatTimestamp({
+  date,
+  long,
+  use12Hours,
+}: {
+  date: Date | string;
+  long?: boolean;
+  use12Hours?: boolean;
+}): string {
+  return new Timestamp(
+    long ? (use12Hours ? "DD/MM/YYYY[, ]hh:mm:ss A" : "DD/MM/YYYY[, ]HH:mm:ss") : "DD/MM/YYYY",
+  ).display(date);
 }
 
-export function formatUnix(type: UnixType, date: Date): string {
+export function formatUnix({
+  date,
+  type,
+}: {
+  date: Date;
+  type: UnixType;
+}): string {
   const unix: Record<UnixType, string> = {
     [UnixType.SHORT_TIME]: "t",
     [UnixType.SHORT_DATE]: "d",
@@ -206,7 +246,13 @@ export function formatUnix(type: UnixType, date: Date): string {
   return `<t:${Math.floor(date.getTime() / 1000)}:${unix[type]}>`;
 }
 
-export function search<T extends AvailableSearchTypes>(query: string, options: T[]): T[] {
+export function search<T extends AvailableSearchTypes>({
+  options,
+  query,
+}: {
+  options: T[];
+  query: string;
+}): T[] {
   const choices: T[] = [];
   const updatedQuery = query.toLowerCase();
 
@@ -222,28 +268,30 @@ export function search<T extends AvailableSearchTypes>(query: string, options: T
   return choices;
 }
 
-export async function checkPermissions(
-  {
-    context,
-    locale,
-    ephemeral,
-  }: {
-    context: AnyInteractionGateway | Message;
-    locale: Locales;
-    ephemeral?: boolean;
-  },
-  type: CheckPermissionsFrom,
-  checkPermissions: PermissionName[],
-  member: Member,
-  channel?: AnyTextableGuildChannel,
-): Promise<boolean> {
+export async function checkPermissions({
+  channel,
+  context,
+  locale,
+  member,
+  permissionsToCheck,
+  shouldBeEphemeral,
+  type,
+}: {
+  channel?: AnyTextableGuildChannel;
+  context: AnyInteractionGateway | Message;
+  locale: Locales;
+  member: Member;
+  permissionsToCheck: PermissionName[];
+  shouldBeEphemeral?: boolean;
+  type: CheckPermissionsFrom;
+}): Promise<boolean> {
   let hasPermissions = true;
 
   if (!(context.inCachedGuildChannel() && context.guild)) return false;
 
   const clientOrUser = member.id === client.user.id ? "CLIENT" : "USER";
   const channelOrGuild = type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD";
-  const missingPermissions = checkPermissions.filter((permission) =>
+  const missingPermissions = permissionsToCheck.filter((permission) =>
     channelOrGuild === "CHANNEL"
       ? !channel?.permissionsOf(member).has(permission)
       : !member.permissions.has(permission),
@@ -262,7 +310,7 @@ export async function checkPermissions(
       )
       .setColor(Colors.RED)
       .toJSON(true),
-    flags: ephemeral ? MessageFlags.EPHEMERAL : undefined,
+    flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
   if (missingPermissions.length > 0) {
@@ -276,7 +324,13 @@ export async function checkPermissions(
   return hasPermissions;
 }
 
-export function logger(type: LoggerType, content: string): void {
+export function logger({
+  content,
+  type,
+}: {
+  content: string;
+  type: LoggerType;
+}): void {
   const array = (elements: string[]): string[] => ["", ...elements, ""];
   const spaces = (content: string, max: number): string => {
     const spaces = " ".repeat(max);
@@ -284,11 +338,11 @@ export function logger(type: LoggerType, content: string): void {
     return [spaces, content, spaces].join("");
   };
   const timestamp = spaces(
-    formatTimestamp(
-      new Date().toLocaleString("en-US", {
+    formatTimestamp({
+      date: new Date().toLocaleString("en-US", {
         timeZone: "Europe/Madrid",
       }),
-    ),
+    }),
     1,
   );
   const levels: Record<LoggerType, string> = {
@@ -312,18 +366,20 @@ export function logger(type: LoggerType, content: string): void {
   console.log(levels[type]);
 }
 
-export async function handleError(
-  {
-    context,
-    locale,
-  }: {
-    context: AnyInteractionGateway | Message;
-    locale: Locales;
-  },
-  error: Error,
-): Promise<void> {
+export async function handleError({
+  context,
+  error,
+  locale,
+}: {
+  context: AnyInteractionGateway | Message;
+  error: Error;
+  locale: Locales;
+}): Promise<void> {
   captureException(error);
-  logger(LoggerType.ERROR, error.stack ?? error.message);
+  logger({
+    content: error.stack ?? error.message,
+    type: LoggerType.ERROR,
+  });
 
   const id = DiscordSnowflake.generate().toString();
   const payload: CreateMessageOptions & InteractionContent = {
@@ -369,12 +425,6 @@ export function bitFieldValues(bitField: number): number[] {
 
 export type AvailableSearchTypes = string;
 
-export enum FetchFrom {
-  DEFAULT,
-  CACHE,
-  REST,
-}
-
 export enum CheckPermissionsFrom {
   GUILD,
   CHANNEL,
@@ -403,4 +453,10 @@ export enum UnixType {
   LONG_DATE_TIME,
   LONG_TIME,
   LONG_DATE,
+}
+
+export enum FetchFrom {
+  DEFAULT,
+  CACHE,
+  REST,
 }
