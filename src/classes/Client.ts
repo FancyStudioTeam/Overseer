@@ -253,7 +253,7 @@ export class Discord extends Client {
 
   private async loadFiles(path: string | string[]): Promise<string[]> {
     return await glob(path, {
-      ignore: ["nodemodules/**"],
+      ignore: ["node_modules/**"],
     });
   }
 }
