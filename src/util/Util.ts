@@ -25,7 +25,7 @@ import urlRegex from "url-regex-safe";
 import { Colors, Emojis, Links } from "#constants";
 import { client } from "#index";
 import { Translations } from "#translations";
-import type { Locales } from "#types";
+import { CheckPermissionsFrom, type Locales } from "#types";
 
 export async function fetchUser({
   type,
@@ -268,23 +268,24 @@ export function search<T extends AvailableSearchTypes>({
   return choices;
 }
 
-export async function checkPermissions({
-  channel,
-  context,
-  locale,
-  member,
-  permissionsToCheck,
-  shouldBeEphemeral = true,
-  type,
-}: {
-  channel?: AnyTextableGuildChannel;
-  context: AnyInteractionGateway | Message;
-  locale: Locales;
-  member: Member;
-  permissionsToCheck: PermissionName[];
-  shouldBeEphemeral?: boolean;
-  type: CheckPermissionsFrom;
-}): Promise<boolean> {
+export async function checkMemberPermissions(
+  member: Member,
+  {
+    channel,
+    context,
+    locale,
+    permissionsToCheck,
+    shouldBeEphemeral = true,
+    type = CheckPermissionsFrom.GUILD,
+  }: {
+    channel?: AnyTextableGuildChannel;
+    context: AnyInteractionGateway | Message;
+    locale: Locales;
+    permissionsToCheck: PermissionName[];
+    shouldBeEphemeral?: boolean;
+    type?: CheckPermissionsFrom;
+  },
+): Promise<boolean> {
   let hasPermissions = true;
 
   if (!(context.inCachedGuildChannel() && context.guild)) return false;
@@ -424,11 +425,6 @@ export function bitFieldValues(bitField: number): number[] {
 }
 
 export type AvailableSearchTypes = string;
-
-export enum CheckPermissionsFrom {
-  GUILD,
-  CHANNEL,
-}
 
 export enum LoggerType {
   ERROR,

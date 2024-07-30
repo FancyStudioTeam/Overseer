@@ -18,17 +18,9 @@ import {
 import { Colors, Emojis, Links } from "#constants";
 import { client } from "#index";
 import { Translations } from "#translations";
-import type { Locales } from "#types";
+import { CheckPermissionsFrom, type Locales } from "#types";
 import { prisma } from "#util/Prisma.js";
-import {
-  CheckPermissionsFrom,
-  UnixType,
-  checkPermissions,
-  errorMessage,
-  formatUnix,
-  handleError,
-  parseEmoji,
-} from "#util/Util.js";
+import { UnixType, checkMemberPermissions, errorMessage, formatUnix, handleError, parseEmoji } from "#util/Util.js";
 
 const commandRateLimiter = new RateLimitManager(5000, 3);
 const componentRateLimiter = new RateLimitManager(7000, 5);
@@ -44,22 +36,19 @@ client.on("interactionCreate", async (interaction) => {
       guildID: interaction.guildID,
     },
   });
-  const locale = <Locales>(guildConfiguration?.general.locale ?? "en").toUpperCase();
+  const locale = (guildConfiguration?.general.locale ?? "EN") as Locales;
   const timezone = guildConfiguration?.general.timezone ?? "UTC";
   const hour12 = guildConfiguration?.general.use12Hours ?? false;
   const premium = guildConfiguration?.premium.enabled ?? false;
+  const clientHasMainChannelPermissions = await checkMemberPermissions(interaction.guild.clientMember, {
+    channel: interaction.channel,
+    context: interaction,
+    locale,
+    permissionsToCheck: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
+    type: CheckPermissionsFrom.CHANNEL,
+  });
 
-  if (
-    !(await checkPermissions({
-      channel: interaction.channel,
-      context: interaction,
-      locale,
-      member: interaction.guild.clientMember,
-      permissionsToCheck: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
-      type: CheckPermissionsFrom.CHANNEL,
-    }))
-  )
-    return;
+  if (!clientHasMainChannelPermissions) return;
 
   if (process.env.NODE_ENV === "maintenance" && "reply" in interaction) {
     return await interaction.reply({
@@ -216,29 +205,25 @@ async function handleChatInputSubCommand({
   const command = client.subCommands.get(`${interaction.data.name}_${name.join("_")}`);
 
   if (command?.name) {
-    if (
-      command.permissions?.user &&
-      !(await checkPermissions({
+    if (command.permissions?.user) {
+      const userHasCommandPermissions = await checkMemberPermissions(interaction.member, {
         context: interaction,
         locale,
-        member: interaction.member,
         permissionsToCheck: command.permissions.user,
-        type: CheckPermissionsFrom.GUILD,
-      }))
-    )
-      return;
+      });
 
-    if (
-      command.permissions?.bot &&
-      !(await checkPermissions({
+      if (!userHasCommandPermissions) return;
+    }
+
+    if (command.permissions?.bot) {
+      const clientHasCommandPermissions = await checkMemberPermissions(interaction.guild.clientMember, {
         context: interaction,
         locale,
-        member: interaction.guild.clientMember,
         permissionsToCheck: command.permissions.bot,
-        type: CheckPermissionsFrom.GUILD,
-      }))
-    )
-      return;
+      });
+
+      if (!clientHasCommandPermissions) return;
+    }
 
     const result = await Result.fromAsync(async () => {
       await command.run({
@@ -354,30 +339,25 @@ async function handleButton({
   const component = client.components.buttons.get(interaction.data.customID.split("#")[0]);
 
   if (component?.name) {
-    if (
-      component.permissions?.user &&
-      !(await checkPermissions({
+    if (component.permissions?.user) {
+      const userHasComponentPermissions = await checkMemberPermissions(interaction.member, {
         context: interaction,
         locale,
-        member: interaction.member,
         permissionsToCheck: component.permissions.user,
-        type: CheckPermissionsFrom.GUILD,
-      }))
-    )
-      return;
+      });
 
-    if (
-      component.permissions?.bot &&
-      !(await checkPermissions({
+      if (!userHasComponentPermissions) return;
+    }
+
+    if (component.permissions?.bot) {
+      const clientHasComponentPermissions = await checkMemberPermissions(interaction.guild.clientMember, {
         context: interaction,
         locale,
-        member: interaction.guild.clientMember,
         permissionsToCheck: component.permissions.bot,
+      });
 
-        type: CheckPermissionsFrom.GUILD,
-      }))
-    )
-      return;
+      if (!clientHasComponentPermissions) return;
+    }
 
     const result = await Result.fromAsync(async () => {
       await component.run({
@@ -418,29 +398,25 @@ async function handleSelectMenu({
   const component = client.components.selects.get(interaction.data.customID.split("/")[0]);
 
   if (component?.name) {
-    if (
-      component.permissions?.user &&
-      !(await checkPermissions({
+    if (component.permissions?.user) {
+      const userHasComponentPermissions = await checkMemberPermissions(interaction.member, {
         context: interaction,
         locale,
-        member: interaction.member,
         permissionsToCheck: component.permissions.user,
-        type: CheckPermissionsFrom.GUILD,
-      }))
-    )
-      return;
+      });
 
-    if (
-      component.permissions?.bot &&
-      !(await checkPermissions({
+      if (!userHasComponentPermissions) return;
+    }
+
+    if (component.permissions?.bot) {
+      const clientHasComponentPermissions = await checkMemberPermissions(interaction.guild.clientMember, {
         context: interaction,
         locale,
-        member: interaction.guild.clientMember,
         permissionsToCheck: component.permissions.bot,
-        type: CheckPermissionsFrom.GUILD,
-      }))
-    )
-      return;
+      });
+
+      if (!clientHasComponentPermissions) return;
+    }
 
     const result = await Result.fromAsync(async () => {
       await component.run({
