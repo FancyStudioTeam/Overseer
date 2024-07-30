@@ -274,7 +274,7 @@ export async function checkPermissions({
   locale,
   member,
   permissionsToCheck,
-  shouldBeEphemeral,
+  shouldBeEphemeral = true,
   type,
 }: {
   channel?: AnyTextableGuildChannel;
@@ -326,10 +326,10 @@ export async function checkPermissions({
 
 export function logger({
   content,
-  type,
+  type = LoggerType.INFO,
 }: {
   content: string;
-  type: LoggerType;
+  type?: LoggerType;
 }): void {
   const array = (elements: string[]): string[] => ["", ...elements, ""];
   const spaces = (content: string, max: number): string => {

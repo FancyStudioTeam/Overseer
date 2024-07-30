@@ -50,21 +50,18 @@ client.on("interactionCreate", async (interaction) => {
   const premium = guildConfiguration?.premium.enabled ?? false;
 
   if (
-    !(await checkPermissions(
-      {
-        context: interaction,
-        locale,
-        ephemeral: true,
-      },
-      CheckPermissionsFrom.CHANNEL,
-      ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
-      interaction.guild.clientMember,
-      interaction.channel,
-    ))
+    !(await checkPermissions({
+      channel: interaction.channel,
+      context: interaction,
+      locale,
+      member: interaction.guild.clientMember,
+      permissionsToCheck: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
+      type: CheckPermissionsFrom.CHANNEL,
+    }))
   )
     return;
 
-  if (process.env.NODE_ENV?.toUpperCase() === "MAINTENANCE" && "reply" in interaction) {
+  if (process.env.NODE_ENV === "maintenance" && "reply" in interaction) {
     return await interaction.reply({
       embeds: new Embed().setImage("attachment://maintenance.png").setColor(Colors.COLOR).toJSON(true),
       files: new Attachment()
@@ -91,9 +88,11 @@ client.on("interactionCreate", async (interaction) => {
       if (rateLimit.limited) {
         return await errorMessage({
           context: interaction,
-          ephemeral: true,
           message: Translations[locale].GLOBAL.USER_IS_LIMITED({
-            resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
+            resets: formatUnix({
+              date: new Date(rateLimit.expires),
+              type: UnixType.RELATIVE,
+            }),
           }),
         });
       }
@@ -104,7 +103,7 @@ client.on("interactionCreate", async (interaction) => {
         case ApplicationCommandTypes.CHAT_INPUT: {
           await interaction.defer().catch(() => undefined);
 
-          await _handleChatInputSubCommand({
+          await handleChatInputSubCommand({
             interaction,
             locale,
             timezone,
@@ -115,7 +114,7 @@ client.on("interactionCreate", async (interaction) => {
           break;
         }
         case ApplicationCommandTypes.USER: {
-          await _handleUserCommand({
+          await handleUserCommand({
             interaction,
             locale,
             timezone,
@@ -130,7 +129,7 @@ client.on("interactionCreate", async (interaction) => {
       break;
     }
     case InteractionTypes.APPLICATION_COMMAND_AUTOCOMPLETE: {
-      await _handleAutocomplete({
+      await handleAutocomplete({
         interaction,
         locale,
         timezone,
@@ -146,9 +145,11 @@ client.on("interactionCreate", async (interaction) => {
       if (rateLimit.limited) {
         return await errorMessage({
           context: interaction,
-          ephemeral: true,
           message: Translations[locale].GLOBAL.USER_IS_LIMITED({
-            resets: formatUnix(UnixType.RELATIVE, new Date(rateLimit.expires)),
+            resets: formatUnix({
+              date: new Date(rateLimit.expires),
+              type: UnixType.RELATIVE,
+            }),
           }),
         });
       }
@@ -157,7 +158,7 @@ client.on("interactionCreate", async (interaction) => {
 
       switch (interaction.data.componentType) {
         case ComponentTypes.BUTTON: {
-          await _handleButton({
+          await handleButton({
             interaction,
             locale,
             timezone,
@@ -168,7 +169,7 @@ client.on("interactionCreate", async (interaction) => {
           break;
         }
         case ComponentTypes.STRING_SELECT: {
-          await _handleSelectMenu({
+          await handleSelectMenu({
             interaction,
             locale,
             timezone,
@@ -183,7 +184,7 @@ client.on("interactionCreate", async (interaction) => {
       break;
     }
     case InteractionTypes.MODAL_SUBMIT: {
-      await _handleModalSubmit({
+      await handleModalSubmit({
         interaction,
         locale,
         timezone,
@@ -196,7 +197,7 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-async function _handleChatInputSubCommand({
+async function handleChatInputSubCommand({
   interaction,
   locale,
   timezone,
@@ -217,31 +218,25 @@ async function _handleChatInputSubCommand({
   if (command?.name) {
     if (
       command.permissions?.user &&
-      !(await checkPermissions(
-        {
-          context: interaction,
-          locale,
-          ephemeral: true,
-        },
-        CheckPermissionsFrom.GUILD,
-        command.permissions.user,
-        interaction.member,
-      ))
+      !(await checkPermissions({
+        context: interaction,
+        locale,
+        member: interaction.member,
+        permissionsToCheck: command.permissions.user,
+        type: CheckPermissionsFrom.GUILD,
+      }))
     )
       return;
 
     if (
       command.permissions?.bot &&
-      !(await checkPermissions(
-        {
-          context: interaction,
-          locale,
-          ephemeral: true,
-        },
-        CheckPermissionsFrom.GUILD,
-        command.permissions.bot,
-        interaction.guild.clientMember,
-      ))
+      !(await checkPermissions({
+        context: interaction,
+        locale,
+        member: interaction.guild.clientMember,
+        permissionsToCheck: command.permissions.bot,
+        type: CheckPermissionsFrom.GUILD,
+      }))
     )
       return;
 
@@ -256,18 +251,16 @@ async function _handleChatInputSubCommand({
     });
 
     result.unwrapOrElse(async (error) => {
-      await handleError(
-        {
-          context: interaction,
-          locale,
-        },
+      await handleError({
+        context: interaction,
+        locale,
         error,
-      );
+      });
     });
   }
 }
 
-async function _handleUserCommand({
+async function handleUserCommand({
   interaction,
   locale,
   timezone,
@@ -296,18 +289,16 @@ async function _handleUserCommand({
     });
 
     result.unwrapOrElse(async (error) => {
-      await handleError(
-        {
-          context: interaction,
-          locale,
-        },
+      await handleError({
+        context: interaction,
+        locale,
         error,
-      );
+      });
     });
   }
 }
 
-async function _handleAutocomplete({
+async function handleAutocomplete({
   interaction,
   locale,
   timezone,
@@ -336,18 +327,16 @@ async function _handleAutocomplete({
     });
 
     result.unwrapOrElse(async (error) => {
-      await handleError(
-        {
-          context: interaction,
-          locale,
-        },
+      await handleError({
+        context: interaction,
+        locale,
         error,
-      );
+      });
     });
   }
 }
 
-async function _handleButton({
+async function handleButton({
   interaction,
   locale,
   timezone,
@@ -362,36 +351,31 @@ async function _handleButton({
 }): Promise<void> {
   if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
 
-  const component = client.components.buttons.get(interaction.data.customID.split("/")[0]);
+  const component = client.components.buttons.get(interaction.data.customID.split("#")[0]);
 
   if (component?.name) {
     if (
       component.permissions?.user &&
-      !(await checkPermissions(
-        {
-          context: interaction,
-          locale,
-          ephemeral: true,
-        },
-        CheckPermissionsFrom.GUILD,
-        component.permissions.user,
-        interaction.member,
-      ))
+      !(await checkPermissions({
+        context: interaction,
+        locale,
+        member: interaction.member,
+        permissionsToCheck: component.permissions.user,
+        type: CheckPermissionsFrom.GUILD,
+      }))
     )
       return;
 
     if (
       component.permissions?.bot &&
-      !(await checkPermissions(
-        {
-          context: interaction,
-          locale,
-          ephemeral: true,
-        },
-        CheckPermissionsFrom.GUILD,
-        component.permissions.bot,
-        interaction.guild.clientMember,
-      ))
+      !(await checkPermissions({
+        context: interaction,
+        locale,
+        member: interaction.guild.clientMember,
+        permissionsToCheck: component.permissions.bot,
+
+        type: CheckPermissionsFrom.GUILD,
+      }))
     )
       return;
 
@@ -407,18 +391,16 @@ async function _handleButton({
     });
 
     result.unwrapOrElse(async (error) => {
-      await handleError(
-        {
-          context: interaction,
-          locale,
-        },
+      await handleError({
+        context: interaction,
+        locale,
         error,
-      );
+      });
     });
   }
 }
 
-async function _handleSelectMenu({
+async function handleSelectMenu({
   interaction,
   locale,
   timezone,
@@ -438,31 +420,25 @@ async function _handleSelectMenu({
   if (component?.name) {
     if (
       component.permissions?.user &&
-      !(await checkPermissions(
-        {
-          context: interaction,
-          locale,
-          ephemeral: true,
-        },
-        CheckPermissionsFrom.GUILD,
-        component.permissions.user,
-        interaction.member,
-      ))
+      !(await checkPermissions({
+        context: interaction,
+        locale,
+        member: interaction.member,
+        permissionsToCheck: component.permissions.user,
+        type: CheckPermissionsFrom.GUILD,
+      }))
     )
       return;
 
     if (
       component.permissions?.bot &&
-      !(await checkPermissions(
-        {
-          context: interaction,
-          locale,
-          ephemeral: true,
-        },
-        CheckPermissionsFrom.GUILD,
-        component.permissions.bot,
-        interaction.guild.clientMember,
-      ))
+      !(await checkPermissions({
+        context: interaction,
+        locale,
+        member: interaction.guild.clientMember,
+        permissionsToCheck: component.permissions.bot,
+        type: CheckPermissionsFrom.GUILD,
+      }))
     )
       return;
 
@@ -478,18 +454,16 @@ async function _handleSelectMenu({
     });
 
     result.unwrapOrElse(async (error) => {
-      await handleError(
-        {
-          context: interaction,
-          locale,
-        },
+      await handleError({
+        context: interaction,
+        locale,
         error,
-      );
+      });
     });
   }
 }
 
-async function _handleModalSubmit({
+async function handleModalSubmit({
   interaction,
   locale,
   timezone,
@@ -516,13 +490,11 @@ async function _handleModalSubmit({
     });
 
     result.unwrapOrElse(async (error) => {
-      await handleError(
-        {
-          context: interaction,
-          locale,
-        },
+      await handleError({
+        context: interaction,
+        locale,
         error,
-      );
+      });
     });
   }
 }

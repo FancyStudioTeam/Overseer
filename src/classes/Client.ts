@@ -127,10 +127,15 @@ export class Discord extends Client {
     await prisma
       .$connect()
       .then(() => {
-        logger(LoggerType.INFO, "Prisma Client has been connected");
+        logger({
+          content: "Prisma Client has been connected",
+        });
       })
       .catch((error) => {
-        logger(LoggerType.ERROR, `Prisma Client had an error while connecting: ${error.stack ?? error.message}`);
+        logger({
+          content: `Prisma Client had an error while connecting: ${error.stack ?? error.message}`,
+          type: LoggerType.ERROR,
+        });
       });
     await Promise.allSettled([this.registerComponents(), this.registerEvents(), this.registerModules()]);
   }
@@ -138,7 +143,9 @@ export class Discord extends Client {
   async deploy(): Promise<void> {
     await this.registerCommands();
     await this.rest.applications.bulkEditGlobalCommands(this.application.id, commandsArray).then((commands) => {
-      logger(LoggerType.INFO, `The interactions has been deployed | Deployed ${commands.length} interactions`);
+      logger({
+        content: `The interactions has been deployed | Deployed ${commands.length} interactions`,
+      });
     });
   }
 

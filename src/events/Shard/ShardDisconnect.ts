@@ -5,8 +5,14 @@ import { LoggerType, logger } from "#util/Util.js";
 client.on("shardDisconnect", (error, id) => {
   if (error) {
     captureException(error);
-    logger(LoggerType.ERROR, `[Shard ${id}] Shard has been disconnected by an error: ${error.stack ?? error.message}`);
+    logger({
+      content: `[Shard ${id}] Shard has been disconnected by an error: ${error.stack ?? error.message}`,
+      type: LoggerType.ERROR,
+    });
   }
 
-  logger(LoggerType.WARN, `[Shard ${id}] Shard has been disconnected`);
+  logger({
+    content: `[Shard ${id}] Shard has been disconnected`,
+    type: LoggerType.WARN,
+  });
 });
