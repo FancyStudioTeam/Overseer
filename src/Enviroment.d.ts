@@ -8,4 +8,10 @@ declare global {
   }
 }
 
+declare module "oceanic.js" {
+  interface User {
+    get name(): string;
+  }
+}
+
 export type {};

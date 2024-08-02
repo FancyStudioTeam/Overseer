@@ -21,14 +21,18 @@
     "@sapphire/utilities": "3.17.0",
     "@sentry/node": "8.20.0",
     "dotenv": "16.4.5",
+    "es-toolkit": "1.13.1",
     "glob": "11.0.0",
+    "js-yaml": "4.1.0",
     "oceanic-builders": "1.0.1",
     "oceanic-collectors": "1.0.7",
     "oceanic.js": "1.11.1",
     "ts-pattern": "5.2.0",
-    "url-regex-safe": "4.0.0"
+    "url-regex-safe": "4.0.0",
+    "zod": "3.23.8"
   },
   "devDependencies": {
+    "@types/js-yaml": "4.0.9",
     "@types/node": "22.0.0",
     "@types/url-regex-safe": "1.0.2",
     "cross-env": "7.0.3",

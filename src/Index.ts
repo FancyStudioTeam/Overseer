@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import { init } from "@sentry/node";
+import { User } from "oceanic.js";
 import { Discord } from "#client";
 import { version } from "#package";
 
@@ -13,4 +14,10 @@ init({
   },
   release: version,
   tracesSampleRate: 0.5,
+});
+
+Object.defineProperty(User.prototype, "name", {
+  get: function () {
+    return this.globalName ?? this.username;
+  },
 });
