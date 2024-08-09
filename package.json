@@ -13,15 +13,15 @@
   "dependencies": {
     "@colors/colors": "1.6.0",
     "@discordjs/formatters": "0.4.0",
-    "@prisma/client": "5.17.0",
+    "@prisma/client": "5.18.0",
     "@sapphire/ratelimits": "2.4.9",
     "@sapphire/result": "2.6.6",
     "@sapphire/snowflake": "3.5.3",
     "@sapphire/time-utilities": "1.7.12",
     "@sapphire/utilities": "3.17.0",
-    "@sentry/node": "8.20.0",
+    "@sentry/node": "8.25.0",
     "dotenv": "16.4.5",
-    "es-toolkit": "1.13.1",
+    "es-toolkit": "1.14.0",
     "glob": "11.0.0",
     "js-yaml": "4.1.0",
     "oceanic-builders": "1.0.1",
@@ -33,12 +33,12 @@
   },
   "devDependencies": {
     "@types/js-yaml": "4.0.9",
-    "@types/node": "22.0.0",
+    "@types/node": "22.1.0",
     "@types/url-regex-safe": "1.0.2",
     "cross-env": "7.0.3",
     "husky": "9.1.4",
-    "lint-staged": "15.2.7",
-    "prisma": "5.17.0"
+    "lint-staged": "15.2.8",
+    "prisma": "5.18.0"
   },
   "prisma": {
     "seed": "tsx src/seed.ts"
@@ -53,7 +53,7 @@
     "#types": "./src/Types.js",
     "#util/*": "./src/util/*"
   },
-  "packageManager": "pnpm@9.6.0+sha256.dae0f7e822c56b20979bb5965e3b73b8bdabb6b8b8ef121da6d857508599ca35",
+  "packageManager": "pnpm@9.7.0+sha256.b35018fbfa8f583668b2649e407922a721355cd81f61beeb4ac1d4258e585559",
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": ["pnpm biome"]
   }
