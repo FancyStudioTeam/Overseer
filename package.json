@@ -1,15 +1,5 @@
 {
-  "name": "overseer",
-  "version": "0.0.2_alpha",
-  "scripts": {
-    "biome": "biome check --write --config-path=\"./biome.json\" .",
-    "build": "tsc",
-    "dev": "cross-env NODE_ENV=development tsx watch --ignore ./src/locales src/Index.ts",
-    "prepare": "husky",
-    "start": "cross-env NODE_ENV=production cd dist && node src/Index.js"
-  },
   "author": "FancyStudio",
-  "license": "BSD-3-Clause",
   "dependencies": {
     "@colors/colors": "1.6.0",
     "@discordjs/formatters": "0.4.0",
@@ -31,17 +21,18 @@
     "url-regex-safe": "4.0.0",
     "zod": "3.23.8"
   },
+  "description": "Overseer Client Repository",
   "devDependencies": {
+    "@biomejs/biome": "1.8.3",
     "@types/js-yaml": "4.0.9",
     "@types/node": "22.1.0",
     "@types/url-regex-safe": "1.0.2",
     "cross-env": "7.0.3",
     "husky": "9.1.4",
     "lint-staged": "15.2.8",
-    "prisma": "5.18.0"
-  },
-  "prisma": {
-    "seed": "tsx src/seed.ts"
+    "prisma": "5.18.0",
+    "tsx": "4.17.0",
+    "typescript": "5.5.4"
   },
   "imports": {
     "#base": "./src/classes/Base.js",
@@ -53,8 +44,21 @@
     "#types": "./src/Types.js",
     "#util/*": "./src/util/*"
   },
-  "packageManager": "pnpm@9.7.0+sha256.b35018fbfa8f583668b2649e407922a721355cd81f61beeb4ac1d4258e585559",
+  "license": "BSD-3-Clause",
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": ["pnpm biome"]
-  }
+  },
+  "name": "overseer",
+  "packageManager": "pnpm@9.7.0+sha256.b35018fbfa8f583668b2649e407922a721355cd81f61beeb4ac1d4258e585559",
+  "prisma": {
+    "seed": "tsx src/seed.ts"
+  },
+  "scripts": {
+    "biome": "biome check --write --config-path=\"./biome.json\" .",
+    "build": "tsc",
+    "dev": "cross-env NODE_ENV=development tsx watch --ignore ./src/locales src/Index.ts",
+    "prepare": "husky",
+    "start": "cross-env NODE_ENV=production cd dist && node src/Index.js"
+  },
+  "version": "0.0.2_alpha"
 }

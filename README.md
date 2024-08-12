@@ -1,29 +1,45 @@
-# Overseer
+<!-- markdownlint-disable -->
+<div align="center">
+  <h1 align="center">Overseer</h1>
+</div>
+<!-- markdownlint-restore -->
 
 > [!WARNING]
-> This project is still under development. **It may have bugs and Breaking Changes**
+> This project is still in **alpha version**. There may be bugs and Breaking Changes.
 
-## Discord Links
+## 📦 Our Stack
 
-- `🦅` [Add Overseer on your Discord server][add_to_discord_url]
-- `🛟` [Join our Support Server][support_server_url]
+[![Oceanic.js][OceanicJSBadgeURL]][OceanicJSURL]
+[![Prisma][PrismaBadgeURL]][PrismaURL]
+[![TypeScript][TypeScriptBadgeURL]][TypeScriptURL]
+[![Biome][BiomeBadgeURL]][BiomeURL]
+[![PNPM][PNPMBadgeURL]][PNPMURL]
 
-## Stack
+## 📄 License
 
-- `📘` [Written in TypeScript][typescript_url]
-- `📦` [Managing packages with PNPM][pnpm_url]
-- `🌊` [Interacting with Discord with Oceanic.js][oceanic_url]
-- `🔺` [Querying our database with Prisma][prisma_url]
+This project is licensed under the [BSD-3-Clause][BSD3ClauseURL] license.
 
-## Thanks to all contributors
+## 💻 Security
 
-[![Contributors][contributors_image]][contributors_url]
+If you believe you have found a security vulnerability, please **DO NOT make a public issue**, instead, go to our [Support Server][SupportServerURL] and contact the developers privately.
 
-[support_server_url]: https://discord.gg/gud55BjNFC
-[add_to_discord_url]: https://discord.com/oauth2/authorize?client_id=1228065406196125810&permissions=117760&scope=bot
-[typescript_url]: https://www.typescriptlang.org/
-[pnpm_url]: https://pnpm.io/
-[prisma_url]: https://www.prisma.io/
-[oceanic_url]: https://oceanic.ws/
-[contributors_url]: https://github.com/FancyStudioTeam/Overseer/graphs/contributors
-[contributors_image]: https://contrib.rocks/image?repo=FancyStudioTeam/Overseer&max=500&columns=20
+## 💖 Contributors
+
+Special thanks to all our contributors who have helped keep the project going!
+
+[![All Contributors][ContributorsImageURL]][ContributorsURL]
+
+[BSD3ClauseURL]: https://opensource.org/license/bsd-3-clause/
+[BiomeBadgeURL]: https://img.shields.io/badge/Biome-60A5FA?style=for-the-badge&logo=biome&color=2D3748
+[BiomeURL]: https://biomejs.dev/
+[ContributorsImageURL]: https://contrib.rocks/image?repo=FancyStudioTeam/Overseer&max=500&columns=20
+[ContributorsURL]: https://github.com/FancyStudioTeam/Overseer/graphs/contributors
+[OceanicJSBadgeURL]: https://img.shields.io/badge/Oceanic.js-5FA04E?style=for-the-badge&logo=nodedotjs&color=2D3748
+[OceanicJSURL]: https://oceanic.ws/
+[PNPMBadgeURL]: https://img.shields.io/badge/pnpm-F69220?style=for-the-badge&logo=pnpm&color=2D3748
+[PNPMURL]: https://pnpm.io/
+[PrismaBadgeURL]: https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&color=2D3748
+[PrismaURL]: https://www.prisma.io/
+[SupportServerURL]: https://discord.gg/gud55BjNFC
+[TypeScriptBadgeURL]: https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&color=2D3748
+[TypeScriptURL]: https://www.typescriptlang.org/
