@@ -1,8 +1,29 @@
-import { inlineCodeBlock } from "@sapphire/utilities";
+import colors from "@colors/colors";
+import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 
 export default {
+  COMMANDS: {
+    INFORMATION: {
+      DEBUG: {
+        MESSAGE_1: {
+          TITLE_1: "Información de la Depuración",
+          DESCRIPTION_1: ({
+            guilds,
+            users,
+          }: {
+            guilds: number;
+            users: number;
+          }) =>
+            codeBlock(
+              "ansi",
+              [`${colors.magenta("Servidores:")} ${guilds}`, `${colors.magenta("Usuarios:")} ${users}`].join("\n"),
+            ),
+        },
+      },
+    },
+  },
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [

@@ -2,7 +2,6 @@ import { join, sep } from "node:path";
 import type { Nullish } from "@sapphire/utilities";
 import { glob } from "glob";
 import { Client, Collection, type CreateApplicationCommandOptions } from "oceanic.js";
-import type { Component, Modal } from "#types";
 import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
@@ -14,11 +13,11 @@ export class Discord extends Client {
     chatInput: Collection<string, Parameters<typeof createChatInput>[0] | Nullish>;
     user: Collection<string, Parameters<typeof createUserCommand>[0] | Nullish>;
   };
-  readonly components: {
+  /*readonly components: {
     buttons: Collection<string, Component | Nullish>;
     selects: Collection<string, Component | Nullish>;
     modals: Collection<string, Modal | Nullish>;
-  };
+  };*/
   readonly subCommands: Collection<string, Parameters<typeof createChatInputSubCommand>[0] | Nullish>;
   readonly readyAt: Date;
 
@@ -109,11 +108,11 @@ export class Discord extends Client {
       chatInput: new Collection(),
       user: new Collection(),
     };
-    this.components = {
+    /*this.components = {
       buttons: new Collection(),
       selects: new Collection(),
       modals: new Collection(),
-    };
+    };*/
     this.subCommands = new Collection();
     this.readyAt = new Date();
 
@@ -138,7 +137,7 @@ export class Discord extends Client {
           type: LoggerType.ERROR,
         });
       });
-    await Promise.allSettled([this.registerComponents(), this.registerEvents(), this.registerModules()]);
+    await Promise.allSettled([this.registerEvents(), this.registerModules()]);
   }
 
   async deploy(): Promise<void> {
@@ -202,12 +201,12 @@ export class Discord extends Client {
     }
   }
 
-  async registerComponents(): Promise<void> {
+  /*async registerComponents(): Promise<void> {
     this.components.buttons.clear();
     this.components.modals.clear();
     this.components.selects.clear();
 
-    const paths = await this.loadFiles(`${join(process.cwd(), "src/components")}/**/*.{ts,js}`);
+    const paths = await this.loadFiles(`${join(process.cwd());
 
     for (const path of paths) {
       const componentPath = this.resolve(path);
@@ -225,7 +224,7 @@ export class Discord extends Client {
         collections[directory].set(component.name, component);
       }
     }
-  }
+  }*/
 
   async registerEvents(): Promise<void> {
     this.removeAllListeners();
@@ -263,10 +262,10 @@ export class Discord extends Client {
 
 type Commands = "CHAT" | "USER";
 
-type Components = "BUTTONS" | "MODALS" | "SELECTS";
+// type Components = "BUTTONS" | "MODALS" | "SELECTS";
 
 type CommandCollections =
   | Collection<string, Parameters<typeof createChatInput>[0] | Nullish>
   | Collection<string, Parameters<typeof createUserCommand>[0] | Nullish>;
 
-type ComponentCollections = Collection<string, Component | Nullish> | Collection<string, Modal | Nullish>;
+// type ComponentCollections = Collection<string, Component | Nullish> | Collection<string, Modal | Nullish>;

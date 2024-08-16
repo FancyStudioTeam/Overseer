@@ -9,11 +9,8 @@ import {
   ButtonStyles,
   ChannelTypes,
   type CommandInteraction,
-  type ComponentInteraction,
-  ComponentTypes,
   InteractionTypes,
   MessageFlags,
-  type ModalSubmitInteraction,
 } from "oceanic.js";
 import { Colors, Emojis, Links } from "#constants";
 import { client } from "#index";
@@ -23,7 +20,7 @@ import { prisma } from "#util/Prisma.js";
 import { UnixType, checkMemberPermissions, errorMessage, formatUnix, handleError, parseEmoji } from "#util/Util.js";
 
 const commandRateLimiter = new RateLimitManager(5000, 3);
-const componentRateLimiter = new RateLimitManager(7000, 5);
+// const componentRateLimiter = new RateLimitManager(7000, 5);
 
 client.on("interactionCreate", async (interaction) => {
   if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
@@ -128,7 +125,7 @@ client.on("interactionCreate", async (interaction) => {
 
       break;
     }
-    case InteractionTypes.MESSAGE_COMPONENT: {
+    /*case InteractionTypes.MESSAGE_COMPONENT: {
       const rateLimit = componentRateLimiter.acquire(interaction.user.id);
 
       if (rateLimit.limited) {
@@ -182,7 +179,7 @@ client.on("interactionCreate", async (interaction) => {
       });
 
       break;
-    }
+    }*/
   }
 });
 
@@ -321,7 +318,7 @@ async function handleAutocomplete({
   }
 }
 
-async function handleButton({
+/*async function handleButton({
   interaction,
   locale,
   timezone,
@@ -473,4 +470,4 @@ async function handleModalSubmit({
       });
     });
   }
-}
+}*/
