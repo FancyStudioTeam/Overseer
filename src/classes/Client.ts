@@ -161,8 +161,6 @@ export class Discord extends Client {
       const commandPath = this.resolve(path);
       const command = require(commandPath).default;
 
-      console.log(command);
-
       if (command?.name) {
         const dividedPath = commandPath.split(sep);
         const directory = <Commands>dividedPath[dividedPath.length - 3].toUpperCase();
