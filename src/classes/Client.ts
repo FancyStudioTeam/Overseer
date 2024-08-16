@@ -2,7 +2,8 @@ import { join, sep } from "node:path";
 import type { Nullish } from "@sapphire/utilities";
 import { glob } from "glob";
 import { Client, Collection, type CreateApplicationCommandOptions } from "oceanic.js";
-import type { ChatInputCommand, ChatInputSubCommand, Component, Modal, UserCommand } from "#types";
+import type { Component, Modal } from "#types";
+import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
 
@@ -10,15 +11,15 @@ const commandsArray: CreateApplicationCommandOptions[] = [];
 
 export class Discord extends Client {
   readonly interactions: {
-    chatInput: Collection<string, ChatInputCommand | Nullish>;
-    user: Collection<string, UserCommand | Nullish>;
+    chatInput: Collection<string, Parameters<typeof createChatInput>[0] | Nullish>;
+    user: Collection<string, Parameters<typeof createUserCommand>[0] | Nullish>;
   };
   readonly components: {
     buttons: Collection<string, Component | Nullish>;
     selects: Collection<string, Component | Nullish>;
     modals: Collection<string, Modal | Nullish>;
   };
-  readonly subCommands: Collection<string, ChatInputSubCommand | Nullish>;
+  readonly subCommands: Collection<string, Parameters<typeof createChatInputSubCommand>[0] | Nullish>;
   readonly readyAt: Date;
 
   constructor() {
@@ -161,6 +162,8 @@ export class Discord extends Client {
       const commandPath = this.resolve(path);
       const command = require(commandPath).default;
 
+      console.log(command);
+
       if (command?.name) {
         const dividedPath = commandPath.split(sep);
         const directory = <Commands>dividedPath[dividedPath.length - 3].toUpperCase();
@@ -262,6 +265,8 @@ type Commands = "CHAT" | "USER";
 
 type Components = "BUTTONS" | "MODALS" | "SELECTS";
 
-type CommandCollections = Collection<string, ChatInputCommand | Nullish> | Collection<string, UserCommand | Nullish>;
+type CommandCollections =
+  | Collection<string, Parameters<typeof createChatInput>[0] | Nullish>
+  | Collection<string, Parameters<typeof createUserCommand>[0] | Nullish>;
 
 type ComponentCollections = Collection<string, Component | Nullish> | Collection<string, Modal | Nullish>;
