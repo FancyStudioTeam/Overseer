@@ -27,7 +27,6 @@
     "@types/js-yaml": "4.0.9",
     "@types/node": "22.3.0",
     "@types/url-regex-safe": "1.0.2",
-    "cross-env": "7.0.3",
     "husky": "9.1.4",
     "lint-staged": "15.2.9",
     "prisma": "5.18.0",
@@ -56,9 +55,9 @@
   "scripts": {
     "biome": "biome check --write --config-path=\"./biome.json\" .",
     "build": "tsc",
-    "dev": "cross-env NODE_ENV=development tsx watch --ignore ./src/locales src/Index.ts",
+    "dev": "tsx watch --ignore ./src/locales src/Index.ts",
     "prepare": "husky",
-    "start": "cross-env NODE_ENV=production cd dist && node src/Index.js"
+    "start": "node src/Index.js"
   },
   "version": "0.0.2_alpha"
 }

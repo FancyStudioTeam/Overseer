@@ -2,7 +2,7 @@ import { join, sep } from "node:path";
 import type { Nullish } from "@sapphire/utilities";
 import { glob } from "glob";
 import { Client, Collection, type CreateApplicationCommandOptions } from "oceanic.js";
-import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers";
+import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers.js";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
 
