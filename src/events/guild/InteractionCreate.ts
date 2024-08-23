@@ -15,9 +15,16 @@ import {
 import { Colors, Emojis, Links } from "#constants";
 import { client } from "#index";
 import { Translations } from "#translations";
-import { CheckPermissionsFrom, type Locales } from "#types";
+import type { Locales } from "#types";
 import { prisma } from "#util/Prisma.js";
-import { UnixType, checkMemberPermissions, errorMessage, formatUnix, handleError, parseEmoji } from "#util/Util.js";
+import {
+  CheckPermissionsFrom,
+  checkMemberPermissions,
+  errorMessage,
+  formatUnix,
+  handleError,
+  parseEmoji,
+} from "#util/Util.js";
 
 const commandRateLimiter = new RateLimitManager(5000, 3);
 // const componentRateLimiter = new RateLimitManager(7000, 5);
@@ -75,10 +82,7 @@ client.on("interactionCreate", async (interaction) => {
         return await errorMessage({
           context: interaction,
           message: Translations[locale].GLOBAL.USER_IS_LIMITED({
-            resets: formatUnix({
-              date: new Date(rateLimit.expires),
-              type: UnixType.RELATIVE,
-            }),
+            resets: formatUnix(new Date(rateLimit.expires)),
           }),
         });
       }
