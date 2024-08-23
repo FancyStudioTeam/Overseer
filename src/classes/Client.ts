@@ -122,7 +122,7 @@ export class Discord extends Client {
     })();
   }
 
-  async init(): Promise<void> {
+  async init() {
     await this.connect();
     await prisma
       .$connect()
@@ -140,7 +140,7 @@ export class Discord extends Client {
     await Promise.allSettled([this.registerEvents(), this.registerModules()]);
   }
 
-  async deploy(): Promise<void> {
+  async deploy() {
     await this.registerCommands();
     await this.rest.applications.bulkEditGlobalCommands(this.application.id, commandsArray).then((commands) => {
       logger({
@@ -149,7 +149,7 @@ export class Discord extends Client {
     });
   }
 
-  async registerCommands(): Promise<void> {
+  async registerCommands() {
     this.interactions.chatInput.clear();
     this.interactions.user.clear();
 
@@ -175,7 +175,7 @@ export class Discord extends Client {
     }
   }
 
-  async registerSubCommands(): Promise<void> {
+  async registerSubCommands() {
     this.subCommands.clear();
 
     const paths = await this.loadFiles(`${join(process.cwd(), "src/commands/Chat")}/*/*/*.{ts,js}`);
@@ -224,7 +224,7 @@ export class Discord extends Client {
     }
   }*/
 
-  async registerEvents(): Promise<void> {
+  async registerEvents() {
     this.removeAllListeners();
 
     const paths = await this.loadFiles(`${join(process.cwd(), "src/events")}/*/*.{ts,js}`);
@@ -236,7 +236,7 @@ export class Discord extends Client {
     }
   }
 
-  async registerModules(): Promise<void> {
+  async registerModules() {
     const paths = await this.loadFiles(`${join(process.cwd(), "src/modules")}/*.{ts,js}`);
 
     for (const path of paths) {
@@ -247,11 +247,11 @@ export class Discord extends Client {
     }
   }
 
-  private resolve(path: string): string {
+  private resolve(path: string) {
     return path.split(sep).includes("dist") ? path : join(process.cwd(), path);
   }
 
-  private async loadFiles(path: string | string[]): Promise<string[]> {
+  private async loadFiles(path: string | string[]) {
     return await glob(path, {
       ignore: ["node_modules/**"],
     });
