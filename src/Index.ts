@@ -1,5 +1,4 @@
 import "dotenv/config";
-
 import { init } from "@sentry/node";
 import { User } from "oceanic.js";
 import { Discord } from "#client";
