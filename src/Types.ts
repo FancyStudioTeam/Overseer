@@ -29,8 +29,3 @@ export enum Directories {
   MODERATION,
   UTILITY,
 }
-
-export enum CheckPermissionsFrom {
-  GUILD,
-  CHANNEL,
-}
