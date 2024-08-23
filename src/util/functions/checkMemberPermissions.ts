@@ -3,8 +3,6 @@ import { Embed } from "oceanic-builders";
 import {
   type AnyInteractionGateway,
   type AnyTextableGuildChannel,
-  type CreateMessageOptions,
-  type InteractionContent,
   type Member,
   type Message,
   MessageFlags,
@@ -45,26 +43,25 @@ export const checkMemberPermissions = async (
       ? !channel?.permissionsOf(member).has(permission)
       : !member.permissions.has(permission),
   );
-  const messagePayload: CreateMessageOptions & InteractionContent = {
-    embeds: new Embed()
-      .setDescription(
-        Translations[locale].GLOBAL.PERMISSIONS[channelOrGuild][clientOrUser]({
-          permissions: missingPermissions
-            .map((permission, _) => {
-              return inlineCodeBlock(Translations[locale].PERMISSIONS[permission]);
-            })
-            .join(", "),
-          channel: channel?.mention ?? "",
-        }),
-      )
-      .setColor(Colors.RED)
-      .toJSON(true),
-    flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
-  };
 
   if (missingPermissions.length > 0) {
     hasPermissions = false;
-    await createMessage(context, messagePayload);
+    await createMessage(context, {
+      embeds: new Embed()
+        .setDescription(
+          Translations[locale].GLOBAL.PERMISSIONS[channelOrGuild][clientOrUser]({
+            permissions: missingPermissions
+              .map((permission, _) => {
+                return inlineCodeBlock(Translations[locale].PERMISSIONS[permission]);
+              })
+              .join(", "),
+            channel: channel?.mention ?? "",
+          }),
+        )
+        .setColor(Colors.RED)
+        .toJSON(true),
+      flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
+    });
   }
 
   return hasPermissions;
