@@ -35,7 +35,7 @@
       "#base": ["./src/classes/Base.ts"],
       "#client": ["./src/classes/Client.ts"],
       "#constants": ["./src/util/Constants.ts"],
-      "#index": ["./src/Index.ts"],
+      "#index": ["./src/index.ts"],
       "#package": ["./package.json"],
       "#translations": ["./src/locales/Index.ts"],
       "#types": ["./src/Types.ts"],

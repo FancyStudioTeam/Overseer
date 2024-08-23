@@ -36,7 +36,7 @@
     "#base": "./src/classes/Base.js",
     "#client": "./src/classes/Client.js",
     "#constants": "./src/util/Constants.js",
-    "#index": "./src/Index.js",
+    "#index": "./src/index.js",
     "#package": "./package.json",
     "#translations": "./src/locales/Index.js",
     "#types": "./src/Types.js",
