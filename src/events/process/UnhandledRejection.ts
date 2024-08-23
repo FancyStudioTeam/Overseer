@@ -5,8 +5,7 @@ process.on("unhandledRejection", (error) => {
   captureException(error);
 
   if (error instanceof Error) {
-    logger({
-      content: `Unhandled Rejection: ${error.stack ?? error.message}`,
+    logger(`Unhandled Rejection: ${error.stack ?? error.message}`, {
       type: LoggerType.ERROR,
     });
   }

@@ -23,6 +23,9 @@ export class Discord extends Client {
 
   constructor() {
     super({
+      allowedMentions: {
+        everyone: false,
+      },
       auth: `Bot ${process.env.CLIENT_TOKEN}`,
       collectionLimits: {
         auditLogEntries: 0,
@@ -46,11 +49,11 @@ export class Discord extends Client {
         voiceMembers: 0,
         voiceStates: 0,
       },
+      defaultImageFormat: "png",
+      defaultImageSize: 512,
       gateway: {
-        intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "MESSAGE_CONTENT"],
-        maxShards: "auto",
-        concurrency: "auto",
         autoReconnect: true,
+        concurrency: "auto",
         dispatcher: {
           blacklist: [
             "APPLICATION_COMMAND_PERMISSIONS_UPDATE",
@@ -96,11 +99,8 @@ export class Discord extends Client {
           ],
           whitelist: ["INTERACTION_CREATE", "MESSAGE_CREATE", "READY", "RESUMED"],
         },
-      },
-      defaultImageSize: 512,
-      defaultImageFormat: "png",
-      allowedMentions: {
-        everyone: false,
+        intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_MESSAGES", "MESSAGE_CONTENT"],
+        maxShards: "auto",
       },
     });
 
@@ -126,27 +126,20 @@ export class Discord extends Client {
     await this.connect();
     await prisma
       .$connect()
-      .then(() => {
-        logger({
-          content: "Prisma Client has been connected",
-        });
-      })
-      .catch((error) => {
-        logger({
-          content: `Prisma Client had an error while connecting: ${error.stack ?? error.message}`,
+      .then(() => logger("Prisma Client has been connected"))
+      .catch((error) =>
+        logger(error.stack ?? error.message, {
           type: LoggerType.ERROR,
-        });
-      });
+        }),
+      );
     await Promise.allSettled([this.registerEvents(), this.registerModules()]);
   }
 
   async deploy() {
     await this.registerCommands();
-    await this.rest.applications.bulkEditGlobalCommands(this.application.id, commandsArray).then((commands) => {
-      logger({
-        content: `The interactions has been deployed | Deployed ${commands.length} interactions`,
-      });
-    });
+    await this.rest.applications
+      .bulkEditGlobalCommands(this.application.id, commandsArray)
+      .then((commands) => logger(`The interactions have been deployed | Deployed ${commands.length} interactions`));
   }
 
   async registerCommands() {

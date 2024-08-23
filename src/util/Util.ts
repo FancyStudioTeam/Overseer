@@ -325,13 +325,16 @@ export async function checkMemberPermissions(
   return hasPermissions;
 }
 
-export function logger({
-  content,
-  type = LoggerType.INFO,
-}: {
-  content: string;
-  type?: LoggerType;
-}): void {
+export const logger = (
+  content: string,
+  {
+    type,
+  }: {
+    type: LoggerType;
+  } = {
+    type: LoggerType.INFORMATION,
+  },
+) => {
   const array = (elements: string[]): string[] => ["", ...elements, ""];
   const spaces = (content: string, max: number): string => {
     const spaces = " ".repeat(max);
@@ -353,10 +356,10 @@ export function logger({
     [LoggerType.DEBUG]: colors.brightMagenta(
       [array([timestamp, spaces("DBG", 1)]).join(colors.bgBrightMagenta(" ")), content].join(" "),
     ),
-    [LoggerType.WARN]: colors.brightYellow(
+    [LoggerType.WARNING]: colors.brightYellow(
       [array([timestamp, spaces("WRN", 1)]).join(colors.bgBrightYellow(" ")), content].join(" "),
     ),
-    [LoggerType.INFO]: colors.brightBlue(
+    [LoggerType.INFORMATION]: colors.brightBlue(
       [array([timestamp, spaces("INF", 1)]).join(colors.bgBrightBlue(" ")), content].join(" "),
     ),
     [LoggerType.REQUEST]: colors.brightCyan(
@@ -365,7 +368,7 @@ export function logger({
   };
 
   console.log(levels[type]);
-}
+};
 
 export async function handleError({
   context,
@@ -377,8 +380,7 @@ export async function handleError({
   locale: Locales;
 }): Promise<void> {
   captureException(error);
-  logger({
-    content: error.stack ?? error.message,
+  logger(error.stack ?? error.message, {
     type: LoggerType.ERROR,
   });
 
@@ -429,8 +431,8 @@ export type AvailableSearchTypes = string;
 export enum LoggerType {
   ERROR,
   DEBUG,
-  WARN,
-  INFO,
+  WARNING,
+  INFORMATION,
   REQUEST,
 }
 
