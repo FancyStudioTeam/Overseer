@@ -54,9 +54,9 @@
   "scripts": {
     "biome": "biome check --write --config-path=\"./biome.json\" .",
     "build": "tsc",
-    "dev": "tsx watch --ignore ./src/locales src/Index.ts",
+    "dev": "tsx watch --ignore ./src/locales src/index.ts",
     "prepare": "husky",
-    "start": "node src/Index.js"
+    "start": "node src/index.js"
   },
   "version": "0.0.2_alpha"
 }
