@@ -1,55 +1,30 @@
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { captureException } from "@sentry/node";
-import { ActionRow, Button, Embed } from "oceanic-builders";
-import {
-  type AnyInteractionGateway,
-  ButtonStyles,
-  type CreateMessageOptions,
-  type InteractionContent,
-  type Message,
-} from "oceanic.js";
-import { Colors, Emojis, Links } from "#constants";
-import { Translations } from "#translations";
-import type { Locales } from "#types";
+import { Attachment, Embed } from "oceanic-builders";
+import type { AnyInteractionGateway, Message } from "oceanic.js";
+import { Colors } from "#constants";
+import { createErrorCardImage } from "#util/Canvas";
 import { createMessage } from "./createMessage";
 import { LoggerType, logger } from "./logger";
-import { parseEmoji } from "./parseEmoji";
 
-export const handleError = async ({
-  context,
-  error,
-  locale,
-}: {
-  context: AnyInteractionGateway | Message;
-  error: Error;
-  locale: Locales;
-}) => {
+export const handleError = async (
+  error: Error,
+  {
+    context,
+  }: {
+    context: AnyInteractionGateway | Message;
+  },
+) => {
   captureException(error);
   logger(error.stack ?? error.message, {
     type: LoggerType.ERROR,
   });
 
-  const id = DiscordSnowflake.generate().toString();
-  const messagePayload: CreateMessageOptions & InteractionContent = {
-    embeds: new Embed()
-      .setDescription(
-        Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.MESSAGE_1({
-          name: error.name,
-          id,
-        }),
-      )
-      .setColor(Colors.RED)
-      .toJSON(true),
-    components: new ActionRow()
-      .addComponents([
-        new Button()
-          .setLabel(Translations[locale].GLOBAL.SOMETHING_WENT_WRONG.COMPONENTS.BUTTONS.SUPPORT.LABEL)
-          .setStyle(ButtonStyles.LINK)
-          .setEmoji(parseEmoji(Emojis.LIFE_BUOY))
-          .setURL(Links.SUPPORT),
-      ])
-      .toJSON(true),
-  };
+  const reportID = DiscordSnowflake.generate().toString();
+  const errorCardImage = await createErrorCardImage(reportID);
 
-  await createMessage(context, messagePayload);
+  await createMessage(context, {
+    embeds: new Embed().setImage("attachment://ErrorCard.png").setColor(Colors.RED).toJSON(true),
+    files: new Attachment().setContents(errorCardImage).setName("ErrorCard.png").toJSON(true),
+  });
 };
