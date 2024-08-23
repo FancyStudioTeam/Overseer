@@ -2,7 +2,7 @@ import colors from "@colors/colors";
 import { escapeMarkdown } from "@discordjs/formatters";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Timestamp } from "@sapphire/time-utilities";
-import { type Awaitable, type Nullish, cutText, inlineCodeBlock } from "@sapphire/utilities";
+import { cutText, inlineCodeBlock } from "@sapphire/utilities";
 import { captureException } from "@sentry/node";
 import { ActionRow, Button, Embed } from "oceanic-builders";
 import {
@@ -10,7 +10,6 @@ import {
   type AnyTextableGuildChannel,
   ButtonStyles,
   type CreateMessageOptions,
-  type Guild,
   type InteractionContent,
   type Member,
   type Message,
@@ -18,7 +17,6 @@ import {
   type NullablePartialEmoji,
   type PermissionName,
   type Role,
-  type User,
 } from "oceanic.js";
 import { match } from "ts-pattern";
 import urlRegex from "url-regex-safe";
@@ -26,41 +24,6 @@ import { Colors, Emojis, Links } from "#constants";
 import { client } from "#index";
 import { Translations } from "#translations";
 import { CheckPermissionsFrom, type Locales } from "#types";
-
-export async function fetchUser({
-  type,
-  userID,
-}: {
-  type: FetchFrom;
-  userID: string;
-}): Promise<User | Nullish> {
-  return match(type)
-    .returnType<Awaitable<User | Nullish>>()
-    .with(FetchFrom.DEFAULT, async () => client.users.get(userID) ?? (await client.rest.users.get(userID)))
-    .with(FetchFrom.CACHE, () => client.users.get(userID))
-    .with(FetchFrom.REST, async () => await client.rest.users.get(userID))
-    .otherwise(() => undefined);
-}
-
-export async function fetchMember({
-  guild,
-  memberID,
-  type,
-}: {
-  guild: Guild;
-  memberID: string;
-  type: FetchFrom;
-}): Promise<Member | Nullish> {
-  return match(type)
-    .returnType<Awaitable<Member | Nullish>>()
-    .with(
-      FetchFrom.DEFAULT,
-      async () => guild.members.get(memberID) ?? (await client.rest.guilds.getMember(guild.id, memberID)),
-    )
-    .with(FetchFrom.CACHE, () => guild.members.get(memberID))
-    .with(FetchFrom.REST, async () => await client.rest.guilds.getMember(guild.id, memberID))
-    .otherwise(() => undefined);
-}
 
 export function sanitizeString({
   content,
@@ -451,10 +414,4 @@ export enum UnixType {
   LONG_DATE_TIME,
   LONG_TIME,
   LONG_DATE,
-}
-
-export enum FetchFrom {
-  DEFAULT,
-  CACHE,
-  REST,
 }

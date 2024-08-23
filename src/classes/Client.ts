@@ -1,7 +1,15 @@
 import { join, sep } from "node:path";
-import type { Nullish } from "@sapphire/utilities";
+import type { Awaitable, Nullish } from "@sapphire/utilities";
 import { glob } from "glob";
-import { Client, Collection, type CreateApplicationCommandOptions } from "oceanic.js";
+import {
+  Client,
+  Collection,
+  type CreateApplicationCommandOptions,
+  type Guild,
+  type Member,
+  type User,
+} from "oceanic.js";
+import { match } from "ts-pattern";
 import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers.js";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
@@ -240,6 +248,42 @@ export class Discord extends Client {
     }
   }
 
+  async fetchUser(
+    userID: string,
+    {
+      type,
+    }: {
+      type: FetchFrom;
+    },
+  ): Promise<User | Nullish> {
+    return match(type)
+      .returnType<Awaitable<User | Nullish>>()
+      .with(FetchFrom.DEFAULT, async () => this.users.get(userID) ?? (await this.rest.users.get(userID)))
+      .with(FetchFrom.CACHE, () => this.users.get(userID))
+      .with(FetchFrom.REST, async () => await this.rest.users.get(userID))
+      .otherwise(() => undefined);
+  }
+
+  async fetchMember(
+    guild: Guild,
+    memberID: string,
+    {
+      type,
+    }: {
+      type: FetchFrom;
+    },
+  ): Promise<Member | Nullish> {
+    return match(type)
+      .returnType<Awaitable<Member | Nullish>>()
+      .with(
+        FetchFrom.DEFAULT,
+        async () => guild.members.get(memberID) ?? (await this.rest.guilds.getMember(guild.id, memberID)),
+      )
+      .with(FetchFrom.CACHE, () => guild.members.get(memberID))
+      .with(FetchFrom.REST, async () => await this.rest.guilds.getMember(guild.id, memberID))
+      .otherwise(() => undefined);
+  }
+
   private resolve(path: string) {
     return path.split(sep).includes("dist") ? path : join(process.cwd(), path);
   }
@@ -260,3 +304,9 @@ type CommandCollections =
   | Collection<string, Parameters<typeof createUserCommand>[0] | Nullish>;
 
 // type ComponentCollections = Collection<string, Component | Nullish> | Collection<string, Modal | Nullish>;
+
+export enum FetchFrom {
+  DEFAULT,
+  CACHE,
+  REST,
+}
