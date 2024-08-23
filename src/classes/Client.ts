@@ -254,6 +254,8 @@ export class Discord extends Client {
       type,
     }: {
       type: FetchFrom;
+    } = {
+      type: FetchFrom.DEFAULT,
     },
   ): Promise<User | Nullish> {
     return match(type)
@@ -271,6 +273,8 @@ export class Discord extends Client {
       type,
     }: {
       type: FetchFrom;
+    } = {
+      type: FetchFrom.DEFAULT,
     },
   ): Promise<Member | Nullish> {
     return match(type)
