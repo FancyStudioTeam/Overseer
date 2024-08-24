@@ -1,0 +1,15 @@
+model GuildAutomation {
+  id        String                 @id @default(auto()) @map("_id") @db.ObjectId
+  guildId   String                 @unique
+  general   GuildAutomationGeneral
+  createdAt DateTime               @default(now())
+}
+
+type GuildAutomationGeneral {
+  trigger GuildAutomationTrigger
+  data    Bytes
+}
+
+enum GuildAutomationTrigger {
+  ON_MESSAGE_CREATE
+}

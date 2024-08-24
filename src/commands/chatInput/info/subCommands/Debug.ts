@@ -6,7 +6,7 @@ import { createChatInputSubCommand } from "#util/Handlers.js";
 
 export default createChatInputSubCommand({
   name: "debug",
-  run: async ({ context, locale }) => {
+  run: async ({ context, locale }) =>
     await context.reply({
       embeds: new Embed()
         .setTitle(Translations[locale].COMMANDS.INFORMATION.DEBUG.MESSAGE_1.TITLE_1)
@@ -18,6 +18,5 @@ export default createChatInputSubCommand({
         )
         .setColor(Colors.COLOR)
         .toJSON(true),
-    });
-  },
+    }),
 });
