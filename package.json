@@ -40,7 +40,7 @@
     "#index": "./src/index.js",
     "#package": "./package.json",
     "#translations": "./src/locales/Index.js",
-    "#types": "./src/Types.js",
+    "#types": "./src/types.js",
     "#util/*": "./src/util/*"
   },
   "license": "BSD-3-Clause",
