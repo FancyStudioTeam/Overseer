@@ -41,7 +41,7 @@ const handle = async <
   if (!(context.inCachedGuildChannel() && context.guild)) return;
 
   const data = collection.get(key);
-  const { locale, premium, variable } = handleArguments;
+  const { locale } = handleArguments;
 
   if (data) {
     if ("permissions" in data) {
@@ -69,10 +69,8 @@ const handle = async <
     if ("run" in data) {
       const result = await Result.fromAsync(async () => {
         await data.run({
+          ...handleArguments,
           context,
-          locale,
-          premium,
-          variable,
         });
       });
 
