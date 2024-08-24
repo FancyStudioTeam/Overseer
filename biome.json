@@ -3,15 +3,12 @@
   "files": {
     "ignore": ["dist", "node_modules"]
   },
-  "organizeImports": {
-    "enabled": true
-  },
   "formatter": {
     "enabled": true,
+    "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "crlf",
-    "lineWidth": 120,
-    "indentStyle": "space"
+    "lineWidth": 120
   },
   "json": {
     "formatter": {
@@ -22,30 +19,32 @@
     "enabled": true,
     "rules": {
       "all": true,
-      "suspicious": {
-        "noConsoleLog": "off",
-        "noAssignInExpressions": "off"
-      },
-      "style": {
-        "noDefaultExport": "off",
-        "noNamespaceImport": "off",
-        "useBlockStatements": "off",
-        "useEnumInitializers": "off",
-        "useNamingConvention": "off",
-        "useFilenamingConvention": {
-          "level": "error",
-          "options": {
-            "filenameCases": ["export", "PascalCase", "camelCase"]
-          }
-        },
-        "noNamespace": "off"
-      },
       "complexity": {
         "noExcessiveCognitiveComplexity": "off"
       },
       "correctness": {
         "noNodejsModules": "off"
+      },
+      "style": {
+        "noDefaultExport": "off",
+        "noNamespace": "off",
+        "noNamespaceImport": "off",
+        "useBlockStatements": "off",
+        "useEnumInitializers": "off",
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["export", "PascalCase", "camelCase"]
+          }
+        }
+      },
+      "suspicious": {
+        "noAssignInExpressions": "off",
+        "noConsoleLog": "off"
       }
     }
+  },
+  "organizeImports": {
+    "enabled": true
   }
 }
