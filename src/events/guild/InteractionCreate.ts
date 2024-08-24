@@ -67,18 +67,20 @@ const handle = async <
     }
 
     if ("run" in data) {
-      const result = await Result.fromAsync(async () => {
-        await data.run({
-          ...handleArguments,
-          context,
-        });
-      });
+      const result = await Result.fromAsync(
+        async () =>
+          await data.run({
+            ...handleArguments,
+            context,
+          }),
+      );
 
-      result.unwrapOrElse(async (error) => {
-        await handleError(error, {
-          context,
-        });
-      });
+      result.unwrapOrElse(
+        async (error) =>
+          await handleError(error, {
+            context,
+          }),
+      );
     }
   }
 };
