@@ -11,10 +11,8 @@ export const createChatInput = (
   createOptions: CreateChatInputApplicationCommandOptions & {
     autocomplete?: (config: {
       context: AutocompleteInteraction;
-      hour12: boolean;
       locale: Locales;
       premium: boolean;
-      timezone: string;
     }) => Promise<unknown>;
   },
 ) => createOptions;
@@ -27,10 +25,8 @@ export const createChatInputSubCommand = (createOptions: {
   };
   run: (config: {
     context: CommandInteraction;
-    hour12: boolean;
     locale: Locales;
     premium: boolean;
-    timezone: string;
     variable?: unknown;
   }) => Promise<unknown>;
 }) => createOptions;
@@ -39,10 +35,8 @@ export const createUserCommand = (
   createOptions: CreateUserApplicationCommandOptions & {
     run: (config: {
       context: CommandInteraction;
-      hour12: boolean;
       locale: Locales;
       premium: boolean;
-      timezone: string;
     }) => Promise<unknown>;
   },
 ) => createOptions;

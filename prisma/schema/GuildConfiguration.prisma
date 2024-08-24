@@ -1,15 +1,13 @@
 model GuildConfiguration {
   id        String                           @id @default(auto()) @map("_id") @db.ObjectId
-  guildID   String                           @unique
+  guildId   String                           @unique
   general   GuildConfigurationGeneral
   premium   GuildConfigurationGeneralPremium
   createdAt DateTime                         @default(now())
 }
 
 type GuildConfigurationGeneral {
-  locale     String  @default("EN")
-  timezone   String  @default("UTC")
-  use12Hours Boolean @default(false)
+  locale String @default("EN")
 }
 
 type GuildConfigurationGeneralPremium {

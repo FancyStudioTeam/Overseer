@@ -30,10 +30,8 @@ const handle = async <
     context,
   }: {
     handleArguments: {
-      hour12: boolean;
       locale: Locales;
       premium: boolean;
-      timezone: string;
       variable?: unknown;
     };
     collection: Collection<string, MaybeNullish<C>>;
@@ -43,7 +41,7 @@ const handle = async <
   if (!(context.inCachedGuildChannel() && context.guild)) return;
 
   const data = collection.get(key);
-  const { hour12, locale, premium, timezone, variable } = handleArguments;
+  const { locale, premium, variable } = handleArguments;
 
   if (data) {
     if ("permissions" in data) {
@@ -73,8 +71,6 @@ const handle = async <
         await data.run({
           context,
           locale,
-          timezone,
-          hour12,
           premium,
           variable,
         });
@@ -97,12 +93,10 @@ client.on("interactionCreate", async (interaction) => {
 
   const guildConfiguration = await prisma.guildConfiguration.findUnique({
     where: {
-      guildID: interaction.guildID,
+      guildId: interaction.guildID,
     },
   });
   const locale = (guildConfiguration?.general.locale ?? "EN") as Locales;
-  const timezone = guildConfiguration?.general.timezone ?? "UTC";
-  const hour12 = guildConfiguration?.general.use12Hours ?? false;
   const premium = guildConfiguration?.premium.enabled ?? false;
   const clientHasMainChannelPermissions = await checkMemberPermissions(interaction.guild.clientMember, {
     channel: interaction.channel,
@@ -145,10 +139,8 @@ client.on("interactionCreate", async (interaction) => {
               `${commandInteraction.data.name}_${subCommand}`,
               {
                 handleArguments: {
-                  hour12,
                   locale,
                   premium,
-                  timezone,
                 },
                 collection: client.subCommands,
                 context: commandInteraction,
@@ -160,10 +152,8 @@ client.on("interactionCreate", async (interaction) => {
             async () =>
               await handle<Parameters<typeof createUserCommand>[0]>(commandInteraction.data.name, {
                 handleArguments: {
-                  hour12,
                   locale,
                   premium,
-                  timezone,
                 },
                 collection: client.interactions.user,
                 context: commandInteraction,

@@ -26,20 +26,20 @@ client.on("messageCreate", async (message) => {
     .with("voucher", async () => {
       const createdClientVoucher = await prisma.clientVoucher.create({
         data: {
-          voucherID: randomUUID(),
+          voucherId: randomUUID(),
           general: {
             type: "MONTH",
           },
         },
         select: {
-          voucherID: true,
+          voucherId: true,
         },
       });
       const dmChannel = await client.rest.users.createDM(message.author.id);
 
       await client.rest.channels.createMessage(dmChannel.id, {
         embeds: new Embed()
-          .setDescription(`**${Emojis.CIRCLE_CHEVRON_RIGHT} ||${createdClientVoucher.voucherID}||**`)
+          .setDescription(`**${Emojis.CIRCLE_CHEVRON_RIGHT} ||${createdClientVoucher.voucherId}||**`)
           .setColor(Colors.COLOR)
           .toJSON(true),
       });
