@@ -39,7 +39,7 @@
     "#constants": "./src/util/Constants.js",
     "#index": "./src/index.js",
     "#package": "./package.json",
-    "#translations": "./src/locales/Index.js",
+    "#translations": "./src/locales/index.js",
     "#types": "./src/types.js",
     "#util/*": "./src/util/*"
   },
