@@ -89,9 +89,8 @@ export async function pagination({
         ("user" in context && collectedInteraction.user.id !== context.user.id) ||
         ("author" in context && collectedInteraction.user.id !== context.author.id)
       ) {
-        await errorMessage({
+        await errorMessage(Translations[locale].GLOBAL.INVALID_USER_COLLECTOR, {
           context: collectedInteraction,
-          message: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
         });
 
         return false;
@@ -107,7 +106,6 @@ export async function pagination({
         await collectedInteraction.deferUpdate().catch(() => undefined);
 
         match(collectedInteraction.data.customID)
-          .returnType<void>()
           .with("pagination_left", () => (index = index > 0 ? --index : embeds.length - 1))
           .with("pagination_right", () => (index = index + 1 < embeds.length ? ++index : 0))
           .otherwise(() => undefined);

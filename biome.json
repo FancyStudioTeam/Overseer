@@ -36,6 +36,12 @@
           "options": {
             "filenameCases": ["export", "PascalCase", "camelCase"]
           }
+        },
+        "useNamingConvention": {
+          "level": "warn",
+          "options": {
+            "enumMemberCase": "CONSTANT_CASE"
+          }
         }
       },
       "suspicious": {

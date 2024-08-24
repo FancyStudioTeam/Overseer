@@ -1,6 +1,7 @@
 import { join, sep } from "node:path";
 import { glob } from "glob";
 import {
+  ApplicationCommandTypes,
   Client,
   Collection,
   type CreateApplicationCommandOptions,
@@ -9,7 +10,7 @@ import {
   type User,
 } from "oceanic.js";
 import { match } from "ts-pattern";
-import type { Awaitable, MaybeNullish } from "#types";
+import type { MaybeNullish } from "#types";
 import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers.js";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
@@ -21,11 +22,6 @@ export class Discord extends Client {
     chatInput: Collection<string, MaybeNullish<Parameters<typeof createChatInput>[0]>>;
     user: Collection<string, MaybeNullish<Parameters<typeof createUserCommand>[0]>>;
   };
-  /*readonly components: {
-    buttons: Collection<string, Component | Nullish>;
-    selects: Collection<string, Component | Nullish>;
-    modals: Collection<string, Modal | Nullish>;
-  };*/
   readonly subCommands: Collection<string, MaybeNullish<Parameters<typeof createChatInputSubCommand>[0]>>;
   readonly readyAt: Date;
 
@@ -116,11 +112,6 @@ export class Discord extends Client {
       chatInput: new Collection(),
       user: new Collection(),
     };
-    /*this.components = {
-      buttons: new Collection(),
-      selects: new Collection(),
-      modals: new Collection(),
-    };*/
     this.subCommands = new Collection();
     this.readyAt = new Date();
 
@@ -130,7 +121,7 @@ export class Discord extends Client {
     })();
   }
 
-  async init() {
+  init = async () => {
     await this.connect();
     await prisma
       .$connect()
@@ -141,114 +132,79 @@ export class Discord extends Client {
         }),
       );
     await Promise.allSettled([this.registerEvents(), this.registerModules()]);
-  }
+  };
 
-  async deploy() {
+  deploy = async () => {
     await this.registerCommands();
     await this.rest.applications
       .bulkEditGlobalCommands(this.application.id, commandsArray)
       .then((commands) => logger(`The interactions have been deployed | Deployed ${commands.length} interactions`));
-  }
+  };
 
-  async registerCommands() {
+  registerCommands = async () => {
     this.interactions.chatInput.clear();
     this.interactions.user.clear();
 
     await this.registerSubCommands();
+    await this.#loadFiles(`${join(process.cwd(), "src/commands")}/*/*/*.{ts,js}`).then((paths) => {
+      for (const path of paths) {
+        const commandPath = this.#resolve(path);
+        const command = require(commandPath).default;
 
-    const paths = await this.loadFiles(`${join(process.cwd(), "src/commands")}/*/*/*.{ts,js}`);
+        if (!("name" in command || "type" in command)) {
+          throw new Error(`Command path ${commandPath} is missing a name or type property`);
+        }
 
-    for (const path of paths) {
-      const commandPath = this.resolve(path);
-      const command = require(commandPath).default;
+        match(command.type)
+          .with(ApplicationCommandTypes.CHAT_INPUT, () => this.interactions.chatInput.set(command.name, command))
+          .with(ApplicationCommandTypes.USER, () => this.interactions.user.set(command.name, command))
+          .otherwise((type) => {
+            throw new Error(`Unknown command type: ${type}`);
+          });
 
-      if (command?.name) {
-        const dividedPath = commandPath.split(sep);
-        const directory = <Commands>dividedPath[dividedPath.length - 3].toUpperCase();
-        const collections: Record<Commands, CommandCollections> = {
-          CHAT: this.interactions.chatInput,
-          USER: this.interactions.user,
-        };
-
-        collections[directory].set(command.name, command);
         commandsArray.push(command);
       }
-    }
-  }
+    });
+  };
 
-  async registerSubCommands() {
+  registerSubCommands = async () => {
     this.subCommands.clear();
 
-    const paths = await this.loadFiles(`${join(process.cwd(), "src/commands/Chat")}/*/*/*.{ts,js}`);
+    await this.#loadFiles(`${join(process.cwd(), "src/commands/chatInput")}/*/*/*.{ts,js}`).then((paths) => {
+      for (const path of paths) {
+        const subCommandPath = this.#resolve(path);
+        const subCommand = require(subCommandPath).default;
 
-    for (const path of paths) {
-      const subCommandPath = this.resolve(path);
-      const subCommand = require(subCommandPath).default;
+        if (!("name" in subCommand || "run" in subCommand)) {
+          throw new Error(`SubCommand path ${subCommandPath} is missing a name or run property`);
+        }
 
-      if (subCommand?.name) {
         const dividedPath = subCommandPath.split(sep);
-        const directory = dividedPath[dividedPath.length - 3].toUpperCase();
-        const directories: Record<string, string> = {
-          CONFIGURATION: "CONFIG",
-          INFORMATION: "INFO",
-          MODERATION: "MOD",
-          UTILITY: "UTIL",
-        };
+        const directory = dividedPath[dividedPath.length - 3].toLowerCase();
 
-        this.subCommands.set(`${directories[directory].toLowerCase()}_${subCommand.name}`.toLowerCase(), subCommand);
+        this.subCommands.set(`${directory}_${subCommand.name}`, subCommand);
       }
-    }
-  }
+    });
+  };
 
-  /*async registerComponents(): Promise<void> {
-    this.components.buttons.clear();
-    this.components.modals.clear();
-    this.components.selects.clear();
-
-    const paths = await this.loadFiles(`${join(process.cwd());
-
-    for (const path of paths) {
-      const componentPath = this.resolve(path);
-      const component = require(componentPath).default;
-
-      if (component?.name) {
-        const dividedPath = componentPath.split(sep);
-        const directory = <Components>dividedPath[dividedPath.length - 3].toUpperCase();
-        const collections: Record<Components, ComponentCollections> = {
-          BUTTONS: this.components.buttons,
-          MODALS: this.components.modals,
-          SELECTS: this.components.selects,
-        };
-
-        collections[directory].set(component.name, component);
-      }
-    }
-  }*/
-
-  async registerEvents() {
+  registerEvents = async () => {
     this.removeAllListeners();
 
-    const paths = await this.loadFiles(`${join(process.cwd(), "src/events")}/*/*.{ts,js}`);
+    await this.#loadFiles(`${join(process.cwd(), "src/events")}/*/*.{ts,js}`).then((paths) => {
+      for (const path of paths) {
+        require(this.#resolve(path));
+      }
+    });
+  };
 
-    for (const path of paths) {
-      const eventPath = this.resolve(path);
+  registerModules = async () =>
+    await this.#loadFiles(`${join(process.cwd(), "src/modules")}/*.{ts,js}`).then((paths) => {
+      for (const path of paths) {
+        require(this.#resolve(path)).default(this);
+      }
+    });
 
-      require(eventPath);
-    }
-  }
-
-  async registerModules() {
-    const paths = await this.loadFiles(`${join(process.cwd(), "src/modules")}/*.{ts,js}`);
-
-    for (const path of paths) {
-      const modulePath = this.resolve(path);
-      const module = require(modulePath).default;
-
-      module(this);
-    }
-  }
-
-  async fetchUser(
+  fetchUser = async (
     userId: string,
     {
       type,
@@ -257,16 +213,14 @@ export class Discord extends Client {
     } = {
       type: FetchFrom.DEFAULT,
     },
-  ): Promise<MaybeNullish<User>> {
-    return match(type)
-      .returnType<Awaitable<MaybeNullish<User>>>()
+  ): Promise<MaybeNullish<User>> =>
+    match(type)
       .with(FetchFrom.DEFAULT, async () => this.users.get(userId) ?? (await this.rest.users.get(userId)))
       .with(FetchFrom.CACHE, () => this.users.get(userId))
       .with(FetchFrom.REST, async () => await this.rest.users.get(userId))
       .otherwise(() => undefined);
-  }
 
-  async fetchMember(
+  fetchMember = async (
     guild: Guild,
     memberId: string,
     {
@@ -276,9 +230,8 @@ export class Discord extends Client {
     } = {
       type: FetchFrom.DEFAULT,
     },
-  ): Promise<MaybeNullish<Member>> {
-    return match(type)
-      .returnType<Awaitable<MaybeNullish<Member>>>()
+  ): Promise<MaybeNullish<Member>> =>
+    match(type)
       .with(
         FetchFrom.DEFAULT,
         async () => guild.members.get(memberId) ?? (await this.rest.guilds.getMember(guild.id, memberId)),
@@ -286,28 +239,14 @@ export class Discord extends Client {
       .with(FetchFrom.CACHE, () => guild.members.get(memberId))
       .with(FetchFrom.REST, async () => await this.rest.guilds.getMember(guild.id, memberId))
       .otherwise(() => undefined);
-  }
 
-  private resolve(path: string) {
-    return path.split(sep).includes("dist") ? path : join(process.cwd(), path);
-  }
+  #resolve = (path: string) => (path.split(sep).includes("dist") ? path : join(process.cwd(), path));
 
-  private async loadFiles(path: string | string[]) {
-    return await glob(path, {
+  #loadFiles = async (path: string | string[]) =>
+    await glob(path, {
       ignore: ["node_modules/**"],
     });
-  }
 }
-
-type Commands = "CHAT" | "USER";
-
-// type Components = "BUTTONS" | "MODALS" | "SELECTS";
-
-type CommandCollections =
-  | Collection<string, MaybeNullish<Parameters<typeof createChatInput>[0]>>
-  | Collection<string, MaybeNullish<Parameters<typeof createUserCommand>[0]>>;
-
-// type ComponentCollections = Collection<string, Component | Nullish> | Collection<string, Modal | Nullish>;
 
 export enum FetchFrom {
   DEFAULT,
