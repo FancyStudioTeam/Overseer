@@ -152,7 +152,7 @@ export class Discord extends Client {
         const command = require(commandPath).default;
 
         if (!("name" in command || "type" in command)) {
-          throw new Error(`Command path ${commandPath} is missing a name or type property`);
+          throw new Error(`Command path "${commandPath}" is missing a name or type property`);
         }
 
         match(command.type)
@@ -176,7 +176,7 @@ export class Discord extends Client {
         const subCommand = require(subCommandPath).default;
 
         if (!("name" in subCommand || "run" in subCommand)) {
-          throw new Error(`SubCommand path ${subCommandPath} is missing a name or run property`);
+          throw new Error(`SubCommand path "${subCommandPath}" is missing a name or run property`);
         }
 
         const dividedPath = subCommandPath.split(sep);
