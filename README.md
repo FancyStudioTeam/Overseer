@@ -1,5 +1,6 @@
 <!-- markdownlint-disable -->
 <div align="center">
+  <img src="/assets/images/Overseer.png" alt="Overseer" width="200" height="200">
   <h1 align="center">Overseer</h1>
 </div>
 <!-- markdownlint-restore -->
