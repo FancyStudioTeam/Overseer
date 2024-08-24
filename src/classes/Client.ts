@@ -249,7 +249,7 @@ export class Discord extends Client {
   }
 
   async fetchUser(
-    userID: string,
+    userId: string,
     {
       type,
     }: {
@@ -260,15 +260,15 @@ export class Discord extends Client {
   ): Promise<MaybeNullish<User>> {
     return match(type)
       .returnType<Awaitable<MaybeNullish<User>>>()
-      .with(FetchFrom.DEFAULT, async () => this.users.get(userID) ?? (await this.rest.users.get(userID)))
-      .with(FetchFrom.CACHE, () => this.users.get(userID))
-      .with(FetchFrom.REST, async () => await this.rest.users.get(userID))
+      .with(FetchFrom.DEFAULT, async () => this.users.get(userId) ?? (await this.rest.users.get(userId)))
+      .with(FetchFrom.CACHE, () => this.users.get(userId))
+      .with(FetchFrom.REST, async () => await this.rest.users.get(userId))
       .otherwise(() => undefined);
   }
 
   async fetchMember(
     guild: Guild,
-    memberID: string,
+    memberId: string,
     {
       type,
     }: {
@@ -281,10 +281,10 @@ export class Discord extends Client {
       .returnType<Awaitable<MaybeNullish<Member>>>()
       .with(
         FetchFrom.DEFAULT,
-        async () => guild.members.get(memberID) ?? (await this.rest.guilds.getMember(guild.id, memberID)),
+        async () => guild.members.get(memberId) ?? (await this.rest.guilds.getMember(guild.id, memberId)),
       )
-      .with(FetchFrom.CACHE, () => guild.members.get(memberID))
-      .with(FetchFrom.REST, async () => await this.rest.guilds.getMember(guild.id, memberID))
+      .with(FetchFrom.CACHE, () => guild.members.get(memberId))
+      .with(FetchFrom.REST, async () => await this.rest.guilds.getMember(guild.id, memberId))
       .otherwise(() => undefined);
   }
 

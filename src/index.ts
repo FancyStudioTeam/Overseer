@@ -26,8 +26,8 @@ Object.defineProperty(Member.prototype, "highestRole", {
     const everyoneRole = this.guild.roles.get(this.guildID) as Role;
     const roles: Role[] = [everyoneRole];
 
-    for (const roleID of this.roles) {
-      const role = this.guild.roles.get(roleID);
+    for (const roleId of this.roles) {
+      const role = this.guild.roles.get(roleId);
 
       if (!role) continue;
 

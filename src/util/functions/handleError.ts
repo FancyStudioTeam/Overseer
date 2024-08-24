@@ -20,8 +20,8 @@ export const handleError = async (
     type: LoggerType.ERROR,
   });
 
-  const reportID = DiscordSnowflake.generate().toString();
-  const errorCardImage = await createErrorCardImage(reportID);
+  const reportId = DiscordSnowflake.generate().toString();
+  const errorCardImage = await createErrorCardImage(reportId);
 
   await createMessage(context, {
     embeds: new Embed().setImage("attachment://ErrorCard.png").setColor(Colors.RED).toJSON(true),

@@ -12,7 +12,7 @@ const loadFonts = async () => {
   });
 };
 
-export const createErrorCardImage = async (reportID: string) => {
+export const createErrorCardImage = async (reportId: string) => {
   await loadFonts();
 
   const canvas = createCanvas(1790, 900);
@@ -35,7 +35,7 @@ export const createErrorCardImage = async (reportID: string) => {
   context.fillText("We have sent a report to our support", canvas.width / 2, canvas.height / 2 + 100);
 
   context.font = `30px ${PlusJakartaSans.MEDIUM}`;
-  context.fillText(`Report ID: ${reportID}`, canvas.width / 2, canvas.height - 130);
+  context.fillText(`Report ID: ${reportId}`, canvas.width / 2, canvas.height - 130);
 
   return canvas.toBuffer("image/png");
 };
