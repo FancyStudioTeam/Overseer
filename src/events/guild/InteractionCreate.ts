@@ -1,6 +1,5 @@
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { Result } from "@sapphire/result";
-import type { Nullish } from "@sapphire/utilities";
 import {
   ApplicationCommandTypes,
   ChannelTypes,
@@ -11,6 +10,7 @@ import {
 import { match } from "ts-pattern";
 import { client } from "#index";
 import { Translations } from "#translations";
+import type { MaybeNullish } from "#types";
 import type { Locales } from "#types";
 import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers";
 import { prisma } from "#util/Prisma.js";
@@ -36,7 +36,7 @@ const handle = async <
       timezone: string;
       variable?: unknown;
     };
-    collection: Collection<string, C | Nullish>;
+    collection: Collection<string, MaybeNullish<C>>;
     context: CommandInteraction;
   },
 ) => {

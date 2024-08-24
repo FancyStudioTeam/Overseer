@@ -18,6 +18,10 @@ interface Base<T extends Interactions> {
   }) => Promise<unknown>;
 }
 
+export type MaybeNullish<T> = T | null | undefined;
+
+export type Awaitable<T> = Promise<T> | T;
+
 export type Component = Base<ComponentInteraction>;
 
 export type Modal = Base<ModalSubmitInteraction>;

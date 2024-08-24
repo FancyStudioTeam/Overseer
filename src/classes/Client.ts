@@ -1,5 +1,4 @@
 import { join, sep } from "node:path";
-import type { Awaitable, Nullish } from "@sapphire/utilities";
 import { glob } from "glob";
 import {
   Client,
@@ -10,6 +9,7 @@ import {
   type User,
 } from "oceanic.js";
 import { match } from "ts-pattern";
+import type { Awaitable, MaybeNullish } from "#types";
 import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers.js";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
@@ -18,15 +18,15 @@ const commandsArray: CreateApplicationCommandOptions[] = [];
 
 export class Discord extends Client {
   readonly interactions: {
-    chatInput: Collection<string, Parameters<typeof createChatInput>[0] | Nullish>;
-    user: Collection<string, Parameters<typeof createUserCommand>[0] | Nullish>;
+    chatInput: Collection<string, MaybeNullish<Parameters<typeof createChatInput>[0]>>;
+    user: Collection<string, MaybeNullish<Parameters<typeof createUserCommand>[0]>>;
   };
   /*readonly components: {
     buttons: Collection<string, Component | Nullish>;
     selects: Collection<string, Component | Nullish>;
     modals: Collection<string, Modal | Nullish>;
   };*/
-  readonly subCommands: Collection<string, Parameters<typeof createChatInputSubCommand>[0] | Nullish>;
+  readonly subCommands: Collection<string, MaybeNullish<Parameters<typeof createChatInputSubCommand>[0]>>;
   readonly readyAt: Date;
 
   constructor() {
@@ -257,9 +257,9 @@ export class Discord extends Client {
     } = {
       type: FetchFrom.DEFAULT,
     },
-  ): Promise<User | Nullish> {
+  ): Promise<MaybeNullish<User>> {
     return match(type)
-      .returnType<Awaitable<User | Nullish>>()
+      .returnType<Awaitable<MaybeNullish<User>>>()
       .with(FetchFrom.DEFAULT, async () => this.users.get(userID) ?? (await this.rest.users.get(userID)))
       .with(FetchFrom.CACHE, () => this.users.get(userID))
       .with(FetchFrom.REST, async () => await this.rest.users.get(userID))
@@ -276,9 +276,9 @@ export class Discord extends Client {
     } = {
       type: FetchFrom.DEFAULT,
     },
-  ): Promise<Member | Nullish> {
+  ): Promise<MaybeNullish<Member>> {
     return match(type)
-      .returnType<Awaitable<Member | Nullish>>()
+      .returnType<Awaitable<MaybeNullish<Member>>>()
       .with(
         FetchFrom.DEFAULT,
         async () => guild.members.get(memberID) ?? (await this.rest.guilds.getMember(guild.id, memberID)),
@@ -304,8 +304,8 @@ type Commands = "CHAT" | "USER";
 // type Components = "BUTTONS" | "MODALS" | "SELECTS";
 
 type CommandCollections =
-  | Collection<string, Parameters<typeof createChatInput>[0] | Nullish>
-  | Collection<string, Parameters<typeof createUserCommand>[0] | Nullish>;
+  | Collection<string, MaybeNullish<Parameters<typeof createChatInput>[0]>>
+  | Collection<string, MaybeNullish<Parameters<typeof createUserCommand>[0]>>;
 
 // type ComponentCollections = Collection<string, Component | Nullish> | Collection<string, Modal | Nullish>;
 
