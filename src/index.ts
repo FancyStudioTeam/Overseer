@@ -8,9 +8,6 @@ export const client = new Discord();
 
 init({
   dsn: process.env.SENTRY_DSN_URL,
-  _experiments: {
-    metricsAggregator: true,
-  },
   release: version,
   tracesSampleRate: 0.5,
 });

@@ -40,6 +40,20 @@
         "useNamingConvention": {
           "level": "warn",
           "options": {
+            "conventions": [
+              {
+                "formats": ["CONSTANT_CASE"],
+                "selector": {
+                  "kind": "enumMember"
+                }
+              },
+              {
+                "formats": ["camelCase", "CONSTANT_CASE", "snake_case"],
+                "selector": {
+                  "kind": "objectLiteralProperty"
+                }
+              }
+            ],
             "enumMemberCase": "CONSTANT_CASE"
           }
         }
