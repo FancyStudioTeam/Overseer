@@ -8,6 +8,7 @@ import {
   MessageFlags,
   type PermissionName,
 } from "oceanic.js";
+import { match } from "ts-pattern";
 import { Colors } from "#constants";
 import { client } from "#index";
 import { Translations } from "#translations";
@@ -32,34 +33,37 @@ export const checkMemberPermissions = async (
     type?: CheckPermissionsFrom;
   },
 ) => {
-  let hasPermissions = true;
-
   if (!(context.inCachedGuildChannel() && context.guild)) return false;
 
-  const clientOrUser = member.id === client.user.id ? "CLIENT" : "USER";
-  const channelOrGuild = type === CheckPermissionsFrom.CHANNEL ? "CHANNEL" : "GUILD";
-  const missingPermissions = permissionsToCheck.filter((permission) =>
-    channelOrGuild === "CHANNEL"
-      ? !channel?.permissionsOf(member).has(permission)
-      : !member.permissions.has(permission),
-  );
+  let hasPermissions = true;
+  let missingPermissions: PermissionName[] = [];
+  let descriptionMessage = "";
+  const isClientOrUser = member.id === client.user.id ? "CLIENT" : "USER";
 
-  if (missingPermissions.length > 0) {
+  match(type)
+    .with(CheckPermissionsFrom.CHANNEL, () => {
+      missingPermissions = permissionsToCheck.filter((permission) => !channel?.permissionsOf(member).has(permission));
+      descriptionMessage = Translations[locale].GLOBAL.PERMISSIONS.CHANNEL[isClientOrUser]({
+        permissions: missingPermissions
+          .map((permission, _) => inlineCodeBlock(Translations[locale].PERMISSIONS[permission]))
+          .join(", "),
+        channel: channel?.mention ?? "",
+      });
+    })
+    .with(CheckPermissionsFrom.GUILD, () => {
+      missingPermissions = permissionsToCheck.filter((permission) => !member.permissions.has(permission));
+      descriptionMessage = Translations[locale].GLOBAL.PERMISSIONS.GUILD[isClientOrUser]({
+        permissions: missingPermissions
+          .map((permission, _) => inlineCodeBlock(Translations[locale].PERMISSIONS[permission]))
+          .join(", "),
+      });
+    });
+
+  if (missingPermissions.length) {
     hasPermissions = false;
+
     await createMessage(context, {
-      embeds: new Embed()
-        .setDescription(
-          Translations[locale].GLOBAL.PERMISSIONS[channelOrGuild][clientOrUser]({
-            permissions: missingPermissions
-              .map((permission, _) => {
-                return inlineCodeBlock(Translations[locale].PERMISSIONS[permission]);
-              })
-              .join(", "),
-            channel: channel?.mention ?? "",
-          }),
-        )
-        .setColor(Colors.RED)
-        .toJSON(true),
+      embeds: new Embed().setDescription(descriptionMessage).setColor(Colors.RED).toJSON(true),
       flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
     });
   }
