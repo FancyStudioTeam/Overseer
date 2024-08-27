@@ -1,16 +1,8 @@
 import "dotenv/config";
-import { init } from "@sentry/node";
 import { Member, type Role, User } from "oceanic.js";
 import { Discord } from "#client";
-import { version } from "#package";
 
 export const client = new Discord();
-
-init({
-  dsn: process.env.SENTRY_DSN_URL,
-  release: version,
-  tracesSampleRate: 0.5,
-});
 
 Object.defineProperty(User.prototype, "name", {
   get: function () {
