@@ -1,5 +1,4 @@
 import { DiscordSnowflake } from "@sapphire/snowflake";
-import { captureException } from "@sentry/node";
 import { Attachment, Embed } from "oceanic-builders";
 import type { AnyInteractionGateway, Message } from "oceanic.js";
 import { Colors } from "#constants";
@@ -15,7 +14,6 @@ export const handleError = async (
     context: AnyInteractionGateway | Message;
   },
 ) => {
-  captureException(error);
   logger(error.stack ?? error.message, {
     type: LoggerType.ERROR,
   });
