@@ -3,4 +3,3 @@ node_modules
 dist
 .VSCodeCounter
 seed.ts
-pnpm-lock.yaml
