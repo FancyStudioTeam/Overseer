@@ -2,6 +2,7 @@ import type {
   AutocompleteInteraction,
   CommandInteraction,
   ComponentInteraction,
+  ComponentTypes,
   CreateChatInputApplicationCommandOptions,
   CreateUserApplicationCommandOptions,
   Message,
@@ -53,6 +54,15 @@ export const createUserCommand = (
 
 export const createComponent = (createOptions: {
   name: string;
+  type: Exclude<
+    ComponentTypes,
+    | ComponentTypes.ACTION_ROW
+    | ComponentTypes.CONTENT_INVENTORY_ENTRY
+    | ComponentTypes.MEDIA_GALLERY
+    | ComponentTypes.SEPARATOR
+    | ComponentTypes.TEXT
+    | ComponentTypes.TEXT_INPUT
+  >;
   run: (config: {
     context: ComponentInteraction;
     locale: Locales;
