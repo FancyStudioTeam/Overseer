@@ -13,7 +13,9 @@ export default createPrefixCommand({
     const command = args.join(" ");
 
     if (!command) {
-      return await errorMessage(`**${Emojis.CIRCLE_X_COLOR} You need a command to execute**`, { context });
+      return await errorMessage(`**${Emojis.CIRCLE_X_COLOR} You need a command to execute**`, {
+        context,
+      });
     }
 
     return exec(`cd "${process.cwd()}" && ${command}`, async (error: MaybeNullish<ExecException>, result: string) => {
