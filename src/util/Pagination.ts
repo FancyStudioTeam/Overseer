@@ -49,18 +49,18 @@ export async function pagination({
     components: new ActionRow()
       .addComponents([
         new Button()
-          .setCustomID("@pagination_left")
+          .setCustomID("@pagination/left")
           .setStyle(ButtonStyles.SECONDARY)
           .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_LEFT))
           .setDisabled(embeds.length < 2),
         new Button()
-          .setCustomID("@pagination_pages")
+          .setCustomID("@pagination/pages")
           .setStyle(ButtonStyles.SECONDARY)
           .setLabel(`${index + 1}/${embeds.length}`)
           .setEmoji(parseEmoji(Emojis.EXPLORE))
           .setDisabled(true),
         new Button()
-          .setCustomID("@pagination_right")
+          .setCustomID("@pagination/right")
           .setStyle(ButtonStyles.SECONDARY)
           .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_RIGHT))
           .setDisabled(embeds.length < 2),
@@ -106,8 +106,8 @@ export async function pagination({
         await collectedInteraction.deferUpdate().catch(() => undefined);
 
         match(collectedInteraction.data.customID)
-          .with("@pagination_left", () => (index = index > 0 ? --index : embeds.length - 1))
-          .with("@pagination_right", () => (index = index + 1 < embeds.length ? ++index : 0))
+          .with("@pagination/left", () => (index = index > 0 ? --index : embeds.length - 1))
+          .with("@pagination/right", () => (index = index + 1 < embeds.length ? ++index : 0))
           .otherwise(() => undefined);
 
         const row = replyMessage.components[0].components;

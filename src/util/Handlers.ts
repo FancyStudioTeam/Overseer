@@ -1,6 +1,7 @@
 import type {
   AutocompleteInteraction,
   CommandInteraction,
+  ComponentInteraction,
   CreateChatInputApplicationCommandOptions,
   CreateUserApplicationCommandOptions,
   Message,
@@ -49,3 +50,13 @@ export const createUserCommand = (
     }) => Promise<unknown>;
   },
 ) => createOptions;
+
+export const createComponent = (createOptions: {
+  name: string;
+  run: (config: {
+    context: ComponentInteraction;
+    locale: Locales;
+    premium: boolean;
+    variable?: unknown;
+  }) => Promise<unknown>;
+}) => createOptions;
