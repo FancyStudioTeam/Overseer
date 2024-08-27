@@ -12,14 +12,14 @@ import { client } from "#index";
 import { Translations } from "#translations";
 import type { MaybeNullish } from "#types";
 import type { Locales } from "#types";
-import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers";
+import type { createChatInputCommand, createChatInputSubCommand, createUserCommand } from "#util/Handlers";
 import { prisma } from "#util/Prisma.js";
 import { CheckPermissionsFrom, checkMemberPermissions, errorMessage, formatUnix, handleError } from "#util/Util.js";
 
 const commandRateLimiter = new RateLimitManager(5000, 3);
 const handle = async <
   C extends
-    | Parameters<typeof createChatInput>[0]
+    | Parameters<typeof createChatInputCommand>[0]
     | Parameters<typeof createChatInputSubCommand>[0]
     | Parameters<typeof createUserCommand>[0],
 >(

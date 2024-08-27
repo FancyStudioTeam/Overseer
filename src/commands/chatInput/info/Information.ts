@@ -4,9 +4,9 @@ import {
   ApplicationIntegrationTypes,
   InteractionContextTypes,
 } from "oceanic.js";
-import { createChatInput } from "#util/Handlers.js";
+import { createChatInputCommand } from "#util/Handlers.js";
 
-export default createChatInput({
+export default createChatInputCommand({
   contexts: [InteractionContextTypes.GUILD],
   description: "_",
   integrationTypes: [ApplicationIntegrationTypes.GUILD_INSTALL],

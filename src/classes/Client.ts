@@ -11,7 +11,7 @@ import {
 } from "oceanic.js";
 import { match } from "ts-pattern";
 import type { MaybeNullish } from "#types";
-import type { createChatInput, createChatInputSubCommand, createUserCommand } from "#util/Handlers.js";
+import type { createChatInputCommand, createChatInputSubCommand, createUserCommand } from "#util/Handlers.js";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
 
@@ -19,7 +19,7 @@ const commandsArray: CreateApplicationCommandOptions[] = [];
 
 export class Discord extends Client {
   readonly interactions: {
-    chatInput: Collection<string, MaybeNullish<Parameters<typeof createChatInput>[0]>>;
+    chatInput: Collection<string, MaybeNullish<Parameters<typeof createChatInputCommand>[0]>>;
     user: Collection<string, MaybeNullish<Parameters<typeof createUserCommand>[0]>>;
   };
   readonly subCommands: Collection<string, MaybeNullish<Parameters<typeof createChatInputSubCommand>[0]>>;

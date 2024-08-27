@@ -3,11 +3,22 @@ import type {
   CommandInteraction,
   CreateChatInputApplicationCommandOptions,
   CreateUserApplicationCommandOptions,
+  Message,
   PermissionName,
 } from "oceanic.js";
 import type { Locales } from "#types";
 
-export const createChatInput = (
+export const createPrefixCommand = (
+  createOptions: CreateUserApplicationCommandOptions & {
+    run: (config: {
+      context: Message;
+      locale: Locales;
+      premium: boolean;
+    }) => Promise<unknown>;
+  },
+) => createOptions;
+
+export const createChatInputCommand = (
   createOptions: CreateChatInputApplicationCommandOptions & {
     autocomplete?: (config: {
       context: AutocompleteInteraction;
