@@ -20,11 +20,11 @@ export default createPrefixCommand({
 
     const result = Result.from<unknown, Error>(() => {
       // biome-ignore lint/security/noGlobalEval:
-      const result = eval(`const { client } = require("#index");\n${code}`);
-      let output = result;
+      const evaluationResult = eval(`const { client } = require("#index");\n${code}`);
+      let output = evaluationResult;
 
-      if (typeof result !== "string") {
-        output = inspect(result);
+      if (typeof evaluationResult !== "string") {
+        output = inspect(evaluationResult);
       }
 
       return output;
