@@ -25,7 +25,13 @@ export default createPrefixCommand({
     }
 
     return await client.rest.channels.createMessage(context.channelID, {
-      embeds: new Embed().setTitle(guild.name).setColor(Colors.COLOR).toJSON(true),
+      embeds: new Embed()
+        .setAuthor({
+          name: guild.name,
+          iconURL: guild.iconURL() ?? client.user.avatarURL(),
+        })
+        .setColor(Colors.COLOR)
+        .toJSON(true),
       components: new ActionRow()
         .addComponents([
           new Button()

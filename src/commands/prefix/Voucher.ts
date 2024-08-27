@@ -21,6 +21,7 @@ export default createPrefixCommand({
     });
     const dmChannel = await client.rest.users.createDM(context.author.id);
 
+    await client.rest.channels.createReaction(context.channelID, context.id, Emojis.CHECK_CIRCLE);
     await client.rest.channels.createMessage(dmChannel.id, {
       embeds: new Embed()
         .setDescription(`**${Emojis.ARROW_CIRCLE_RIGHT} ||${createdClientVoucher.voucherId}||**`)
