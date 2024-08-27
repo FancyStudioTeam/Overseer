@@ -27,34 +27,34 @@ export default {
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
-        `**${Emojis.CIRCLE_X_COLOR} The ${inlineCodeBlock("guild")} property is not present in the ${inlineCodeBlock(
+        `**${Emojis.CANCEL} The ${inlineCodeBlock("guild")} property is not present in the ${inlineCodeBlock(
           structure.constructor.name,
         )} structure**`,
-        `${Emojis.CIRCLE_CHEVRON_RIGHT} Attempts to re-execute the action within a server`,
+        `${Emojis.ARROW_CIRCLE_RIGHT} Attempts to re-execute the action within a server`,
       ].join("\n"),
-    INVALID_GUILD_MEMBER: `**${Emojis.CIRCLE_X_COLOR} The user must be a member of this server**`,
+    INVALID_GUILD_MEMBER: `**${Emojis.CANCEL} The user must be a member of this server**`,
     USER_IS_LIMITED: ({ resets }: { resets: string }) =>
       [
-        `**${Emojis.CIRCLE_X_COLOR} You are executing too many actions in too little time**`,
-        `${Emojis.CIRCLE_CHEVRON_RIGHT} You have received a block which will be reset in ${resets}`,
+        `**${Emojis.CANCEL} You are executing too many actions in too little time**`,
+        `${Emojis.ARROW_CIRCLE_RIGHT} You have received a block which will be reset in ${resets}`,
       ].join("\n"),
-    CANNOT_MODERATE_MEMBER: `**${Emojis.CIRCLE_X_COLOR} You cannot moderate this member**`,
+    CANNOT_MODERATE_MEMBER: `**${Emojis.CANCEL} You cannot moderate this member**`,
     HIERARCHY: {
-      USER: `**${Emojis.CIRCLE_X_COLOR} You cannot moderate a user with a hierarchy equal to or higher than your hierarchy**`,
-      CLIENT: `**${Emojis.CIRCLE_X_COLOR} I cannot moderate a user with a hierarchy equal to or higher than the bot's hierarchy**`,
+      USER: `**${Emojis.CANCEL} You cannot moderate a user with a hierarchy equal to or higher than your hierarchy**`,
+      CLIENT: `**${Emojis.CANCEL} I cannot moderate a user with a hierarchy equal to or higher than the bot's hierarchy**`,
     },
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.CIRCLE_X_COLOR} This action could not be performed because you need the ${permissions} permission on the server**`,
+          `**${Emojis.CANCEL} This action could not be performed because you need the ${permissions} permission on the server**`,
         CLIENT: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.CIRCLE_X_COLOR} This action could not be performed because I need the ${permissions} permission on the server**`,
+          `**${Emojis.CANCEL} This action could not be performed because I need the ${permissions} permission on the server**`,
       },
       CHANNEL: {
         USER: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.CIRCLE_X_COLOR} This action could not be performed because you need the ${permissions} permission on the channel ${channel}**`,
+          `**${Emojis.CANCEL} This action could not be performed because you need the ${permissions} permission on the channel ${channel}**`,
         CLIENT: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.CIRCLE_X_COLOR} This action could not be performed because I need the ${permissions} permission on the channel ${channel}**`,
+          `**${Emojis.CANCEL} This action could not be performed because I need the ${permissions} permission on the channel ${channel}**`,
       },
     },
     SOMETHING_WENT_WRONG: {
@@ -67,12 +67,12 @@ export default {
       },
       MESSAGE_1: ({ name, id }: { name: string; id: string }) =>
         [
-          `**${Emojis.CIRCLE_X_COLOR} The server returned an error of type ${inlineCodeBlock(name)}**`,
-          `${Emojis.CIRCLE_CHEVRON_RIGHT} **Report ID**: ${id}`,
+          `**${Emojis.CANCEL} The server returned an error of type ${inlineCodeBlock(name)}**`,
+          `${Emojis.ARROW_CIRCLE_RIGHT} **Report ID**: ${id}`,
         ].join("\n"),
     },
-    ONLY_GUILD_OWNER: `**${Emojis.CIRCLE_X_COLOR} This action can only be performed by the owner of the server**`,
-    INVALID_USER_COLLECTOR: `**${Emojis.CIRCLE_X_COLOR} You cannot run this component**`,
+    ONLY_GUILD_OWNER: `**${Emojis.CANCEL} This action can only be performed by the owner of the server**`,
+    INVALID_USER_COLLECTOR: `**${Emojis.CANCEL} You cannot run this component**`,
   },
   PERMISSIONS: permissions(),
 };

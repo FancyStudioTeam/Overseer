@@ -13,7 +13,7 @@ export default createPrefixCommand({
     const code = args.join(" ");
 
     if (!code) {
-      return await errorMessage(`**${Emojis.CIRCLE_X_COLOR} You need a code to execute**`, {
+      return await errorMessage(`**${Emojis.CANCEL} You need a code to execute**`, {
         context,
       });
     }

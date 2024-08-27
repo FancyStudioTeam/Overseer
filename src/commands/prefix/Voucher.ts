@@ -23,7 +23,7 @@ export default createPrefixCommand({
 
     await client.rest.channels.createMessage(dmChannel.id, {
       embeds: new Embed()
-        .setDescription(`**${Emojis.CIRCLE_CHEVRON_RIGHT} ||${createdClientVoucher.voucherId}||**`)
+        .setDescription(`**${Emojis.ARROW_CIRCLE_RIGHT} ||${createdClientVoucher.voucherId}||**`)
         .setColor(Colors.COLOR)
         .toJSON(true),
     });
