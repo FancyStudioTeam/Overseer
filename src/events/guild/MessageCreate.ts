@@ -1,15 +1,23 @@
-import { Client, type Message } from "oceanic.js";
-import { handlePrefixCommand } from "../../util/prefixHandler";
+import { ChannelTypes } from "oceanic.js";
+import { client } from "#index";
 
-const client = new Client({
-  /* ... */
-});
-
-client.on("messageCreate", async (message: Message) => {
+client.on("messageCreate", async (message) => {
   if (!(message.inCachedGuildChannel() && message.guild)) return;
+  if (!message.channel) return;
+  if (message.channel.type !== ChannelTypes.GUILD_TEXT) return;
   if (message.author.bot) return;
 
-  await handlePrefixCommand(message);
-});
+  const prefix = ">";
 
-client.connect();
+  if (!message.content.startsWith(prefix)) return;
+
+  const [commandName, ...args] = message.content.slice(prefix.length).trim().split(" ");
+  const command = client.prefixCommands.get(commandName.toLowerCase());
+
+  if (command) {
+    await command.run({
+      args,
+      context: message,
+    });
+  }
+});

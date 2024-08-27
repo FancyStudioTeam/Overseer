@@ -11,7 +11,12 @@ import {
 } from "oceanic.js";
 import { match } from "ts-pattern";
 import type { MaybeNullish } from "#types";
-import type { createChatInputCommand, createChatInputSubCommand, createUserCommand } from "#util/Handlers.js";
+import type {
+  createChatInputCommand,
+  createChatInputSubCommand,
+  createPrefixCommand,
+  createUserCommand,
+} from "#util/Handlers.js";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
 
@@ -24,6 +29,7 @@ export class Discord extends Client {
   };
   readonly subCommands: Collection<string, MaybeNullish<Parameters<typeof createChatInputSubCommand>[0]>>;
   readonly readyAt: Date;
+  readonly prefixCommands: Collection<string, MaybeNullish<Parameters<typeof createPrefixCommand>[0]>>;
 
   constructor() {
     super({
@@ -114,6 +120,7 @@ export class Discord extends Client {
     };
     this.subCommands = new Collection();
     this.readyAt = new Date();
+    this.prefixCommands = new Collection();
 
     (async () => {
       await this.init();
@@ -131,7 +138,7 @@ export class Discord extends Client {
           type: LoggerType.ERROR,
         }),
       );
-    await Promise.allSettled([this.registerEvents(), this.registerModules()]);
+    await Promise.all([this.registerPrefixCommands(), this.registerEvents(), this.registerModules()]);
   };
 
   deploy = async () => {
@@ -183,6 +190,23 @@ export class Discord extends Client {
         const directory = dividedPath[dividedPath.length - 3].toLowerCase();
 
         this.subCommands.set(`${directory}_${subCommand.name}`, subCommand);
+      }
+    });
+  };
+
+  registerPrefixCommands = async () => {
+    this.prefixCommands.clear();
+
+    await this.#loadFiles(`${join(process.cwd(), "src/commands/prefix")}/*.{ts,js}`).then((paths) => {
+      for (const path of paths) {
+        const prefixCommandPath = this.#resolve(path);
+        const prefixCommand = require(prefixCommandPath).default;
+
+        if (!("name" in prefixCommand || "run" in prefixCommand)) {
+          throw new Error(`PrefixCommand path "${prefixCommandPath}" is missing a name or run property`);
+        }
+
+        this.prefixCommands.set(prefixCommand.name, prefixCommand);
       }
     });
   };

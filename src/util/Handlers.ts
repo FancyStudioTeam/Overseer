@@ -8,15 +8,13 @@ import type {
 } from "oceanic.js";
 import type { Locales } from "#types";
 
-export const createPrefixCommand = (
-  createOptions: CreateUserApplicationCommandOptions & {
-    run: (config: {
-      context: Message;
-      locale: Locales;
-      premium: boolean;
-    }) => Promise<unknown>;
-  },
-) => createOptions;
+export const createPrefixCommand = (createOptions: {
+  name: string;
+  run: (config: {
+    args: string[];
+    context: Message;
+  }) => Promise<unknown>;
+}) => createOptions;
 
 export const createChatInputCommand = (
   createOptions: CreateChatInputApplicationCommandOptions & {

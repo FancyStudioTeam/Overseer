@@ -1,9 +1,13 @@
 import { Embed } from "oceanic-builders";
-import type { Message } from "oceanic.js";
 import { Colors } from "#constants";
+import { client } from "#index";
+import { createPrefixCommand } from "#util/Handlers";
 
-export default async (message: Message) => {
-  await message.client.rest.channels.createMessage(message.channelID, {
-    embeds: new Embed().setDescription("Test!").setColor(Colors.COLOR).toJSON(true),
-  });
-};
+export default createPrefixCommand({
+  name: "test",
+  run: async ({ context }) => {
+    await client.rest.channels.createMessage(context.channelID, {
+      embeds: new Embed().setDescription("Hello World!").setColor(Colors.GREEN).toJSON(true),
+    });
+  },
+});
