@@ -31,21 +31,17 @@ export default createPrefixCommand({
     });
 
     if (result.isErr()) {
-      const error = result.unwrapErr();
-
       return await client.rest.channels.createMessage(context.channelID, {
         embeds: new Embed()
-          .setDescription(codeBlock("js", cutText(String(error), 4000)))
+          .setDescription(codeBlock("js", cutText(String(result.unwrapErr()), 4000)))
           .setColor(Colors.RED)
           .toJSON(true),
       });
     }
 
-    const output = result.unwrap();
-
     return await client.rest.channels.createMessage(context.channelID, {
       embeds: new Embed()
-        .setDescription(codeBlock("js", cutText(String(output), 4000)))
+        .setDescription(codeBlock("js", cutText(String(result.unwrap()), 4000)))
         .setColor(Colors.COLOR)
         .toJSON(true),
     });
