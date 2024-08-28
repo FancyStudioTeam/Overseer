@@ -1,5 +1,5 @@
 import colors from "@colors/colors";
-import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
+import { codeBlock, inlineCode } from "@discordjs/formatters";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 
@@ -27,7 +27,7 @@ export default {
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
-        `**${Emojis.CANCEL} The ${inlineCodeBlock("guild")} property is not present in the ${inlineCodeBlock(
+        `**${Emojis.CANCEL} The ${inlineCode("guild")} property is not present in the ${inlineCode(
           structure.constructor.name,
         )} structure**`,
         `${Emojis.ARROW_CIRCLE_RIGHT} Attempts to re-execute the action within a server`,
@@ -67,7 +67,7 @@ export default {
       },
       MESSAGE_1: ({ name, id }: { name: string; id: string }) =>
         [
-          `**${Emojis.CANCEL} The server returned an error of type ${inlineCodeBlock(name)}**`,
+          `**${Emojis.CANCEL} The server returned an error of type ${inlineCode(name)}**`,
           `${Emojis.ARROW_CIRCLE_RIGHT} **Report ID**: ${id}`,
         ].join("\n"),
     },

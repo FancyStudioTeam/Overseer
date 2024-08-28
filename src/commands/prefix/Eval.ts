@@ -1,11 +1,14 @@
 import { inspect } from "node:util";
+import { codeBlock } from "@discordjs/formatters";
 import { Result } from "@sapphire/result";
-import { codeBlock, cutText } from "@sapphire/utilities";
 import { Embed } from "oceanic-builders";
 import { Colors, Emojis } from "#constants";
 import { client } from "#index";
 import { createPrefixCommand } from "#util/Handlers";
 import { errorMessage } from "#util/Util";
+
+const truncate = (content: string, maxLength: number) =>
+  content.length > maxLength ? `${content.slice(0, maxLength)}...` : content;
 
 export default createPrefixCommand({
   name: "eval",
@@ -33,7 +36,7 @@ export default createPrefixCommand({
     if (result.isErr()) {
       return await client.rest.channels.createMessage(context.channelID, {
         embeds: new Embed()
-          .setDescription(codeBlock("js", cutText(String(result.unwrapErr()), 4000)))
+          .setDescription(codeBlock("js", truncate(String(result.unwrapErr()), 4000)))
           .setColor(Colors.RED)
           .toJSON(true),
       });
@@ -41,7 +44,7 @@ export default createPrefixCommand({
 
     return await client.rest.channels.createMessage(context.channelID, {
       embeds: new Embed()
-        .setDescription(codeBlock("js", cutText(String(result.unwrap()), 4000)))
+        .setDescription(codeBlock("js", truncate(String(result.unwrap()), 4000)))
         .setColor(Colors.COLOR)
         .toJSON(true),
     });

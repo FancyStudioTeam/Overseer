@@ -1,5 +1,5 @@
 import colors from "@colors/colors";
-import { codeBlock, inlineCodeBlock } from "@sapphire/utilities";
+import { codeBlock, inlineCode } from "@discordjs/formatters";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 
@@ -27,9 +27,9 @@ export default {
   GLOBAL: {
     INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
       [
-        `**${Emojis.CANCEL} La propiedad ${inlineCodeBlock(
+        `**${Emojis.CANCEL} La propiedad ${inlineCode(
           "guild",
-        )} no está presente en la estructura ${inlineCodeBlock(structure.constructor.name)}**`,
+        )} no está presente en la estructura ${inlineCode(structure.constructor.name)}**`,
         `${Emojis.ARROW_CIRCLE_RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
       ].join("\n"),
     INVALID_GUILD_MEMBER: `**${Emojis.CANCEL} El usuario debe ser miembro de este servidor**`,
@@ -67,7 +67,7 @@ export default {
       },
       MESSAGE_1: ({ name, id }: { name: string; id: string }) =>
         [
-          `**${Emojis.CANCEL} El servidor devolvió un error de tipo ${inlineCodeBlock(name)}**`,
+          `**${Emojis.CANCEL} El servidor devolvió un error de tipo ${inlineCode(name)}**`,
           `${Emojis.ARROW_CIRCLE_RIGHT} **ID del Reporte**: ${id}`,
         ].join("\n"),
     },

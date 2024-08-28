@@ -32,9 +32,6 @@ importers:
       '@sapphire/time-utilities':
         specifier: 1.7.12
         version: 1.7.12
-      '@sapphire/utilities':
-        specifier: 3.17.0
-        version: 3.17.0
       dotenv:
         specifier: 16.4.5
         version: 16.4.5
