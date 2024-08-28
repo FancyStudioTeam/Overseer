@@ -45,7 +45,7 @@ export const checkMemberPermissions = async (
       missingPermissions = permissionsToCheck.filter((permission) => !channel?.permissionsOf(member).has(permission));
       descriptionMessage = Translations[locale].GLOBAL.PERMISSIONS.CHANNEL[isClientOrUser]({
         permissions: missingPermissions
-          .map((permission, _) => inlineCode(Translations[locale].PERMISSIONS[permission]))
+          .map((permission) => inlineCode(Translations[locale].PERMISSIONS[permission]))
           .join(", "),
         channel: channel?.mention ?? "",
       });
@@ -54,7 +54,7 @@ export const checkMemberPermissions = async (
       missingPermissions = permissionsToCheck.filter((permission) => !member.permissions.has(permission));
       descriptionMessage = Translations[locale].GLOBAL.PERMISSIONS.GUILD[isClientOrUser]({
         permissions: missingPermissions
-          .map((permission, _) => inlineCode(Translations[locale].PERMISSIONS[permission]))
+          .map((permission) => inlineCode(Translations[locale].PERMISSIONS[permission]))
           .join(", "),
       });
     });
