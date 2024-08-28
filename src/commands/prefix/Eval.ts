@@ -11,6 +11,7 @@ const truncate = (content: string, maxLength: number) =>
   content.length > maxLength ? `${content.slice(0, maxLength - 3)}...` : content;
 
 export default createPrefixCommand({
+  developerOnly: true,
   name: "eval",
   run: async ({ args, context }) => {
     const code = args.join(" ");

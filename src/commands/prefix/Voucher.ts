@@ -6,6 +6,7 @@ import { createPrefixCommand } from "#util/Handlers";
 import { prisma } from "#util/Prisma.js";
 
 export default createPrefixCommand({
+  developerOnly: true,
   name: "voucher",
   run: async ({ context }) => {
     const createdClientVoucher = await prisma.clientVoucher.create({

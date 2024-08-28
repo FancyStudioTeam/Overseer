@@ -6,6 +6,7 @@ import { createPrefixCommand } from "#util/Handlers";
 import { errorMessage, parseEmoji } from "#util/Util";
 
 export default createPrefixCommand({
+  developerOnly: true,
   name: "lookup-guild",
   run: async ({ args, context }) => {
     const guildId = args[0].trim();
@@ -19,7 +20,7 @@ export default createPrefixCommand({
     const guild = client.guilds.get(guildId);
 
     if (!guild) {
-      return await errorMessage(`**${Emojis.CANCEL} The server has not been found**`, {
+      return await errorMessage(`**${Emojis.CANCEL} The guild \`${guildId}\` has not been found**`, {
         context,
       });
     }

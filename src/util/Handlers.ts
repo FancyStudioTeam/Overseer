@@ -11,6 +11,7 @@ import type {
 import type { Locales } from "#types";
 
 export const createPrefixCommand = (createOptions: {
+  developerOnly?: boolean;
   name: string;
   run: (config: {
     args: string[];
@@ -53,6 +54,7 @@ export const createUserCommand = (
 ) => createOptions;
 
 export const createComponent = (createOptions: {
+  developerOnly?: boolean;
   name: string;
   type: Exclude<
     ComponentTypes,
