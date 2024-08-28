@@ -1,5 +1,5 @@
 import colors from "@colors/colors";
-import { codeBlock, inlineCode } from "@discordjs/formatters";
+import { codeBlock } from "@discordjs/formatters";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 
@@ -25,24 +25,6 @@ export default {
     },
   },
   GLOBAL: {
-    INVALID_GUILD_PROPERTY: ({ structure }: { structure: object }) =>
-      [
-        `**${Emojis.CANCEL} La propiedad ${inlineCode(
-          "guild",
-        )} no está presente en la estructura ${inlineCode(structure.constructor.name)}**`,
-        `${Emojis.ARROW_CIRCLE_RIGHT} Intenta volver a ejecutar la acción dentro de un servidor`,
-      ].join("\n"),
-    INVALID_GUILD_MEMBER: `**${Emojis.CANCEL} El usuario debe ser miembro de este servidor**`,
-    USER_IS_LIMITED: ({ resets }: { resets: string }) =>
-      [
-        `**${Emojis.CANCEL} Estas ejecutando demasiadas acciones en poco tiempo**`,
-        `${Emojis.ARROW_CIRCLE_RIGHT} Has recibido un bloqueo que se reiniciará en ${resets}`,
-      ].join("\n"),
-    CANNOT_MODERATE_MEMBER: `**${Emojis.CANCEL} No puedes moderar a este usuario**`,
-    HIERARCHY: {
-      USER: `**${Emojis.CANCEL} No puedes moderar a un usuario con una jerarquía igual o superior que tu jerarquía**`,
-      CLIENT: `**${Emojis.CANCEL} No puedo moderar a un usuario con una jerarquía igual o superior que la jerarquía del bot**`,
-    },
     PERMISSIONS: {
       GUILD: {
         USER: ({ permissions }: { permissions: string }) =>
