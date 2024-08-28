@@ -12,7 +12,6 @@ client.on("messageCreate", async (message) => {
   if (message.channel.type !== ChannelTypes.GUILD_TEXT) return;
   if (message.author.bot) return;
   if (!message.content.startsWith(prefix)) return;
-  if (!Developers.includes(message.author.id)) return;
 
   const [commandName, ...args] = message.content.slice(prefix.length).trim().split(" ");
   const command = client.prefixCommands.get(commandName.toLowerCase());
