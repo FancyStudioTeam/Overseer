@@ -1,6 +1,8 @@
+import { Result } from "@sapphire/result";
 import { ChannelTypes } from "oceanic.js";
 import { Developers } from "#constants";
 import { client } from "#index";
+import { handleError } from "#util/Util";
 
 client.on("messageCreate", async (message) => {
   const prefix = ">";
@@ -16,9 +18,20 @@ client.on("messageCreate", async (message) => {
   const command = client.prefixCommands.get(commandName.toLowerCase());
 
   if (command) {
-    await command.run({
-      args,
-      context: message,
-    });
+    if (command.developerOnly && !Developers.includes(message.author.id)) return;
+
+    const result = await Result.fromAsync<unknown, Error>(
+      async () =>
+        await command.run({
+          args,
+          context: message,
+        }),
+    );
+
+    if (result.isErr()) {
+      return await handleError(result.unwrapErr(), {
+        context: message,
+      });
+    }
   }
 });

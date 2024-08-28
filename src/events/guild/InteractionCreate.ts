@@ -1,88 +1,17 @@
 import { RateLimitManager } from "@sapphire/ratelimits";
-import { Result } from "@sapphire/result";
-import {
-  ApplicationCommandTypes,
-  ChannelTypes,
-  type Collection,
-  type CommandInteraction,
-  InteractionTypes,
-} from "oceanic.js";
+import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
 import { client } from "#index";
 import { Translations } from "#translations";
-import type { MaybeNullish } from "#types";
 import type { Locales } from "#types";
-import type { createChatInputCommand, createChatInputSubCommand, createUserCommand } from "#util/Handlers";
 import { prisma } from "#util/Prisma.js";
-import { CheckPermissionsFrom, checkMemberPermissions, errorMessage, formatUnix, handleError } from "#util/Util.js";
+import { CheckPermissionsFrom, checkMemberPermissions, errorMessage, formatUnix } from "#util/Util.js";
+import { handleButton } from "./handlers/handleButton";
+import { handleChatInputSubCommand } from "./handlers/handleChatInputSubCommand";
+import { handleUserCommand } from "./handlers/handleUserCommand";
 
 const commandRateLimiter = new RateLimitManager(5000, 3);
-const handle = async <
-  C extends
-    | Parameters<typeof createChatInputCommand>[0]
-    | Parameters<typeof createChatInputSubCommand>[0]
-    | Parameters<typeof createUserCommand>[0],
->(
-  key: string,
-  {
-    handleArguments,
-    collection,
-    context,
-  }: {
-    handleArguments: {
-      locale: Locales;
-      premium: boolean;
-      variable?: unknown;
-    };
-    collection: Collection<string, MaybeNullish<C>>;
-    context: CommandInteraction;
-  },
-) => {
-  if (!(context.inCachedGuildChannel() && context.guild)) return;
-
-  const data = collection.get(key);
-  const { locale } = handleArguments;
-
-  if (data) {
-    if ("permissions" in data) {
-      if (data.permissions?.user) {
-        const userHasCommandPermissions = await checkMemberPermissions(context.member, {
-          context,
-          locale,
-          permissionsToCheck: data.permissions.user,
-        });
-
-        if (!userHasCommandPermissions) return;
-      }
-
-      if (data.permissions?.bot) {
-        const clientHasCommandPermissions = await checkMemberPermissions(context.guild.clientMember, {
-          context,
-          locale,
-          permissionsToCheck: data.permissions.bot,
-        });
-
-        if (!clientHasCommandPermissions) return;
-      }
-    }
-
-    if ("run" in data) {
-      const result = await Result.fromAsync<unknown, Error>(
-        async () =>
-          await data.run({
-            ...handleArguments,
-            context,
-          }),
-      );
-
-      if (result.isErr()) {
-        return await handleError(result.unwrapErr(), {
-          context,
-        });
-      }
-    }
-  }
-};
+const componentRateLimiter = new RateLimitManager(7000, 5);
 
 client.on("interactionCreate", async (interaction) => {
   if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
@@ -131,33 +60,60 @@ client.on("interactionCreate", async (interaction) => {
         rateLimit.consume();
 
         return match(commandInteraction.data.type)
-          .with(ApplicationCommandTypes.CHAT_INPUT, async () => {
-            const subCommand = commandInteraction.data.options.getSubCommand(true).join("_");
-
-            await handle<Parameters<typeof createChatInputSubCommand>[0]>(
-              `${commandInteraction.data.name}_${subCommand}`,
-              {
+          .with(
+            ApplicationCommandTypes.CHAT_INPUT,
+            async () =>
+              await handleChatInputSubCommand(commandInteraction.data.options.getSubCommand(true).join("_"), {
                 handleArguments: {
                   locale,
                   premium,
                 },
-                collection: client.subCommands,
                 context: commandInteraction,
-              },
-            );
-          })
+              }),
+          )
           .with(
             ApplicationCommandTypes.USER,
             async () =>
-              await handle<Parameters<typeof createUserCommand>[0]>(commandInteraction.data.name, {
+              await handleUserCommand(commandInteraction.data.name, {
                 handleArguments: {
                   locale,
                   premium,
                 },
-                collection: client.interactions.user,
                 context: commandInteraction,
               }),
           );
+      },
+    )
+    .with(
+      {
+        type: InteractionTypes.MESSAGE_COMPONENT,
+      },
+      async (componentInteraction) => {
+        const rateLimit = componentRateLimiter.acquire(interaction.user.id);
+
+        if (rateLimit.limited) {
+          return await errorMessage(
+            Translations[locale].GLOBAL.USER_IS_LIMITED({
+              resets: formatUnix(new Date(rateLimit.expires)),
+            }),
+            {
+              context: interaction,
+            },
+          );
+        }
+
+        rateLimit.consume();
+
+        return match(componentInteraction.data.componentType).with(ComponentTypes.BUTTON, async () => {
+          await handleButton(componentInteraction.data.customID.split("#")[0], {
+            handleArguments: {
+              locale,
+              premium,
+              variable: componentInteraction.data.customID.split("#")[1],
+            },
+            context: componentInteraction,
+          });
+        });
       },
     )
     .otherwise(() => undefined);
