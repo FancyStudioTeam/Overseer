@@ -4,7 +4,7 @@
     "@colors/colors": "1.6.0",
     "@discordjs/formatters": "0.4.0",
     "@napi-rs/canvas": "0.1.54",
-    "@prisma/client": "5.18.0",
+    "@prisma/client": "5.19.0",
     "@sapphire/ratelimits": "2.4.9",
     "@sapphire/result": "2.6.6",
     "@sapphire/snowflake": "3.5.3",
@@ -21,12 +21,12 @@
   "description": "Overseer Client Repository",
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
-    "@types/node": "22.5.0",
+    "@types/node": "22.5.1",
     "@types/url-regex-safe": "1.0.2",
     "husky": "9.1.5",
     "lint-staged": "15.2.9",
-    "prisma": "5.18.0",
-    "tsx": "4.17.0",
+    "prisma": "5.19.0",
+    "tsx": "4.19.0",
     "typescript": "5.5.4"
   },
   "imports": {
