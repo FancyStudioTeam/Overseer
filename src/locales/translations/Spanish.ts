@@ -1,5 +1,5 @@
 import colors from "@colors/colors";
-import { codeBlock } from "@discordjs/formatters";
+import { bold, codeBlock } from "@discordjs/formatters";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 
@@ -81,20 +81,47 @@ export default {
   GLOBAL: {
     PERMISSIONS: {
       GUILD: {
-        USER: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el servidor**`,
-        CLIENT: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el servidor**`,
+        USER: ({
+          permissions,
+        }: {
+          permissions: string;
+        }) =>
+          bold(
+            `${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el servidor`,
+          ),
+        CLIENT: ({
+          permissions,
+        }: {
+          permissions: string;
+        }) =>
+          bold(
+            `${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el servidor`,
+          ),
       },
       CHANNEL: {
-        USER: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el canal ${channel}**`,
-        CLIENT: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el canal ${channel}**`,
+        USER: ({
+          permissions,
+          channel,
+        }: {
+          permissions: string;
+          channel: string;
+        }) =>
+          bold(
+            `${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el canal ${channel}`,
+          ),
+        CLIENT: ({
+          permissions,
+          channel,
+        }: {
+          permissions: string;
+          channel: string;
+        }) =>
+          bold(
+            `${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el canal ${channel}`,
+          ),
       },
     },
-    ONLY_GUILD_OWNER: `**${Emojis.CANCEL} Esta acción solamente la puede ejecutar el propietario del servidor**`,
-    INVALID_USER_COLLECTOR: `**${Emojis.CANCEL} No puedes ejecutar este componente**`,
+    INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL} No puedes ejecutar este componente`),
   },
   PERMISSIONS: permissions,
 };

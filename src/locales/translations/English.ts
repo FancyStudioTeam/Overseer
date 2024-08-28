@@ -1,5 +1,5 @@
 import colors from "@colors/colors";
-import { codeBlock } from "@discordjs/formatters";
+import { bold, codeBlock } from "@discordjs/formatters";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 
@@ -81,20 +81,47 @@ export default {
   GLOBAL: {
     PERMISSIONS: {
       GUILD: {
-        USER: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.CANCEL} This action could not be performed because you need the ${permissions} permission on the server**`,
-        CLIENT: ({ permissions }: { permissions: string }) =>
-          `**${Emojis.CANCEL} This action could not be performed because I need the ${permissions} permission on the server**`,
+        USER: ({
+          permissions,
+        }: {
+          permissions: string;
+        }) =>
+          bold(
+            `${Emojis.CANCEL} This action could not be performed because you need the ${permissions} permission on the server`,
+          ),
+        CLIENT: ({
+          permissions,
+        }: {
+          permissions: string;
+        }) =>
+          bold(
+            `${Emojis.CANCEL} This action could not be performed because I need the ${permissions} permission on the server`,
+          ),
       },
       CHANNEL: {
-        USER: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.CANCEL} This action could not be performed because you need the ${permissions} permission on the channel ${channel}**`,
-        CLIENT: ({ permissions, channel }: { permissions: string; channel: string }) =>
-          `**${Emojis.CANCEL} This action could not be performed because I need the ${permissions} permission on the channel ${channel}**`,
+        USER: ({
+          permissions,
+          channel,
+        }: {
+          permissions: string;
+          channel: string;
+        }) =>
+          bold(
+            `${Emojis.CANCEL} This action could not be performed because you need the ${permissions} permission on the channel ${channel}`,
+          ),
+        CLIENT: ({
+          permissions,
+          channel,
+        }: {
+          permissions: string;
+          channel: string;
+        }) =>
+          bold(
+            `${Emojis.CANCEL} This action could not be performed because I need the ${permissions} permission on the channel ${channel}`,
+          ),
       },
     },
-    ONLY_GUILD_OWNER: `**${Emojis.CANCEL} This action can only be performed by the owner of the server**`,
-    INVALID_USER_COLLECTOR: `**${Emojis.CANCEL} You cannot run this component**`,
+    INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL} You cannot run this component`),
   },
   PERMISSIONS: permissions,
 };
