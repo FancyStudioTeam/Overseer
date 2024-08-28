@@ -57,20 +57,6 @@ export default {
           `**${Emojis.CANCEL} This action could not be performed because I need the ${permissions} permission on the channel ${channel}**`,
       },
     },
-    SOMETHING_WENT_WRONG: {
-      COMPONENTS: {
-        BUTTONS: {
-          SUPPORT: {
-            LABEL: "Support Server",
-          },
-        },
-      },
-      MESSAGE_1: ({ name, id }: { name: string; id: string }) =>
-        [
-          `**${Emojis.CANCEL} The server returned an error of type ${inlineCode(name)}**`,
-          `${Emojis.ARROW_CIRCLE_RIGHT} **Report ID**: ${id}`,
-        ].join("\n"),
-    },
     ONLY_GUILD_OWNER: `**${Emojis.CANCEL} This action can only be performed by the owner of the server**`,
     INVALID_USER_COLLECTOR: `**${Emojis.CANCEL} You cannot run this component**`,
   },
