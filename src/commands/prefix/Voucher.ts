@@ -3,7 +3,7 @@ import { bold, spoiler } from "@discordjs/formatters";
 import { Embed } from "oceanic-builders";
 import { Colors, Emojis } from "#constants";
 import { client } from "#index";
-import { createPrefixCommand } from "#util/Handlers";
+import { createPrefixCommand } from "#util/Handlers.js";
 import { prisma } from "#util/Prisma.js";
 
 export default createPrefixCommand({

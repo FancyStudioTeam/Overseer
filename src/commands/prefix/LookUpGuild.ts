@@ -3,8 +3,8 @@ import { ActionRow, Button, Embed } from "oceanic-builders";
 import { ButtonStyles } from "oceanic.js";
 import { Colors, Emojis } from "#constants";
 import { client } from "#index";
-import { createPrefixCommand } from "#util/Handlers";
-import { errorMessage, parseEmoji } from "#util/Util";
+import { createPrefixCommand } from "#util/Handlers.js";
+import { errorMessage, parseEmoji } from "#util/Util.js";
 
 export default createPrefixCommand({
   developerOnly: true,

@@ -4,8 +4,8 @@ import { Embed } from "oceanic-builders";
 import { Colors, Emojis } from "#constants";
 import { client } from "#index";
 import type { MaybeNullish } from "#types";
-import { createPrefixCommand } from "#util/Handlers";
-import { errorMessage } from "#util/Util";
+import { createPrefixCommand } from "#util/Handlers.js";
+import { errorMessage } from "#util/Util.js";
 
 const truncate = (content: string, maxLength: number) =>
   content.length > maxLength ? `${content.slice(0, maxLength - 3)}...` : content;
