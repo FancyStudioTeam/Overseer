@@ -4,6 +4,7 @@ import {
   ApplicationCommandTypes,
   Client,
   Collection,
+  ComponentTypes,
   type CreateApplicationCommandOptions,
   type Guild,
   type Member,
@@ -14,6 +15,7 @@ import type { MaybeNullish } from "#types";
 import type {
   createChatInputCommand,
   createChatInputSubCommand,
+  createComponent,
   createPrefixCommand,
   createUserCommand,
 } from "#util/Handlers.js";
@@ -26,6 +28,10 @@ export class Discord extends Client {
   readonly interactions: {
     chatInput: Collection<string, MaybeNullish<Parameters<typeof createChatInputCommand>[0]>>;
     user: Collection<string, MaybeNullish<Parameters<typeof createUserCommand>[0]>>;
+  };
+  readonly components: {
+    buttons: Collection<string, MaybeNullish<Parameters<typeof createComponent>[0]>>;
+    selectMenus: Collection<string, MaybeNullish<Parameters<typeof createComponent>[0]>>;
   };
   readonly subCommands: Collection<string, MaybeNullish<Parameters<typeof createChatInputSubCommand>[0]>>;
   readonly readyAt: Date;
@@ -118,6 +124,10 @@ export class Discord extends Client {
       chatInput: new Collection(),
       user: new Collection(),
     };
+    this.components = {
+      buttons: new Collection(),
+      selectMenus: new Collection(),
+    };
     this.subCommands = new Collection();
     this.readyAt = new Date();
     this.prefixCommands = new Collection();
@@ -138,7 +148,12 @@ export class Discord extends Client {
           type: LoggerType.ERROR,
         }),
       );
-    await Promise.all([this.registerPrefixCommands(), this.registerEvents(), this.registerModules()]);
+    await Promise.all([
+      this.registerComponents(),
+      this.registerPrefixCommands(),
+      this.registerEvents(),
+      this.registerModules(),
+    ]);
   };
 
   deploy = async () => {
@@ -170,6 +185,38 @@ export class Discord extends Client {
           });
 
         commandsArray.push(command);
+      }
+    });
+  };
+
+  registerComponents = async () => {
+    this.components.buttons.clear();
+    this.components.selectMenus.clear();
+
+    await this.#loadFiles(`${join(process.cwd(), "src/components")}/*/*/*.{ts,js}`).then((paths) => {
+      for (const path of paths) {
+        const componentPath = this.#resolve(path);
+        const component = require(componentPath).default;
+
+        if (!("name" in component || "type" in component || "run" in component)) {
+          throw new Error(`Command path "${componentPath}" is missing a name or type property`);
+        }
+
+        match(component.type)
+          .with(ComponentTypes.BUTTON, () => this.components.buttons.set(component.name, component))
+          .with(
+            [
+              ComponentTypes.CHANNEL_SELECT,
+              ComponentTypes.MENTIONABLE_SELECT,
+              ComponentTypes.ROLE_SELECT,
+              ComponentTypes.STRING_SELECT,
+              ComponentTypes.USER_SELECT,
+            ].includes(component.type),
+            () => this.components.selectMenus.set(component.name, component),
+          )
+          .otherwise((type) => {
+            throw new Error(`Unknown command type: ${type}`);
+          });
       }
     });
   };
