@@ -1,4 +1,4 @@
-import { bold } from "@discordjs/formatters";
+import { bold, inlineCode, spoiler } from "@discordjs/formatters";
 import { Embed } from "oceanic-builders";
 import { ChannelTypes, ComponentTypes, MessageFlags } from "oceanic.js";
 import { Colors, Emojis } from "#constants";
@@ -15,7 +15,7 @@ export default createComponent({
     const guild = client.guilds.get(guildId);
 
     if (!guild) {
-      return await errorMessage(`**${Emojis.CANCEL} The guild \`${guildId}\` has not been found**`, {
+      return await errorMessage(bold(`${Emojis.CANCEL} The guild ${inlineCode(guildId)} has not been found`), {
         context,
       });
     }
@@ -43,7 +43,7 @@ export default createComponent({
 
     return await context.reply({
       embeds: new Embed()
-        .setDescription(`**${Emojis.ARROW_CIRCLE_RIGHT} ||https://discord.gg/${invite.code}||**`)
+        .setDescription(bold(`${Emojis.ARROW_CIRCLE_RIGHT} ${spoiler(`https://discord.gg/${invite.code}`)}`))
         .setColor(Colors.COLOR)
         .toJSON(true),
       flags: MessageFlags.EPHEMERAL,

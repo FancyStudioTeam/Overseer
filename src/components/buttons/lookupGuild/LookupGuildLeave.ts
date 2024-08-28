@@ -21,7 +21,6 @@ export default createComponent({
     }
 
     await client.rest.users.leaveGuild(guild.id);
-
     return await context.reply({
       embeds: new Embed()
         .setDescription(bold(`I have left the guild ${inlineCode(guild.name)}`))
