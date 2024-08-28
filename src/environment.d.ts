@@ -8,8 +8,6 @@ declare global {
       CLIENT_TOKEN: string;
       // biome-ignore lint/style/useNamingConvention:
       MONGO_DB_URL: string;
-      // biome-ignore lint/style/useNamingConvention:
-      SENTRY_DSN_URL: string;
     }
   }
 }
