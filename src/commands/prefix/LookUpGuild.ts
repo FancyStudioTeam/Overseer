@@ -1,3 +1,4 @@
+import { bold, inlineCode } from "@discordjs/formatters";
 import { ActionRow, Button, Embed } from "oceanic-builders";
 import { ButtonStyles } from "oceanic.js";
 import { Colors, Emojis } from "#constants";
@@ -12,7 +13,7 @@ export default createPrefixCommand({
     const guildId = args[0].trim();
 
     if (!guildId) {
-      return await errorMessage(`**${Emojis.CANCEL} You need to enter a server ID**`, {
+      return await errorMessage(bold(`${Emojis.CANCEL} You need to enter a server ID`), {
         context,
       });
     }
@@ -20,7 +21,7 @@ export default createPrefixCommand({
     const guild = client.guilds.get(guildId);
 
     if (!guild) {
-      return await errorMessage(`**${Emojis.CANCEL} The guild \`${guildId}\` has not been found**`, {
+      return await errorMessage(bold(`${Emojis.CANCEL} The guild ${inlineCode(guildId)} has not been found`), {
         context,
       });
     }

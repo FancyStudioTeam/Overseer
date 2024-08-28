@@ -1,5 +1,5 @@
 import { type ExecException, exec } from "node:child_process";
-import { codeBlock } from "@discordjs/formatters";
+import { bold, codeBlock } from "@discordjs/formatters";
 import { Embed } from "oceanic-builders";
 import { Colors, Emojis } from "#constants";
 import { client } from "#index";
@@ -17,7 +17,7 @@ export default createPrefixCommand({
     const command = args.join(" ");
 
     if (!command) {
-      return await errorMessage(`**${Emojis.CANCEL} You need a command to execute**`, {
+      return await errorMessage(bold(`${Emojis.CANCEL} You need a command to execute`), {
         context,
       });
     }

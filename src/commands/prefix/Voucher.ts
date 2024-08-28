@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { bold, spoiler } from "@discordjs/formatters";
 import { Embed } from "oceanic-builders";
 import { Colors, Emojis } from "#constants";
 import { client } from "#index";
@@ -22,12 +23,12 @@ export default createPrefixCommand({
     });
     const dmChannel = await client.rest.users.createDM(context.author.id);
 
-    await client.rest.channels.createReaction(context.channelID, context.id, Emojis.CHECK_CIRCLE);
     await client.rest.channels.createMessage(dmChannel.id, {
       embeds: new Embed()
-        .setDescription(`**${Emojis.ARROW_CIRCLE_RIGHT} ||${createdClientVoucher.voucherId}||**`)
+        .setDescription(bold(`${Emojis.ARROW_CIRCLE_RIGHT} ${spoiler(createdClientVoucher.voucherId)}`))
         .setColor(Colors.COLOR)
         .toJSON(true),
     });
+    await client.rest.channels.createReaction(context.channelID, context.id, Emojis.CHECK_CIRCLE);
   },
 });

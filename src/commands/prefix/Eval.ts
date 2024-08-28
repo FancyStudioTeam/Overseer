@@ -1,5 +1,5 @@
 import { inspect } from "node:util";
-import { codeBlock } from "@discordjs/formatters";
+import { bold, codeBlock } from "@discordjs/formatters";
 import { Result } from "@sapphire/result";
 import { Embed } from "oceanic-builders";
 import { Colors, Emojis } from "#constants";
@@ -17,7 +17,7 @@ export default createPrefixCommand({
     const code = args.join(" ");
 
     if (!code) {
-      return await errorMessage(`**${Emojis.CANCEL} You need a code to execute**`, {
+      return await errorMessage(bold(`${Emojis.CANCEL} You need a code to execute`), {
         context,
       });
     }
