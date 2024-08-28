@@ -8,7 +8,7 @@ import { createPrefixCommand } from "#util/Handlers";
 import { errorMessage } from "#util/Util";
 
 const truncate = (content: string, maxLength: number) =>
-  content.length > maxLength ? `${content.slice(0, maxLength)}...` : content;
+  content.length > maxLength ? `${content.slice(0, maxLength - 3)}...` : content;
 
 export default createPrefixCommand({
   name: "eval",
