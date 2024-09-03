@@ -1,9 +1,9 @@
 model GuildConfiguration {
-  id        String                           @id @default(auto()) @map("_id") @db.ObjectId
-  guildId   String                           @unique
-  general   GuildConfigurationGeneral
-  premium   GuildConfigurationGeneralPremium
   createdAt DateTime                         @default(now())
+  general   GuildConfigurationGeneral
+  guildId   String                           @unique
+  id        String                           @id @default(auto()) @map("_id") @db.ObjectId
+  premium   GuildConfigurationGeneralPremium
 }
 
 type GuildConfigurationGeneral {

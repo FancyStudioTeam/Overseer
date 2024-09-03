@@ -1,16 +1,16 @@
 model ClientVoucher {
+  createdAt DateTime             @default(now())
+  general   ClientVoucherGeneral
   id        String               @id @default(auto()) @map("_id") @db.ObjectId
   voucherId String               @unique
-  general   ClientVoucherGeneral
-  createdAt DateTime             @default(now())
 }
 
 type ClientVoucherGeneral {
-  type      ClientVoucherType @default(MONTH)
   isClaimed Boolean           @default(false)
+  type      ClientVoucherType @default(MONTH)
 }
 
 enum ClientVoucherType {
-  MONTH
   INFINITE
+  MONTH
 }
