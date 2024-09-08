@@ -60,7 +60,8 @@
       },
       "suspicious": {
         "noAssignInExpressions": "off",
-        "noConsoleLog": "off"
+        "noConsoleLog": "off",
+        "noShadowRestrictedNames": "off"
       }
     }
   },
