@@ -2,15 +2,15 @@
   "author": "FancyStudio",
   "dependencies": {
     "@colors/colors": "1.6.0",
-    "@discordjs/formatters": "0.4.0",
-    "@napi-rs/canvas": "0.1.54",
-    "@prisma/client": "5.19.0",
+    "@discordjs/formatters": "0.5.0",
+    "@napi-rs/canvas": "0.1.55",
+    "@prisma/client": "5.19.1",
     "@sapphire/ratelimits": "2.4.9",
     "@sapphire/result": "2.6.6",
     "@sapphire/snowflake": "3.5.3",
     "@sapphire/time-utilities": "1.7.12",
     "dotenv": "16.4.5",
-    "es-toolkit": "1.16.0",
+    "es-toolkit": "1.19.0",
     "glob": "11.0.0",
     "oceanic-builders": "1.0.2",
     "oceanic-collectors": "1.0.7",
@@ -20,14 +20,14 @@
   },
   "description": "Overseer Client Repository",
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
-    "@types/node": "22.5.1",
+    "@biomejs/biome": "1.9.1",
+    "@types/node": "22.5.5",
     "@types/url-regex-safe": "1.0.2",
-    "husky": "9.1.5",
-    "lint-staged": "15.2.9",
-    "prisma": "5.19.0",
-    "tsx": "4.19.0",
-    "typescript": "5.5.4"
+    "husky": "9.1.6",
+    "lint-staged": "15.2.10",
+    "prisma": "5.19.1",
+    "tsx": "4.19.1",
+    "typescript": "5.6.2"
   },
   "imports": {
     "#base": "./src/classes/Base.js",
@@ -44,7 +44,7 @@
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": ["pnpm biome"]
   },
   "name": "overseer",
-  "packageManager": "pnpm@9.9.0+sha256.7a4261e50d9a44d9240baf6c9d6e10089dcf0a79d0007f2a26985a6927324177",
+  "packageManager": "pnpm@9.10.0",
   "prisma": {
     "seed": "tsx src/seed.ts"
   },
