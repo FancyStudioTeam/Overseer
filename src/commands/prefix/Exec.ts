@@ -26,7 +26,7 @@ export default createPrefixCommand({
       await client.rest.channels.createMessage(context.channelID, {
         embeds: new Embed()
           .setDescription(
-            codeBlock(error ? "bash" : "js", truncate(error ? error.stack ?? error.message : result, 4000)),
+            codeBlock(error ? "bash" : "js", truncate(error ? (error.stack ?? error.message) : result, 4000)),
           )
           .setColor(error ? Colors.RED : Colors.COLOR)
           .toJSON(true),
