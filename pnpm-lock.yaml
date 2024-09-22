@@ -41,6 +41,9 @@ importers:
       glob:
         specifier: 11.0.0
         version: 11.0.0
+      json-logic-js:
+        specifier: 2.0.5
+        version: 2.0.5
       oceanic-builders:
         specifier: 1.0.2
         version: 1.0.2
@@ -50,19 +53,31 @@ importers:
       oceanic.js:
         specifier: 1.11.2
         version: 1.11.2
+      pako:
+        specifier: 2.1.0
+        version: 2.1.0
       ts-pattern:
         specifier: 5.3.1
         version: 5.3.1
       url-regex-safe:
         specifier: 4.0.0
         version: 4.0.0
+      yamlcord:
+        specifier: file:yamlcord-0.0.1-alpha.1.tgz
+        version: file:yamlcord-0.0.1-alpha.1.tgz
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.2
         version: 1.9.2
+      '@types/json-logic-js':
+        specifier: 2.0.7
+        version: 2.0.7
       '@types/node':
         specifier: 22.5.5
         version: 22.5.5
+      '@types/pako':
+        specifier: 2.0.3
+        version: 2.0.3
       '@types/url-regex-safe':
         specifier: 1.0.2
         version: 1.0.2
@@ -419,8 +434,14 @@ packages:
     resolution: {integrity: sha512-bbqjnKKrCgyT0C3+KOjIBzE6z6/v764EFuV7Uxw9WeIdkqGhwepl6tuNEzgiek/JdtEcODaPeX0K1aCt53yCcA==}
     engines: {node: '>=v14.0.0'}
 
+  '@types/json-logic-js@2.0.7':
+    resolution: {integrity: sha512-fucvZmbjqa1+gpw/nIwcP+ZIYHTvmwxuQQFKw/yU7+ZSD63z/xgY5pWN7sYUDRzg2Wf9STapL+7c66FNzhU6+Q==}
+
   '@types/node@22.5.5':
     resolution: {integrity: sha512-Xjs4y5UPO/CLdzpgR6GirZJx36yScjh73+2NlLlkFRSoQN8B0DpfXPdZGnvVmLRLOsqDpOfTNv7D9trgGhmOIA==}
+
+  '@types/pako@2.0.3':
+    resolution: {integrity: sha512-bq0hMV9opAcrmE0Byyo0fY3Ew4tgOevJmQ9grUhpXQhYfyLJ1Kqg3P33JT5fdbT2AjeAjR51zqqVjAL/HMkx7Q==}
 
   '@types/url-regex-safe@1.0.2':
     resolution: {integrity: sha512-Ro+qmzg7SomSd4uHMCPzv0JwXtAK0gMnB0CvnFErTGFFw+Lndzt1RZS/Yj2yzrdv4h5SZPohdGPA6q/F0TUacw==}
@@ -447,6 +468,9 @@ packages:
   ansi-styles@6.2.1:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
+
+  argparse@2.0.1:
+    resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -607,6 +631,13 @@ packages:
     resolution: {integrity: sha512-cub8rahkh0Q/bw1+GxP7aeSe29hHHn2V4m29nnDlvCdlgU+3UGxkZp7Z53jLUdpX3jdTO0nJZUDl3xvbWc2Xog==}
     engines: {node: 20 || >=22}
 
+  js-yaml@4.1.0:
+    resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
+    hasBin: true
+
+  json-logic-js@2.0.5:
+    resolution: {integrity: sha512-rTT2+lqcuUmj4DgWfmzupZqQDA64AdmYqizzMPWj3DxGdfFNsxPpcNVSaTj4l8W2tG/+hg7/mQhxjU3aPacO6g==}
+
   lilconfig@3.1.2:
     resolution: {integrity: sha512-eop+wDAvpItUys0FWkHIKeC9ybYrTGbU41U5K7+bttZZeohvnY7M9dZ5kB21GNWiFT2q1OoPTvncPCgSOVO5ow==}
     engines: {node: '>=14'}
@@ -679,6 +710,9 @@ packages:
 
   package-json-from-dist@1.0.0:
     resolution: {integrity: sha512-dATvCeZN/8wQsGywez1mzHtTlP22H8OEfPrVMLNr4/eGa+ijtLn/6M5f0dY8UKNrC2O9UCU6SSoG3qRKnt7STw==}
+
+  pako@2.1.0:
+    resolution: {integrity: sha512-w+eufiZ1WuJYgPXbV/PO3NCMEc3xqylkKHzp8bxp1uW4qaSNQUkwmLLEc3kKsfz8lpV1F8Ht3U1Cm+9Srog2ug==}
 
   path-key@3.1.1:
     resolution: {integrity: sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==}
@@ -850,6 +884,13 @@ packages:
     resolution: {integrity: sha512-bLQOjaX/ADgQ20isPJRvF0iRUHIxVhYvr53Of7wGcWlO2jvtUlH5m87DsmulFVxRpNLOnI4tB6p/oh8D7kpn9Q==}
     engines: {node: '>= 14'}
     hasBin: true
+
+  yamlcord@file:yamlcord-0.0.1-alpha.1.tgz:
+    resolution: {integrity: sha512-PA8Z0gZFH0smCf6V1GPtNElvaEXZK7ca6b3RzSCSExNT5n7wCYodo9mXXDI2Q/mjNJWPUZfQP+2eq+QKJ2rCug==, tarball: file:yamlcord-0.0.1-alpha.1.tgz}
+    version: 0.0.1-alpha.1
+
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
 
@@ -1083,9 +1124,13 @@ snapshots:
 
   '@sapphire/utilities@3.17.0': {}
 
+  '@types/json-logic-js@2.0.7': {}
+
   '@types/node@22.5.5':
     dependencies:
       undici-types: 6.19.8
+
+  '@types/pako@2.0.3': {}
 
   '@types/url-regex-safe@1.0.2': {}
 
@@ -1107,6 +1152,8 @@ snapshots:
       color-convert: 2.0.1
 
   ansi-styles@6.2.1: {}
+
+  argparse@2.0.1: {}
 
   balanced-match@1.0.2: {}
 
@@ -1264,6 +1311,12 @@ snapshots:
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
 
+  js-yaml@4.1.0:
+    dependencies:
+      argparse: 2.0.1
+
+  json-logic-js@2.0.5: {}
+
   lilconfig@3.1.2: {}
 
   lint-staged@15.2.10:
@@ -1359,6 +1412,8 @@ snapshots:
       mimic-function: 5.0.1
 
   package-json-from-dist@1.0.0: {}
+
+  pako@2.1.0: {}
 
   path-key@3.1.1: {}
 
@@ -1490,3 +1545,12 @@ snapshots:
   ws@8.18.0: {}
 
   yaml@2.5.1: {}
+
+  yamlcord@file:yamlcord-0.0.1-alpha.1.tgz:
+    dependencies:
+      emoji-regex: 10.4.0
+      js-yaml: 4.1.0
+      ts-pattern: 5.3.1
+      zod: 3.23.8
+
+  zod@3.23.8: {}
