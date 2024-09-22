@@ -28,8 +28,8 @@ If you believe you have found a security vulnerability, please **DO NOT make a p
 ## Contributors
 
 <!-- markdownlint-disable -->
-<a href="https://github.com/FancyStudioTeam/YAMLCord/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=FancyStudioTeam/YAMLCord&max=500&columns=20" />
+<a href="https://github.com/FancyStudioTeam/Overseer/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=FancyStudioTeam/Overseer&max=500&columns=20" />
 </a>
 <!-- markdownlint-restore -->
 
