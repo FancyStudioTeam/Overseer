@@ -1,46 +1,39 @@
 <!-- markdownlint-disable -->
 <div align="center">
-  <img src="/assets/images/Overseer.png" alt="Overseer" width="150" height="150">
-  <h1 align="center">Overseer</h1>
+  <picture>
+    <source srcset="/assets/Banners/Dark.png" media="(prefers-color-scheme: dark)">
+    <img src="/assets/Banners/Light.png">
+  </picture>
+  <p>Overseer is a Discord bot to manage Discord servers in a robust way.</p>
+  <div style="display: flex; justify-content: center; gap: 5px; flex-wrap: wrap;">
+    <a href="https://discord.gg/yWjeDA6ewJ" style="text-decoration: none;">
+      <img src="https://img.shields.io/badge/Support-Support?style=for-the-badge&color=4cb699&label=Discord&logo=discord&logoColor=white">
+    </a>
+  </div>
 </div>
 <!-- markdownlint-restore -->
 
-> [!WARNING]
-> This project is still in **alpha version**. There may be bugs and Breaking Changes.
+## License
 
-## 📦 Our Stack
+[Overseer][OverseerRepositoryURL] © 2024 by [FancyStudio][FancyStudioGitHubURL] is licensed under [CC BY-SA 4.0][CCBYSALicenseURL].
 
-[![Oceanic.js][OceanicJSBadgeURL]][OceanicJSURL]
-[![Prisma][PrismaBadgeURL]][PrismaURL]
-[![TypeScript][TypeScriptBadgeURL]][TypeScriptURL]
-[![Biome][BiomeBadgeURL]][BiomeURL]
-[![PNPM][PNPMBadgeURL]][PNPMURL]
+## Support
 
-## 📄 License
+If you need help, you can join our [Support Server][SupportServerURL] and ask your questions there.
 
-This project is licensed under the [BSD-3-Clause][BSD3ClauseURL] license.
-
-## 💻 Security
+## Security
 
 If you believe you have found a security vulnerability, please **DO NOT make a public issue**, instead, go to our [Support Server][SupportServerURL] and contact the developers privately.
 
-## 💖 Contributors
+## Contributors
 
-Special thanks to all our contributors who have helped keep the project going!
+<!-- markdownlint-disable -->
+<a href="https://github.com/FancyStudioTeam/YAMLCord/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=FancyStudioTeam/YAMLCord&max=500&columns=20" />
+</a>
+<!-- markdownlint-restore -->
 
-[![All Contributors][ContributorsImageURL]][ContributorsURL]
-
-[BSD3ClauseURL]: https://opensource.org/license/bsd-3-clause/
-[BiomeBadgeURL]: https://img.shields.io/badge/Biome-60A5FA?style=for-the-badge&logo=biome&color=2D3748
-[BiomeURL]: https://biomejs.dev/
-[ContributorsImageURL]: https://contrib.rocks/image?repo=FancyStudioTeam/Overseer&max=500&columns=20
-[ContributorsURL]: https://github.com/FancyStudioTeam/Overseer/graphs/contributors
-[OceanicJSBadgeURL]: https://img.shields.io/badge/Oceanic.js-5FA04E?style=for-the-badge&logo=nodedotjs&color=2D3748
-[OceanicJSURL]: https://oceanic.ws/
-[PNPMBadgeURL]: https://img.shields.io/badge/pnpm-F69220?style=for-the-badge&logo=pnpm&color=2D3748
-[PNPMURL]: https://pnpm.io/
-[PrismaBadgeURL]: https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&color=2D3748
-[PrismaURL]: https://www.prisma.io/
-[SupportServerURL]: https://discord.gg/gud55BjNFC
-[TypeScriptBadgeURL]: https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&color=2D3748
-[TypeScriptURL]: https://www.typescriptlang.org/
+[CCBYSALicenseURL]: https://creativecommons.org/licenses/by-sa/4.0/
+[FancyStudioGitHubURL]: https://github.com/FancyStudio
+[OverseerRepositoryURL]: https://github.com/FancyStudio/Overseer
+[SupportServerURL]: https://discord.gg/yWjeDA6ewJ
