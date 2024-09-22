@@ -3,14 +3,14 @@
   "dependencies": {
     "@colors/colors": "1.6.0",
     "@discordjs/formatters": "0.5.0",
-    "@napi-rs/canvas": "0.1.55",
+    "@napi-rs/canvas": "0.1.56",
     "@prisma/client": "5.19.1",
     "@sapphire/ratelimits": "2.4.9",
     "@sapphire/result": "2.6.6",
     "@sapphire/snowflake": "3.5.3",
     "@sapphire/time-utilities": "1.7.12",
     "dotenv": "16.4.5",
-    "es-toolkit": "1.19.0",
+    "es-toolkit": "1.20.0",
     "glob": "11.0.0",
     "oceanic-builders": "1.0.2",
     "oceanic-collectors": "1.0.7",
@@ -20,7 +20,7 @@
   },
   "description": "Overseer Client Repository",
   "devDependencies": {
-    "@biomejs/biome": "1.9.1",
+    "@biomejs/biome": "1.9.2",
     "@types/node": "22.5.5",
     "@types/url-regex-safe": "1.0.2",
     "husky": "9.1.6",
@@ -44,7 +44,7 @@
     "**/*.{js,jsx,ts,tsx,json,css,scss,md}": ["pnpm biome"]
   },
   "name": "overseer",
-  "packageManager": "pnpm@9.10.0",
+  "packageManager": "pnpm@9.11.0",
   "prisma": {
     "seed": "tsx src/seed.ts"
   },
