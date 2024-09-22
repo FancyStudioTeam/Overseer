@@ -79,6 +79,14 @@ export default {
     },
   },
   GLOBAL: {
+    USER_IS_LIMITED: ({
+      resets,
+    }: {
+      resets: string;
+    }) =>
+      bold(
+        `${Emojis.CANCEL} Has superado el máximo número de llamadas de los comandos\n${Emojis.ARROW_CIRCLE_RIGHT} El limite se restablecerá dentro de ${resets}`,
+      ),
     PERMISSIONS: {
       GUILD: {
         USER: ({

@@ -6,9 +6,9 @@ import { Translations } from "#translations";
 import type { Locales } from "#types";
 import { prisma } from "#util/Prisma.js";
 import { CheckPermissionsFrom, checkMemberPermissions, errorMessage, formatUnix } from "#util/Util.js";
-import { handleButton } from "./handlers/handleButton";
-import { handleChatInputSubCommand } from "./handlers/handleChatInputSubCommand";
-import { handleUserCommand } from "./handlers/handleUserCommand";
+import { handleButton } from "./handlers/handleButton.js";
+import { handleChatInputSubCommand } from "./handlers/handleChatInputSubCommand.js";
+import { handleUserCommand } from "./handlers/handleUserCommand.js";
 
 const commandRateLimiter = new RateLimitManager(5000, 3);
 const componentRateLimiter = new RateLimitManager(7000, 5);
@@ -63,13 +63,16 @@ client.on("interactionCreate", async (interaction) => {
           .with(
             ApplicationCommandTypes.CHAT_INPUT,
             async () =>
-              await handleChatInputSubCommand(commandInteraction.data.options.getSubCommand(true).join("_"), {
-                handleArguments: {
-                  locale,
-                  premium,
+              await handleChatInputSubCommand(
+                [commandInteraction.data.name, commandInteraction.data.options.getSubCommand(true).join("_")].join("_"),
+                {
+                  handleArguments: {
+                    locale,
+                    premium,
+                  },
+                  context: commandInteraction,
                 },
-                context: commandInteraction,
-              }),
+              ),
           )
           .with(
             ApplicationCommandTypes.USER,
