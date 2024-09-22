@@ -29,6 +29,6 @@ If you need help, you can join our [Support Server][SupportServerURL] and ask yo
 If you believe you have found a security vulnerability, please **DO NOT make a public issue**, instead, go to our [Support Server][SupportServerURL] and contact the developers privately.
 
 [CCBYSALicenseURL]: https://creativecommons.org/licenses/by-sa/4.0/
-[FancyStudioGitHubURL]: https://github.com/FancyStudio
-[OverseerRepositoryURL]: https://github.com/FancyStudio/Overseer
+[FancyStudioGitHubURL]: https://github.com/FancyStudioTeam
+[OverseerRepositoryURL]: https://github.com/FancyStudioTeam/Overseer
 [SupportServerURL]: https://discord.gg/yWjeDA6ewJ
