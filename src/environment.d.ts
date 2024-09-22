@@ -1,7 +1,6 @@
 import type { Role } from "oceanic.js";
 
 declare global {
-  // biome-ignore lint/style/useNamingConvention:
   namespace NodeJS {
     interface ProcessEnv {
       // biome-ignore lint/style/useNamingConvention:

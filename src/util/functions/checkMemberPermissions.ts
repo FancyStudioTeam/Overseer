@@ -13,7 +13,7 @@ import { Colors } from "#constants";
 import { client } from "#index";
 import { Translations } from "#translations";
 import type { Locales } from "#types";
-import { createMessage } from "./createMessage";
+import { createMessage } from "./createMessage.js";
 
 export const checkMemberPermissions = async (
   member: Member,
@@ -59,7 +59,7 @@ export const checkMemberPermissions = async (
       });
     });
 
-  if (missingPermissions.length) {
+  if (missingPermissions.length > 0) {
     hasPermissions = false;
 
     await createMessage(context, {

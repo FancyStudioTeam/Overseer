@@ -1,5 +1,5 @@
 import colors from "@colors/colors";
-import { formatTimestamp } from "./formatTimestamp";
+import { formatTimestamp } from "./formatTimestamp.js";
 
 export const logger = (
   content: string,
@@ -46,6 +46,7 @@ export const logger = (
     ),
   };
 
+  // biome-ignore lint/suspicious/noConsole:
   console.log(levels[type]);
 };
 

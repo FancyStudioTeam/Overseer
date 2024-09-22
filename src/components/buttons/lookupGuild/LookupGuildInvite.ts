@@ -3,6 +3,7 @@ import { Embed } from "oceanic-builders";
 import { ChannelTypes, ComponentTypes, MessageFlags } from "oceanic.js";
 import { Colors, Emojis } from "#constants";
 import { client } from "#index";
+import type { MaybeNullish } from "#types";
 import { createComponent } from "#util/Handlers";
 import { errorMessage } from "#util/Util";
 
@@ -20,7 +21,7 @@ export default createComponent({
       });
     }
 
-    let channelId = null;
+    let channelId: MaybeNullish<string> = null;
 
     for (const channel of guild.channels.values()) {
       if (channel.type !== ChannelTypes.GUILD_TEXT) continue;

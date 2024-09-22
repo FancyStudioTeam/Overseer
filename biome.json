@@ -54,7 +54,8 @@
                 }
               }
             ],
-            "enumMemberCase": "CONSTANT_CASE"
+            "enumMemberCase": "CONSTANT_CASE",
+            "strictCase": false
           }
         }
       },

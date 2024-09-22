@@ -50,7 +50,6 @@ export const executeFunction = async (
 
           if (data.reply) {
             messagePayload.messageReference = {
-              // biome-ignore lint/style/useNamingConvention:
               messageID: message.id,
               failIfNotExists: false,
             };

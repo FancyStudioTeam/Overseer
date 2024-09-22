@@ -3,8 +3,8 @@ import { Attachment, Embed } from "oceanic-builders";
 import type { AnyInteractionGateway, Message } from "oceanic.js";
 import { Colors } from "#constants";
 import { createErrorCardImage } from "#util/Canvas";
-import { createMessage } from "./createMessage";
-import { LoggerType, logger } from "./logger";
+import { createMessage } from "./createMessage.js";
+import { LoggerType, logger } from "./logger.js";
 
 export const handleError = async (
   error: Error,

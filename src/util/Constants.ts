@@ -1,4 +1,4 @@
-import { Development, Production } from "./Emojis";
+import { Development, Production } from "./Emojis.js";
 
 export const Colors = {
   COLOR: 0x2b2d31,

@@ -37,7 +37,7 @@ export default createPrefixCommand({
       components: new ActionRow()
         .addComponents([
           new Button()
-            .setCustomID("@lookup_guild/owner")
+            .setCustomID(`@lookup_guild/owner#${guild.id}`)
             .setLabel("Owner")
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.SHIELD_PERSON)),
