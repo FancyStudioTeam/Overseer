@@ -1,13 +1,14 @@
 <!-- markdownlint-disable -->
 <div align="center">
-  <picture>
-    <source srcset="./assets/Banners/Dark.png" media="(prefers-color-scheme: dark)">
-    <img src="./assets/Banners/Light.png">
-  </picture>
+  <img src="assets/images/Overseer.png" alt="Overseer" width="150" height="150">
+  <h1>Overseer</h1>
   <p>Overseer is a Discord bot to manage Discord servers in a robust way.</p>
   <div style="display: flex; justify-content: center; gap: 5px; flex-wrap: wrap;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/" style="text-decoration: none;">
+      <img src="https://img.shields.io/badge/CC BY--SA 4.0-_?style=for-the-badge&color=4cb699&label=License&logo=creative-commons&logoColor=white">
+    </a>
     <a href="https://discord.gg/yWjeDA6ewJ" style="text-decoration: none;">
-      <img src="https://img.shields.io/badge/Support-Support?style=for-the-badge&color=4cb699&label=Discord&logo=discord&logoColor=white">
+      <img src="https://img.shields.io/badge/Support-_?style=for-the-badge&color=4cb699&label=Discord&logo=discord&logoColor=white">
     </a>
   </div>
 </div>
