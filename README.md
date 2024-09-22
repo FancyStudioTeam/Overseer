@@ -14,6 +14,8 @@
 </div>
 <!-- markdownlint-restore -->
 
+---
+
 ## License
 
 [Overseer][OverseerRepositoryURL] © 2024 by [FancyStudio][FancyStudioGitHubURL] is licensed under [CC BY-SA 4.0][CCBYSALicenseURL].
