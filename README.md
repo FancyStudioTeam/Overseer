@@ -1,8 +1,8 @@
 <!-- markdownlint-disable -->
 <div align="center">
   <picture>
-    <source srcset="/assets/Banners/Dark.png" media="(prefers-color-scheme: dark)">
-    <img src="/assets/Banners/Light.png">
+    <source srcset="./assets/Banners/Dark.png" media="(prefers-color-scheme: dark)">
+    <img src="./assets/Banners/Light.png">
   </picture>
   <p>Overseer is a Discord bot to manage Discord servers in a robust way.</p>
   <div style="display: flex; justify-content: center; gap: 5px; flex-wrap: wrap;">
