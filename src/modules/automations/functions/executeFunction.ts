@@ -66,6 +66,6 @@ export const executeFunction = async (
       {
         name: "wait",
       },
-      async ({ data }) => await delay(data * 1000),
+      async ({ data }) => await delay(data),
     );
 };
