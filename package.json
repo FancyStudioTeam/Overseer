@@ -60,5 +60,5 @@
     "prepare": "husky",
     "start": "node src/index.js"
   },
-  "version": "0.0.3_alpha"
+  "version": "0.0.3-alpha"
 }
