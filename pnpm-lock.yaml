@@ -886,8 +886,8 @@ packages:
     hasBin: true
 
   yamlcord@file:yamlcord-0.0.1-alpha.1.tgz:
-    resolution: {integrity: sha512-PA8Z0gZFH0smCf6V1GPtNElvaEXZK7ca6b3RzSCSExNT5n7wCYodo9mXXDI2Q/mjNJWPUZfQP+2eq+QKJ2rCug==, tarball: file:yamlcord-0.0.1-alpha.1.tgz}
-    version: 0.0.1-alpha.1
+    resolution: {integrity: sha512-QJ0OK4K9jb2xMcZsuF7JjLm6Yb2wAIjqwG9S3bxW+BECkTIU9eOlrbIt4SnFmGRmV8patfuJW9sn+ZKw1JdWCg==, tarball: file:yamlcord-0.0.1-alpha.1.tgz}
+    version: 0.0.1-alpha
 
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
