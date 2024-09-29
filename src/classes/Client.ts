@@ -11,14 +11,14 @@ import {
   type User,
 } from "oceanic.js";
 import { match } from "ts-pattern";
-import type { MaybeNullish } from "#types";
 import type {
-  createChatInputCommand,
-  createChatInputSubCommand,
-  createComponent,
-  createPrefixCommand,
-  createUserCommand,
-} from "#util/Handlers.js";
+  ChatInputCommandData,
+  ChatInputSubCommandData,
+  ComponentData,
+  MaybeNullish,
+  PrefixCommandData,
+  UserCommandData,
+} from "#types";
 import { prisma } from "#util/Prisma.js";
 import { LoggerType, logger } from "#util/Util.js";
 
@@ -26,16 +26,16 @@ const commandsArray: CreateApplicationCommandOptions[] = [];
 
 export class Discord extends Client {
   readonly interactions: {
-    chatInput: Collection<string, MaybeNullish<Parameters<typeof createChatInputCommand>[0]>>;
-    user: Collection<string, MaybeNullish<Parameters<typeof createUserCommand>[0]>>;
+    chatInput: Collection<string, MaybeNullish<ChatInputCommandData>>;
+    user: Collection<string, MaybeNullish<UserCommandData>>;
   };
   readonly components: {
-    buttons: Collection<string, MaybeNullish<Parameters<typeof createComponent>[0]>>;
-    selectMenus: Collection<string, MaybeNullish<Parameters<typeof createComponent>[0]>>;
+    buttons: Collection<string, MaybeNullish<ComponentData>>;
+    selectMenus: Collection<string, MaybeNullish<ComponentData>>;
   };
-  readonly subCommands: Collection<string, MaybeNullish<Parameters<typeof createChatInputSubCommand>[0]>>;
+  readonly subCommands: Collection<string, MaybeNullish<ChatInputSubCommandData>>;
   readonly readyAt: Date;
-  readonly prefixCommands: Collection<string, MaybeNullish<Parameters<typeof createPrefixCommand>[0]>>;
+  readonly prefixCommands: Collection<string, MaybeNullish<PrefixCommandData>>;
 
   constructor() {
     super({
