@@ -170,7 +170,7 @@ export class Discord extends Client {
     this.interactions.user.clear();
 
     await this.registerSubCommands();
-    await this.#loadFiles(`${join(process.cwd(), "src/commands")}/*/*/*.{ts,js}`).then((paths) => {
+    await this.#loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const commandPath = this.#resolve(path);
         const command = require(commandPath).default;
@@ -195,7 +195,7 @@ export class Discord extends Client {
     this.components.buttons.clear();
     this.components.selectMenus.clear();
 
-    await this.#loadFiles(`${join(process.cwd(), "src/components")}/*/*/*.{ts,js}`).then((paths) => {
+    await this.#loadFiles(`${join(__dirname, "..", "components")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const componentPath = this.#resolve(path);
         const component = require(componentPath).default;
@@ -226,7 +226,7 @@ export class Discord extends Client {
   registerSubCommands = async () => {
     this.subCommands.clear();
 
-    await this.#loadFiles(`${join(process.cwd(), "src/commands/chatInput")}/*/*/*.{ts,js}`).then((paths) => {
+    await this.#loadFiles(`${join(__dirname, "..", "commands/chatInput")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const subCommandPath = this.#resolve(path);
         const subCommand = require(subCommandPath).default;
@@ -246,7 +246,7 @@ export class Discord extends Client {
   registerPrefixCommands = async () => {
     this.prefixCommands.clear();
 
-    await this.#loadFiles(`${join(process.cwd(), "src/commands/prefix")}/*.{ts,js}`).then((paths) => {
+    await this.#loadFiles(`${join(__dirname, "..", "commands/prefix")}/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const prefixCommandPath = this.#resolve(path);
         const prefixCommand = require(prefixCommandPath).default;
@@ -263,7 +263,7 @@ export class Discord extends Client {
   registerEvents = async () => {
     this.removeAllListeners();
 
-    await this.#loadFiles(`${join(process.cwd(), "src/events")}/*/*.{ts,js}`).then((paths) => {
+    await this.#loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         require(this.#resolve(path));
       }
@@ -271,7 +271,7 @@ export class Discord extends Client {
   };
 
   registerModules = async () =>
-    await this.#loadFiles(`${join(process.cwd(), "src/modules")}/*.{ts,js}`).then((paths) => {
+    await this.#loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         require(this.#resolve(path)).default(this);
       }

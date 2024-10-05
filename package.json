@@ -55,7 +55,7 @@
     "build": "tsc --project tsconfig.json && tsc-alias",
     "dev": "tsx watch --ignore src/locales src/index.ts",
     "prepare": "husky",
-    "start": "node src/index.js"
+    "start": "cd dist && node index.js"
   },
   "version": "0.0.3-alpha.1"
 }
