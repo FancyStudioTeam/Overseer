@@ -1,5 +1,5 @@
 import colors from "@colors/colors";
-import { bold, codeBlock } from "@discordjs/formatters";
+import { bold, codeBlock, inlineCode } from "@discordjs/formatters";
 import type { PermissionName } from "oceanic.js";
 import { Emojis } from "#constants";
 
@@ -59,6 +59,16 @@ const permissions: Record<PermissionName, string> = {
 
 export default {
   COMMANDS: {
+    CONFIGURATION: {
+      AUTOMATIONS: {
+        LIST: {
+          NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} This server has no automations available`),
+        },
+      },
+      LOCALE: {
+        MESSAGE_1: bold(`${Emojis.CHECK_CIRCLE} The bot language has been set to ${inlineCode("English")}`),
+      },
+    },
     INFORMATION: {
       DEBUG: {
         MESSAGE_1: {
