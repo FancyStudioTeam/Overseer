@@ -1,4 +1,3 @@
-import type { Prisma } from "@prisma/client";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { gzip } from "pako";
 import { YAMLCord } from "yamlcord";
@@ -13,10 +12,7 @@ export default createChatInputSubCommand({
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 
     const attachmentOption = context.data.options.getAttachment("code", true);
-    const triggerOption = context.data.options.getString(
-      "trigger",
-      true,
-    ) as (typeof Prisma.GuildAutomationGeneral)["trigger"];
+    const triggerOption = context.data.options.getString("trigger", true) as "ON_MESSAGE_CREATE";
     const attachmentContentRequest = await fetch(attachmentOption.url, {
       method: "GET",
       headers: {
@@ -43,6 +39,8 @@ export default createChatInputSubCommand({
           },
         });
       })
-      .catch(() => {});
+      .catch(() => {
+        return;
+      });
   },
 });
