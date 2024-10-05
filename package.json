@@ -10,7 +10,7 @@
     "@sapphire/snowflake": "3.5.3",
     "@sapphire/time-utilities": "1.7.12",
     "dotenv": "16.4.5",
-    "es-toolkit": "1.22.0",
+    "es-toolkit": "1.23.0",
     "glob": "11.0.0",
     "json-logic-js": "2.0.5",
     "oceanic-builders": "1.0.2",
@@ -19,11 +19,11 @@
     "pako": "2.1.0",
     "ts-pattern": "5.4.0",
     "url-regex-safe": "4.0.0",
-    "yamlcord": "file:yamlcord-0.0.1-alpha.tgz"
+    "yamlcord": "0.0.1-alpha.1"
   },
   "description": "Overseer Client Repository",
   "devDependencies": {
-    "@biomejs/biome": "1.9.2",
+    "@biomejs/biome": "1.9.3",
     "@types/json-logic-js": "2.0.7",
     "@types/node": "22.7.4",
     "@types/pako": "2.0.3",
