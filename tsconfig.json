@@ -30,7 +30,7 @@
       "@translations": ["./src/locales/index.ts"],
       "@types": ["./src/types.ts"],
       "@util/*": ["./src/util/*"],
-      "@utils": ["./src/util/util/index.ts"]
+      "@utils": ["./src/util/utils/index.ts"]
     },
     "preserveConstEnums": true,
     "pretty": true,
