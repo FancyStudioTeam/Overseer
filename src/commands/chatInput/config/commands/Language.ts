@@ -1,8 +1,8 @@
 import { Colors } from "@constants";
+import { client } from "@index";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
 import { createChatInputSubCommand } from "@util/Handlers";
-import { prisma } from "@util/Prisma";
 import { Embed } from "oceanic-builders";
 
 export default createChatInputSubCommand({
@@ -13,7 +13,7 @@ export default createChatInputSubCommand({
     const languageOption = context.data.options.getString("language", true);
     const {
       general: { locale },
-    } = await prisma.guildConfiguration.upsert({
+    } = await client.prisma.guildConfiguration.upsert({
       create: {
         general: {
           locale: languageOption,

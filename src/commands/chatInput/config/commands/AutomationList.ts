@@ -1,6 +1,6 @@
+import { client } from "@index";
 import { Translations } from "@translations";
 import { createChatInputSubCommand } from "@util/Handlers";
-import { prisma } from "@util/Prisma";
 import { errorMessage } from "@utils";
 
 export default createChatInputSubCommand({
@@ -8,7 +8,7 @@ export default createChatInputSubCommand({
   run: async ({ context, locale }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 
-    const guildAutomations = await prisma.guildAutomation.findMany({
+    const guildAutomations = await client.prisma.guildAutomation.findMany({
       where: {
         guildId: context.guildID,
       },
