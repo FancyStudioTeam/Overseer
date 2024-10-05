@@ -1,7 +1,7 @@
+import { client } from "@index";
+import { prisma } from "@util/Prisma.js";
 import { ungzip } from "pako";
 import { type Conditional, type Function, type Sequence, SequenceType, YAMLCord } from "yamlcord";
-import { client } from "#index";
-import { prisma } from "#util/Prisma.js";
 import { executeConditional } from "./automations/conditionals/executeConditional.js";
 import { executeFunction } from "./automations/functions/executeFunction.js";
 
@@ -14,7 +14,7 @@ export default () => {
   client.on("messageCreate", async (message) => {
     if (!(message.inCachedGuildChannel() && message.guild)) return;
 
-    const allAutomations = await prisma.guildAutomation.findMany({
+    const guildAutomations = await prisma.guildAutomation.findMany({
       where: {
         general: {
           is: {
@@ -24,11 +24,10 @@ export default () => {
         guildId: message.guildID,
       },
     });
-    const guildAutomation = allAutomations[0];
 
-    if (guildAutomation) {
-      const uncompressedBuffer = ungzip(guildAutomation.general.data);
-      const { sequences } = await yamlCord.createSequencesFromData(Buffer.from(uncompressedBuffer).toString());
+    for (const guildAutomation of guildAutomations) {
+      const uncompressedBuffer = Buffer.from(ungzip(guildAutomation.general.data)).toString();
+      const { sequences } = await yamlCord.createSequencesFromData(uncompressedBuffer);
 
       for (const sequence of sequences) {
         if (isConditional(sequence)) {
@@ -36,7 +35,7 @@ export default () => {
             message,
           });
         } else if (isFunction(sequence)) {
-          await executeFunction(sequence, {
+          executeFunction(sequence, {
             message,
           });
         }

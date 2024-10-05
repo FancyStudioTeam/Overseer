@@ -24,13 +24,14 @@
     "noUnusedParameters": true,
     "outDir": "dist",
     "paths": {
-      "@client": ["./src/classes/Client.ts"],
-      "#constants": ["./src/util/Constants.ts"],
-      "#index": ["./src/index.ts"],
-      "#package": ["./package.json"],
-      "#translations": ["./src/locales/index.ts"],
-      "#types": ["./src/types.ts"],
-      "@utils/*": ["./src/util/*"]
+      "@client": ["./src/classes/Client.js"],
+      "@constants": ["./src/constants.js"],
+      "@index": ["./src/index.js"],
+      "@package": ["./package.json"],
+      "@translations": ["./src/locales/index.js"],
+      "@types": ["./src/types.js"],
+      "@util/*": ["./src/util/*"],
+      "@utils": ["./src/util/util/index.js"]
     },
     "preserveConstEnums": true,
     "pretty": true,

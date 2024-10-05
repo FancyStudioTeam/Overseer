@@ -1,10 +1,10 @@
 import { randomUUID } from "node:crypto";
+import { Colors, Emojis } from "@constants";
 import { bold, spoiler } from "@discordjs/formatters";
+import { client } from "@index";
+import { createPrefixCommand } from "@util/Handlers.js";
+import { prisma } from "@util/Prisma.js";
 import { Embed } from "oceanic-builders";
-import { Colors, Emojis } from "#constants";
-import { client } from "#index";
-import { createPrefixCommand } from "#util/Handlers.js";
-import { prisma } from "#util/Prisma.js";
 
 export default createPrefixCommand({
   developerOnly: true,

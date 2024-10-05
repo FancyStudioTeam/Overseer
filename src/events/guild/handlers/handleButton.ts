@@ -1,9 +1,9 @@
+import { Developers } from "@constants";
+import { client } from "@index";
 import { Result } from "@sapphire/result";
+import type { Locales } from "@types";
+import { handleError } from "@utils";
 import type { ComponentInteraction } from "oceanic.js";
-import { Developers } from "#constants";
-import { client } from "#index";
-import type { Locales } from "#types";
-import { handleError } from "#util/Util";
 
 export const handleButton = async (
   key: string,

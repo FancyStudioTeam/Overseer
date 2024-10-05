@@ -1,7 +1,7 @@
-import { Translations } from "#translations";
-import { createChatInputSubCommand } from "#util/Handlers";
-import { prisma } from "#util/Prisma";
-import { errorMessage } from "#util/Util";
+import { Translations } from "@translations";
+import { createChatInputSubCommand } from "@util/Handlers";
+import { prisma } from "@util/Prisma";
+import { errorMessage } from "@utils";
 
 export default createChatInputSubCommand({
   name: "automations_list",

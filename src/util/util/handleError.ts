@@ -1,8 +1,8 @@
+import { Colors } from "@constants";
 import { DiscordSnowflake } from "@sapphire/snowflake";
+import { createErrorCardImage } from "@util/Canvas";
 import { Attachment, Embed } from "oceanic-builders";
 import type { AnyInteractionGateway, Message } from "oceanic.js";
-import { Colors } from "#constants";
-import { createErrorCardImage } from "#util/Canvas";
 import { createMessage } from "./createMessage.js";
 import { LoggerType, logger } from "./logger.js";
 

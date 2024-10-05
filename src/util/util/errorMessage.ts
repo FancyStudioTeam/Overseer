@@ -1,6 +1,6 @@
+import { Colors } from "@constants";
 import { Embed } from "oceanic-builders";
 import { type AnyInteractionGateway, type Message, MessageFlags } from "oceanic.js";
-import { Colors } from "#constants";
 import { createMessage } from "./createMessage.js";
 
 export const errorMessage = async (

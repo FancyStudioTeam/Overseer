@@ -1,11 +1,11 @@
 import { type ExecException, exec } from "node:child_process";
+import { Colors, Emojis } from "@constants";
 import { bold, codeBlock } from "@discordjs/formatters";
+import { client } from "@index";
+import type { MaybeNullish } from "@types";
+import { createPrefixCommand } from "@util/Handlers.js";
+import { errorMessage } from "@utils";
 import { Embed } from "oceanic-builders";
-import { Colors, Emojis } from "#constants";
-import { client } from "#index";
-import type { MaybeNullish } from "#types";
-import { createPrefixCommand } from "#util/Handlers.js";
-import { errorMessage } from "#util/Util.js";
 
 const truncate = (content: string, maxLength: number) =>
   content.length > maxLength ? `${content.slice(0, maxLength - 3)}...` : content;

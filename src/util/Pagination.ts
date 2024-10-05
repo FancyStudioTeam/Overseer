@@ -1,3 +1,8 @@
+import { Emojis } from "@constants";
+import { client } from "@index";
+import { Translations } from "@translations";
+import type { Locales } from "@types";
+import { disableMessageComponents, errorMessage, parseEmoji } from "@utils";
 import { ActionRow, Button } from "oceanic-builders";
 import {
   type BaseCollectorEndReasons,
@@ -19,11 +24,6 @@ import {
   MessageFlags,
 } from "oceanic.js";
 import { match } from "ts-pattern";
-import { Emojis } from "#constants";
-import { client } from "#index";
-import { Translations } from "#translations";
-import type { Locales } from "#types";
-import { disableMessageComponents, errorMessage, parseEmoji } from "#util/Util.js";
 
 export async function pagination({
   context,

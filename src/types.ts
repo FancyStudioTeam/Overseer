@@ -4,7 +4,7 @@ import type {
   createComponent,
   createPrefixCommand,
   createUserCommand,
-} from "#util/Handlers";
+} from "@util/Handlers";
 
 export type Locales = "EN" | "ES";
 

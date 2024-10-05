@@ -1,9 +1,9 @@
+import { Colors } from "@constants";
+import { Translations } from "@translations";
+import type { Locales } from "@types";
+import { createChatInputSubCommand } from "@util/Handlers";
+import { prisma } from "@util/Prisma";
 import { Embed } from "oceanic-builders";
-import { Colors } from "#constants";
-import { Translations } from "#translations";
-import type { Locales } from "#types";
-import { createChatInputSubCommand } from "#util/Handlers";
-import { prisma } from "#util/Prisma";
 
 export default createChatInputSubCommand({
   name: "language",

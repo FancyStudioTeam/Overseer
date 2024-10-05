@@ -1,4 +1,8 @@
+import { Colors } from "@constants";
 import { inlineCode } from "@discordjs/formatters";
+import { client } from "@index";
+import { Translations } from "@translations";
+import type { Locales } from "@types";
 import { Embed } from "oceanic-builders";
 import {
   type AnyInteractionGateway,
@@ -9,10 +13,6 @@ import {
   type PermissionName,
 } from "oceanic.js";
 import { match } from "ts-pattern";
-import { Colors } from "#constants";
-import { client } from "#index";
-import { Translations } from "#translations";
-import type { Locales } from "#types";
 import { createMessage } from "./createMessage.js";
 
 export const checkMemberPermissions = async (

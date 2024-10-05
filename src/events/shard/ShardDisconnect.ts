@@ -1,5 +1,5 @@
-import { client } from "#index";
-import { LoggerType, logger } from "#util/Util.js";
+import { client } from "@index";
+import { LoggerType, logger } from "@utils";
 
 client.on("shardDisconnect", (error, id) => {
   if (error instanceof Error) {

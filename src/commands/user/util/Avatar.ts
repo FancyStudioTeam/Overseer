@@ -1,7 +1,7 @@
+import { Colors } from "@constants";
+import { createUserCommand } from "@util/Handlers.js";
 import { Embed } from "oceanic-builders";
 import { ApplicationCommandTypes, ApplicationIntegrationTypes, InteractionContextTypes, type User } from "oceanic.js";
-import { Colors } from "#constants";
-import { createUserCommand } from "#util/Handlers.js";
 
 export default createUserCommand({
   contexts: [InteractionContextTypes.GUILD],

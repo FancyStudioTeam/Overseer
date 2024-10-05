@@ -1,8 +1,8 @@
+import { client } from "@index";
 import { Result } from "@sapphire/result";
+import type { Locales } from "@types";
+import { checkMemberPermissions, handleError } from "@utils";
 import type { CommandInteraction } from "oceanic.js";
-import { client } from "#index";
-import type { Locales } from "#types";
-import { checkMemberPermissions, handleError } from "#util/Util";
 
 export const handleChatInputSubCommand = async (
   key: string,

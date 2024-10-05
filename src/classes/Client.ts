@@ -1,4 +1,14 @@
 import { join, sep } from "node:path";
+import type {
+  ChatInputCommandData,
+  ChatInputSubCommandData,
+  ComponentData,
+  MaybeNullish,
+  PrefixCommandData,
+  UserCommandData,
+} from "@types";
+import { prisma } from "@util/Prisma.js";
+import { LoggerType, logger } from "@utils";
 import { glob } from "glob";
 import {
   ApplicationCommandTypes,
@@ -11,16 +21,6 @@ import {
   type User,
 } from "oceanic.js";
 import { match } from "ts-pattern";
-import type {
-  ChatInputCommandData,
-  ChatInputSubCommandData,
-  ComponentData,
-  MaybeNullish,
-  PrefixCommandData,
-  UserCommandData,
-} from "#types";
-import { prisma } from "#util/Prisma.js";
-import { LoggerType, logger } from "#util/Util.js";
 
 const commandsArray: CreateApplicationCommandOptions[] = [];
 

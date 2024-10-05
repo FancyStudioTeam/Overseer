@@ -1,4 +1,4 @@
-import { LoggerType, logger } from "#util/Util.js";
+import { LoggerType, logger } from "@utils";
 
 process.on("uncaughtException", (error) =>
   logger(`Uncaught Exception: ${error.stack ?? error.message}`, {

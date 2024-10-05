@@ -1,10 +1,10 @@
+import { Colors, Emojis } from "@constants";
 import { bold, inlineCode } from "@discordjs/formatters";
+import { client } from "@index";
+import { createComponent } from "@util/Handlers";
+import { errorMessage } from "@utils";
 import { Embed } from "oceanic-builders";
 import { ComponentTypes, MessageFlags } from "oceanic.js";
-import { Colors, Emojis } from "#constants";
-import { client } from "#index";
-import { createComponent } from "#util/Handlers";
-import { errorMessage } from "#util/Util";
 
 export default createComponent({
   developerOnly: true,

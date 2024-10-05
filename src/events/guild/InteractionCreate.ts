@@ -1,11 +1,11 @@
+import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
+import { Translations } from "@translations";
+import type { Locales } from "@types";
+import { prisma } from "@util/Prisma.js";
+import { CheckPermissionsFrom, checkMemberPermissions, errorMessage, formatUnix } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
-import { client } from "#index";
-import { Translations } from "#translations";
-import type { Locales } from "#types";
-import { prisma } from "#util/Prisma.js";
-import { CheckPermissionsFrom, checkMemberPermissions, errorMessage, formatUnix } from "#util/Util.js";
 import { handleButton } from "./handlers/handleButton.js";
 import { handleChatInputSubCommand } from "./handlers/handleChatInputSubCommand.js";
 import { handleUserCommand } from "./handlers/handleUserCommand.js";

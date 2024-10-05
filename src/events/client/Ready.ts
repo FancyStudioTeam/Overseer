@@ -1,5 +1,5 @@
-import { client } from "#index";
-import { logger } from "#util/Util.js";
+import { client } from "@index";
+import { logger } from "@utils";
 
 client.once("ready", async () => {
   await client.deploy();

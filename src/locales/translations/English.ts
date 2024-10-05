@@ -1,7 +1,7 @@
 import colors from "@colors/colors";
+import { Emojis } from "@constants";
 import { bold, codeBlock, inlineCode } from "@discordjs/formatters";
 import type { PermissionName } from "oceanic.js";
-import { Emojis } from "#constants";
 
 const permissions: Record<PermissionName, string> = {
   ADD_REACTIONS: "Add Reactions",

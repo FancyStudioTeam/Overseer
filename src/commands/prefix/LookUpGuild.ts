@@ -1,10 +1,10 @@
+import { Colors, Emojis } from "@constants";
 import { bold, inlineCode } from "@discordjs/formatters";
+import { client } from "@index";
+import { createPrefixCommand } from "@util/Handlers.js";
+import { errorMessage, parseEmoji } from "@utils";
 import { ActionRow, Button, Embed } from "oceanic-builders";
 import { ButtonStyles } from "oceanic.js";
-import { Colors, Emojis } from "#constants";
-import { client } from "#index";
-import { createPrefixCommand } from "#util/Handlers.js";
-import { errorMessage, parseEmoji } from "#util/Util.js";
 
 export default createPrefixCommand({
   developerOnly: true,

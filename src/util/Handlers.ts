@@ -1,3 +1,4 @@
+import type { Locales } from "@types";
 import type {
   AutocompleteInteraction,
   CommandInteraction,
@@ -8,7 +9,6 @@ import type {
   Message,
   PermissionName,
 } from "oceanic.js";
-import type { Locales } from "#types";
 
 export const createPrefixCommand = (createOptions: {
   developerOnly?: boolean;

@@ -1,8 +1,8 @@
+import { Colors } from "@constants";
+import { client } from "@index";
+import { Translations } from "@translations";
+import { createChatInputSubCommand } from "@util/Handlers.js";
 import { Embed } from "oceanic-builders";
-import { Colors } from "#constants";
-import { client } from "#index";
-import { Translations } from "#translations";
-import { createChatInputSubCommand } from "#util/Handlers.js";
 
 export default createChatInputSubCommand({
   name: "debug",

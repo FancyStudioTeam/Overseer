@@ -1,6 +1,6 @@
 import { apply } from "json-logic-js";
 import type { Message } from "oceanic.js";
-import type { Conditional, Sequence } from "yamlcord";
+import type { Conditional, ResolvedVariables, Sequence } from "yamlcord";
 import { isConditional, isFunction } from "../../Automations.js";
 import { executeFunction } from "../functions/executeFunction.js";
 
@@ -18,7 +18,7 @@ const createForOfSequences = async (
         message,
       });
     } else if (isFunction(sequence)) {
-      await executeFunction(sequence, {
+      executeFunction(sequence, {
         message,
       });
     }
@@ -36,14 +36,20 @@ export const executeConditional = async (
   if (!(message.inCachedGuildChannel() && message.guild)) return;
 
   const { data } = conditional;
-  const variablesMap: Record<string, string> = {
-    "[message.content]": message.content,
-    "[message.user_id]": message.author.id,
+  const variablesMap: Record<ResolvedVariables, string | number> = {
+    "[date_now]": Date.now(),
+    "[guild_id]": message.guildID,
+    "[guild_name]": message.guild.name,
+    "[message_content]": message.content,
+    "[owner_id]": message.guild.ownerID ?? "",
+    "[owner_name]": message.guild.owner?.name ?? "",
+    "[user_id]": message.author.id,
+    "[user_name]": message.author.name,
   };
 
   if (
     apply({
-      [data.if.operator]: [variablesMap[data.if.variable], data.if.value],
+      [data.if.operator]: [variablesMap[data.if.variable as ResolvedVariables], data.if.value],
     })
   ) {
     await createForOfSequences(data.then, {

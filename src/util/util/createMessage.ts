@@ -1,5 +1,5 @@
+import { client } from "@index";
 import type { AnyInteractionGateway, CreateMessageOptions, InteractionContent, Message } from "oceanic.js";
-import { client } from "#index";
 
 export const createMessage = async (
   context: AnyInteractionGateway | Message,

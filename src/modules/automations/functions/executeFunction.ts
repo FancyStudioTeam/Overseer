@@ -1,10 +1,10 @@
+import { client } from "@index";
 import { delay } from "es-toolkit";
 import type { CreateMessageOptions, Message } from "oceanic.js";
 import { match } from "ts-pattern";
 import type { Function } from "yamlcord";
-import { client } from "#index";
 
-export const executeFunction = async (
+export const executeFunction = (
   globalFunction: Function,
   {
     message,
@@ -12,7 +12,9 @@ export const executeFunction = async (
     message: Message;
   },
 ) => {
-  await match(globalFunction)
+  if (!(message.inCachedGuildChannel() && message.guild)) return;
+
+  match(globalFunction)
     .with(
       {
         name: "add_reaction",

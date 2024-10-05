@@ -1,8 +1,8 @@
 import { DiscordSnowflake } from "@sapphire/snowflake";
+import { createChatInputSubCommand } from "@util/Handlers.js";
+import { prisma } from "@util/Prisma.js";
 import { gzip } from "pako";
 import { YAMLCord } from "yamlcord";
-import { createChatInputSubCommand } from "#util/Handlers.js";
-import { prisma } from "#util/Prisma.js";
 
 const yamlCord = new YAMLCord();
 

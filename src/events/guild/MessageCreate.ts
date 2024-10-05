@@ -1,8 +1,8 @@
+import { Developers } from "@constants";
+import { client } from "@index";
 import { Result } from "@sapphire/result";
+import { handleError } from "@utils";
 import { ChannelTypes } from "oceanic.js";
-import { Developers } from "#constants";
-import { client } from "#index";
-import { handleError } from "#util/Util";
 
 client.on("messageCreate", async (message) => {
   const prefix = ">";

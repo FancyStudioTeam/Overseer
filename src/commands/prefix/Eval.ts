@@ -1,11 +1,11 @@
 import { inspect } from "node:util";
+import { Colors, Emojis } from "@constants";
 import { bold, codeBlock } from "@discordjs/formatters";
+import { client } from "@index";
 import { Result } from "@sapphire/result";
+import { createPrefixCommand } from "@util/Handlers.js";
+import { errorMessage } from "@utils";
 import { Embed } from "oceanic-builders";
-import { Colors, Emojis } from "#constants";
-import { client } from "#index";
-import { createPrefixCommand } from "#util/Handlers.js";
-import { errorMessage } from "#util/Util.js";
 
 const truncate = (content: string, maxLength: number) =>
   content.length > maxLength ? `${content.slice(0, maxLength - 3)}...` : content;
@@ -24,7 +24,7 @@ export default createPrefixCommand({
 
     const result = Result.from<unknown, Error>(() => {
       // biome-ignore lint/security/noGlobalEval:
-      const evaluationResult = eval(`const { client } = require("#index");\n${code}`);
+      const evaluationResult = eval(`const { client } = require("@index");\n${code}`);
       let output = evaluationResult;
 
       if (typeof evaluationResult !== "string") {

@@ -1,5 +1,5 @@
+import { client } from "@index";
 import type { Message } from "oceanic.js";
-import { client } from "#index";
 
 export const disableMessageComponents = async (message: Message) => {
   for (const row of message.components) {

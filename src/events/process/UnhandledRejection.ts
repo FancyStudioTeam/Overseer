@@ -1,4 +1,4 @@
-import { LoggerType, logger } from "#util/Util.js";
+import { LoggerType, logger } from "@utils";
 
 process.on("unhandledRejection", (error) => {
   if (error instanceof Error) {
