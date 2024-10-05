@@ -24,7 +24,12 @@
       },
       "correctness": {
         "noNodejsModules": "off",
-        "noUndeclaredDependencies": "off"
+        "noUndeclaredDependencies": "off",
+        "useImportExtensions": "error"
+      },
+      "performance": {
+        "noBarrelFile": "off",
+        "noReExportAll": "off"
       },
       "style": {
         "noDefaultExport": "off",
