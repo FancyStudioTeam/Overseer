@@ -24,13 +24,13 @@
     "noUnusedParameters": true,
     "outDir": "dist",
     "paths": {
-      "#client": ["./src/classes/Client.ts"],
+      "@client": ["./src/classes/Client.ts"],
       "#constants": ["./src/util/Constants.ts"],
       "#index": ["./src/index.ts"],
       "#package": ["./package.json"],
       "#translations": ["./src/locales/index.ts"],
       "#types": ["./src/types.ts"],
-      "#util/*": ["./src/util/*"]
+      "@utils/*": ["./src/util/*"]
     },
     "preserveConstEnums": true,
     "pretty": true,
