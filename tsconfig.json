@@ -24,7 +24,6 @@
     "noUnusedParameters": true,
     "outDir": "dist",
     "paths": {
-      "#base": ["./src/classes/Base.ts"],
       "#client": ["./src/classes/Client.ts"],
       "#constants": ["./src/util/Constants.ts"],
       "#index": ["./src/index.ts"],
