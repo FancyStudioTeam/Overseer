@@ -2,7 +2,6 @@ import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
-import { prisma } from "@util/Prisma.js";
 import { CheckPermissionsFrom, checkMemberPermissions, errorMessage, formatUnix } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
@@ -19,7 +18,7 @@ client.on("interactionCreate", async (interaction) => {
   if (interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;
   if (interaction.user.bot) return;
 
-  const guildConfiguration = await prisma.guildConfiguration.findUnique({
+  const guildConfiguration = await client.prisma.guildConfiguration.findUnique({
     where: {
       guildId: interaction.guildID,
     },

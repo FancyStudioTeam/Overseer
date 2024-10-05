@@ -1,5 +1,4 @@
 import { client } from "@index";
-import { prisma } from "@util/Prisma.js";
 import { ungzip } from "pako";
 import { type Conditional, type Function, type Sequence, SequenceType, YAMLCord } from "yamlcord";
 import { executeConditional } from "./automations/conditionals/executeConditional.js";
@@ -14,7 +13,7 @@ export default () => {
   client.on("messageCreate", async (message) => {
     if (!(message.inCachedGuildChannel() && message.guild)) return;
 
-    const guildAutomations = await prisma.guildAutomation.findMany({
+    const guildAutomations = await client.prisma.guildAutomation.findMany({
       where: {
         general: {
           is: {

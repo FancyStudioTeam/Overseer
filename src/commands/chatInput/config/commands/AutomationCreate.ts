@@ -1,6 +1,6 @@
+import { client } from "@index";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { createChatInputSubCommand } from "@util/Handlers.js";
-import { prisma } from "@util/Prisma.js";
 import { gzip } from "pako";
 import { YAMLCord } from "yamlcord";
 
@@ -27,7 +27,7 @@ export default createChatInputSubCommand({
         const contentToBuffer = Buffer.from(attachmentContent, "utf-8");
         const compressedBuffer = gzip(contentToBuffer);
 
-        await prisma.guildAutomation.create({
+        await client.prisma.guildAutomation.create({
           data: {
             automationId: DiscordSnowflake.generate().toString(),
             createdAt: new Date(),

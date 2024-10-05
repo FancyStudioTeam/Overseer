@@ -3,14 +3,13 @@ import { Colors, Emojis } from "@constants";
 import { bold, spoiler } from "@discordjs/formatters";
 import { client } from "@index";
 import { createPrefixCommand } from "@util/Handlers.js";
-import { prisma } from "@util/Prisma.js";
 import { Embed } from "oceanic-builders";
 
 export default createPrefixCommand({
   developerOnly: true,
   name: "voucher",
   run: async ({ context }) => {
-    const createdClientVoucher = await prisma.clientVoucher.create({
+    const createdClientVoucher = await client.prisma.clientVoucher.create({
       data: {
         voucherId: randomUUID(),
         general: {

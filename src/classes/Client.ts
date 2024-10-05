@@ -1,4 +1,5 @@
 import { join, sep } from "node:path";
+import { PrismaClient } from "@prisma/client";
 import type {
   ChatInputCommandData,
   ChatInputSubCommandData,
@@ -7,7 +8,6 @@ import type {
   PrefixCommandData,
   UserCommandData,
 } from "@types";
-import { prisma } from "@util/Prisma.js";
 import { LoggerType, logger } from "@utils";
 import { glob } from "glob";
 import {
@@ -36,6 +36,7 @@ export class Discord extends Client {
   readonly subCommands: Collection<string, MaybeNullish<ChatInputSubCommandData>>;
   readonly readyAt: Date;
   readonly prefixCommands: Collection<string, MaybeNullish<PrefixCommandData>>;
+  readonly prisma: PrismaClient;
 
   constructor() {
     super({
@@ -131,6 +132,7 @@ export class Discord extends Client {
     this.subCommands = new Collection();
     this.readyAt = new Date();
     this.prefixCommands = new Collection();
+    this.prisma = new PrismaClient();
 
     (async () => {
       await this.init();
@@ -140,7 +142,7 @@ export class Discord extends Client {
 
   init = async () => {
     await this.connect();
-    await prisma
+    await this.prisma
       .$connect()
       .then(() => logger("Prisma Client has been connected"))
       .catch((error) =>
