@@ -14,6 +14,6 @@ export const errorMessage = async (
   },
 ) =>
   await createMessage(context, {
-    embeds: new Embed().setDescription(content).setColor(Colors.RED).toJSON(true),
+    embeds: new Embed().setDescription(content).setColor(Colors.COLOR).toJSON(true),
     flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
   });
