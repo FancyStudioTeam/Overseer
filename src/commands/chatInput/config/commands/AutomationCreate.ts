@@ -35,10 +35,10 @@ export default createChatInputSubCommand({
       true,
     ) as Prisma.GuildAutomationGeneralCreateInput["trigger"];
     const attachmentContentRequest = await fetch(scriptOption.url, {
-      method: "GET",
       headers: {
         authorization: String(client.options.auth),
       },
+      method: "GET",
     });
     const attachmentContent = await attachmentContentRequest.text();
     const { success, parserError } = await parseScript(attachmentContent);
