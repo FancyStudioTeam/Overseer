@@ -1,10 +1,10 @@
 import { Colors } from "@constants";
 import { Embed } from "oceanic-builders";
-import { type AnyInteractionGateway, type Message, MessageFlags } from "oceanic.js";
+import { type AnyInteractionGateway, type EmbedOptions, type Message, MessageFlags } from "oceanic.js";
 import { createMessage } from "./createMessage.js";
 
 export const errorMessage = async (
-  content: string,
+  content: string | EmbedOptions,
   {
     context,
     shouldBeEphemeral = true,
@@ -14,6 +14,9 @@ export const errorMessage = async (
   },
 ) =>
   await createMessage(context, {
-    embeds: new Embed().setDescription(content).setColor(Colors.COLOR).toJSON(true),
+    embeds:
+      typeof content === "string"
+        ? new Embed().setDescription(content).setColor(Colors.COLOR).toJSON(true)
+        : new Embed(content).setColor(Colors.COLOR).toJSON(true),
     flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
   });
