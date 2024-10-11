@@ -1,9 +1,9 @@
 import { client } from "@index";
-import { delay } from "es-toolkit";
 import type { CreateMessageOptions, Message } from "oceanic.js";
 import { match } from "ts-pattern";
 import type { Function } from "yamlcord";
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const executeFunction = (
   globalFunction: Function,
   {
@@ -68,6 +68,6 @@ export const executeFunction = (
       {
         name: "wait",
       },
-      async ({ data }) => await delay(data),
+      async ({ data }) => delay(data),
     );
 };
