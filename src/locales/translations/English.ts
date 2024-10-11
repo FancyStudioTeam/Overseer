@@ -61,6 +61,43 @@ export default {
   COMMANDS: {
     CONFIGURATION: {
       AUTOMATIONS: {
+        CREATE: {
+          ERROR_WHILE_PARSING: ({
+            errorMessage,
+          }: {
+            errorMessage: string;
+          }) =>
+            [bold(`${Emojis.CANCEL} An error has occurred while parsing the file`), codeBlock("ts", errorMessage)].join(
+              "\n",
+            ),
+          MAXIMUM_SIZE_ALLOWED: ({
+            maximum,
+          }: {
+            maximum: number;
+          }) =>
+            [
+              bold(`${Emojis.CANCEL} The automation has exceeded the allowed size limit`),
+              bold(
+                `${Emojis.ARROW_CIRCLE_RIGHT} The size limit allowed per automation is ${inlineCode(maximum.toString())}`,
+              ),
+            ].join("\n"),
+          MAXIMUM_AUTOMATIONS_ALLOWED: ({
+            maximum,
+          }: {
+            maximum: number;
+          }) =>
+            [
+              bold(`${Emojis.CANCEL} The server has exceeded the limit of allowed automations`),
+              bold(
+                `${Emojis.ARROW_CIRCLE_RIGHT} The limit of allowed automations per server is ${inlineCode(maximum.toString())}`,
+              ),
+            ].join("\n"),
+          MESSAGE_1: ({
+            automationName,
+          }: {
+            automationName: string;
+          }) => bold(`${Emojis.CHECK_CIRCLE} The automation ${inlineCode(automationName)} has been created`),
+        },
         LIST: {
           NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} This server has no automations available`),
         },
