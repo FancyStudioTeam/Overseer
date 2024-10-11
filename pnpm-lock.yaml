@@ -35,9 +35,6 @@ importers:
       dotenv:
         specifier: 16.4.5
         version: 16.4.5
-      es-toolkit:
-        specifier: 1.23.0
-        version: 1.23.0
       glob:
         specifier: 11.0.0
         version: 11.0.0
@@ -525,9 +522,6 @@ packages:
   environment@1.1.0:
     resolution: {integrity: sha512-xUtoPkMggbz0MPyPiIWr1Kp4aeWJjDZ6SMvURhimjdZgsRuDplF5/s9hcgGhyXMhs+6vpnuoiZ2kFiu3FMnS8Q==}
     engines: {node: '>=18'}
-
-  es-toolkit@1.23.0:
-    resolution: {integrity: sha512-1Caq9T90fX973dnm8BIEBN9l9pffbxxbZYZYwIy/B4g8oFwNTMcbbqzvIWV4XVZlHY6A8RLZvI/3agxF0CmOPA==}
 
   esbuild@0.23.1:
     resolution: {integrity: sha512-VVNz/9Sa0bs5SELtn3f7qhJCDPCF5oMEl5cO9/SSinpE9hbPVvxbd572HH5AKiP7WD8INO53GgfDDhRjkylHEg==}
@@ -1268,8 +1262,6 @@ snapshots:
   emoji-regex@9.2.2: {}
 
   environment@1.1.0: {}
-
-  es-toolkit@1.23.0: {}
 
   esbuild@0.23.1:
     optionalDependencies:

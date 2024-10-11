@@ -67,6 +67,7 @@
       },
       "suspicious": {
         "noAssignInExpressions": "off",
+        "noConsole": "off",
         "noConsoleLog": "off",
         "noShadowRestrictedNames": "off"
       }

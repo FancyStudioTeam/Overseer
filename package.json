@@ -10,7 +10,6 @@
     "@sapphire/snowflake": "3.5.3",
     "@sapphire/time-utilities": "1.7.12",
     "dotenv": "16.4.5",
-    "es-toolkit": "1.23.0",
     "glob": "11.0.0",
     "json-logic-js": "2.0.5",
     "oceanic-builders": "1.0.2",

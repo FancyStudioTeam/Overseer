@@ -8,6 +8,7 @@ model GuildAutomation {
 
 type GuildAutomationGeneral {
   data    Bytes
+  name    String                 @default("My Automation")
   trigger GuildAutomationTrigger
 }
 
