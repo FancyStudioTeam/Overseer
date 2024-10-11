@@ -9,7 +9,7 @@ export default createPrefixCommand({
   developerOnly: true,
   name: "voucher",
   run: async ({ context }) => {
-    const createdClientVoucher = await client.prisma.clientVoucher.create({
+    const { voucherId } = await client.prisma.clientVoucher.create({
       data: {
         voucherId: randomUUID(),
         general: {
@@ -24,7 +24,7 @@ export default createPrefixCommand({
 
     await client.rest.channels.createMessage(dmChannel.id, {
       embeds: new Embed()
-        .setDescription(bold(`${Emojis.ARROW_CIRCLE_RIGHT} ${spoiler(createdClientVoucher.voucherId)}`))
+        .setDescription(bold(`${Emojis.ARROW_CIRCLE_RIGHT} ${spoiler(voucherId)}`))
         .setColor(Colors.COLOR)
         .toJSON(true),
     });
