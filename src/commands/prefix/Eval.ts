@@ -4,7 +4,7 @@ import { bold, codeBlock } from "@discordjs/formatters";
 import { client } from "@index";
 import { Result } from "@sapphire/result";
 import { createPrefixCommand } from "@util/Handlers.js";
-import { errorMessage } from "@utils";
+import { createErrorMessage } from "@utils";
 import { Embed } from "oceanic-builders";
 
 const truncate = (content: string, maxLength: number) =>
@@ -17,8 +17,8 @@ export default createPrefixCommand({
     const code = args.join(" ");
 
     if (!code) {
-      return await errorMessage(bold(`${Emojis.CANCEL} You need a code to execute`), {
-        context,
+      return await createErrorMessage(context, {
+        content: bold(`${Emojis.CANCEL} You need a code to execute`),
       });
     }
 

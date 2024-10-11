@@ -3,7 +3,7 @@ import { bold, inlineCode, spoiler } from "@discordjs/formatters";
 import { client } from "@index";
 import type { MaybeNullish } from "@types";
 import { createComponent } from "@util/Handlers";
-import { errorMessage } from "@utils";
+import { createErrorMessage } from "@utils";
 import { Embed } from "oceanic-builders";
 import { ChannelTypes, ComponentTypes, MessageFlags } from "oceanic.js";
 
@@ -16,8 +16,8 @@ export default createComponent({
     const guild = client.guilds.get(guildId);
 
     if (!guild) {
-      return await errorMessage(bold(`${Emojis.CANCEL} The guild ${inlineCode(guildId)} has not been found`), {
-        context,
+      return await createErrorMessage(context, {
+        content: bold(`${Emojis.CANCEL} The guild ${inlineCode(guildId)} has not been found`),
       });
     }
 
@@ -33,8 +33,8 @@ export default createComponent({
     }
 
     if (!channelId) {
-      return await errorMessage(bold(`${Emojis.CANCEL} No valid channel ID found`), {
-        context,
+      return await createErrorMessage(context, {
+        content: bold(`${Emojis.CANCEL} No valid channel ID found`),
       });
     }
 

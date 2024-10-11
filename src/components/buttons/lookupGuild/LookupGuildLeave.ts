@@ -2,7 +2,7 @@ import { Colors, Emojis } from "@constants";
 import { bold, inlineCode } from "@discordjs/formatters";
 import { client } from "@index";
 import { createComponent } from "@util/Handlers";
-import { errorMessage } from "@utils";
+import { createErrorMessage } from "@utils";
 import { Embed } from "oceanic-builders";
 import { ComponentTypes, MessageFlags } from "oceanic.js";
 
@@ -15,8 +15,8 @@ export default createComponent({
     const guild = client.guilds.get(guildId);
 
     if (!guild) {
-      return await errorMessage(bold(`${Emojis.CANCEL} The guild ${inlineCode(guildId)} has not been found`), {
-        context,
+      return await createErrorMessage(context, {
+        content: bold(`${Emojis.CANCEL} The guild ${inlineCode(guildId)} has not been found`),
       });
     }
 

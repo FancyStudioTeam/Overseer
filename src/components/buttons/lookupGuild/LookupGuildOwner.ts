@@ -2,7 +2,7 @@ import { Colors, Emojis } from "@constants";
 import { bold, inlineCode } from "@discordjs/formatters";
 import { client } from "@index";
 import { createComponent } from "@util/Handlers";
-import { UnixType, errorMessage, formatUnix } from "@utils";
+import { UnixType, createErrorMessage, formatUnix } from "@utils";
 import { Embed, EmbedField } from "oceanic-builders";
 import { ComponentTypes } from "oceanic.js";
 
@@ -15,16 +15,16 @@ export default createComponent({
     const guild = client.guilds.get(guildId);
 
     if (!guild) {
-      return await errorMessage(bold(`${Emojis.CANCEL} The guild ${inlineCode(guildId)} has not been found`), {
-        context,
+      return await createErrorMessage(context, {
+        content: bold(`${Emojis.CANCEL} The guild ${inlineCode(guildId)} has not been found`),
       });
     }
 
     const owner = guild.owner ?? (await client.rest.guilds.getMember(guild.id, guild.ownerID ?? ""));
 
     if (!owner) {
-      return await errorMessage(bold(`${Emojis.CANCEL} Unable to obtain the server owner`), {
-        context,
+      return await createErrorMessage(context, {
+        content: bold(`${Emojis.CANCEL} Unable to obtain the server owner`),
       });
     }
 

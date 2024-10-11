@@ -4,7 +4,7 @@ import type { Prisma } from "@prisma/client";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Translations } from "@translations";
 import { createChatInputSubCommand } from "@util/Handlers.js";
-import { errorMessage } from "@util/utils";
+import { createErrorMessage } from "@util/utils";
 import { Embed } from "oceanic-builders";
 import { gzip } from "pako";
 import { YAMLCord } from "yamlcord";
@@ -44,27 +44,21 @@ export default createChatInputSubCommand({
     const { success, parserError } = await parseScript(attachmentContent);
 
     if (!success) {
-      return await errorMessage(
-        Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.ERROR_WHILE_PARSING({
+      return await createErrorMessage(context, {
+        content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.ERROR_WHILE_PARSING({
           errorMessage: String(parserError),
         }),
-        {
-          context,
-        },
-      );
+      });
     }
 
     const bufferSizeInKilobytes = Buffer.from(attachmentContent).length / 1024;
 
     if (bufferSizeInKilobytes >= MAXIMUM_KILOBYTES(premium)) {
-      return await errorMessage(
-        Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_SIZE_ALLOWED({
+      return await createErrorMessage(context, {
+        content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_SIZE_ALLOWED({
           maximum: MAXIMUM_KILOBYTES(premium),
         }),
-        {
-          context,
-        },
-      );
+      });
     }
 
     const guildAutomations = await client.prisma.guildAutomation.findMany({
@@ -74,14 +68,11 @@ export default createChatInputSubCommand({
     });
 
     if (guildAutomations.length >= MAXIMUM_AUTOMATIONS_PER_GUILD(premium)) {
-      return await errorMessage(
-        Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_AUTOMATIONS_ALLOWED({
+      return await createErrorMessage(context, {
+        content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_AUTOMATIONS_ALLOWED({
           maximum: MAXIMUM_AUTOMATIONS_PER_GUILD(premium),
         }),
-        {
-          context,
-        },
-      );
+      });
     }
 
     const automationId = DiscordSnowflake.generate().toString();

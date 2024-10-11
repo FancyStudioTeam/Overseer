@@ -2,7 +2,7 @@ import { Emojis } from "@constants";
 import { client } from "@index";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
-import { disableMessageComponents, errorMessage, parseEmoji } from "@utils";
+import { createErrorMessage, disableMessageComponents, parseEmoji } from "@utils";
 import { ActionRow, Button } from "oceanic-builders";
 import {
   type BaseCollectorEndReasons,
@@ -89,8 +89,8 @@ export async function pagination({
         ("user" in context && collectedInteraction.user.id !== context.user.id) ||
         ("author" in context && collectedInteraction.user.id !== context.author.id)
       ) {
-        await errorMessage(Translations[locale].GLOBAL.INVALID_USER_COLLECTOR, {
-          context: collectedInteraction,
+        await createErrorMessage(collectedInteraction, {
+          content: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
         });
 
         return false;

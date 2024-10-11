@@ -2,7 +2,7 @@ import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
-import { CheckPermissionsFrom, checkMemberPermissions, errorMessage, formatUnix } from "@utils";
+import { CheckPermissionsFrom, checkMemberPermissions, createErrorMessage, formatUnix } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
 import { handleButton } from "./handlers/handleButton.js";
@@ -46,14 +46,11 @@ client.on("interactionCreate", async (interaction) => {
         const rateLimit = commandRateLimiter.acquire(interaction.user.id);
 
         if (rateLimit.limited) {
-          return await errorMessage(
-            Translations[locale].GLOBAL.USER_IS_LIMITED({
+          return await createErrorMessage(interaction, {
+            content: Translations[locale].GLOBAL.USER_IS_LIMITED({
               resets: formatUnix(new Date(rateLimit.expires)),
             }),
-            {
-              context: interaction,
-            },
-          );
+          });
         }
 
         rateLimit.consume();
@@ -94,14 +91,11 @@ client.on("interactionCreate", async (interaction) => {
         const rateLimit = componentRateLimiter.acquire(interaction.user.id);
 
         if (rateLimit.limited) {
-          return await errorMessage(
-            Translations[locale].GLOBAL.USER_IS_LIMITED({
+          return await createErrorMessage(interaction, {
+            content: Translations[locale].GLOBAL.USER_IS_LIMITED({
               resets: formatUnix(new Date(rateLimit.expires)),
             }),
-            {
-              context: interaction,
-            },
-          );
+          });
         }
 
         rateLimit.consume();

@@ -3,13 +3,13 @@ import { Embed } from "oceanic-builders";
 import { type AnyInteractionGateway, type EmbedOptions, type Message, MessageFlags } from "oceanic.js";
 import { createMessage } from "./createMessage.js";
 
-export const errorMessage = async (
-  content: string | EmbedOptions,
+export const createErrorMessage = async (
+  context: AnyInteractionGateway | Message,
   {
-    context,
+    content,
     shouldBeEphemeral = true,
   }: {
-    context: AnyInteractionGateway | Message;
+    content: string | EmbedOptions;
     shouldBeEphemeral?: boolean;
   },
 ) =>
