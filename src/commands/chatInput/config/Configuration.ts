@@ -25,30 +25,44 @@ export default createChatInputCommand({
           name: "create",
           options: [
             {
-              description: "_",
-              name: "code",
+              description: "The automation name",
+              descriptionLocalizations: {
+                "es-419": "El nombre de la automatización",
+                "es-ES": "El nombre de la automatización",
+              },
+              name: "name",
+              required: true,
+              type: ApplicationCommandOptionTypes.STRING,
+            },
+            {
+              description: "The automation script",
+              descriptionLocalizations: {
+                "es-419": "El script de la automatización",
+                "es-ES": "El script de la automatización",
+              },
+              name: "script",
               required: true,
               type: ApplicationCommandOptionTypes.ATTACHMENT,
             },
             {
-              description: "Select a trigger",
-              descriptionLocalizations: {
-                "es-419": "Selecciona un disparador",
-                "es-ES": "Selecciona un disparador",
-              },
-              name: "trigger",
-              required: true,
-              type: ApplicationCommandOptionTypes.STRING,
               choices: [
                 {
-                  name: "📨 When creating a message",
+                  name: "📨 Execute the automation when a new message is created",
                   nameLocalizations: {
-                    "es-419": "📨 Cuando se cree un mensaje",
-                    "es-ES": "📨 Cuando se cree un mensaje",
+                    "es-419": "📨 Ejecutar la automatización cuando se crea un nuevo mensaje",
+                    "es-ES": "📨 Ejecutar la automatización cuando se crea un nuevo mensaje",
                   },
                   value: "ON_MESSAGE_CREATE",
                 },
               ],
+              description: "The automation event",
+              descriptionLocalizations: {
+                "es-419": "El evento de la automatización",
+                "es-ES": "El evento de la automatización",
+              },
+              name: "trigger",
+              required: true,
+              type: ApplicationCommandOptionTypes.STRING,
             },
           ],
           type: ApplicationCommandOptionTypes.SUB_COMMAND,
@@ -76,26 +90,26 @@ export default createChatInputCommand({
         {
           choices: [
             {
-              name: "🌐 Set language to English",
+              name: "🌍 Set language to English",
               nameLocalizations: {
-                "es-419": "🌐 Establecer idioma a Inglés",
-                "es-ES": "🌐 Establecer idioma a Inglés",
+                "es-419": "🌍 Establecer idioma a Inglés",
+                "es-ES": "🌍 Establecer idioma a Inglés",
               },
               value: "EN",
             },
             {
-              name: "🌐 Set language to Spanish",
+              name: "🌍 Set language to Spanish",
               nameLocalizations: {
-                "es-419": "🌐 Establecer idioma a Español",
-                "es-ES": "🌐 Establecer idioma a Español",
+                "es-419": "🌍 Establecer idioma a Español",
+                "es-ES": "🌍 Establecer idioma a Español",
               },
               value: "ES",
             },
           ],
-          description: "Select a language",
+          description: "The bot language",
           descriptionLocalizations: {
-            "es-419": "Selecciona un idioma",
-            "es-ES": "Selecciona un idioma",
+            "es-419": "El idioma del bot",
+            "es-ES": "El idioma del bot",
           },
           name: "language",
           required: true,
