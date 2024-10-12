@@ -23,6 +23,7 @@ client.on("messageCreate", async (message) => {
       async () =>
         await command.run({
           args,
+          client,
           context: message,
         }),
     );
