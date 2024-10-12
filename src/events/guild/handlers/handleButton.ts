@@ -1,3 +1,4 @@
+import type { Discord } from "@client";
 import { Developers } from "@constants";
 import { client } from "@index";
 import { Result } from "@sapphire/result";
@@ -12,6 +13,7 @@ export const handleButton = async (
     context,
   }: {
     handleArguments: {
+      client: Discord;
       locale: Locales;
       premium: boolean;
       variable?: unknown;

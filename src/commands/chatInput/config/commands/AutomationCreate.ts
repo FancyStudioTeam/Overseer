@@ -1,5 +1,4 @@
 import { Colors } from "@constants";
-import { client } from "@index";
 import type { Prisma } from "@prisma/client";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Translations } from "@translations";
@@ -25,7 +24,7 @@ const parseScript = async (script: string) =>
 
 export default createChatInputSubCommand({
   name: "automations_create",
-  run: async ({ context, locale, premium }) => {
+  run: async ({ client, context, locale, premium }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 
     const nameOption = context.data.options.getString("name", true);

@@ -1,6 +1,5 @@
 import { Colors, Emojis } from "@constants";
 import { bold, inlineCode } from "@discordjs/formatters";
-import { client } from "@index";
 import { createPrefixCommand } from "@util/Handlers.js";
 import { createErrorMessage, parseEmoji } from "@utils";
 import { ActionRow, Button, Embed } from "oceanic-builders";
@@ -9,7 +8,7 @@ import { ButtonStyles } from "oceanic.js";
 export default createPrefixCommand({
   developerOnly: true,
   name: "lookup-guild",
-  run: async ({ args, context }) => {
+  run: async ({ args, client, context }) => {
     const guildId = args[0].trim();
 
     if (!guildId) {

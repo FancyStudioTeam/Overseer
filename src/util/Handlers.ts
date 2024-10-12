@@ -1,12 +1,13 @@
+import type { Discord } from "@client";
 import type { Locales } from "@types";
 import type {
   AutocompleteInteraction,
   CommandInteraction,
   ComponentInteraction,
-  ComponentTypes,
   CreateChatInputApplicationCommandOptions,
   CreateUserApplicationCommandOptions,
   Message,
+  MessageComponentTypes,
   PermissionName,
 } from "oceanic.js";
 
@@ -15,6 +16,7 @@ export const createPrefixCommand = (createOptions: {
   name: string;
   run: (config: {
     args: string[];
+    client: Discord;
     context: Message;
   }) => Promise<unknown>;
 }) => createOptions;
@@ -22,6 +24,7 @@ export const createPrefixCommand = (createOptions: {
 export const createChatInputCommand = (
   createOptions: CreateChatInputApplicationCommandOptions & {
     autocomplete?: (config: {
+      client: Discord;
       context: AutocompleteInteraction;
       locale: Locales;
       premium: boolean;
@@ -36,6 +39,7 @@ export const createChatInputSubCommand = (createOptions: {
     user?: PermissionName[];
   };
   run: (config: {
+    client: Discord;
     context: CommandInteraction;
     locale: Locales;
     premium: boolean;
@@ -46,6 +50,7 @@ export const createChatInputSubCommand = (createOptions: {
 export const createUserCommand = (
   createOptions: CreateUserApplicationCommandOptions & {
     run: (config: {
+      client: Discord;
       context: CommandInteraction;
       locale: Locales;
       premium: boolean;
@@ -56,16 +61,9 @@ export const createUserCommand = (
 export const createComponent = (createOptions: {
   developerOnly?: boolean;
   name: string;
-  type: Exclude<
-    ComponentTypes,
-    | ComponentTypes.ACTION_ROW
-    | ComponentTypes.CONTENT_INVENTORY_ENTRY
-    | ComponentTypes.MEDIA_GALLERY
-    | ComponentTypes.SEPARATOR
-    | ComponentTypes.TEXT
-    | ComponentTypes.TEXT_INPUT
-  >;
+  type: MessageComponentTypes;
   run: (config: {
+    client: Discord;
     context: ComponentInteraction;
     locale: Locales;
     premium: boolean;

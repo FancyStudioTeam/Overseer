@@ -63,6 +63,7 @@ client.on("interactionCreate", async (interaction) => {
                 [commandInteraction.data.name, commandInteraction.data.options.getSubCommand(true).join("_")].join("_"),
                 {
                   handleArguments: {
+                    client,
                     locale,
                     premium,
                   },
@@ -75,6 +76,7 @@ client.on("interactionCreate", async (interaction) => {
             async () =>
               await handleUserCommand(commandInteraction.data.name, {
                 handleArguments: {
+                  client,
                   locale,
                   premium,
                 },
@@ -103,6 +105,7 @@ client.on("interactionCreate", async (interaction) => {
         return match(componentInteraction.data.componentType).with(ComponentTypes.BUTTON, async () => {
           await handleButton(componentInteraction.data.customID.split("#")[0], {
             handleArguments: {
+              client,
               locale,
               premium,
               variable: componentInteraction.data.customID.split("#")[1],

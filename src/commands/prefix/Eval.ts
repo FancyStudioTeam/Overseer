@@ -1,7 +1,6 @@
 import { inspect } from "node:util";
 import { Colors, Emojis } from "@constants";
 import { bold, codeBlock } from "@discordjs/formatters";
-import { client } from "@index";
 import { Result } from "@sapphire/result";
 import { createPrefixCommand } from "@util/Handlers.js";
 import { createErrorMessage } from "@utils";
@@ -13,7 +12,7 @@ const truncate = (content: string, maxLength: number) =>
 export default createPrefixCommand({
   developerOnly: true,
   name: "eval",
-  run: async ({ args, context }) => {
+  run: async ({ args, client, context }) => {
     const code = args.join(" ");
 
     if (!code) {

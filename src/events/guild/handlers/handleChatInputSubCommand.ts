@@ -1,3 +1,4 @@
+import type { Discord } from "@client";
 import { client } from "@index";
 import { Result } from "@sapphire/result";
 import type { Locales } from "@types";
@@ -11,6 +12,7 @@ export const handleChatInputSubCommand = async (
     context,
   }: {
     handleArguments: {
+      client: Discord;
       locale: Locales;
       premium: boolean;
     };

@@ -1,10 +1,21 @@
 import { client } from "@index";
+import type { AnyTextableGuildChannel, Message } from "oceanic.js";
 import { ungzip } from "pako";
 import { type Conditional, type Function, type Sequence, SequenceType, YAMLCord } from "yamlcord";
 import { executeConditional } from "./automations/conditionals/executeConditional.js";
 import { executeFunction } from "./automations/functions/executeFunction.js";
 
-const yamlCord = new YAMLCord();
+// biome-ignore lint/suspicious/noExplicitAny:
+export const VARIABLES_MAP: Record<string, (...args: any) => string | number> = {
+  "[date_now]": () => Date.now(),
+  "[guild_id]": (message: MessageInCachedGuild) => message.guildID,
+  "[guild_name]": (message: MessageInCachedGuild) => message.guild.name,
+  "[message_content]": (message: MessageInCachedGuild) => message.guild.name,
+  "[owner_id]": (message: MessageInCachedGuild) => message.guild.ownerID ?? "",
+  "[owner_name]": (message: MessageInCachedGuild) => message.guild.owner?.name ?? "",
+  "[user_id]": (message: MessageInCachedGuild) => message.author.id,
+  "[user_name]": (message: MessageInCachedGuild) => message.author.name,
+};
 export const isConditional = (sequence: Sequence): sequence is Conditional =>
   sequence.type === SequenceType.CONDITIONAL;
 export const isFunction = (sequence: Sequence): sequence is Function => sequence.type === SequenceType.FUNCTION;
@@ -26,7 +37,7 @@ export default () => {
 
     for (const guildAutomation of guildAutomations) {
       const uncompressedBuffer = Buffer.from(ungzip(guildAutomation.general.data)).toString();
-      const { sequences } = await yamlCord.createSequencesFromData(uncompressedBuffer);
+      const { sequences } = await new YAMLCord().createSequencesFromData(uncompressedBuffer);
 
       for (const sequence of sequences) {
         if (isConditional(sequence)) {
@@ -42,3 +53,5 @@ export default () => {
     }
   });
 };
+
+type MessageInCachedGuild = Message<AnyTextableGuildChannel>;

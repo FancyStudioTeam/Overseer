@@ -1,14 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { Colors, Emojis } from "@constants";
 import { bold, spoiler } from "@discordjs/formatters";
-import { client } from "@index";
 import { createPrefixCommand } from "@util/Handlers.js";
 import { Embed } from "oceanic-builders";
 
 export default createPrefixCommand({
   developerOnly: true,
   name: "voucher",
-  run: async ({ context }) => {
+  run: async ({ client, context }) => {
     const { voucherId } = await client.prisma.clientVoucher.create({
       data: {
         voucherId: randomUUID(),

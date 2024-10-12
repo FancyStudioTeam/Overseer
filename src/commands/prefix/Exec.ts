@@ -1,7 +1,6 @@
 import { type ExecException, exec } from "node:child_process";
 import { Colors, Emojis } from "@constants";
 import { bold, codeBlock } from "@discordjs/formatters";
-import { client } from "@index";
 import type { MaybeNullish } from "@types";
 import { createPrefixCommand } from "@util/Handlers.js";
 import { createErrorMessage } from "@utils";
@@ -13,7 +12,7 @@ const truncate = (content: string, maxLength: number) =>
 export default createPrefixCommand({
   developerOnly: true,
   name: "exec",
-  run: async ({ args, context }) => {
+  run: async ({ args, client, context }) => {
     const command = args.join(" ");
 
     if (!command) {

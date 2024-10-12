@@ -1,11 +1,10 @@
-import { client } from "@index";
 import { Translations } from "@translations";
 import { createChatInputSubCommand } from "@util/Handlers";
 import { createErrorMessage } from "@utils";
 
 export default createChatInputSubCommand({
   name: "automations_list",
-  run: async ({ context, locale }) => {
+  run: async ({ client, context, locale }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 
     const guildAutomations = await client.prisma.guildAutomation.findMany({

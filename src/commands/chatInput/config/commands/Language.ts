@@ -1,5 +1,4 @@
 import { Colors } from "@constants";
-import { client } from "@index";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
 import { createChatInputSubCommand } from "@util/Handlers";
@@ -7,7 +6,7 @@ import { Embed } from "oceanic-builders";
 
 export default createChatInputSubCommand({
   name: "language",
-  run: async ({ context }) => {
+  run: async ({ client, context }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 
     const languageOption = context.data.options.getString("language", true);
