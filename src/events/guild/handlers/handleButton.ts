@@ -14,8 +14,8 @@ export const handleButton = async (
   }: {
     handleArguments: {
       client: Discord;
+      isPremium: boolean;
       locale: Locales;
-      premium: boolean;
       variable?: unknown;
     };
     context: ComponentInteraction;

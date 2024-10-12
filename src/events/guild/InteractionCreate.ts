@@ -5,9 +5,6 @@ import type { Locales } from "@types";
 import { CheckPermissionsFrom, checkMemberPermissions, createErrorMessage, formatUnix } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
-import { handleButton } from "./handlers/handleButton.js";
-import { handleChatInputSubCommand } from "./handlers/handleChatInputSubCommand.js";
-import { handleUserCommand } from "./handlers/handleUserCommand.js";
 
 const commandRateLimiter = new RateLimitManager(5000, 3);
 const componentRateLimiter = new RateLimitManager(7000, 5);
@@ -23,8 +20,10 @@ client.on("interactionCreate", async (interaction) => {
       guildId: interaction.guildID,
     },
   });
-  const locale = (guildConfiguration?.general.locale ?? "EN") as Locales;
-  const premium = guildConfiguration?.premium.enabled ?? false;
+  const { isPremium, locale } = {
+    isPremium: guildConfiguration?.premium.enabled ?? false,
+    locale: (guildConfiguration?.general.locale ?? "EN") as Locales,
+  };
   const clientHasMainChannelPermissions = await checkMemberPermissions(interaction.guild.clientMember, {
     channel: interaction.channel,
     context: interaction,
@@ -59,29 +58,37 @@ client.on("interactionCreate", async (interaction) => {
           .with(
             ApplicationCommandTypes.CHAT_INPUT,
             async () =>
-              await handleChatInputSubCommand(
-                [commandInteraction.data.name, commandInteraction.data.options.getSubCommand(true).join("_")].join("_"),
-                {
-                  handleArguments: {
-                    client,
-                    locale,
-                    premium,
-                  },
-                  context: commandInteraction,
-                },
+              await import("./handlers/handleChatInputSubCommand.js").then(
+                async ({ handleChatInputSubCommand }) =>
+                  await handleChatInputSubCommand(
+                    [commandInteraction.data.name, commandInteraction.data.options.getSubCommand(true).join("_")].join(
+                      "_",
+                    ),
+                    {
+                      handleArguments: {
+                        client,
+                        locale,
+                        isPremium,
+                      },
+                      context: commandInteraction,
+                    },
+                  ),
               ),
           )
           .with(
             ApplicationCommandTypes.USER,
             async () =>
-              await handleUserCommand(commandInteraction.data.name, {
-                handleArguments: {
-                  client,
-                  locale,
-                  premium,
-                },
-                context: commandInteraction,
-              }),
+              await import("./handlers/handleUserCommand.js").then(
+                async ({ handleUserCommand }) =>
+                  await handleUserCommand(commandInteraction.data.name, {
+                    handleArguments: {
+                      client,
+                      locale,
+                      isPremium,
+                    },
+                    context: commandInteraction,
+                  }),
+              ),
           );
       },
     )
@@ -103,15 +110,18 @@ client.on("interactionCreate", async (interaction) => {
         rateLimit.consume();
 
         return match(componentInteraction.data.componentType).with(ComponentTypes.BUTTON, async () => {
-          await handleButton(componentInteraction.data.customID.split("#")[0], {
-            handleArguments: {
-              client,
-              locale,
-              premium,
-              variable: componentInteraction.data.customID.split("#")[1],
-            },
-            context: componentInteraction,
-          });
+          await import("./handlers/handleButton.js").then(
+            async ({ handleButton }) =>
+              await handleButton(componentInteraction.data.customID.split("#")[0], {
+                handleArguments: {
+                  client,
+                  locale,
+                  isPremium,
+                  variable: componentInteraction.data.customID.split("#")[1],
+                },
+                context: componentInteraction,
+              }),
+          );
         });
       },
     )

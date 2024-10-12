@@ -13,8 +13,8 @@ export const handleChatInputSubCommand = async (
   }: {
     handleArguments: {
       client: Discord;
+      isPremium: boolean;
       locale: Locales;
-      premium: boolean;
     };
     context: CommandInteraction;
   },

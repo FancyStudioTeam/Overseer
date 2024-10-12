@@ -25,7 +25,7 @@ const parseScript = async (script: string) =>
 export default createChatInputSubCommand({
   category: CommandCategory.CONFIGURATION,
   name: "automations_create",
-  run: async ({ client, context, locale, premium }) => {
+  run: async ({ client, context, locale, isPremium }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 
     const nameOption = context.data.options.getString("name", true);
@@ -53,10 +53,10 @@ export default createChatInputSubCommand({
 
     const bufferSizeInKilobytes = Buffer.from(attachmentContent).length / 1024;
 
-    if (bufferSizeInKilobytes >= MAXIMUM_KILOBYTES(premium)) {
+    if (bufferSizeInKilobytes >= MAXIMUM_KILOBYTES(isPremium)) {
       return await createErrorMessage(context, {
         content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_SIZE_ALLOWED({
-          maximum: MAXIMUM_KILOBYTES(premium),
+          maximum: MAXIMUM_KILOBYTES(isPremium),
         }),
       });
     }
@@ -67,10 +67,10 @@ export default createChatInputSubCommand({
       },
     });
 
-    if (guildAutomations.length >= MAXIMUM_AUTOMATIONS_PER_GUILD(premium)) {
+    if (guildAutomations.length >= MAXIMUM_AUTOMATIONS_PER_GUILD(isPremium)) {
       return await createErrorMessage(context, {
         content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_AUTOMATIONS_ALLOWED({
-          maximum: MAXIMUM_AUTOMATIONS_PER_GUILD(premium),
+          maximum: MAXIMUM_AUTOMATIONS_PER_GUILD(isPremium),
         }),
       });
     }

@@ -43,7 +43,7 @@ export const createChatInputSubCommand = (createOptions: {
     client: Discord;
     context: CommandInteraction;
     locale: Locales;
-    premium: boolean;
+    isPremium: boolean;
     variable?: unknown;
   }) => Promise<unknown>;
 }) => createOptions;
@@ -54,7 +54,7 @@ export const createUserCommand = (
       client: Discord;
       context: CommandInteraction;
       locale: Locales;
-      premium: boolean;
+      isPremium: boolean;
     }) => Promise<unknown>;
   },
 ) => createOptions;
@@ -67,7 +67,7 @@ export const createComponent = (createOptions: {
     client: Discord;
     context: ComponentInteraction;
     locale: Locales;
-    premium: boolean;
+    isPremium: boolean;
     variable?: unknown;
   }) => Promise<unknown>;
 }) => createOptions;
