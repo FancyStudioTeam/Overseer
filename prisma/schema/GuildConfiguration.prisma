@@ -11,6 +11,6 @@ type GuildConfigurationGeneral {
 }
 
 type GuildConfigurationGeneralPremium {
-  enabled   Boolean @default(false)
+  isEnabled Boolean @default(false)
   expiresAt Int     @default(0)
 }

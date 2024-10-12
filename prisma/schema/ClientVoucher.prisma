@@ -6,8 +6,8 @@ model ClientVoucher {
 }
 
 type ClientVoucherGeneral {
-  isClaimed Boolean           @default(false)
-  type      ClientVoucherType @default(MONTH)
+  isReedeemed Boolean           @default(false)
+  type        ClientVoucherType @default(MONTH)
 }
 
 enum ClientVoucherType {
