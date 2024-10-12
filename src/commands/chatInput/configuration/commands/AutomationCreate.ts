@@ -1,5 +1,5 @@
 import { Colors } from "@constants";
-import type { Prisma } from "@prisma/client";
+import type { GuildAutomationTrigger } from "@prisma/client";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Translations } from "@translations";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers.js";
@@ -30,10 +30,7 @@ export default createChatInputSubCommand({
 
     const nameOption = context.data.options.getString("name", true);
     const scriptOption = context.data.options.getAttachment("script", true);
-    const triggerOption = context.data.options.getString(
-      "trigger",
-      true,
-    ) as Prisma.GuildAutomationGeneralCreateInput["trigger"];
+    const triggerOption = context.data.options.getString("trigger", true) as GuildAutomationTrigger;
     const attachmentContentRequest = await fetch(scriptOption.url, {
       headers: {
         authorization: String(client.options.auth),
