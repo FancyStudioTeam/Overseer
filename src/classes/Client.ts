@@ -8,6 +8,7 @@ import type {
   PrefixCommandData,
   UserCommandData,
 } from "@types";
+import { CommandCategory } from "@util/Handlers";
 import { LoggerType, logger } from "@utils";
 import { glob } from "glob";
 import {
@@ -231,14 +232,17 @@ export class Discord extends Client {
         const subCommandPath = this.#resolve(path);
         const subCommand = require(subCommandPath).default;
 
-        if (!("name" in subCommand || "run" in subCommand)) {
+        if (!("name" in subCommand || "run" in subCommand || "category" in subCommand)) {
           throw new Error(`SubCommand path "${subCommandPath}" is missing a name or run property`);
         }
 
-        const dividedPath = subCommandPath.split(sep);
-        const directory = dividedPath[dividedPath.length - 3].toLowerCase();
+        const categories: Record<CommandCategory, string> = {
+          [CommandCategory.CONFIGURATION]: "config",
+          [CommandCategory.INFORMATION]: "info",
+          [CommandCategory.UTILITY]: "util",
+        };
 
-        this.subCommands.set(`${directory}_${subCommand.name}`, subCommand);
+        this.subCommands.set(`${categories[subCommand.category as CommandCategory]}_${subCommand.name}`, subCommand);
       }
     });
   };

@@ -1,10 +1,11 @@
 import { Colors } from "@constants";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
-import { createChatInputSubCommand } from "@util/Handlers";
+import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { Embed } from "oceanic-builders";
 
 export default createChatInputSubCommand({
+  category: CommandCategory.CONFIGURATION,
   name: "language",
   run: async ({ client, context }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;

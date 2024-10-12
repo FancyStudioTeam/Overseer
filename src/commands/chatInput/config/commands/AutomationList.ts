@@ -1,8 +1,9 @@
 import { Translations } from "@translations";
-import { createChatInputSubCommand } from "@util/Handlers";
+import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { createErrorMessage } from "@utils";
 
 export default createChatInputSubCommand({
+  category: CommandCategory.CONFIGURATION,
   name: "automations_list",
   run: async ({ client, context, locale }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;

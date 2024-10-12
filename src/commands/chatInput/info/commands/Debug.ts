@@ -1,9 +1,10 @@
 import { Colors } from "@constants";
 import { Translations } from "@translations";
-import { createChatInputSubCommand } from "@util/Handlers.js";
+import { CommandCategory, createChatInputSubCommand } from "@util/Handlers.js";
 import { Embed } from "oceanic-builders";
 
 export default createChatInputSubCommand({
+  category: CommandCategory.INFORMATION,
   name: "debug",
   run: async ({ client, context, locale }) =>
     await context.reply({

@@ -2,7 +2,7 @@ import { Colors } from "@constants";
 import type { Prisma } from "@prisma/client";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Translations } from "@translations";
-import { createChatInputSubCommand } from "@util/Handlers.js";
+import { CommandCategory, createChatInputSubCommand } from "@util/Handlers.js";
 import { createErrorMessage } from "@util/utils";
 import { Embed } from "oceanic-builders";
 import { gzip } from "pako";
@@ -23,6 +23,7 @@ const parseScript = async (script: string) =>
     }));
 
 export default createChatInputSubCommand({
+  category: CommandCategory.CONFIGURATION,
   name: "automations_create",
   run: async ({ client, context, locale, premium }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;

@@ -33,6 +33,7 @@ export const createChatInputCommand = (
 ) => createOptions;
 
 export const createChatInputSubCommand = (createOptions: {
+  category: CommandCategory;
   name: string;
   permissions?: {
     bot?: PermissionName[];
@@ -70,3 +71,9 @@ export const createComponent = (createOptions: {
     variable?: unknown;
   }) => Promise<unknown>;
 }) => createOptions;
+
+export enum CommandCategory {
+  CONFIGURATION,
+  INFORMATION,
+  UTILITY,
+}
