@@ -23,7 +23,8 @@ export const createErrorCardImage = async (reportId: string) => {
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
   context.fillStyle = "rgba(0, 0, 0, 0.9)";
-  context.fillRect(padding, padding, canvas.width - 2 * padding, canvas.height - 2 * padding);
+  context.roundRect(padding, padding, canvas.width - 2 * padding, canvas.height - 2 * padding, padding);
+  context.fill();
 
   context.font = `100px ${PlusJakartaSans.EXTRA_BOLD}`;
   context.fillStyle = "#ffffff";
