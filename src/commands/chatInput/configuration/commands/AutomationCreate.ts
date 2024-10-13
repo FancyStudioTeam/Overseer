@@ -30,7 +30,7 @@ export default createChatInputSubCommand({
 
     const nameOption = context.data.options.getString("name", true);
     const scriptOption = context.data.options.getAttachment("script", true);
-    const triggerOption = context.data.options.getString("trigger", true) as GuildAutomationTrigger;
+    const triggerOption = context.data.options.getString<GuildAutomationTrigger>("trigger", true);
     const attachmentContentRequest = await fetch(scriptOption.url, {
       headers: {
         authorization: String(client.options.auth),
