@@ -105,8 +105,22 @@ export default {
           NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} Este servidor no tiene automatizaciones disponibles`),
         },
       },
-      LOCALE: {
+      LANGUAGE: {
         MESSAGE_1: bold(`${Emojis.CHECK_CIRCLE} El idioma del bot ha sido establecido a ${inlineCode("Español")}`),
+      },
+      MEMBERSHIP: {
+        REEDEM: {
+          MEMBERSHIP_NOT_FOUND: ({
+            membershipId,
+          }: {
+            membershipId: string;
+          }) => bold(`${Emojis.CANCEL} La membresía ${inlineCode(membershipId)} no ha sido encontrada`),
+          MESSAGE_1: ({
+            membershipId,
+          }: {
+            membershipId: string;
+          }) => bold(`${Emojis.CHECK_CIRCLE} La membresía ${inlineCode(membershipId)} ha sido canjeada`),
+        },
       },
     },
     INFORMATION: {

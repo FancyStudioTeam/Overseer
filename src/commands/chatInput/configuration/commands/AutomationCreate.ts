@@ -25,6 +25,9 @@ const parseScript = async (script: string) =>
 export default createChatInputSubCommand({
   category: CommandCategory.CONFIGURATION,
   name: "automations_create",
+  permissions: {
+    user: ["MANAGE_GUILD"],
+  },
   run: async ({ client, context, locale, isPremium }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 

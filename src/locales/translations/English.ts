@@ -102,8 +102,22 @@ export default {
           NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} This server has no automations available`),
         },
       },
-      LOCALE: {
+      LANGUAGE: {
         MESSAGE_1: bold(`${Emojis.CHECK_CIRCLE} The bot language has been set to ${inlineCode("English")}`),
+      },
+      MEMBERSHIP: {
+        REEDEM: {
+          MEMBERSHIP_NOT_FOUND: ({
+            membershipId,
+          }: {
+            membershipId: string;
+          }) => bold(`${Emojis.CANCEL} The membership ${inlineCode(membershipId)} has not been found`),
+          MESSAGE_1: ({
+            membershipId,
+          }: {
+            membershipId: string;
+          }) => bold(`${Emojis.CHECK_CIRCLE} The membership ${inlineCode(membershipId)} has been reedemed`),
+        },
       },
     },
     INFORMATION: {

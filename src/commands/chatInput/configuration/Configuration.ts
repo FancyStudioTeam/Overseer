@@ -118,6 +118,36 @@ export default createChatInputCommand({
       ],
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
     },
+    {
+      description: "_",
+      name: "membership",
+      options: [
+        {
+          description: "Redeem a premium membership",
+          descriptionLocalizations: {
+            "es-419": "Canjea una membresía premium",
+            "es-ES": "Canjea una membresía premium",
+          },
+          name: "redeem",
+          options: [
+            {
+              description: "The membership ID",
+              descriptionLocalizations: {
+                "es-419": "La ID de la membresía",
+                "es-ES": "La ID de la membresía",
+              },
+              maxLength: 36,
+              minLength: 36,
+              name: "membership_id",
+              required: true,
+              type: ApplicationCommandOptionTypes.STRING,
+            },
+          ],
+          type: ApplicationCommandOptionTypes.SUB_COMMAND,
+        },
+      ],
+      type: ApplicationCommandOptionTypes.SUB_COMMAND_GROUP,
+    },
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
 });

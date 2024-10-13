@@ -5,6 +5,9 @@ import { createErrorMessage } from "@utils";
 export default createChatInputSubCommand({
   category: CommandCategory.CONFIGURATION,
   name: "automations_list",
+  permissions: {
+    user: ["MANAGE_GUILD"],
+  },
   run: async ({ client, context, locale }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 

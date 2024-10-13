@@ -7,6 +7,9 @@ import { Embed } from "oceanic-builders";
 export default createChatInputSubCommand({
   category: CommandCategory.CONFIGURATION,
   name: "language",
+  permissions: {
+    user: ["MANAGE_GUILD"],
+  },
   run: async ({ client, context }) => {
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 
@@ -36,7 +39,7 @@ export default createChatInputSubCommand({
 
     await context.reply({
       embeds: new Embed()
-        .setDescription(Translations[locale as Locales].COMMANDS.CONFIGURATION.LOCALE.MESSAGE_1)
+        .setDescription(Translations[locale as Locales].COMMANDS.CONFIGURATION.LANGUAGE.MESSAGE_1)
         .setColor(Colors.COLOR)
         .toJSON(true),
     });
