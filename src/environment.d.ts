@@ -1,16 +1,5 @@
 import type { Role } from "oceanic.js";
 
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
-      // biome-ignore lint/style/useNamingConvention:
-      CLIENT_TOKEN: string;
-      // biome-ignore lint/style/useNamingConvention:
-      MONGO_DB_URL: string;
-    }
-  }
-}
-
 declare module "oceanic.js" {
   interface Member {
     get highestRole(): Role;
