@@ -29,8 +29,8 @@ client.on("messageCreate", async (message) => {
     );
 
     if (result.isErr()) {
-      return await handleError(result.unwrapErr(), {
-        context: message,
+      return await handleError(message, {
+        error: result.unwrapErr(),
       });
     }
   }

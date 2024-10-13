@@ -5,17 +5,21 @@ import { Attachment, Embed } from "oceanic-builders";
 import type { AnyInteractionGateway, Message } from "oceanic.js";
 import { createMessage } from "./createMessage.js";
 import { LoggerType, logger } from "./logger.js";
+import { WebhookType, webhook } from "./webhook.js";
 
 export const handleError = async (
-  error: Error,
+  context: AnyInteractionGateway | Message,
   {
-    context,
+    error,
   }: {
-    context: AnyInteractionGateway | Message;
+    error: Error;
   },
 ) => {
   logger(error.stack ?? error.message, {
     type: LoggerType.ERROR,
+  });
+  webhook(error.stack ?? error.message, {
+    type: WebhookType.ERROR,
   });
 
   const reportId = DiscordSnowflake.generate().toString();

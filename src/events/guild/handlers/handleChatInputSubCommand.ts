@@ -56,8 +56,8 @@ export const handleChatInputSubCommand = async (
     );
 
     if (result.isErr()) {
-      return await handleError(result.unwrapErr(), {
-        context,
+      return await handleError(context, {
+        error: result.unwrapErr(),
       });
     }
   }
