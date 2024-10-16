@@ -4,8 +4,7 @@ import type { AnyInteractionGateway, CreateMessageOptions, InteractionContent, M
 export const createMessage = async (
   context: AnyInteractionGateway | Message,
   messagePayload: CreateMessageOptions & InteractionContent,
-) => {
-  return "reply" in context
+) =>
+  "reply" in context
     ? await context.reply(messagePayload)
     : await client.rest.channels.createMessage(context.channelID, messagePayload);
-};
