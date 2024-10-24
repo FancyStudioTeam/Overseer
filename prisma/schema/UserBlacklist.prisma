@@ -1,0 +1,16 @@
+model UserBlacklist {
+  createdAt DateTime             @default(now())
+  general   UserBlacklistGeneral
+  id        String               @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String               @unique
+}
+
+type UserBlacklistGeneral {
+  moderatorId     String
+  proofImagesUrls String[]
+  reason          String
+}
+
+type UserBlacklistGeneralExpiration {
+  expiresAt DateTime
+}

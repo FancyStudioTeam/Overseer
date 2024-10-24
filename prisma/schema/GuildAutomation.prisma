@@ -2,12 +2,12 @@ model GuildAutomation {
   automationId String                 @unique
   createdAt    DateTime               @default(now())
   general      GuildAutomationGeneral
-  guildId      String
   id           String                 @id @default(auto()) @map("_id") @db.ObjectId
 }
 
 type GuildAutomationGeneral {
   data    Bytes
+  guildId String
   name    String                 @default("My Automation")
   trigger GuildAutomationTrigger
 }

@@ -1,12 +1,13 @@
 model UserSuggestion {
-  createdAt    DateTime @default(now())
-  guildId      String
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt    DateTime              @default(now())
+  general      UserSuggestionGeneral
+  id           String                @id @default(auto()) @map("_id") @db.ObjectId
   suggestionId String
 }
 
 type UserSuggestionGeneral {
   channelId String
-  userId    String
   content   String
+  guildId   String
+  userId    String
 }

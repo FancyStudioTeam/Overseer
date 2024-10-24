@@ -1,16 +1,17 @@
 model GuildConfiguration {
-  createdAt DateTime                         @default(now())
+  createdAt DateTime                  @default(now())
   general   GuildConfigurationGeneral
-  guildId   String                           @unique
-  id        String                           @id @default(auto()) @map("_id") @db.ObjectId
-  premium   GuildConfigurationGeneralPremium
+  guildId   String                    @unique
+  id        String                    @id @default(auto()) @map("_id") @db.ObjectId
 }
 
 type GuildConfigurationGeneral {
-  locale String @default("EN")
+  locale  String                           @default("EN")
+  premium GuildConfigurationGeneralPremium
 }
 
 type GuildConfigurationGeneralPremium {
-  isEnabled Boolean @default(false)
-  expiresAt Int     @default(0)
+  expiresAt DateTime
+  isEnabled Boolean              @default(false)
+  type      ClientMembershipType
 }
