@@ -1,7 +1,6 @@
 import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { Translations } from "@translations";
-import type { Locales } from "@types";
 import { CheckPermissionsFrom, checkMemberPermissions, createErrorMessage, formatUnix } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
@@ -22,7 +21,7 @@ client.on("interactionCreate", async (interaction) => {
   });
   const { isPremium, locale } = {
     isPremium: !!guildConfiguration?.premium.isEnabled,
-    locale: (guildConfiguration?.general.locale ?? "EN") as Locales,
+    locale: guildConfiguration?.general.locale ?? "EN",
   };
   const clientHasMainChannelPermissions = await checkMemberPermissions(interaction.guild.clientMember, {
     channel: interaction.channel,

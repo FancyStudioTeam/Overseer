@@ -1,7 +1,7 @@
 import { client } from "@index";
 import type { AnyTextableGuildChannel, Message } from "oceanic.js";
 import { ungzip } from "pako";
-import { type Conditional, type Function, type Sequence, SequenceType, YAMLCord } from "yamlcord";
+import { type Sequence, SequenceType, type YAMLCordConditional, type YAMLCordFunction, YAMLCordParser } from "yamlcord";
 import { executeConditional } from "./automations/conditionals/executeConditional.js";
 import { executeFunction } from "./automations/functions/executeFunction.js";
 
@@ -16,9 +16,9 @@ export const VARIABLES_MAP: Record<string, (...args: any) => string | number> = 
   "[user_id]": (message: MessageInCachedGuild) => message.author.id,
   "[user_name]": (message: MessageInCachedGuild) => message.author.name,
 };
-export const isConditional = (sequence: Sequence): sequence is Conditional =>
+export const isConditional = (sequence: Sequence): sequence is YAMLCordConditional =>
   sequence.type === SequenceType.CONDITIONAL;
-export const isFunction = (sequence: Sequence): sequence is Function => sequence.type === SequenceType.FUNCTION;
+export const isFunction = (sequence: Sequence): sequence is YAMLCordFunction => sequence.type === SequenceType.FUNCTION;
 
 export default () => {
   client.on("messageCreate", async (message) => {
@@ -29,15 +29,15 @@ export default () => {
         general: {
           is: {
             trigger: "ON_MESSAGE_CREATE",
+            guildId: message.guildID,
           },
         },
-        guildId: message.guildID,
       },
     });
 
     for (const guildAutomation of guildAutomations) {
       const uncompressedBuffer = Buffer.from(ungzip(guildAutomation.general.data)).toString();
-      const { sequences } = await new YAMLCord().createSequencesFromData(uncompressedBuffer);
+      const { sequences } = await new YAMLCordParser().parse(uncompressedBuffer);
 
       for (const sequence of sequences) {
         if (isConditional(sequence)) {

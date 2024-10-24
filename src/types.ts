@@ -1,3 +1,4 @@
+import type { GuildConfigurationLocale } from "@prisma/client";
 import type {
   createChatInputCommand,
   createChatInputSubCommand,
@@ -6,7 +7,7 @@ import type {
   createUserCommand,
 } from "@util/Handlers";
 
-export type Locales = "EN" | "ES";
+export type Locales = GuildConfigurationLocale;
 
 export type MaybeNullish<T> = T | null | undefined;
 export type Awaitable<T> = Promise<T> | T;
