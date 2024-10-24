@@ -6,13 +6,13 @@ import { CommandCategory, createChatInputSubCommand } from "@util/Handlers.js";
 import { createErrorMessage } from "@util/utils";
 import { Embed } from "oceanic-builders";
 import { gzip } from "pako";
-import { YAMLCord } from "yamlcord";
+import { YAMLCordParser } from "yamlcord";
 
 const MAXIMUM_AUTOMATIONS_PER_GUILD = (isPremium: boolean) => (isPremium ? 10 : 5);
 const MAXIMUM_KILOBYTES = (isPremium: boolean) => (isPremium ? 10 : 5);
-const parseScript = async (script: string) =>
-  await new YAMLCord()
-    .createSequencesFromData(script)
+const parser = async (script: string) =>
+  await new YAMLCordParser()
+    .parse(script)
     .then(() => ({
       success: true,
       parserError: null,
@@ -41,7 +41,7 @@ export default createChatInputSubCommand({
       method: "GET",
     });
     const attachmentContent = await attachmentContentRequest.text();
-    const { success, parserError } = await parseScript(attachmentContent);
+    const { success, parserError } = await parser(attachmentContent);
 
     if (!success) {
       return await createErrorMessage(context, {
@@ -63,7 +63,11 @@ export default createChatInputSubCommand({
 
     const guildAutomations = await client.prisma.guildAutomation.findMany({
       where: {
-        guildId: context.guildID,
+        general: {
+          is: {
+            guildId: context.guildID,
+          },
+        },
       },
     });
 
@@ -84,10 +88,10 @@ export default createChatInputSubCommand({
         automationId,
         general: {
           data: compressedBuffer,
+          guildId: context.guildID,
           name: nameOption,
           trigger: triggerOption,
         },
-        guildId: context.guildID,
       },
       select: {
         general: true,

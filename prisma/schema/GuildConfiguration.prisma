@@ -3,15 +3,19 @@ model GuildConfiguration {
   general   GuildConfigurationGeneral
   guildId   String                    @unique
   id        String                    @id @default(auto()) @map("_id") @db.ObjectId
+  premium   GuildConfigurationPremium
 }
 
 type GuildConfigurationGeneral {
-  locale  String                           @default("EN")
-  premium GuildConfigurationGeneralPremium
+  locale GuildConfigurationLocale @default(EN)
 }
 
-type GuildConfigurationGeneralPremium {
-  expiresAt DateTime
-  isEnabled Boolean              @default(false)
-  type      ClientMembershipType
+type GuildConfigurationPremium {
+  expiresAt DateTime?
+  isEnabled Boolean   @default(false)
+}
+
+enum GuildConfigurationLocale {
+  EN
+  ES
 }

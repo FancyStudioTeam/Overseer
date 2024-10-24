@@ -8,7 +8,7 @@ import { Embed } from "oceanic-builders";
 
 const IS_INFINITE_MEMBERSHIP = (voucherType: ClientMembershipType) => voucherType === ClientMembershipType.INFINITE;
 const MEMBERSHIP_EXPIRATION = (voucherType: ClientMembershipType) =>
-  IS_INFINITE_MEMBERSHIP(voucherType) ? 0 : Date.now() + new Duration("30d").offset;
+  IS_INFINITE_MEMBERSHIP(voucherType) ? null : new Date(Date.now() + new Duration("30d").offset);
 
 export default createChatInputSubCommand({
   category: CommandCategory.CONFIGURATION,

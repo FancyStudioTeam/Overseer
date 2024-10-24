@@ -13,7 +13,11 @@ export default createChatInputSubCommand({
 
     const guildAutomations = await client.prisma.guildAutomation.findMany({
       where: {
-        guildId: context.guildID,
+        general: {
+          is: {
+            guildId: context.guildID,
+          },
+        },
       },
     });
 
