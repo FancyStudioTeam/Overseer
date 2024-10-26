@@ -1,4 +1,3 @@
-import type { Discord } from "@client";
 import { client } from "@index";
 import { Result } from "@sapphire/result";
 import type { Locales } from "@types";
@@ -6,23 +5,19 @@ import { checkMemberPermissions, handleError } from "@utils";
 import type { CommandInteraction } from "oceanic.js";
 
 export const handleChatInputSubCommand = async (
-  key: string,
+  context: CommandInteraction,
+  collectionKey: string,
   {
-    handleArguments,
-    context,
+    isPremium,
+    locale,
   }: {
-    handleArguments: {
-      client: Discord;
-      isPremium: boolean;
-      locale: Locales;
-    };
-    context: CommandInteraction;
+    isPremium: boolean;
+    locale: Locales;
   },
 ) => {
   if (!(context.inCachedGuildChannel() && context.guild)) return;
 
-  const { locale } = handleArguments;
-  const command = client.subCommands.get(key);
+  const command = client.subCommands.get(collectionKey);
 
   if (command) {
     if (command.permissions) {
@@ -50,8 +45,10 @@ export const handleChatInputSubCommand = async (
     const result = await Result.fromAsync<unknown, Error>(
       async () =>
         await command.run({
-          ...handleArguments,
+          client,
           context,
+          isPremium,
+          locale,
         }),
     );
 

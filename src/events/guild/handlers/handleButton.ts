@@ -1,4 +1,3 @@
-import type { Discord } from "@client";
 import { Developers } from "@constants";
 import { client } from "@index";
 import { Result } from "@sapphire/result";
@@ -7,23 +6,21 @@ import { handleError } from "@utils";
 import type { ComponentInteraction } from "oceanic.js";
 
 export const handleButton = async (
-  key: string,
+  context: ComponentInteraction,
+  collectionKey: string,
   {
-    handleArguments,
-    context,
+    isPremium,
+    locale,
+    variable,
   }: {
-    handleArguments: {
-      client: Discord;
-      isPremium: boolean;
-      locale: Locales;
-      variable?: unknown;
-    };
-    context: ComponentInteraction;
+    isPremium: boolean;
+    locale: Locales;
+    variable: string;
   },
 ) => {
   if (!(context.inCachedGuildChannel() && context.guild)) return;
 
-  const component = client.components.buttons.get(key);
+  const component = client.components.buttons.get(collectionKey);
 
   if (component) {
     if (component.developerOnly && !Developers.includes(context.user.id)) {
@@ -33,8 +30,11 @@ export const handleButton = async (
     const result = await Result.fromAsync<unknown, Error>(
       async () =>
         await component.run({
-          ...handleArguments,
+          client,
           context,
+          isPremium,
+          locale,
+          variable,
         }),
     );
 

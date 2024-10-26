@@ -1,11 +1,18 @@
 import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
-import { Translations } from "@translations";
-import { CheckPermissionsFrom, checkMemberPermissions, createErrorMessage, formatUnix } from "@utils";
+import type { MaybeNullish } from "@types";
+import { CheckPermissionsFrom, checkMemberPermissions } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
+import {
+  handleAutocomplete,
+  handleButton,
+  handleChatInputSubCommand,
+  handleRateLimit,
+  handleUserCommand,
+} from "./handlers/index.js";
 
-const commandRateLimiter = new RateLimitManager(5000, 3);
+const commandRateLimiter = new RateLimitManager(50000, 3);
 const componentRateLimiter = new RateLimitManager(7000, 5);
 
 client.on("interactionCreate", async (interaction) => {
@@ -33,7 +40,23 @@ client.on("interactionCreate", async (interaction) => {
 
   if (!clientHasMainChannelPermissions) return;
 
-  match(interaction)
+  if (interaction.isCommandInteraction() || interaction.isComponentInteraction()) {
+    const rateLimiters: Record<
+      InteractionTypes.APPLICATION_COMMAND | InteractionTypes.MESSAGE_COMPONENT,
+      RateLimitManager
+    > = {
+      [InteractionTypes.APPLICATION_COMMAND]: commandRateLimiter,
+      [InteractionTypes.MESSAGE_COMPONENT]: componentRateLimiter,
+    };
+    const rateLimiter = rateLimiters[interaction.type];
+    const isRateLimited = await handleRateLimit(interaction, rateLimiter, {
+      locale,
+    });
+
+    if (isRateLimited) return;
+  }
+
+  return match(interaction)
     .with(
       {
         type: InteractionTypes.APPLICATION_COMMAND,
@@ -41,87 +64,61 @@ client.on("interactionCreate", async (interaction) => {
       async (commandInteraction) => {
         await commandInteraction.defer().catch(() => undefined);
 
-        const rateLimit = commandRateLimiter.acquire(interaction.user.id);
+        const collectionKeys: Record<ApplicationCommandTypes, MaybeNullish<string>> = {
+          [ApplicationCommandTypes.CHAT_INPUT]: [
+            commandInteraction.data.name,
+            commandInteraction.data.options.getSubCommand(true).join("_"),
+          ].join("_"),
+          [ApplicationCommandTypes.MESSAGE]: null,
+          [ApplicationCommandTypes.USER]: commandInteraction.data.name,
+        };
+        const collectionKey = collectionKeys[commandInteraction.data.type] ?? "";
 
-        if (rateLimit.limited) {
-          return await createErrorMessage(interaction, {
-            content: Translations[locale].GLOBAL.USER_IS_LIMITED({
-              resets: formatUnix(new Date(rateLimit.expires)),
-            }),
-          });
-        }
-
-        rateLimit.consume();
-
-        return match(commandInteraction.data.type)
+        match(commandInteraction.data.type)
           .with(
             ApplicationCommandTypes.CHAT_INPUT,
             async () =>
-              await import("./handlers/handleChatInputSubCommand.js").then(
-                async ({ handleChatInputSubCommand }) =>
-                  await handleChatInputSubCommand(
-                    [commandInteraction.data.name, commandInteraction.data.options.getSubCommand(true).join("_")].join(
-                      "_",
-                    ),
-                    {
-                      handleArguments: {
-                        client,
-                        locale,
-                        isPremium,
-                      },
-                      context: commandInteraction,
-                    },
-                  ),
-              ),
+              await handleChatInputSubCommand(commandInteraction, collectionKey, {
+                isPremium,
+                locale,
+              }),
           )
           .with(
             ApplicationCommandTypes.USER,
             async () =>
-              await import("./handlers/handleUserCommand.js").then(
-                async ({ handleUserCommand }) =>
-                  await handleUserCommand(commandInteraction.data.name, {
-                    handleArguments: {
-                      client,
-                      locale,
-                      isPremium,
-                    },
-                    context: commandInteraction,
-                  }),
-              ),
+              await handleUserCommand(commandInteraction, commandInteraction.data.name, {
+                locale,
+                isPremium,
+              }),
           );
       },
     )
     .with(
       {
+        type: InteractionTypes.APPLICATION_COMMAND_AUTOCOMPLETE,
+      },
+      async (autocompleteInteraction) =>
+        await handleAutocomplete(autocompleteInteraction, autocompleteInteraction.data.name, {
+          isPremium,
+          locale,
+        }),
+    )
+    .with(
+      {
         type: InteractionTypes.MESSAGE_COMPONENT,
       },
-      async (componentInteraction) => {
-        const rateLimit = componentRateLimiter.acquire(interaction.user.id);
+      (componentInteraction) => {
+        const [collectionKey, variable] = componentInteraction.data.customID.split("#");
 
-        if (rateLimit.limited) {
-          return await createErrorMessage(interaction, {
-            content: Translations[locale].GLOBAL.USER_IS_LIMITED({
-              resets: formatUnix(new Date(rateLimit.expires)),
+        match(componentInteraction.data.componentType).with(
+          ComponentTypes.BUTTON,
+          async () =>
+            await handleButton(componentInteraction, collectionKey, {
+              locale,
+              isPremium,
+              variable,
             }),
-          });
-        }
-
-        rateLimit.consume();
-
-        return match(componentInteraction.data.componentType).with(ComponentTypes.BUTTON, async () => {
-          await import("./handlers/handleButton.js").then(
-            async ({ handleButton }) =>
-              await handleButton(componentInteraction.data.customID.split("#")[0], {
-                handleArguments: {
-                  client,
-                  locale,
-                  isPremium,
-                  variable: componentInteraction.data.customID.split("#")[1],
-                },
-                context: componentInteraction,
-              }),
-          );
-        });
+        );
       },
     )
     .otherwise(() => undefined);

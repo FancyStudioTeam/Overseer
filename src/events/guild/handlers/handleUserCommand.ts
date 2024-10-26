@@ -1,4 +1,3 @@
-import type { Discord } from "@client";
 import { client } from "@index";
 import { Result } from "@sapphire/result";
 import type { Locales } from "@types";
@@ -6,29 +5,28 @@ import { handleError } from "@utils";
 import type { CommandInteraction } from "oceanic.js";
 
 export const handleUserCommand = async (
-  key: string,
+  context: CommandInteraction,
+  collectionKey: string,
   {
-    handleArguments,
-    context,
+    isPremium,
+    locale,
   }: {
-    handleArguments: {
-      client: Discord;
-      isPremium: boolean;
-      locale: Locales;
-    };
-    context: CommandInteraction;
+    isPremium: boolean;
+    locale: Locales;
   },
 ) => {
   if (!(context.inCachedGuildChannel() && context.guild)) return;
 
-  const command = client.interactions.user.get(key);
+  const command = client.interactions.user.get(collectionKey);
 
   if (command) {
     const result = await Result.fromAsync<unknown, Error>(
       async () =>
         await command.run({
-          ...handleArguments,
+          client,
           context,
+          isPremium,
+          locale,
         }),
     );
 
