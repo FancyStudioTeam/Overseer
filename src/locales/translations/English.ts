@@ -98,6 +98,18 @@ export default {
             automationName: string;
           }) => bold(`${Emojis.CHECK_CIRCLE} The automation ${inlineCode(automationName)} has been created`),
         },
+        DELETE: {
+          AUTOMATION_NOT_FOUND: ({
+            automationId,
+          }: {
+            automationId: string;
+          }) => bold(`${Emojis.CANCEL} The automation ${inlineCode(automationId)} has not been found`),
+          MESSAGE_1: ({
+            automationName,
+          }: {
+            automationName: string;
+          }) => bold(`${Emojis.CHECK_CIRCLE} The automation ${inlineCode(automationName)} has been deleted`),
+        },
         LIST: {
           NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} This server has no automations available`),
         },
@@ -146,7 +158,7 @@ export default {
       resets: string;
     }) =>
       bold(
-        `${Emojis.CANCEL} You have exceeded the maximum number of calls for the commands\n${Emojis.ARROW_CIRCLE_RIGHT} The limit will be reestablished within ${resets}`,
+        `${Emojis.CANCEL} Your maximum number of interactions has been limited\n${Emojis.ARROW_CIRCLE_RIGHT} The limit will be reestablished within ${resets}`,
       ),
     PERMISSIONS: {
       GUILD: {
