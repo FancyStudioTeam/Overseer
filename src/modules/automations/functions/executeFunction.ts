@@ -11,7 +11,6 @@ const replaceVariables = async (content: string, message: Message) => {
   }
 
   let newContent = content;
-
   const owner = await client.fetchUser(message.guild.ownerID ?? "");
   const variablesMap: Record<YAMLCordVariables, string | number> = {
     "[date_now]": Date.now(),
