@@ -12,7 +12,7 @@ import {
   handleUserCommand,
 } from "./handlers/index.js";
 
-const commandRateLimiter = new RateLimitManager(50000, 3);
+const commandRateLimiter = new RateLimitManager(5000, 3);
 const componentRateLimiter = new RateLimitManager(7000, 5);
 
 client.on("interactionCreate", async (interaction) => {
