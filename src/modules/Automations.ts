@@ -1,24 +1,19 @@
 import { client } from "@index";
-import type { AnyTextableGuildChannel, Message } from "oceanic.js";
 import { ungzip } from "pako";
-import { type Sequence, SequenceType, type YAMLCordConditional, type YAMLCordFunction, YAMLCordParser } from "yamlcord";
+import {
+  SequenceType,
+  type YAMLCordConditional,
+  type YAMLCordFunction,
+  YAMLCordParser,
+  type YAMLCordSequence,
+} from "yamlcord";
 import { executeConditional } from "./automations/conditionals/executeConditional.js";
 import { executeFunction } from "./automations/functions/executeFunction.js";
 
-// biome-ignore lint/suspicious/noExplicitAny:
-export const VARIABLES_MAP: Record<string, (...args: any) => string | number> = {
-  "[date_now]": () => Date.now(),
-  "[guild_id]": (message: MessageInCachedGuild) => message.guildID,
-  "[guild_name]": (message: MessageInCachedGuild) => message.guild.name,
-  "[message_content]": (message: MessageInCachedGuild) => message.guild.name,
-  "[owner_id]": (message: MessageInCachedGuild) => message.guild.ownerID ?? "",
-  "[owner_name]": (message: MessageInCachedGuild) => message.guild.owner?.name ?? "",
-  "[user_id]": (message: MessageInCachedGuild) => message.author.id,
-  "[user_name]": (message: MessageInCachedGuild) => message.author.name,
-};
-export const isConditional = (sequence: Sequence): sequence is YAMLCordConditional =>
+export const isConditional = (sequence: YAMLCordSequence): sequence is YAMLCordConditional =>
   sequence.type === SequenceType.CONDITIONAL;
-export const isFunction = (sequence: Sequence): sequence is YAMLCordFunction => sequence.type === SequenceType.FUNCTION;
+export const isFunction = (sequence: YAMLCordSequence): sequence is YAMLCordFunction =>
+  sequence.type === SequenceType.FUNCTION;
 
 export default () => {
   client.on("messageCreate", async (message) => {
@@ -53,5 +48,3 @@ export default () => {
     }
   });
 };
-
-type MessageInCachedGuild = Message<AnyTextableGuildChannel>;

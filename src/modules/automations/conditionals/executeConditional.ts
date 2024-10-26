@@ -1,18 +1,18 @@
 import { apply } from "json-logic-js";
 import type { Message } from "oceanic.js";
-import type { Conditional, ResolvedVariables, Sequence } from "yamlcord";
+import type { YAMLCordConditional, YAMLCordSequence, YAMLCordVariables } from "yamlcord";
 import { isConditional, isFunction } from "../../Automations.js";
 import { executeFunction } from "../functions/executeFunction.js";
 
 const createForOfSequences = async (
-  sequences: Sequence[],
+  yamlCordSequences: YAMLCordSequence[],
   {
     message,
   }: {
     message: Message;
   },
 ) => {
-  for (const sequence of sequences) {
+  for (const sequence of yamlCordSequences) {
     if (isConditional(sequence)) {
       await executeConditional(sequence, {
         message,
@@ -26,7 +26,7 @@ const createForOfSequences = async (
 };
 
 export const executeConditional = async (
-  conditional: Conditional,
+  yamlCordConditional: YAMLCordConditional,
   {
     message,
   }: {
@@ -35,8 +35,8 @@ export const executeConditional = async (
 ) => {
   if (!(message.inCachedGuildChannel() && message.guild)) return;
 
-  const { data } = conditional;
-  const variablesMap: Record<ResolvedVariables, string | number> = {
+  const { data } = yamlCordConditional;
+  const variablesMap: Record<YAMLCordVariables, string | number> = {
     "[date_now]": Date.now(),
     "[guild_id]": message.guildID,
     "[guild_name]": message.guild.name,
@@ -49,7 +49,7 @@ export const executeConditional = async (
 
   if (
     apply({
-      [data.if.operator]: [variablesMap[data.if.variable as ResolvedVariables], data.if.value],
+      [data.if.operator]: [variablesMap[data.if.variable as YAMLCordVariables], data.if.value],
     })
   ) {
     await createForOfSequences(data.then, {
