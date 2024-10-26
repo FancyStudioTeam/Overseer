@@ -21,6 +21,7 @@ import {
   type InteractionContent,
   InteractionTypes,
   type Message,
+  type MessageComponent,
   MessageFlags,
 } from "oceanic.js";
 import { match } from "ts-pattern";
@@ -31,9 +32,12 @@ export const pagination = async (
     data,
     locale,
     shouldBeEphemeral = false,
-    timeBeforeExpiration = 30_000,
+    timeBeforeExpiration = 30000,
   }: {
-    data: EmbedOptions[];
+    data: {
+      components: MessageComponent[];
+      embed: EmbedOptions;
+    }[];
     locale: Locales;
     shouldBeEphemeral?: boolean;
     timeBeforeExpiration?: number;
@@ -43,30 +47,39 @@ export const pagination = async (
   if (!context.channel) return;
   if (context.channel.type !== ChannelTypes.GUILD_TEXT) return;
 
-  let index = 0;
+  let paginationIndex = 0;
   let replyMessage: Message;
+  const paginationEmbeds = data.map((element) => element.embed);
+  const paginationComponents = data.map((element) => element.components);
+  const paginationElements = (index: number) => ({
+    embed: paginationEmbeds[index],
+    components: [
+      new ActionRow()
+        .addComponents([
+          new Button()
+            .setCustomID("@pagination/left")
+            .setStyle(ButtonStyles.SECONDARY)
+            .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_LEFT))
+            .setDisabled(paginationEmbeds.length < 2),
+          new Button()
+            .setCustomID("@pagination/pages")
+            .setStyle(ButtonStyles.SECONDARY)
+            .setLabel(`${paginationIndex + 1}/${paginationEmbeds.length}`)
+            .setEmoji(parseEmoji(Emojis.EXPLORE))
+            .setDisabled(true),
+          new Button()
+            .setCustomID("@pagination/right")
+            .setStyle(ButtonStyles.SECONDARY)
+            .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_RIGHT))
+            .setDisabled(pagination.length < 2),
+        ])
+        .toJSON(),
+      new ActionRow().addComponents(paginationComponents[index]).toJSON(),
+    ],
+  });
   const messagePayload: CreateMessageOptions & InteractionContent = {
-    components: new ActionRow()
-      .addComponents([
-        new Button()
-          .setCustomID("@pagination/left")
-          .setStyle(ButtonStyles.SECONDARY)
-          .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_LEFT))
-          .setDisabled(data.length < 2),
-        new Button()
-          .setCustomID("@pagination/pages")
-          .setStyle(ButtonStyles.SECONDARY)
-          .setLabel(`${index + 1}/${data.length}`)
-          .setEmoji(parseEmoji(Emojis.EXPLORE))
-          .setDisabled(true),
-        new Button()
-          .setCustomID("@pagination/right")
-          .setStyle(ButtonStyles.SECONDARY)
-          .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_RIGHT))
-          .setDisabled(data.length < 2),
-      ])
-      .toJSON(true),
-    embeds: [data[index]],
+    components: paginationElements(paginationIndex).components,
+    embeds: [paginationElements(paginationIndex).embed],
     flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
   };
 
@@ -107,16 +120,24 @@ export const pagination = async (
         await collectedInteraction.deferUpdate().catch(() => undefined);
 
         match(collectedInteraction.data.customID)
-          .with("@pagination/left", () => (index = index > 0 ? --index : data.length - 1))
-          .with("@pagination/right", () => (index = index + 1 < data.length ? ++index : 0))
+          .with(
+            "@pagination/left",
+            () => (paginationIndex = paginationIndex > 0 ? --paginationIndex : paginationEmbeds.length - 1),
+          )
+          .with(
+            "@pagination/right",
+            () => (paginationIndex = paginationIndex + 1 < paginationEmbeds.length ? ++paginationIndex : 0),
+          )
           .otherwise(() => undefined);
 
         const row = replyMessage.components[0].components;
-        row[1] = new Button(row[1] as ButtonComponent).setLabel(`${index + 1}/${data.length}`).toJSON();
+        let indexButton = row[1] as ButtonComponent;
+
+        indexButton = new Button(indexButton).setLabel(`${paginationIndex + 1}/${paginationEmbeds.length}`).toJSON();
 
         await client.rest.channels.editMessage(replyMessage.channelID, replyMessage.id, {
-          components: replyMessage.components,
-          embeds: [data[index]],
+          components: paginationElements(paginationIndex).components,
+          embeds: [paginationElements(paginationIndex).embed],
         });
       }
     }

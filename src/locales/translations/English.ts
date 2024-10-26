@@ -111,6 +111,16 @@ export default {
           }) => bold(`${Emojis.CHECK_CIRCLE} The automation ${inlineCode(automationName)} has been deleted`),
         },
         LIST: {
+          COMPONENTS: {
+            BUTTONS: {
+              DISPLAY_CODE: {
+                LABEL: "Display Script",
+              },
+              DELETE: {
+                LABEL: "Delete Automation",
+              },
+            },
+          },
           NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} This server has no automations available`),
         },
       },

@@ -114,6 +114,16 @@ export default {
           }) => bold(`${Emojis.CHECK_CIRCLE} La automatizacion ${inlineCode(automationName)} ha sido eliminada`),
         },
         LIST: {
+          COMPONENTS: {
+            BUTTONS: {
+              DISPLAY_CODE: {
+                LABEL: "Mostrar Script",
+              },
+              DELETE: {
+                LABEL: "Eliminar Automatización",
+              },
+            },
+          },
           NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} Este servidor no tiene automatizaciones disponibles`),
         },
       },
