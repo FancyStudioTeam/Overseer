@@ -22,9 +22,6 @@ export const logger = (
       new Date().toLocaleString("en-US", {
         timeZone: "Europe/Madrid",
       }),
-      {
-        longFormat: true,
-      },
     ),
     1,
   );
