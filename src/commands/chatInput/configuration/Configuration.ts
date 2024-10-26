@@ -1,10 +1,14 @@
 import { createChatInputCommand } from "@util/Handlers.js";
+import { formatTimestamp } from "@util/utils";
 import {
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   ApplicationIntegrationTypes,
+  type AutocompleteChoice,
+  type AutocompleteInteraction,
   InteractionContextTypes,
 } from "oceanic.js";
+import { match } from "ts-pattern";
 
 export default createChatInputCommand({
   contexts: [InteractionContextTypes.GUILD],
@@ -61,6 +65,28 @@ export default createChatInputCommand({
                 "es-ES": "El evento de la automatización",
               },
               name: "trigger",
+              required: true,
+              type: ApplicationCommandOptionTypes.STRING,
+            },
+          ],
+          type: ApplicationCommandOptionTypes.SUB_COMMAND,
+        },
+        {
+          description: "Deletes an automation",
+          descriptionLocalizations: {
+            "es-419": "Elimina una automatización",
+            "es-ES": "Elimina una automatización",
+          },
+          name: "delete",
+          options: [
+            {
+              autocomplete: true,
+              description: "The automation ID",
+              descriptionLocalizations: {
+                "es-419": "La ID de la automatización",
+                "es-ES": "La ID de la automatización",
+              },
+              name: "automation_id",
               required: true,
               type: ApplicationCommandOptionTypes.STRING,
             },
@@ -150,4 +176,63 @@ export default createChatInputCommand({
     },
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
+  autoComplete: async ({ client, context }) => {
+    if (!(context.inCachedGuildChannel() && context.guild)) return;
+
+    const subCommand = context.data.options.getSubCommand(true).join("_");
+
+    match(subCommand).with("automations_delete", async () => {
+      const guildAutomations = await client.prisma.guildAutomation.findMany({
+        where: {
+          general: {
+            is: {
+              guildId: context.guildID,
+            },
+          },
+        },
+      });
+
+      if (guildAutomations.length === 0) {
+        return createErrorAutocompleteResponse(context, {
+          content:
+            {
+              "es-419": "❌ Este servidor no tiene automatizaciones disponibles",
+              "es-ES": "❌ Este servidor no tiene automatizaciones disponibles",
+            }[context.locale] ?? "❌ This server has no automations available",
+        });
+      }
+
+      const availableAutomations: AutocompleteChoice[] = guildAutomations.map(
+        ({ automationId, createdAt, general: { name } }) => {
+          const formattedCreatedAt = formatTimestamp(createdAt, "dddd[, ]MMMM DD[, ]YYYY[, ]HH:mm");
+
+          return {
+            name:
+              {
+                "es-419": `🗑️ Eliminar automatización "${name}" - Creado el ${formattedCreatedAt}`,
+                "es-ES": `🗑️ Eliminar automatización "${name}" - Creado el ${formattedCreatedAt}`,
+              }[context.locale] ?? `🗑️ Delete "${name}" automation - Created on ${formattedCreatedAt}`,
+            value: automationId,
+          };
+        },
+      );
+
+      await context.result(availableAutomations);
+    });
+  },
 });
+
+const createErrorAutocompleteResponse = async (
+  context: AutocompleteInteraction,
+  {
+    content,
+  }: {
+    content: string;
+  },
+) =>
+  await context.result([
+    {
+      name: content,
+      value: ".",
+    },
+  ]);
