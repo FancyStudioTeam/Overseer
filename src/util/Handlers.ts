@@ -23,11 +23,11 @@ export const createPrefixCommand = (createOptions: {
 
 export const createChatInputCommand = (
   createOptions: CreateChatInputApplicationCommandOptions & {
-    autocomplete?: (config: {
+    autoComplete?: (config: {
       client: Discord;
       context: AutocompleteInteraction;
+      isPremium: boolean;
       locale: Locales;
-      premium: boolean;
     }) => Promise<unknown>;
   },
 ) => createOptions;
