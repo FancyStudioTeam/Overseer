@@ -1,6 +1,7 @@
 import colors from "@colors/colors";
 import { Emojis } from "@constants";
 import { bold, codeBlock, inlineCode } from "@discordjs/formatters";
+import { createProgressBar, formatKeyValues, formatTimestamp } from "@util/utils";
 import type { PermissionName } from "oceanic.js";
 
 const permissions: Record<PermissionName, string> = {
@@ -115,16 +116,76 @@ export default {
         },
         LIST: {
           COMPONENTS: {
+            AUTOMATION_NOT_FOUND: ({
+              automationId,
+            }: {
+              automationId: string;
+            }) => bold(`${Emojis.CANCEL} La automatizacion ${inlineCode(automationId)} no ha sido encontrada`),
             BUTTONS: {
-              DISPLAY_CODE: {
-                LABEL: "Mostrar Script",
+              DISPLAY: {
+                LABEL: "Mostrar Código",
+              },
+              DOWNLOAD: {
+                LABEL: "Descargar Código",
               },
               DELETE: {
                 LABEL: "Eliminar Automatización",
+                MESSAGE_1: ({
+                  automationName,
+                }: {
+                  automationName: string;
+                }) => bold(`${Emojis.CHECK_CIRCLE} La automatizacion ${inlineCode(automationName)} ha sido eliminada`),
               },
             },
           },
-          NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} Este servidor no tiene automatizaciones disponibles`),
+          NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} El servidor no tiene automatizaciones disponibles`),
+          MESSAGE_1: {
+            TITLE_1: bold("Información de la Automatización"),
+            FIELD_1: {
+              NAME: "Información General",
+              VALUE: ({
+                automationId,
+                automationName,
+                createdBy,
+              }: {
+                automationId: string;
+                automationName: string;
+                createdBy: string;
+              }) =>
+                codeBlock(
+                  "ansi",
+                  formatKeyValues(
+                    [`Nombre » ${automationName}`, `ID » ${automationId}`, `Creado Por » ${createdBy}`].join("\n"),
+                    "»",
+                  ),
+                ),
+            },
+            FIELD_2: {
+              NAME: "Fecha de Creación",
+              VALUE: ({
+                createdAt,
+              }: {
+                createdAt: Date;
+              }) =>
+                codeBlock("ansi", colors.bold.magenta(formatTimestamp(createdAt, "dddd[, ]MMMM DD[, ]YYYY[, ]HH:mm"))),
+            },
+            FIELD_3: {
+              NAME: "Tamaño de la Automatización",
+              VALUE: ({
+                currentSize,
+                maximumSize,
+              }: {
+                currentSize: number;
+                maximumSize: number;
+              }) =>
+                codeBlock(
+                  "ansi",
+                  colors.bold.magenta(
+                    `${createProgressBar(currentSize, maximumSize)} [${((currentSize / maximumSize) * 100).toFixed(2)}%/100%]`,
+                  ),
+                ),
+            },
+          },
         },
       },
       LANGUAGE: {
