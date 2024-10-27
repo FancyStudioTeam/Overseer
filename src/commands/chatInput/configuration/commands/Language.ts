@@ -1,7 +1,6 @@
 import { Colors } from "@constants";
 import type { GuildConfigurationLocale } from "@prisma/client";
 import { Translations } from "@translations";
-import type { Locales } from "@types";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { Embed } from "oceanic-builders";
 
@@ -40,7 +39,7 @@ export default createChatInputSubCommand({
 
     await context.reply({
       embeds: new Embed()
-        .setDescription(Translations[locale as Locales].COMMANDS.CONFIGURATION.LANGUAGE.MESSAGE_1)
+        .setDescription(Translations[locale].COMMANDS.CONFIGURATION.LANGUAGE.MESSAGE_1)
         .setColor(Colors.COLOR)
         .toJSON(true),
     });
