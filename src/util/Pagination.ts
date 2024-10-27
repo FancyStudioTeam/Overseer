@@ -106,6 +106,7 @@ export const pagination = async (
         await createErrorMessage(collectedInteraction, {
           content: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
         });
+
         return false;
       }
 

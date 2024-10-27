@@ -3,11 +3,8 @@ import { Colors, Emojis } from "@constants";
 import { bold, codeBlock } from "@discordjs/formatters";
 import { Result } from "@sapphire/result";
 import { createPrefixCommand } from "@util/Handlers";
-import { createErrorMessage } from "@utils";
+import { createErrorMessage, truncateString } from "@utils";
 import { Embed } from "oceanic-builders";
-
-const truncate = (content: string, maxLength: number) =>
-  content.length > maxLength ? `${content.slice(0, maxLength - 3)}...` : content;
 
 export default createPrefixCommand({
   developerOnly: true,
@@ -36,7 +33,14 @@ export default createPrefixCommand({
     if (result.isErr()) {
       return await client.rest.channels.createMessage(context.channelID, {
         embeds: new Embed()
-          .setDescription(codeBlock("js", truncate(String(result.unwrapErr()), 4000)))
+          .setDescription(
+            codeBlock(
+              "js",
+              truncateString(String(result.unwrapErr()), {
+                maxLength: 4000,
+              }),
+            ),
+          )
           .setColor(Colors.RED)
           .toJSON(true),
       });
@@ -44,7 +48,14 @@ export default createPrefixCommand({
 
     return await client.rest.channels.createMessage(context.channelID, {
       embeds: new Embed()
-        .setDescription(codeBlock("js", truncate(String(result.unwrap()), 4000)))
+        .setDescription(
+          codeBlock(
+            "js",
+            truncateString(String(result.unwrap()), {
+              maxLength: 4000,
+            }),
+          ),
+        )
         .setColor(Colors.COLOR)
         .toJSON(true),
     });

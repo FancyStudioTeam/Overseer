@@ -2,7 +2,7 @@ import { join, sep } from "node:path";
 import { GlobalFonts, createCanvas, loadImage } from "@napi-rs/canvas";
 import { glob } from "glob";
 
-const loadFonts = async () => {
+const loadFonts = async () =>
   await glob(`${join(process.cwd(), "assets/fonts")}/*.ttf`).then((paths) => {
     for (const path of paths) {
       const fontName = path.split(sep)[2].split(".")[0];
@@ -10,7 +10,6 @@ const loadFonts = async () => {
       GlobalFonts.registerFromPath(path, fontName);
     }
   });
-};
 
 export const createErrorCardImage = async (reportId: string) => {
   await loadFonts();
