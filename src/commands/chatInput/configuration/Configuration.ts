@@ -34,6 +34,7 @@ export default createChatInputCommand({
                 "es-419": "El nombre de la automatización",
                 "es-ES": "El nombre de la automatización",
               },
+              maxLength: 35,
               name: "name",
               required: true,
               type: ApplicationCommandOptionTypes.STRING,
