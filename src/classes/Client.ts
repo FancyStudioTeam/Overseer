@@ -171,9 +171,9 @@ export class Discord extends Client {
     this.interactions.user.clear();
 
     await this.registerSubCommands();
-    await this.#loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`).then((paths) => {
+    await this.loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
-        const commandPath = this.#resolve(path);
+        const commandPath = this.resolve(path);
         const command = require(commandPath).default;
 
         if (!("name" in command || "type" in command)) {
@@ -196,9 +196,9 @@ export class Discord extends Client {
     this.components.buttons.clear();
     this.components.selectMenus.clear();
 
-    await this.#loadFiles(`${join(__dirname, "..", "components")}/*/*/*.{ts,js}`).then((paths) => {
+    await this.loadFiles(`${join(__dirname, "..", "components")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
-        const componentPath = this.#resolve(path);
+        const componentPath = this.resolve(path);
         const component = require(componentPath).default;
 
         if (!("name" in component || "type" in component || "run" in component)) {
@@ -227,9 +227,9 @@ export class Discord extends Client {
   registerSubCommands = async () => {
     this.subCommands.clear();
 
-    await this.#loadFiles(`${join(__dirname, "..", "commands/chatInput")}/*/*/*.{ts,js}`).then((paths) => {
+    await this.loadFiles(`${join(__dirname, "..", "commands/chatInput")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
-        const subCommandPath = this.#resolve(path);
+        const subCommandPath = this.resolve(path);
         const subCommand = require(subCommandPath).default;
 
         if (!("name" in subCommand || "run" in subCommand || "category" in subCommand)) {
@@ -250,9 +250,9 @@ export class Discord extends Client {
   registerPrefixCommands = async () => {
     this.prefixCommands.clear();
 
-    await this.#loadFiles(`${join(__dirname, "..", "commands/prefix")}/*.{ts,js}`).then((paths) => {
+    await this.loadFiles(`${join(__dirname, "..", "commands/prefix")}/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
-        const prefixCommandPath = this.#resolve(path);
+        const prefixCommandPath = this.resolve(path);
         const prefixCommand = require(prefixCommandPath).default;
 
         if (!("name" in prefixCommand || "run" in prefixCommand)) {
@@ -267,17 +267,17 @@ export class Discord extends Client {
   registerEvents = async () => {
     this.removeAllListeners();
 
-    await this.#loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`).then((paths) => {
+    await this.loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
-        require(this.#resolve(path));
+        require(this.resolve(path));
       }
     });
   };
 
   registerModules = async () =>
-    await this.#loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`).then((paths) => {
+    await this.loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
-        require(this.#resolve(path)).default(this);
+        require(this.resolve(path)).default(this);
       }
     });
 
@@ -317,9 +317,9 @@ export class Discord extends Client {
       .with(FetchFrom.REST, async () => await this.rest.guilds.getMember(guild.id, memberId))
       .otherwise(() => undefined);
 
-  #resolve = (path: string) => (path.split(sep).includes("dist") ? path : join(process.cwd(), path));
+  private resolve = (path: string) => (path.split(sep).includes("dist") ? path : join(process.cwd(), path));
 
-  #loadFiles = async (path: string | string[]) =>
+  private loadFiles = async (path: string | string[]) =>
     await glob(path, {
       ignore: ["node_modules/**"],
     });
