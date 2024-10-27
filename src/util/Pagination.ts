@@ -14,7 +14,6 @@ import {
   type ButtonComponent,
   ButtonStyles,
   ChannelTypes,
-  type ComponentInteraction,
   ComponentTypes,
   type CreateMessageOptions,
   type EmbedOptions,
@@ -96,7 +95,10 @@ export const pagination = async (
   const interactionCollector = new InteractionCollector(client, {
     channel: context.channel,
     componentType: ComponentTypes.BUTTON,
-    filter: async (collectedInteraction: ComponentInteraction) => {
+    idle: timeBeforeExpiration,
+    interactionType: InteractionTypes.MESSAGE_COMPONENT,
+    message: replyMessage,
+    filter: async (collectedInteraction) => {
       if (
         ("user" in context && collectedInteraction.user.id !== context.user.id) ||
         ("author" in context && collectedInteraction.user.id !== context.author.id)
@@ -109,37 +111,34 @@ export const pagination = async (
 
       return true;
     },
-    idle: timeBeforeExpiration,
-    interactionType: InteractionTypes.MESSAGE_COMPONENT,
-    message: replyMessage,
   });
 
   interactionCollector.on("collect", async (collectedInteraction) => {
-    if (collectedInteraction.isComponentInteraction()) {
-      if (collectedInteraction.isButtonComponentInteraction()) {
-        await collectedInteraction.deferUpdate().catch(() => undefined);
+    if (collectedInteraction.isComponentInteraction() && collectedInteraction.isButtonComponentInteraction()) {
+      if (!["@pagination/left", "@pagination/right"].includes(collectedInteraction.data.customID)) return;
 
-        match(collectedInteraction.data.customID)
-          .with(
-            "@pagination/left",
-            () => (paginationIndex = paginationIndex > 0 ? --paginationIndex : paginationEmbeds.length - 1),
-          )
-          .with(
-            "@pagination/right",
-            () => (paginationIndex = paginationIndex + 1 < paginationEmbeds.length ? ++paginationIndex : 0),
-          )
-          .otherwise(() => undefined);
+      await collectedInteraction.deferUpdate().catch(() => undefined);
 
-        const row = replyMessage.components[0].components;
-        let indexButton = row[1] as ButtonComponent;
+      match(collectedInteraction.data.customID)
+        .with(
+          "@pagination/left",
+          () => (paginationIndex = paginationIndex > 0 ? --paginationIndex : paginationEmbeds.length - 1),
+        )
+        .with(
+          "@pagination/right",
+          () => (paginationIndex = paginationIndex + 1 < paginationEmbeds.length ? ++paginationIndex : 0),
+        )
+        .otherwise(() => undefined);
 
-        indexButton = new Button(indexButton).setLabel(`${paginationIndex + 1}/${paginationEmbeds.length}`).toJSON();
+      const row = replyMessage.components[0].components;
+      let indexButton = row[1] as ButtonComponent;
 
-        await client.rest.channels.editMessage(replyMessage.channelID, replyMessage.id, {
-          components: paginationElements(paginationIndex).components,
-          embeds: [paginationElements(paginationIndex).embed],
-        });
-      }
+      indexButton = new Button(indexButton).setLabel(`${paginationIndex + 1}/${paginationEmbeds.length}`).toJSON();
+
+      await client.rest.channels.editMessage(replyMessage.channelID, replyMessage.id, {
+        components: paginationElements(paginationIndex).components,
+        embeds: [paginationElements(paginationIndex).embed],
+      });
     }
   });
 
