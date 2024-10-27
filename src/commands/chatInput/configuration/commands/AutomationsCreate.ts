@@ -2,7 +2,7 @@ import { Colors } from "@constants";
 import type { GuildAutomationTrigger } from "@prisma/client";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Translations } from "@translations";
-import { CommandCategory, createChatInputSubCommand } from "@util/Handlers.js";
+import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { createErrorMessage } from "@util/utils";
 import { Embed } from "oceanic-builders";
 import { gzip } from "pako";
@@ -10,7 +10,7 @@ import { YAMLCordParser } from "yamlcord";
 
 const MAXIMUM_AUTOMATIONS_PER_GUILD = (isPremium: boolean) => (isPremium ? 10 : 5);
 const MAXIMUM_KILOBYTES = (isPremium: boolean) => (isPremium ? 10 : 5);
-const parser = async (script: string) =>
+const parse = async (script: string) =>
   await new YAMLCordParser()
     .parse(script)
     .then(() => ({
@@ -41,7 +41,7 @@ export default createChatInputSubCommand({
       method: "GET",
     });
     const attachmentContent = await attachmentContentRequest.text();
-    const { success, parserError } = await parser(attachmentContent);
+    const { success, parserError } = await parse(attachmentContent);
 
     if (!success) {
       return await createErrorMessage(context, {
@@ -51,9 +51,9 @@ export default createChatInputSubCommand({
       });
     }
 
-    const bufferSizeInKilobytes = Buffer.from(attachmentContent).length / 1024;
+    const bufferSizeInKiloBytes = Buffer.from(attachmentContent).length / 1024;
 
-    if (bufferSizeInKilobytes >= MAXIMUM_KILOBYTES(isPremium)) {
+    if (bufferSizeInKiloBytes >= MAXIMUM_KILOBYTES(isPremium)) {
       return await createErrorMessage(context, {
         content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_SIZE_ALLOWED({
           maximum: MAXIMUM_KILOBYTES(isPremium),
@@ -87,6 +87,7 @@ export default createChatInputSubCommand({
       data: {
         automationId,
         general: {
+          createdBy: context.user.id,
           data: compressedBuffer,
           guildId: context.guildID,
           name: nameOption,
