@@ -10,4 +10,5 @@ export * from "./handleError.js";
 export * from "./logger.js";
 export * from "./parseEmoji.js";
 export * from "./parseWebhookURL.js";
+export * from "./truncateString.js";
 export * from "./webhook.js";

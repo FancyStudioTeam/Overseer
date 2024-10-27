@@ -2,7 +2,7 @@ import { Colors } from "@constants";
 import { codeBlock } from "@discordjs/formatters";
 import { Translations } from "@translations";
 import { createComponent } from "@util/Handlers";
-import { createErrorMessage } from "@util/utils";
+import { createErrorMessage, truncateString } from "@util/utils";
 import { Embed } from "oceanic-builders";
 import { ComponentTypes, MessageFlags } from "oceanic.js";
 import { ungzip } from "pako";
@@ -39,7 +39,17 @@ export default createComponent({
     const uncompressedBuffer = Buffer.from(ungzip(guildAutomation.general.data)).toString();
 
     return await context.reply({
-      embeds: new Embed().setDescription(codeBlock("yml", uncompressedBuffer)).setColor(Colors.COLOR).toJSON(true),
+      embeds: new Embed()
+        .setDescription(
+          codeBlock(
+            "yml",
+            truncateString(uncompressedBuffer, {
+              maxLength: 4000,
+            }),
+          ),
+        )
+        .setColor(Colors.COLOR)
+        .toJSON(true),
       flags: MessageFlags.EPHEMERAL,
     });
   },
