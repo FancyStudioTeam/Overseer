@@ -80,77 +80,77 @@ export const executeFunction = (
         }
 
         if (data.embeds) {
-          messagePayload.embeds = await Promise.all(
-            data.embeds.map(async (rawEmbed) => {
-              const embed = new Embed();
+          const embeds = data.embeds.map(async (rawEmbed) => {
+            const embed = new Embed();
 
-              if (rawEmbed.author) {
-                const { name, icon_url, url } = rawEmbed.author;
+            if (rawEmbed.author) {
+              const { name, icon_url, url } = rawEmbed.author;
 
-                embed.setAuthor({
-                  name: await replaceVariables(name, message),
-                  iconURL: icon_url,
-                  url,
-                });
+              embed.setAuthor({
+                name: await replaceVariables(name, message),
+                iconURL: icon_url,
+                url,
+              });
+            }
+
+            if (rawEmbed.color) {
+              embed.setColor(rawEmbed.color);
+            }
+
+            if (rawEmbed.description) {
+              embed.setDescription(await replaceVariables(rawEmbed.description, message));
+            }
+
+            if (rawEmbed.fields) {
+              const fields: EmbedField[] = [];
+
+              for (const rawField of rawEmbed.fields) {
+                const { name, inline, value } = rawField;
+
+                fields.push(
+                  new EmbedField()
+                    .setName(await replaceVariables(name, message))
+                    .setValue(await replaceVariables(value, message))
+                    .setInline(!!inline),
+                );
               }
 
-              if (rawEmbed.color) {
-                embed.setColor(rawEmbed.color);
-              }
+              embed.addFields(fields);
+            }
 
-              if (rawEmbed.description) {
-                embed.setDescription(await replaceVariables(rawEmbed.description, message));
-              }
+            if (rawEmbed.footer) {
+              const { text, icon_url } = rawEmbed.footer;
 
-              if (rawEmbed.fields) {
-                const fields: EmbedField[] = [];
+              embed.setFooter({
+                text: await replaceVariables(text, message),
+                iconURL: icon_url,
+              });
+            }
 
-                for (const rawField of rawEmbed.fields) {
-                  const { name, inline, value } = rawField;
+            if (rawEmbed.image) {
+              embed.setImage(rawEmbed.image.url);
+            }
 
-                  fields.push(
-                    new EmbedField()
-                      .setName(await replaceVariables(name, message))
-                      .setValue(await replaceVariables(value, message))
-                      .setInline(!!inline),
-                  );
-                }
+            if (rawEmbed.thumbnail) {
+              embed.setThumbnail(rawEmbed.thumbnail.url);
+            }
 
-                embed.addFields(fields);
-              }
+            if (rawEmbed.timestamp) {
+              embed.setTimestamp();
+            }
 
-              if (rawEmbed.footer) {
-                const { text, icon_url } = rawEmbed.footer;
+            if (rawEmbed.title) {
+              embed.setTitle(await replaceVariables(rawEmbed.title, message));
+            }
 
-                embed.setFooter({
-                  text: await replaceVariables(text, message),
-                  iconURL: icon_url,
-                });
-              }
+            if (rawEmbed.url) {
+              embed.setURL(rawEmbed.url);
+            }
 
-              if (rawEmbed.image) {
-                embed.setImage(rawEmbed.image.url);
-              }
+            return embed.toJSON();
+          });
 
-              if (rawEmbed.thumbnail) {
-                embed.setThumbnail(rawEmbed.thumbnail.url);
-              }
-
-              if (rawEmbed.timestamp) {
-                embed.setTimestamp();
-              }
-
-              if (rawEmbed.title) {
-                embed.setTitle(await replaceVariables(rawEmbed.title, message));
-              }
-
-              if (rawEmbed.url) {
-                embed.setURL(rawEmbed.url);
-              }
-
-              return embed.toJSON();
-            }),
-          );
+          messagePayload.embeds = await Promise.all(embeds);
         }
 
         await client.rest.channels.createMessage(channelId, messagePayload);
