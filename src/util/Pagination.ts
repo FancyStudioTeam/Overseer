@@ -60,7 +60,7 @@ export const pagination = async (
             .setCustomID("@pagination/left")
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_LEFT))
-            .setDisabled(paginationEmbeds.length < 2),
+            .setDisabled(paginationEmbeds.length <= 1),
           new Button()
             .setCustomID("@pagination/pages")
             .setStyle(ButtonStyles.SECONDARY)
@@ -71,7 +71,7 @@ export const pagination = async (
             .setCustomID("@pagination/right")
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_RIGHT))
-            .setDisabled(pagination.length < 2),
+            .setDisabled(paginationEmbeds.length <= 1),
         ])
         .toJSON(),
       new ActionRow().addComponents(paginationComponents[index]).toJSON(),
