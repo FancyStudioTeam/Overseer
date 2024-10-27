@@ -79,7 +79,7 @@ export default {
             [
               bold(`${Emojis.CANCEL} The automation has exceeded the allowed size limit`),
               bold(
-                `${Emojis.ARROW_CIRCLE_RIGHT} The size limit allowed per automation is ${inlineCode(maximum.toString())}`,
+                `${Emojis.ARROW_CIRCLE_RIGHT} The size limit allowed per automation is ${inlineCode(`${maximum.toString()}kb`)}`,
               ),
             ].join("\n"),
           MAXIMUM_AUTOMATIONS_ALLOWED: ({

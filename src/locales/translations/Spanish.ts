@@ -80,7 +80,7 @@ export default {
             [
               bold(`${Emojis.CANCEL} La automatización ha excedido el limite del tamaño permitido`),
               bold(
-                `${Emojis.ARROW_CIRCLE_RIGHT} El limite del tamaño permitido por automatización es de ${inlineCode(`${maximum.toString()} kb`)}`,
+                `${Emojis.ARROW_CIRCLE_RIGHT} El limite del tamaño permitido por automatización es de ${inlineCode(`${maximum.toString()}kb`)}`,
               ),
             ].join("\n"),
           MAXIMUM_AUTOMATIONS_ALLOWED: ({
