@@ -2,7 +2,7 @@ import { inspect } from "node:util";
 import { Colors, Emojis } from "@constants";
 import { bold, codeBlock } from "@discordjs/formatters";
 import { Result } from "@sapphire/result";
-import { createPrefixCommand } from "@util/Handlers.js";
+import { createPrefixCommand } from "@util/Handlers";
 import { createErrorMessage } from "@utils";
 import { Embed } from "oceanic-builders";
 

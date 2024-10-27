@@ -1,4 +1,4 @@
-import { createChatInputCommand } from "@util/Handlers.js";
+import { createChatInputCommand } from "@util/Handlers";
 import {
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,

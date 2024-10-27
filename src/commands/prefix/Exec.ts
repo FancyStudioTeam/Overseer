@@ -2,7 +2,7 @@ import { type ExecException, exec } from "node:child_process";
 import { Colors, Emojis } from "@constants";
 import { bold, codeBlock } from "@discordjs/formatters";
 import type { MaybeNullish } from "@types";
-import { createPrefixCommand } from "@util/Handlers.js";
+import { createPrefixCommand } from "@util/Handlers";
 import { createErrorMessage } from "@utils";
 import { Embed } from "oceanic-builders";
 

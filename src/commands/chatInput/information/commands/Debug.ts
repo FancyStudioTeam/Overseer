@@ -1,6 +1,6 @@
 import { Colors } from "@constants";
 import { Translations } from "@translations";
-import { CommandCategory, createChatInputSubCommand } from "@util/Handlers.js";
+import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { Embed } from "oceanic-builders";
 
 export default createChatInputSubCommand({

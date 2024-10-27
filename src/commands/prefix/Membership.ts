@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { Colors, Emojis } from "@constants";
 import { bold, spoiler } from "@discordjs/formatters";
-import { createPrefixCommand } from "@util/Handlers.js";
+import { createPrefixCommand } from "@util/Handlers";
 import { Embed } from "oceanic-builders";
 
 export default createPrefixCommand({

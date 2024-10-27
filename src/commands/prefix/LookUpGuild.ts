@@ -1,6 +1,6 @@
 import { Colors, Emojis } from "@constants";
 import { bold, inlineCode } from "@discordjs/formatters";
-import { createPrefixCommand } from "@util/Handlers.js";
+import { createPrefixCommand } from "@util/Handlers";
 import { createErrorMessage, parseEmoji } from "@utils";
 import { ActionRow, Button, Embed } from "oceanic-builders";
 import { ButtonStyles } from "oceanic.js";

@@ -1,4 +1,4 @@
-import { createChatInputCommand } from "@util/Handlers.js";
+import { createChatInputCommand } from "@util/Handlers";
 import { formatTimestamp } from "@util/utils";
 import {
   ApplicationCommandOptionTypes,
@@ -196,9 +196,9 @@ export default createChatInputCommand({
         return createErrorAutocompleteResponse(context, {
           content:
             {
-              "es-419": "❌ Este servidor no tiene automatizaciones disponibles",
-              "es-ES": "❌ Este servidor no tiene automatizaciones disponibles",
-            }[context.locale] ?? "❌ This server has no automations available",
+              "es-419": "❌ El servidor no tiene automatizaciones disponibles",
+              "es-ES": "❌ El servidor no tiene automatizaciones disponibles",
+            }[context.locale] ?? "❌ The server has no automations available",
         });
       }
 
