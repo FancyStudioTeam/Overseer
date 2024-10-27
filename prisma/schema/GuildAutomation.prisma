@@ -6,10 +6,11 @@ model GuildAutomation {
 }
 
 type GuildAutomationGeneral {
-  data    Bytes
-  guildId String
-  name    String                 @default("My Automation")
-  trigger GuildAutomationTrigger
+  createdBy String
+  data      Bytes
+  guildId   String
+  name      String                 @default("My Automation")
+  trigger   GuildAutomationTrigger
 }
 
 enum GuildAutomationTrigger {
