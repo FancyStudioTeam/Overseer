@@ -62,6 +62,10 @@ export const createUserCommand = (
 export const createComponent = (createOptions: {
   developerOnly?: boolean;
   name: string;
+  permissions?: {
+    bot?: PermissionName[];
+    user?: PermissionName[];
+  };
   type: MessageComponentTypes;
   run: (config: {
     client: Discord;

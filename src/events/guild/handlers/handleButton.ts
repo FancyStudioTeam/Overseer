@@ -2,7 +2,7 @@ import { Developers } from "@constants";
 import { client } from "@index";
 import { Result } from "@sapphire/result";
 import type { Locales } from "@types";
-import { handleError } from "@utils";
+import { checkMemberPermissions, handleError } from "@utils";
 import type { ComponentInteraction } from "oceanic.js";
 
 export const handleButton = async (
@@ -25,6 +25,28 @@ export const handleButton = async (
   if (component) {
     if (component.developerOnly && !Developers.includes(context.user.id)) {
       return await context.deferUpdate();
+    }
+
+    if (component.permissions) {
+      if (component.permissions.user) {
+        const userHasCommandPermissions = await checkMemberPermissions(context.member, {
+          context,
+          locale,
+          permissionsToCheck: component.permissions.user,
+        });
+
+        if (!userHasCommandPermissions) return;
+      }
+
+      if (component.permissions.bot) {
+        const clientHasCommandPermissions = await checkMemberPermissions(context.guild.clientMember, {
+          context,
+          locale,
+          permissionsToCheck: component.permissions.bot,
+        });
+
+        if (!clientHasCommandPermissions) return;
+      }
     }
 
     const result = await Result.fromAsync<unknown, Error>(
