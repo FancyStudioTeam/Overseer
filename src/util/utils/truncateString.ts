@@ -8,7 +8,7 @@ export const truncateString = (
   }: {
     escapeMarkdown?: boolean | EscapeMarkdownOptions;
     maxLength?: number;
-  } = {},
+  },
 ) => {
   let newContent = content;
 
