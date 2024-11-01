@@ -5,7 +5,6 @@ import {
   ApplicationCommandTypes,
   ApplicationIntegrationTypes,
   type AutocompleteChoice,
-  type AutocompleteInteraction,
   InteractionContextTypes,
 } from "oceanic.js";
 import { match } from "ts-pattern";
@@ -193,15 +192,7 @@ export default createChatInputCommand({
         },
       });
 
-      if (guildAutomations.length === 0) {
-        return createErrorAutocompleteResponse(context, {
-          content:
-            {
-              "es-419": "❌ El servidor no tiene automatizaciones disponibles",
-              "es-ES": "❌ El servidor no tiene automatizaciones disponibles",
-            }[context.locale] ?? "❌ The server has no automations available",
-        });
-      }
+      if (guildAutomations.length === 0) return;
 
       const availableAutomations: AutocompleteChoice[] = guildAutomations.map(
         ({ automationId, createdAt, general: { name } }) => {
@@ -222,18 +213,3 @@ export default createChatInputCommand({
     });
   },
 });
-
-const createErrorAutocompleteResponse = async (
-  context: AutocompleteInteraction,
-  {
-    content,
-  }: {
-    content: string;
-  },
-) =>
-  await context.result([
-    {
-      name: content,
-      value: ".",
-    },
-  ]);
