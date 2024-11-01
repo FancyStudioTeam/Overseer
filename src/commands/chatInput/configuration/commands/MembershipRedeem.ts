@@ -1,10 +1,8 @@
-import { Colors } from "@constants";
 import { ClientMembershipType } from "@prisma/client";
 import { Duration } from "@sapphire/time-utilities";
 import { Translations } from "@translations";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
-import { createErrorMessage } from "@util/utils";
-import { Embed } from "oceanic-builders";
+import { createErrorMessage, createMessage } from "@util/utils";
 
 const IS_INFINITE_MEMBERSHIP = (voucherType: ClientMembershipType) => voucherType === ClientMembershipType.INFINITE;
 const MEMBERSHIP_EXPIRATION = (voucherType: ClientMembershipType) =>
@@ -31,11 +29,12 @@ export default createChatInputSubCommand({
     });
 
     if (!clientMembership) {
-      return await createErrorMessage(context, {
-        content: Translations[locale].COMMANDS.CONFIGURATION.MEMBERSHIP.REEDEM.MEMBERSHIP_NOT_FOUND({
+      return await createErrorMessage(
+        context,
+        Translations[locale].COMMANDS.CONFIGURATION.MEMBERSHIP.REEDEM.MEMBERSHIP_NOT_FOUND({
           membershipId: membershipIdOption,
         }),
-      });
+      );
     }
 
     const [, { membershipId }] = await client.prisma.$transaction([
@@ -65,15 +64,11 @@ export default createChatInputSubCommand({
       }),
     ]);
 
-    return await context.reply({
-      embeds: new Embed()
-        .setDescription(
-          Translations[locale].COMMANDS.CONFIGURATION.MEMBERSHIP.REEDEM.MESSAGE_1({
-            membershipId,
-          }),
-        )
-        .setColor(Colors.COLOR)
-        .toJSON(true),
-    });
+    await createMessage(
+      context,
+      Translations[locale].COMMANDS.CONFIGURATION.MEMBERSHIP.REEDEM.MESSAGE_1({
+        membershipId,
+      }),
+    );
   },
 });

@@ -1,10 +1,8 @@
-import { Colors } from "@constants";
 import type { GuildAutomationTrigger } from "@prisma/client";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Translations } from "@translations";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
-import { createErrorMessage } from "@util/utils";
-import { Embed } from "oceanic-builders";
+import { createErrorMessage, createMessage } from "@util/utils";
 import { gzip } from "pako";
 import { YAMLCordParser } from "yamlcord";
 
@@ -44,21 +42,23 @@ export default createChatInputSubCommand({
     const { success, parserError } = await parse(attachmentContent);
 
     if (!success) {
-      return await createErrorMessage(context, {
-        content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.ERROR_WHILE_PARSING({
+      return await createErrorMessage(
+        context,
+        Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.ERROR_WHILE_PARSING({
           errorMessage: String(parserError),
         }),
-      });
+      );
     }
 
     const bufferSizeInKiloBytes = Buffer.from(attachmentContent).length / 1024;
 
     if (bufferSizeInKiloBytes >= MAXIMUM_KILOBYTES(isPremium)) {
-      return await createErrorMessage(context, {
-        content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_SIZE_ALLOWED({
+      return await createErrorMessage(
+        context,
+        Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_SIZE_ALLOWED({
           maximum: MAXIMUM_KILOBYTES(isPremium),
         }),
-      });
+      );
     }
 
     const guildAutomations = await client.prisma.guildAutomation.findMany({
@@ -72,11 +72,12 @@ export default createChatInputSubCommand({
     });
 
     if (guildAutomations.length >= MAXIMUM_AUTOMATIONS_PER_GUILD(isPremium)) {
-      return await createErrorMessage(context, {
-        content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_AUTOMATIONS_ALLOWED({
+      return await createErrorMessage(
+        context,
+        Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MAXIMUM_AUTOMATIONS_ALLOWED({
           maximum: MAXIMUM_AUTOMATIONS_PER_GUILD(isPremium),
         }),
-      });
+      );
     }
 
     const automationId = DiscordSnowflake.generate().toString();
@@ -99,15 +100,11 @@ export default createChatInputSubCommand({
       },
     });
 
-    return await context.reply({
-      embeds: new Embed()
-        .setDescription(
-          Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MESSAGE_1({
-            automationName,
-          }),
-        )
-        .setColor(Colors.COLOR)
-        .toJSON(true),
-    });
+    await createMessage(
+      context,
+      Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MESSAGE_1({
+        automationName,
+      }),
+    );
   },
 });

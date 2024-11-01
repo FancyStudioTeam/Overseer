@@ -1,8 +1,6 @@
-import { Colors } from "@constants";
 import { Translations } from "@translations";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
-import { createErrorMessage } from "@util/utils";
-import { Embed } from "oceanic-builders";
+import { createErrorMessage, createMessage } from "@util/utils";
 
 export default createChatInputSubCommand({
   category: CommandCategory.CONFIGURATION,
@@ -26,15 +24,16 @@ export default createChatInputSubCommand({
     });
 
     if (!guildAutomation) {
-      return await createErrorMessage(context, {
-        content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.DELETE.AUTOMATION_NOT_FOUND({
+      return await createErrorMessage(
+        context,
+        Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.DELETE.AUTOMATION_NOT_FOUND({
           automationId: automationIdOption,
         }),
-      });
+      );
     }
 
     const {
-      general: { name },
+      general: { name: automationName },
     } = await client.prisma.guildAutomation.delete({
       where: {
         automationId: guildAutomation.automationId,
@@ -46,15 +45,11 @@ export default createChatInputSubCommand({
       },
     });
 
-    return await context.reply({
-      embeds: new Embed()
-        .setDescription(
-          Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.DELETE.MESSAGE_1({
-            automationName: name,
-          }),
-        )
-        .setColor(Colors.COLOR)
-        .toJSON(true),
-    });
+    await createMessage(
+      context,
+      Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.DELETE.MESSAGE_1({
+        automationName,
+      }),
+    );
   },
 });

@@ -29,9 +29,10 @@ export default createChatInputSubCommand({
     });
 
     if (guildAutomations.length === 0) {
-      return await createErrorMessage(context, {
-        content: Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.NO_AVAILABLE_AUTOMATIONS,
-      });
+      return await createErrorMessage(
+        context,
+        Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.NO_AVAILABLE_AUTOMATIONS,
+      );
     }
 
     const availableAutomationsPages = guildAutomations.map(
@@ -95,7 +96,7 @@ export default createChatInputSubCommand({
       },
     );
 
-    return await pagination(context, {
+    await pagination(context, {
       data: await Promise.all(availableAutomationsPages),
       locale,
       timeBeforeExpiration: 60000,
