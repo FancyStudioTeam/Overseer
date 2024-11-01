@@ -2,7 +2,7 @@ import { Emojis } from "@constants";
 import { client } from "@index";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
-import { createErrorMessage, disableMessageComponents, parseEmoji } from "@utils";
+import { createErrorMessage, disableMessageComponents, noop, parseEmoji } from "@utils";
 import { ActionRow, Button } from "oceanic-builders";
 import {
   type BaseCollectorEndReasons,
@@ -118,7 +118,7 @@ export const pagination = async (
     if (collectedInteraction.isComponentInteraction() && collectedInteraction.isButtonComponentInteraction()) {
       if (!["@pagination/left", "@pagination/right"].includes(collectedInteraction.data.customID)) return;
 
-      await collectedInteraction.deferUpdate().catch(() => undefined);
+      await collectedInteraction.deferUpdate().catch(noop);
 
       match(collectedInteraction.data.customID)
         .with(
@@ -129,7 +129,7 @@ export const pagination = async (
           "@pagination/right",
           () => (paginationIndex = paginationIndex + 1 < paginationEmbeds.length ? ++paginationIndex : 0),
         )
-        .otherwise(() => undefined);
+        .otherwise(noop);
 
       const row = replyMessage.components[0].components;
       let indexButton = row[1] as ButtonComponent;

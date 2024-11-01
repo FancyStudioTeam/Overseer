@@ -1,7 +1,7 @@
 import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import type { MaybeNullish } from "@types";
-import { CheckPermissionsFrom, checkMemberPermissions } from "@utils";
+import { CheckPermissionsFrom, checkMemberPermissions, noop } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
 import {
@@ -62,7 +62,7 @@ client.on("interactionCreate", async (interaction) => {
         type: InteractionTypes.APPLICATION_COMMAND,
       },
       async (commandInteraction) => {
-        await commandInteraction.defer().catch(() => undefined);
+        await commandInteraction.defer().catch(noop);
 
         const collectionKeys: Record<ApplicationCommandTypes, MaybeNullish<string>> = {
           [ApplicationCommandTypes.CHAT_INPUT]: [
@@ -121,5 +121,5 @@ client.on("interactionCreate", async (interaction) => {
         );
       },
     )
-    .otherwise(() => undefined);
+    .otherwise(noop);
 });

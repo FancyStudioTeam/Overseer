@@ -9,7 +9,7 @@ import type {
   UserCommandData,
 } from "@types";
 import { CommandCategory } from "@util/Handlers";
-import { LoggerType, logger } from "@utils";
+import { LoggerType, logger, noop } from "@utils";
 import { glob } from "glob";
 import {
   ApplicationCommandTypes,
@@ -295,7 +295,7 @@ export class Discord extends Client {
       .with(FetchFrom.DEFAULT, async () => this.users.get(userId) ?? (await this.rest.users.get(userId)))
       .with(FetchFrom.CACHE, () => this.users.get(userId))
       .with(FetchFrom.REST, async () => await this.rest.users.get(userId))
-      .otherwise(() => undefined);
+      .otherwise(noop);
 
   fetchMember = async (
     guild: Guild,
@@ -315,7 +315,7 @@ export class Discord extends Client {
       )
       .with(FetchFrom.CACHE, () => guild.members.get(memberId))
       .with(FetchFrom.REST, async () => await this.rest.guilds.getMember(guild.id, memberId))
-      .otherwise(() => undefined);
+      .otherwise(noop);
 
   private resolve = (path: string) => (path.split(sep).includes("dist") ? path : join(process.cwd(), path));
 

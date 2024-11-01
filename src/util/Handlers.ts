@@ -72,7 +72,7 @@ export const createComponent = (createOptions: {
     context: ComponentInteraction;
     locale: Locales;
     isPremium: boolean;
-    variable?: unknown;
+    variable: string;
   }) => Promise<unknown>;
 }) => createOptions;
 

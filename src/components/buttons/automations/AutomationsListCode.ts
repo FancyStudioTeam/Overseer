@@ -2,7 +2,7 @@ import { Colors } from "@constants";
 import { codeBlock } from "@discordjs/formatters";
 import { Translations } from "@translations";
 import { createComponent } from "@util/Handlers";
-import { createErrorMessage, truncateString } from "@util/utils";
+import { createErrorMessage, noop, truncateString } from "@util/utils";
 import { Embed } from "oceanic-builders";
 import { ComponentTypes, MessageFlags } from "oceanic.js";
 import { ungzip } from "pako";
@@ -13,10 +13,11 @@ export default createComponent({
     user: ["MANAGE_GUILD"],
   },
   type: ComponentTypes.BUTTON,
-  run: async ({ client, context, locale, variable }) => {
+  run: async ({ client, context, locale, variable: automationId }) => {
+    await context.deferUpdate().catch(noop);
+
     if (!(context.inCachedGuildChannel() && context.guild)) return;
 
-    const automationId = String(variable);
     const guildAutomation = await client.prisma.guildAutomation.findUnique({
       where: {
         automationId,
