@@ -11,8 +11,9 @@ type GuildConfigurationGeneral {
 }
 
 type GuildConfigurationPremium {
-  expiresAt DateTime?
-  isEnabled Boolean   @default(false)
+  expiresAt     DateTime?
+  isEnabled     Boolean   @default(false)
+  premiumTokens Int       @default(0)
 }
 
 enum GuildConfigurationLocale {

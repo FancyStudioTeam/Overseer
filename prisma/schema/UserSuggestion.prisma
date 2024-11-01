@@ -2,7 +2,7 @@ model UserSuggestion {
   createdAt    DateTime              @default(now())
   general      UserSuggestionGeneral
   id           String                @id @default(auto()) @map("_id") @db.ObjectId
-  suggestionId String
+  suggestionId String                @unique
 }
 
 type UserSuggestionGeneral {

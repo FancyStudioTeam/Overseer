@@ -1,8 +1,10 @@
 model GuildSuggestion {
   createdAt DateTime               @default(now())
   general   GuildSuggestionGeneral
-  guildId   String
+  guildId   String                 @unique
   id        String                 @id @default(auto()) @map("_id") @db.ObjectId
+
+  @@unique([general.channelId, general.review.channelId])
 }
 
 type GuildSuggestionGeneral {
