@@ -176,10 +176,6 @@ export class Discord extends Client {
         const commandPath = this.resolve(path);
         const command = require(commandPath).default;
 
-        if (!("name" in command || "type" in command)) {
-          throw new Error(`Command path "${commandPath}" is missing a name or type property`);
-        }
-
         match(command.type)
           .with(ApplicationCommandTypes.CHAT_INPUT, () => this.interactions.chatInput.set(command.name, command))
           .with(ApplicationCommandTypes.USER, () => this.interactions.user.set(command.name, command))
@@ -200,10 +196,6 @@ export class Discord extends Client {
       for (const path of paths) {
         const componentPath = this.resolve(path);
         const component = require(componentPath).default;
-
-        if (!("name" in component || "type" in component || "run" in component)) {
-          throw new Error(`Command path "${componentPath}" is missing a name or type property`);
-        }
 
         match(component.type)
           .with(ComponentTypes.BUTTON, () => this.components.buttons.set(component.name, component))
@@ -231,11 +223,6 @@ export class Discord extends Client {
       for (const path of paths) {
         const subCommandPath = this.resolve(path);
         const subCommand = require(subCommandPath).default;
-
-        if (!("name" in subCommand || "run" in subCommand || "category" in subCommand)) {
-          throw new Error(`SubCommand path "${subCommandPath}" is missing a name or run property`);
-        }
-
         const categories: Record<CommandCategory, string> = {
           [CommandCategory.CONFIGURATION]: "config",
           [CommandCategory.INFORMATION]: "info",
@@ -254,10 +241,6 @@ export class Discord extends Client {
       for (const path of paths) {
         const prefixCommandPath = this.resolve(path);
         const prefixCommand = require(prefixCommandPath).default;
-
-        if (!("name" in prefixCommand || "run" in prefixCommand)) {
-          throw new Error(`PrefixCommand path "${prefixCommandPath}" is missing a name or run property`);
-        }
 
         this.prefixCommands.set(prefixCommand.name, prefixCommand);
       }
@@ -317,11 +300,40 @@ export class Discord extends Client {
       .with(FetchFrom.REST, async () => await this.rest.guilds.getMember(guild.id, memberId))
       .otherwise(noop);
 
+  isGuildMembershipActive = async (
+    guildId: string,
+    {
+      expiresAt,
+      isEnabled,
+    }: {
+      expiresAt: MaybeNullish<Date | string>;
+      isEnabled: boolean;
+    },
+  ) => {
+    const isActiveFunction = () => isEnabled && (!expiresAt || Date.now() <= Date.parse(expiresAt.toString()));
+    const isActive = isActiveFunction();
+
+    !isActive &&
+      (await this.prisma.guildConfiguration.update({
+        data: {
+          premium: {
+            expiresAt: null,
+            isEnabled: false,
+          },
+        },
+        where: {
+          guildId,
+        },
+      }));
+
+    return isActive;
+  };
+
   private resolve = (path: string) => (path.split(sep).includes("dist") ? path : join(process.cwd(), path));
 
   private loadFiles = async (path: string | string[]) =>
     await glob(path, {
-      ignore: ["node_modules/**"],
+      ignore: ["node_modules"],
     });
 }
 

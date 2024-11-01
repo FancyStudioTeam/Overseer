@@ -27,7 +27,10 @@ client.on("interactionCreate", async (interaction) => {
     },
   });
   const { isPremium, locale } = {
-    isPremium: !!guildConfiguration?.premium.isEnabled,
+    isPremium: await client.isGuildMembershipActive(interaction.guildID, {
+      isEnabled: !!guildConfiguration?.premium.isEnabled,
+      expiresAt: guildConfiguration?.premium.expiresAt ?? null,
+    }),
     locale: guildConfiguration?.general.locale ?? "EN",
   };
   const clientHasMainChannelPermissions = await checkMemberPermissions(interaction.guild.clientMember, {
