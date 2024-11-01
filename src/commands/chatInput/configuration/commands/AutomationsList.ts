@@ -39,9 +39,29 @@ export default createChatInputSubCommand({
       async ({ automationId, createdAt, general: { createdBy, data, name: automationName } }) => {
         const user = await client.fetchUser(createdBy);
         const uncompressedBuffer = Buffer.from(ungzip(data));
-        const bufferSizeInKiloBytes = Buffer.from(uncompressedBuffer).length / 1024;
+        const bufferSizeInKiloBytes = Buffer.from(uncompressedBuffer).length / 1000;
 
         return {
+          components: [
+            new Button()
+              .setCustomID(`@automations_list/code#${automationId}`)
+              .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DISPLAY.LABEL)
+              .setStyle(ButtonStyles.SECONDARY)
+              .setEmoji(parseEmoji(Emojis.CODE_BLOCKS))
+              .toJSON(),
+            new Button()
+              .setCustomID(`@automations_list/download#${automationId}`)
+              .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DOWNLOAD.LABEL)
+              .setStyle(ButtonStyles.SECONDARY)
+              .setEmoji(parseEmoji(Emojis.DOWNLOAD))
+              .toJSON(),
+            new Button()
+              .setCustomID(`@automations_list/delete#${automationId}`)
+              .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DELETE.LABEL)
+              .setStyle(ButtonStyles.DANGER)
+              .setEmoji(parseEmoji(Emojis.TRASH))
+              .toJSON(),
+          ],
           embed: new Embed()
             .setTitle(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.TITLE_1)
             .addFields([
@@ -72,26 +92,6 @@ export default createChatInputSubCommand({
             ])
             .setColor(Colors.COLOR)
             .toJSON(),
-          components: [
-            new Button()
-              .setCustomID(`@automations_list/code#${automationId}`)
-              .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DISPLAY.LABEL)
-              .setStyle(ButtonStyles.SECONDARY)
-              .setEmoji(parseEmoji(Emojis.CODE_BLOCKS))
-              .toJSON(),
-            new Button()
-              .setCustomID(`@automations_list/download#${automationId}`)
-              .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DOWNLOAD.LABEL)
-              .setStyle(ButtonStyles.SECONDARY)
-              .setEmoji(parseEmoji(Emojis.DOWNLOAD))
-              .toJSON(),
-            new Button()
-              .setCustomID(`@automations_list/delete#${automationId}`)
-              .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DELETE.LABEL)
-              .setStyle(ButtonStyles.DANGER)
-              .setEmoji(parseEmoji(Emojis.TRASH))
-              .toJSON(),
-          ],
         };
       },
     );

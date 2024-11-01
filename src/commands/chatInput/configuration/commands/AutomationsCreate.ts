@@ -50,7 +50,7 @@ export default createChatInputSubCommand({
       );
     }
 
-    const bufferSizeInKiloBytes = Buffer.from(attachmentContent).length / 1024;
+    const bufferSizeInKiloBytes = Buffer.from(attachmentContent).length / 1000;
 
     if (bufferSizeInKiloBytes >= MAXIMUM_KILOBYTES(isPremium)) {
       return await createErrorMessage(
