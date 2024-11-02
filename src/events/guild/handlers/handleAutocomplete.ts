@@ -14,6 +14,7 @@ export const handleAutocomplete = async (
   },
 ) => {
   if (!(context.inCachedGuildChannel() && context.guild)) return;
+  if (!context.isAutocompleteInteraction()) return;
 
   const command = client.interactions.chatInput.get(collectionKey);
 

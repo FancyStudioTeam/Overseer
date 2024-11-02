@@ -19,6 +19,7 @@ export const handleButton = async (
   },
 ) => {
   if (!(context.inCachedGuildChannel() && context.guild)) return;
+  if (!context.isButtonComponentInteraction()) return;
 
   const component = client.components.buttons.get(collectionKey);
 
@@ -63,6 +64,7 @@ export const handleButton = async (
     if (result.isErr()) {
       return await handleError(context, {
         error: result.unwrapErr(),
+        locale,
       });
     }
   }

@@ -1,6 +1,8 @@
 import type { Discord } from "@client";
 import type { Locales } from "@types";
 import type {
+  AnyInteractionChannel,
+  ApplicationCommandTypes,
   AutocompleteInteraction,
   CommandInteraction,
   ComponentInteraction,
@@ -9,6 +11,7 @@ import type {
   Message,
   MessageComponentTypes,
   PermissionName,
+  Uncached,
 } from "oceanic.js";
 
 export const createPrefixCommand = (createOptions: {
@@ -41,7 +44,7 @@ export const createChatInputSubCommand = (createOptions: {
   };
   run: (config: {
     client: Discord;
-    context: CommandInteraction;
+    context: ChatInputCommandInteraction;
     locale: Locales;
     isPremium: boolean;
     variable?: unknown;
@@ -52,7 +55,7 @@ export const createUserCommand = (
   createOptions: CreateUserApplicationCommandOptions & {
     run: (config: {
       client: Discord;
-      context: CommandInteraction;
+      context: UserCommandInteraction;
       locale: Locales;
       isPremium: boolean;
     }) => Promise<unknown>;
@@ -81,3 +84,9 @@ export enum CommandCategory {
   INFORMATION,
   UTILITY,
 }
+
+type ChatInputCommandInteraction = CommandInteraction<
+  AnyInteractionChannel | Uncached,
+  ApplicationCommandTypes.CHAT_INPUT
+>;
+type UserCommandInteraction = CommandInteraction<AnyInteractionChannel | Uncached, ApplicationCommandTypes.USER>;

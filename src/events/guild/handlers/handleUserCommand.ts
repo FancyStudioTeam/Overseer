@@ -16,6 +16,7 @@ export const handleUserCommand = async (
   },
 ) => {
   if (!(context.inCachedGuildChannel() && context.guild)) return;
+  if (!context.isUserCommand()) return;
 
   const command = client.interactions.user.get(collectionKey);
 
@@ -33,6 +34,7 @@ export const handleUserCommand = async (
     if (result.isErr()) {
       return await handleError(context, {
         error: result.unwrapErr(),
+        locale,
       });
     }
   }

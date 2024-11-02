@@ -16,6 +16,7 @@ export const handleChatInputSubCommand = async (
   },
 ) => {
   if (!(context.inCachedGuildChannel() && context.guild)) return;
+  if (!context.isChatInputCommand()) return;
 
   const command = client.subCommands.get(collectionKey);
 
@@ -55,6 +56,7 @@ export const handleChatInputSubCommand = async (
     if (result.isErr()) {
       return await handleError(context, {
         error: result.unwrapErr(),
+        locale,
       });
     }
   }
