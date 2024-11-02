@@ -45,7 +45,7 @@ export default createChatInputSubCommand({
       },
     });
 
-    await createMessage(
+    return await createMessage(
       context,
       Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.DELETE.MESSAGE_1({
         automationName,

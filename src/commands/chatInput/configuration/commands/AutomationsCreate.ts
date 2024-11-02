@@ -100,7 +100,7 @@ export default createChatInputSubCommand({
       },
     });
 
-    await createMessage(
+    return await createMessage(
       context,
       Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.CREATE.MESSAGE_1({
         automationName,

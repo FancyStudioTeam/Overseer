@@ -64,7 +64,7 @@ export default createChatInputSubCommand({
       }),
     ]);
 
-    await createMessage(
+    return await createMessage(
       context,
       Translations[locale].COMMANDS.CONFIGURATION.MEMBERSHIP.REEDEM.MESSAGE_1({
         membershipId,

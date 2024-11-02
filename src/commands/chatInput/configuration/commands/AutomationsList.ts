@@ -40,6 +40,10 @@ export default createChatInputSubCommand({
         const user = await client.fetchUser(createdBy);
         const uncompressedBuffer = Buffer.from(ungzip(data));
         const bufferSizeInKiloBytes = Buffer.from(uncompressedBuffer).length / 1000;
+        const { currentSize, maximumSize } = {
+          currentSize: Math.round(bufferSizeInKiloBytes),
+          maximumSize: Math.round(MAXIMUM_KILOBYTES(isPremium)),
+        };
 
         return {
           components: [
@@ -85,8 +89,8 @@ export default createChatInputSubCommand({
                 .setName(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.FIELD_3.NAME)
                 .setValue(
                   Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.FIELD_3.VALUE({
-                    currentSize: bufferSizeInKiloBytes,
-                    maximumSize: MAXIMUM_KILOBYTES(isPremium),
+                    currentSize,
+                    maximumSize,
                   }),
                 ),
             ])
@@ -96,7 +100,7 @@ export default createChatInputSubCommand({
       },
     );
 
-    await pagination(context, {
+    return await pagination(context, {
       data: await Promise.all(availableAutomationsPages),
       locale,
       timeBeforeExpiration: 60000,
