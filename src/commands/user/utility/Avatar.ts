@@ -1,7 +1,8 @@
 import { Colors } from "@constants";
 import { createUserCommand } from "@util/Handlers";
+import { createMessage } from "@utils";
 import { Embed } from "oceanic-builders";
-import { ApplicationCommandTypes, ApplicationIntegrationTypes, InteractionContextTypes, type User } from "oceanic.js";
+import { ApplicationCommandTypes, ApplicationIntegrationTypes, InteractionContextTypes } from "oceanic.js";
 
 export default createUserCommand({
   contexts: [InteractionContextTypes.GUILD],
@@ -9,10 +10,8 @@ export default createUserCommand({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
   run: async ({ context }) => {
-    const userOption = context.data.target as User;
+    const userOption = context.data.target;
 
-    await context.reply({
-      embeds: new Embed().setImage(userOption.avatarURL()).setTimestamp().setColor(Colors.COLOR).toJSON(true),
-    });
+    await createMessage(context, new Embed().setImage(userOption.avatarURL()).setColor(Colors.COLOR).toJSON());
   },
 });
