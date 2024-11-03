@@ -8,4 +8,8 @@ declare module "oceanic.js" {
   interface User {
     get name(): string;
   }
+
+  interface Invite {
+    get url(): string;
+  }
 }

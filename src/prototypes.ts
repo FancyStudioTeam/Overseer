@@ -1,4 +1,4 @@
-import { Member, type Role, User } from "oceanic.js";
+import { Invite, Member, type Role, User } from "oceanic.js";
 
 Object.defineProperty(User.prototype, "name", {
   get: function () {
@@ -20,5 +20,11 @@ Object.defineProperty(Member.prototype, "highestRole", {
     }
 
     return roles.sort((a, b) => b.position - a.position)[0];
+  },
+});
+
+Object.defineProperty(Invite.prototype, "url", {
+  get: function () {
+    return `https://discord.com/invite/${this.code}`;
   },
 });
