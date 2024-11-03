@@ -27,16 +27,14 @@ export const createMessage = async (
   }
 
   if (typeof content === "object") {
-    if ("embeds" in content || "components" in content) {
+    if ("content" in content || "embeds" in content || "components" in content || "flags" in content) {
       messagePayload = content;
-    }
-
-    if ("description" in content) {
+    } else {
       messagePayload = {
-        embeds: new Embed(content).setColor(Colors.COLOR).toJSON(true),
+        embeds: new Embed(content as EmbedOptions).setColor(Colors.COLOR).toJSON(true),
       };
     }
   }
 
-  await createReplyOrMessage(context, messagePayload);
+  return await createReplyOrMessage(context, messagePayload);
 };

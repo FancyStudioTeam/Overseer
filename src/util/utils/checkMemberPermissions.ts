@@ -13,7 +13,7 @@ import {
   type PermissionName,
 } from "oceanic.js";
 import { match } from "ts-pattern";
-import { createMessage } from "./createMessage.js";
+import { createReplyOrMessage } from "./createReplyOrMessage.js";
 
 export const checkMemberPermissions = async (
   member: Member,
@@ -62,7 +62,7 @@ export const checkMemberPermissions = async (
   if (missingPermissions.length > 0) {
     hasPermissions = false;
 
-    await createMessage(context, {
+    await createReplyOrMessage(context, {
       embeds: new Embed().setDescription(descriptionMessage).setColor(Colors.RED).toJSON(true),
       flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
     });

@@ -2,6 +2,7 @@ export * from "./checkMemberPermissions.js";
 export * from "./createErrorMessage.js";
 export * from "./createMessage.js";
 export * from "./createProgressBar.js";
+export * from "./createReaction.js";
 export * from "./createReplyOrMessage.js";
 export * from "./disableMessageComponents.js";
 export * from "./formatKeyValues.js";

@@ -6,5 +6,9 @@ export const createReplyOrMessage = async (
   messagePayload: CreateMessageOptions & InteractionContent,
 ) =>
   "reply" in context
-    ? await context.reply(messagePayload)
+    ? await context
+        .reply(messagePayload)
+        .then(async (repliedMessage) =>
+          repliedMessage.hasMessage() ? repliedMessage.message : await repliedMessage.getMessage(),
+        )
     : await client.rest.channels.createMessage(context.channelID, messagePayload);
