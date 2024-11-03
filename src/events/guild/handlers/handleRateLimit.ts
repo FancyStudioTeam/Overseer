@@ -17,11 +17,12 @@ export const handleRateLimit = async (
   const isRateLimited = rateLimit.limited;
 
   if (isRateLimited) {
-    await createErrorMessage(context, {
-      content: Translations[locale].GLOBAL.USER_IS_LIMITED({
+    await createErrorMessage(
+      context,
+      Translations[locale].GLOBAL.USER_IS_LIMITED({
         resets: formatUnix(new Date(rateLimit.expires)),
       }),
-    });
+    );
   }
 
   !isRateLimited && rateLimit.consume();
