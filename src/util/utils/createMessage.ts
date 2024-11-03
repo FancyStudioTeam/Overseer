@@ -28,11 +28,12 @@ export const createMessage = async (
 
   if (typeof content === "object") {
     if ("content" in content || "embeds" in content || "components" in content || "flags" in content) {
-      messagePayload = content;
-    } else {
       messagePayload = {
-        embeds: new Embed(content as EmbedOptions).setColor(Colors.COLOR).toJSON(true),
+        ...messagePayload,
+        ...content,
       };
+    } else {
+      messagePayload.embeds = new Embed(content as EmbedOptions).setColor(Colors.COLOR).toJSON(true);
     }
   }
 

@@ -2,22 +2,16 @@ import { Emojis } from "@constants";
 import { client } from "@index";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
-import { createErrorMessage, disableMessageComponents, noop, parseEmoji } from "@utils";
+import { createErrorMessage, createMessage, disableMessageComponents, noop, parseEmoji } from "@utils";
 import { ActionRow, Button } from "oceanic-builders";
-import {
-  type BaseCollectorEndReasons,
-  InteractionCollector,
-  type InteractionCollectorEndReasons,
-} from "oceanic-collectors";
+import { InteractionCollector } from "oceanic-collectors";
 import {
   type AnyInteractionGateway,
   type ButtonComponent,
   ButtonStyles,
   ChannelTypes,
   ComponentTypes,
-  type CreateMessageOptions,
   type EmbedOptions,
-  type InteractionContent,
   InteractionTypes,
   type Message,
   type MessageComponent,
@@ -33,10 +27,13 @@ export const pagination = async (
     shouldBeEphemeral = false,
     timeBeforeExpiration = 30000,
   }: {
-    data: {
-      components: MessageComponent[];
-      embed: EmbedOptions;
-    }[];
+    data: (
+      | {
+          components: MessageComponent[];
+          embed: EmbedOptions;
+        }
+      | EmbedOptions
+    )[];
     locale: Locales;
     shouldBeEphemeral?: boolean;
     timeBeforeExpiration?: number;
@@ -47,12 +44,10 @@ export const pagination = async (
   if (context.channel.type !== ChannelTypes.GUILD_TEXT) return;
 
   let paginationIndex = 0;
-  let replyMessage: Message;
-  const paginationEmbeds = data.map((element) => element.embed);
-  const paginationComponents = data.map((element) => element.components);
-  const paginationElements = (index: number) => ({
-    embed: paginationEmbeds[index],
-    components: [
+  const paginationEmbeds = data.map((element) => ("embed" in element ? element.embed : element));
+  const paginationComponents = data.map((element) => ("components" in element ? element.components : []));
+  const paginationElements = (index: number) => {
+    const components = [
       new ActionRow()
         .addComponents([
           new Button()
@@ -73,39 +68,35 @@ export const pagination = async (
             .setDisabled(paginationEmbeds.length <= 1),
         ])
         .toJSON(),
-      new ActionRow().addComponents(paginationComponents[index]).toJSON(),
-    ],
-  });
-  const messagePayload: CreateMessageOptions & InteractionContent = {
+    ];
+
+    if (paginationComponents[index].length > 0) {
+      components.push(new ActionRow().addComponents(paginationComponents[index]).toJSON());
+    }
+
+    return {
+      components,
+      embed: paginationEmbeds[index],
+    };
+  };
+  const originalMessage = await createMessage(context, {
     components: paginationElements(paginationIndex).components,
     embeds: [paginationElements(paginationIndex).embed],
     flags: shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
-  };
-
-  if ("reply" in context) {
-    const replyMessageResponse = await context.reply(messagePayload);
-
-    replyMessage = replyMessageResponse.hasMessage()
-      ? replyMessageResponse.message
-      : await replyMessageResponse.getMessage();
-  } else {
-    replyMessage = await client.rest.channels.createMessage(context.channelID, messagePayload);
-  }
+  });
 
   const interactionCollector = new InteractionCollector(client, {
     channel: context.channel,
     componentType: ComponentTypes.BUTTON,
     idle: timeBeforeExpiration,
     interactionType: InteractionTypes.MESSAGE_COMPONENT,
-    message: replyMessage,
+    message: originalMessage,
     filter: async (collectedInteraction) => {
       if (
         ("user" in context && collectedInteraction.user.id !== context.user.id) ||
         ("author" in context && collectedInteraction.user.id !== context.author.id)
       ) {
-        await createErrorMessage(collectedInteraction, {
-          content: Translations[locale].GLOBAL.INVALID_USER_COLLECTOR,
-        });
+        await createErrorMessage(collectedInteraction, Translations[locale].GLOBAL.INVALID_USER_COLLECTOR);
 
         return false;
       }
@@ -131,21 +122,21 @@ export const pagination = async (
         )
         .otherwise(noop);
 
-      const row = replyMessage.components[0].components;
+      const row = originalMessage.components[0].components;
       let indexButton = row[1] as ButtonComponent;
 
       indexButton = new Button(indexButton).setLabel(`${paginationIndex + 1}/${paginationEmbeds.length}`).toJSON();
 
-      await client.rest.channels.editMessage(replyMessage.channelID, replyMessage.id, {
+      await client.rest.channels.editMessage(originalMessage.channelID, originalMessage.id, {
         components: paginationElements(paginationIndex).components,
         embeds: [paginationElements(paginationIndex).embed],
       });
     }
   });
 
-  interactionCollector.once("end", async (_, endReason: BaseCollectorEndReasons & InteractionCollectorEndReasons) => {
+  interactionCollector.once("end", async (_, endReason) => {
     if (["user", "guildDelete", "channelDelete", "threadDelete", "messageDelete"].includes(endReason)) return;
 
-    await disableMessageComponents(replyMessage);
+    await disableMessageComponents(originalMessage);
   });
 };
