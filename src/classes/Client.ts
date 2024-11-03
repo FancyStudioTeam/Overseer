@@ -1,9 +1,9 @@
 import { join, sep } from "node:path";
 import { PrismaClient } from "@prisma/client";
 import type {
+  ButtonComponentData,
   ChatInputCommandData,
   ChatInputSubCommandData,
-  ComponentData,
   MaybeNullish,
   PrefixCommandData,
   UserCommandData,
@@ -31,8 +31,7 @@ export class Discord extends Client {
     user: Collection<string, MaybeNullish<UserCommandData>>;
   };
   readonly components: {
-    buttons: Collection<string, MaybeNullish<ComponentData>>;
-    selectMenus: Collection<string, MaybeNullish<ComponentData>>;
+    buttons: Collection<string, MaybeNullish<ButtonComponentData>>;
   };
   readonly subCommands: Collection<string, MaybeNullish<ChatInputSubCommandData>>;
   readonly readyAt: Date;
@@ -128,7 +127,6 @@ export class Discord extends Client {
     };
     this.components = {
       buttons: new Collection(),
-      selectMenus: new Collection(),
     };
     this.subCommands = new Collection();
     this.readyAt = new Date();
@@ -174,14 +172,25 @@ export class Discord extends Client {
     await this.loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const commandPath = this.resolve(path);
-        const command = require(commandPath).default;
+        const command = require(commandPath).default as MaybeNullish<ChatInputCommandData | UserCommandData>;
 
-        match(command.type)
-          .with(ApplicationCommandTypes.CHAT_INPUT, () => this.interactions.chatInput.set(command.name, command))
-          .with(ApplicationCommandTypes.USER, () => this.interactions.user.set(command.name, command))
-          .otherwise((type) => {
-            throw new Error(`Unknown command type: ${type}`);
-          });
+        if (!command?.name || (command.type === ApplicationCommandTypes.USER && !command.run)) {
+          throw new Error(`Path "${commandPath}" is missing a name or run function for type "${command?.type}"`);
+        }
+
+        match(command)
+          .with(
+            {
+              type: ApplicationCommandTypes.CHAT_INPUT,
+            },
+            (chatInputCommandData) => this.interactions.chatInput.set(command.name, chatInputCommandData),
+          )
+          .with(
+            {
+              type: ApplicationCommandTypes.USER,
+            },
+            (userCommandData) => this.interactions.user.set(command.name, userCommandData),
+          );
 
         commandsArray.push(command);
       }
@@ -190,28 +199,22 @@ export class Discord extends Client {
 
   registerComponents = async () => {
     this.components.buttons.clear();
-    this.components.selectMenus.clear();
 
     await this.loadFiles(`${join(__dirname, "..", "components")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const componentPath = this.resolve(path);
-        const component = require(componentPath).default;
+        const component = require(componentPath).default as MaybeNullish<ButtonComponentData>;
 
-        match(component.type)
-          .with(ComponentTypes.BUTTON, () => this.components.buttons.set(component.name, component))
-          .with(
-            [
-              ComponentTypes.CHANNEL_SELECT,
-              ComponentTypes.MENTIONABLE_SELECT,
-              ComponentTypes.ROLE_SELECT,
-              ComponentTypes.STRING_SELECT,
-              ComponentTypes.USER_SELECT,
-            ].includes(component.type),
-            () => this.components.selectMenus.set(component.name, component),
-          )
-          .otherwise((type) => {
-            throw new Error(`Unknown command type: ${type}`);
-          });
+        if (!(component?.name && component?.run)) {
+          throw new Error(`Path "${componentPath}" is missing a name or run function`);
+        }
+
+        match(component).with(
+          {
+            type: ComponentTypes.BUTTON,
+          },
+          (buttonComponentData) => this.components.buttons.set(component.name, buttonComponentData),
+        );
       }
     });
   };
@@ -222,14 +225,18 @@ export class Discord extends Client {
     await this.loadFiles(`${join(__dirname, "..", "commands/chatInput")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const subCommandPath = this.resolve(path);
-        const subCommand = require(subCommandPath).default;
+        const subCommand = require(subCommandPath).default as MaybeNullish<ChatInputSubCommandData>;
         const categories: Record<CommandCategory, string> = {
           [CommandCategory.CONFIGURATION]: "config",
           [CommandCategory.INFORMATION]: "info",
           [CommandCategory.UTILITY]: "util",
         };
 
-        this.subCommands.set(`${categories[subCommand.category as CommandCategory]}_${subCommand.name}`, subCommand);
+        if (!(subCommand?.name && subCommand.run)) {
+          throw new Error(`Path "${subCommandPath}" is missing a name or run function`);
+        }
+
+        this.subCommands.set([categories[subCommand.category], subCommand.name].join("_"), subCommand);
       }
     });
   };
@@ -240,7 +247,11 @@ export class Discord extends Client {
     await this.loadFiles(`${join(__dirname, "..", "commands/prefix")}/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const prefixCommandPath = this.resolve(path);
-        const prefixCommand = require(prefixCommandPath).default;
+        const prefixCommand = require(prefixCommandPath).default as MaybeNullish<PrefixCommandData>;
+
+        if (!(prefixCommand?.name && prefixCommand.run)) {
+          throw new Error(`Path "${prefixCommandPath}" is missing a name or run function`);
+        }
 
         this.prefixCommands.set(prefixCommand.name, prefixCommand);
       }

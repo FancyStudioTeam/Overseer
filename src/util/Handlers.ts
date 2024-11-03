@@ -1,17 +1,16 @@
 import type { Discord } from "@client";
 import type { Locales } from "@types";
-import type {
-  AnyInteractionChannel,
-  ApplicationCommandTypes,
-  AutocompleteInteraction,
-  CommandInteraction,
-  ComponentInteraction,
-  CreateChatInputApplicationCommandOptions,
-  CreateUserApplicationCommandOptions,
-  Message,
-  MessageComponentTypes,
-  PermissionName,
-  Uncached,
+import {
+  type AnyTextableGuildChannel,
+  type ApplicationCommandTypes,
+  type AutocompleteInteraction,
+  type CommandInteraction,
+  type ComponentInteraction,
+  ComponentTypes,
+  type CreateChatInputApplicationCommandOptions,
+  type CreateUserApplicationCommandOptions,
+  type Message,
+  type PermissionName,
 } from "oceanic.js";
 
 export const createPrefixCommand = (createOptions: {
@@ -28,7 +27,7 @@ export const createChatInputCommand = (
   createOptions: CreateChatInputApplicationCommandOptions & {
     autoComplete?: (config: {
       client: Discord;
-      context: AutocompleteInteraction;
+      context: AutoCompleteInteraction;
       isPremium: boolean;
       locale: Locales;
     }) => Promise<unknown>;
@@ -62,22 +61,24 @@ export const createUserCommand = (
   },
 ) => createOptions;
 
-export const createComponent = (createOptions: {
+export const createButtonComponent = (createOptions: {
   developerOnly?: boolean;
   name: string;
   permissions?: {
     bot?: PermissionName[];
     user?: PermissionName[];
   };
-  type: MessageComponentTypes;
   run: (config: {
     client: Discord;
-    context: ComponentInteraction;
+    context: ButtonComponentInteraction;
     locale: Locales;
     isPremium: boolean;
     variable: string;
   }) => Promise<unknown>;
-}) => createOptions;
+}) => ({
+  ...createOptions,
+  type: ComponentTypes.BUTTON,
+});
 
 export enum CommandCategory {
   CONFIGURATION,
@@ -85,8 +86,7 @@ export enum CommandCategory {
   UTILITY,
 }
 
-type ChatInputCommandInteraction = CommandInteraction<
-  AnyInteractionChannel | Uncached,
-  ApplicationCommandTypes.CHAT_INPUT
->;
-type UserCommandInteraction = CommandInteraction<AnyInteractionChannel | Uncached, ApplicationCommandTypes.USER>;
+type AutoCompleteInteraction = AutocompleteInteraction<AnyTextableGuildChannel>;
+type ButtonComponentInteraction = ComponentInteraction<ComponentTypes.BUTTON, AnyTextableGuildChannel>;
+type ChatInputCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.CHAT_INPUT>;
+type UserCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.USER>;
