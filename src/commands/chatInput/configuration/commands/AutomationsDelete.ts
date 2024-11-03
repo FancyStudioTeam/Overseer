@@ -9,8 +9,6 @@ export default createChatInputSubCommand({
     user: ["MANAGE_GUILD"],
   },
   run: async ({ client, context, locale }) => {
-    if (!(context.inCachedGuildChannel() && context.guild)) return;
-
     const automationIdOption = context.data.options.getString("automation_id", true);
     const guildAutomation = await client.prisma.guildAutomation.findUnique({
       where: {

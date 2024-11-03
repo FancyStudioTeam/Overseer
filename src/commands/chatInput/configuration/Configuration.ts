@@ -4,7 +4,6 @@ import {
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   ApplicationIntegrationTypes,
-  type AutocompleteChoice,
   InteractionContextTypes,
 } from "oceanic.js";
 import { match } from "ts-pattern";
@@ -177,8 +176,6 @@ export default createChatInputCommand({
   ],
   type: ApplicationCommandTypes.CHAT_INPUT,
   autoComplete: async ({ client, context }) => {
-    if (!(context.inCachedGuildChannel() && context.guild)) return;
-
     const subCommand = context.data.options.getSubCommand(true).join("_");
 
     match(subCommand).with("automations_delete", async () => {
@@ -194,22 +191,20 @@ export default createChatInputCommand({
 
       if (guildAutomations.length === 0) return;
 
-      const availableAutomations: AutocompleteChoice[] = guildAutomations.map(
-        ({ automationId, createdAt, general: { name } }) => {
-          const formattedCreatedAt = formatTimestamp(createdAt, "dddd[, ]MMMM DD[, ]YYYY[, ]HH:mm");
+      const availableAutomationsResults = guildAutomations.map(({ automationId, createdAt, general: { name } }) => {
+        const formattedCreatedAt = formatTimestamp(createdAt, "dddd[, ]MMMM DD[, ]YYYY[, ]HH:mm");
 
-          return {
-            name:
-              {
-                "es-419": `🗑️ Eliminar automatización "${name}" - Creado el ${formattedCreatedAt}`,
-                "es-ES": `🗑️ Eliminar automatización "${name}" - Creado el ${formattedCreatedAt}`,
-              }[context.locale] ?? `🗑️ Delete "${name}" automation - Created on ${formattedCreatedAt}`,
-            value: automationId,
-          };
-        },
-      );
+        return {
+          name:
+            {
+              "es-419": `🗑️ Eliminar automatización "${name}" - Creado el ${formattedCreatedAt}`,
+              "es-ES": `🗑️ Eliminar automatización "${name}" - Creado el ${formattedCreatedAt}`,
+            }[context.locale] ?? `🗑️ Delete "${name}" automation - Created on ${formattedCreatedAt}`,
+          value: automationId,
+        };
+      });
 
-      await context.result(availableAutomations);
+      await context.result(availableAutomationsResults);
     });
   },
 });

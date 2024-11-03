@@ -27,8 +27,6 @@ export default createChatInputSubCommand({
     user: ["MANAGE_GUILD"],
   },
   run: async ({ client, context, locale, isPremium }) => {
-    if (!(context.inCachedGuildChannel() && context.guild)) return;
-
     const nameOption = context.data.options.getString("name", true);
     const scriptOption = context.data.options.getAttachment("script", true);
     const triggerOption = context.data.options.getString<GuildAutomationTrigger>("trigger", true);

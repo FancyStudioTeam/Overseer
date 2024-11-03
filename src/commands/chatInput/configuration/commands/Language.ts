@@ -10,8 +10,6 @@ export default createChatInputSubCommand({
     user: ["MANAGE_GUILD"],
   },
   run: async ({ client, context }) => {
-    if (!(context.inCachedGuildChannel() && context.guild)) return;
-
     const languageOption = context.data.options.getString<GuildConfigurationLocale>("language", true);
     const {
       general: { locale },

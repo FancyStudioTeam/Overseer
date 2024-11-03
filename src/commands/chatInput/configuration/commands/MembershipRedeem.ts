@@ -15,8 +15,6 @@ export default createChatInputSubCommand({
     user: ["MANAGE_GUILD"],
   },
   run: async ({ client, context, locale }) => {
-    if (!(context.guild && context.inCachedGuildChannel())) return;
-
     const membershipIdOption = context.data.options.getString("membership_id", true);
     const clientMembership = await client.prisma.clientMembership.findUnique({
       select: {
