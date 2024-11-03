@@ -1,53 +1,44 @@
-import { Colors, Emojis } from "@constants";
-import { bold, inlineCode, spoiler } from "@discordjs/formatters";
+import { Emojis } from "@constants";
+import { bold, spoiler } from "@discordjs/formatters";
 import { client } from "@index";
-import type { MaybeNullish } from "@types";
-import { createComponent } from "@util/Handlers";
-import { createErrorMessage } from "@utils";
-import { Embed } from "oceanic-builders";
-import { ChannelTypes, ComponentTypes, MessageFlags } from "oceanic.js";
+import { Translations } from "@translations";
+import { createButtonComponent } from "@util/Handlers";
+import { createErrorMessage, createMessage, noop } from "@utils";
+import { ChannelTypes } from "oceanic.js";
 
-export default createComponent({
+export default createButtonComponent({
   developerOnly: true,
   name: "@lookup_guild/invite",
-  type: ComponentTypes.BUTTON,
-  run: async ({ context, variable }) => {
-    const guildId = String(variable);
+  run: async ({ context, locale, variable: guildId }) => {
+    await context.deferUpdate().catch(noop);
+
     const guild = client.guilds.get(guildId);
 
     if (!guild) {
-      return await createErrorMessage(context, {
-        content: bold(`${Emojis.CANCEL} The guild ${inlineCode(guildId)} has not been found`),
-      });
+      return await createErrorMessage(
+        context,
+        Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.GUILD_NOT_FOUND({
+          guildId,
+        }),
+      );
     }
 
-    let channelId: MaybeNullish<string> = null;
+    const filteredChannels = guild.channels
+      .filter((channel) => channel.type === ChannelTypes.GUILD_TEXT)
+      .filter((channel) => channel.permissionsOf(guild.clientMember).has("CREATE_INSTANT_INVITE"));
 
-    for (const channel of guild.channels.values()) {
-      if (channel.type !== ChannelTypes.GUILD_TEXT) continue;
-      if (!channel.permissionsOf(guild.clientMember).has("CREATE_INSTANT_INVITE")) continue;
-
-      channelId = channel.id;
-
-      break;
+    if (filteredChannels.length === 0) {
+      return await createErrorMessage(
+        context,
+        Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.INVITE.OBTAIN_VALID_CHANNEL,
+      );
     }
 
-    if (!channelId) {
-      return await createErrorMessage(context, {
-        content: bold(`${Emojis.CANCEL} No valid channel ID found`),
-      });
-    }
-
+    const channelId = filteredChannels[0].id;
     const invite = await client.rest.channels.createInvite(channelId, {
       maxUses: 1,
     });
 
-    return await context.reply({
-      embeds: new Embed()
-        .setDescription(bold(`${Emojis.ARROW_CIRCLE_RIGHT} ${spoiler(`https://discord.gg/${invite.code}`)}`))
-        .setColor(Colors.COLOR)
-        .toJSON(true),
-      flags: MessageFlags.EPHEMERAL,
-    });
+    return await createMessage(context, bold(`${Emojis.ARROW_CIRCLE_RIGHT} ${spoiler(invite.url)}`));
   },
 });

@@ -257,6 +257,18 @@ export default {
                     userName: string;
                   }) => codeBlock("ansi", formatKeyValues([`Nombre » ${userName}`, `ID » ${userId}`].join("\n"), "»")),
                 },
+                FIELD_2: {
+                  NAME: "Fecha de Creación",
+                  VALUE: ({
+                    createdAt,
+                  }: {
+                    createdAt: Date;
+                  }) =>
+                    codeBlock(
+                      "ansi",
+                      colors.bold.magenta(formatTimestamp(createdAt, "dddd[, ]MMMM DD[, ]YYYY[, ]HH:mm")),
+                    ),
+                },
               },
             },
             INVITE: {
