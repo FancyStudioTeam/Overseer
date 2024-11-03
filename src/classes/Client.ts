@@ -5,6 +5,7 @@ import type {
   ChatInputCommandData,
   ChatInputSubCommandData,
   MaybeNullish,
+  MessageCommandData,
   PrefixCommandData,
   UserCommandData,
 } from "@types";
@@ -28,6 +29,7 @@ const commandsArray: CreateApplicationCommandOptions[] = [];
 export class Discord extends Client {
   readonly interactions: {
     chatInput: Collection<string, MaybeNullish<ChatInputCommandData>>;
+    message: Collection<string, MaybeNullish<MessageCommandData>>;
     user: Collection<string, MaybeNullish<UserCommandData>>;
   };
   readonly components: {
@@ -123,6 +125,7 @@ export class Discord extends Client {
 
     this.interactions = {
       chatInput: new Collection(),
+      message: new Collection(),
       user: new Collection(),
     };
     this.components = {
@@ -172,7 +175,9 @@ export class Discord extends Client {
     await this.loadFiles(`${join(__dirname, "..", "commands")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const commandPath = this.resolve(path);
-        const command = require(commandPath).default as MaybeNullish<ChatInputCommandData | UserCommandData>;
+        const command = require(commandPath).default as MaybeNullish<
+          ChatInputCommandData | MessageCommandData | UserCommandData
+        >;
 
         if (!command?.name || (command.type === ApplicationCommandTypes.USER && !command.run)) {
           throw new Error(`Path "${commandPath}" is missing a name or run function for type "${command?.type}"`);
@@ -184,6 +189,12 @@ export class Discord extends Client {
               type: ApplicationCommandTypes.CHAT_INPUT,
             },
             (chatInputCommandData) => this.interactions.chatInput.set(command.name, chatInputCommandData),
+          )
+          .with(
+            {
+              type: ApplicationCommandTypes.MESSAGE,
+            },
+            (messageCommandData) => this.interactions.message.set(command.name, messageCommandData),
           )
           .with(
             {

@@ -2,7 +2,7 @@ import { client } from "@index";
 import type { Locales } from "@types";
 import type { AutocompleteInteraction } from "oceanic.js";
 
-export const handleAutocomplete = async (
+export const handleAutoComplete = async (
   context: AutocompleteInteraction,
   collectionKey: string,
   {

@@ -8,6 +8,7 @@ import {
   type ComponentInteraction,
   ComponentTypes,
   type CreateChatInputApplicationCommandOptions,
+  type CreateMessageApplicationCommandOptions,
   type CreateUserApplicationCommandOptions,
   type Message,
   type PermissionName,
@@ -63,6 +64,17 @@ export const createUserCommand = (
   },
 ) => createOptions;
 
+export const createMessageCommand = (
+  createOptions: CreateMessageApplicationCommandOptions & {
+    run: (config: {
+      client: Discord;
+      context: MessageCommandInteraction;
+      locale: Locales;
+      isPremium: boolean;
+    }) => Promise<unknown>;
+  },
+) => createOptions;
+
 export const createButtonComponent = (createOptions: {
   developerOnly?: boolean;
   name: string;
@@ -91,5 +103,6 @@ export enum CommandCategory {
 type AutoCompleteInteraction = AutocompleteInteraction<AnyTextableGuildChannel>;
 type ButtonComponentInteraction = ComponentInteraction<ComponentTypes.BUTTON, AnyTextableGuildChannel>;
 type ChatInputCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.CHAT_INPUT>;
+type MessageCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.MESSAGE>;
 type PrefixCommandMessage = Message<AnyTextableGuildChannel>;
 type UserCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.USER>;

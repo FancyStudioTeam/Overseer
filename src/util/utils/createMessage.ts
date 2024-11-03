@@ -27,7 +27,13 @@ export const createMessage = async (
   }
 
   if (typeof content === "object") {
-    if ("content" in content || "embeds" in content || "components" in content || "flags" in content) {
+    if (
+      "components" in content ||
+      "content" in content ||
+      "embeds" in content ||
+      "files" in content ||
+      "flags" in content
+    ) {
       messagePayload = {
         ...messagePayload,
         ...content,

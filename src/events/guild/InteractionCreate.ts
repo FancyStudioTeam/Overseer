@@ -4,9 +4,10 @@ import { CheckPermissionsFrom, checkMemberPermissions, noop } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
 import {
-  handleAutocomplete,
+  handleAutoComplete,
   handleButton,
   handleChatInputSubCommand,
+  handleMessageCommand,
   handleRateLimit,
   handleUserCommand,
 } from "./handlers/index.js";
@@ -78,6 +79,14 @@ client.on("interactionCreate", async (interaction) => {
               locale,
             });
           })
+          .with(ApplicationCommandTypes.MESSAGE, async () => {
+            const collectionKey = commandInteraction.data.name;
+
+            await handleMessageCommand(commandInteraction, collectionKey, {
+              isPremium,
+              locale,
+            });
+          })
           .with(ApplicationCommandTypes.USER, async () => {
             const collectionKey = commandInteraction.data.name;
 
@@ -93,7 +102,7 @@ client.on("interactionCreate", async (interaction) => {
         type: InteractionTypes.APPLICATION_COMMAND_AUTOCOMPLETE,
       },
       async (autocompleteInteraction) =>
-        await handleAutocomplete(autocompleteInteraction, autocompleteInteraction.data.name, {
+        await handleAutoComplete(autocompleteInteraction, autocompleteInteraction.data.name, {
           isPremium,
           locale,
         }),

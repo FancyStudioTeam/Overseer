@@ -10,8 +10,8 @@ export default createUserCommand({
   name: "Avatar",
   type: ApplicationCommandTypes.USER,
   run: async ({ context }) => {
-    const userOption = context.data.target;
+    const userTarget = context.data.target;
 
-    await createMessage(context, new Embed().setImage(userOption.avatarURL()).setColor(Colors.COLOR).toJSON());
+    await createMessage(context, new Embed().setImage(userTarget.avatarURL()).setColor(Colors.COLOR).toJSON());
   },
 });
