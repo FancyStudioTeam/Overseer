@@ -1,6 +1,5 @@
 import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
-import type { MaybeNullish } from "@types";
 import { CheckPermissionsFrom, checkMemberPermissions, noop } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
@@ -67,33 +66,26 @@ client.on("interactionCreate", async (interaction) => {
       async (commandInteraction) => {
         await commandInteraction.defer().catch(noop);
 
-        const collectionKeys: Record<ApplicationCommandTypes, MaybeNullish<string>> = {
-          [ApplicationCommandTypes.CHAT_INPUT]: [
-            commandInteraction.data.name,
-            commandInteraction.data.options.getSubCommand(true).join("_"),
-          ].join("_"),
-          [ApplicationCommandTypes.MESSAGE]: null,
-          [ApplicationCommandTypes.USER]: commandInteraction.data.name,
-        };
-        const collectionKey = collectionKeys[commandInteraction.data.type] ?? "";
-
         match(commandInteraction.data.type)
-          .with(
-            ApplicationCommandTypes.CHAT_INPUT,
-            async () =>
-              await handleChatInputSubCommand(commandInteraction, collectionKey, {
-                isPremium,
-                locale,
-              }),
-          )
-          .with(
-            ApplicationCommandTypes.USER,
-            async () =>
-              await handleUserCommand(commandInteraction, commandInteraction.data.name, {
-                locale,
-                isPremium,
-              }),
-          );
+          .with(ApplicationCommandTypes.CHAT_INPUT, async () => {
+            const collectionKey = [
+              commandInteraction.data.name,
+              commandInteraction.data.options.getSubCommand(true).join("_"),
+            ].join("_");
+
+            await handleChatInputSubCommand(commandInteraction, collectionKey, {
+              isPremium,
+              locale,
+            });
+          })
+          .with(ApplicationCommandTypes.USER, async () => {
+            const collectionKey = commandInteraction.data.name;
+
+            await handleUserCommand(commandInteraction, collectionKey, {
+              isPremium,
+              locale,
+            });
+          });
       },
     )
     .with(

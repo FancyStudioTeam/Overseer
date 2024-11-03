@@ -19,7 +19,9 @@ export const createPrefixCommand = (createOptions: {
   run: (config: {
     args: string[];
     client: Discord;
-    context: Message;
+    context: PrefixCommandMessage;
+    isPremium: boolean;
+    locale: Locales;
   }) => Promise<unknown>;
 }) => createOptions;
 
@@ -89,4 +91,5 @@ export enum CommandCategory {
 type AutoCompleteInteraction = AutocompleteInteraction<AnyTextableGuildChannel>;
 type ButtonComponentInteraction = ComponentInteraction<ComponentTypes.BUTTON, AnyTextableGuildChannel>;
 type ChatInputCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.CHAT_INPUT>;
+type PrefixCommandMessage = Message<AnyTextableGuildChannel>;
 type UserCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.USER>;
