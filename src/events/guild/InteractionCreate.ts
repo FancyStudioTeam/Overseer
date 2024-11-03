@@ -1,6 +1,6 @@
 import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
-import { CheckPermissionsFrom, checkMemberPermissions, noop } from "@utils";
+import { checkChannelMemberPermissions, noop } from "@utils";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
 import {
@@ -33,12 +33,11 @@ client.on("interactionCreate", async (interaction) => {
     }),
     locale: guildConfiguration?.general.locale ?? "EN",
   };
-  const clientHasMainChannelPermissions = await checkMemberPermissions(interaction.guild.clientMember, {
+  const clientHasMainChannelPermissions = await checkChannelMemberPermissions(interaction.guild.clientMember, {
     channel: interaction.channel,
     context: interaction,
     locale,
     permissionsToCheck: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "USE_EXTERNAL_EMOJIS"],
-    type: CheckPermissionsFrom.CHANNEL,
   });
 
   if (!clientHasMainChannelPermissions) return;

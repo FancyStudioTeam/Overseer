@@ -463,39 +463,43 @@ export default {
         }: {
           permissions: string;
         }) =>
-          bold(
-            `${Emojis.CANCEL} This action could not be performed because you need the ${permissions} permission on the server`,
-          ),
+          [
+            bold(`${Emojis.CANCEL} You need the following permissions on the server`),
+            codeBlock("ansi", colors.bold.magenta(permissions)),
+          ].join("\n"),
         CLIENT: ({
           permissions,
         }: {
           permissions: string;
         }) =>
-          bold(
-            `${Emojis.CANCEL} This action could not be performed because I need the ${permissions} permission on the server`,
-          ),
+          [
+            bold(`${Emojis.CANCEL} I need the following permissions on the server`),
+            codeBlock("ansi", colors.bold.magenta(permissions)),
+          ].join("\n"),
       },
       CHANNEL: {
         USER: ({
+          channelMention,
           permissions,
-          channel,
         }: {
+          channelMention: string;
           permissions: string;
-          channel: string;
         }) =>
-          bold(
-            `${Emojis.CANCEL} This action could not be performed because you need the ${permissions} permission on the channel ${channel}`,
-          ),
+          [
+            bold(`${Emojis.CANCEL} You need the following permissions on the ${channelMention} channel`),
+            codeBlock("ansi", colors.bold.magenta(permissions)),
+          ].join("\n"),
         CLIENT: ({
+          channelMention,
           permissions,
-          channel,
         }: {
+          channelMention: string;
           permissions: string;
-          channel: string;
         }) =>
-          bold(
-            `${Emojis.CANCEL} This action could not be performed because I need the ${permissions} permission on the channel ${channel}`,
-          ),
+          [
+            bold(`${Emojis.CANCEL} I need the following permissions on the ${channelMention} channel`),
+            codeBlock("ansi", colors.bold.magenta(permissions)),
+          ].join("\n"),
       },
     },
     INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL} You cannot run this component`),
@@ -505,7 +509,7 @@ export default {
       reportId: string;
     }) =>
       [
-        bold(`${Emojis.REPORT} Something went wrong while executing the current process`),
+        bold(`${Emojis.REPORT} This action could not be performed due to an unexpected error`),
         bold(`${Emojis.ARROW_CIRCLE_RIGHT} Please report the error with the following ID: ${inlineCode(reportId)}`),
       ].join("\n"),
   },

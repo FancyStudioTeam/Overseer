@@ -1,4 +1,5 @@
-export * from "./checkMemberPermissions.js";
+export * from "./checkChannelMemberPermissions.js";
+export * from "./checkGuildMemberPermissions.js";
 export * from "./createErrorMessage.js";
 export * from "./createMessage.js";
 export * from "./createProgressBar.js";

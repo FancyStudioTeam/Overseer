@@ -52,9 +52,10 @@
     "biome": "sh -c 'if [ \"$IN_NIX_SHELL\" = \"1\" ]; then BIOME_BINARY=$BIOME_BIN_PATH pnpx @biomejs/biome check --write --config-path biome.json; else pnpx @biomejs/biome check --write --config-path biome.json; fi'",
     "build": "tsc --project tsconfig.json && tsc-alias",
     "dev": "tsx watch --ignore src/locales src/index.ts",
+    "docs:dev": "pnpm --filter docs dev",
     "prepare": "husky",
-    "start": "cd dist && node index.js",
-    "docs:dev": "pnpm --filter docs dev"
+    "prisma:generate": "prisma generate",
+    "start": "cd dist && node index.js"
   },
   "version": "0.0.3-alpha.1"
 }

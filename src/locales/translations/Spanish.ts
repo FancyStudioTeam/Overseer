@@ -469,39 +469,43 @@ export default {
         }: {
           permissions: string;
         }) =>
-          bold(
-            `${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el servidor`,
-          ),
+          [
+            bold(`${Emojis.CANCEL} Necesitas los siguientes permisos en el servidor`),
+            codeBlock("ansi", colors.bold.magenta(permissions)),
+          ].join("\n"),
         CLIENT: ({
           permissions,
         }: {
           permissions: string;
         }) =>
-          bold(
-            `${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el servidor`,
-          ),
+          [
+            bold(`${Emojis.CANCEL} Necesito los siguientes permisos en el servidor`),
+            codeBlock("ansi", colors.bold.magenta(permissions)),
+          ].join("\n"),
       },
       CHANNEL: {
         USER: ({
+          channelMention,
           permissions,
-          channel,
         }: {
+          channelMention: string;
           permissions: string;
-          channel: string;
         }) =>
-          bold(
-            `${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesitas el permiso de ${permissions} en el canal ${channel}`,
-          ),
+          [
+            bold(`${Emojis.CANCEL} Necesitas los siguientes permisos en el canal ${channelMention}`),
+            codeBlock("ansi", colors.bold.magenta(permissions)),
+          ].join("\n"),
         CLIENT: ({
+          channelMention,
           permissions,
-          channel,
         }: {
+          channelMention: string;
           permissions: string;
-          channel: string;
         }) =>
-          bold(
-            `${Emojis.CANCEL} No se ha podido realizar esta acción debido a que necesito el permiso de ${permissions} en el canal ${channel}`,
-          ),
+          [
+            bold(`${Emojis.CANCEL} Necesito los siguientes permisos en el canal ${channelMention}`),
+            codeBlock("ansi", colors.bold.magenta(permissions)),
+          ].join("\n"),
       },
     },
     INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL} No puedes ejecutar este componente`),
