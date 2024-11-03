@@ -1,13 +1,23 @@
-import { type ExecException, exec } from "node:child_process";
+import { execSync } from "node:child_process";
 import { Colors, Emojis } from "@constants";
-import { bold, codeBlock } from "@discordjs/formatters";
-import type { MaybeNullish } from "@types";
+import { codeBlock } from "@discordjs/formatters";
 import { createPrefixCommand } from "@util/Handlers";
-import { createErrorMessage } from "@utils";
-import { Embed } from "oceanic-builders";
+import { createMessage, createReaction, parseEmoji, truncateString } from "@util/utils";
+import { ActionRow, Button, Embed } from "oceanic-builders";
+import { ButtonStyles } from "oceanic.js";
 
-const truncate = (content: string, maxLength: number) =>
-  content.length > maxLength ? `${content.slice(0, maxLength - 3)}...` : content;
+const execute = async (data: string) => {
+  const startWatch = process.hrtime.bigint();
+  const executeCommand = new Promise((resolve) => resolve(execSync(data).toString())).catch((error) => error);
+  const output = String(await executeCommand);
+  const stopWatch = process.hrtime.bigint();
+  const executionTime = Number(stopWatch - startWatch) / 1000000;
+
+  return {
+    output,
+    took: `${Math.round(executionTime)}ms`,
+  };
+};
 
 export default createPrefixCommand({
   developerOnly: true,
@@ -16,20 +26,31 @@ export default createPrefixCommand({
     const command = args.join(" ");
 
     if (!command) {
-      return await createErrorMessage(context, {
-        content: bold(`${Emojis.CANCEL} You need a command to execute`),
-      });
+      return await client.rest.channels.createReaction(context.channelID, context.id, createReaction(Emojis.CANCEL));
     }
 
-    return exec(`cd "${process.cwd()}" && ${command}`, async (error: MaybeNullish<ExecException>, result: string) => {
-      await client.rest.channels.createMessage(context.channelID, {
-        embeds: new Embed()
-          .setDescription(
-            codeBlock(error ? "bash" : "js", truncate(error ? (error.stack ?? error.message) : result, 4000)),
-          )
-          .setColor(error ? Colors.RED : Colors.COLOR)
-          .toJSON(true),
-      });
+    const { output: executionOutput, took } = await execute(command);
+    const output = truncateString(executionOutput, {
+      maxLength: 4000,
+    });
+
+    await createMessage(context, {
+      components: new ActionRow()
+        .addComponents([
+          new Button()
+            .setCustomID("@exec/took")
+            .setLabel(`Took ${took}`)
+            .setStyle(ButtonStyles.SECONDARY)
+            .setEmoji(parseEmoji(Emojis.TIMER))
+            .setDisabled(true),
+          new Button()
+            .setCustomID("@exec/delete")
+            .setLabel("Delete")
+            .setStyle(ButtonStyles.DANGER)
+            .setEmoji(parseEmoji(Emojis.TRASH)),
+        ])
+        .toJSON(true),
+      embeds: new Embed().setDescription(codeBlock("ts", output)).setColor(Colors.COLOR).toJSON(true),
     });
   },
 });

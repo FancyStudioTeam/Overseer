@@ -1,10 +1,34 @@
 import { inspect } from "node:util";
 import { Colors, Emojis } from "@constants";
-import { bold, codeBlock } from "@discordjs/formatters";
+import { codeBlock } from "@discordjs/formatters";
 import { Result } from "@sapphire/result";
 import { createPrefixCommand } from "@util/Handlers";
-import { createErrorMessage, truncateString } from "@utils";
-import { Embed } from "oceanic-builders";
+import { createMessage, createReaction, parseEmoji, truncateString } from "@utils";
+import { ActionRow, Button, Embed } from "oceanic-builders";
+import { ButtonStyles } from "oceanic.js";
+
+const execute = async (data: string) => {
+  const startWatch = process.hrtime.bigint();
+  const result = Result.from<unknown, Error>(() => {
+    // biome-ignore lint/security/noGlobalEval:
+    const evaluationResult = eval(`const { client } = require("@index");\n${data}`);
+    let output = evaluationResult;
+
+    if (typeof evaluationResult !== "string") {
+      output = inspect(evaluationResult);
+    }
+
+    return output;
+  });
+  const output = String(result.isOk() ? result.unwrap() : result.unwrapErr());
+  const stopWatch = process.hrtime.bigint();
+  const executionTime = Number(stopWatch - startWatch) / 1000000;
+
+  return {
+    output,
+    took: `${Math.round(executionTime)}ms`,
+  };
+};
 
 export default createPrefixCommand({
   developerOnly: true,
@@ -13,51 +37,31 @@ export default createPrefixCommand({
     const code = args.join(" ");
 
     if (!code) {
-      return await createErrorMessage(context, {
-        content: bold(`${Emojis.CANCEL} You need a code to execute`),
-      });
+      return await client.rest.channels.createReaction(context.channelID, context.id, createReaction(Emojis.CANCEL));
     }
 
-    const result = Result.from<unknown, Error>(() => {
-      // biome-ignore lint/security/noGlobalEval:
-      const evaluationResult = eval(`const { client } = require("@index");\n${code}`);
-      let output = evaluationResult;
-
-      if (typeof evaluationResult !== "string") {
-        output = inspect(evaluationResult);
-      }
-
-      return output;
+    const { output: executionOutput, took } = await execute(code);
+    const output = truncateString(executionOutput, {
+      maxLength: 4000,
     });
 
-    if (result.isErr()) {
-      return await client.rest.channels.createMessage(context.channelID, {
-        embeds: new Embed()
-          .setDescription(
-            codeBlock(
-              "js",
-              truncateString(String(result.unwrapErr()), {
-                maxLength: 4000,
-              }),
-            ),
-          )
-          .setColor(Colors.RED)
-          .toJSON(true),
-      });
-    }
-
-    return await client.rest.channels.createMessage(context.channelID, {
-      embeds: new Embed()
-        .setDescription(
-          codeBlock(
-            "js",
-            truncateString(String(result.unwrap()), {
-              maxLength: 4000,
-            }),
-          ),
-        )
-        .setColor(Colors.COLOR)
+    return createMessage(context, {
+      components: new ActionRow()
+        .addComponents([
+          new Button()
+            .setCustomID("@eval/took")
+            .setLabel(`Took ${took}`)
+            .setStyle(ButtonStyles.SECONDARY)
+            .setEmoji(parseEmoji(Emojis.TIMER))
+            .setDisabled(true),
+          new Button()
+            .setCustomID("@eval/delete")
+            .setLabel("Delete")
+            .setStyle(ButtonStyles.DANGER)
+            .setEmoji(parseEmoji(Emojis.TRASH)),
+        ])
         .toJSON(true),
+      embeds: new Embed().setDescription(codeBlock("ts", output)).setColor(Colors.COLOR).toJSON(true),
     });
   },
 });
