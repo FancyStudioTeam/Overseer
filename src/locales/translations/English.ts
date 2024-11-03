@@ -178,7 +178,7 @@ export default {
                 codeBlock(
                   "ansi",
                   colors.bold.magenta(
-                    `${createProgressBar(currentSize, maximumSize)} [${((currentSize / maximumSize) * 100).toFixed(2)}%/100%]`,
+                    `${createProgressBar(currentSize, maximumSize, 13)} [${currentSize}kb/${maximumSize}kb]`,
                   ),
                 ),
             },
@@ -203,21 +203,203 @@ export default {
         },
       },
     },
+    DEVELOPER: {
+      EVAL: {
+        COMPONENTS: {
+          BUTTONS: {
+            TOOK: {
+              LABEL: ({
+                executionTime,
+              }: {
+                executionTime: number;
+              }) => `Took ${executionTime}ms`,
+            },
+            DELETE: {
+              LABEL: "Delete",
+            },
+          },
+        },
+      },
+      EXEC: {
+        COMPONENTS: {
+          BUTTONS: {
+            TOOK: {
+              LABEL: ({
+                executionTime,
+              }: {
+                executionTime: number;
+              }) => `Took ${executionTime}ms`,
+            },
+            DELETE: {
+              LABEL: "Delete",
+            },
+          },
+        },
+      },
+      LOOKUP_GUILD: {
+        COMPONENTS: {
+          BUTTONS: {
+            OWNER: {
+              LABEL: "Owner",
+              UNABLE_VALID_OWNER: bold(`${Emojis.CANCEL} Unable to obtain the server owner`),
+              MESSAGE_1: {
+                TITLE: bold("Owner Information"),
+                FIELD_1: {
+                  NAME: "General Information",
+                  VALUE: ({
+                    userId,
+                    userName,
+                  }: {
+                    userId: string;
+                    userName: string;
+                  }) => codeBlock("ansi", formatKeyValues([`Name » ${userName}`, `ID » ${userId}`].join("\n"), "»")),
+                },
+              },
+            },
+            INVITE: {
+              LABEL: "Generate Invite",
+              OBTAIN_VALID_CHANNEL: bold(`${Emojis.CANCEL} Unable to obtain a valid channel`),
+            },
+            LEAVE: {
+              LABEL: "Leave Server",
+              MESSAGE_1: ({
+                guildName,
+              }: {
+                guildName: string;
+              }) => bold(`${Emojis.CHECK_CIRCLE} The server ${inlineCode(guildName)} has been left`),
+            },
+          },
+        },
+        GUILD_NOT_FOUND: ({
+          guildId,
+        }: {
+          guildId: string;
+        }) => bold(`${Emojis.CANCEL} The server ${inlineCode(guildId)} has not been found`),
+        MESSAGE_1: {
+          TITLE_1: bold("Server Information"),
+          FIELD_1: {
+            NAME: "General Information",
+            VALUE: ({
+              guildId,
+              guildName,
+            }: {
+              guildId: string;
+              guildName: string;
+            }) => codeBlock("ansi", formatKeyValues([`Name » ${guildName}`, `ID » ${guildId}`].join("\n"), "»")),
+          },
+          FIELD_2: {
+            NAME: "Statistics",
+            VALUE: ({
+              channelCount,
+              memberCount,
+            }: {
+              memberCount: number;
+              channelCount: number;
+            }) =>
+              codeBlock(
+                "ansi",
+                formatKeyValues(
+                  [`No. of Members » ${memberCount}`, `No. of Channels » ${channelCount}`].join("\n"),
+                  "»",
+                ),
+              ),
+          },
+          FIELD_3: {
+            NAME: "Creation Date",
+            VALUE: ({
+              createdAt,
+            }: {
+              createdAt: Date;
+            }) =>
+              codeBlock("ansi", colors.bold.magenta(formatTimestamp(createdAt, "dddd[, ]MMMM DD[, ]YYYY[, ]HH:mm"))),
+          },
+          FIELD_4: {
+            NAME: "Bot Membership Date",
+            VALUE: ({
+              joinedAt,
+            }: {
+              joinedAt: Date;
+            }) => codeBlock("ansi", colors.bold.magenta(formatTimestamp(joinedAt, "dddd[, ]MMMM DD[, ]YYYY[, ]HH:mm"))),
+          },
+        },
+      },
+    },
     INFORMATION: {
       DEBUG: {
+        COMPONENTS: {
+          BUTTONS: {
+            PROCESS: {
+              LABEL: "Process",
+              MESSAGE_1: {
+                TITLE_1: bold("Process Information"),
+                FIELD_1: {
+                  NAME: "RAM Memory Used",
+                  VALUE: ({
+                    totalMemory,
+                    usedMemory,
+                  }: {
+                    totalMemory: number;
+                    usedMemory: number;
+                  }) =>
+                    codeBlock(
+                      "ansi",
+                      colors.bold.magenta(
+                        `${createProgressBar(usedMemory, totalMemory, 13)} [${usedMemory}mb/${totalMemory}mb]`,
+                      ),
+                    ),
+                },
+              },
+            },
+          },
+        },
         MESSAGE_1: {
-          TITLE_1: "Debugging Information",
-          DESCRIPTION_1: ({
-            guilds,
-            users,
-          }: {
-            guilds: number;
-            users: number;
-          }) =>
-            codeBlock(
-              "ansi",
-              [`${colors.magenta("Servers:")} ${guilds}`, `${colors.magenta("Users:")} ${users}`].join("\n"),
-            ),
+          TITLE_1: bold("Debugging Information"),
+          FIELD_1: {
+            NAME: "General Information",
+            VALUE: ({
+              developer,
+              version,
+            }: {
+              developer: string;
+              version: string;
+            }) =>
+              codeBlock("ansi", formatKeyValues([`Version » ${version}`, `Developer » ${developer}`].join("\n"), "»")),
+          },
+          FIELD_2: {
+            NAME: "Statistics",
+            VALUE: ({
+              guildCount,
+              shardCount,
+              userCount,
+            }: {
+              guildCount: number;
+              shardCount: number;
+              userCount: number;
+            }) =>
+              codeBlock(
+                "ansi",
+                formatKeyValues(
+                  [
+                    `No. of Servers » ${guildCount}`,
+                    `No. of Users » ${userCount}`,
+                    `No. of Shards » ${shardCount}`,
+                  ].join("\n"),
+                  "»",
+                ),
+              ),
+          },
+          FIELD_3: {
+            NAME: "Last Reset Date",
+            VALUE: ({
+              lastResetDate,
+            }: {
+              lastResetDate: Date;
+            }) =>
+              codeBlock(
+                "ansi",
+                colors.bold.magenta(formatTimestamp(lastResetDate, "dddd[, ]MMMM DD[, ]YYYY[, ]HH:mm")),
+              ),
+          },
         },
       },
     },
@@ -274,6 +456,15 @@ export default {
       },
     },
     INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL} You cannot run this component`),
+    SOMETHING_WENT_WRONG: ({
+      reportId,
+    }: {
+      reportId: string;
+    }) =>
+      [
+        bold(`${Emojis.REPORT} Something went wrong while executing the current process`),
+        bold(`${Emojis.ARROW_CIRCLE_RIGHT} Please report the error with the following ID: ${inlineCode(reportId)}`),
+      ].join("\n"),
   },
   PERMISSIONS: permissions,
 };

@@ -2,6 +2,7 @@ import { inspect } from "node:util";
 import { Colors, Emojis } from "@constants";
 import { codeBlock } from "@discordjs/formatters";
 import { Result } from "@sapphire/result";
+import { Translations } from "@translations";
 import { createPrefixCommand } from "@util/Handlers";
 import { createMessage, createReaction, parseEmoji, truncateString } from "@utils";
 import { ActionRow, Button, Embed } from "oceanic-builders";
@@ -26,21 +27,21 @@ const execute = async (data: string) => {
 
   return {
     output,
-    took: `${Math.round(executionTime)}ms`,
+    took: Math.round(executionTime),
   };
 };
 
 export default createPrefixCommand({
   developerOnly: true,
   name: "eval",
-  run: async ({ args, client, context }) => {
+  run: async ({ args, client, context, locale }) => {
     const code = args.join(" ");
 
     if (!code) {
       return await client.rest.channels.createReaction(context.channelID, context.id, createReaction(Emojis.CANCEL));
     }
 
-    const { output: executionOutput, took } = await execute(code);
+    const { output: executionOutput, took: executionTime } = await execute(code);
     const output = truncateString(executionOutput, {
       maxLength: 4000,
     });
@@ -50,13 +51,17 @@ export default createPrefixCommand({
         .addComponents([
           new Button()
             .setCustomID("@eval/took")
-            .setLabel(`Took ${took}`)
+            .setLabel(
+              Translations[locale].COMMANDS.DEVELOPER.EVAL.COMPONENTS.BUTTONS.TOOK.LABEL({
+                executionTime,
+              }),
+            )
             .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.TIMER))
             .setDisabled(true),
           new Button()
             .setCustomID("@eval/delete")
-            .setLabel("Delete")
+            .setLabel(Translations[locale].COMMANDS.DEVELOPER.EVAL.COMPONENTS.BUTTONS.DELETE.LABEL)
             .setStyle(ButtonStyles.DANGER)
             .setEmoji(parseEmoji(Emojis.TRASH)),
         ])
