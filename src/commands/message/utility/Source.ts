@@ -1,11 +1,9 @@
 import { createMessageCommand } from "@util/Handlers";
 import { createMessage } from "@utils";
 import { Attachment } from "oceanic-builders";
-import { ApplicationCommandTypes, ApplicationIntegrationTypes, InteractionContextTypes } from "oceanic.js";
+import { ApplicationCommandTypes } from "oceanic.js";
 
 export default createMessageCommand({
-  contexts: [InteractionContextTypes.GUILD],
-  integrationTypes: [ApplicationIntegrationTypes.GUILD_INSTALL],
   name: "Source",
   type: ApplicationCommandTypes.MESSAGE,
   run: async ({ context }) => {

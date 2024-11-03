@@ -14,11 +14,13 @@ import { LoggerType, logger, noop } from "@utils";
 import { glob } from "glob";
 import {
   ApplicationCommandTypes,
+  ApplicationIntegrationTypes,
   Client,
   Collection,
   ComponentTypes,
   type CreateApplicationCommandOptions,
   type Guild,
+  InteractionContextTypes,
   type Member,
   type User,
 } from "oceanic.js";
@@ -203,7 +205,11 @@ export class Discord extends Client {
             (userCommandData) => this.interactions.user.set(command.name, userCommandData),
           );
 
-        commandsArray.push(command);
+        commandsArray.push({
+          ...command,
+          contexts: [InteractionContextTypes.GUILD],
+          integrationTypes: [ApplicationIntegrationTypes.GUILD_INSTALL],
+        });
       }
     });
   };

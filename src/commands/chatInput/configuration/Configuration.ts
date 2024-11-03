@@ -1,17 +1,10 @@
 import { createChatInputCommand } from "@util/Handlers";
 import { formatTimestamp } from "@util/utils";
-import {
-  ApplicationCommandOptionTypes,
-  ApplicationCommandTypes,
-  ApplicationIntegrationTypes,
-  InteractionContextTypes,
-} from "oceanic.js";
+import { ApplicationCommandOptionTypes, ApplicationCommandTypes } from "oceanic.js";
 import { match } from "ts-pattern";
 
 export default createChatInputCommand({
-  contexts: [InteractionContextTypes.GUILD],
   description: "_",
-  integrationTypes: [ApplicationIntegrationTypes.GUILD_INSTALL],
   name: "config",
   options: [
     {
