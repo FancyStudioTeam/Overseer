@@ -414,6 +414,26 @@ export default {
           },
         },
       },
+      PING: {
+        MESSAGE_1: {
+          FIELD_1: {
+            NAME: "REST Reference",
+            VALUE: ({
+              restLatency,
+            }: {
+              restLatency: number;
+            }) => codeBlock("ansi", colors.bold.magenta(`${restLatency}ms`)),
+          },
+          FIELD_2: {
+            NAME: "Server Shard",
+            VALUE: ({
+              shardLatency,
+            }: {
+              shardLatency: number;
+            }) => codeBlock("ansi", colors.bold.magenta(`${shardLatency}ms`)),
+          },
+        },
+      },
     },
   },
   GLOBAL: {

@@ -420,6 +420,26 @@ export default {
           },
         },
       },
+      PING: {
+        MESSAGE_1: {
+          FIELD_1: {
+            NAME: "Referencia REST",
+            VALUE: ({
+              restLatency,
+            }: {
+              restLatency: number;
+            }) => codeBlock("ansi", colors.bold.magenta(`${restLatency}ms`)),
+          },
+          FIELD_2: {
+            NAME: "Shard del Servidor",
+            VALUE: ({
+              shardLatency,
+            }: {
+              shardLatency: number;
+            }) => codeBlock("ansi", colors.bold.magenta(`${shardLatency}ms`)),
+          },
+        },
+      },
     },
   },
   GLOBAL: {
