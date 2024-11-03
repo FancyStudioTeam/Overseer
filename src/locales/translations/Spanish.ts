@@ -441,6 +441,17 @@ export default {
         },
       },
     },
+    UTILITY: {
+      SOURCE: {
+        COMPONENTS: {
+          BUTTONS: {
+            DELETE: {
+              LABEL: "Eliminar",
+            },
+          },
+        },
+      },
+    },
   },
   GLOBAL: {
     USER_IS_LIMITED: ({
