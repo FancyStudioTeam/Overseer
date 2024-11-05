@@ -1,17 +1,18 @@
 import type { Discord } from "@client";
 import type { Locales } from "@types";
-import {
-  type AnyTextableGuildChannel,
-  type ApplicationCommandTypes,
-  type AutocompleteInteraction,
-  type CommandInteraction,
-  type ComponentInteraction,
+import type {
+  AnyTextableGuildChannel,
+  ApplicationCommandTypes,
+  AutocompleteInteraction,
+  CommandInteraction,
+  ComponentInteraction,
   ComponentTypes,
-  type CreateChatInputApplicationCommandOptions,
-  type CreateMessageApplicationCommandOptions,
-  type CreateUserApplicationCommandOptions,
-  type Message,
-  type PermissionName,
+  CreateChatInputApplicationCommandOptions,
+  CreateMessageApplicationCommandOptions,
+  CreateUserApplicationCommandOptions,
+  Message,
+  PermissionName,
+  SelectMenuTypes,
 } from "oceanic.js";
 
 export const createPrefixCommand = (createOptions: {
@@ -82,6 +83,7 @@ export const createButtonComponent = (createOptions: {
     bot?: PermissionName[];
     user?: PermissionName[];
   };
+  type: ComponentTypes.BUTTON;
   run: (config: {
     client: Discord;
     context: ButtonComponentInteraction;
@@ -89,10 +91,24 @@ export const createButtonComponent = (createOptions: {
     isPremium: boolean;
     variable: string;
   }) => Promise<unknown>;
-}) => ({
-  ...createOptions,
-  type: ComponentTypes.BUTTON,
-});
+}) => createOptions;
+
+export const createSelectMenuComponent = (createOptions: {
+  developerOnly?: boolean;
+  name: string;
+  permissions?: {
+    bot?: PermissionName[];
+    user?: PermissionName[];
+  };
+  type: SelectMenuTypes;
+  run: (config: {
+    client: Discord;
+    context: SelectMenuComponentInteraction;
+    locale: Locales;
+    isPremium: boolean;
+    variable: string;
+  }) => Promise<unknown>;
+}) => createOptions;
 
 export enum CommandCategory {
   CONFIGURATION,
@@ -105,4 +121,5 @@ type ButtonComponentInteraction = ComponentInteraction<ComponentTypes.BUTTON, An
 type ChatInputCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.CHAT_INPUT>;
 type MessageCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.MESSAGE>;
 type PrefixCommandMessage = Message<AnyTextableGuildChannel>;
+type SelectMenuComponentInteraction = ComponentInteraction<SelectMenuTypes, AnyTextableGuildChannel>;
 type UserCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.USER>;

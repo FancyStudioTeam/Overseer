@@ -5,6 +5,7 @@ import type {
   createChatInputSubCommand,
   createMessageCommand,
   createPrefixCommand,
+  createSelectMenuComponent,
   createUserCommand,
 } from "@util/Handlers";
 
@@ -18,4 +19,5 @@ export type ChatInputCommandData = ReturnType<typeof createChatInputCommand>;
 export type ChatInputSubCommandData = ReturnType<typeof createChatInputSubCommand>;
 export type MessageCommandData = ReturnType<typeof createMessageCommand>;
 export type PrefixCommandData = ReturnType<typeof createPrefixCommand>;
+export type SelectMenuComponentData = ReturnType<typeof createSelectMenuComponent>;
 export type UserCommandData = ReturnType<typeof createUserCommand>;
