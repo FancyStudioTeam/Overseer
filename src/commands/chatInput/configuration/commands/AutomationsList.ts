@@ -1,7 +1,7 @@
 import { Colors, Emojis } from "@constants";
 import { Translations } from "@translations";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
-import { pagination } from "@util/Pagination";
+import { Pagination } from "@util/Pagination";
 import { createErrorMessage, parseEmoji } from "@utils";
 import { Button, Embed, EmbedField } from "oceanic-builders";
 import { ButtonStyles } from "oceanic.js";
@@ -98,10 +98,9 @@ export default createChatInputSubCommand({
       },
     );
 
-    return await pagination(context, {
-      data: await Promise.all(availableAutomationsPages),
+    return new Pagination(context, {
       locale,
-      timeBeforeExpiration: 60000,
+      pages: await Promise.all(availableAutomationsPages),
     });
   },
 });

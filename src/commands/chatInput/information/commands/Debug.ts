@@ -2,7 +2,7 @@ import { Colors } from "@constants";
 import { author as developer, version } from "@package";
 import { Translations } from "@translations";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
-import { pagination } from "@util/Pagination";
+import { Pagination } from "@util/Pagination";
 import { Embed, EmbedField } from "oceanic-builders";
 
 const bytesToMegaBytes = (bytes: number) => bytes / 1000000;
@@ -15,7 +15,7 @@ export default createChatInputSubCommand({
       totalMemory: Math.round(bytesToMegaBytes(process.memoryUsage().heapTotal)),
       usedMemory: Math.round(bytesToMegaBytes(process.memoryUsage().heapUsed)),
     };
-    const availablePaginationPages = [
+    const availableDebugPages = [
       new Embed()
         .setTitle(Translations[locale].COMMANDS.INFORMATION.DEBUG.MESSAGE_1.TITLE_1)
         .addFields([
@@ -56,10 +56,9 @@ export default createChatInputSubCommand({
         .toJSON(),
     ];
 
-    pagination(context, {
-      data: availablePaginationPages,
+    return new Pagination(context, {
       locale,
-      timeBeforeExpiration: 60000,
+      pages: availableDebugPages,
     });
   },
 });
