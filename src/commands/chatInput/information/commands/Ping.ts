@@ -6,14 +6,13 @@ import { Embed, EmbedField } from "oceanic-builders";
 export default createChatInputSubCommand({
   category: CommandCategory.INFORMATION,
   name: "ping",
-  // biome-ignore lint/suspicious/useAwait:
   run: async ({ client, context, locale }) => {
     const { rest: restLatency, shard: shardLatency } = {
       rest: Math.round(client.rest.handler.latencyRef.latency),
       shard: Math.round(context.guild.shard.latency),
     };
 
-    createMessage(
+    await createMessage(
       context,
       new Embed()
         .addFields([
