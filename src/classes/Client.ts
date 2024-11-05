@@ -7,10 +7,11 @@ import type {
   MaybeNullish,
   MessageCommandData,
   PrefixCommandData,
+  SelectMenuComponentData,
   UserCommandData,
 } from "@types";
 import { CommandCategory } from "@util/Handlers";
-import { LoggerType, logger, noop } from "@utils";
+import { LoggerType, logger } from "@utils";
 import { glob } from "glob";
 import {
   ApplicationCommandTypes,
@@ -29,18 +30,19 @@ import { match } from "ts-pattern";
 const commandsArray: CreateApplicationCommandOptions[] = [];
 
 export class Discord extends Client {
-  readonly interactions: {
-    chatInput: Collection<string, MaybeNullish<ChatInputCommandData>>;
-    message: Collection<string, MaybeNullish<MessageCommandData>>;
-    user: Collection<string, MaybeNullish<UserCommandData>>;
-  };
   readonly components: {
-    buttons: Collection<string, MaybeNullish<ButtonComponentData>>;
+    buttons: Collection<string, ButtonComponentData>;
+    selectMenus: Collection<string, SelectMenuComponentData>;
   };
-  readonly subCommands: Collection<string, MaybeNullish<ChatInputSubCommandData>>;
-  readonly readyAt: Date;
-  readonly prefixCommands: Collection<string, MaybeNullish<PrefixCommandData>>;
+  readonly interactions: {
+    chatInput: Collection<string, ChatInputCommandData>;
+    message: Collection<string, MessageCommandData>;
+    user: Collection<string, UserCommandData>;
+  };
+  readonly prefixCommands: Collection<string, PrefixCommandData>;
   readonly prisma: PrismaClient;
+  readonly readyAt: Date;
+  readonly subCommands: Collection<string, ChatInputSubCommandData>;
 
   constructor() {
     super({
@@ -125,18 +127,19 @@ export class Discord extends Client {
       },
     });
 
+    this.components = {
+      buttons: new Collection(),
+      selectMenus: new Collection(),
+    };
     this.interactions = {
       chatInput: new Collection(),
       message: new Collection(),
       user: new Collection(),
     };
-    this.components = {
-      buttons: new Collection(),
-    };
-    this.subCommands = new Collection();
-    this.readyAt = new Date();
     this.prefixCommands = new Collection();
     this.prisma = new PrismaClient();
+    this.readyAt = new Date();
+    this.subCommands = new Collection();
 
     (async () => {
       await this.init();
@@ -169,7 +172,7 @@ export class Discord extends Client {
       .then((commands) => logger(`The interactions have been deployed | Deployed ${commands.length} interactions`));
   };
 
-  registerCommands = async () => {
+  private registerCommands = async () => {
     this.interactions.chatInput.clear();
     this.interactions.user.clear();
 
@@ -190,19 +193,19 @@ export class Discord extends Client {
             {
               type: ApplicationCommandTypes.CHAT_INPUT,
             },
-            (chatInputCommandData) => this.interactions.chatInput.set(command.name, chatInputCommandData),
+            (chatInputCommandData) => this.interactions.chatInput.set(chatInputCommandData.name, chatInputCommandData),
           )
           .with(
             {
               type: ApplicationCommandTypes.MESSAGE,
             },
-            (messageCommandData) => this.interactions.message.set(command.name, messageCommandData),
+            (messageCommandData) => this.interactions.message.set(messageCommandData.name, messageCommandData),
           )
           .with(
             {
               type: ApplicationCommandTypes.USER,
             },
-            (userCommandData) => this.interactions.user.set(command.name, userCommandData),
+            (userCommandData) => this.interactions.user.set(userCommandData.name, userCommandData),
           );
 
         commandsArray.push({
@@ -214,29 +217,38 @@ export class Discord extends Client {
     });
   };
 
-  registerComponents = async () => {
+  private registerComponents = async () => {
     this.components.buttons.clear();
+    this.components.selectMenus.clear();
 
     await this.loadFiles(`${join(__dirname, "..", "components")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const componentPath = this.resolve(path);
-        const component = require(componentPath).default as MaybeNullish<ButtonComponentData>;
+        const component = require(componentPath).default as MaybeNullish<ButtonComponentData | SelectMenuComponentData>;
 
         if (!(component?.name && component?.run)) {
           throw new Error(`Path "${componentPath}" is missing a name or run function`);
         }
 
-        match(component).with(
-          {
-            type: ComponentTypes.BUTTON,
-          },
-          (buttonComponentData) => this.components.buttons.set(component.name, buttonComponentData),
-        );
+        match(component)
+          .with(
+            {
+              type: ComponentTypes.BUTTON,
+            },
+            (buttonComponentData) => this.components.buttons.set(buttonComponentData.name, buttonComponentData),
+          )
+          .with(
+            {
+              type: ComponentTypes.STRING_SELECT,
+            },
+            (selectMenuComponentData) =>
+              this.components.selectMenus.set(selectMenuComponentData.name, selectMenuComponentData),
+          );
       }
     });
   };
 
-  registerSubCommands = async () => {
+  private registerSubCommands = async () => {
     this.subCommands.clear();
 
     await this.loadFiles(`${join(__dirname, "..", "commands/chatInput")}/*/*/*.{ts,js}`).then((paths) => {
@@ -258,7 +270,7 @@ export class Discord extends Client {
     });
   };
 
-  registerPrefixCommands = async () => {
+  private registerPrefixCommands = async () => {
     this.prefixCommands.clear();
 
     await this.loadFiles(`${join(__dirname, "..", "commands/prefix")}/*.{ts,js}`).then((paths) => {
@@ -275,7 +287,7 @@ export class Discord extends Client {
     });
   };
 
-  registerEvents = async () => {
+  private registerEvents = async () => {
     this.removeAllListeners();
 
     await this.loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`).then((paths) => {
@@ -285,7 +297,7 @@ export class Discord extends Client {
     });
   };
 
-  registerModules = async () =>
+  private registerModules = async () =>
     await this.loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         require(this.resolve(path)).default(this);
@@ -306,7 +318,7 @@ export class Discord extends Client {
       .with(FetchFrom.DEFAULT, async () => this.users.get(userId) ?? (await this.rest.users.get(userId)))
       .with(FetchFrom.CACHE, () => this.users.get(userId))
       .with(FetchFrom.REST, async () => await this.rest.users.get(userId))
-      .otherwise(noop);
+      .run();
 
   fetchMember = async (
     guild: Guild,
@@ -326,7 +338,7 @@ export class Discord extends Client {
       )
       .with(FetchFrom.CACHE, () => guild.members.get(memberId))
       .with(FetchFrom.REST, async () => await this.rest.guilds.getMember(guild.id, memberId))
-      .otherwise(noop);
+      .run();
 
   isGuildMembershipActive = async (
     guildId: string,

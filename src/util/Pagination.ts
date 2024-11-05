@@ -12,31 +12,31 @@ import {
   ComponentTypes,
   type EmbedOptions,
   InteractionTypes,
-  type Message,
+  Message,
   type MessageComponent,
   MessageFlags,
 } from "oceanic.js";
 import { match } from "ts-pattern";
 
 export class Pagination {
-  private context: AnyInteractionGateway | Message;
-  private locale: Locales;
-  private pages: PaginationPage[];
+  private readonly context: AnyInteractionGateway | Message;
+  private readonly locale: Locales;
+  private readonly messageAction: PaginationMessageActions;
+  private readonly pages: PaginationPage[];
   private paginationIndex: number;
-  private shouldBeEphemeral: boolean;
-  private timeBeforeExpiration: number;
+  private readonly shouldBeEphemeral: boolean;
+  private readonly timeBeforeExpiration: number;
 
   constructor(context: AnyInteractionGateway | Message, options: PaginationOptions) {
     this.context = context;
     this.locale = options.locale;
+    this.messageAction = options.messageAction ?? PaginationMessageActions.CREATE;
     this.pages = options.pages;
     this.paginationIndex = 0;
     this.shouldBeEphemeral = !!options.shouldBeEphemeral;
     this.timeBeforeExpiration = options.timeBeforeExpiration ?? 60000;
 
-    (async () => {
-      await this.handlePagination();
-    })();
+    this.handlePagination();
   }
 
   private getPaginationElements = (paginationIndex: number) => {
@@ -62,6 +62,10 @@ export class Pagination {
               .setStyle(ButtonStyles.SECONDARY)
               .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_RIGHT))
               .setDisabled(paginationEmbeds.length <= 1),
+            new Button()
+              .setCustomID("@pagination/stop")
+              .setStyle(ButtonStyles.DANGER)
+              .setEmoji(parseEmoji(Emojis.STOP)),
           ])
           .toJSON(),
       ];
@@ -89,11 +93,29 @@ export class Pagination {
     };
   };
 
-  private handlePagination = async () => {
+  private handlePagination = () => {
     const messagePayload = this.getMessagePayload(this.paginationIndex);
-    const originalMessage = await createMessage(this.context, messagePayload);
 
-    this.handlePaginationCollector(originalMessage);
+    match(this.messageAction)
+      .with(PaginationMessageActions.CREATE, async () => {
+        const message = await createMessage(this.context, messagePayload);
+
+        this.handlePaginationCollector(message);
+      })
+      .with(PaginationMessageActions.EDIT, async () => {
+        const originalMessage =
+          this.context instanceof Message ? this.context : "message" in this.context && this.context.message;
+
+        if (originalMessage) {
+          const message = await client.rest.channels.editMessage(
+            originalMessage.channelID,
+            originalMessage.id,
+            messagePayload,
+          );
+
+          this.handlePaginationCollector(message);
+        }
+      });
   };
 
   private handlePaginationCollector = (message: Message) => {
@@ -119,11 +141,12 @@ export class Pagination {
 
     interactionCollector.on("collect", async (collectedInteraction) => {
       if (collectedInteraction.isComponentInteraction() && collectedInteraction.isButtonComponentInteraction()) {
-        if (!["@pagination/left", "@pagination/right"].includes(collectedInteraction.data.customID)) return;
+        if (!["@pagination/left", "@pagination/right", "@pagination/stop"].includes(collectedInteraction.data.customID))
+          return;
 
         await collectedInteraction.deferUpdate().catch(noop);
 
-        match(collectedInteraction.data.customID)
+        const matchResult = match(collectedInteraction.data.customID)
           .with(
             "@pagination/left",
             () => (this.paginationIndex = this.paginationIndex > 0 ? --this.paginationIndex : this.pages.length - 1),
@@ -131,25 +154,24 @@ export class Pagination {
           .with(
             "@pagination/right",
             () => (this.paginationIndex = this.paginationIndex + 1 < this.pages.length ? ++this.paginationIndex : 0),
-          );
+          )
+          .with("@pagination/stop", () => interactionCollector.stop())
+          .run();
 
-        const row = message.components[0].components;
-        let indexButton = row[1] as ButtonComponent;
+        if (typeof matchResult === "number") {
+          const firstRow = message.components[0];
+          let indexButton = firstRow.components[1] as ButtonComponent;
+          const messagePayload = this.getMessagePayload(this.paginationIndex);
 
-        indexButton = new Button(indexButton).setLabel(`${this.paginationIndex + 1}/${this.pages.length}`).toJSON();
+          indexButton = new Button(indexButton).setLabel(`${this.paginationIndex + 1}/${this.pages.length}`).toJSON();
 
-        const { components, embeds } = this.getMessagePayload(this.paginationIndex);
-        const messagePayload = {
-          components,
-          embeds,
-        };
-
-        await client.rest.channels.editMessage(message.channelID, message.id, messagePayload);
+          await client.rest.channels.editMessage(message.channelID, message.id, messagePayload);
+        }
       }
     });
 
     interactionCollector.once("end", async (_, endReason) => {
-      if (["user", "guildDelete", "channelDelete", "threadDelete", "messageDelete"].includes(endReason)) return;
+      if (["guildDelete", "channelDelete", "threadDelete", "messageDelete"].includes(endReason)) return;
 
       await disableMessageComponents(message);
     });
@@ -158,13 +180,20 @@ export class Pagination {
 
 type PaginationOptions = {
   locale: Locales;
+  messageAction?: PaginationMessageActions;
   pages: PaginationPage[];
   shouldBeEphemeral?: boolean;
   timeBeforeExpiration?: number;
 };
+
 type PaginationPage =
   | {
       components: MessageComponent[];
       embed: EmbedOptions;
     }
   | EmbedOptions;
+
+export enum PaginationMessageActions {
+  CREATE,
+  EDIT,
+}
