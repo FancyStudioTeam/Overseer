@@ -1,12 +1,14 @@
 import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
 import { createErrorMessage, createMessage, noop } from "@util/utils";
+import { ComponentTypes } from "oceanic.js";
 
 export default createButtonComponent({
   name: "@automations_list/delete",
   permissions: {
     user: ["MANAGE_GUILD"],
   },
+  type: ComponentTypes.BUTTON,
   run: async ({ client, context, locale, variable: automationId }) => {
     await context.deferUpdate().catch(noop);
 

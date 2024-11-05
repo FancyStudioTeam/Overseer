@@ -2,10 +2,12 @@ import { client } from "@index";
 import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
 import { createErrorMessage, createMessage, noop } from "@utils";
+import { ComponentTypes } from "oceanic.js";
 
 export default createButtonComponent({
   developerOnly: true,
   name: "@lookup_guild/leave",
+  type: ComponentTypes.BUTTON,
   run: async ({ context, locale, variable: guildId }) => {
     await context.deferUpdate().catch(noop);
 

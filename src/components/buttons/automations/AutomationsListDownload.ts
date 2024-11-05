@@ -2,6 +2,7 @@ import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
 import { createErrorMessage, createMessage, noop } from "@util/utils";
 import { Attachment } from "oceanic-builders";
+import { ComponentTypes } from "oceanic.js";
 import { ungzip } from "pako";
 
 export default createButtonComponent({
@@ -9,6 +10,7 @@ export default createButtonComponent({
   permissions: {
     user: ["MANAGE_GUILD"],
   },
+  type: ComponentTypes.BUTTON,
   run: async ({ client, context, locale, variable: automationId }) => {
     await context.deferUpdate().catch(noop);
 
