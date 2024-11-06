@@ -344,7 +344,7 @@ export class Discord extends Client {
       .run();
 
   isGuildMembershipActive = async (
-    guildId: string,
+    _guildId: string,
     {
       expiresAt,
       isEnabled,
@@ -355,19 +355,6 @@ export class Discord extends Client {
   ) => {
     const isActiveFunction = () => isEnabled && (!expiresAt || Date.now() <= Date.parse(expiresAt.toString()));
     const isActive = isActiveFunction();
-
-    !isActive &&
-      (await this.prisma.guildConfiguration.update({
-        data: {
-          premium: {
-            expiresAt: null,
-            isEnabled: false,
-          },
-        },
-        where: {
-          guildId,
-        },
-      }));
 
     return isActive;
   };
