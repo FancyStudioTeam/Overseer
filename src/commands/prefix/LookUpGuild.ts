@@ -76,7 +76,7 @@ export default createPrefixCommand({
             .setName(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_4.NAME)
             .setValue(
               Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_4.VALUE({
-                joinedAt: new Date(String(guild.joinedAt)),
+                joinedAt: new Date(String(guild.clientMember.joinedAt)),
               }),
             ),
         ])
