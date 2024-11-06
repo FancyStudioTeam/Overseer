@@ -9,6 +9,7 @@ import {
   handleChatInputSubCommand,
   handleMessageCommand,
   handleRateLimit,
+  handleSelectMenu,
   handleUserCommand,
 } from "./handlers/index.js";
 
@@ -113,15 +114,25 @@ client.on("interactionCreate", async (interaction) => {
       (componentInteraction) => {
         const [collectionKey, variable] = componentInteraction.data.customID.split("#");
 
-        match(componentInteraction.data.componentType).with(
-          ComponentTypes.BUTTON,
-          async () =>
-            await handleButton(componentInteraction, collectionKey, {
-              locale,
-              isPremium,
-              variable,
-            }),
-        );
+        match(componentInteraction.data.componentType)
+          .with(
+            ComponentTypes.BUTTON,
+            async () =>
+              await handleButton(componentInteraction, collectionKey, {
+                locale,
+                isPremium,
+                variable,
+              }),
+          )
+          .with(
+            ComponentTypes.STRING_SELECT,
+            async () =>
+              await handleSelectMenu(componentInteraction, collectionKey, {
+                isPremium,
+                locale,
+                variable,
+              }),
+          );
       },
     )
     .otherwise(noop);
