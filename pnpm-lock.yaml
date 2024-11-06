@@ -67,8 +67,8 @@ importers:
         version: 0.0.2-alpha.1
     devDependencies:
       '@types/json-logic-js':
-        specifier: 2.0.7
-        version: 2.0.7
+        specifier: 2.0.8
+        version: 2.0.8
       '@types/node':
         specifier: 22.8.7
         version: 22.8.7
@@ -389,8 +389,8 @@ packages:
     resolution: {integrity: sha512-C9vxSOYwQywjBn0TPiB9vVyhS7a6Y3GyvON8Q4tvVJYRrr9d2+ad/0jN1r7ObPlYK98YSBi/IoI1B+kWUKGFxg==}
     engines: {node: '>=v14.0.0'}
 
-  '@types/json-logic-js@2.0.7':
-    resolution: {integrity: sha512-fucvZmbjqa1+gpw/nIwcP+ZIYHTvmwxuQQFKw/yU7+ZSD63z/xgY5pWN7sYUDRzg2Wf9STapL+7c66FNzhU6+Q==}
+  '@types/json-logic-js@2.0.8':
+    resolution: {integrity: sha512-WgNsDPuTPKYXl0Jh0IfoCoJoAGGYZt5qzpmjuLSEg7r0cKp/kWtWp0HAsVepyPSPyXiHo6uXp/B/kW/2J1fa2Q==}
 
   '@types/node@22.8.7':
     resolution: {integrity: sha512-LidcG+2UeYIWcMuMUpBKOnryBWG/rnmOHQR5apjn8myTQcx3rinFRn7DcIFhMnS0PPFSC6OafdIKEad0lj6U0Q==}
@@ -1153,7 +1153,7 @@ snapshots:
 
   '@sapphire/utilities@3.18.0': {}
 
-  '@types/json-logic-js@2.0.7': {}
+  '@types/json-logic-js@2.0.8': {}
 
   '@types/node@22.8.7':
     dependencies:
