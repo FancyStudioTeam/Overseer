@@ -3,6 +3,7 @@ import { client } from "@index";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
 import { createErrorMessage, createMessage, disableMessageComponents, noop, parseEmoji } from "@utils";
+import { chunk } from "es-toolkit";
 import { ActionRow, Button, Embed } from "oceanic-builders";
 import { InteractionCollector } from "oceanic-collectors";
 import {
@@ -71,7 +72,11 @@ export class Pagination {
       ];
 
       if (paginationComponents[index].length > 0) {
-        components.push(new ActionRow().addComponents(paginationComponents[index]).toJSON());
+        const chunkComponents = chunk(paginationComponents[index], 5);
+
+        for (const chunk of chunkComponents) {
+          components.push(new ActionRow().addComponents(chunk).toJSON());
+        }
       }
 
       return {

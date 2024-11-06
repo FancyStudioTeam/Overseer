@@ -1,10 +1,10 @@
-import { Emojis } from "@constants";
+import { Colors, Emojis } from "@constants";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { createMessage, parseEmoji } from "@util/utils";
 import { groupBy } from "es-toolkit";
-import { ActionRow, StringSelectMenu, StringSelectMenuOption } from "oceanic-builders";
+import { ActionRow, Embed, StringSelectMenu, StringSelectMenuOption } from "oceanic-builders";
 import type { NullablePartialEmoji } from "oceanic.js";
 
 const LABEL_TRANSLATIONS: LabelTranslations = {
@@ -55,6 +55,10 @@ export default createChatInputSubCommand({
             )
             .addOptions(availableSelectMenuOptions),
         ])
+        .toJSON(true),
+      embeds: new Embed()
+        .setDescription(Translations[locale].COMMANDS.INFORMATION.HELP.MESSAGE_1.DESCRIPTION_1)
+        .setColor(Colors.COLOR)
         .toJSON(true),
     });
   },

@@ -414,6 +414,26 @@ export default {
           },
         },
       },
+      HELP: {
+        COMPONENTS: {
+          SELECT_MENUS: {
+            CATEGORIES: {
+              PLACEHOLDER: "Select a command category",
+              COMMAND_NOT_FOUND: ({
+                commandName,
+              }: {
+                commandName: string;
+              }) => bold(`${Emojis.CANCEL} The command ${inlineCode(commandName)} has not been found`),
+            },
+          },
+        },
+        MESSAGE_1: {
+          DESCRIPTION_1: [
+            bold(`${Emojis.OWL} Welcome to the Discord Overseer bot`),
+            bold(`${Emojis.ARROW_CIRCLE_RIGHT} You can select a category to view its commands`),
+          ].join("\n"),
+        },
+      },
       PING: {
         MESSAGE_1: {
           FIELD_1: {
@@ -464,7 +484,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} You need the following permissions on the server`),
+            bold(`${Emojis.CANCEL} You need the following permissions on the server:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
         CLIENT: ({
@@ -473,7 +493,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} I need the following permissions on the server`),
+            bold(`${Emojis.CANCEL} I need the following permissions on the server:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
       },
@@ -486,7 +506,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} You need the following permissions on the ${channelMention} channel`),
+            bold(`${Emojis.CANCEL} You need the following permissions on the ${channelMention} channel:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
         CLIENT: ({
@@ -497,7 +517,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} I need the following permissions on the ${channelMention} channel`),
+            bold(`${Emojis.CANCEL} I need the following permissions on the ${channelMention} channel:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
       },

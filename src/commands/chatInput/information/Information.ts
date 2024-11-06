@@ -15,6 +15,15 @@ export default createChatInputCommand({
       type: ApplicationCommandOptionTypes.SUB_COMMAND,
     },
     {
+      description: "Displays the bot's help panel",
+      descriptionLocalizations: {
+        "es-419": "Muestra el panel de ayuda del bot",
+        "es-ES": "Muestra el panel de ayuda del bot",
+      },
+      name: "help",
+      type: ApplicationCommandOptionTypes.SUB_COMMAND,
+    },
+    {
       description: "Displays bot latency",
       descriptionLocalizations: {
         "es-419": "Muestra la latencia del bot",

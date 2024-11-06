@@ -77,6 +77,9 @@ export class Discord extends Client {
       gateway: {
         autoReconnect: true,
         concurrency: "auto",
+        connectionProperties: {
+          browser: "Discord Android",
+        },
         dispatcher: {
           blacklist: [
             "APPLICATION_COMMAND_PERMISSIONS_UPDATE",

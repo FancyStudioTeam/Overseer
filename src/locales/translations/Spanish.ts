@@ -420,6 +420,26 @@ export default {
           },
         },
       },
+      HELP: {
+        COMPONENTS: {
+          SELECT_MENUS: {
+            CATEGORIES: {
+              PLACEHOLDER: "Selecciona una categoría de comandos",
+              COMMAND_NOT_FOUND: ({
+                commandName,
+              }: {
+                commandName: string;
+              }) => bold(`${Emojis.CANCEL} El comando ${inlineCode(commandName)} no ha sido encontrado`),
+            },
+          },
+        },
+        MESSAGE_1: {
+          DESCRIPTION_1: [
+            bold(`${Emojis.OWL} Bienvenido al bot de Discord Overseer`),
+            bold(`${Emojis.ARROW_CIRCLE_RIGHT} Puedes seleccionar una categoría para ver sus comandos`),
+          ].join("\n"),
+        },
+      },
       PING: {
         MESSAGE_1: {
           FIELD_1: {
@@ -470,7 +490,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} Necesitas los siguientes permisos en el servidor`),
+            bold(`${Emojis.CANCEL} Necesitas los siguientes permisos en el servidor:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
         CLIENT: ({
@@ -479,7 +499,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} Necesito los siguientes permisos en el servidor`),
+            bold(`${Emojis.CANCEL} Necesito los siguientes permisos en el servidor:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
       },
@@ -492,7 +512,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} Necesitas los siguientes permisos en el canal ${channelMention}`),
+            bold(`${Emojis.CANCEL} Necesitas los siguientes permisos en el canal ${channelMention}:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
         CLIENT: ({
@@ -503,7 +523,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} Necesito los siguientes permisos en el canal ${channelMention}`),
+            bold(`${Emojis.CANCEL} Necesito los siguientes permisos en el canal ${channelMention}:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
       },
