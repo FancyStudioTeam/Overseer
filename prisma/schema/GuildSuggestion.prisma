@@ -9,7 +9,14 @@ model GuildSuggestion {
 
 type GuildSuggestionGeneral {
   channelId String
+  forum     GuildSuggestionGeneralForum
   review    GuildSuggestionGeneralReview
+}
+
+type GuildSuggestionGeneralForum {
+  enabled        Boolean @default(false)
+  forumChannelId String?
+  threadId       String?
 }
 
 type GuildSuggestionGeneralReview {
