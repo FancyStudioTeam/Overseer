@@ -1,8 +1,8 @@
 import { Emojis } from "@constants";
 import { client } from "@index";
 import { Translations } from "@translations";
-import type { Locales } from "@types";
-import { createErrorMessage, createMessage, disableMessageComponents, noop, parseEmoji } from "@utils";
+import type { Locales, MaybeNullish, MessagePayload } from "@types";
+import { createErrorMessage, noop, parseEmoji } from "@utils";
 import { chunk } from "es-toolkit";
 import { ActionRow, Button, Embed } from "oceanic-builders";
 import { InteractionCollector } from "oceanic-collectors";
@@ -10,6 +10,7 @@ import {
   type AnyInteractionGateway,
   type ButtonComponent,
   ButtonStyles,
+  type ComponentInteraction,
   ComponentTypes,
   type EmbedOptions,
   InteractionTypes,
@@ -22,7 +23,6 @@ import { match } from "ts-pattern";
 export class Pagination {
   private readonly context: AnyInteractionGateway | Message;
   private readonly locale: Locales;
-  private readonly messageAction: PaginationMessageActions;
   private readonly pages: PaginationPage[];
   private paginationIndex: number;
   private readonly shouldBeEphemeral: boolean;
@@ -31,13 +31,14 @@ export class Pagination {
   constructor(context: AnyInteractionGateway | Message, options: PaginationOptions) {
     this.context = context;
     this.locale = options.locale;
-    this.messageAction = options.messageAction ?? PaginationMessageActions.CREATE;
     this.pages = options.pages;
     this.paginationIndex = 0;
     this.shouldBeEphemeral = !!options.shouldBeEphemeral;
     this.timeBeforeExpiration = options.timeBeforeExpiration ?? 60000;
 
-    this.handlePagination();
+    (async () => {
+      await this.handlePagination();
+    })();
   }
 
   private getPaginationElements = (paginationIndex: number) => {
@@ -98,32 +99,38 @@ export class Pagination {
     };
   };
 
-  private handlePagination = () => {
+  private handleMessageData = async () => {
     const messagePayload = this.getMessagePayload(this.paginationIndex);
+    const messageResponse =
+      "reply" in this.context
+        ? await this.context.reply(messagePayload)
+        : await client.rest.channels.createMessage(this.context.channelID, messagePayload);
+    const message =
+      "hasMessage" in messageResponse
+        ? messageResponse.hasMessage()
+          ? messageResponse.message
+          : await messageResponse.getMessage()
+        : messageResponse;
+    const interaction = (
+      "hasMessage" in messageResponse ? messageResponse.interaction : undefined
+    ) as MaybeNullish<ComponentInteraction>;
 
-    match(this.messageAction)
-      .with(PaginationMessageActions.CREATE, async () => {
-        const message = await createMessage(this.context, messagePayload);
-
-        this.handlePaginationCollector(message);
-      })
-      .with(PaginationMessageActions.EDIT, async () => {
-        const originalMessage =
-          this.context instanceof Message ? this.context : "message" in this.context && this.context.message;
-
-        if (originalMessage) {
-          const message = await client.rest.channels.editMessage(
-            originalMessage.channelID,
-            originalMessage.id,
-            messagePayload,
-          );
-
-          this.handlePaginationCollector(message);
+    return interaction
+      ? {
+          interaction,
+          message,
         }
-      });
+      : message;
   };
 
-  private handlePaginationCollector = (message: Message) => {
+  private handlePagination = async () => {
+    const messageData = await this.handleMessageData();
+
+    this.handlePaginationCollector(messageData);
+  };
+
+  private handlePaginationCollector = (data: Awaited<ReturnType<typeof this.handleMessageData>>) => {
+    const message = data instanceof Message ? data : data.message;
     const interactionCollector = new InteractionCollector(client, {
       channel: this.context.channel,
       componentType: ComponentTypes.BUTTON,
@@ -170,7 +177,7 @@ export class Pagination {
 
           indexButton = new Button(indexButton).setLabel(`${this.paginationIndex + 1}/${this.pages.length}`).toJSON();
 
-          await client.rest.channels.editMessage(message.channelID, message.id, messagePayload);
+          await this.handleMessageEdit(data, messagePayload);
         }
       }
     });
@@ -178,14 +185,35 @@ export class Pagination {
     interactionCollector.once("end", async (_, endReason) => {
       if (["guildDelete", "channelDelete", "threadDelete", "messageDelete"].includes(endReason)) return;
 
-      await disableMessageComponents(message);
+      const messagePayload = {
+        components: message.components,
+      };
+
+      for (const row of message.components) {
+        for (const component of row.components) {
+          component.disabled = true;
+        }
+      }
+
+      await this.handleMessageEdit(data, messagePayload);
     });
+  };
+
+  private handleMessageEdit = async (
+    data: Awaited<ReturnType<typeof this.handleMessageData>>,
+    messagePayload: MessagePayload,
+  ) => {
+    const message = data instanceof Message ? data : data.message;
+    const interaction = "message" in data && "interaction" in data ? data.interaction : undefined;
+
+    interaction
+      ? await interaction.editFollowup(message.id, messagePayload)
+      : await client.rest.channels.editMessage(message.channelID, message.id, messagePayload);
   };
 }
 
 type PaginationOptions = {
   locale: Locales;
-  messageAction?: PaginationMessageActions;
   pages: PaginationPage[];
   shouldBeEphemeral?: boolean;
   timeBeforeExpiration?: number;
@@ -197,8 +225,3 @@ type PaginationPage =
       embed: EmbedOptions;
     }
   | EmbedOptions;
-
-export enum PaginationMessageActions {
-  CREATE,
-  EDIT,
-}

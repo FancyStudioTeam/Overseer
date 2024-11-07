@@ -8,6 +8,7 @@ import type {
   createSelectMenuComponent,
   createUserCommand,
 } from "@util/Handlers";
+import type { CreateMessageOptions, InteractionContent } from "oceanic.js";
 
 export type Locales = GuildConfigurationLocale;
 
@@ -21,3 +22,5 @@ export type MessageCommandData = ReturnType<typeof createMessageCommand>;
 export type PrefixCommandData = ReturnType<typeof createPrefixCommand>;
 export type SelectMenuComponentData = ReturnType<typeof createSelectMenuComponent>;
 export type UserCommandData = ReturnType<typeof createUserCommand>;
+
+export type MessagePayload = CreateMessageOptions & InteractionContent;
