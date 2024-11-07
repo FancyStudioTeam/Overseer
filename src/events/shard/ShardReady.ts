@@ -1,4 +1,4 @@
 import { client } from "@index";
-import { logger } from "@utils";
+import { createLogMessage } from "@utils";
 
-client.on("shardReady", (id) => logger(`[Shard ${id}] Shard has been connected`));
+client.on("shardReady", (id) => createLogMessage(`[Shard ${id}] Shard has been connected`));

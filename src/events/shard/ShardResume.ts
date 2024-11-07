@@ -1,4 +1,4 @@
 import { client } from "@index";
-import { logger } from "@utils";
+import { createLogMessage } from "@utils";
 
-client.on("shardResume", (id) => logger(`[Shard ${id}] Shard has been resumed`));
+client.on("shardResume", (id) => createLogMessage(`[Shard ${id}] Shard has been resumed`));

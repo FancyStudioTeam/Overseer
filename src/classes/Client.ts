@@ -11,7 +11,7 @@ import type {
   UserCommandData,
 } from "@types";
 import { CommandCategory } from "@util/Handlers";
-import { LoggerType, logger } from "@utils";
+import { CreateLogMessageType, createLogMessage } from "@utils";
 import { glob } from "glob";
 import {
   ApplicationCommandTypes,
@@ -154,10 +154,10 @@ export class Discord extends Client {
     await this.connect();
     await this.prisma
       .$connect()
-      .then(() => logger("Prisma Client has been connected"))
+      .then(() => createLogMessage("Prisma Client has been connected"))
       .catch((error) =>
-        logger(error.stack ?? error.message, {
-          type: LoggerType.ERROR,
+        createLogMessage(error.stack ?? error.message, {
+          type: CreateLogMessageType.ERROR,
         }),
       );
     await Promise.all([
@@ -172,7 +172,9 @@ export class Discord extends Client {
     await this.registerCommands();
     await this.rest.applications
       .bulkEditGlobalCommands(this.application.id, commandsArray)
-      .then((commands) => logger(`The interactions have been deployed | Deployed ${commands.length} interactions`));
+      .then((commands) =>
+        createLogMessage(`The interactions have been deployed | Deployed ${commands.length} interactions`),
+      );
   };
 
   private registerCommands = async () => {

@@ -10,7 +10,7 @@ export * from "./formatKeyValues.js";
 export * from "./formatTimestamp.js";
 export * from "./formatUnix.js";
 export * from "./handleError.js";
-export * from "./logger.js";
+export * from "./createLogMessage.js";
 export * from "./parseEmoji.js";
 export * from "./parseWebhookURL.js";
 export * from "./truncateString.js";

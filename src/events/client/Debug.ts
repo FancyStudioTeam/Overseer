@@ -1,8 +1,8 @@
 import { client } from "@index";
-import { LoggerType, logger } from "@utils";
+import { CreateLogMessageType, createLogMessage } from "@utils";
 
 client.on("debug", (info, shard) =>
-  logger(`${shard ? `[Shard ${shard}]` : "[No Shard]"} ${info}`, {
-    type: LoggerType.DEBUG,
+  createLogMessage(`${shard ? `[Shard ${shard}]` : "[No Shard]"} ${info}`, {
+    type: CreateLogMessageType.DEBUG,
   }),
 );

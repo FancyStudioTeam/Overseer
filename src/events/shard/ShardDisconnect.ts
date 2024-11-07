@@ -1,14 +1,14 @@
 import { client } from "@index";
-import { LoggerType, logger } from "@utils";
+import { CreateLogMessageType, createLogMessage } from "@utils";
 
 client.on("shardDisconnect", (error, id) => {
   if (error instanceof Error) {
-    logger(`[Shard ${id}] Shard has been disconnected by an error: ${error.stack ?? error.message}`, {
-      type: LoggerType.ERROR,
+    createLogMessage(`[Shard ${id}] Shard has been disconnected by an error: ${error.stack ?? error.message}`, {
+      type: CreateLogMessageType.ERROR,
     });
   }
 
-  logger(`[Shard ${id}] Shard has been disconnected`, {
-    type: LoggerType.WARNING,
+  createLogMessage(`[Shard ${id}] Shard has been disconnected`, {
+    type: CreateLogMessageType.WARNING,
   });
 });

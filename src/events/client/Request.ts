@@ -1,8 +1,8 @@
 import { client } from "@index";
-import { LoggerType, logger } from "@utils";
+import { CreateLogMessageType, createLogMessage } from "@utils";
 
 client.on("request", (request) =>
-  logger(`[${request.method}] "${request.path}"`, {
-    type: LoggerType.REQUEST,
+  createLogMessage(`[${request.method}] "${request.path}"`, {
+    type: CreateLogMessageType.REQUEST,
   }),
 );

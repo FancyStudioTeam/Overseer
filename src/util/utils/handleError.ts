@@ -2,8 +2,8 @@ import { DiscordSnowflake } from "@sapphire/snowflake";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
 import type { AnyInteractionGateway, Message } from "oceanic.js";
+import { CreateLogMessageType, createLogMessage } from "./createLogMessage.js";
 import { createMessage } from "./createMessage.js";
-import { LoggerType, logger } from "./logger.js";
 import { WebhookType, webhook } from "./webhook.js";
 
 export const handleError = async (
@@ -16,8 +16,8 @@ export const handleError = async (
     locale: Locales;
   },
 ) => {
-  logger(error.stack ?? error.message, {
-    type: LoggerType.ERROR,
+  createLogMessage(error.stack ?? error.message, {
+    type: CreateLogMessageType.ERROR,
   });
   webhook(error.stack ?? error.message, {
     type: WebhookType.ERROR,
