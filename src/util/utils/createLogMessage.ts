@@ -9,7 +9,7 @@ export enum CreateLogMessageType {
   WARNING,
 }
 
-const MESSAGE_LOG_TYPE: Record<
+const MESSAGE_LOG_TYPES: Record<
   CreateLogMessageType,
   {
     label: string;
@@ -59,7 +59,7 @@ export const createLogMessage = (
     type: CreateLogMessageType.INFORMATION,
   },
 ) => {
-  const { label, colorFunction } = MESSAGE_LOG_TYPE[type];
+  const { label, colorFunction } = MESSAGE_LOG_TYPES[type];
   const formattedMessage = formatLogMessage(content, label, colorFunction);
 
   // biome-ignore lint/suspicious/noConsole:
