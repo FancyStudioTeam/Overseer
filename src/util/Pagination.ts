@@ -129,8 +129,8 @@ export class Pagination {
     this.handlePaginationCollector(messageData);
   };
 
-  private handlePaginationCollector = (data: Awaited<ReturnType<typeof this.handleMessageData>>) => {
-    const message = data instanceof Message ? data : data.message;
+  private handlePaginationCollector = (paginationData: Awaited<ReturnType<typeof this.handleMessageData>>) => {
+    const message = paginationData instanceof Message ? paginationData : paginationData.message;
     const interactionCollector = new InteractionCollector(client, {
       channel: this.context.channel,
       componentType: ComponentTypes.BUTTON,
@@ -177,7 +177,7 @@ export class Pagination {
 
           indexButton = new Button(indexButton).setLabel(`${this.paginationIndex + 1}/${this.pages.length}`).toJSON();
 
-          await this.handleMessageEdit(data, messagePayload);
+          await this.handleMessageEdit(paginationData, messagePayload);
         }
       }
     });
@@ -195,16 +195,17 @@ export class Pagination {
         }
       }
 
-      await this.handleMessageEdit(data, messagePayload);
+      await this.handleMessageEdit(paginationData, messagePayload);
     });
   };
 
   private handleMessageEdit = async (
-    data: Awaited<ReturnType<typeof this.handleMessageData>>,
+    paginationData: Awaited<ReturnType<typeof this.handleMessageData>>,
     messagePayload: MessagePayload,
   ) => {
-    const message = data instanceof Message ? data : data.message;
-    const interaction = "message" in data && "interaction" in data ? data.interaction : undefined;
+    const message = paginationData instanceof Message ? paginationData : paginationData.message;
+    const interaction =
+      "message" in paginationData && "interaction" in paginationData ? paginationData.interaction : undefined;
 
     interaction
       ? await interaction.editFollowup(message.id, messagePayload)
