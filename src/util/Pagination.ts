@@ -2,8 +2,8 @@ import { Emojis } from "@constants";
 import { client } from "@index";
 import { Translations } from "@translations";
 import type { Locales, MaybeNullish, MessagePayload } from "@types";
-import { createErrorMessage, noop, parseEmoji } from "@utils";
-import { chunk } from "es-toolkit";
+import { createErrorMessage, parseEmoji } from "@utils";
+import { chunk, noop } from "es-toolkit";
 import { ActionRow, Button, Embed } from "oceanic-builders";
 import { InteractionCollector } from "oceanic-collectors";
 import {

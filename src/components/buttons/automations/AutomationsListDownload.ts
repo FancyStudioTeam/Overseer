@@ -1,6 +1,7 @@
 import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
-import { createErrorMessage, createMessage, noop } from "@util/utils";
+import { createErrorMessage, createMessage } from "@util/utils";
+import { noop } from "es-toolkit";
 import { Attachment } from "oceanic-builders";
 import { ComponentTypes } from "oceanic.js";
 import { ungzip } from "pako";

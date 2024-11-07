@@ -1,6 +1,7 @@
 import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
-import { checkChannelMemberPermissions, noop } from "@utils";
+import { checkChannelMemberPermissions } from "@utils";
+import { noop } from "es-toolkit";
 import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
 import {

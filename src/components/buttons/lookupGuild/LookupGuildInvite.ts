@@ -3,7 +3,8 @@ import { bold, spoiler } from "@discordjs/formatters";
 import { client } from "@index";
 import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
-import { createErrorMessage, createMessage, noop } from "@utils";
+import { createErrorMessage, createMessage } from "@utils";
+import { noop } from "es-toolkit";
 import { ChannelTypes, ComponentTypes } from "oceanic.js";
 
 export default createButtonComponent({

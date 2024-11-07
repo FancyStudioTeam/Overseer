@@ -1,6 +1,7 @@
 import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
-import { createErrorMessage, createMessage, noop } from "@util/utils";
+import { createErrorMessage, createMessage } from "@util/utils";
+import { noop } from "es-toolkit";
 import { ComponentTypes } from "oceanic.js";
 
 export default createButtonComponent({

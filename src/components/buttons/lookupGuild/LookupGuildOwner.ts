@@ -2,7 +2,8 @@ import { Colors } from "@constants";
 import { client } from "@index";
 import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
-import { createErrorMessage, createMessage, noop } from "@utils";
+import { createErrorMessage, createMessage } from "@utils";
+import { noop } from "es-toolkit";
 import { Embed, EmbedField } from "oceanic-builders";
 import { ComponentTypes } from "oceanic.js";
 

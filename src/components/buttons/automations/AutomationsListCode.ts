@@ -1,7 +1,8 @@
 import { codeBlock } from "@discordjs/formatters";
 import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
-import { createErrorMessage, createMessage, noop, truncateString } from "@util/utils";
+import { createErrorMessage, createMessage, truncateString } from "@util/utils";
+import { noop } from "es-toolkit";
 import { ComponentTypes } from "oceanic.js";
 import { ungzip } from "pako";
 
