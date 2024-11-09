@@ -5,6 +5,7 @@ import type { AnyInteractionGateway, Member, Message, PermissionName } from "oce
 import { createMessage } from "./createMessage.js";
 
 const CLIENT_OR_USER = (userId: string) => (userId === client.user.id ? "CLIENT" : "USER");
+
 export const checkGuildMemberPermissions = async (
   member: Member,
   {

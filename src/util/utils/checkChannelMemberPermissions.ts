@@ -5,6 +5,7 @@ import type { AnyInteractionGateway, AnyTextableGuildChannel, Member, Message, P
 import { createMessage } from "./createMessage.js";
 
 const CLIENT_OR_USER = (userId: string) => (userId === client.user.id ? "CLIENT" : "USER");
+
 export const checkChannelMemberPermissions = async (
   member: Member,
   {
