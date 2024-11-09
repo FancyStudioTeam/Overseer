@@ -1,14 +1,28 @@
+import { codeBlock } from "@discordjs/formatters";
 import { client } from "@index";
-import { CreateLogMessageType, createLogMessage } from "@utils";
+import {
+  CreateLogMessageType,
+  CreateWebhookMessageType,
+  createLogMessage,
+  createWebhookMessage,
+  truncateString,
+} from "@utils";
 
 client.on("shardDisconnect", (error, id) => {
-  if (error instanceof Error) {
-    createLogMessage(`[Shard ${id}] Shard has been disconnected by an error: ${error.stack ?? error.message}`, {
-      type: CreateLogMessageType.ERROR,
-    });
-  }
+  const message = `[Shard ${id}] ${
+    error instanceof Error
+      ? `Shard has been disconnected by an error: ${error.stack ?? error.message}`
+      : "Shard has been disconnected"
+  }`;
+  const truncatedMessage = truncateString(message, {
+    maxLength: 4000,
+  });
+  const fullCodeBlock = codeBlock(truncatedMessage);
 
-  createLogMessage(`[Shard ${id}] Shard has been disconnected`, {
-    type: CreateLogMessageType.WARNING,
+  createLogMessage(message, {
+    type: CreateLogMessageType.ERROR,
+  });
+  createWebhookMessage(fullCodeBlock, {
+    type: CreateWebhookMessageType.ERROR,
   });
 });

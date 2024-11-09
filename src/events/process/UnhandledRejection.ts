@@ -1,14 +1,23 @@
-import { CreateLogMessageType, WebhookType, createLogMessage, webhook } from "@utils";
+import { codeBlock } from "@discordjs/formatters";
+import {
+  CreateLogMessageType,
+  CreateWebhookMessageType,
+  createLogMessage,
+  createWebhookMessage,
+  truncateString,
+} from "@utils";
 
 process.on("unhandledRejection", (error) => {
-  if (error instanceof Error) {
-    const message = `Unhandled Rejection: ${error.stack ?? error.message}`;
+  const message = `[Unhandled Rejection] ${error instanceof Error ? (error.stack ?? error.message) : error}`;
+  const truncatedMessage = truncateString(message, {
+    maxLength: 4000,
+  });
+  const fullCodeBlock = codeBlock(truncatedMessage);
 
-    createLogMessage(message, {
-      type: CreateLogMessageType.ERROR,
-    });
-    webhook(message, {
-      type: WebhookType.ERROR,
-    });
-  }
+  createLogMessage(message, {
+    type: CreateLogMessageType.ERROR,
+  });
+  createWebhookMessage(fullCodeBlock, {
+    type: CreateWebhookMessageType.ERROR,
+  });
 });
