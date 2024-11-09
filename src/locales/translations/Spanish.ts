@@ -535,15 +535,7 @@ export default {
       },
     },
     INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL_COLORED} No puedes ejecutar este componente`),
-    SOMETHING_WENT_WRONG: ({
-      reportId,
-    }: {
-      reportId: string;
-    }) =>
-      [
-        bold(`${Emojis.REPORT_COLORED} No se ha podido realizar esta acción debido a un error inesperado`),
-        bold(`${Emojis.ARROW_CIRCLE_RIGHT} Por favor, reporte el error con la siguiente ID: ${inlineCode(reportId)}`),
-      ].join("\n"),
+    SOMETHING_WENT_WRONG: bold(`${Emojis.REPORT_COLORED} Algo salió mal mientras se realizaba la acción...`),
   },
   PERMISSIONS: permissions,
 };

@@ -525,15 +525,7 @@ export default {
       },
     },
     INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL_COLORED} You cannot run this component`),
-    SOMETHING_WENT_WRONG: ({
-      reportId,
-    }: {
-      reportId: string;
-    }) =>
-      [
-        bold(`${Emojis.REPORT_COLORED} This action could not be performed due to an unexpected error`),
-        bold(`${Emojis.ARROW_CIRCLE_RIGHT} Please report the error with the following ID: ${inlineCode(reportId)}`),
-      ].join("\n"),
+    SOMETHING_WENT_WRONG: bold(`${Emojis.REPORT_COLORED} Something went wrong while performing the action...`),
   },
   PERMISSIONS: permissions,
 };
