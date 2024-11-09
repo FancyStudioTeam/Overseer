@@ -43,7 +43,7 @@ export default createPrefixCommand({
             .setCustomID(`@lookup_guild/leave#${guild.id}`)
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.LEAVE.LABEL)
             .setStyle(ButtonStyles.DANGER)
-            .setEmoji(parseEmoji(Emojis.EXIT_TO_APP_COLORED)),
+            .setEmoji(parseEmoji(Emojis.LOGOUT_COLORED)),
         ])
         .toJSON(true),
       embeds: new Embed()

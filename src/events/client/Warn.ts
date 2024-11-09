@@ -14,7 +14,7 @@ client.on("warn", (info, shard) => {
   const truncatedMessage = truncateString(message, {
     maxLength: 4000,
   });
-  const fullCodeBlock = codeBlock(truncatedMessage);
+  const fullCodeBlock = codeBlock("ts", truncatedMessage);
 
   createLogMessage(message, {
     type: CreateLogMessageType.WARNING,
