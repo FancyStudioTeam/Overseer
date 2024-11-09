@@ -194,7 +194,7 @@ export default {
       },
       LANGUAGE: {
         MESSAGE_1: bold(
-          `${Emojis.CHECK_CIRCLE_COLORED} El idioma del bot ha sido establecido a ${inlineCode("Español")}`,
+          `${Emojis.CHECK_CIRCLE_COLORED} El idioma del bot ha sido establecido a ${inlineCode("Español")}.`,
         ),
       },
       MEMBERSHIP: {

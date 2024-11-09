@@ -188,7 +188,7 @@ export default {
         },
       },
       LANGUAGE: {
-        MESSAGE_1: bold(`${Emojis.CHECK_CIRCLE_COLORED} The bot language has been set to ${inlineCode("English")}`),
+        MESSAGE_1: bold(`${Emojis.CHECK_CIRCLE_COLORED} The bot language has been set to ${inlineCode("English")}.`),
       },
       MEMBERSHIP: {
         REEDEM: {
