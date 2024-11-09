@@ -19,7 +19,7 @@ export default createMessageCommand({
             .setCustomID(`@source/delete#${context.user.id}`)
             .setLabel(Translations[locale].COMMANDS.UTILITY.SOURCE.COMPONENTS.BUTTONS.DELETE.LABEL)
             .setStyle(ButtonStyles.DANGER)
-            .setEmoji(parseEmoji(Emojis.TRASH))
+            .setEmoji(parseEmoji(Emojis.TRASH_COLORED))
             .toJSON(),
         ])
         .toJSON(true),

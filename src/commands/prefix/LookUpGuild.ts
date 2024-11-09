@@ -12,7 +12,7 @@ export default createPrefixCommand({
     const guildId = args[0];
 
     if (!guildId) {
-      return await client.rest.channels.createReaction(context.channelID, context.id, Emojis.CANCEL);
+      return await client.rest.channels.createReaction(context.channelID, context.id, Emojis.CANCEL_COLORED);
     }
 
     const guild = client.guilds.get(guildId.trim());
@@ -43,7 +43,7 @@ export default createPrefixCommand({
             .setCustomID(`@lookup_guild/leave#${guild.id}`)
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.LEAVE.LABEL)
             .setStyle(ButtonStyles.DANGER)
-            .setEmoji(parseEmoji(Emojis.EXIT_TO_APP)),
+            .setEmoji(parseEmoji(Emojis.EXIT_TO_APP_COLORED)),
         ])
         .toJSON(true),
       embeds: new Embed()

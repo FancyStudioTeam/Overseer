@@ -69,7 +69,7 @@ export default {
             errorMessage: string;
           }) =>
             [
-              bold(`${Emojis.CANCEL} Ha ocurrido un error mientras se parseaba el archivo`),
+              bold(`${Emojis.CANCEL_COLORED} Ha ocurrido un error mientras se parseaba el archivo`),
               codeBlock("ts", errorMessage),
             ].join("\n"),
           MAXIMUM_SIZE_ALLOWED: ({
@@ -78,7 +78,7 @@ export default {
             maximum: number;
           }) =>
             [
-              bold(`${Emojis.CANCEL} La automatización ha excedido el limite del tamaño permitido`),
+              bold(`${Emojis.CANCEL_COLORED} La automatización ha excedido el limite del tamaño permitido`),
               bold(
                 `${Emojis.ARROW_CIRCLE_RIGHT} El limite del tamaño permitido por automatización es de ${inlineCode(`${maximum.toString()}kb`)}`,
               ),
@@ -89,7 +89,7 @@ export default {
             maximum: number;
           }) =>
             [
-              bold(`${Emojis.CANCEL} El servidor ha excedido el limite de automatizaciones permitidas`),
+              bold(`${Emojis.CANCEL_COLORED} El servidor ha excedido el limite de automatizaciones permitidas`),
               bold(
                 `${Emojis.ARROW_CIRCLE_RIGHT} El limite de automatizaciones permitidas por servidor es de ${inlineCode(
                   maximum.toString(),
@@ -100,19 +100,20 @@ export default {
             automationName,
           }: {
             automationName: string;
-          }) => bold(`${Emojis.CHECK_CIRCLE} La automatización ${inlineCode(automationName)} ha sido creada`),
+          }) => bold(`${Emojis.CHECK_CIRCLE_COLORED} La automatización ${inlineCode(automationName)} ha sido creada`),
         },
         DELETE: {
           AUTOMATION_NOT_FOUND: ({
             automationId,
           }: {
             automationId: string;
-          }) => bold(`${Emojis.CANCEL} La automatizacion ${inlineCode(automationId)} no ha sido encontrada`),
+          }) => bold(`${Emojis.CANCEL_COLORED} La automatizacion ${inlineCode(automationId)} no ha sido encontrada`),
           MESSAGE_1: ({
             automationName,
           }: {
             automationName: string;
-          }) => bold(`${Emojis.CHECK_CIRCLE} La automatizacion ${inlineCode(automationName)} ha sido eliminada`),
+          }) =>
+            bold(`${Emojis.CHECK_CIRCLE_COLORED} La automatizacion ${inlineCode(automationName)} ha sido eliminada`),
         },
         LIST: {
           COMPONENTS: {
@@ -120,7 +121,7 @@ export default {
               automationId,
             }: {
               automationId: string;
-            }) => bold(`${Emojis.CANCEL} La automatizacion ${inlineCode(automationId)} no ha sido encontrada`),
+            }) => bold(`${Emojis.CANCEL_COLORED} La automatizacion ${inlineCode(automationId)} no ha sido encontrada`),
             BUTTONS: {
               DISPLAY: {
                 LABEL: "Mostrar Código",
@@ -134,11 +135,14 @@ export default {
                   automationName,
                 }: {
                   automationName: string;
-                }) => bold(`${Emojis.CHECK_CIRCLE} La automatizacion ${inlineCode(automationName)} ha sido eliminada`),
+                }) =>
+                  bold(
+                    `${Emojis.CHECK_CIRCLE_COLORED} La automatizacion ${inlineCode(automationName)} ha sido eliminada`,
+                  ),
               },
             },
           },
-          NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} El servidor no tiene automatizaciones disponibles`),
+          NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL_COLORED} El servidor no tiene automatizaciones disponibles`),
           MESSAGE_1: {
             TITLE_1: bold("Información de la Automatización"),
             FIELD_1: {
@@ -189,7 +193,9 @@ export default {
         },
       },
       LANGUAGE: {
-        MESSAGE_1: bold(`${Emojis.CHECK_CIRCLE} El idioma del bot ha sido establecido a ${inlineCode("Español")}`),
+        MESSAGE_1: bold(
+          `${Emojis.CHECK_CIRCLE_COLORED} El idioma del bot ha sido establecido a ${inlineCode("Español")}`,
+        ),
       },
       MEMBERSHIP: {
         REEDEM: {
@@ -197,12 +203,12 @@ export default {
             membershipId,
           }: {
             membershipId: string;
-          }) => bold(`${Emojis.CANCEL} La membresía ${inlineCode(membershipId)} no ha sido encontrada`),
+          }) => bold(`${Emojis.CANCEL_COLORED} La membresía ${inlineCode(membershipId)} no ha sido encontrada`),
           MESSAGE_1: ({
             membershipId,
           }: {
             membershipId: string;
-          }) => bold(`${Emojis.CHECK_CIRCLE} La membresía ${inlineCode(membershipId)} ha sido canjeada`),
+          }) => bold(`${Emojis.CHECK_CIRCLE_COLORED} La membresía ${inlineCode(membershipId)} ha sido canjeada`),
         },
       },
     },
@@ -244,7 +250,7 @@ export default {
           BUTTONS: {
             OWNER: {
               LABEL: "Propietario",
-              UNABLE_VALID_OWNER: bold(`${Emojis.CANCEL} No se ha podido obtener el propietario del servidor`),
+              UNABLE_VALID_OWNER: bold(`${Emojis.CANCEL_COLORED} No se ha podido obtener el propietario del servidor`),
               MESSAGE_1: {
                 TITLE: bold("Información del Propietario"),
                 FIELD_1: {
@@ -273,7 +279,7 @@ export default {
             },
             INVITE: {
               LABEL: "Generar Invitación",
-              OBTAIN_VALID_CHANNEL: bold(`${Emojis.CANCEL} No se ha podido obtener un canal válido`),
+              OBTAIN_VALID_CHANNEL: bold(`${Emojis.CANCEL_COLORED} No se ha podido obtener un canal válido`),
             },
             LEAVE: {
               LABEL: "Abandonar Servidor",
@@ -281,7 +287,7 @@ export default {
                 guildName,
               }: {
                 guildName: string;
-              }) => bold(`${Emojis.CHECK_CIRCLE} El servidor ${inlineCode(guildName)} ha sido abandonado`),
+              }) => bold(`${Emojis.CHECK_CIRCLE_COLORED} El servidor ${inlineCode(guildName)} ha sido abandonado`),
             },
           },
         },
@@ -289,7 +295,7 @@ export default {
           guildId,
         }: {
           guildId: string;
-        }) => bold(`${Emojis.CANCEL} El servidor ${inlineCode(guildId)} no ha sido encontrado`),
+        }) => bold(`${Emojis.CANCEL_COLORED} El servidor ${inlineCode(guildId)} no ha sido encontrado`),
         MESSAGE_1: {
           TITLE_1: bold("Información del Servidor"),
           FIELD_1: {
@@ -429,7 +435,7 @@ export default {
                 commandName,
               }: {
                 commandName: string;
-              }) => bold(`${Emojis.CANCEL} El comando ${inlineCode(commandName)} no ha sido encontrado`),
+              }) => bold(`${Emojis.CANCEL_COLORED} El comando ${inlineCode(commandName)} no ha sido encontrado`),
             },
           },
         },
@@ -480,7 +486,7 @@ export default {
       resets: string;
     }) =>
       bold(
-        `${Emojis.CANCEL} Tu número máximo de interacciones ha sido limitada\n${Emojis.ARROW_CIRCLE_RIGHT} El límite se restablecerá dentro de ${resets}`,
+        `${Emojis.CANCEL_COLORED} Tu número máximo de interacciones ha sido limitada\n${Emojis.ARROW_CIRCLE_RIGHT} El límite se restablecerá dentro de ${resets}`,
       ),
     PERMISSIONS: {
       GUILD: {
@@ -490,7 +496,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} Necesitas los siguientes permisos en el servidor:`),
+            bold(`${Emojis.CANCEL_COLORED} Necesitas los siguientes permisos en el servidor:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
         CLIENT: ({
@@ -499,7 +505,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} Necesito los siguientes permisos en el servidor:`),
+            bold(`${Emojis.CANCEL_COLORED} Necesito los siguientes permisos en el servidor:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
       },
@@ -512,7 +518,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} Necesitas los siguientes permisos en el canal ${channelMention}:`),
+            bold(`${Emojis.CANCEL_COLORED} Necesitas los siguientes permisos en el canal ${channelMention}:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
         CLIENT: ({
@@ -523,19 +529,19 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} Necesito los siguientes permisos en el canal ${channelMention}:`),
+            bold(`${Emojis.CANCEL_COLORED} Necesito los siguientes permisos en el canal ${channelMention}:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
       },
     },
-    INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL} No puedes ejecutar este componente`),
+    INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL_COLORED} No puedes ejecutar este componente`),
     SOMETHING_WENT_WRONG: ({
       reportId,
     }: {
       reportId: string;
     }) =>
       [
-        bold(`${Emojis.REPORT} No se ha podido realizar esta acción debido a un error inesperado`),
+        bold(`${Emojis.REPORT_COLORED} No se ha podido realizar esta acción debido a un error inesperado`),
         bold(`${Emojis.ARROW_CIRCLE_RIGHT} Por favor, reporte el error con la siguiente ID: ${inlineCode(reportId)}`),
       ].join("\n"),
   },

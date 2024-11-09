@@ -68,16 +68,17 @@ export default {
           }: {
             errorMessage: string;
           }) =>
-            [bold(`${Emojis.CANCEL} An error has occurred while parsing the file`), codeBlock("ts", errorMessage)].join(
-              "\n",
-            ),
+            [
+              bold(`${Emojis.CANCEL_COLORED} An error has occurred while parsing the file`),
+              codeBlock("ts", errorMessage),
+            ].join("\n"),
           MAXIMUM_SIZE_ALLOWED: ({
             maximum,
           }: {
             maximum: number;
           }) =>
             [
-              bold(`${Emojis.CANCEL} The automation has exceeded the allowed size limit`),
+              bold(`${Emojis.CANCEL_COLORED} The automation has exceeded the allowed size limit`),
               bold(
                 `${Emojis.ARROW_CIRCLE_RIGHT} The size limit allowed per automation is ${inlineCode(`${maximum.toString()}kb`)}`,
               ),
@@ -88,7 +89,7 @@ export default {
             maximum: number;
           }) =>
             [
-              bold(`${Emojis.CANCEL} The server has exceeded the limit of allowed automations`),
+              bold(`${Emojis.CANCEL_COLORED} The server has exceeded the limit of allowed automations`),
               bold(
                 `${Emojis.ARROW_CIRCLE_RIGHT} The limit of allowed automations per server is ${inlineCode(maximum.toString())}`,
               ),
@@ -97,19 +98,19 @@ export default {
             automationName,
           }: {
             automationName: string;
-          }) => bold(`${Emojis.CHECK_CIRCLE} The automation ${inlineCode(automationName)} has been created`),
+          }) => bold(`${Emojis.CHECK_CIRCLE_COLORED} The automation ${inlineCode(automationName)} has been created`),
         },
         DELETE: {
           AUTOMATION_NOT_FOUND: ({
             automationId,
           }: {
             automationId: string;
-          }) => bold(`${Emojis.CANCEL} The automation ${inlineCode(automationId)} has not been found`),
+          }) => bold(`${Emojis.CANCEL_COLORED} The automation ${inlineCode(automationId)} has not been found`),
           MESSAGE_1: ({
             automationName,
           }: {
             automationName: string;
-          }) => bold(`${Emojis.CHECK_CIRCLE} The automation ${inlineCode(automationName)} has been deleted`),
+          }) => bold(`${Emojis.CHECK_CIRCLE_COLORED} The automation ${inlineCode(automationName)} has been deleted`),
         },
         LIST: {
           COMPONENTS: {
@@ -117,7 +118,7 @@ export default {
               automationId,
             }: {
               automationId: string;
-            }) => bold(`${Emojis.CANCEL} The automation ${inlineCode(automationId)} has not been found`),
+            }) => bold(`${Emojis.CANCEL_COLORED} The automation ${inlineCode(automationId)} has not been found`),
             BUTTONS: {
               DISPLAY: {
                 LABEL: "Display Code",
@@ -131,11 +132,12 @@ export default {
                   automationName,
                 }: {
                   automationName: string;
-                }) => bold(`${Emojis.CHECK_CIRCLE} The automation ${inlineCode(automationName)} has been deleted`),
+                }) =>
+                  bold(`${Emojis.CHECK_CIRCLE_COLORED} The automation ${inlineCode(automationName)} has been deleted`),
               },
             },
           },
-          NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL} The server has no automations available`),
+          NO_AVAILABLE_AUTOMATIONS: bold(`${Emojis.CANCEL_COLORED} The server has no automations available`),
           MESSAGE_1: {
             TITLE_1: bold("Automation Information"),
             FIELD_1: {
@@ -186,7 +188,7 @@ export default {
         },
       },
       LANGUAGE: {
-        MESSAGE_1: bold(`${Emojis.CHECK_CIRCLE} The bot language has been set to ${inlineCode("English")}`),
+        MESSAGE_1: bold(`${Emojis.CHECK_CIRCLE_COLORED} The bot language has been set to ${inlineCode("English")}`),
       },
       MEMBERSHIP: {
         REEDEM: {
@@ -194,12 +196,12 @@ export default {
             membershipId,
           }: {
             membershipId: string;
-          }) => bold(`${Emojis.CANCEL} The membership ${inlineCode(membershipId)} has not been found`),
+          }) => bold(`${Emojis.CANCEL_COLORED} The membership ${inlineCode(membershipId)} has not been found`),
           MESSAGE_1: ({
             membershipId,
           }: {
             membershipId: string;
-          }) => bold(`${Emojis.CHECK_CIRCLE} The membership ${inlineCode(membershipId)} has been reedemed`),
+          }) => bold(`${Emojis.CHECK_CIRCLE_COLORED} The membership ${inlineCode(membershipId)} has been reedemed`),
         },
       },
     },
@@ -241,7 +243,7 @@ export default {
           BUTTONS: {
             OWNER: {
               LABEL: "Owner",
-              UNABLE_VALID_OWNER: bold(`${Emojis.CANCEL} Unable to obtain the server owner`),
+              UNABLE_VALID_OWNER: bold(`${Emojis.CANCEL_COLORED} Unable to obtain the server owner`),
               MESSAGE_1: {
                 TITLE: bold("Owner Information"),
                 FIELD_1: {
@@ -270,7 +272,7 @@ export default {
             },
             INVITE: {
               LABEL: "Generate Invite",
-              OBTAIN_VALID_CHANNEL: bold(`${Emojis.CANCEL} Unable to obtain a valid channel`),
+              OBTAIN_VALID_CHANNEL: bold(`${Emojis.CANCEL_COLORED} Unable to obtain a valid channel`),
             },
             LEAVE: {
               LABEL: "Leave Server",
@@ -278,7 +280,7 @@ export default {
                 guildName,
               }: {
                 guildName: string;
-              }) => bold(`${Emojis.CHECK_CIRCLE} The server ${inlineCode(guildName)} has been left`),
+              }) => bold(`${Emojis.CHECK_CIRCLE_COLORED} The server ${inlineCode(guildName)} has been left`),
             },
           },
         },
@@ -286,7 +288,7 @@ export default {
           guildId,
         }: {
           guildId: string;
-        }) => bold(`${Emojis.CANCEL} The server ${inlineCode(guildId)} has not been found`),
+        }) => bold(`${Emojis.CANCEL_COLORED} The server ${inlineCode(guildId)} has not been found`),
         MESSAGE_1: {
           TITLE_1: bold("Server Information"),
           FIELD_1: {
@@ -423,7 +425,7 @@ export default {
                 commandName,
               }: {
                 commandName: string;
-              }) => bold(`${Emojis.CANCEL} The command ${inlineCode(commandName)} has not been found`),
+              }) => bold(`${Emojis.CANCEL_COLORED} The command ${inlineCode(commandName)} has not been found`),
             },
           },
         },
@@ -474,7 +476,7 @@ export default {
       resets: string;
     }) =>
       bold(
-        `${Emojis.CANCEL} Your maximum number of interactions has been limited\n${Emojis.ARROW_CIRCLE_RIGHT} The limit will be reestablished within ${resets}`,
+        `${Emojis.CANCEL_COLORED} Your maximum number of interactions has been limited\n${Emojis.ARROW_CIRCLE_RIGHT} The limit will be reestablished within ${resets}`,
       ),
     PERMISSIONS: {
       GUILD: {
@@ -484,7 +486,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} You need the following permissions on the server:`),
+            bold(`${Emojis.CANCEL_COLORED} You need the following permissions on the server:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
         CLIENT: ({
@@ -493,7 +495,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} I need the following permissions on the server:`),
+            bold(`${Emojis.CANCEL_COLORED} I need the following permissions on the server:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
       },
@@ -506,7 +508,7 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} You need the following permissions on the ${channelMention} channel:`),
+            bold(`${Emojis.CANCEL_COLORED} You need the following permissions on the ${channelMention} channel:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
         CLIENT: ({
@@ -517,19 +519,19 @@ export default {
           permissions: string;
         }) =>
           [
-            bold(`${Emojis.CANCEL} I need the following permissions on the ${channelMention} channel:`),
+            bold(`${Emojis.CANCEL_COLORED} I need the following permissions on the ${channelMention} channel:`),
             codeBlock("ansi", colors.bold.magenta(permissions)),
           ].join("\n"),
       },
     },
-    INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL} You cannot run this component`),
+    INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL_COLORED} You cannot run this component`),
     SOMETHING_WENT_WRONG: ({
       reportId,
     }: {
       reportId: string;
     }) =>
       [
-        bold(`${Emojis.REPORT} This action could not be performed due to an unexpected error`),
+        bold(`${Emojis.REPORT_COLORED} This action could not be performed due to an unexpected error`),
         bold(`${Emojis.ARROW_CIRCLE_RIGHT} Please report the error with the following ID: ${inlineCode(reportId)}`),
       ].join("\n"),
   },

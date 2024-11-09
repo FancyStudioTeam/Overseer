@@ -61,7 +61,7 @@ export default createChatInputSubCommand({
               .setCustomID(`@automations_list/delete#${automationId}`)
               .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DELETE.LABEL)
               .setStyle(ButtonStyles.DANGER)
-              .setEmoji(parseEmoji(Emojis.TRASH))
+              .setEmoji(parseEmoji(Emojis.TRASH_COLORED))
               .toJSON(),
           ],
           embed: new Embed()

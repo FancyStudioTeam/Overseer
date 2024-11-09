@@ -38,7 +38,11 @@ export default createPrefixCommand({
     const code = args.join(" ");
 
     if (!code) {
-      return await client.rest.channels.createReaction(context.channelID, context.id, createReaction(Emojis.CANCEL));
+      return await client.rest.channels.createReaction(
+        context.channelID,
+        context.id,
+        createReaction(Emojis.CANCEL_COLORED),
+      );
     }
 
     const { output: executionOutput, took: executionTime } = await execute(code);
@@ -63,7 +67,7 @@ export default createPrefixCommand({
             .setCustomID("@eval/delete")
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.EVAL.COMPONENTS.BUTTONS.DELETE.LABEL)
             .setStyle(ButtonStyles.DANGER)
-            .setEmoji(parseEmoji(Emojis.TRASH)),
+            .setEmoji(parseEmoji(Emojis.TRASH_COLORED)),
         ])
         .toJSON(true),
       embeds: new Embed().setDescription(codeBlock("ts", output)).setColor(Colors.COLOR).toJSON(true),
