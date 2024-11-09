@@ -64,10 +64,6 @@ export class Pagination {
               .setStyle(ButtonStyles.SECONDARY)
               .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_RIGHT))
               .setDisabled(paginationEmbeds.length <= 1),
-            new Button()
-              .setCustomID("@pagination/stop")
-              .setStyle(ButtonStyles.DANGER)
-              .setEmoji(parseEmoji(Emojis.STOP)),
           ])
           .toJSON(),
       ];
@@ -138,10 +134,13 @@ export class Pagination {
       interactionType: InteractionTypes.MESSAGE_COMPONENT,
       message,
       filter: async (collectedInteraction) => {
-        if (
-          ("user" in this.context && collectedInteraction.user.id !== this.context.user.id) ||
-          ("author" in this.context && collectedInteraction.user.id !== this.context.author.id)
-        ) {
+        const originalCollectionUser = "user" in this.context ? this.context.user : this.context.author;
+
+        if (!collectedInteraction.data.customID.startsWith("@pagination/")) {
+          return false;
+        }
+
+        if (collectedInteraction.user.id !== originalCollectionUser.id) {
           await createErrorMessage(collectedInteraction, Translations[this.locale].GLOBAL.INVALID_USER_COLLECTOR);
 
           return false;
@@ -153,12 +152,9 @@ export class Pagination {
 
     interactionCollector.on("collect", async (collectedInteraction) => {
       if (collectedInteraction.isComponentInteraction() && collectedInteraction.isButtonComponentInteraction()) {
-        if (!["@pagination/left", "@pagination/right", "@pagination/stop"].includes(collectedInteraction.data.customID))
-          return;
-
         await collectedInteraction.deferUpdate().catch(noop);
 
-        const matchResult = match(collectedInteraction.data.customID)
+        match(collectedInteraction.data.customID)
           .with(
             "@pagination/left",
             () => (this.paginationIndex = this.paginationIndex > 0 ? --this.paginationIndex : this.pages.length - 1),
@@ -166,19 +162,15 @@ export class Pagination {
           .with(
             "@pagination/right",
             () => (this.paginationIndex = this.paginationIndex + 1 < this.pages.length ? ++this.paginationIndex : 0),
-          )
-          .with("@pagination/stop", () => interactionCollector.stop())
-          .run();
+          );
 
-        if (typeof matchResult === "number") {
-          const firstRow = message.components[0];
-          let indexButton = firstRow.components[1] as ButtonComponent;
-          const messagePayload = this.getMessagePayload(this.paginationIndex);
+        const firstRow = message.components[0];
+        let indexButton = firstRow.components[1] as ButtonComponent;
+        const messagePayload = this.getMessagePayload(this.paginationIndex);
 
-          indexButton = new Button(indexButton).setLabel(`${this.paginationIndex + 1}/${this.pages.length}`).toJSON();
+        indexButton = new Button(indexButton).setLabel(`${this.paginationIndex + 1}/${this.pages.length}`).toJSON();
 
-          await this.handleMessageEdit(paginationData, messagePayload);
-        }
+        await this.handleMessageEdit(paginationData, messagePayload);
       }
     });
 

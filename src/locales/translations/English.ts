@@ -524,7 +524,7 @@ export default {
           ].join("\n"),
       },
     },
-    INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL_COLORED} You cannot run this component`),
+    INVALID_USER_COLLECTOR: bold(`${Emojis.CANCEL_COLORED} You cannot run another user's components.`),
     SOMETHING_WENT_WRONG: bold(`${Emojis.REPORT_COLORED} Something went wrong while performing the action...`),
   },
   PERMISSIONS: permissions,

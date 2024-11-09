@@ -1,10 +1,13 @@
+import colors from "@colors/colors";
 import { Colors } from "@constants";
 import { codeBlock } from "@discordjs/formatters";
 import { Translations } from "@translations";
 import type { Locales } from "@types";
 import { CommandCategory, createSelectMenuComponent } from "@util/Handlers";
-import { createErrorMessage, createMessage, formatKeyValues, noop, truncateString } from "@utils";
-import { Embed } from "oceanic-builders";
+import { Pagination } from "@util/Pagination";
+import { createErrorMessage } from "@utils";
+import { chunk, noop } from "es-toolkit";
+import { Embed, EmbedField } from "oceanic-builders";
 import { ApplicationCommandOptionTypes, type ApplicationCommandOptions, ComponentTypes } from "oceanic.js";
 
 const ABBREVIATED_COMMAND_NAMES: Record<CommandCategory, string> = {
@@ -18,6 +21,7 @@ const LOCALIZED_COMMAND_DESCRIPTIONS: (data: ApplicationCommandOptions) => Recor
   EN: data.description,
   ES: data.descriptionLocalizations?.["es-ES"] ?? data.description,
 });
+
 const getLocalizedCommandDescription = (data: ApplicationCommandOptions, locale: Locales) =>
   LOCALIZED_COMMAND_DESCRIPTIONS(data)[locale];
 
@@ -41,38 +45,43 @@ export default createSelectMenuComponent({
       );
     }
 
-    const availableCommandList = parentCommand.options.flatMap((subCommand) => {
+    const commandListFields = parentCommand.options.flatMap((subCommand) => {
       if (subCommand.type === ApplicationCommandOptionTypes.SUB_COMMAND_GROUP && subCommand.options) {
         return subCommand.options
           .filter((option) => option.type === ApplicationCommandOptionTypes.SUB_COMMAND)
           .map((option) => {
             const { description, name } = {
               description: getLocalizedCommandDescription(option, locale),
-              name: [subCommand.name, option.name].join(" "),
+              name: [parentCommandName, subCommand.name, option.name].join(" "),
             };
 
-            return truncateString(`${name} » ${description}`, {
-              maxLength: 75,
-            });
+            return new EmbedField()
+              .setName(`/${name}`)
+              .setValue(codeBlock("ansi", colors.bold.magenta(description)))
+              .toJSON();
           });
       }
 
       const { description, name } = {
         description: getLocalizedCommandDescription(subCommand, locale),
-        name: subCommand.name,
+        name: [parentCommandName, subCommand.name].join(" "),
       };
 
-      return truncateString(`${name} » ${description}`, {
-        maxLength: 75,
-      });
+      return new EmbedField()
+        .setName(`/${name}`)
+        .setValue(codeBlock("ansi", colors.bold.magenta(description)))
+        .toJSON();
     });
-
-    return await createMessage(
-      context,
-      new Embed()
-        .setDescription(codeBlock("ansi", formatKeyValues(availableCommandList.join("\n"), "»")))
-        .setColor(Colors.COLOR)
-        .toJSON(),
+    const chunkedFields = chunk(commandListFields, 3);
+    const availablePaginationPages = chunkedFields.map((fields) =>
+      new Embed().addFields(fields).setColor(Colors.COLOR).toJSON(),
     );
+
+    return new Pagination(context, {
+      locale,
+      pages: availablePaginationPages,
+      shouldBeEphemeral: true,
+      timeBeforeExpiration: 60000,
+    });
   },
 });
