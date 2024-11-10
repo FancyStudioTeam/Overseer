@@ -108,6 +108,9 @@ importers:
       '@docusaurus/preset-classic':
         specifier: 3.6.1
         version: 3.6.1(@algolia/client-search@5.13.0)(@mdx-js/react@3.1.0(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.2)(typescript@5.6.3)
+      '@docusaurus/theme-classic':
+        specifier: 3.6.1
+        version: 3.6.1(@types/react@18.3.12)(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
       '@fontsource-variable/jetbrains-mono':
         specifier: 5.1.1
         version: 5.1.1
