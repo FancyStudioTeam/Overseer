@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
   "files": {
-    "ignore": ["dist", "node_modules"]
+    "ignore": ["dist", "node_modules", "apps/docs/.docusaurus"]
   },
   "formatter": {
     "enabled": true,
@@ -67,6 +67,7 @@
       },
       "suspicious": {
         "noAssignInExpressions": "off",
+        "noReactSpecificProps": "off",
         "noShadowRestrictedNames": "off"
       }
     }

@@ -1,0 +1,42 @@
+@import url("@fontsource-variable/plus-jakarta-sans");
+@import url("@fontsource-variable/jetbrains-mono");
+
+:root {
+  --ifm-font-family-base: "Plus Jakarta Sans Variable", sans-serif;
+  --ifm-font-family-monospace: "JetBrains Mono Variable", monospace;
+}
+
+.alert--secondary {
+  --ifm-alert-background-color-highlight: #064e3b;
+  --ifm-alert-background-color: #022c22;
+  --ifm-alert-border-color: #10b981;
+  --ifm-alert-foreground-color: #6ee7b7;
+}
+
+.alert--success {
+  --ifm-alert-background-color-highlight: #701a75;
+  --ifm-alert-background-color: #4a044e;
+  --ifm-alert-border-color: #d946ef;
+  --ifm-alert-foreground-color: #f0abfc;
+}
+
+.alert--info {
+  --ifm-alert-background-color-highlight: #164e63;
+  --ifm-alert-background-color: #083344;
+  --ifm-alert-border-color: #06b6d4;
+  --ifm-alert-foreground-color: #67e8f9;
+}
+
+.alert--warning {
+  --ifm-alert-background-color-highlight: #78350f;
+  --ifm-alert-background-color: #451a03;
+  --ifm-alert-border-color: #f59e0b;
+  --ifm-alert-foreground-color: #fcd34d;
+}
+
+.alert--danger {
+  --ifm-alert-background-color-highlight: #881337;
+  --ifm-alert-background-color: #4c0519;
+  --ifm-alert-border-color: #f43f5e;
+  --ifm-alert-foreground-color: #fda4af;
+}
