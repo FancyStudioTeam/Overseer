@@ -8,8 +8,6 @@ export default (<Config>{
     defaultLocale: "en",
     locales: ["en", "es"],
   },
-  onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
   presets: [
     [
       "classic",
