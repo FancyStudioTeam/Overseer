@@ -141,7 +141,7 @@ export default createChatInputCommand({
       name: "membership",
       options: [
         {
-          description: "Redeem a premium membership",
+          description: "Redeems a premium membership",
           descriptionLocalizations: {
             "es-419": "Canjea una membresía premium",
             "es-ES": "Canjea una membresía premium",
