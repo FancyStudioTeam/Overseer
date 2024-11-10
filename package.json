@@ -51,7 +51,7 @@
   },
   "scripts": {
     "biome": "sh -c 'if [ \"$IN_NIX_SHELL\" = \"1\" ]; then BIOME_BINARY=$BIOME_BIN_PATH pnpx @biomejs/biome check --write --config-path biome.json; else pnpx @biomejs/biome check --write --config-path biome.json; fi'",
-    "build": "tsc --project tsconfig.json && tsc-alias",
+    "build": "tsc --project tsconfig.prod.json && tsc-alias",
     "dev": "tsx watch --ignore src/locales src/index.ts",
     "docs:build": "pnpm --filter docs build",
     "docs:clear": "pnpm --filter docs clear",
