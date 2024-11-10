@@ -40,11 +40,11 @@ export default (<Config>{
           sidebarId: "tutorialSidebar",
           type: "docSidebar",
         },
-        {
+        /*{
           label: "Blog",
           position: "left",
           to: "/blog",
-        },
+        },*/
         {
           position: "right",
           type: "localeDropdown",
