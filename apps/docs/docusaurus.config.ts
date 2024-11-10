@@ -37,7 +37,7 @@ export default (<Config>{
         {
           label: "Documentation",
           position: "left",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "mainSidebar",
           type: "docSidebar",
         },
         /*{
