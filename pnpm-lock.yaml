@@ -24,8 +24,8 @@ importers:
         specifier: 2.4.10
         version: 2.4.10
       '@sapphire/result':
-        specifier: 2.7.1
-        version: 2.7.1
+        specifier: 2.7.2
+        version: 2.7.2
       '@sapphire/snowflake':
         specifier: 3.5.4
         version: 3.5.4
@@ -1361,8 +1361,8 @@ packages:
     resolution: {integrity: sha512-8grmo7Y2XmSzjgd5z9KmY5QVv75bGL1BJzD4+e5+IccC3OT9agrn2bNYcJBGW3Nt8jCqp4cgDAjzKHS4vhhPiA==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
 
-  '@sapphire/result@2.7.1':
-    resolution: {integrity: sha512-vhO2CPt4p0v3D3gelJCr0kKTSON3I/49xFt+sAfEQvyQlT9v+yQmnWnTOcxE7Wv5Z6dDrvcQclL3z2PMDqsC6w==}
+  '@sapphire/result@2.7.2':
+    resolution: {integrity: sha512-DJbCGmvi8UZAu/hh85auQL8bODFlpcS3cWjRJZ5/cXTLekmGvs/CrRxrIzwbA6+poyYojo5rK4qu8trmjfneog==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
 
   '@sapphire/snowflake@3.5.4':
@@ -7210,7 +7210,7 @@ snapshots:
 
   '@sapphire/ratelimits@2.4.10': {}
 
-  '@sapphire/result@2.7.1': {}
+  '@sapphire/result@2.7.2': {}
 
   '@sapphire/snowflake@3.5.4': {}
 
