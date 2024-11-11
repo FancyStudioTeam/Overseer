@@ -21,8 +21,8 @@ importers:
         specifier: 5.22.0
         version: 5.22.0(prisma@5.22.0)
       '@sapphire/ratelimits':
-        specifier: 2.4.10
-        version: 2.4.10
+        specifier: 2.4.11
+        version: 2.4.11
       '@sapphire/result':
         specifier: 2.7.2
         version: 2.7.2
@@ -1357,8 +1357,8 @@ packages:
     resolution: {integrity: sha512-hxtuE8HvmWcRok2A10lJ+ic8qY0oYGTTn44XmESUYJYYSVJWmqlCH1LnNYi6Ul+LRjxNUfFQEL/TJS0GJ+8kew==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
 
-  '@sapphire/ratelimits@2.4.10':
-    resolution: {integrity: sha512-8grmo7Y2XmSzjgd5z9KmY5QVv75bGL1BJzD4+e5+IccC3OT9agrn2bNYcJBGW3Nt8jCqp4cgDAjzKHS4vhhPiA==}
+  '@sapphire/ratelimits@2.4.11':
+    resolution: {integrity: sha512-O6FNA/P0wxU4Ve9gxL948CoZw7+sSpujyUR2CLyLLCNuNvuFGFxPCJVl5crFVLXMIyBIrc2qk+/H9bsqsyQK1Q==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
 
   '@sapphire/result@2.7.2':
@@ -7208,7 +7208,7 @@ snapshots:
 
   '@sapphire/duration@1.1.4': {}
 
-  '@sapphire/ratelimits@2.4.10': {}
+  '@sapphire/ratelimits@2.4.11': {}
 
   '@sapphire/result@2.7.2': {}
 
