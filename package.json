@@ -7,7 +7,7 @@
     "@prisma/client": "5.22.0",
     "@sapphire/ratelimits": "2.4.10",
     "@sapphire/result": "2.7.2",
-    "@sapphire/snowflake": "3.5.4",
+    "@sapphire/snowflake": "3.5.5",
     "@sapphire/time-utilities": "1.7.14",
     "dotenv": "16.4.5",
     "es-toolkit": "1.27.0",
