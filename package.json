@@ -27,7 +27,7 @@
     "@types/node": "22.9.0",
     "@types/pako": "2.0.3",
     "@types/url-regex-safe": "1.0.2",
-    "husky": "9.1.6",
+    "husky": "9.1.7",
     "lint-staged": "15.2.10",
     "prisma": "5.22.0",
     "tsc-alias": "1.8.10",
