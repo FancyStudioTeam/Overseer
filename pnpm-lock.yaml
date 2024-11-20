@@ -137,8 +137,8 @@ importers:
         specifier: 3.6.1
         version: 3.6.1(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@docusaurus/tsconfig':
-        specifier: 3.6.1
-        version: 3.6.1
+        specifier: 3.6.2
+        version: 3.6.2
       '@docusaurus/types':
         specifier: 3.6.1
         version: 3.6.1(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -855,6 +855,7 @@ packages:
   '@discordjs/voice@0.17.0':
     resolution: {integrity: sha512-hArn9FF5ZYi1IkxdJEVnJi+OxlwLV0NJYWpKXsmNOojtGtAZHxmsELA+MZlu2KW1F/K1/nt7lFOfcMXNYweq9w==}
     engines: {node: '>=16.11.0'}
+    deprecated: This version uses deprecated encryption modes. Please use a newer version.
 
   '@discoveryjs/json-ext@0.5.7':
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==}
@@ -1018,8 +1019,8 @@ packages:
     resolution: {integrity: sha512-bNm5G6sueUezvyhsBegA1wwM38yW0BnqpZTE9KHO2yKnkERNMaV5x/yPJ/DNCOHjJtCcJ5Uz55g2AS75Go31xA==}
     engines: {node: '>=18.0'}
 
-  '@docusaurus/tsconfig@3.6.1':
-    resolution: {integrity: sha512-RvjMG9M9YK8N/I5oudqJed8jjfWGI7csr4XCkGXBToNkkoi2QgkTz2DxH+obKdfLejQaASdIMynYaE5Lv7Qw9Q==}
+  '@docusaurus/tsconfig@3.6.2':
+    resolution: {integrity: sha512-TWLkyYHBYhIJNcXCEc3D1M9R8UFV4IZ82rGef5U9mE1ZrcgDUlZxYaYdoSuHrPrzPRIl3orjmpscO2FAk2gdZw==}
 
   '@docusaurus/types@3.6.1':
     resolution: {integrity: sha512-hCB1hj9DYutVYBisnPNobz9SzEmCcf1EetJv09O49Cov3BqOkm+vnnjB3d957YJMtpLGQoKBeN/FF1DZ830JwQ==}
@@ -6856,7 +6857,7 @@ snapshots:
       fs-extra: 11.2.0
       tslib: 2.8.1
 
-  '@docusaurus/tsconfig@3.6.1': {}
+  '@docusaurus/tsconfig@3.6.2': {}
 
   '@docusaurus/types@3.6.1(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
