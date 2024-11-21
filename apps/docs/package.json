@@ -4,7 +4,7 @@
     "production": [">0.5%", "not dead", "not op_mini all"]
   },
   "dependencies": {
-    "@docusaurus/core": "3.6.1",
+    "@docusaurus/core": "3.6.2",
     "@docusaurus/plugin-content-docs": "3.6.1",
     "@docusaurus/preset-classic": "3.6.1",
     "@docusaurus/theme-classic": "3.6.1",
