@@ -8,9 +8,10 @@ model GuildSuggestion {
 }
 
 type GuildSuggestionGeneral {
-  channelId String
-  forum     GuildSuggestionGeneralForum
-  review    GuildSuggestionGeneralReview
+  channelId            String
+  forum                GuildSuggestionGeneralForum
+  review               GuildSuggestionGeneralReview
+  useMessageSuggestion Boolean                      @default(false)
 }
 
 type GuildSuggestionGeneralForum {

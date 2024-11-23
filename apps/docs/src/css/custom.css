@@ -2,41 +2,47 @@
 @import url("@fontsource-variable/jetbrains-mono");
 
 :root {
+  /* FontSource Fonts */
   --ifm-font-family-base: "Plus Jakarta Sans Variable", sans-serif;
   --ifm-font-family-monospace: "JetBrains Mono Variable", monospace;
 }
 
 .alert--secondary {
-  --ifm-alert-background-color-highlight: #064e3b;
-  --ifm-alert-background-color: #022c22;
-  --ifm-alert-border-color: #10b981;
-  --ifm-alert-foreground-color: #6ee7b7;
+  /* TailwindCSS Indigo */
+  --ifm-alert-background-color-highlight: #312e81; /* 900 */
+  --ifm-alert-background-color: #1e1b4b; /* 950 */
+  --ifm-alert-border-color: #6366f1; /* 500 */
+  --ifm-alert-foreground-color: #a5b4fc; /* 300 */
 }
 
 .alert--success {
-  --ifm-alert-background-color-highlight: #701a75;
-  --ifm-alert-background-color: #4a044e;
-  --ifm-alert-border-color: #d946ef;
-  --ifm-alert-foreground-color: #f0abfc;
+  /* TailwindCSS Emerald */
+  --ifm-alert-background-color-highlight: #064e3b; /* 900 */
+  --ifm-alert-background-color: #022c22; /* 950 */
+  --ifm-alert-border-color: #10b981; /* 500 */
+  --ifm-alert-foreground-color: #6ee7b7; /* 300 */
 }
 
 .alert--info {
-  --ifm-alert-background-color-highlight: #164e63;
-  --ifm-alert-background-color: #083344;
-  --ifm-alert-border-color: #06b6d4;
-  --ifm-alert-foreground-color: #67e8f9;
+  /* TailwindCSS Cyan */
+  --ifm-alert-background-color-highlight: #164e63; /* 900 */
+  --ifm-alert-background-color: #083344; /* 950 */
+  --ifm-alert-border-color: #06b6d4; /* 500 */
+  --ifm-alert-foreground-color: #67e8f9; /* 300 */
 }
 
 .alert--warning {
-  --ifm-alert-background-color-highlight: #78350f;
-  --ifm-alert-background-color: #451a03;
-  --ifm-alert-border-color: #f59e0b;
-  --ifm-alert-foreground-color: #fcd34d;
+  /* TailwindCSS Amber */
+  --ifm-alert-background-color-highlight: #78350f; /* 900 */
+  --ifm-alert-background-color: #451a03; /* 950 */
+  --ifm-alert-border-color: #f59e0b; /* 500 */
+  --ifm-alert-foreground-color: #fcd34d; /* 300 */
 }
 
 .alert--danger {
-  --ifm-alert-background-color-highlight: #881337;
-  --ifm-alert-background-color: #4c0519;
-  --ifm-alert-border-color: #f43f5e;
-  --ifm-alert-foreground-color: #fda4af;
+  /* TailwindCSS Rose */
+  --ifm-alert-background-color-highlight: #881337; /* 900 */
+  --ifm-alert-background-color: #4c0519; /* 950 */
+  --ifm-alert-border-color: #f43f5e; /* 500 */
+  --ifm-alert-foreground-color: #fda4af; /* 300 */
 }
