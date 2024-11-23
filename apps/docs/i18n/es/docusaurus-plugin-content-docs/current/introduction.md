@@ -2,15 +2,26 @@
 sidebar_position: 1
 ---
 
-# Introducción
+# Overseer
 
-Overseer es un bot de Discord creado con el propósito de la gestión general de los servidores de Discord. Haciendo flexible la configuración para una mayor personalización.
+[![License][CCBYSALicenseBadgeURL]][CCBYSALicenseURL]
+[![Support][SupportServerBadgeURL]][SupportServerURL]
 
-## Sobre la Documentación
+## Licencia
 
-Esta documentación se crea para facilitar la configuración del bot y ayudar en las posibles dudas del bot.
+[Overseer][OverseerRepositoryURL] © 2024 por [FancyStudio][FancyStudioGitHubURL] está licenciado bajo [CC BY-SA 4.0][CCBYSALicenseURL].
 
-## Enlaces Útiles
+## Soporte
 
-- [Servidor de Soporte](https://discord.gg/yWjeDA6ewJ)
-- [Añadir a Discord](https://discord.com/oauth2/authorize?client_id=1228065406196125810&permissions=117760&scope=bot)
+Si necesitas ayuda, puedes unirte a nuestro [Servidor de Soporte][SupportServerURL] y preguntar tus preguntas allí.
+
+## Seguridad
+
+Si crees que has encontrado un vulnerabilidad de seguridad, por favor **NO hagas una issue pública**, en su lugar, ve a nuestro [Servidor de Soporte][SupportServerURL] y contacta a los desarrolladores de forma privada.
+
+[CCBYSALicenseBadgeURL]: https://img.shields.io/badge/CC%20BY--SA%204.0-_?style=for-the-badge&colorA=18181B&colorB=4cb699&label=License&logo=creative-commons&logoColor=white
+[CCBYSALicenseURL]: https://creativecommons.org/licenses/by-sa/4.0/
+[FancyStudioGitHubURL]: https://github.com/FancyStudioTeam
+[OverseerRepositoryURL]: https://github.com/FancyStudioTeam/Overseer
+[SupportServerBadgeURL]: https://img.shields.io/badge/Support-Support?style=for-the-badge&colorA=18181B&colorB=4cb699&label=Discord&logo=discord&logoColor=white
+[SupportServerURL]: https://discord.gg/yWjeDA6ewJ
