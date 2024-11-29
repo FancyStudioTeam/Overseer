@@ -134,8 +134,8 @@ importers:
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: 3.6.2
-        version: 3.6.2(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 3.6.3
+        version: 3.6.3(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@docusaurus/tsconfig':
         specifier: 3.6.2
         version: 3.6.2
