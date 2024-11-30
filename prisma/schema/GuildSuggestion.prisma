@@ -4,14 +4,14 @@ model GuildSuggestion {
   guildId   String                 @unique
   id        String                 @id @default(auto()) @map("_id") @db.ObjectId
 
-  @@unique([general.channelId, general.review.channelId])
+  @@unique([general.channelId, general.review.channelId, general.forum.forumChannelId, general.forum.threadId])
 }
 
 type GuildSuggestionGeneral {
-  channelId            String
-  forum                GuildSuggestionGeneralForum
-  review               GuildSuggestionGeneralReview
-  useMessageSuggestion Boolean                      @default(false)
+  channelId             String
+  forum                 GuildSuggestionGeneralForum
+  review                GuildSuggestionGeneralReview
+  useMessageSuggestions Boolean                      @default(false)
 }
 
 type GuildSuggestionGeneralForum {
@@ -21,6 +21,6 @@ type GuildSuggestionGeneralForum {
 }
 
 type GuildSuggestionGeneralReview {
-  channelId String
+  channelId String?
   isEnabled Boolean @default(false)
 }
