@@ -2,7 +2,7 @@ import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
 import { createErrorMessage, createMessage } from "@util/utils";
 import { noop } from "es-toolkit";
-import { Attachment } from "oceanic-builders";
+import { FileBuilder } from "oceanic-builders";
 import { ComponentTypes } from "oceanic.js";
 import { ungzip } from "pako";
 
@@ -38,7 +38,7 @@ export default createButtonComponent({
     const uncompressedBuffer = Buffer.from(ungzip(guildAutomation.general.data));
 
     return await createMessage(context, {
-      files: new Attachment()
+      files: new FileBuilder()
         .setContents(uncompressedBuffer)
         .setName(`${guildAutomation.general.name}.yml`)
         .toJSON(true),

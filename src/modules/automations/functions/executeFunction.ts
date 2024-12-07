@@ -1,5 +1,5 @@
 import { client } from "@index";
-import { Embed, EmbedField } from "oceanic-builders";
+import { EmbedBuilder, EmbedFieldBuilder } from "oceanic-builders";
 import type { CreateMessageOptions, Message } from "oceanic.js";
 import { match } from "ts-pattern";
 import type { YAMLCordFunction, YAMLCordVariables } from "yamlcord";
@@ -81,7 +81,7 @@ export const executeFunction = (
 
         if (data.embeds) {
           const embeds = data.embeds.map(async (rawEmbed) => {
-            const embed = new Embed();
+            const embed = new EmbedBuilder();
 
             if (rawEmbed.author) {
               const { name, icon_url, url } = rawEmbed.author;
@@ -102,13 +102,13 @@ export const executeFunction = (
             }
 
             if (rawEmbed.fields) {
-              const fields: EmbedField[] = [];
+              const fields: EmbedFieldBuilder[] = [];
 
               for (const rawField of rawEmbed.fields) {
                 const { name, inline, value } = rawField;
 
                 fields.push(
-                  new EmbedField()
+                  new EmbedFieldBuilder()
                     .setName(await replaceVariables(name, message))
                     .setValue(await replaceVariables(value, message))
                     .setInline(!!inline),
@@ -136,7 +136,7 @@ export const executeFunction = (
             }
 
             if (rawEmbed.timestamp) {
-              embed.setTimestamp();
+              embed.setTimestamp("now");
             }
 
             if (rawEmbed.title) {

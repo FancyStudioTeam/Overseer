@@ -3,8 +3,7 @@ import { Translations } from "@translations";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { Pagination } from "@util/Pagination";
 import { createErrorMessage, parseEmoji } from "@utils";
-import { Button, Embed, EmbedField } from "oceanic-builders";
-import { ButtonStyles } from "oceanic.js";
+import { EmbedBuilder, EmbedFieldBuilder, SecondaryButtonBuilder } from "oceanic-builders";
 import { ungzip } from "pako";
 
 const MAXIMUM_KILOBYTES = (isPremium: boolean) => (isPremium ? 10 : 5);
@@ -45,29 +44,26 @@ export default createChatInputSubCommand({
 
         return {
           components: [
-            new Button()
+            new SecondaryButtonBuilder()
               .setCustomID(`@automations_list/code#${automationId}`)
               .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DISPLAY.LABEL)
-              .setStyle(ButtonStyles.SECONDARY)
               .setEmoji(parseEmoji(Emojis.CODE_BLOCKS))
               .toJSON(),
-            new Button()
+            new SecondaryButtonBuilder()
               .setCustomID(`@automations_list/download#${automationId}`)
               .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DOWNLOAD.LABEL)
-              .setStyle(ButtonStyles.SECONDARY)
               .setEmoji(parseEmoji(Emojis.DOWNLOAD))
               .toJSON(),
-            new Button()
+            new SecondaryButtonBuilder()
               .setCustomID(`@automations_list/delete#${automationId}`)
               .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DELETE.LABEL)
-              .setStyle(ButtonStyles.DANGER)
               .setEmoji(parseEmoji(Emojis.TRASH_COLORED))
               .toJSON(),
           ],
-          embed: new Embed()
+          embed: new EmbedBuilder()
             .setTitle(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.TITLE_1)
             .addFields([
-              new EmbedField()
+              new EmbedFieldBuilder()
                 .setName(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.FIELD_1.NAME)
                 .setValue(
                   Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.FIELD_1.VALUE({
@@ -76,14 +72,14 @@ export default createChatInputSubCommand({
                     createdBy: user?.name ?? "Unknown User",
                   }),
                 ),
-              new EmbedField()
+              new EmbedFieldBuilder()
                 .setName(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.FIELD_2.NAME)
                 .setValue(
                   Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.FIELD_2.VALUE({
                     createdAt,
                   }),
                 ),
-              new EmbedField()
+              new EmbedFieldBuilder()
                 .setName(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.FIELD_3.NAME)
                 .setValue(
                   Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.MESSAGE_1.FIELD_3.VALUE({

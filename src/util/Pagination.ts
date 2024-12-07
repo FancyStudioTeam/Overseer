@@ -4,12 +4,10 @@ import { Translations } from "@translations";
 import type { Locales, MaybeNullish, MessagePayload } from "@types";
 import { createErrorMessage, parseEmoji } from "@utils";
 import { chunk, noop } from "es-toolkit";
-import { ActionRow, Button, Embed } from "oceanic-builders";
+import { ActionRowBuilder, EmbedBuilder, SecondaryButtonBuilder } from "oceanic-builders";
 import { InteractionCollector } from "oceanic-collectors";
 import {
   type AnyInteractionGateway,
-  type ButtonComponent,
-  ButtonStyles,
   type ComponentInteraction,
   ComponentTypes,
   type EmbedOptions,
@@ -17,6 +15,7 @@ import {
   Message,
   type MessageComponent,
   MessageFlags,
+  type TextButton,
 } from "oceanic.js";
 import { match } from "ts-pattern";
 
@@ -46,22 +45,19 @@ export class Pagination {
     const paginationComponents = this.pages.map((element) => ("components" in element ? element.components : []));
     const paginationElements = (index: number) => {
       const components = [
-        new ActionRow()
+        new ActionRowBuilder()
           .addComponents([
-            new Button()
+            new SecondaryButtonBuilder()
               .setCustomID("@pagination/left")
-              .setStyle(ButtonStyles.SECONDARY)
               .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_LEFT))
               .setDisabled(paginationEmbeds.length <= 1),
-            new Button()
+            new SecondaryButtonBuilder()
               .setCustomID("@pagination/pages")
-              .setStyle(ButtonStyles.SECONDARY)
               .setLabel(`${paginationIndex + 1}/${paginationEmbeds.length}`)
               .setEmoji(parseEmoji(Emojis.EXPLORE))
-              .setDisabled(true),
-            new Button()
+              .setDisabled(),
+            new SecondaryButtonBuilder()
               .setCustomID("@pagination/right")
-              .setStyle(ButtonStyles.SECONDARY)
               .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_RIGHT))
               .setDisabled(paginationEmbeds.length <= 1),
           ])
@@ -72,7 +68,7 @@ export class Pagination {
         const chunkComponents = chunk(paginationComponents[index], 5);
 
         for (const chunk of chunkComponents) {
-          components.push(new ActionRow().addComponents(chunk).toJSON());
+          components.push(new ActionRowBuilder().addComponents(chunk).toJSON());
         }
       }
 
@@ -90,7 +86,7 @@ export class Pagination {
 
     return {
       components,
-      embeds: new Embed(embed).toJSON(true),
+      embeds: new EmbedBuilder(embed).toJSON(true),
       flags: this.shouldBeEphemeral ? MessageFlags.EPHEMERAL : undefined,
     };
   };
@@ -165,10 +161,12 @@ export class Pagination {
           );
 
         const firstRow = message.components[0];
-        let indexButton = firstRow.components[1] as ButtonComponent;
+        let indexButton = firstRow.components[1] as TextButton;
         const messagePayload = this.getMessagePayload(this.paginationIndex);
 
-        indexButton = new Button(indexButton).setLabel(`${this.paginationIndex + 1}/${this.pages.length}`).toJSON();
+        indexButton = new SecondaryButtonBuilder(indexButton)
+          .setLabel(`${this.paginationIndex + 1}/${this.pages.length}`)
+          .toJSON();
 
         await this.handleMessageEdit(paginationData, messagePayload);
       }

@@ -5,8 +5,7 @@ import { Result } from "@sapphire/result";
 import { Translations } from "@translations";
 import { createPrefixCommand } from "@util/Handlers";
 import { createMessage, createReaction, parseEmoji, truncateString } from "@utils";
-import { ActionRow, Button, Embed } from "oceanic-builders";
-import { ButtonStyles } from "oceanic.js";
+import { ActionRowBuilder, DangerButtonBuilder, EmbedBuilder, SecondaryButtonBuilder } from "oceanic-builders";
 
 const execute = async (data: string) => {
   const startWatch = process.hrtime.bigint();
@@ -51,26 +50,24 @@ export default createPrefixCommand({
     });
 
     return createMessage(context, {
-      components: new ActionRow()
+      components: new ActionRowBuilder()
         .addComponents([
-          new Button()
+          new SecondaryButtonBuilder()
             .setCustomID("@eval/took")
             .setLabel(
               Translations[locale].COMMANDS.DEVELOPER.EVAL.COMPONENTS.BUTTONS.TOOK.LABEL({
                 executionTime,
               }),
             )
-            .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.TIMER))
             .setDisabled(true),
-          new Button()
+          new DangerButtonBuilder()
             .setCustomID("@eval/delete")
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.EVAL.COMPONENTS.BUTTONS.DELETE.LABEL)
-            .setStyle(ButtonStyles.DANGER)
             .setEmoji(parseEmoji(Emojis.TRASH_COLORED)),
         ])
         .toJSON(true),
-      embeds: new Embed().setDescription(codeBlock("ts", output)).setColor(Colors.COLOR).toJSON(true),
+      embeds: new EmbedBuilder().setDescription(codeBlock("ts", output)).setColor(Colors.COLOR).toJSON(true),
     });
   },
 });

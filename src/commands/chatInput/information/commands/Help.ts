@@ -4,7 +4,12 @@ import type { Locales } from "@types";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { createMessage, parseEmoji } from "@util/utils";
 import { groupBy } from "es-toolkit";
-import { ActionRow, Embed, StringSelectMenu, StringSelectMenuOption } from "oceanic-builders";
+import {
+  ActionRowBuilder,
+  EmbedBuilder,
+  StringSelectMenuBuilder,
+  StringSelectMenuOptionBuilder,
+} from "oceanic-builders";
 import type { NullablePartialEmoji } from "oceanic.js";
 
 const LABEL_TRANSLATIONS: LabelTranslations = {
@@ -29,7 +34,7 @@ const SELECT_MENU_OPTION_EMOJIS: SelectMenuOptionEmoji = {
   [CommandCategory.UTILITY]: parseEmoji(Emojis.SUPPORT),
 };
 const getSelectMenuOption = (category: CommandCategory, commandsLength: number, locale: Locales) =>
-  new StringSelectMenuOption()
+  new StringSelectMenuOptionBuilder()
     .setLabel([LABEL_TRANSLATIONS[locale][category], COMMANDS_LABEL_TRANSLATIONS(commandsLength)[locale]].join(" "))
     .setEmoji(SELECT_MENU_OPTION_EMOJIS[category])
     .setValue(String(category))
@@ -46,9 +51,9 @@ export default createChatInputSubCommand({
     );
 
     await createMessage(context, {
-      components: new ActionRow()
+      components: new ActionRowBuilder()
         .addComponents([
-          new StringSelectMenu()
+          new StringSelectMenuBuilder()
             .setCustomID("@help/categories")
             .setPlaceholder(
               Translations[locale].COMMANDS.INFORMATION.HELP.COMPONENTS.SELECT_MENUS.CATEGORIES.PLACEHOLDER,
@@ -56,7 +61,7 @@ export default createChatInputSubCommand({
             .addOptions(availableSelectMenuOptions),
         ])
         .toJSON(true),
-      embeds: new Embed()
+      embeds: new EmbedBuilder()
         .setDescription(Translations[locale].COMMANDS.INFORMATION.HELP.MESSAGE_1.DESCRIPTION_1)
         .setColor(Colors.COLOR)
         .toJSON(true),
