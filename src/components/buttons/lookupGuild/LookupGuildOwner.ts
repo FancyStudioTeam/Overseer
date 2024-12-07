@@ -4,7 +4,7 @@ import { Translations } from "@translations";
 import { createButtonComponent } from "@util/Handlers";
 import { createErrorMessage, createMessage } from "@utils";
 import { noop } from "es-toolkit";
-import { Embed, EmbedField } from "oceanic-builders";
+import { EmbedBuilder, EmbedFieldBuilder } from "oceanic-builders";
 import { ComponentTypes } from "oceanic.js";
 
 export default createButtonComponent({
@@ -36,10 +36,10 @@ export default createButtonComponent({
 
     return await createMessage(
       context,
-      new Embed()
+      new EmbedBuilder()
         .setTitle(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.OWNER.MESSAGE_1.TITLE)
         .addFields([
-          new EmbedField()
+          new EmbedFieldBuilder()
             .setName(
               Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.OWNER.MESSAGE_1.FIELD_1.NAME,
             )
@@ -49,7 +49,7 @@ export default createButtonComponent({
                 userName: owner.user.name,
               }),
             ),
-          new EmbedField()
+          new EmbedFieldBuilder()
             .setName(
               Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.OWNER.MESSAGE_1.FIELD_2.NAME,
             )

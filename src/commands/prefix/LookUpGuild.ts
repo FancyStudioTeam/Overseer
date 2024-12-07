@@ -2,8 +2,13 @@ import { Colors, Emojis } from "@constants";
 import { Translations } from "@translations";
 import { createPrefixCommand } from "@util/Handlers";
 import { createErrorMessage, createMessage, parseEmoji } from "@utils";
-import { ActionRow, Button, Embed, EmbedField } from "oceanic-builders";
-import { ButtonStyles } from "oceanic.js";
+import {
+  ActionRowBuilder,
+  DangerButtonBuilder,
+  EmbedBuilder,
+  EmbedFieldBuilder,
+  SecondaryButtonBuilder,
+} from "oceanic-builders";
 
 export default createPrefixCommand({
   developerOnly: true,
@@ -27,29 +32,26 @@ export default createPrefixCommand({
     }
 
     return createMessage(context, {
-      components: new ActionRow()
+      components: new ActionRowBuilder()
         .addComponents([
-          new Button()
+          new SecondaryButtonBuilder()
             .setCustomID(`@lookup_guild/owner#${guild.id}`)
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.OWNER.LABEL)
-            .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.SHIELD_PERSON)),
-          new Button()
+          new SecondaryButtonBuilder()
             .setCustomID(`@lookup_guild/invite#${guild.id}`)
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.INVITE.LABEL)
-            .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.LINK)),
-          new Button()
+          new DangerButtonBuilder()
             .setCustomID(`@lookup_guild/leave#${guild.id}`)
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.LEAVE.LABEL)
-            .setStyle(ButtonStyles.DANGER)
             .setEmoji(parseEmoji(Emojis.LOGOUT_COLORED)),
         ])
         .toJSON(true),
-      embeds: new Embed()
+      embeds: new EmbedBuilder()
         .setTitle(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.TITLE_1)
         .addFields([
-          new EmbedField()
+          new EmbedFieldBuilder()
             .setName(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_1.NAME)
             .setValue(
               Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_1.VALUE({
@@ -57,7 +59,7 @@ export default createPrefixCommand({
                 guildName: guild.name,
               }),
             ),
-          new EmbedField()
+          new EmbedFieldBuilder()
             .setName(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_2.NAME)
             .setValue(
               Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_2.VALUE({
@@ -65,14 +67,14 @@ export default createPrefixCommand({
                 memberCount: guild.memberCount,
               }),
             ),
-          new EmbedField()
+          new EmbedFieldBuilder()
             .setName(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_3.NAME)
             .setValue(
               Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_3.VALUE({
                 createdAt: guild.createdAt,
               }),
             ),
-          new EmbedField()
+          new EmbedFieldBuilder()
             .setName(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_4.NAME)
             .setValue(
               Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.MESSAGE_1.FIELD_4.VALUE({

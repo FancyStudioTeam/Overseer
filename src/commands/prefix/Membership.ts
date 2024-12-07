@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { Colors, Emojis } from "@constants";
 import { bold, spoiler } from "@discordjs/formatters";
 import { createPrefixCommand } from "@util/Handlers";
-import { Embed } from "oceanic-builders";
+import { EmbedBuilder } from "oceanic-builders";
 
 export default createPrefixCommand({
   developerOnly: true,
@@ -22,7 +22,7 @@ export default createPrefixCommand({
     const dmChannel = await client.rest.users.createDM(context.author.id);
 
     await client.rest.channels.createMessage(dmChannel.id, {
-      embeds: new Embed()
+      embeds: new EmbedBuilder()
         .setDescription(bold(`${Emojis.ARROW_CIRCLE_RIGHT} ${spoiler(membershipId)}`))
         .setColor(Colors.COLOR)
         .toJSON(true),

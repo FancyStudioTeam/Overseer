@@ -1,6 +1,6 @@
 import { Colors, WebhooksThreadIds } from "@constants";
 import { client } from "@index";
-import { Embed } from "oceanic-builders";
+import { EmbedBuilder } from "oceanic-builders";
 import type { EmbedOptions, ExecuteWebhookOptions } from "oceanic.js";
 import { parseWebhookURL } from "./parseWebhookURL.js";
 
@@ -48,7 +48,7 @@ export const createWebhookMessage = async (
   };
 
   if (typeof content === "string") {
-    webhookPayload.embeds = new Embed().setDescription(content).setColor(Colors.COLOR).toJSON(true);
+    webhookPayload.embeds = new EmbedBuilder().setDescription(content).setColor(Colors.COLOR).toJSON(true);
   }
 
   if (typeof content === "object") {
@@ -65,7 +65,7 @@ export const createWebhookMessage = async (
         ...content,
       };
     } else {
-      webhookPayload.embeds = new Embed(content as EmbedOptions).setColor(Colors.COLOR).toJSON(true);
+      webhookPayload.embeds = new EmbedBuilder(content as EmbedOptions).setColor(Colors.COLOR).toJSON(true);
     }
   }
 

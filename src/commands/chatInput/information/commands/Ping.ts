@@ -1,7 +1,7 @@
 import { Translations } from "@translations";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { createMessage } from "@util/utils";
-import { Embed, EmbedField } from "oceanic-builders";
+import { EmbedBuilder, EmbedFieldBuilder } from "oceanic-builders";
 
 export default createChatInputSubCommand({
   category: CommandCategory.INFORMATION,
@@ -14,9 +14,9 @@ export default createChatInputSubCommand({
 
     await createMessage(
       context,
-      new Embed()
+      new EmbedBuilder()
         .addFields([
-          new EmbedField()
+          new EmbedFieldBuilder()
             .setName(Translations[locale].COMMANDS.INFORMATION.PING.MESSAGE_1.FIELD_1.NAME)
             .setValue(
               Translations[locale].COMMANDS.INFORMATION.PING.MESSAGE_1.FIELD_1.VALUE({
@@ -24,7 +24,7 @@ export default createChatInputSubCommand({
               }),
             )
             .setInline(true),
-          new EmbedField()
+          new EmbedFieldBuilder()
             .setName(Translations[locale].COMMANDS.INFORMATION.PING.MESSAGE_1.FIELD_2.NAME)
             .setValue(
               Translations[locale].COMMANDS.INFORMATION.PING.MESSAGE_1.FIELD_2.VALUE({

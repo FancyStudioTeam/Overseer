@@ -7,7 +7,7 @@ import { CommandCategory, createSelectMenuComponent } from "@util/Handlers";
 import { Pagination } from "@util/Pagination";
 import { createErrorMessage } from "@utils";
 import { chunk, noop } from "es-toolkit";
-import { Embed, EmbedField } from "oceanic-builders";
+import { EmbedBuilder, EmbedFieldBuilder } from "oceanic-builders";
 import { ApplicationCommandOptionTypes, type ApplicationCommandOptions, ComponentTypes } from "oceanic.js";
 
 const ABBREVIATED_COMMAND_NAMES: Record<CommandCategory, string> = {
@@ -55,7 +55,7 @@ export default createSelectMenuComponent({
               name: [parentCommandName, subCommand.name, option.name].join(" "),
             };
 
-            return new EmbedField()
+            return new EmbedFieldBuilder()
               .setName(`/${name}`)
               .setValue(codeBlock("ansi", colors.bold.magenta(description)))
               .toJSON();
@@ -67,14 +67,14 @@ export default createSelectMenuComponent({
         name: [parentCommandName, subCommand.name].join(" "),
       };
 
-      return new EmbedField()
+      return new EmbedFieldBuilder()
         .setName(`/${name}`)
         .setValue(codeBlock("ansi", colors.bold.magenta(description)))
         .toJSON();
     });
     const chunkedFields = chunk(commandListFields, 3);
     const availablePaginationPages = chunkedFields.map((fields) =>
-      new Embed().addFields(fields).setColor(Colors.COLOR).toJSON(),
+      new EmbedBuilder().addFields(fields).setColor(Colors.COLOR).toJSON(),
     );
 
     return new Pagination(context, {

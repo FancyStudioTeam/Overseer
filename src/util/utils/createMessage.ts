@@ -1,5 +1,5 @@
 import { Colors } from "@constants";
-import { Embed } from "oceanic-builders";
+import { EmbedBuilder } from "oceanic-builders";
 import {
   type AnyInteractionGateway,
   type CreateMessageOptions,
@@ -23,7 +23,7 @@ export const createMessage = async (
   };
 
   if (typeof content === "string") {
-    messagePayload.embeds = new Embed().setDescription(content).setColor(Colors.COLOR).toJSON(true);
+    messagePayload.embeds = new EmbedBuilder().setDescription(content).setColor(Colors.COLOR).toJSON(true);
   }
 
   if (typeof content === "object") {
@@ -39,7 +39,7 @@ export const createMessage = async (
         ...content,
       };
     } else {
-      messagePayload.embeds = new Embed(content as EmbedOptions).setColor(Colors.COLOR).toJSON(true);
+      messagePayload.embeds = new EmbedBuilder(content as EmbedOptions).setColor(Colors.COLOR).toJSON(true);
     }
   }
 

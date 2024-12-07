@@ -4,8 +4,7 @@ import { codeBlock } from "@discordjs/formatters";
 import { Translations } from "@translations";
 import { createPrefixCommand } from "@util/Handlers";
 import { createMessage, createReaction, parseEmoji, truncateString } from "@util/utils";
-import { ActionRow, Button, Embed } from "oceanic-builders";
-import { ButtonStyles } from "oceanic.js";
+import { ActionRowBuilder, DangerButtonBuilder, EmbedBuilder, SecondaryButtonBuilder } from "oceanic-builders";
 
 const execute = async (data: string) => {
   const startWatch = process.hrtime.bigint();
@@ -40,26 +39,24 @@ export default createPrefixCommand({
     });
 
     await createMessage(context, {
-      components: new ActionRow()
+      components: new ActionRowBuilder()
         .addComponents([
-          new Button()
+          new SecondaryButtonBuilder()
             .setCustomID("@exec/took")
             .setLabel(
               Translations[locale].COMMANDS.DEVELOPER.EXEC.COMPONENTS.BUTTONS.TOOK.LABEL({
                 executionTime,
               }),
             )
-            .setStyle(ButtonStyles.SECONDARY)
             .setEmoji(parseEmoji(Emojis.TIMER))
             .setDisabled(true),
-          new Button()
+          new DangerButtonBuilder()
             .setCustomID("@exec/delete")
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.EXEC.COMPONENTS.BUTTONS.DELETE.LABEL)
-            .setStyle(ButtonStyles.DANGER)
             .setEmoji(parseEmoji(Emojis.TRASH_COLORED)),
         ])
         .toJSON(true),
-      embeds: new Embed().setDescription(codeBlock("ts", output)).setColor(Colors.COLOR).toJSON(true),
+      embeds: new EmbedBuilder().setDescription(codeBlock("ts", output)).setColor(Colors.COLOR).toJSON(true),
     });
   },
 });
