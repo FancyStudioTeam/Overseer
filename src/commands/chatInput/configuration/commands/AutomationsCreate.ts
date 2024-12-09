@@ -37,6 +37,7 @@ export default createChatInputSubCommand({
       method: "GET",
     });
     const attachmentContent = await attachmentContentRequest.text();
+    const attachmentContentBuffer = Buffer.from(attachmentContent);
     const { success, parserError } = await parse(attachmentContent);
 
     if (!success) {
@@ -48,7 +49,7 @@ export default createChatInputSubCommand({
       );
     }
 
-    const bufferSizeInKiloBytes = Buffer.from(attachmentContent).length / 1000;
+    const bufferSizeInKiloBytes = attachmentContentBuffer.length / 1000;
 
     if (bufferSizeInKiloBytes >= MAXIMUM_KILOBYTES(isPremium)) {
       return await createErrorMessage(
@@ -79,7 +80,7 @@ export default createChatInputSubCommand({
     }
 
     const automationId = DiscordSnowflake.generate().toString();
-    const compressedBuffer = Buffer.from(gzip(Buffer.from(attachmentContent)));
+    const compressedBuffer = Buffer.from(gzip(attachmentContentBuffer));
     const {
       general: { name: automationName },
     } = await client.prisma.guildAutomation.create({
