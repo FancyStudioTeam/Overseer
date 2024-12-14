@@ -1,7 +1,7 @@
 import { Colors, Emojis } from "@constants";
 import { Translations } from "@translations";
 import { createPrefixCommand } from "@util/Handlers";
-import { createErrorMessage, createMessage, parseEmoji } from "@utils";
+import { createErrorMessage, createMessage } from "@utils";
 import {
   ActionRowBuilder,
   DangerButtonBuilder,
@@ -37,15 +37,15 @@ export default createPrefixCommand({
           new SecondaryButtonBuilder()
             .setCustomID(`@lookup_guild/owner#${guild.id}`)
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.OWNER.LABEL)
-            .setEmoji(parseEmoji(Emojis.SHIELD_PERSON)),
+            .setEmoji(Emojis.SHIELD_PERSON),
           new SecondaryButtonBuilder()
             .setCustomID(`@lookup_guild/invite#${guild.id}`)
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.INVITE.LABEL)
-            .setEmoji(parseEmoji(Emojis.LINK)),
+            .setEmoji(Emojis.LINK),
           new DangerButtonBuilder()
             .setCustomID(`@lookup_guild/leave#${guild.id}`)
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.LOOKUP_GUILD.COMPONENTS.BUTTONS.LEAVE.LABEL)
-            .setEmoji(parseEmoji(Emojis.LOGOUT_COLORED)),
+            .setEmoji(Emojis.LOGOUT_COLORED),
         ])
         .toJSON(true),
       embeds: new EmbedBuilder()

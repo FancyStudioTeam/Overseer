@@ -2,7 +2,7 @@ import { Colors, Emojis } from "@constants";
 import { Translations } from "@translations";
 import { CommandCategory, createChatInputSubCommand } from "@util/Handlers";
 import { Pagination } from "@util/Pagination";
-import { createErrorMessage, parseEmoji } from "@utils";
+import { createErrorMessage } from "@utils";
 import { EmbedBuilder, EmbedFieldBuilder, SecondaryButtonBuilder } from "oceanic-builders";
 import { ungzip } from "pako";
 
@@ -47,17 +47,17 @@ export default createChatInputSubCommand({
             new SecondaryButtonBuilder()
               .setCustomID(`@automations_list/code#${automationId}`)
               .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DISPLAY.LABEL)
-              .setEmoji(parseEmoji(Emojis.CODE_BLOCKS))
+              .setEmoji(Emojis.CODE_BLOCKS)
               .toJSON(),
             new SecondaryButtonBuilder()
               .setCustomID(`@automations_list/download#${automationId}`)
               .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DOWNLOAD.LABEL)
-              .setEmoji(parseEmoji(Emojis.DOWNLOAD))
+              .setEmoji(Emojis.DOWNLOAD)
               .toJSON(),
             new SecondaryButtonBuilder()
               .setCustomID(`@automations_list/delete#${automationId}`)
               .setLabel(Translations[locale].COMMANDS.CONFIGURATION.AUTOMATIONS.LIST.COMPONENTS.BUTTONS.DELETE.LABEL)
-              .setEmoji(parseEmoji(Emojis.TRASH_COLORED))
+              .setEmoji(Emojis.TRASH_COLORED)
               .toJSON(),
           ],
           embed: new EmbedBuilder()

@@ -3,7 +3,7 @@ import { Colors, Emojis } from "@constants";
 import { codeBlock } from "@discordjs/formatters";
 import { Translations } from "@translations";
 import { createPrefixCommand } from "@util/Handlers";
-import { createMessage, createReaction, parseEmoji, truncateString } from "@util/utils";
+import { createMessage, createReaction, truncateString } from "@util/utils";
 import { ActionRowBuilder, DangerButtonBuilder, EmbedBuilder, SecondaryButtonBuilder } from "oceanic-builders";
 
 const execute = async (data: string) => {
@@ -48,12 +48,12 @@ export default createPrefixCommand({
                 executionTime,
               }),
             )
-            .setEmoji(parseEmoji(Emojis.TIMER))
+            .setEmoji(Emojis.TIMER)
             .setDisabled(true),
           new DangerButtonBuilder()
             .setCustomID("@exec/delete")
             .setLabel(Translations[locale].COMMANDS.DEVELOPER.EXEC.COMPONENTS.BUTTONS.DELETE.LABEL)
-            .setEmoji(parseEmoji(Emojis.TRASH_COLORED)),
+            .setEmoji(Emojis.TRASH_COLORED),
         ])
         .toJSON(true),
       embeds: new EmbedBuilder().setDescription(codeBlock("ts", output)).setColor(Colors.COLOR).toJSON(true),

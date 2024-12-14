@@ -2,7 +2,7 @@ import { Emojis } from "@constants";
 import { client } from "@index";
 import { Translations } from "@translations";
 import type { Locales, MaybeNullish, MessagePayload } from "@types";
-import { createErrorMessage, parseEmoji } from "@utils";
+import { createErrorMessage } from "@utils";
 import { chunk, noop } from "es-toolkit";
 import { ActionRowBuilder, EmbedBuilder, SecondaryButtonBuilder } from "oceanic-builders";
 import { InteractionCollector } from "oceanic-collectors";
@@ -49,16 +49,16 @@ export class Pagination {
           .addComponents([
             new SecondaryButtonBuilder()
               .setCustomID("@pagination/left")
-              .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_LEFT))
+              .setEmoji(Emojis.ARROW_CIRCLE_LEFT)
               .setDisabled(paginationEmbeds.length <= 1),
             new SecondaryButtonBuilder()
               .setCustomID("@pagination/pages")
               .setLabel(`${paginationIndex + 1}/${paginationEmbeds.length}`)
-              .setEmoji(parseEmoji(Emojis.EXPLORE))
+              .setEmoji(Emojis.EXPLORE)
               .setDisabled(),
             new SecondaryButtonBuilder()
               .setCustomID("@pagination/right")
-              .setEmoji(parseEmoji(Emojis.ARROW_CIRCLE_RIGHT))
+              .setEmoji(Emojis.ARROW_CIRCLE_RIGHT)
               .setDisabled(paginationEmbeds.length <= 1),
           ])
           .toJSON(),
@@ -147,29 +147,27 @@ export class Pagination {
     });
 
     interactionCollector.on("collect", async (collectedInteraction) => {
-      if (collectedInteraction.isComponentInteraction() && collectedInteraction.isButtonComponentInteraction()) {
-        await collectedInteraction.deferUpdate().catch(noop);
+      await collectedInteraction.deferUpdate().catch(noop);
 
-        match(collectedInteraction.data.customID)
-          .with(
-            "@pagination/left",
-            () => (this.paginationIndex = this.paginationIndex > 0 ? --this.paginationIndex : this.pages.length - 1),
-          )
-          .with(
-            "@pagination/right",
-            () => (this.paginationIndex = this.paginationIndex + 1 < this.pages.length ? ++this.paginationIndex : 0),
-          );
+      match(collectedInteraction.data.customID)
+        .with(
+          "@pagination/left",
+          () => (this.paginationIndex = this.paginationIndex > 0 ? --this.paginationIndex : this.pages.length - 1),
+        )
+        .with(
+          "@pagination/right",
+          () => (this.paginationIndex = this.paginationIndex + 1 < this.pages.length ? ++this.paginationIndex : 0),
+        );
 
-        const firstRow = message.components[0];
-        let indexButton = firstRow.components[1] as TextButton;
-        const messagePayload = this.getMessagePayload(this.paginationIndex);
+      const firstRow = message.components[0];
+      let indexButton = firstRow.components[1] as TextButton;
+      const messagePayload = this.getMessagePayload(this.paginationIndex);
 
-        indexButton = new SecondaryButtonBuilder(indexButton)
-          .setLabel(`${this.paginationIndex + 1}/${this.pages.length}`)
-          .toJSON();
+      indexButton = new SecondaryButtonBuilder(indexButton)
+        .setLabel(`${this.paginationIndex + 1}/${this.pages.length}`)
+        .toJSON();
 
-        await this.handleMessageEdit(paginationData, messagePayload);
-      }
+      await this.handleMessageEdit(paginationData, messagePayload);
     });
 
     interactionCollector.once("end", async (_, endReason) => {
