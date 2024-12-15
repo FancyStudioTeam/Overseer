@@ -6,11 +6,12 @@ import type {
   ChatInputSubCommandData,
   MaybeNullish,
   MessageCommandData,
+  ModalComponentData,
   PrefixCommandData,
   SelectMenuComponentData,
   UserCommandData,
 } from "@types";
-import { CommandCategory } from "@util/Handlers";
+import { CommandCategory, ComponentType } from "@util/Handlers";
 import { CreateLogMessageType, createLogMessage } from "@utils";
 import { glob } from "glob";
 import {
@@ -18,7 +19,6 @@ import {
   ApplicationIntegrationTypes,
   Client,
   Collection,
-  ComponentTypes,
   type CreateApplicationCommandOptions,
   type Guild,
   InteractionContextTypes,
@@ -32,6 +32,7 @@ const commandsArray: CreateApplicationCommandOptions[] = [];
 export class Discord extends Client {
   readonly components: {
     buttons: Collection<string, ButtonComponentData>;
+    modals: Collection<string, ModalComponentData>;
     selectMenus: Collection<string, SelectMenuComponentData>;
   };
   readonly interactions: {
@@ -132,6 +133,7 @@ export class Discord extends Client {
 
     this.components = {
       buttons: new Collection(),
+      modals: new Collection(),
       selectMenus: new Collection(),
     };
     this.interactions = {
@@ -229,7 +231,9 @@ export class Discord extends Client {
     await this.loadFiles(`${join(__dirname, "..", "components")}/*/*/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         const componentPath = this.resolve(path);
-        const component = require(componentPath).default as MaybeNullish<ButtonComponentData | SelectMenuComponentData>;
+        const component = require(componentPath).default as MaybeNullish<
+          ButtonComponentData | ModalComponentData | SelectMenuComponentData
+        >;
 
         if (!(component?.name && component?.run)) {
           throw new Error(`Path "${componentPath}" is missing a name or run function`);
@@ -238,13 +242,19 @@ export class Discord extends Client {
         match(component)
           .with(
             {
-              type: ComponentTypes.BUTTON,
+              type: ComponentType.BUTTON,
             },
             (buttonComponentData) => this.components.buttons.set(buttonComponentData.name, buttonComponentData),
           )
           .with(
             {
-              type: ComponentTypes.STRING_SELECT,
+              type: ComponentType.MODAL,
+            },
+            (modalComponentData) => this.components.modals.set(modalComponentData.name, modalComponentData),
+          )
+          .with(
+            {
+              type: ComponentType.SELECT_MENU,
             },
             (selectMenuComponentData) =>
               this.components.selectMenus.set(selectMenuComponentData.name, selectMenuComponentData),
