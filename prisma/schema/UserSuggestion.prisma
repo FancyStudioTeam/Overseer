@@ -1,13 +1,30 @@
 model UserSuggestion {
-  createdAt    DateTime              @default(now())
-  general      UserSuggestionGeneral
-  id           String                @id @default(auto()) @map("_id") @db.ObjectId
-  suggestionId String                @unique
+  comments     UserSuggestionComment[]
+  content      String
+  createdAt    DateTime                @default(now())
+  guildId      String
+  id           String                  @id @default(auto()) @map("_id") @db.ObjectId
+  lastUpdate   DateTime                @default(now())
+  messageId    String                  @unique
+  status       UserSuggestionStatus    @default(PENDING)
+  suggestionId String                  @unique
+  userId       String
+  votesDown    String[]                @default([])
+  votesUp      String[]                @default([])
 }
 
-type UserSuggestionGeneral {
-  channelId String
-  content   String
-  guildId   String
-  userId    String
+model UserSuggestionComment {
+  comment      String
+  commentedAt  DateTime       @default(now())
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  moderatorId  String
+  suggestion   UserSuggestion @relation(fields: [suggestionId], references: [suggestionId])
+  suggestionId String
+}
+
+enum UserSuggestionStatus {
+  APPROVED
+  PENDING
+  REJECTED
+  UNDER_REVIEW
 }
