@@ -1,26 +1,14 @@
 model GuildSuggestion {
-  createdAt DateTime               @default(now())
-  general   GuildSuggestionGeneral
-  guildId   String                 @unique
-  id        String                 @id @default(auto()) @map("_id") @db.ObjectId
-
-  @@unique([general.channelId, general.review.channelId, general.forum.forumChannelId, general.forum.threadId])
-}
-
-type GuildSuggestionGeneral {
-  channelId             String
-  forum                 GuildSuggestionGeneralForum
-  review                GuildSuggestionGeneralReview
-  useMessageSuggestions Boolean                      @default(false)
-}
-
-type GuildSuggestionGeneralForum {
-  enabled        Boolean @default(false)
-  forumChannelId String?
-  threadId       String?
-}
-
-type GuildSuggestionGeneralReview {
-  channelId String?
-  isEnabled Boolean @default(false)
+  createdAt             DateTime @default(now())
+  enabled               Boolean  @default(false)
+  forumChannelId        String?  @unique
+  forumEnabled          Boolean  @default(false)
+  forumThreadId         String?  @unique
+  guildId               String   @unique
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  lastUpdate            DateTime @default(now())
+  reviewChannelId       String?  @unique
+  reviewEnabled         Boolean  @default(false)
+  suggestionsChannelId  String?  @unique
+  useMessageSuggestions Boolean  @default(false)
 }
