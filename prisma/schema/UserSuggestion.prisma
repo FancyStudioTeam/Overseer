@@ -15,7 +15,7 @@ model UserSuggestion {
 
 model UserSuggestionComment {
   comment      String
-  commentedAt  DateTime       @default(now())
+  createdAt    DateTime       @default(now())
   id           String         @id @default(auto()) @map("_id") @db.ObjectId
   moderatorId  String
   suggestion   UserSuggestion @relation(fields: [suggestionId], references: [suggestionId])
