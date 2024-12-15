@@ -1,12 +1,8 @@
 model ClientMembership {
-  createdAt    DateTime                @default(now())
-  general      ClientMembershipGeneral
-  id           String                  @id @default(auto()) @map("_id") @db.ObjectId
-  membershipId String                  @unique
-}
-
-type ClientMembershipGeneral {
-  type ClientMembershipType @default(MONTH)
+  createdAt    DateTime             @default(now())
+  id           String               @id @default(auto()) @map("_id") @db.ObjectId
+  membershipId String               @unique
+  type         ClientMembershipType @default(MONTH)
 }
 
 enum ClientMembershipType {

@@ -1,16 +1,12 @@
 model GuildAutomation {
-  automationId String                 @unique
-  createdAt    DateTime               @default(now())
-  general      GuildAutomationGeneral
-  id           String                 @id @default(auto()) @map("_id") @db.ObjectId
-}
-
-type GuildAutomationGeneral {
-  createdBy String
-  data      Bytes
-  guildId   String
-  name      String                 @default("My Automation")
-  trigger   GuildAutomationTrigger
+  automationData Bytes
+  automationId   String                 @unique
+  createdAt      DateTime               @default(now())
+  createdBy      String
+  guildId        String
+  id             String                 @id @default(auto()) @map("_id") @db.ObjectId
+  name           String                 @default("My Automation")
+  trigger        GuildAutomationTrigger
 }
 
 enum GuildAutomationTrigger {

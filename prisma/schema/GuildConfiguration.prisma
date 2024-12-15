@@ -1,19 +1,11 @@
 model GuildConfiguration {
-  createdAt DateTime                  @default(now())
-  general   GuildConfigurationGeneral
-  guildId   String                    @unique
-  id        String                    @id @default(auto()) @map("_id") @db.ObjectId
-  premium   GuildConfigurationPremium
-}
-
-type GuildConfigurationGeneral {
-  locale GuildConfigurationLocale @default(EN)
-}
-
-type GuildConfigurationPremium {
-  expiresAt     DateTime?
-  isEnabled     Boolean   @default(false)
-  premiumTokens Int       @default(0)
+  createdAt        DateTime                 @default(now())
+  guildId          String                   @unique
+  id               String                   @id @default(auto()) @map("_id") @db.ObjectId
+  locale           GuildConfigurationLocale @default(EN)
+  premiumEnabled   Boolean                  @default(false)
+  premiumExpiresAt DateTime?
+  premiumTokens    Int                      @default(0)
 }
 
 enum GuildConfigurationLocale {
