@@ -36,8 +36,8 @@ importers:
         specifier: 16.4.7
         version: 16.4.7
       es-toolkit:
-        specifier: 1.29.0
-        version: 1.29.0
+        specifier: 1.30.1
+        version: 1.30.1
       glob:
         specifier: 11.0.0
         version: 11.0.0
@@ -2833,8 +2833,8 @@ packages:
   es-module-lexer@1.5.4:
     resolution: {integrity: sha512-MVNK56NiMrOwitFB7cqDwq0CQutbw+0BvLshJSse0MUNU+y1FC3bUS/AQg7oUng+/wKrrki7JfmwtVHkVfPLlw==}
 
-  es-toolkit@1.29.0:
-    resolution: {integrity: sha512-GjTll+E6APcfAQA09D89HdT8Qn2Yb+TeDSDBTMcxAo+V+w1amAtCI15LJu4YPH/UCPoSo/F47Gr1LIM0TE0lZA==}
+  es-toolkit@1.30.1:
+    resolution: {integrity: sha512-ZXflqanzH8BpHkDhFa10bBf6ONDCe84EPUm7SSICGzuuROSluT2ynTPtwn9PcRelMtorCRozSknI/U0MNYp0Uw==}
 
   esast-util-from-estree@2.0.0:
     resolution: {integrity: sha512-4CyanoAudUSBAn5K13H4JhsMH6L9ZP7XbLVe/dKybkxMO7eDyLsT8UHl9TRNrU2Gr9nz+FovfSIjuXWJ81uVwQ==}
@@ -4161,6 +4161,7 @@ packages:
 
   oceanic-builders@1.1.0:
     resolution: {integrity: sha512-ZuTZ8AbXPE6cTPKHSCEYZRkPh0QwlN4OA3UrI3TZS5V0vSY0LXJWptLYzOySeRHX4+D9YXs6nQ4+jUqyuMpIjw==}
+    deprecated: 'Changelog: https://github.com/FancyStudioTeam/OceanicBuilders/releases'
 
   oceanic-collectors@1.0.7:
     resolution: {integrity: sha512-hPI4PTrZkBU31g+DJu73CPH3tuBLP9+ifUgAN0WDtZQBfLNielH7Jq1eXGRVNPCqou96njSkzXZLedndfQVvkA==}
@@ -7086,7 +7087,7 @@ snapshots:
       react-dev-utils: 12.0.1(typescript@5.7.2)(webpack@5.97.1)
       terser-webpack-plugin: 5.3.10(webpack@5.97.1)
       tslib: 2.8.1
-      url-loader: 4.1.1(file-loader@6.2.0(webpack@5.97.1))(webpack@5.97.1)
+      url-loader: 4.1.1(file-loader@6.2.0(webpack@5.96.1))(webpack@5.97.1)
       webpack: 5.97.1
       webpackbar: 6.0.1(webpack@5.97.1)
     transitivePeerDependencies:
@@ -7121,7 +7122,7 @@ snapshots:
       css-loader: 6.11.0(webpack@5.96.1)
       css-minimizer-webpack-plugin: 5.0.1(clean-css@5.3.3)(webpack@5.96.1)
       cssnano: 6.1.2(postcss@8.4.49)
-      file-loader: 6.2.0(webpack@5.97.1)
+      file-loader: 6.2.0(webpack@5.96.1)
       html-minifier-terser: 7.2.0
       mini-css-extract-plugin: 2.9.2(webpack@5.96.1)
       null-loader: 4.0.1(webpack@5.96.1)
@@ -7337,7 +7338,7 @@ snapshots:
       tslib: 2.8.1
       unified: 11.0.5
       unist-util-visit: 5.0.0
-      url-loader: 4.1.1(file-loader@6.2.0(webpack@5.97.1))(webpack@5.97.1)
+      url-loader: 4.1.1(file-loader@6.2.0(webpack@5.96.1))(webpack@5.97.1)
       vfile: 6.0.3
       webpack: 5.97.1
     transitivePeerDependencies:
@@ -7983,7 +7984,7 @@ snapshots:
       resolve-pathname: 3.0.0
       shelljs: 0.8.5
       tslib: 2.8.1
-      url-loader: 4.1.1(file-loader@6.2.0(webpack@5.97.1))(webpack@5.97.1)
+      url-loader: 4.1.1(file-loader@6.2.0(webpack@5.96.1))(webpack@5.97.1)
       utility-types: 3.11.0
       webpack: 5.97.1
     transitivePeerDependencies:
@@ -9604,7 +9605,7 @@ snapshots:
 
   es-module-lexer@1.5.4: {}
 
-  es-toolkit@1.29.0: {}
+  es-toolkit@1.30.1: {}
 
   esast-util-from-estree@2.0.0:
     dependencies:
@@ -13026,16 +13027,16 @@ snapshots:
       schema-utils: 3.3.0
       webpack: 5.96.1
     optionalDependencies:
-      file-loader: 6.2.0(webpack@5.97.1)
+      file-loader: 6.2.0(webpack@5.96.1)
 
-  url-loader@4.1.1(file-loader@6.2.0(webpack@5.97.1))(webpack@5.97.1):
+  url-loader@4.1.1(file-loader@6.2.0(webpack@5.96.1))(webpack@5.97.1):
     dependencies:
       loader-utils: 2.0.4
       mime-types: 2.1.35
       schema-utils: 3.3.0
       webpack: 5.97.1
     optionalDependencies:
-      file-loader: 6.2.0(webpack@5.97.1)
+      file-loader: 6.2.0(webpack@5.96.1)
 
   url-regex-safe@4.0.0:
     dependencies:
