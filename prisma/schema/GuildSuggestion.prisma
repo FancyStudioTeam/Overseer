@@ -1,6 +1,6 @@
 model GuildSuggestion {
   createdAt             DateTime @default(now())
-  enabled               Boolean  @default(false)
+  enabled               Boolean  @default(true)
   forumChannelId        String?  @unique
   forumEnabled          Boolean  @default(false)
   forumThreadId         String?  @unique
