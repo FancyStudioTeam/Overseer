@@ -57,8 +57,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0
       ts-pattern:
-        specifier: 5.5.0
-        version: 5.5.0
+        specifier: 5.6.0
+        version: 5.6.0
       url-regex-safe:
         specifier: 4.0.0
         version: 4.0.0
@@ -5485,6 +5485,9 @@ packages:
 
   ts-pattern@5.5.0:
     resolution: {integrity: sha512-jqbIpTsa/KKTJYWgPNsFNbLVpwCgzXfFJ1ukNn4I8hMwyQzHMJnk/BqWzggB0xpkILuKzaO/aMYhS0SkaJyKXg==}
+
+  ts-pattern@5.6.0:
+    resolution: {integrity: sha512-SL8u60X5+LoEy9tmQHWCdPc2hhb2pKI6I1tU5Jue3v8+iRqZdcT3mWPwKKJy1fMfky6uha82c8ByHAE8PMhKHw==}
 
   tsc-alias@1.8.10:
     resolution: {integrity: sha512-Ibv4KAWfFkFdKJxnWfVtdOmB0Zi1RJVxcbPGiCDsFpCQSsmpWyuzHG3rQyI5YkobWwxFPEyQfu1hdo4qLG2zPw==}
@@ -12824,6 +12827,8 @@ snapshots:
   trough@2.2.0: {}
 
   ts-pattern@5.5.0: {}
+
+  ts-pattern@5.6.0: {}
 
   tsc-alias@1.8.10:
     dependencies:
