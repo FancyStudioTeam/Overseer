@@ -1,5 +1,5 @@
 generator client {
-  previewFeatures = ["tracing", "prismaSchemaFolder"]
+  previewFeatures = ["prismaSchemaFolder"]
   provider        = "prisma-client-js"
 }
 
