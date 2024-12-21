@@ -152,7 +152,7 @@ export class Discord extends Client {
     })();
   }
 
-  init = async () => {
+  async init() {
     await this.connect();
     await this.prisma
       .$connect()
@@ -168,18 +168,18 @@ export class Discord extends Client {
       this.registerEvents(),
       this.registerModules(),
     ]);
-  };
+  }
 
-  deploy = async () => {
+  async deploy() {
     await this.registerCommands();
     await this.rest.applications
       .bulkEditGlobalCommands(this.application.id, commandsArray)
       .then((commands) =>
         createLogMessage(`The interactions have been deployed | Deployed ${commands.length} interactions`),
       );
-  };
+  }
 
-  private registerCommands = async () => {
+  private async registerCommands() {
     this.interactions.chatInput.clear();
     this.interactions.user.clear();
 
@@ -222,9 +222,9 @@ export class Discord extends Client {
         });
       }
     });
-  };
+  }
 
-  private registerComponents = async () => {
+  private async registerComponents() {
     this.components.buttons.clear();
     this.components.selectMenus.clear();
 
@@ -261,9 +261,9 @@ export class Discord extends Client {
           );
       }
     });
-  };
+  }
 
-  private registerSubCommands = async () => {
+  private async registerSubCommands() {
     this.subCommands.clear();
 
     await this.loadFiles(`${join(__dirname, "..", "commands/chatInput")}/*/*/*.{ts,js}`).then((paths) => {
@@ -283,9 +283,9 @@ export class Discord extends Client {
         this.subCommands.set([categories[subCommand.category], subCommand.name].join("_"), subCommand);
       }
     });
-  };
+  }
 
-  private registerPrefixCommands = async () => {
+  private async registerPrefixCommands() {
     this.prefixCommands.clear();
 
     await this.loadFiles(`${join(__dirname, "..", "commands/prefix")}/*.{ts,js}`).then((paths) => {
@@ -300,9 +300,9 @@ export class Discord extends Client {
         this.prefixCommands.set(prefixCommand.name, prefixCommand);
       }
     });
-  };
+  }
 
-  private registerEvents = async () => {
+  private async registerEvents() {
     this.removeAllListeners();
 
     await this.loadFiles(`${join(__dirname, "..", "events")}/*/*.{ts,js}`).then((paths) => {
@@ -310,16 +310,17 @@ export class Discord extends Client {
         require(this.resolve(path));
       }
     });
-  };
+  }
 
-  private registerModules = async () =>
+  private async registerModules() {
     await this.loadFiles(`${join(__dirname, "..", "modules")}/*.{ts,js}`).then((paths) => {
       for (const path of paths) {
         require(this.resolve(path)).default(this);
       }
     });
+  }
 
-  fetchUser = async (
+  async fetchUser(
     userId: string,
     {
       type,
@@ -328,14 +329,15 @@ export class Discord extends Client {
     } = {
       type: FetchFrom.DEFAULT,
     },
-  ): Promise<MaybeNullish<User>> =>
-    match(type)
+  ): Promise<MaybeNullish<User>> {
+    return match(type)
       .with(FetchFrom.DEFAULT, async () => this.users.get(userId) ?? (await this.rest.users.get(userId)))
       .with(FetchFrom.CACHE, () => this.users.get(userId))
       .with(FetchFrom.REST, async () => await this.rest.users.get(userId))
       .run();
+  }
 
-  fetchMember = async (
+  async fetchMember(
     guild: Guild,
     memberId: string,
     {
@@ -345,8 +347,8 @@ export class Discord extends Client {
     } = {
       type: FetchFrom.DEFAULT,
     },
-  ): Promise<MaybeNullish<Member>> =>
-    match(type)
+  ): Promise<MaybeNullish<Member>> {
+    return match(type)
       .with(
         FetchFrom.DEFAULT,
         async () => guild.members.get(memberId) ?? (await this.rest.guilds.getMember(guild.id, memberId)),
@@ -354,8 +356,9 @@ export class Discord extends Client {
       .with(FetchFrom.CACHE, () => guild.members.get(memberId))
       .with(FetchFrom.REST, async () => await this.rest.guilds.getMember(guild.id, memberId))
       .run();
+  }
 
-  isGuildMembershipActive = async (
+  async isGuildMembershipActive(
     _guildId: string,
     {
       expiresAt,
@@ -364,19 +367,22 @@ export class Discord extends Client {
       expiresAt: MaybeNullish<Date | string>;
       isEnabled: boolean;
     },
-  ) => {
+  ) {
     const isActiveFunction = () => isEnabled && (!expiresAt || Date.now() <= Date.parse(expiresAt.toString()));
     const isActive = isActiveFunction();
 
     return isActive;
-  };
+  }
 
-  private resolve = (path: string) => (path.split(sep).includes("dist") ? path : join(process.cwd(), path));
+  private resolve(path: string) {
+    return path.split(sep).includes("dist") ? path : join(process.cwd(), path);
+  }
 
-  private loadFiles = async (path: string | string[]) =>
-    await glob(path, {
+  private async loadFiles(path: string | string[]) {
+    return await glob(path, {
       ignore: ["node_modules"],
     });
+  }
 }
 
 export enum FetchFrom {
