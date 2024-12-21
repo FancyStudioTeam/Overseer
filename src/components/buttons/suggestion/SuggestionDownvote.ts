@@ -41,9 +41,7 @@ export default createButtonComponent({
     if (!userSuggestion) {
       return await createErrorMessage(
         context,
-        Translations[locale].COMMANDS.UTILITY.SUGGESTION.COMPONENTS.BUTTONS.SUGGESTION_NOT_FOUND({
-          dataId: originalMessage.id,
-        }),
+        Translations[locale].COMMANDS.UTILITY.SUGGESTION.COMPONENTS.BUTTONS.SUGGESTION_NOT_FOUND,
       );
     }
 

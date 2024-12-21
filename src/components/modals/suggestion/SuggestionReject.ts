@@ -30,9 +30,7 @@ export default createModalComponent({
     if (!userSuggestion) {
       return await createErrorMessage(
         context,
-        Translations[locale].COMMANDS.UTILITY.SUGGESTION.COMPONENTS.BUTTONS.SUGGESTION_NOT_FOUND({
-          dataId: originalMessageId,
-        }),
+        Translations[locale].COMMANDS.UTILITY.SUGGESTION.COMPONENTS.BUTTONS.SUGGESTION_NOT_FOUND,
       );
     }
 
