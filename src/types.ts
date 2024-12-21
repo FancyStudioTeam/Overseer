@@ -10,7 +10,13 @@ import type {
   createSelectMenuComponent,
   createUserCommand,
 } from "@util/Handlers";
-import type { CreateMessageOptions, InteractionContent } from "oceanic.js";
+import type {
+  AnyInteractionGateway,
+  CreateMessageOptions,
+  EmbedOptions,
+  InteractionContent,
+  Message,
+} from "oceanic.js";
 
 export type Locales = GuildConfigurationLocale;
 
@@ -32,4 +38,7 @@ export type SelectMenuComponentData = ReturnType<typeof createSelectMenuComponen
 };
 export type UserCommandData = ReturnType<typeof createUserCommand>;
 
+export type AnyMessagePayload = string | EmbedOptions | CreateMessageOptions;
 export type MessagePayload = CreateMessageOptions & InteractionContent;
+
+export type AnyContext = AnyInteractionGateway | Message;

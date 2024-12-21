@@ -15,4 +15,5 @@ export * from "./formatUnix.js";
 export * from "./handleError.js";
 export * from "./parseEmoji.js";
 export * from "./parseWebhookURL.js";
+export * from "./resolveMessagePayload.js";
 export * from "./truncateString.js";
