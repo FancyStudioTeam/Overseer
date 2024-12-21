@@ -11,6 +11,8 @@ model UserSuggestion {
   userId       String
   votesDown    String[]                @default([])
   votesUp      String[]                @default([])
+
+  @@index([guildId, messageId])
 }
 
 model UserSuggestionComment {
@@ -18,8 +20,10 @@ model UserSuggestionComment {
   createdAt    DateTime       @default(now())
   id           String         @id @default(auto()) @map("_id") @db.ObjectId
   moderatorId  String
-  suggestion   UserSuggestion @relation(fields: [suggestionId], references: [suggestionId])
+  suggestion   UserSuggestion @relation(fields: [suggestionId], onDelete: Cascade, references: [suggestionId])
   suggestionId String
+
+  @@index([suggestionId])
 }
 
 enum UserSuggestionStatus {
