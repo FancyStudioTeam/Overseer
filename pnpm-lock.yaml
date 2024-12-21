@@ -62,9 +62,6 @@ importers:
       url-regex-safe:
         specifier: 4.0.0
         version: 4.0.0
-      yamlcord:
-        specifier: 0.0.2-alpha.1
-        version: 0.0.2-alpha.1
     devDependencies:
       '@types/json-logic-js':
         specifier: 2.0.8
@@ -5483,9 +5480,6 @@ packages:
   trough@2.2.0:
     resolution: {integrity: sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw==}
 
-  ts-pattern@5.5.0:
-    resolution: {integrity: sha512-jqbIpTsa/KKTJYWgPNsFNbLVpwCgzXfFJ1ukNn4I8hMwyQzHMJnk/BqWzggB0xpkILuKzaO/aMYhS0SkaJyKXg==}
-
   ts-pattern@5.6.0:
     resolution: {integrity: sha512-SL8u60X5+LoEy9tmQHWCdPc2hhb2pKI6I1tU5Jue3v8+iRqZdcT3mWPwKKJy1fMfky6uha82c8ByHAE8PMhKHw==}
 
@@ -5805,9 +5799,6 @@ packages:
     engines: {node: '>= 14'}
     hasBin: true
 
-  yamlcord@0.0.2-alpha.1:
-    resolution: {integrity: sha512-wCapcf9suZoHhDXpsF6tqF2RzK3j38i8GpPuv+zHpeO+U67SB6eHiTDODf596dNCiog0f1f+a4yp7wLsUZ0MBA==}
-
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
@@ -5815,9 +5806,6 @@ packages:
   yocto-queue@1.1.1:
     resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
     engines: {node: '>=12.20'}
-
-  zod@3.23.8:
-    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -12821,8 +12809,6 @@ snapshots:
 
   trough@2.2.0: {}
 
-  ts-pattern@5.5.0: {}
-
   ts-pattern@5.6.0: {}
 
   tsc-alias@1.8.10:
@@ -13225,17 +13211,8 @@ snapshots:
 
   yaml@2.6.1: {}
 
-  yamlcord@0.0.2-alpha.1:
-    dependencies:
-      emoji-regex: 10.4.0
-      js-yaml: 4.1.0
-      ts-pattern: 5.5.0
-      zod: 3.23.8
-
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.1.1: {}
-
-  zod@3.23.8: {}
 
   zwitch@2.0.4: {}

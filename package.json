@@ -18,8 +18,7 @@
     "oceanic.js": "1.11.2",
     "pako": "2.1.0",
     "ts-pattern": "5.6.0",
-    "url-regex-safe": "4.0.0",
-    "yamlcord": "0.0.2-alpha.1"
+    "url-regex-safe": "4.0.0"
   },
   "description": "An easy-to-use bot to manage Discord servers",
   "devDependencies": {
