@@ -1,3 +1,4 @@
+export * from "./checkBitField.js";
 export * from "./checkChannelMemberPermissions.js";
 export * from "./checkGuildMemberPermissions.js";
 export * from "./createErrorMessage.js";

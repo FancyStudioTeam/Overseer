@@ -2,8 +2,9 @@ import { client } from "@index";
 import { RateLimitManager } from "@sapphire/ratelimits";
 import { checkChannelMemberPermissions } from "@utils";
 import { noop } from "es-toolkit";
-import { ApplicationCommandTypes, ChannelTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
+import { ApplicationCommandTypes, ComponentTypes, InteractionTypes } from "oceanic.js";
 import { match } from "ts-pattern";
+import { handleModal } from "./handlers/handleModal.js";
 import {
   handleAutoComplete,
   handleButton,
@@ -20,7 +21,6 @@ const componentRateLimiter = new RateLimitManager(7000, 5);
 client.on("interactionCreate", async (interaction) => {
   if (!(interaction.inCachedGuildChannel() && interaction.guild)) return;
   if (!interaction.channel) return;
-  if (interaction.channel.type !== ChannelTypes.GUILD_TEXT) return;
   if (interaction.user.bot) return;
 
   const guildConfiguration = await client.prisma.guildConfiguration.findUnique({
@@ -30,10 +30,10 @@ client.on("interactionCreate", async (interaction) => {
   });
   const { isPremium, locale } = {
     isPremium: await client.isGuildMembershipActive(interaction.guildID, {
-      isEnabled: !!guildConfiguration?.premium.isEnabled,
-      expiresAt: guildConfiguration?.premium.expiresAt ?? null,
+      isEnabled: !!guildConfiguration?.premiumEnabled,
+      expiresAt: guildConfiguration?.premiumExpiresAt,
     }),
-    locale: guildConfiguration?.general.locale ?? "EN",
+    locale: guildConfiguration?.locale ?? "EN",
   };
   const clientHasMainChannelPermissions = await checkChannelMemberPermissions(interaction.guild.clientMember, {
     channel: interaction.channel,
@@ -134,6 +134,20 @@ client.on("interactionCreate", async (interaction) => {
                 variable,
               }),
           );
+      },
+    )
+    .with(
+      {
+        type: InteractionTypes.MODAL_SUBMIT,
+      },
+      async (modalSubmitInteraction) => {
+        const [collectionKey, variable] = modalSubmitInteraction.data.customID.split("#");
+
+        await handleModal(modalSubmitInteraction, collectionKey, {
+          isPremium,
+          locale,
+          variable,
+        });
       },
     )
     .otherwise(noop);

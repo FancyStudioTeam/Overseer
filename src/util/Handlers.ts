@@ -11,6 +11,7 @@ import type {
   CreateMessageApplicationCommandOptions,
   CreateUserApplicationCommandOptions,
   Message,
+  ModalSubmitInteraction,
   PermissionName,
   SelectMenuTypes,
 } from "oceanic.js";
@@ -83,7 +84,6 @@ export const createButtonComponent = (createOptions: {
     bot?: PermissionName[];
     user?: PermissionName[];
   };
-  type: ComponentTypes.BUTTON;
   run: (config: {
     client: Discord;
     context: ButtonComponentInteraction;
@@ -91,7 +91,10 @@ export const createButtonComponent = (createOptions: {
     isPremium: boolean;
     variable: string;
   }) => Promise<unknown>;
-}) => createOptions;
+}) => ({
+  ...createOptions,
+  type: ComponentType.BUTTON,
+});
 
 export const createSelectMenuComponent = (createOptions: {
   developerOnly?: boolean;
@@ -100,7 +103,6 @@ export const createSelectMenuComponent = (createOptions: {
     bot?: PermissionName[];
     user?: PermissionName[];
   };
-  type: SelectMenuTypes;
   run: (config: {
     client: Discord;
     context: SelectMenuComponentInteraction;
@@ -108,7 +110,39 @@ export const createSelectMenuComponent = (createOptions: {
     isPremium: boolean;
     variable: string;
   }) => Promise<unknown>;
-}) => createOptions;
+}) => ({
+  ...createOptions,
+  type: ComponentType.SELECT_MENU,
+});
+
+export const createModalComponent = (createOptions: {
+  developerOnly?: boolean;
+  name: string;
+  permissions?: {
+    bot?: PermissionName[];
+    user?: PermissionName[];
+  };
+  run: (config: {
+    client: Discord;
+    context: ModalComponentInteraction;
+    locale: Locales;
+    isPremium: boolean;
+    variable: string;
+  }) => Promise<unknown>;
+}) => ({
+  ...createOptions,
+  type: ComponentType.MODAL,
+});
+
+export enum HandlerTypes {
+  CHAT_INPUT,
+}
+
+export enum ComponentType {
+  BUTTON,
+  MODAL,
+  SELECT_MENU,
+}
 
 export enum CommandCategory {
   CONFIGURATION,
@@ -120,6 +154,7 @@ type AutoCompleteInteraction = AutocompleteInteraction<AnyTextableGuildChannel>;
 type ButtonComponentInteraction = ComponentInteraction<ComponentTypes.BUTTON, AnyTextableGuildChannel>;
 type ChatInputCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.CHAT_INPUT>;
 type MessageCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.MESSAGE>;
+type ModalComponentInteraction = ModalSubmitInteraction<AnyTextableGuildChannel>;
 type PrefixCommandMessage = Message<AnyTextableGuildChannel>;
 type SelectMenuComponentInteraction = ComponentInteraction<SelectMenuTypes, AnyTextableGuildChannel>;
 type UserCommandInteraction = CommandInteraction<AnyTextableGuildChannel, ApplicationCommandTypes.USER>;
