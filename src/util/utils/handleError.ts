@@ -1,14 +1,13 @@
 import { codeBlock } from "@discordjs/formatters";
 import { Translations } from "@translations";
-import type { Locales } from "@types";
-import type { AnyInteractionGateway, Message } from "oceanic.js";
+import type { AnyContext, Locales } from "@types";
 import { CreateLogMessageType, createLogMessage } from "./createLogMessage.js";
 import { createMessage } from "./createMessage.js";
 import { CreateWebhookMessageType, createWebhookMessage } from "./createWebhookMessage.js";
 import { truncateString } from "./truncateString.js";
 
 export const handleError = async (
-  context: AnyInteractionGateway | Message,
+  context: AnyContext,
   {
     error,
     locale,

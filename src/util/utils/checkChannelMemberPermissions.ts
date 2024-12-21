@@ -1,7 +1,7 @@
 import { client } from "@index";
 import { Translations } from "@translations";
-import type { Locales } from "@types";
-import type { AnyInteractionGateway, AnyTextableGuildChannel, Member, Message, PermissionName } from "oceanic.js";
+import type { AnyContext, Locales } from "@types";
+import type { AnyTextableGuildChannel, Member, PermissionName } from "oceanic.js";
 import { createMessage } from "./createMessage.js";
 
 const CLIENT_OR_USER = (userId: string) => (userId === client.user.id ? "CLIENT" : "USER");
@@ -16,7 +16,7 @@ export const checkChannelMemberPermissions = async (
     shouldBeEphemeral = true,
   }: {
     channel: AnyTextableGuildChannel;
-    context: AnyInteractionGateway | Message;
+    context: AnyContext;
     locale: Locales;
     permissionsToCheck: PermissionName[];
     shouldBeEphemeral?: boolean;

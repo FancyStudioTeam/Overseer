@@ -1,9 +1,9 @@
-import type { AnyInteractionGateway, CreateMessageOptions, EmbedOptions, Message } from "oceanic.js";
+import type { AnyContext, AnyMessagePayload } from "@types";
 import { createMessage } from "./createMessage.js";
 
 export const createErrorMessage = async (
-  context: AnyInteractionGateway | Message,
-  content: string | EmbedOptions | CreateMessageOptions,
+  context: AnyContext,
+  content: AnyMessagePayload,
   {
     shouldBeEphemeral = true,
   }: {
