@@ -11,23 +11,16 @@ export default createChatInputSubCommand({
   },
   run: async ({ client, context }) => {
     const languageOption = context.data.options.getString<GuildConfigurationLocale>("language", true);
-    const {
-      general: { locale },
-    } = await client.prisma.guildConfiguration.upsert({
+    const { locale } = await client.prisma.guildConfiguration.upsert({
       create: {
-        general: {
-          locale: languageOption,
-        },
         guildId: context.guildID,
-        premium: {},
+        locale: languageOption,
       },
       select: {
-        general: true,
+        locale: true,
       },
       update: {
-        general: {
-          locale: languageOption,
-        },
+        locale: languageOption,
       },
       where: {
         guildId: context.guildID,
