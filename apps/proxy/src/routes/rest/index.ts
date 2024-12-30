@@ -10,7 +10,7 @@ const transformRoute = (url: string) => {
   return `/${route}`;
 };
 
-export const RestRoutes = (app: FastifyInstance, _options: FastifyPluginOptions) => {
+export const RestRoutes = (app: FastifyInstance, _options: FastifyPluginOptions) =>
   app.all("/*", async (request, response) => {
     try {
       const route = transformRoute(request.originalUrl);
@@ -34,4 +34,3 @@ export const RestRoutes = (app: FastifyInstance, _options: FastifyPluginOptions)
       });
     }
   });
-};
