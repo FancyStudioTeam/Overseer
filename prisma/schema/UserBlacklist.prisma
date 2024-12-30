@@ -1,9 +1,0 @@
-model UserBlacklist {
-  createdAt       DateTime  @default(now())
-  expiresAt       DateTime?
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  moderatorId     String
-  proofImagesUrls String[]  @default([])
-  reason          String
-  userId          String    @unique
-}
