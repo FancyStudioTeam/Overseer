@@ -45,8 +45,8 @@ importers:
         specifier: 2.0.5
         version: 2.0.5
       oceanic-builders:
-        specifier: 1.1.1
-        version: 1.1.1
+        specifier: 1.2.0
+        version: 1.2.0
       oceanic-collectors:
         specifier: 1.0.7
         version: 1.0.7
@@ -4178,9 +4178,8 @@ packages:
   obuf@1.1.2:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
 
-  oceanic-builders@1.1.1:
-    resolution: {integrity: sha512-Y7L81bPUoc6t7lEPXIDq86cpghAlUr75czIyZuGwqd9/QzUhkmIanRM7uVpp/WkKoJ/nHg04pNeuzvavmStXOQ==}
-    deprecated: 'Changelog: https://github.com/FancyStudioTeam/OceanicBuilders/releases'
+  oceanic-builders@1.2.0:
+    resolution: {integrity: sha512-H1AV7uqVqdLB6F6ZsupWz6KP9K6zdJS11sCAv+7iEiF4Yj5WQP4YSDaInSf835rs8bV/krhdF0V8bmET7ynyxw==}
 
   oceanic-collectors@1.0.7:
     resolution: {integrity: sha512-hPI4PTrZkBU31g+DJu73CPH3tuBLP9+ifUgAN0WDtZQBfLNielH7Jq1eXGRVNPCqou96njSkzXZLedndfQVvkA==}
@@ -11347,7 +11346,7 @@ snapshots:
 
   obuf@1.1.2: {}
 
-  oceanic-builders@1.1.1:
+  oceanic-builders@1.2.0:
     dependencies:
       oceanic.js: 1.11.2
     transitivePeerDependencies:
