@@ -7,5 +7,6 @@
     "winston": "3.17.0"
   },
   "name": "proxy",
+  "type": "module",
   "version": "0.0.0"
 }
