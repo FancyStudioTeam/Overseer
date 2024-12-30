@@ -1,0 +1,23 @@
+{
+  "author": "FancyStudio",
+  "description": "Overseer Monorepo",
+  "devDependencies": {
+    "husky": "9.1.7",
+    "lint-staged": "15.3.0"
+  },
+  "license": "CC BY-SA 4.0",
+  "lint-staged": {
+    "**/*.{js,ts,json}": ["pnpm biome"]
+  },
+  "name": "overseer-monorepo",
+  "packageManager": "pnpm@9.15.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FancyStudioTeam/Overseer"
+  },
+  "scripts": {
+    "biome": "sh -c 'if [ \"$IN_NIX_SHELL\" = \"1\" ]; then BIOME_BINARY=$BIOME_BIN_PATH pnpx @biomejs/biome check --write --config-path biome.json; else pnpx @biomejs/biome check --write --config-path biome.json; fi'",
+    "prepare": "husky"
+  },
+  "type": "module"
+}
