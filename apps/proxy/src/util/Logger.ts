@@ -1,6 +1,6 @@
 import { addColors, createLogger, format, transports } from "winston";
 
-const loggerLevels = {
+const loggerLevelsConfig = {
   colors: {
     debug: "blue",
     error: "red",
@@ -20,8 +20,9 @@ const loggerLevels = {
     warn: 1,
   },
 };
+const { colors, levels } = loggerLevelsConfig;
 
-addColors(loggerLevels.colors);
+addColors(colors);
 
 const sharedFileTransportFormat = format.combine(
   format.timestamp({
@@ -36,12 +37,13 @@ const sharedFileTransportOptions = ({
   dirname: "logs",
   filename: fileName,
   format: sharedFileTransportFormat,
+  maxFiles: 1,
   maxsize: maxSize,
 });
 
 export const logger = createLogger({
   level: "silly",
-  levels: loggerLevels.levels,
+  levels,
   transports: [
     new transports.Console({
       format: format.combine(
