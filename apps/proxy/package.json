@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@discordeno/bot": "21.0.0"
+  },
+  "name": "proxy",
+  "version": "0.0.0"
+}

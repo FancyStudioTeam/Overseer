@@ -14,6 +14,10 @@
       "correctness": {
         "noNodejsModules": "off",
         "noUndeclaredDependencies": "off"
+      },
+      "performance": {
+        "noBarrelFile": "off",
+        "noReExportAll": "off"
       }
     }
   },
