@@ -10,6 +10,7 @@ pkgs.mkShell {
     export NODE_ENV=development
     export IN_NIX_SHELL=1
     export BIOME_BIN_PATH=$(which biome)
-    echo "Welcome! NodeJS: $(node -v) - PNPM: $(pnpm -v) - Biome: $(biome --version)"
+
+    echo "Node.js: $(node -v) - PNPM: $(pnpm -v) - Biome: $(biome --version)"
   '';
 }
