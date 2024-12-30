@@ -10,7 +10,11 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "all": true
+      "all": true,
+      "correctness": {
+        "noNodejsModules": "off",
+        "noUndeclaredDependencies": "off"
+      }
     }
   },
   "organizeImports": {
