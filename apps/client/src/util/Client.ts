@@ -4,6 +4,10 @@ import { overrideGateway } from "@utils";
 
 const rawClient = createBot({
   desiredProperties: {
+    interaction: {
+      id: true,
+      token: true,
+    },
     user: {
       username: true,
     },
