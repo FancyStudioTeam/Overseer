@@ -87,7 +87,10 @@ export const createShard = (shardId: number) => {
     }
 
     await fetch(url, {
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        payload,
+        shardId,
+      }),
       headers: {
         authorization: EVENTS_AUTHORIZATION,
         "content-type": "application/json",
