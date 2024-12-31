@@ -71,7 +71,7 @@ export const createShard = (shardId: number) => {
   shard.events.message = async (shard, payload) => {
     const op = payload.op as GatewayOpcodes;
 
-    logger.info(`Received "${OPCODES_NAMES[op]}" from shard ${shard.id}`);
+    logger.info(`Received "${OPCODES_NAMES[op]}" payload from shard ${shard.id}`);
 
     if (!SENDABLE_OPCODES.includes(op)) {
       return;
@@ -97,11 +97,11 @@ export const createShard = (shardId: number) => {
       },
       method: "POST",
     })
-      .then(() => logger.info(`Sent ${OPCODES_NAMES[op]} to events`))
+      .then(() => logger.info(`Sent "${OPCODES_NAMES[op]}" payload to events handler`))
       .catch((fetchError) => {
         const error = fetchError instanceof Error ? fetchError : new Error(fetchError);
 
-        logger.error(`Unable to send ${OPCODES_NAMES[op]} to events: ${error.stack}`);
+        logger.error(`Unable to send "${OPCODES_NAMES[op]}" payload to events: ${error.stack}`);
       });
   };
 
