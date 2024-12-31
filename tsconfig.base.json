@@ -6,8 +6,11 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "isolatedModules": true,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "target": "ESNext"
   }
 }
