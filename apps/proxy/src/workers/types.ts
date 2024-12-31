@@ -26,6 +26,7 @@ export type WorkerMessage =
   | WorkerAllowIdentifyMessage
   | WorkerEditShardsPresenceMessage
   | WorkerIdentifyShardMessage
+  | WorkerRequestShardInfoMessage
   | WorkerShardPayloadMessage;
 
 export interface ManagerRequestIdentifyMessage extends MessageWithShardId {
@@ -44,6 +45,10 @@ export interface WorkerIdentifyShardMessage extends MessageWithShardId {
   type: WorkerMessageTypes.IdentifyShard;
 }
 
+export interface WorkerRequestShardInfoMessage extends MessageWithShardId {
+  type: WorkerMessageTypes.RequestShardInfo;
+}
+
 export interface WorkerShardPayloadMessage extends MessageWithShardIdAndPayload<ShardSocketRequest> {
   type: WorkerMessageTypes.ShardPayload;
 }
@@ -58,6 +63,6 @@ export enum WorkerMessageTypes {
   AllowIdentify = "AllowIdentify",
   EditShardsPresence = "EditShardsPresence",
   IdentifyShard = "IdentifyShard",
-  // RequestShardInfo = "RequestShardInfo",
+  RequestShardInfo = "RequestShardInfo",
   ShardPayload = "ShardPayload",
 }
