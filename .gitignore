@@ -6,3 +6,7 @@ node_modules
 
 # Builds
 dist
+
+# Logs
+*.log
+logs
