@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "outDir": "dist",
+    "paths": {
+      "@config": ["./src/config.ts"],
+      "@utils": ["./src/util/utils/index.ts"]
+    }
+  },
+  "extends": "../../tsconfig.base.json"
+}
