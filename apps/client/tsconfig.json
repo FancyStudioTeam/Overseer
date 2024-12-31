@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "paths": {
+      "@api": ["./src/api/index.ts"],
       "@config": ["./src/config.ts"],
+      "@util/*": ["./src/util/*"],
       "@utils": ["./src/util/utils/index.ts"]
     }
   },

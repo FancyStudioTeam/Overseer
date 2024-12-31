@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "@discordeno/bot": "21.0.0",
+    "@prisma/client": "6.1.0",
+    "dotenv": "16.4.7",
+    "fastify": "5.2.0",
+    "winston": "3.17.0"
+  },
+  "devDependencies": {
+    "prisma": "6.1.0",
+    "tsc-alias": "1.8.10",
+    "typescript": "5.7.2"
+  },
+  "name": "client",
+  "type": "module",
+  "version": "0.0.1_beta"
+}
