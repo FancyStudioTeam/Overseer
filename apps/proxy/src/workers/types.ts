@@ -8,6 +8,10 @@ export interface WorkerDataOptions {
     url: string;
     version: number;
   };
+  events: {
+    authorization: string;
+    urls: string[];
+  };
   workerId: number;
 }
 
