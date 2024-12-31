@@ -1,0 +1,14 @@
+model GuildConfiguration {
+  createdAt        DateTime                 @default(now())
+  guildId          String                   @unique
+  id               String                   @id @default(auto()) @map("_id") @db.ObjectId
+  locale           GuildConfigurationLocale @default(EN)
+  premiumEnabled   Boolean                  @default(false)
+  premiumExpiresAt DateTime?
+  premiumTokens    Int                      @default(0)
+}
+
+enum GuildConfigurationLocale {
+  EN
+  ES
+}
