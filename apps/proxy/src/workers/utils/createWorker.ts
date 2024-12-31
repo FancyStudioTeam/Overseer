@@ -13,15 +13,14 @@ import {
   WorkerMessageTypes,
 } from "../types.js";
 
-const {
-  connection: { url },
-  totalShards,
-  version,
-} = GatewayManager;
-
 export const createWorker = (workerId: number) => {
+  const {
+    connection: { url },
+    totalShards,
+    version,
+  } = GatewayManager;
   const currentFolder = getDirnameFromFileUrl(import.meta.url);
-  const workerPath = join(currentFolder, "worker.js");
+  const workerPath = join(currentFolder, "..", "index.js");
   const worker = new Worker(workerPath, {
     workerData: {
       connection: {

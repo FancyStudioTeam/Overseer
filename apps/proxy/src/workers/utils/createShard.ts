@@ -71,7 +71,7 @@ export const createShard = (shardId: number) => {
   shard.events.message = async (shard, payload) => {
     const op = payload.op as GatewayOpcodes;
 
-    logger.info(`Received "${OPCODES_NAMES[op]}" from shard ${shard.id}...`);
+    logger.info(`Received "${OPCODES_NAMES[op]}" from shard ${shard.id}`);
 
     if (!SENDABLE_OPCODES.includes(op)) {
       return;

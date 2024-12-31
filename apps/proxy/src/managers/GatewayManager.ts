@@ -1,6 +1,7 @@
 import { DISCORD_TOKEN, GATEWAY_INTENTS, SHARDS_PER_WORKER, TOTAL_SHARDS, TOTAL_WORKERS } from "@config";
 import { createGatewayManager } from "@discordeno/bot";
 import { RestManager } from "./RestManager.js";
+import { overrideGateway } from "./utils/overrideGateway.js";
 
 const gatewayConnection = RestManager.getGatewayBot();
 
@@ -18,3 +19,5 @@ export const GatewayManager = createGatewayManager({
   totalShards: Number.parseInt(TOTAL_SHARDS),
   totalWorkers: Number.parseInt(TOTAL_WORKERS),
 });
+
+overrideGateway(GatewayManager);
