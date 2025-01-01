@@ -40,13 +40,15 @@ const baseFormat = format.combine(
 );
 const messageFormat = format.printf(({ level, message, timestamp }) => `[${timestamp}] ${level} ${message}`);
 
-const sharedFileTransportOptions = ({
+const sharedFileTransport = ({
   fileName,
+  level,
   maxSize,
 }: ShardFileTransportOptions): transports.FileTransportOptions => ({
   dirname: "logs",
   filename: fileName,
   format: format.combine(baseFormat, messageFormat),
+  level,
   maxFiles: 1,
   maxsize: maxSize,
 });
@@ -65,15 +67,15 @@ export const logger = createLogger({
         messageFormat,
       ),
     }),
-    new transports.File({
-      ...sharedFileTransportOptions({
+    new transports.File(
+      sharedFileTransport({
         fileName: "errors.log",
+        level: "error",
         maxSize: 78_643_200,
       }),
-      level: "error",
-    }),
+    ),
     new transports.File(
-      sharedFileTransportOptions({
+      sharedFileTransport({
         fileName: "all.log",
         maxSize: 262_144_000,
       }),
@@ -99,5 +101,6 @@ export const logger = createLogger({
 
 interface ShardFileTransportOptions {
   fileName: string;
+  level?: string;
   maxSize: number;
 }
