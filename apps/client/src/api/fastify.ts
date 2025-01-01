@@ -27,7 +27,7 @@ export const createFastifyApp = () => {
 
     if (request.headers.authorization !== EVENTS_AUTHORIZATION) {
       return response.status(401).send({
-        message: "Unauthorized",
+        message: STATUS_CODE_LABELS[401],
       });
     }
 
