@@ -24,19 +24,29 @@ const { colors, levels } = loggerLevelsConfig;
 
 addColors(colors);
 
-const sharedFileTransportFormat = format.combine(
+const baseFormat = format.combine(
   format.timestamp({
     format: "DD/MM/YYYY HH:mm:ss",
   }),
-  format.json(),
+  format((info) => {
+    const formatedLevel = info.level.toUpperCase();
+    const formattedMessage = typeof info.message === "object" ? JSON.stringify(info.message, null, 2) : info.message;
+
+    info.level = formatedLevel;
+    info.message = formattedMessage;
+
+    return info;
+  })(),
 );
+const messageFormat = format.printf(({ level, message, timestamp }) => `[${timestamp}] ${level} ${message}`);
+
 const sharedFileTransportOptions = ({
   fileName,
   maxSize,
 }: ShardFileTransportOptions): transports.FileTransportOptions => ({
   dirname: "logs",
   filename: fileName,
-  format: sharedFileTransportFormat,
+  format: format.combine(baseFormat, messageFormat),
   maxFiles: 1,
   maxsize: maxSize,
 });
@@ -47,24 +57,12 @@ export const logger = createLogger({
   transports: [
     new transports.Console({
       format: format.combine(
-        format.timestamp({
-          format: "DD/MM/YYYY HH:mm:ss",
-        }),
-        format((info) => {
-          const formatedLevel = info.level.toUpperCase();
-          const formattedMessage =
-            typeof info.message === "object" ? JSON.stringify(info.message, null, 2) : info.message;
-
-          info.level = formatedLevel;
-          info.message = formattedMessage;
-
-          return info;
-        })(),
+        baseFormat,
+        format.align(),
         format.colorize({
           level: true,
         }),
-        format.align(),
-        format.printf((info) => `[${info.timestamp}] ${info.level} ${info.message}`),
+        messageFormat,
       ),
     }),
     new transports.File({
@@ -80,6 +78,22 @@ export const logger = createLogger({
         maxSize: 262_144_000,
       }),
     ),
+    // TODO: Send error logs to Discord webhook.
+    /*new transports.Stream({
+      format: format.printf(({ message }) => String(message)),
+      level: "error",
+      stream: new Stream.Writable({
+        write: async (chunk, _encoding, callback) => {
+          const logMessage = Buffer.from(chunk).toString();
+
+          await RestManager.executeWebhook(WEBHOOK_LOGGER_ID, WEBHOOK_LOGGER_TOKEN, {
+            embeds: createEmbeds().setDescription(codeBlock("ts", logMessage)),
+          });
+
+          callback();
+        },
+      }),
+    }),*/
   ],
 });
 
