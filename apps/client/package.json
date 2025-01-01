@@ -8,6 +8,7 @@
     "winston": "3.17.0"
   },
   "devDependencies": {
+    "nodemon": "3.1.9",
     "prisma": "6.1.0",
     "tsc-alias": "1.8.10",
     "tsx": "4.19.2",
@@ -16,7 +17,7 @@
   "name": "client",
   "scripts": {
     "build": "tsc --project tsconfig.json & tsc-alias",
-    "dev": "tsx watch src/index.ts",
+    "dev": "nodemon",
     "prisma:generate": "prisma generate",
     "start": "node dist/index.js"
   },
