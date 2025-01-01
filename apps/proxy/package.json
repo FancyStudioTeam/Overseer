@@ -8,12 +8,14 @@
     "winston": "3.17.0"
   },
   "devDependencies": {
+    "nodemon": "3.1.9",
     "tsc-alias": "1.8.10",
     "typescript": "5.7.2"
   },
   "name": "proxy",
   "scripts": {
     "build": "tsc --project tsconfig.json & tsc-alias",
+    "dev": "nodemon",
     "start": "node dist/index.js"
   },
   "type": "module",
