@@ -101,7 +101,7 @@ export const createShard = (shardId: number) => {
       .catch((fetchError) => {
         const error = fetchError instanceof Error ? fetchError : new Error(fetchError);
 
-        logger.error(`Unable to send "${OPCODES_NAMES[op]}" payload to events: ${error.stack}`);
+        logger.error(`Unable to send "${OPCODES_NAMES[op]}" payload to events handler: ${error.stack}`);
       });
   };
 

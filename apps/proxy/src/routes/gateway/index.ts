@@ -1,4 +1,5 @@
 import { GatewayManager } from "@managers/GatewayManager.js";
+import { STATUS_CODE_LABELS } from "@util/Constants.js";
 import { logger } from "@util/Logger.js";
 import {
   type WorkerEditShardsPresenceMessage,
@@ -13,7 +14,7 @@ export const GatewayRoutes = (app: FastifyInstance, _options: FastifyPluginOptio
     try {
       if (!request.body) {
         return response.status(400).send({
-          message: "Bad Request",
+          message: STATUS_CODE_LABELS[400],
         });
       }
 
@@ -38,7 +39,7 @@ export const GatewayRoutes = (app: FastifyInstance, _options: FastifyPluginOptio
       logger.error(error.stack);
 
       return response.status(500).send({
-        message: "Internal Server Error",
+        message: STATUS_CODE_LABELS[500],
       });
     }
   });
