@@ -19,7 +19,7 @@ export const createFastifyApp = () => {
   app.addHook("onRequest", (request, response, done) => {
     logger.http(`Received "${request.method}" request to "${request.url}" from "${request.ip}"`);
 
-    if (NODE_ENV !== "development" && !PROXY_ALLOWED_IPS.includes(request.ip)) {
+    if (NODE_ENV === "production" && !PROXY_ALLOWED_IPS.includes(request.ip)) {
       return response.status(403).send({
         message: STATUS_CODE_LABELS[403],
       });
@@ -35,9 +35,7 @@ export const createFastifyApp = () => {
   });
 
   app.addHook("onResponse", (request, response, done) => {
-    logger.http(
-      `Sent "${STATUS_CODE_LABELS[response.statusCode]}" status code ${response.statusCode} to "${request.url}"`,
-    );
+    logger.http(`Sent "${STATUS_CODE_LABELS[response.statusCode]}" status code to "${request.url}"`);
 
     return done();
   });

@@ -1,7 +1,7 @@
 import { GatewayIntents } from "@discordeno/bot";
 import { env } from "@utils";
 
-export const NODE_ENV = env("NODE_ENV").trim();
+export const NODE_ENV = env("NODE_ENV").trim().toLowerCase();
 
 export const DISCORD_TOKEN = env("DISCORD_TOKEN");
 
