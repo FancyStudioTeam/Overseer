@@ -2,7 +2,7 @@
   "author": "FancyStudio",
   "description": "Overseer Monorepo",
   "devDependencies": {
-    "@types/node": "22.10.2",
+    "@types/node": "22.10.5",
     "husky": "9.1.7",
     "lint-staged": "15.3.0"
   },
