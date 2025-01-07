@@ -1,18 +1,22 @@
 import { DISCORD_TOKEN, PROXY_AUTHORIZATION, PROXY_URL } from "@config";
 import { Collection, DesiredPropertiesBehavior, createBot } from "@discordeno/bot";
-import type { PrismaClient } from "@prisma/client";
 import { overrideGateway } from "@utils";
-import { prisma } from "./Prisma.js";
+import type { CreateMessageCommand } from "./Handlers.js";
 
 const rawClient = createBot({
   desiredProperties: {
     interaction: {
+      channelId: true,
+      data: true,
       id: true,
       token: true,
+      type: true,
+      guildId: true,
     },
     message: {
       author: true,
       content: true,
+      channelId: true,
     },
     user: {
       username: true,
@@ -30,12 +34,16 @@ const rawClient = createBot({
 
 export const client = rawClient as Client;
 
-client.commands = new Collection();
-client.prisma = prisma;
+client.commands = {
+  chatInput: new Collection(),
+  message: new Collection(),
+};
 
 overrideGateway(client);
 
 export type Client = typeof rawClient & {
-  commands: Collection<string, unknown>;
-  prisma: PrismaClient;
+  commands: {
+    chatInput: Collection<string, unknown>;
+    message: Collection<string, CreateMessageCommand>;
+  };
 };
