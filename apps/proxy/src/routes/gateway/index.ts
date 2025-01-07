@@ -1,6 +1,5 @@
 import { GatewayManager } from "@managers/GatewayManager.js";
-import { STATUS_CODE_LABELS } from "@util/Constants.js";
-import { logger } from "@util/Logger.js";
+import { logger } from "@util/logger.js";
 import {
   type WorkerEditShardsPresenceMessage,
   WorkerMessageTypes,
@@ -13,9 +12,7 @@ export const GatewayRoutes = (app: FastifyInstance, _options: FastifyPluginOptio
   app.post("/", (request, response) => {
     try {
       if (!request.body) {
-        return response.status(400).send({
-          message: STATUS_CODE_LABELS[400],
-        });
+        return response.status(400).send();
       }
 
       const message = request.body as WorkerEditShardsPresenceMessage | WorkerShardPayloadMessage;
@@ -38,9 +35,7 @@ export const GatewayRoutes = (app: FastifyInstance, _options: FastifyPluginOptio
 
       logger.error(error.stack);
 
-      return response.status(500).send({
-        message: STATUS_CODE_LABELS[500],
-      });
+      return response.status(500).send();
     }
   });
 };

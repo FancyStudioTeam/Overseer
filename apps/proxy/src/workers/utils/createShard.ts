@@ -1,7 +1,7 @@
 import { parentPort } from "node:worker_threads";
 import { EVENTS_AUTHORIZATION } from "@config";
 import { DiscordenoShard, GatewayOpcodes, TransportCompression } from "@discordeno/bot";
-import { logger } from "@util/Logger.js";
+import { logger } from "@util/logger.js";
 import { promiseWithResolvers } from "@util/utils/promiseWithResolvers.js";
 import { ManagerMessageTypes, type ManagerRequestIdentifyMessage } from "@workers/types.js";
 import { identifyPromisesCollection, workerData } from "../index.js";

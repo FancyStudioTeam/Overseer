@@ -1,5 +1,5 @@
 import type { GatewayManager } from "@discordeno/bot";
-import { logger } from "@util/Logger.js";
+import { logger } from "@util/logger.js";
 import { workersCollection } from "@workers/index.js";
 import {
   type WorkerEditShardsPresenceMessage,

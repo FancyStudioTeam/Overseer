@@ -1,6 +1,6 @@
 import { NODE_ENV, PROXY_ALLOWED_IPS, PROXY_AUTHORIZATION, PROXY_HOST, PROXY_PORT } from "@config";
-import { STATUS_CODE_LABELS } from "@util/Constants.js";
-import { logger } from "@util/Logger.js";
+import { loggerogger.jsLogger.js
+import { STATUS_CODE_LABELS_CODE_LABELS_COconstants.js_COconstants.js } constants.jsil/constants.js";
 import Fastify from "fastify";
 
 export const createFastifyApp = () => {

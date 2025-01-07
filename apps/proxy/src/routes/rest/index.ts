@@ -1,7 +1,6 @@
 import type { RequestMethods } from "@discordeno/bot";
 import { RestManager } from "@managers/RestManager.js";
-import { STATUS_CODE_LABELS } from "@util/Constants.js";
-import { logger } from "@util/Logger.js";
+import { logger } from "@util/logger.js";
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 
 const transformRoute = (url: string) => {
@@ -30,8 +29,6 @@ export const RestRoutes = (app: FastifyInstance, _options: FastifyPluginOptions)
 
       logger.error(error.stack);
 
-      return response.status(500).send({
-        message: STATUS_CODE_LABELS[500],
-      });
+      return response.status(500).send();
     }
   });

@@ -1,6 +1,6 @@
 import { type Worker, workerData as nodeWorkerData, parentPort } from "node:worker_threads";
 import { Collection, type DiscordenoShard, GatewayOpcodes } from "@discordeno/bot";
-import { logger } from "@util/Logger.js";
+import { logger } from "@util/logger.js";
 import { match } from "ts-pattern";
 import { type WorkerDataOptions, type WorkerMessage, WorkerMessageTypes } from "./types.js";
 import { createShard } from "./utils/createShard.js";
