@@ -8,7 +8,7 @@ import {
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 import { match } from "ts-pattern";
 
-export const GatewayRoutes = (app: FastifyInstance, _options: FastifyPluginOptions) => {
+export const GatewayRoutes = (app: FastifyInstance, _options: FastifyPluginOptions) =>
   app.post("/", (request, response) => {
     try {
       if (!request.body) {
@@ -38,6 +38,5 @@ export const GatewayRoutes = (app: FastifyInstance, _options: FastifyPluginOptio
       return response.status(500).send();
     }
   });
-};
 
 await GatewayManager.spawnShards();
