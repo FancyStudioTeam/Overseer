@@ -20,15 +20,11 @@ export const createFastifyApp = () => {
     logger.http(`Received "${request.method}" request to "${request.url}" from "${request.ip}"`);
 
     if (NODE_ENV === "production" && !EVENTS_ALLOWED_IPS.includes(request.ip)) {
-      return response.status(403).send({
-        message: STATUS_CODE_LABELS[403],
-      });
+      return response.status(403).send();
     }
 
     if (request.headers.authorization !== EVENTS_AUTHORIZATION) {
-      return response.status(401).send({
-        message: STATUS_CODE_LABELS[401],
-      });
+      return response.status(401).send();
     }
 
     return done();
