@@ -8,15 +8,15 @@ const rawClient = createBot({
     interaction: {
       channelId: true,
       data: true,
+      guildId: true,
       id: true,
       token: true,
       type: true,
-      guildId: true,
     },
     message: {
       author: true,
-      content: true,
       channelId: true,
+      content: true,
     },
     user: {
       username: true,
