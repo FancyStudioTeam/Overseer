@@ -11,7 +11,7 @@ export const createReplyOrMessage = async <WithMessage extends boolean>(
 ): Promise<CreateReplyOrMessageData<WithMessage>> => {
   /**
    * The "withMessage" option is required when the interaction has not been acknowledged yet.
-   * Other functions like "sendFollowupMessage" and "sendMessage" already return the original message.
+   * Methods like "sendFollowupMessage" and "sendMessage" already return the original message.
    * This option is used to get the original message when it is required and avoiding unnecessary requests.
    */
   const { withMessage } = options;
