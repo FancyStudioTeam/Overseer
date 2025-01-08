@@ -1,8 +1,6 @@
 import { GatewayIntents } from "@discordeno/bot";
 import { env } from "@utils";
 
-export const NODE_ENV = env("NODE_ENV").trim().toLowerCase();
-
 export const DISCORD_TOKEN = env("DISCORD_TOKEN");
 
 export const PROXY_ALLOWED_IPS = env("PROXY_ALLOWED_IPS").split(",");

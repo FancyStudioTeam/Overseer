@@ -1,4 +1,4 @@
-import { EVENTS_ALLOWED_IPS, EVENTS_AUTHORIZATION, EVENTS_HOST, EVENTS_PORT, NODE_ENV } from "@config";
+import { EVENTS_ALLOWED_IPS, EVENTS_AUTHORIZATION, EVENTS_HOST, EVENTS_PORT } from "@config";
 import { STATUS_CODE_LABELS } from "@util/constants.js";
 import { logger } from "@util/logger.js";
 import Fastify from "fastify";
@@ -19,7 +19,7 @@ export const createFastifyApp = () => {
   app.addHook("onRequest", (request, response, done) => {
     logger.http(`Received "${request.method}" request to "${request.url}" from "${request.ip}"`);
 
-    if (NODE_ENV === "production" && !EVENTS_ALLOWED_IPS.includes(request.ip)) {
+    if (!EVENTS_ALLOWED_IPS.includes(request.ip)) {
       return response.status(403).send();
     }
 
