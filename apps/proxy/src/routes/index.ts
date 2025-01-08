@@ -10,9 +10,5 @@ export const Routes = (app: FastifyInstance, _options: FastifyPluginOptions) => 
     prefix: "/gateway",
   });
 
-  app.get("/timecheck", async (_request, response) =>
-    response.status(200).send({
-      message: Date.now(),
-    }),
-  );
+  app.get("/timecheck", async (_request, response) => response.status(200).send(Date.now()));
 };
