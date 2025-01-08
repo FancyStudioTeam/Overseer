@@ -11,5 +11,5 @@ export const prisma = new PrismaClient({
 });
 
 prisma.$on("query", ({ duration, params, query }) =>
-  logger.info(`Sent Prisma query to MongoDB: "${query}" with params "${params}". Took ${duration} milliseconds`),
+  logger.info(`Sent Prisma query to MongoDB: "${query}" with params "${params}". Took ${duration} milliseconds.`),
 );

@@ -101,7 +101,7 @@ parentPort?.on("message", async (message: WorkerMessage) =>
         await shard.send(payload);
       },
     )
-    .otherwise((message) => logger.error(`Received unknown worker message: ${message}`)),
+    .otherwise((message) => logger.error(`Received unknown worker message: "${message}".`)),
 );
 
 type IdentifyPromiseFunction = () => void;

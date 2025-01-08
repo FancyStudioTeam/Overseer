@@ -58,7 +58,7 @@ export const createWorker = (workerId: number) => {
           } satisfies WorkerAllowIdentifyMessage);
         },
       )
-      .otherwise((message) => logger.error(`Received unknown manager message: ${message}`));
+      .otherwise((message) => logger.error(`Received unknown manager message: "${message}".`));
   });
 
   return worker;
