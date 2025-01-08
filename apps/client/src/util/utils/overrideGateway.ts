@@ -1,5 +1,5 @@
 import { PROXY_AUTHORIZATION, PROXY_URL } from "@config";
-import type { Client } from "../Client.js";
+import type { Client } from "@index";
 
 export const overrideGateway = (client: Client) => {
   client.gateway.sendPayload = async (shardId, payload) => {
