@@ -1,4 +1,5 @@
-import type { Camelize, DiscordUser } from "@discordeno/bot";
+import { iconBigintToHash } from "@discordeno/bot";
+import type { User } from "@types";
 import { createUserCommand } from "@util/handlers.js";
 import { createMessage } from "@utils";
 
@@ -7,14 +8,16 @@ const DEFAULT_AVATAR_URL = (index: number) => `${DISCORD_CDN_URL}/embed/avatars/
 const USER_AVATAR_URL = (userId: string, hash: string) => `${DISCORD_CDN_URL}/avatars/${userId}/${hash}`;
 
 const getAvatarUrl = (
-  user: Camelize<DiscordUser>,
+  user: User,
   options: GetAvatarUrlOptions = {
     format: "auto",
     size: 1024,
   },
 ) => {
   const { format, size } = options;
-  const { avatar, discriminator, id } = user;
+  const { avatar: avatarBigInt, discriminator, id: idBigInt } = user;
+  const id = idBigInt.toString();
+  const avatar = avatarBigInt ? iconBigintToHash(avatarBigInt) : undefined;
 
   if (!avatar) {
     /**
@@ -45,29 +48,14 @@ const getAvatarUrl = (
 
 createUserCommand({
   name: "Avatar",
-  run: async ({ client, context, t }) => {
-    if (!context.data) {
-      return;
-    }
+  run: async ({ context, targetUser }) => {
+    const avatarUrl = getAvatarUrl(targetUser);
 
-    const { targetId } = context.data;
-
-    if (!targetId) {
-      return createMessage(context, t("commands.global.unable_to_obtain_target_id"), {
-        isEphemeral: true,
-      });
-    }
-
-    const user = await client.rest.getUser(targetId);
-    const avatarUrl = getAvatarUrl(user);
-
-    createMessage(context, {
+    await createMessage(context, {
       image: {
         url: avatarUrl,
       },
     });
-
-    return;
   },
 });
 
