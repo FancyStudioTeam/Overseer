@@ -1,4 +1,4 @@
-import type { AnyContext, AnyMessagePayload } from "@types";
+import type { AnyContext, AnyMessagePayload, Message } from "@types";
 import { createReplyOrMessage } from "./createReplyOrMessage.js";
 import { resolveMessagePayload } from "./resolveMessagePayload.js";
 
@@ -8,7 +8,7 @@ export const createMessage = async (
   options: CreateMessageOptions = {
     isEphemeral: false,
   },
-) => {
+): Promise<Message> => {
   const { isEphemeral } = options;
   const messagePayload = resolveMessagePayload(content, {
     isEphemeral,

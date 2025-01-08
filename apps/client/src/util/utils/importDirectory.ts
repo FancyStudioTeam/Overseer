@@ -1,7 +1,7 @@
 import { readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 
-export const importDirectory = async (directory: string) => {
+export const importDirectory = async (directory: string): Promise<void> => {
   const allFiles = await readdir(directory, {
     recursive: true,
     withFileTypes: true,

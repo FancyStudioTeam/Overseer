@@ -2,8 +2,13 @@ import { MessageFlags } from "@discordeno/bot";
 import type { AnyMessagePayload, MessagePayload } from "@types";
 import { DEFAULT_EMBED_COLOR } from "@util/constants.js";
 
-export const resolveMessagePayload = (content: AnyMessagePayload, options?: ResolveMessagePayloadOptions) => {
-  const { isEphemeral = false } = options ?? {};
+export const resolveMessagePayload = (
+  content: AnyMessagePayload,
+  options: ResolveMessagePayloadOptions = {
+    isEphemeral: false,
+  },
+): MessagePayload => {
+  const { isEphemeral } = options;
   let messagePayload: MessagePayload = {
     flags: isEphemeral ? MessageFlags.Ephemeral : undefined,
   };

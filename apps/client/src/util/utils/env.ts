@@ -1,4 +1,4 @@
-export const env = (key: string) => {
+export const env = (key: string): string => {
   const environmentVariable = process.env[key];
 
   if (!environmentVariable) {
