@@ -6,6 +6,7 @@ model GuildConfiguration {
   premiumEnabled   Boolean                  @default(false)
   premiumExpiresAt DateTime?
   premiumTokens    Int                      @default(0)
+  updatedAt        DateTime                 @updatedAt
 }
 
 enum GuildConfigurationLocale {

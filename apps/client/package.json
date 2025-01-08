@@ -1,10 +1,13 @@
 {
   "dependencies": {
     "@discordeno/bot": "21.0.0",
+    "@discordjs/formatters": "0.6.0",
     "@fastify/helmet": "13.0.0",
     "@prisma/client": "6.1.0",
+    "@sapphire/snowflake": "3.5.5",
     "dotenv": "16.4.7",
     "fastify": "5.2.0",
+    "i18next": "24.2.1",
     "ts-pattern": "5.6.0",
     "winston": "3.17.0"
   },
