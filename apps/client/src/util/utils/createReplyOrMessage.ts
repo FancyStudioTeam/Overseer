@@ -5,8 +5,8 @@ import type { AnyContext, MessagePayload } from "@types";
 export const createReplyOrMessage = async (context: AnyContext, messagePayload: MessagePayload) => {
   if ("acknowledged" in context) {
     return context.acknowledged
-      ? await client.rest.sendFollowupMessage(context.token, messagePayload)
-      : await client.rest.sendInteractionResponse(
+      ? await client.helpers.sendFollowupMessage(context.token, messagePayload)
+      : await client.helpers.sendInteractionResponse(
           context.id,
           context.token,
           {
@@ -19,5 +19,5 @@ export const createReplyOrMessage = async (context: AnyContext, messagePayload: 
         );
   }
 
-  return await client.rest.sendMessage(context.channelId, messagePayload);
+  return await client.helpers.sendMessage(context.channelId, messagePayload);
 };
