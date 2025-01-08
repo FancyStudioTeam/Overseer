@@ -3,7 +3,7 @@ import "@api";
 import { join } from "node:path";
 import { DISCORD_TOKEN, PROXY_AUTHORIZATION, PROXY_URL } from "@config";
 import { Collection, DesiredPropertiesBehavior, createBot } from "@discordeno/bot";
-import type { CreateUserCommand } from "@types";
+import type { CreateMessageCommand, CreateUserCommand } from "@types";
 import { getDirnameFromFileUrl, importDirectory, overrideGateway } from "@utils";
 
 const rawClient = createBot({
@@ -41,7 +41,6 @@ const rawClient = createBot({
 export const client = rawClient as Client;
 
 client.commands = {
-  chatInput: new Collection(),
   message: new Collection(),
   user: new Collection(),
 };
@@ -50,8 +49,7 @@ overrideGateway(client);
 
 export type Client = typeof rawClient & {
   commands: {
-    chatInput: Collection<string, unknown>;
-    message: Collection<string, unknown>;
+    message: Collection<string, CreateMessageCommand>;
     user: Collection<string, CreateUserCommand>;
   };
 };
