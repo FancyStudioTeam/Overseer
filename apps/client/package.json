@@ -19,10 +19,10 @@
   },
   "name": "client",
   "scripts": {
-    "build": "tsc --project tsconfig.json & tsc-alias",
+    "build": "tsc --project tsconfig.json && tsc-alias",
     "dev": "nodemon",
     "prisma:generate": "prisma generate",
-    "start": "SET NODE_ENV=development & node dist/index.js"
+    "start": "SET NODE_ENV=development && node dist/index.js"
   },
   "type": "module",
   "version": "0.0.1_beta"

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/nodemon",
-  "exec": "SET NODE_ENV=development & pnpm run build & node dist/index.js",
+  "exec": "SET NODE_ENV=development && pnpm run build && node dist/index.js",
   "ext": "ts",
   "watch": ["src"]
 }
