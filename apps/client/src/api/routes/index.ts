@@ -1,6 +1,6 @@
 import type { DiscordGatewayPayload, GatewayDispatchEventNames } from "@discordeno/bot";
 import { client } from "@index";
-import { logger } from "@util/Logger.js";
+import { logger } from "@util/logger.js";
 import type { FastifyInstance, FastifyPluginOptions } from "fastify";
 
 export const Routes = (app: FastifyInstance, _options: FastifyPluginOptions) => {

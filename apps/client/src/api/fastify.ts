@@ -1,6 +1,6 @@
 import { EVENTS_ALLOWED_IPS, EVENTS_AUTHORIZATION, EVENTS_HOST, EVENTS_PORT, NODE_ENV } from "@config";
-import { STATUS_CODE_LABELS } from "@util/Constants.js";
-import { logger } from "@util/Logger.js";
+import { STATUS_CODE_LABELS } from "@util/constants.js";
+import { logger } from "@util/logger.js";
 import Fastify from "fastify";
 
 export const createFastifyApp = () => {
