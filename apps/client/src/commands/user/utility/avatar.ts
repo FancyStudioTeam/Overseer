@@ -38,7 +38,7 @@ const getAvatarUrl = (
 
   /**
    * Determines the avatar format.
-   * If format is set to "auto" and avatar hash starts with "a_", it returns "gif".
+   * If "format" is "auto" and avatar hash starts with "a_", it returns "gif".
    * Otherwise, it returns "png".
    */
   const dynamicFormat = format === "auto" && avatar.startsWith("a_") ? "gif" : "png";
