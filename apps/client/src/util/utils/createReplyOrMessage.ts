@@ -41,28 +41,26 @@ export const createReplyOrMessage = async <Context extends AnyContext, WithMessa
 
 interface CreateReplyOrMessageOptions<WithMessage extends boolean> {
   /**
-   * Fetchs and returns the original message object from the first interaction response.
+   * Fetchs and returns the original message object from the interaction response.
    */
   withMessage?: WithMessage;
 }
 
 /**
- * A conditional type that determinates the return type based on the generic "WithMessage".
+ * A conditional type that determinates the return type based on the "WithMessage" generic.
  *
  * By default, return type will be "Message | undefined".
- * If "WithMessage" is "true", return type will change to "Message".
+ * If "WithMessage" is "true", return type will be changed to "Message".
  */
 type CreateReplyOrMessageUsingInteraction<WithMessage extends boolean> = WithMessage extends true
   ? Message
   : Message | undefined;
 
 /**
- * A conditional type that determinates the return type based on the provided context.
+ * A conditional type that determinates the return type based on the context.
  *
  * When using messages, return type will be "Message".
  * When using interactions, return type will be "Message | undefined".
- *
- * If using interactions, using the "WithMessage" generic will change the return type to "Message".
  */
 type CreateMessageOrMessage<Context extends AnyContext, WithMessage extends boolean> = Context extends Message
   ? Message
