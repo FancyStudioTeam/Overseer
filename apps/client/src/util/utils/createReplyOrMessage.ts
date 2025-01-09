@@ -8,7 +8,7 @@ export const createReplyOrMessage = async <Context extends AnyContext, WithMessa
   options: CreateReplyOrMessageOptions<WithMessage> = {
     withMessage: false,
   } as CreateReplyOrMessageOptions<WithMessage>,
-): Promise<CreateMessageOrMessage<Context, WithMessage>> => {
+): Promise<CreateReplyOrMessage<Context, WithMessage>> => {
   /**
    * The "withMessage" option is only used when the provided context is an interaction.
    * Methods like "sendFollowupMessage" and "sendMessage" always return a message object.
@@ -31,7 +31,7 @@ export const createReplyOrMessage = async <Context extends AnyContext, WithMessa
       return await client.helpers.getOriginalInteractionResponse(token);
     }
 
-    return undefined as CreateMessageOrMessage<Context, WithMessage>;
+    return undefined as CreateReplyOrMessage<Context, WithMessage>;
   }
 
   const { channelId } = context;
@@ -62,6 +62,6 @@ type CreateReplyOrMessageUsingInteraction<WithMessage extends boolean> = WithMes
  * When using messages, return type will be "Message".
  * When using interactions, return type will be "Message | undefined".
  */
-type CreateMessageOrMessage<Context extends AnyContext, WithMessage extends boolean> = Context extends Message
+type CreateReplyOrMessage<Context extends AnyContext, WithMessage extends boolean> = Context extends Message
   ? Message
   : CreateReplyOrMessageUsingInteraction<WithMessage>;
