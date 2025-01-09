@@ -2,17 +2,16 @@ import { InteractionResponseTypes } from "@discordeno/bot";
 import { client } from "@index";
 import type { AnyContext, Message, MessagePayload } from "@types";
 
-export const createReplyOrMessage = async <WithMessage extends boolean>(
-  context: AnyContext,
+export const createReplyOrMessage = async <Context extends AnyContext, WithMessage extends boolean>(
+  context: Context,
   messagePayload: MessagePayload,
   options: CreateReplyOrMessageOptions<WithMessage> = {
     withMessage: false,
   } as CreateReplyOrMessageOptions<WithMessage>,
-): Promise<CreateReplyOrMessageData<WithMessage>> => {
+): Promise<CreateMessageOrMessage<Context, WithMessage>> => {
   /**
-   * The "withMessage" option is required when the interaction has not been acknowledged yet.
-   * Methods like "sendFollowupMessage" and "sendMessage" already return the original message.
-   * This option is used to get the original message when it is required and avoiding unnecessary requests.
+   * The "withMessage" option is only used when the provided context is an interaction.
+   * Methods like "sendFollowupMessage" and "sendMessage" always return a message object.
    */
   const { withMessage } = options;
 
@@ -23,25 +22,16 @@ export const createReplyOrMessage = async <WithMessage extends boolean>(
       return await client.helpers.sendFollowupMessage(token, messagePayload);
     }
 
-    return (await client.helpers
-      .sendInteractionResponse(
-        id,
-        token,
-        {
-          type: InteractionResponseTypes.ChannelMessageWithSource,
-          data: messagePayload,
-        },
-        {
-          withResponse: true,
-        },
-      )
-      .then(async () =>
-        /**
-         * If "withMessage" is "true", it returns the original interaction response message.
-         * Otherwise, it returns "undefined".
-         */
-        withMessage ? await client.helpers.getOriginalInteractionResponse(token) : undefined,
-      )) as CreateReplyOrMessageData<WithMessage>;
+    await client.helpers.sendInteractionResponse(id, token, {
+      type: InteractionResponseTypes.ChannelMessageWithSource,
+      data: messagePayload,
+    });
+
+    if (withMessage) {
+      return await client.helpers.getOriginalInteractionResponse(token);
+    }
+
+    return undefined as CreateMessageOrMessage<Context, WithMessage>;
   }
 
   const { channelId } = context;
@@ -50,12 +40,30 @@ export const createReplyOrMessage = async <WithMessage extends boolean>(
 };
 
 interface CreateReplyOrMessageOptions<WithMessage extends boolean> {
+  /**
+   * Fetchs and returns the original message object from the first interaction response.
+   */
   withMessage?: WithMessage;
 }
 
 /**
- * Determinates if function should return a message.
- * If "WithMessage" is "true", it returns a message.
- * Otherwise, it may return a message or "undefined".
+ * A conditional type that determinates the return type based on the generic "WithMessage".
+ *
+ * By default, return type will be "Message | undefined".
+ * If "WithMessage" is "true", return type will change to "Message".
  */
-type CreateReplyOrMessageData<WithMessage extends boolean> = WithMessage extends true ? Message : Message | undefined;
+type CreateReplyOrMessageUsingInteraction<WithMessage extends boolean> = WithMessage extends true
+  ? Message
+  : Message | undefined;
+
+/**
+ * A conditional type that determinates the return type based on the provided context.
+ *
+ * When using messages, return type will be "Message".
+ * When using interactions, return type will be "Message | undefined".
+ *
+ * If using interactions, using the "WithMessage" generic will change the return type to "Message".
+ */
+type CreateMessageOrMessage<Context extends AnyContext, WithMessage extends boolean> = Context extends Message
+  ? Message
+  : CreateReplyOrMessageUsingInteraction<WithMessage>;
