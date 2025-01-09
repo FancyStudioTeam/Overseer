@@ -50,7 +50,7 @@ interface CreateReplyOrMessageOptions<WithMessage extends boolean> {
  * A conditional type that determinates the return type based on the "WithMessage" generic.
  *
  * By default, return type will be "Message | undefined".
- * If "WithMessage" is "true", return type will be changed to "Message".
+ * If "WithMessage" is "true", return type will be "Message".
  */
 type CreateReplyOrMessageUsingInteraction<WithMessage extends boolean> = WithMessage extends true
   ? Message
