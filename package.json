@@ -4,7 +4,11 @@
   "devDependencies": {
     "@types/node": "22.10.5",
     "husky": "9.1.7",
-    "lint-staged": "15.3.0"
+    "lint-staged": "15.3.0",
+    "nodemon": "3.1.9",
+    "rimraf": "6.0.1",
+    "tsc-alias": "1.8.10",
+    "typescript": "5.7.3"
   },
   "license": "CC BY-SA 4.0",
   "lint-staged": {
