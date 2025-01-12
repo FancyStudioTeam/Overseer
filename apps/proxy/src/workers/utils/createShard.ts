@@ -99,7 +99,7 @@ export const createShard = (shardId: number) => {
     })
       .then(() => logger.info(`Sent "${OPCODES_NAMES[op]}" payload to events handler.`))
       .catch((fetchError) => {
-        const error = fetchError instanceof Error ? fetchError : new Error(fetchError);
+        const error = fetchError instanceof Error ? fetchError.stack : new Error(fetchError);
 
         logger.error(error);
       });
