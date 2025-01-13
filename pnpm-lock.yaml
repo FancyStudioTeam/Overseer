@@ -47,6 +47,9 @@ importers:
       '@sapphire/snowflake':
         specifier: 3.5.5
         version: 3.5.5
+      dd-cache-proxy:
+        specifier: 2.6.0
+        version: 2.6.0(@discordeno/bot@21.0.0)
       dotenv:
         specifier: 16.4.7
         version: 16.4.7
@@ -316,6 +319,11 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
+
+  dd-cache-proxy@2.6.0:
+    resolution: {integrity: sha512-YFrx1eelrqotBiJmDeIsCJuBiKqNYx26M/2m9Bk0G7v/GeTyV3DllY5CIPgyFZvQamu4g0MZ6gd9tca6rapKfQ==}
+    peerDependencies:
+      '@discordeno/bot': ^21.0.0
 
   debug@4.4.0:
     resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
@@ -1177,6 +1185,10 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  dd-cache-proxy@2.6.0(@discordeno/bot@21.0.0):
+    dependencies:
+      '@discordeno/bot': 21.0.0
 
   debug@4.4.0(supports-color@5.5.0):
     dependencies:

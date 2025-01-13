@@ -5,10 +5,10 @@
     "paths": {
       "@api": ["./src/api/index.ts"],
       "@config": ["./src/config.ts"],
+      "@functions/*": ["./src/functions/*"],
       "@index": ["./src/index.ts"],
       "@types": ["./src/types.ts"],
-      "@util/*": ["./src/util/*"],
-      "@utils": ["./src/util/utils/index.ts"]
+      "@util/*": ["./src/util/*"]
     }
   },
   "extends": "../../tsconfig.base.json"
