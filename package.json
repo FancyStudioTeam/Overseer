@@ -4,7 +4,7 @@
     "@colors/colors": "1.6.0",
     "@discordjs/formatters": "0.5.0",
     "@napi-rs/canvas": "0.1.65",
-    "@prisma/client": "6.1.0",
+    "@prisma/client": "6.2.1",
     "@sapphire/ratelimits": "2.4.11",
     "@sapphire/result": "2.7.2",
     "@sapphire/snowflake": "3.5.5",
