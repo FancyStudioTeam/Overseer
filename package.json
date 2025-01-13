@@ -31,7 +31,7 @@
     "prisma": "6.1.0",
     "tsc-alias": "1.8.10",
     "tsx": "4.19.2",
-    "typescript": "5.7.2"
+    "typescript": "5.7.3"
   },
   "keywords": ["bot", "discord bot", "discord", "typescript"],
   "license": "CC BY-SA 4.0",
