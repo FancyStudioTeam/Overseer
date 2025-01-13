@@ -11,7 +11,7 @@
     "@sapphire/time-utilities": "1.7.14",
     "dotenv": "16.4.7",
     "es-toolkit": "1.31.0",
-    "glob": "11.0.0",
+    "glob": "11.0.1",
     "json-logic-js": "2.0.5",
     "oceanic-builders": "1.2.0",
     "oceanic-collectors": "1.0.7",
