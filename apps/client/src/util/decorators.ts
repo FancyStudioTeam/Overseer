@@ -1,9 +1,12 @@
 import type { ChatInputCommand } from "./handlers.js";
 
+/**
+ * Sets "_autoLoad" property to true in the target class.
+ * @returns The updated target class.
+ */
 export const AutoLoad = () => {
   return (target: {
-    // biome-ignore lint/suspicious/noExplicitAny:
-    new (...args: any[]): ChatInputCommand;
+    new (...args: unknown[]): ChatInputCommand;
   }) =>
     class extends target {
       _autoLoad = true;
