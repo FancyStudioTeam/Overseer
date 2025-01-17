@@ -1,8 +1,14 @@
 import { DISCORD_TOKEN } from "@config";
-import { ApplicationCommandOptionTypes, type BigString, type EmbedField, bold, magenta } from "@discordeno/bot";
+import {
+  ApplicationCommandOptionTypes,
+  type BigString,
+  type EmbedField,
+  type RestManager,
+  bold,
+  magenta,
+} from "@discordeno/bot";
 import { codeBlock } from "@discordjs/formatters";
 import { createMessage } from "@functions/client/createMessage.js";
-import type { Client } from "@index";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@util/handlers.js";
 import { prisma } from "@util/prisma.js";
 
@@ -16,55 +22,56 @@ export default class PingCommand extends ChatInputSubCommand {
   }
 
   async run({ client, context, t }: ChatInputSubCommandRunOptions): Promise<void> {
-    const [restLatency, databaseLatency] = await Promise.all([
-      this.getRestLatency(client),
+    const [apiRequestsLatency, databaseLatency] = await Promise.all([
+      this.getApiRequestsLatency(client.rest),
       this.getDatabaseLatency(context.guildId),
     ]);
-    const [restLatencyField, databaseLatencyField]: EmbedField[] = [
+    const [apiRequestsLatencyField, databaseLatencyField]: EmbedField[] = [
       {
         inline: true,
         name: t("commands.categories.information.ping.message_1.embed.field_1.name"),
-        value: codeBlock("ansi", bold(magenta(restLatency))),
+        value: codeBlock("ansi", bold(magenta(`${apiRequestsLatency} ms`))),
       },
       {
         inline: true,
         name: t("commands.categories.information.ping.message_1.embed.field_2.name"),
-        value: codeBlock("ansi", bold(magenta(databaseLatency))),
+        value: codeBlock("ansi", bold(magenta(`${databaseLatency} ms`))),
       },
     ];
 
     await createMessage(context, {
-      fields: [restLatencyField, databaseLatencyField],
+      fields: [apiRequestsLatencyField, databaseLatencyField],
     });
   }
 
   /**
-   * Calculates the REST latency.
-   * @param client The client instance.
-   * @returns The formatted REST latency.
+   * Calculates the APi requests latency.
+   * @param rest The REST manager.
+   * @returns The API requests latency in milliseconds.
    */
-  async getRestLatency(client: Client): Promise<string> {
-    const startWatcherTime = process.hrtime.bigint();
+  async getApiRequestsLatency(rest: RestManager): Promise<number> {
+    const startHrtime = process.hrtime.bigint();
 
     /**
      * Sends a request to fetch the current user and waits until the promise is resolved or rejected.
      */
-    await client.rest.getCurrentUser(DISCORD_TOKEN);
+    await rest.getCurrentUser(DISCORD_TOKEN);
 
-    const endWatcherTime = process.hrtime.bigint();
-    const executionTime = this.calculateExecutionTime(startWatcherTime, endWatcherTime);
+    const endHrtime = process.hrtime.bigint();
+    const executionTime = this.calculateExecutionTime(startHrtime, endHrtime);
+    const roundedExecutionTime = Math.round(executionTime);
 
-    return `${(executionTime).toFixed(0)}ms`;
+    return roundedExecutionTime;
   }
 
   /**
    * Calculates the database latency.
    * @param guildIdBigString The guild ID as a BigString.
-   * @returns The formatted database latency.
+   * @returns The database latency in milliseconds.
    */
-  async getDatabaseLatency(guildIdBigString?: BigString): Promise<string> {
+  async getDatabaseLatency(guildIdBigString?: BigString): Promise<number> {
     const guildId = guildIdBigString?.toString();
-    const startWatcherTime = process.hrtime.bigint();
+    const startHrtime = process.hrtime.bigint();
 
     /**
      * Sends a query to the database and waits until the promise is resolved or rejected.
@@ -75,14 +82,15 @@ export default class PingCommand extends ChatInputSubCommand {
       },
     });
 
-    const endWatcherTime = process.hrtime.bigint();
-    const executionTime = this.calculateExecutionTime(startWatcherTime, endWatcherTime);
+    const endHrtime = process.hrtime.bigint();
+    const executionTime = this.calculateExecutionTime(startHrtime, endHrtime);
+    const roundedExecutionTime = Math.round(executionTime);
 
-    return `${(executionTime).toFixed(0)}ms`;
+    return roundedExecutionTime;
   }
 
   /**
-   * Calculates the execution time.
+   * Calculates the execution time of a code.
    * @param startTime The start time of the execution.
    * @param endTime The end time of the execution.
    * @returns The execution time in milliseconds.
