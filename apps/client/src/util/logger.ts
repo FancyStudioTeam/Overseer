@@ -1,3 +1,6 @@
+import { Stream } from "node:stream";
+import { codeBlock } from "@discordjs/formatters";
+import { createWebhookMessage } from "@functions/createWebhookMessage.js";
 import { addColors, createLogger, format, transports } from "winston";
 
 const loggerLevelsConfig = {
@@ -80,22 +83,19 @@ export const logger = createLogger({
         maxSize: 262_144_000,
       }),
     ),
-    // TODO: Send error logs to Discord webhook.
-    /*new transports.Stream({
+    new transports.Stream({
       format: format.printf(({ message }) => String(message)),
       level: "error",
       stream: new Stream.Writable({
         write: async (chunk, _encoding, callback) => {
           const logMessage = Buffer.from(chunk).toString();
 
-          await RestManager.executeWebhook(WEBHOOK_LOGGER_ID, WEBHOOK_LOGGER_TOKEN, {
-            embeds: createEmbeds().setDescription(codeBlock("ts", logMessage)),
-          });
+          await createWebhookMessage(codeBlock("ts", logMessage));
 
           callback();
         },
       }),
-    }),*/
+    }),
   ],
 });
 
