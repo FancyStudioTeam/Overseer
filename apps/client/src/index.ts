@@ -1,10 +1,14 @@
 import "dotenv/config";
-import "@api";
-import { Discord } from "@structures/Discord.js";
+import { type Client, client } from "@util/client.js";
 import { initLoader } from "@util/loader.js";
 
-const discord = new Discord();
+/**
+ * Exports the client object with its type.
+ */
+export { client, type Client };
 
-export { discord, Discord };
-
+/**
+ * Dynamically imports the client API after exporting the client object to avoid circular imports.
+ */
+import("@api");
 await initLoader();

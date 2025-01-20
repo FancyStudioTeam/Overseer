@@ -1,8 +1,7 @@
-import { type DiscordEmbed, MessageFlags } from "@discordeno/bot";
+import { MessageFlags } from "@discordeno/bot";
 import type { AnyMessagePayload, MessagePayload } from "@types";
 import { DEFAULT_EMBED_COLOR } from "@util/constants.js";
 
-const isEmbedObject = (content: AnyMessagePayloadWithObjects): content is DiscordEmbed => "description" in content;
 const isMessagePayload = (content: AnyMessagePayloadWithObjects): content is MessagePayload =>
   "components" in content || "content" in content || "embeds" in content || "files" in content || "flags" in content;
 
@@ -44,15 +43,13 @@ export const resolveMessagePayload = (
         ...messagePayload,
         ...content,
       };
-    } else if (isEmbedObject(content)) {
+    } else {
       messagePayload.embeds = [
         {
           ...content,
           color: DEFAULT_EMBED_COLOR,
         },
       ];
-    } else {
-      throw new Error("Invalid message payload.");
     }
   }
 
