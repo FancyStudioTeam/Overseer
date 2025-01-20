@@ -55,7 +55,7 @@ export default class PingCommand extends ChatInputSubCommand {
     const { guildIdBigString, rest } = options;
     const apiRequestPromise = () => rest.getCurrentUser(DISCORD_TOKEN);
     const databasePromise = () =>
-      prisma.guildConfiguration.findUnique({
+      prisma.guildPreferences.findUnique({
         select: {
           guildId: true,
         },
