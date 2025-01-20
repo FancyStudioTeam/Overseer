@@ -19,22 +19,22 @@ export default class DebugCommand extends ChatInputSubCommand {
     const { bot: botVersion, discordeno: discordenoVersion, prisma: prismaVersion } = await this.getAllVersions();
     const [generalInformationField, dependenciesVersionsField]: EmbedField[] = [
       {
-        name: t("commands.categories.information.debug.message_1.embed.field_1.name"),
+        name: t("categories.information.debug.message_1.embed.field_1.name"),
         value: codeBlock(
           "ansi",
           formatAnsiKeyValues(
-            t("commands.categories.information.debug.message_1.embed.field_1.value", {
+            t("categories.information.debug.message_1.embed.field_1.value", {
               botVersion,
             }),
           ),
         ),
       },
       {
-        name: t("commands.categories.information.debug.message_1.embed.field_2.name"),
+        name: t("categories.information.debug.message_1.embed.field_2.name"),
         value: codeBlock(
           "ansi",
           formatAnsiKeyValues(
-            t("commands.categories.information.debug.message_1.embed.field_2.value", {
+            t("categories.information.debug.message_1.embed.field_2.value", {
               discordenoVersion,
               prismaVersion,
             }),
@@ -48,7 +48,7 @@ export default class DebugCommand extends ChatInputSubCommand {
         {
           author: {
             iconUrl: await this.getAvatarUrl(),
-            name: t("commands.categories.information.debug.message_1.embed.author"),
+            name: t("categories.information.debug.message_1.embed.author"),
           },
           color: DEFAULT_EMBED_COLOR,
           fields: [generalInformationField, dependenciesVersionsField],

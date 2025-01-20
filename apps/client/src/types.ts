@@ -1,6 +1,6 @@
 import type { CreateMessageOptions, DiscordEmbed, InteractionCallbackData } from "@discordeno/bot";
 import type { Client, client } from "@index";
-import type { Namespace, TFunction } from "i18next";
+import type { TFunction } from "i18next";
 
 export type Guild = typeof client.transformers.$inferredTypes.guild;
 export type Interaction = typeof client.transformers.$inferredTypes.interaction;
@@ -34,5 +34,5 @@ export interface DefaultRunnableOptions {
   /**
    * A translation function for multilingual support.
    */
-  t: TFunction<Namespace, undefined>;
+  t: TFunction<"commands", undefined>;
 }
