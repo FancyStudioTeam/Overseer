@@ -8,9 +8,9 @@ import {
   magenta,
 } from "@discordeno/bot";
 import { codeBlock } from "@discordjs/formatters";
-import { createMessage } from "@functions/client/createMessage.js";
+import { createMessage } from "@functions/createMessage.js";
+import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
 import type { MaybeAwaitable } from "@types";
-import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@util/handlers.js";
 import { prisma } from "@util/prisma.js";
 
 export default class PingCommand extends ChatInputSubCommand {
@@ -23,9 +23,10 @@ export default class PingCommand extends ChatInputSubCommand {
   }
 
   async run({ client, context, t }: ChatInputSubCommandRunOptions): Promise<void> {
+    const { rest } = client;
     const { apiRequests: apiRequestsLatency, database: databaseLatency } = await this.getLatencies({
       guildIdBigString: context.guildId,
-      rest: client.rest,
+      rest,
     });
     const [apiRequestsLatencyField, databaseLatencyField]: EmbedField[] = [
       {
