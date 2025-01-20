@@ -4,6 +4,10 @@ import esCommands from "../locales/es/commands.json" with { type: "json" };
 
 export const i18n = i18next.createInstance();
 
+/**
+ * i18next uses "namespaces" to split the translations into multiple JSON files.
+ * "commands" namespace is used for the commands translations.
+ */
 i18n.init({
   // biome-ignore lint/style/useNamingConvention: Cannot be changed.
   defaultNS: "commands",
@@ -20,14 +24,16 @@ i18n.init({
 });
 
 /**
- * Adds embedded type definitions to the i18next instance.
+ * Adds embedded type definitions for some i18next properties and methods.
  */
 declare module "i18next" {
   interface CustomTypeOptions {
     // biome-ignore lint/style/useNamingConvention: Cannot be changed.
     defaultNS: "commands";
     resources: {
-      commands: typeof enCommands | typeof esCommands;
+      commands: Commands;
     };
   }
 }
+
+type Commands = typeof enCommands | typeof esCommands;
