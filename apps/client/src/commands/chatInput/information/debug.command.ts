@@ -17,7 +17,7 @@ export default class DebugCommand extends ChatInputSubCommand {
 
   async run({ context, t }: ChatInputSubCommandRunOptions): Promise<void> {
     const { bot: botVersion, discordeno: discordenoVersion, prisma: prismaVersion } = await this.getAllVersions();
-    const [generalInformationField, dependenciesVersionsField, ramMemoryUsageField]: EmbedField[] = [
+    const [generalInformationField, dependenciesVersionsField]: EmbedField[] = [
       {
         name: t("commands.categories.information.debug.message_1.embed.field_1.name"),
         value: codeBlock(
@@ -51,7 +51,7 @@ export default class DebugCommand extends ChatInputSubCommand {
             name: t("commands.categories.information.debug.message_1.embed.author"),
           },
           color: DEFAULT_EMBED_COLOR,
-          fields: [generalInformationField, dependenciesVersionsField, ramMemoryUsageField],
+          fields: [generalInformationField, dependenciesVersionsField],
         },
       ],
     });
