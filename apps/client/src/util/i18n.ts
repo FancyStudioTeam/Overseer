@@ -5,7 +5,7 @@ import esCommands from "../locales/es/commands.json" with { type: "json" };
 export const i18n = i18next.createInstance();
 
 i18n.init({
-  // biome-ignore lint/style/useNamingConvention: Can not be changed.
+  // biome-ignore lint/style/useNamingConvention: Cannot be changed.
   defaultNS: "commands",
   fallbackLng: "en",
   ns: ["commands"],
@@ -24,7 +24,7 @@ i18n.init({
  */
 declare module "i18next" {
   interface CustomTypeOptions {
-    // biome-ignore lint/style/useNamingConvention: Can not be changed.
+    // biome-ignore lint/style/useNamingConvention: Cannot be changed.
     defaultNS: "commands";
     resources: {
       commands: typeof enCommands | typeof esCommands;
