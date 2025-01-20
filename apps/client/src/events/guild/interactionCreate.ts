@@ -63,7 +63,7 @@ client.events.interactionCreate = async (interaction) => {
 
   const { guildId: guildIdBigInt } = interaction;
   const guildId = guildIdBigInt.toString();
-  const guildConfiguration = await prisma.guildConfiguration.findUnique({
+  const guildConfiguration = await prisma.guildPreferences.findUnique({
     where: {
       guildId,
     },
