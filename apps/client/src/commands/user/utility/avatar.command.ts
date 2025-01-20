@@ -1,6 +1,5 @@
-import { avatarUrl as getAvatarUrl } from "@discordeno/bot";
-import { createMessage } from "@functions/client/createMessage.js";
-import { UserContextCommand, type UserContextCommandRunOptions } from "@util/handlers.js";
+import { createMessage } from "@functions/createMessage.js";
+import { UserContextCommand, type UserContextCommandRunOptions } from "@structures/commands/UserContextCommand.js";
 
 export default class AvatarCommand extends UserContextCommand {
   constructor() {
@@ -10,11 +9,7 @@ export default class AvatarCommand extends UserContextCommand {
   }
 
   async run({ context, targetUser }: UserContextCommandRunOptions): Promise<void> {
-    const { avatar, discriminator, id } = targetUser;
-    const avatarUrl = getAvatarUrl(id, discriminator, {
-      avatar,
-      size: 1024,
-    });
+    const avatarUrl = await this.getAvatarUrl(targetUser);
 
     await createMessage(context, {
       image: {
