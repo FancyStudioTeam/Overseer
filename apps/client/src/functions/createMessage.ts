@@ -3,6 +3,13 @@ import { client } from "@index";
 import type { AnyContext, AnyMessagePayload, Message } from "@types";
 import { resolveMessagePayload } from "./resolveMessagePayload.js";
 
+/**
+ * Creates a new message or interaction response.
+ * @param context The context to use.
+ * @param content Any kind of message payload.
+ * @param options The available options.
+ * @returns The created message depending in the context and the "withMessage" option.
+ */
 export const createMessage = async <Context extends AnyContext, WithMessage extends boolean>(
   context: Context,
   content: AnyMessagePayload,
