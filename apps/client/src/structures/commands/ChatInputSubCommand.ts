@@ -1,5 +1,5 @@
 import { type ApplicationCommandOption, avatarUrl as getAvatarUrl } from "@discordeno/bot";
-import { discord } from "@index";
+import { client } from "@index";
 import type { DefaultRunnableOptions, User } from "@types";
 
 /**
@@ -22,8 +22,7 @@ export abstract class ChatInputSubCommand {
   abstract run(options: ChatInputSubCommandRunOptions): Promise<void>;
 
   async getAvatarUrl(user?: User): Promise<string> {
-    const { client, fetchUser } = discord;
-    const { applicationId } = client;
+    const { applicationId, fetchUser } = client;
     /**
      * Checks whether the user is provided or fallback to the current client user.
      */

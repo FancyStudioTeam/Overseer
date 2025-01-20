@@ -5,7 +5,7 @@ import {
   DiscordInteractionContextType,
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
-import { discord } from "@index";
+import { client } from "@index";
 import { CreateCommandTypes, type DefaultRunnableOptions, type MaybeNullish, type Member, type User } from "@types";
 
 /**
@@ -26,8 +26,7 @@ export abstract class UserContextCommand {
   abstract run(options: UserContextCommandRunOptions): Promise<void>;
 
   async getAvatarUrl(user?: User): Promise<string> {
-    const { client, fetchUser } = discord;
-    const { applicationId } = client;
+    const { applicationId, fetchUser } = client;
     /**
      * Checks whether the user is provided or fallback to the current client user.
      */
