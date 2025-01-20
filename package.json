@@ -22,7 +22,15 @@
   },
   "scripts": {
     "biome": "sh -c 'if [ \"$IN_NIX_SHELL\" = \"1\" ]; then BIOME_BINARY=$BIOME_BIN_PATH pnpx @biomejs/biome check --write --config-path biome.json; else pnpx @biomejs/biome check --write --config-path biome.json; fi'",
-    "prepare": "husky"
+    "client:build": "pnpm --filter client build",
+    "client:clean": "pnpm --filter client clean",
+    "client:dev": "pnpm --filter client dev",
+    "client:start": "pnpm --filter client start",
+    "prepare": "husky",
+    "proxy:build": "pnpm --filter proxy build",
+    "proxy:clean": "pnpm --filter proxy clean",
+    "proxy:dev": "pnpm --filter proxy dev",
+    "proxy:start": "pnpm --filter proxy start"
   },
   "type": "module"
 }
