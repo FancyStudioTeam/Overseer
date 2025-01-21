@@ -38,8 +38,7 @@ export default class LocaleCommand extends ChatInputSubCommand {
 
     const { locale: localeOptions } = options;
     const { locale } = localeOptions;
-    const guildIdBigInt = context.guildId;
-    const guildId = guildIdBigInt.toString();
+    const guildId = context.guildId.toString();
     /**
      * Update the guild preferences locale.
      * Using the "upsert" method will avoid manual updates for existing or missing guilds.
