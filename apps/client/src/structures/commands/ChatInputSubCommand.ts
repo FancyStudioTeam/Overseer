@@ -58,7 +58,7 @@ type ChatInputSubCommandOptions = Pick<
 
 export type ChatInputSubCommandRunOptions<Options> = DefaultRunnableOptions & {
   /**
-   * The resolved chat input options object.
+   * The parsed chat input options object.
    */
   options: Options;
 };

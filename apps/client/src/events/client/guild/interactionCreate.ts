@@ -1,56 +1,76 @@
-import { ApplicationCommandOptionTypes, ApplicationCommandTypes, InteractionTypes } from "@discordeno/bot";
+import {
+  ApplicationCommandOptionTypes,
+  ApplicationCommandTypes,
+  InteractionTypes,
+  commandOptionsParser,
+} from "@discordeno/bot";
 import { client } from "@index";
-import type { Interaction, MaybeNullish, Member, User } from "@types";
+import type { Interaction, MaybeOptional, Member, User } from "@types";
 import { i18n } from "@util/i18n.js";
 import { prisma } from "@util/prisma.js";
 import { match } from "ts-pattern";
 
 /**
- * Gets the target member from user context command interaction.
+ * Gets the sub command names from chat input commands.
+ * @param interaction The interaction context.
+ * @returns The sub command names.
  */
-const getTargetMember = (interaction: Interaction): MaybeNullish<Member> => {
-  if (!interaction.data) {
-    throw new Error("Unable to get interaction data");
-  }
+const getSubCommands = (interaction: Interaction): string[] => {
+  const { data } = interaction;
+  const { options } = data ?? {};
+  const subCommand = options?.find((option) => option.type === ApplicationCommandOptionTypes.SubCommand);
 
-  const {
-    data: { resolved },
-  } = interaction;
+  return subCommand ? [subCommand.name] : [];
+};
+
+/**
+ * Gets the parsed command options object.
+ * @param interaction The interaction context.
+ * @returns The parsed command options.
+ */
+const parsedCommandOptions = (interaction: Interaction) => {
+  const { data } = interaction;
+  const { options } = data ?? {};
+
+  return commandOptionsParser(interaction, options);
+};
+
+/**
+ * Gets the target member from user context commands, if any.
+ * @param interaction The interaction context.
+ * @returns The target member.
+ */
+const getTargetMember = (interaction: Interaction): MaybeOptional<Member> => {
+  const { data } = interaction;
+  const { resolved } = data ?? {};
   const resolvedMembersCollection = resolved?.members;
-
-  if (!resolvedMembersCollection) {
-    throw new Error("Unable to get resolved users collection");
-  }
-
-  const targetMember = resolvedMembersCollection.first();
+  /**
+   * Target members are always in the first resolved members collection position.
+   */
+  const targetMember = resolvedMembersCollection?.first();
 
   return targetMember;
 };
 
 /**
- * Gets the target user from user context command interaction.
+ * Gets the target user from user context commands.
+ * @param interaction The interaction context.
+ * @returns The target user.
  */
 const getTargetUser = (interaction: Interaction): User => {
-  if (!interaction.data) {
-    throw new Error("Unable to get interaction data");
-  }
-
-  const {
-    data: { resolved },
-  } = interaction;
+  const { data } = interaction;
+  const { resolved } = data ?? {};
   const resolvedUsersCollection = resolved?.users;
-
-  if (!resolvedUsersCollection) {
-    throw new Error("Unable to get resolved users collection");
-  }
+  /**
+   * Target users are always in the first resolved users collection position.
+   */
+  const targetUser = resolvedUsersCollection?.first();
 
   /**
-   * Target user is always in the first collection position in the resolved users collection.
+   * User context commands must always include a target user.
    */
-  const targetUser = resolvedUsersCollection.first();
-
   if (!targetUser) {
-    throw new Error("Unable to get target user");
+    throw new Error("Cannot get target user from interaction.");
   }
 
   return targetUser;
@@ -83,21 +103,19 @@ client.events.interactionCreate = async (interaction) => {
       }
 
       const {
-        data: { name: commandName, options: commandOptions, type: commandType },
+        data: { name: commandName, type: commandType },
       } = applicationCommandInteraction;
 
       match(commandType)
         .with(ApplicationCommandTypes.ChatInput, async () => {
-          const subCommands = commandOptions?.filter(
-            (option) => option.type === ApplicationCommandOptionTypes.SubCommand,
-          );
-          const subCommand = subCommands?.[0];
-          const command = client.applicationCommands.chatInput.get([commandName, subCommand?.name].join("_"));
+          const subCommandNames = getSubCommands(applicationCommandInteraction).join("_");
+          const command = client.applicationCommands.chatInput.get([commandName, subCommandNames].join("_"));
 
           if (command) {
             await command.run({
               client,
               context: applicationCommandInteraction,
+              options: parsedCommandOptions(applicationCommandInteraction),
               t,
             });
           }
