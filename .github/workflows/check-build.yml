@@ -27,6 +27,11 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      - if: ${{ matrix.package == 'apps/client' }}
+        name: Generate Prisma Client
+        run: pnpm prisma generate
+        working-directory: ${{ matrix.package }}
+
       - name: Build ${{ matrix.package }}
         run: pnpm build
         working-directory: ${{ matrix.package }}
