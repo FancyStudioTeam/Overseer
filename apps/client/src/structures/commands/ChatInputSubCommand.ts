@@ -9,17 +9,18 @@ export abstract class ChatInputSubCommand {
   _data: ChatInputSubCommandOptions;
 
   constructor(options: ChatInputSubCommandOptions) {
-    const { description, descriptionLocalizations, name, type } = options;
+    const { description, descriptionLocalizations, name, options: _options, type } = options;
 
     this._data = {
       description,
       descriptionLocalizations,
       name,
+      options: _options,
       type,
     };
   }
 
-  abstract run(options: ChatInputSubCommandRunOptions): Promise<void>;
+  abstract run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
 
   async getAvatarUrl(user?: User): Promise<string> {
     const { applicationId, fetchUser } = client;
@@ -38,12 +39,13 @@ export abstract class ChatInputSubCommand {
 
   // biome-ignore lint/style/useNamingConvention: JSON must be capitalized
   toJSON(): ApplicationCommandOption {
-    const { description, descriptionLocalizations, name, type } = this._data;
+    const { description, descriptionLocalizations, name, options: _options, type } = this._data;
 
     return {
       description,
       descriptionLocalizations,
       name,
+      options: _options,
       type,
     };
   }
@@ -51,7 +53,12 @@ export abstract class ChatInputSubCommand {
 
 type ChatInputSubCommandOptions = Pick<
   ApplicationCommandOption,
-  "description" | "descriptionLocalizations" | "name" | "type"
+  "description" | "descriptionLocalizations" | "name" | "options" | "type"
 >;
 
-export type ChatInputSubCommandRunOptions = DefaultRunnableOptions;
+export type ChatInputSubCommandRunOptions<Options> = DefaultRunnableOptions & {
+  /**
+   * The resolved chat input options object.
+   */
+  options: Options;
+};
