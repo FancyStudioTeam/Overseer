@@ -40,8 +40,7 @@ export default class LocaleCommand extends ChatInputSubCommand {
     const { locale } = localeOptions;
     const guildId = context.guildId.toString();
     /**
-     * Update the guild preferences locale.
-     * Using the "upsert" method will avoid manual updates for existing or missing guilds.
+     * Upsert the guild preferences locale.
      */
     const { locale: updatedLocale } = await prisma.guildPreferences.upsert({
       create: {
