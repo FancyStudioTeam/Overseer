@@ -15,7 +15,7 @@ export default class DebugCommand extends ChatInputSubCommand {
     });
   }
 
-  async run({ context, t }: ChatInputSubCommandRunOptions): Promise<void> {
+  async run({ context, t }: ChatInputSubCommandRunOptions<never>): Promise<void> {
     const { bot: botVersion, discordeno: discordenoVersion, prisma: prismaVersion } = await this.getAllVersions();
     const [generalInformationField, dependenciesVersionsField]: EmbedField[] = [
       {

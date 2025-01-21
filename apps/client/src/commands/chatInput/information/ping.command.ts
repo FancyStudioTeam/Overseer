@@ -22,7 +22,7 @@ export default class PingCommand extends ChatInputSubCommand {
     });
   }
 
-  async run({ client, context, t }: ChatInputSubCommandRunOptions): Promise<void> {
+  async run({ client, context, t }: ChatInputSubCommandRunOptions<never>): Promise<void> {
     const { rest } = client;
     const { apiRequests: apiRequestsLatency, database: databaseLatency } = await this.getLatencies({
       guildIdBigString: context.guildId,
