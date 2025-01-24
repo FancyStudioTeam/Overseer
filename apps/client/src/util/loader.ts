@@ -15,7 +15,9 @@ const currentFolder = join(currentFolderPath, "dist");
 
 const resolvePath = (path: Path) => `file://${resolve(path.parentPath, path.name)}`;
 
-export const initLoader = async () => await Promise.all([loadEvents(), loadCommands()]);
+export const initLoader = async () => await Promise.all([loadEventsServer(), loadEvents(), loadCommands()]);
+
+const loadEventsServer = async () => await import("@api");
 
 const loadEvents = async () => {
   const eventPaths = await loadDirectoryFiles(`${join(currentFolder, "events")}/**/*.{js,ts}`);
