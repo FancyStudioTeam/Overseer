@@ -23,7 +23,13 @@
         "noReExportAll": "off"
       },
       "style": {
-        "noDefaultExport": "off"
+        "noDefaultExport": "off",
+        "useNamingConvention": {
+          "level": "warn",
+          "options": {
+            "strictCase": false
+          }
+        }
       }
     }
   },
