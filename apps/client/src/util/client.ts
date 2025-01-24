@@ -10,12 +10,11 @@ import type { UserContextCommand } from "@structures/commands/UserContextCommand
 import type { User } from "@types";
 import { createProxyCache as createClientWithCache } from "dd-cache-proxy";
 
-/**
- * Creates a main Discordeno client object.
- */
+/** Create the main Discordeno client object. */
 const discordenoClient = createDiscordenoClient({
   /**
-   * Use "desiredProperties" to select what properties from each object.
+   * The "desiredProperties" option is used to specify the properties that we actually use in our code.
+   * Documentation: https://discordeno.js.org/docs/desired-properties
    */
   desiredProperties: {
     guild: {
@@ -54,6 +53,7 @@ const discordenoClient = createDiscordenoClient({
       username: true,
     },
   },
+  /** Used to explain why the the property is disabled in a string. */
   desiredPropertiesBehavior: DesiredPropertiesBehavior.ChangeType,
   rest: {
     proxy: {
@@ -63,9 +63,7 @@ const discordenoClient = createDiscordenoClient({
   },
   token: DISCORD_TOKEN,
 });
-/**
- * Creates a client object with a cache manager.
- */
+/** Create the main client object with a cache manager. */
 const clientWithCache = createClientWithCache(discordenoClient, {
   cacheInMemory: {
     default: true,
@@ -74,22 +72,21 @@ const clientWithCache = createClientWithCache(discordenoClient, {
   },
 });
 
-/**
- * Exports the client object with some additional properties and utilities.
- */
+/** Export the main client object. */
 export const client = clientWithCache as Client;
 
 client.applicationCommands = {
   chatInput: new Collection(),
   user: new Collection(),
 };
+
 client.fetchUser = async (userIdBigString?: BigString): Promise<User> => {
   const {
     applicationId,
     cache: { users: cachedUsers },
     helpers,
   } = client;
-  const userIdString = userIdBigString?.toString() ?? applicationId;
+  const userIdString = userIdBigString?.toString() ?? applicationId.toString();
   const userIdBigInt = BigInt(userIdString);
   const cachedUser = await cachedUsers.get(userIdBigInt);
 
@@ -97,9 +94,15 @@ client.fetchUser = async (userIdBigString?: BigString): Promise<User> => {
 };
 
 export type Client = typeof clientWithCache & {
+  /** The application command collections. */
   applicationCommands: {
     chatInput: Collection<string, ChatInputSubCommand>;
     user: Collection<string, UserContextCommand>;
   };
+  /**
+   * Gets a user from the cache or fetches it from Discord.
+   * @param userIdBigString The user ID as BigString.
+   * @returns The cached or fetched user.
+   */
   fetchUser: (userIdBigString?: BigString) => Promise<User>;
 };
