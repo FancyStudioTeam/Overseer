@@ -72,7 +72,6 @@ const clientWithCache = createClientWithCache(discordenoClient, {
   },
 });
 
-/** Export the main client object. */
 export const client = clientWithCache as Client;
 
 client.applicationCommands = {

@@ -13,9 +13,6 @@ export type AnyContext = Message | Interaction;
 export type MessagePayload = CreateMessageOptions & InteractionCallbackData;
 export type AnyMessagePayload = string | DiscordEmbed | MessagePayload;
 
-/**
- * Internally used to identify the command type when creating a new command.
- */
 export enum CreateCommandTypes {
   ChatInput = "ChatInput",
   Message = "Message",
@@ -28,16 +25,10 @@ export type MaybeNullish<T> = T | null | undefined;
 export type MaybeOptional<T> = T | undefined;
 
 export interface DefaultRunnableOptions {
-  /**
-   * The main client object.
-   */
+  /** The main client object. */
   client: Client;
-  /**
-   * The interaction context.
-   */
+  /** The interaction context. */
   context: Interaction;
-  /**
-   * The translation function to translate command messages.
-   */
+  /** A method to translate the command messages. */
   t: TFunction<"commands", undefined>;
 }
