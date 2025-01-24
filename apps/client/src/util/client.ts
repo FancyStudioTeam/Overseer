@@ -100,9 +100,9 @@ export type Client = typeof clientWithCache & {
     user: Collection<string, UserContextCommand>;
   };
   /**
-   * Gets a user from the cache or fetches it from Discord.
+   * Fetch the user from the cache or Discord API.
    * @param userIdBigString The user ID as BigString.
-   * @returns The cached or fetched user.
+   * @returns The fetched user.
    */
   fetchUser: (userIdBigString?: BigString) => Promise<User>;
 };
