@@ -2,9 +2,6 @@ import { type ApplicationCommandOption, avatarUrl as getAvatarUrl } from "@disco
 import { client } from "@index";
 import type { DefaultRunnableOptions, User } from "@types";
 
-/**
- * Exports the "ChatInputSubCommand" class to create a new chat input sub command option instance.
- */
 export abstract class ChatInputSubCommand {
   _data: ChatInputSubCommandOptions;
 
@@ -24,9 +21,7 @@ export abstract class ChatInputSubCommand {
 
   async getAvatarUrl(user?: User): Promise<string> {
     const { applicationId, fetchUser } = client;
-    /**
-     * Checks whether the user is provided or fallback to the current client user.
-     */
+    /** Check whether the user is provided or fallback to the current user. */
     const targetUser = user ?? (await fetchUser(applicationId));
     const { avatar, discriminator, id } = targetUser;
     const avatarUrl = getAvatarUrl(id, discriminator, {
@@ -37,7 +32,6 @@ export abstract class ChatInputSubCommand {
     return avatarUrl;
   }
 
-  // biome-ignore lint/style/useNamingConvention: JSON must be capitalized
   toJSON(): ApplicationCommandOption {
     const { description, descriptionLocalizations, name, options: _options, type } = this._data;
 
@@ -57,8 +51,6 @@ type ChatInputSubCommandOptions = Pick<
 >;
 
 export type ChatInputSubCommandRunOptions<Options> = DefaultRunnableOptions & {
-  /**
-   * The parsed chat input options object.
-   */
+  /** The parsed sub command options object. */
   options: Options;
 };

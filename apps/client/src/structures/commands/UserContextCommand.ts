@@ -6,11 +6,8 @@ import {
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
 import { client } from "@index";
-import { CreateCommandTypes, type DefaultRunnableOptions, type MaybeNullish, type Member, type User } from "@types";
+import { CreateCommandTypes, type DefaultRunnableOptions, type MaybeOptional, type Member, type User } from "@types";
 
-/**
- * Exports the "UserContextCommand" class to create a new user context command instance.
- */
 export abstract class UserContextCommand {
   _data: UserContextCommandOptions;
   type: CreateCommandTypes.User = CreateCommandTypes.User;
@@ -27,9 +24,7 @@ export abstract class UserContextCommand {
 
   async getAvatarUrl(user?: User): Promise<string> {
     const { applicationId, fetchUser } = client;
-    /**
-     * Checks whether the user is provided or fallback to the current client user.
-     */
+    /** Check whether the user is provided or fallback to the current user. */
     const targetUser = user ?? (await fetchUser(applicationId));
     const { avatar, discriminator, id } = targetUser;
     const avatarUrl = getAvatarUrl(id, discriminator, {
@@ -40,7 +35,6 @@ export abstract class UserContextCommand {
     return avatarUrl;
   }
 
-  // biome-ignore lint/style/useNamingConvention: JSON should be capitalized.
   toJSON(): CreateContextApplicationCommand {
     const { name } = this._data;
 
@@ -57,12 +51,8 @@ export abstract class UserContextCommand {
 type UserContextCommandOptions = Pick<CreateContextApplicationCommand, "name">;
 
 export type UserContextCommandRunOptions = DefaultRunnableOptions & {
-  /**
-   * The target member from the user context command, if any.
-   */
-  targetMember: MaybeNullish<Member>;
-  /**
-   * The target user from the user context command.
-   */
+  /** The target member from the user context command, if present. */
+  targetMember: MaybeOptional<Member>;
+  /** The target user from the user context command. */
   targetUser: User;
 };

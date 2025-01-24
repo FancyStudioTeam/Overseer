@@ -5,18 +5,11 @@ import {
 } from "@discordeno/bot";
 import { CreateCommandTypes } from "@types";
 
-/**
- * Exports the "ChatInputCommand" class to create a new chat input command instance.
- */
 export abstract class ChatInputCommand {
-  /**
-   * Loads all the sub command options automatically.
-   */
+  /** Whether to load all the chat input sub commands automatically. */
   _autoLoad = false;
   _data: ChatInputCommandOptions;
-  /**
-   * All the sub command options that were loaded using "_autoLoad" property or manually.
-   */
+  /** The loaded chat input sub commands list. */
   _options: DiscordApplicationCommandOption[] = [];
   type: CreateCommandTypes.ChatInput = CreateCommandTypes.ChatInput;
 
@@ -30,7 +23,6 @@ export abstract class ChatInputCommand {
     };
   }
 
-  // biome-ignore lint/style/useNamingConvention: JSON should be capitalized.
   toJSON(): CreateSlashApplicationCommand {
     const { description, descriptionLocalizations, name } = this._data;
     const options = this._options;
