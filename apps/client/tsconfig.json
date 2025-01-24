@@ -3,10 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "paths": {
-      "@api": ["./src/api/index.ts"],
       "@config": ["./src/config.ts"],
       "@functions/*": ["./src/functions/*"],
       "@index": ["./src/index.ts"],
+      "@proxy/*": ["./src/proxy/*"],
       "@structures/*": ["./src/structures/*"],
       "@types": ["./src/types.ts"],
       "@util/*": ["./src/util/*"]

@@ -1,5 +1,5 @@
 /**
- * Gets an environment variable value.
+ * Get an environment variable value.
  * @param key The environment variable key.
  * @returns The environment variable value.
  */
