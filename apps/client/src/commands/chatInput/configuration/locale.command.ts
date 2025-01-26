@@ -2,8 +2,12 @@ import { ApplicationCommandOptionTypes } from "@discordeno/bot";
 import { createMessage } from "@functions/createMessage.js";
 import type { GuildPreferencesLocale } from "@prisma/client";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
+import { CommandOptions } from "@util/decorators.js";
 import { prisma } from "@util/prisma.js";
 
+@CommandOptions({
+  permissions: "MANAGE_GUILD",
+})
 export default class LocaleCommand extends ChatInputSubCommand {
   constructor() {
     super({
@@ -39,9 +43,7 @@ export default class LocaleCommand extends ChatInputSubCommand {
     const { locale: localeOptions } = options;
     const { locale } = localeOptions;
     const guildId = context.guildId.toString();
-    /**
-     * Upsert the guild preferences locale.
-     */
+    /** Upsert the guild preferences locale. */
     const { locale: updatedLocale } = await prisma.guildPreferences.upsert({
       create: {
         guildId,
@@ -61,9 +63,7 @@ export default class LocaleCommand extends ChatInputSubCommand {
     await createMessage(
       context,
       t("categories.configuration.locale.message_1", {
-        /**
-         * Use the updated locale to translate the message.
-         */
+        /** Use the updated locale to translate the message. */
         lng: updatedLocale.toLowerCase(),
       }),
     );
