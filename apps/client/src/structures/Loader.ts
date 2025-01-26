@@ -125,7 +125,7 @@ export class Importer {
 
   /** Import the event files. */
   private async importEvents(): Promise<void> {
-    const eventsPattern = `${join(distFolderPath, "events")}/**/*.{js,ts}`;
+    const eventsPattern = `${join(distFolderPath, "events")}/**/*.event.{js,ts}`;
     const loadedEventPaths = await this.loadDirectoryFiles(eventsPattern);
     /** Resolve all the event paths. */
     const resolvedEventPaths = loadedEventPaths.map((eventPath) => this.resolvePath(eventPath));

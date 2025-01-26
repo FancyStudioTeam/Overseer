@@ -107,7 +107,6 @@ client.events.interactionCreate = async (interaction) => {
 
   const { guildId: guildIdBigInt, member } = interaction;
   const guildId = guildIdBigInt.toString();
-  const clientMember = await client.fetchMember(guildIdBigInt);
   const guildConfiguration = await prisma.guildPreferences.findUnique({
     where: {
       guildId,
@@ -155,7 +154,6 @@ client.events.interactionCreate = async (interaction) => {
 
             await command.run({
               client,
-              clientMember,
               context: applicationCommandInteraction,
               options: parsedCommandOptions(applicationCommandInteraction),
               t: tCommands,
@@ -170,7 +168,6 @@ client.events.interactionCreate = async (interaction) => {
           if (command) {
             await command.run({
               client,
-              clientMember,
               context: applicationCommandInteraction,
               t: tCommands,
               targetMember,
