@@ -7,7 +7,7 @@ import {
 } from "@discordeno/bot";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 import type { UserContextCommand } from "@structures/commands/UserContextCommand.js";
-import type { User } from "@types";
+import type { Member, User } from "@types";
 import { createProxyCache as createClientWithCache } from "dd-cache-proxy";
 
 /** Create the main Discordeno client object. */
@@ -39,6 +39,7 @@ const discordenoClient = createDiscordenoClient({
       guildId: true,
       id: true,
       permissions: true,
+      roles: true,
     },
     message: {
       author: true,
@@ -79,6 +80,20 @@ client.applicationCommands = {
   user: new Collection(),
 };
 
+client.fetchMember = async (guildIdBigString: BigString, memberIdBigString?: BigString): Promise<Member> => {
+  const {
+    applicationId,
+    cache: { members: cachedMembers },
+    helpers,
+  } = client;
+  const guildIdBigInt = BigInt(guildIdBigString.toString());
+  const memberIdString = memberIdBigString?.toString() ?? applicationId.toString();
+  const memberIdBigInt = BigInt(memberIdString);
+  const cachedMember = await cachedMembers.get(guildIdBigInt, memberIdBigInt);
+
+  return cachedMember ? cachedMember : await helpers.getMember(guildIdBigInt, memberIdBigInt);
+};
+
 client.fetchUser = async (userIdBigString?: BigString): Promise<User> => {
   const {
     applicationId,
@@ -98,6 +113,13 @@ export type Client = typeof clientWithCache & {
     chatInput: Collection<string, ChatInputSubCommand>;
     user: Collection<string, UserContextCommand>;
   };
+  /**
+   * Fetch the member from the cache or Discord API.
+   * @param guildIdBigString The guild ID as BigString.
+   * @param memberIdBigString The member ID as BigString.
+   * @returns The fetched member.
+   */
+  fetchMember: (guildIdBigString: BigString, memberIdBigString?: BigString) => Promise<Member>;
   /**
    * Fetch the user from the cache or Discord API.
    * @param userIdBigString The user ID as BigString.
