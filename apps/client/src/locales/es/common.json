@@ -49,5 +49,6 @@
     "VIEW_CHANNEL": "Ver Canal",
     "VIEW_CREATOR_MONETIZATION_ANALYTICS": "Ver Analíticas de Monetización de Creadores",
     "VIEW_GUILD_INSIGHTS": "Ver Información del Servidor"
-  }
+  },
+  "missing_user_command_permissions": "**No puedes ejecutar este comando debido a que no tienes el permiso de {{permissions}}.**"
 }

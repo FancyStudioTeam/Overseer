@@ -49,5 +49,6 @@
     "VIEW_CHANNEL": "View Channel",
     "VIEW_CREATOR_MONETIZATION_ANALYTICS": "View Creator Monetization Analytics",
     "VIEW_GUILD_INSIGHTS": "View Server Insights"
-  }
+  },
+  "missing_user_command_permissions": "**You cannot execute this command due you do not have the {{permissions}} permission.**"
 }
