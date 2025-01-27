@@ -4,9 +4,9 @@ import type { AnyContext, AnyMessagePayload, Message } from "@types";
 import { resolveMessagePayload } from "./resolveMessagePayload.js";
 
 /**
- * Creates a new message or interaction response.
+ * Create a message or an interaction response.
  * @param context The context to use.
- * @param content Any kind of message payload.
+ * @param content Any message payload kind.
  * @param options The available options.
  * @returns The created message depending in the context and the "withMessage" option.
  */
@@ -14,16 +14,20 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
   context: Context,
   content: AnyMessagePayload,
   options: CreateMessageOptions<WithMessage> = {
+    isEphemeral: false,
     withMessage: false,
   } as CreateMessageOptions<WithMessage>,
 ): Promise<CreateMessage<Context, WithMessage>> => {
-  const messagePayload = resolveMessagePayload(content);
   /**
-   * The "withMessage" option is only used when the provided context is an interaction.
+   * The "withMessage" option should be only used when the provided context is an interaction.
    * Methods like "sendFollowupMessage" and "sendMessage" always return a message object.
    */
-  const { withMessage } = options;
+  const { isEphemeral, withMessage } = options;
+  const messagePayload = resolveMessagePayload(content, {
+    isEphemeral,
+  });
 
+  /** Handle the interaction context. */
   if ("acknowledged" in context) {
     const { acknowledged, id, token } = context;
 
@@ -36,6 +40,7 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
       data: messagePayload,
     });
 
+    /** Fetch and return the original message object from the interaction response only if "withMessage" is "true". */
     if (withMessage) {
       return await client.helpers.getOriginalInteractionResponse(token);
     }
@@ -49,14 +54,14 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
 };
 
 interface CreateMessageOptions<WithMessage extends boolean> {
-  /**
-   * Fetchs and returns the original message object from the interaction response.
-   */
+  /** Whether to include the ephemeral flag in the message payload. */
+  isEphemeral?: boolean;
+  /** Whether to fetch the original message object from the interaction response. */
   withMessage?: WithMessage;
 }
 
 /**
- * A conditional type that determinates the return type based on the "WithMessage" generic.
+ * Conditional type that determinates the return type based on the "WithMessage" generic.
  *
  * By default, return type will be "Message | undefined".
  * If "WithMessage" is "true", return type will be "Message".
@@ -66,10 +71,10 @@ type CreateMessageUsingInteraction<WithMessage extends boolean> = WithMessage ex
   : Message | undefined;
 
 /**
- * A conditional type that determinates the return type based on the context.
+ * Conditional type that determinates the return type based on the context.
  *
  * When using messages, return type will be "Message".
- * When using interactions, return type will be "Message | undefined".
+ * When using interactions, return type will be "Message | undefined" or "Message" if "WithMessage" is "true".
  */
 type CreateMessage<Context extends AnyContext, WithMessage extends boolean> = Context extends Message
   ? Message

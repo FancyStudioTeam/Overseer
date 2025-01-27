@@ -6,9 +6,6 @@ import { parseWebhookUrl } from "./parseWebhookUrl.js";
 import { resolveMessagePayload } from "./resolveMessagePayload.js";
 
 export enum CreateWebhookMessageTypes {
-  /**
-   * Used to send all error messages to a private channel.
-   */
   Errors = "Errors",
 }
 
@@ -19,6 +16,11 @@ const WEBHOOK_URLS: Record<CreateWebhookMessageTypes, CreateWebhookMessageTypeOp
   },
 };
 
+/**
+ * Create a webhook message.
+ * @param content Any message payload kind.
+ * @param type The webhook message type.
+ */
 export const createWebhookMessage = async (
   content: AnyMessagePayload,
   type = CreateWebhookMessageTypes.Errors,
@@ -34,6 +36,8 @@ export const createWebhookMessage = async (
 };
 
 interface CreateWebhookMessageTypeOptions {
+  /** The thread ID to send the webhook message. */
   threadId: BigString;
+  /** The webhook URL. */
   webhookUrl: string;
 }

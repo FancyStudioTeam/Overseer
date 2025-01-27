@@ -2,7 +2,7 @@ const WEBHOOK_REGEX =
   /https?:\/\/(?:ptb\.|canary\.)?discord\.com\/api(?:\/v\d{1,2})?\/webhooks\/(\d{17,19})\/([\w-]{68})/i;
 
 /**
- * Parses a webhook URL.
+ * Parse a webhook URL.
  * @param url The webhook URL.
  * @returns The webhook ID and token.
  */
@@ -25,6 +25,8 @@ export const parseWebhookUrl = (url: string): ParsedWebhookUrl => {
 };
 
 interface ParsedWebhookUrl {
+  /** The webhook ID. */
   id: bigint;
+  /** The webhook token. */
   token: string;
 }
