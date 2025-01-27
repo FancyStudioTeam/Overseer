@@ -2,7 +2,7 @@
   "categories": {
     "configuration": {
       "locale": {
-        "message_1": "La localización ha sido actualizada."
+        "message_1": "**{{CHECK_CIRCLE_COLORED}} La localización ha sido actualizada.**"
       }
     },
     "information": {

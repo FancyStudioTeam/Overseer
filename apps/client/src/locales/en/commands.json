@@ -2,7 +2,7 @@
   "categories": {
     "configuration": {
       "locale": {
-        "message_1": "The locale has been updated."
+        "message_1": "**{{CHECK_CIRCLE_COLORED}} The locale has been updated.**"
       }
     },
     "information": {
