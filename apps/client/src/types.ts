@@ -1,6 +1,9 @@
 import type { CreateMessageOptions, DiscordEmbed, InteractionCallbackData } from "@discordeno/bot";
 import type { Client, client } from "@index";
+import type { GuildPreferencesLocale } from "@prisma/client";
 import type { TFunction } from "i18next";
+
+export type Locales = GuildPreferencesLocale;
 
 export type Guild = typeof client.transformers.$inferredTypes.guild;
 export type Interaction = typeof client.transformers.$inferredTypes.interaction;

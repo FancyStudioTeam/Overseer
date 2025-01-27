@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionTypes } from "@discordeno/bot";
 import { createMessage } from "@functions/createMessage.js";
-import type { GuildPreferencesLocale } from "@prisma/client";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
+import type { Locales } from "@types";
 import { CommandOptions } from "@util/decorators.js";
 import { prisma } from "@util/prisma.js";
 
@@ -72,6 +72,6 @@ export default class LocaleCommand extends ChatInputSubCommand {
 
 interface LocaleOptions {
   locale: {
-    locale: GuildPreferencesLocale;
+    locale: Locales;
   };
 }
