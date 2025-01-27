@@ -32,6 +32,6 @@ export interface DefaultRunnableOptions {
   client: Client;
   /** The interaction context. */
   context: Interaction;
-  /** A method to translate the command messages. */
-  t: TFunction<"commands", undefined>;
+  /** The function to translate the command messages. */
+  t: TFunction<"commands">;
 }

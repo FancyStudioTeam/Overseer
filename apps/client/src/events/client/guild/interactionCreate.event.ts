@@ -10,7 +10,7 @@ import { client } from "@index";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 import type { Interaction, MaybeOptional, Member, User } from "@types";
 import type { CommandOptionsPermissions } from "@util/decorators.js";
-import { i18n } from "@util/i18n.js";
+import { tCommandsFunction, tCommonFunction } from "@util/i18n.js";
 import { prisma } from "@util/prisma.js";
 import { match } from "ts-pattern";
 
@@ -113,9 +113,10 @@ client.events.interactionCreate = async (interaction) => {
     },
   });
   const { locale } = {
-    locale: (guildConfiguration?.locale ?? "EN").toLowerCase(),
+    locale: guildConfiguration?.locale ?? "EN",
   };
-  const tCommands = i18n.getFixedT(locale, "commands");
+  const tCommands = tCommandsFunction(locale);
+  const tCommon = tCommonFunction(locale);
 
   match(interaction).with(
     {
@@ -140,7 +141,6 @@ client.events.interactionCreate = async (interaction) => {
 
             if (permissions) {
               const { user: userPermission } = permissions;
-              const tCommon = i18n.getFixedT(locale, "common");
 
               if (userPermission && !member.permissions?.has(userPermission)) {
                 return createMessage(

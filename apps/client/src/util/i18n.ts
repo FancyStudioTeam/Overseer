@@ -1,4 +1,5 @@
-import { createInstance } from "i18next";
+import type { Locales } from "@types";
+import { type TFunction, createInstance } from "i18next";
 import enCommands from "../locales/en/commands.json" with { type: "json" };
 import enCommon from "../locales/en/common.json" with { type: "json" };
 import esCommands from "../locales/es/commands.json" with { type: "json" };
@@ -28,6 +29,10 @@ i18n.init({
     escapeValue: false,
   },
 });
+
+export const tCommandsFunction = (locale: Locales): TFunction<"commands"> =>
+  i18n.getFixedT(locale.toLowerCase(), "commands");
+export const tCommonFunction = (locale: Locales): TFunction<"common"> => i18n.getFixedT(locale.toLowerCase(), "common");
 
 declare module "i18next" {
   interface CustomTypeOptions {
