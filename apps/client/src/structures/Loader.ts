@@ -136,6 +136,7 @@ export class Importer {
   /** Import the proxy server. */
   async importProxyServer(): Promise<void> {
     await import("@proxy/index.js");
+    await import("@nest/index.js");
   }
 
   /**

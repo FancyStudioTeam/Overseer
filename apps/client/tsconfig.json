@@ -6,6 +6,7 @@
       "@config": ["./src/config.ts"],
       "@functions/*": ["./src/functions/*"],
       "@index": ["./src/index.ts"],
+      "@nest/*": ["./src/nest/*"],
       "@proxy/*": ["./src/proxy/*"],
       "@structures/*": ["./src/structures/*"],
       "@types": ["./src/types.ts"],
