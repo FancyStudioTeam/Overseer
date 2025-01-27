@@ -67,24 +67,6 @@ parentPort?.on("message", async (message: WorkerMessage) =>
     )
     .with(
       {
-        type: WorkerMessageTypes.RequestShardInfo,
-      },
-      ({ shardId }) => {
-        logger.info(`Requesting shard info for shard ${shardId}...`);
-
-        const shard = shardsCollection.get(shardId);
-
-        if (!shard) {
-          logger.warn(`Shard ${shardId} not found, ignoring request...`);
-
-          return;
-        }
-
-        // TODO: Send shard info to the manager
-      },
-    )
-    .with(
-      {
         type: WorkerMessageTypes.ShardPayload,
       },
       async ({ payload, shardId }) => {
