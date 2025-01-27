@@ -10,7 +10,6 @@ import {
 import { codeBlock } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
-import type { MaybeAwaitable } from "@types";
 import { prisma } from "@util/prisma.js";
 
 export default class PingCommand extends ChatInputSubCommand {
@@ -47,7 +46,7 @@ export default class PingCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Gets the API requests and database latencies.
+   * Get the API requests and database latencies.
    * @param options The available options.
    * @returns The API requests and database latencies.
    */
@@ -63,9 +62,7 @@ export default class PingCommand extends ChatInputSubCommand {
           guildId: guildIdBigString?.toString(),
         },
       });
-    /**
-     * Executes all promises in parallel and waits until all promises are resolved or rejected.
-     */
+    /** Execute all the promises in parallel. */
     const [apiRequestsLatency, databaseLatency] = await Promise.all([
       this.getExecutionTime(apiRequestPromise),
       this.getExecutionTime(databasePromise),
@@ -78,16 +75,14 @@ export default class PingCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Gets the execution time of a promise.
+   * Get the execution time of a promise.
    * @param promise The promise to execute.
    * @returns The promise execution time in milliseconds.
    */
   async getExecutionTime(promise: GetExecutionTimePromise): Promise<number> {
     const startHrtime = process.hrtime.bigint();
 
-    /**
-     * Executes the promise and waits until the promise is resolved or rejected.
-     */
+    /** Execute the promise and wait until it is resolved or rejected.  */
     await promise();
 
     const endHrtime = process.hrtime.bigint();
@@ -98,39 +93,31 @@ export default class PingCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Calculates the execution time of a code.
+   * Calculate the execution time of a promise.
    * @param startTime The start time of the execution.
    * @param endTime The end time of the execution.
    * @returns The execution time in milliseconds.
    */
   calculateExecutionTime(startTime: bigint, endTime: bigint): number {
     const nanoseconds = Number(endTime - startTime);
-    const milliseconds = nanoseconds / 1e6; /* 1_000_000 */
+    const milliseconds = nanoseconds / 1_000_000;
 
     return milliseconds;
   }
 }
 
 interface GetLatenciesOptions {
-  /**
-   * The guild ID as a BigString.
-   */
+  /** The guild ID as BigString. */
   guildIdBigString?: BigString;
-  /**
-   * The REST manager.
-   */
+  /** The client REST manager. */
   rest: RestManager;
 }
 
 interface Latencies {
-  /**
-   * The API requests latency in milliseconds.
-   */
+  /** The API requests latency. */
   apiRequests: number;
-  /**
-   * The database latency in milliseconds.
-   */
+  /** The database latency. */
   database: number;
 }
 
-type GetExecutionTimePromise = (...args: unknown[]) => MaybeAwaitable<unknown>;
+type GetExecutionTimePromise = (...args: unknown[]) => Promise<unknown>;

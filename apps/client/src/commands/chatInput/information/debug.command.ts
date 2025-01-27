@@ -16,7 +16,7 @@ export default class DebugCommand extends ChatInputSubCommand {
   }
 
   async run({ context, t }: ChatInputSubCommandRunOptions<never>): Promise<void> {
-    const { bot: botVersion, discordeno: discordenoVersion, prisma: prismaVersion } = await this.getAllVersions();
+    const { client: botVersion, discordeno: discordenoVersion, prisma: prismaVersion } = await this.getVersions();
     const [generalInformationField, dependenciesVersionsField]: EmbedField[] = [
       {
         name: t("categories.information.debug.message_1.embed.field_1.name"),
@@ -58,27 +58,27 @@ export default class DebugCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Gets the dependencies versions.
-   * @returns The dependencies versions.
+   * Get the client and used dependencies versions.
+   * @returns The client and used dependencies versions.
    */
-  async getAllVersions(): Promise<AllVersions> {
-    const [bot, discordeno, prisma] = await Promise.all([
+  async getVersions(): Promise<Versions> {
+    const [client, discordeno, prisma] = await Promise.all([
       this.getVersion(),
       this.getVersion("@discordeno/bot"),
       this.getVersion("@prisma/client"),
     ]);
 
     return {
-      bot,
+      client,
       discordeno,
       prisma,
     };
   }
 
   /**
-   * Gets the dependency version (if provided) or the package version.
+   * Get the dependency version (if provided) or the package version.
    * @param dependency The dependency name.
-   * @returns The dependency version (if provided) or the package version.
+   * @returns The dependency version or the package version.
    */
   async getVersion(dependency?: string): Promise<string> {
     const packageInfo = await this.getPackage();
@@ -88,7 +88,7 @@ export default class DebugCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Gets the package JSON file data.
+   * Get the package JSON file data.
    * @returns The package JSON file data.
    */
   async getPackage(): Promise<Package> {
@@ -99,39 +99,25 @@ export default class DebugCommand extends ChatInputSubCommand {
       },
     });
 
-    /**
-     * Dynamic JSON imports are imported using default exports.
-     */
+    /** JSON imports are exported using default exports. */
     return packageImport.default;
   }
 }
 
-interface AllVersions {
-  /*
-   * The bot version.
-   */
-  bot: string;
-  /**
-   * The Discordeno library version.
-   */
+interface Versions {
+  /** The client version. */
+  client: string;
+  /** The Discordeno library version. */
   discordeno: string;
-  /**
-   * The Prisma ORM version.
-   */
+  /** The Prisma ORM version. */
   prisma: string;
 }
 
 interface Package {
-  /**
-   * The installed dependencies from the package.
-   */
+  /** The installed dependencies from the package. */
   dependencies: Record<string, string>;
-  /**
-   * The installed development dependencies from the package.
-   */
+  /** The installed development dependencies from the package. */
   devDependencies: Record<string, string>;
-  /**
-   * The package version. (Used as client version)
-   */
+  /** The package version. (Used as client version) */
   version: string;
 }
