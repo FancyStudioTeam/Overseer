@@ -1,3 +1,8 @@
+export const CUSTOM_EMOJIS = {
+  CANCEL_COLORED: "<:_:1294380127043584051>",
+  CHECK_CIRCLE_COLORED: "<:_:1294380128062804019>",
+};
+
 export const DEFAULT_EMBED_COLOR = 0x2b2d31;
 
 export const STATUS_CODE_LABELS: Record<number, string> = {
