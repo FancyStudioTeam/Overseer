@@ -1,7 +1,7 @@
 import type { DiscordGatewayPayload, GatewayDispatchEventNames } from "@discordeno/bot";
-import { ZodValidationPipe } from "@nest/pipes/zodValidation.pipe.js";
-import { EventSchema, type EventSchemaType } from "@nest/schemas/EventSchema.js";
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, UsePipes } from "@nestjs/common";
+import { ZodValidationPipe } from "@proxy/pipes/zodValidation.pipe.js";
+import { EventSchema, type EventSchemaType } from "@proxy/schemas/EventSchema.js";
 import { client } from "@util/client.js";
 
 @Controller()
