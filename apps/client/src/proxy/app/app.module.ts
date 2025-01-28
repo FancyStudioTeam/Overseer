@@ -1,5 +1,5 @@
 import { type MiddlewareConsumer, Module, type NestModule } from "@nestjs/common";
-import { LoggerMiddleware } from "../middlewares/logger.middleware.js";
+import { LoggerMiddleware } from "@proxy/middlewares/logger.middleware.js";
 import { AppController } from "./app.controller.js";
 
 @Module({
