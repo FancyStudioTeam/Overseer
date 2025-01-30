@@ -3,12 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "paths": {
-      "@config": ["./src/config.ts"],
       "@functions/*": ["./src/functions/*"],
       "@managers/*": ["./src/managers/*"],
       "@proxy/*": ["./src/proxy/*"],
       "@util/*": ["./src/util/*"],
-      "@utils": ["./src/util/utils/index.ts"],
       "@workers/*": ["./src/workers/*"]
     }
   },

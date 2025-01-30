@@ -1,5 +1,5 @@
-import { PROXY_ALLOWED_IPS } from "@config";
 import { type CanActivate, type ExecutionContext, ForbiddenException, UnauthorizedException } from "@nestjs/common";
+import { PROXY_ALLOWED_IPS } from "@util/config.js";
 import type { FastifyRequest } from "fastify";
 
 export class AuthorizationGuard implements CanActivate {

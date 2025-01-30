@@ -1,5 +1,5 @@
-import { DISCORD_TOKEN, GATEWAY_INTENTS, SHARDS_PER_WORKER, TOTAL_SHARDS, TOTAL_WORKERS } from "@config";
 import { createGatewayManager } from "@discordeno/bot";
+import { DISCORD_TOKEN, GATEWAY_INTENTS, SHARDS_PER_WORKER, TOTAL_SHARDS, TOTAL_WORKERS } from "@util/config.js";
 import { RestManager } from "./RestManager.js";
 import { overrideGateway } from "./utils/overrideGateway.js";
 

@@ -1,7 +1,7 @@
 import { join } from "node:path";
 import { Worker } from "node:worker_threads";
-import { DISCORD_TOKEN, EVENTS_AUTHORIZATION, EVENTS_URL, GATEWAY_INTENTS } from "@config";
 import { GatewayManager } from "@managers/GatewayManager.js";
+import { DISCORD_TOKEN, EVENTS_AUTHORIZATION, EVENTS_URL, GATEWAY_INTENTS } from "@util/config.js";
 import { logger } from "@util/logger.js";
 import { match } from "ts-pattern";
 import {
