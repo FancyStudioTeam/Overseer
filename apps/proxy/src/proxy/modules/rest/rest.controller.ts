@@ -24,7 +24,7 @@ const getRequestPath = (request: FastifyRequest): string => {
 @Controller("rest")
 export class RestController {
   @All("*")
-  async handleDiscordRequest(
+  async createDiscordRequest(
     @Body() discordRequestBody: unknown,
     @Request() request: FastifyRequest,
     @Response() response: FastifyReply,
