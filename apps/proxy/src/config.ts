@@ -1,5 +1,5 @@
 import { GatewayIntents } from "@discordeno/bot";
-import { env } from "@utils";
+import { env } from "@functions/env.js";
 
 export const DISCORD_TOKEN = env("DISCORD_TOKEN");
 

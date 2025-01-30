@@ -1,8 +1,8 @@
 import { parentPort } from "node:worker_threads";
 import { EVENTS_AUTHORIZATION } from "@config";
 import { DiscordenoShard, GatewayOpcodes, TransportCompression } from "@discordeno/bot";
+import { withResolvers } from "@functions/withResolvers.js";
 import { logger } from "@util/logger.js";
-import { promiseWithResolvers } from "@util/utils/promiseWithResolvers.js";
 import { ManagerMessageTypes, type ManagerRequestIdentifyMessage } from "@workers/types.js";
 import { identifyPromisesCollection, workerData } from "../index.js";
 
@@ -54,7 +54,7 @@ export const createShard = (shardId: number) => {
   shard.requestIdentify = async () => {
     logger.info(`Requesting manager to identify shard ${shardId}...`);
 
-    const { promise, resolve } = promiseWithResolvers<void>();
+    const { promise, resolve } = withResolvers<void>();
 
     parentPort?.postMessage({
       shardId,

@@ -3,7 +3,6 @@ import { Worker } from "node:worker_threads";
 import { DISCORD_TOKEN, EVENTS_AUTHORIZATION, EVENTS_URL, GATEWAY_INTENTS } from "@config";
 import { GatewayManager } from "@managers/GatewayManager.js";
 import { logger } from "@util/logger.js";
-import { getDirnameFromFileUrl } from "@utils";
 import { match } from "ts-pattern";
 import {
   type ManagerMessage,
@@ -13,14 +12,15 @@ import {
   WorkerMessageTypes,
 } from "../types.js";
 
+const __dirname = import.meta.dirname;
+
 export const createWorker = (workerId: number) => {
   const {
     connection: { url },
     totalShards,
     version,
   } = GatewayManager;
-  const currentFolder = getDirnameFromFileUrl(import.meta.url);
-  const workerPath = join(currentFolder, "..", "index.js");
+  const workerPath = join(__dirname, "..", "index.js");
   const worker = new Worker(workerPath, {
     workerData: {
       connection: {
