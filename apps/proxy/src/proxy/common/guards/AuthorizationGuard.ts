@@ -11,9 +11,7 @@ import type { FastifyRequest } from "fastify";
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
   canActivate(context: ExecutionContext) {
-    /** Change the context to a http context. */
     const httpContext = context.switchToHttp();
-    /** Get the request object from the http context. */
     const request = httpContext.getRequest<FastifyRequest>();
     const {
       headers: { authorization },
