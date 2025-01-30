@@ -108,12 +108,27 @@ importers:
       '@fastify/helmet':
         specifier: 13.0.1
         version: 13.0.1
+      '@nestjs/common':
+        specifier: 11.0.6
+        version: 11.0.6(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1)
+      '@nestjs/core':
+        specifier: 11.0.6
+        version: 11.0.6(@nestjs/common@11.0.6(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@11.0.6)(reflect-metadata@0.2.2)(rxjs@7.8.1)
+      '@nestjs/platform-fastify':
+        specifier: 11.0.6
+        version: 11.0.6(@nestjs/common@11.0.6(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@11.0.6)
       dotenv:
         specifier: 16.4.7
         version: 16.4.7
       fastify:
         specifier: 5.2.1
         version: 5.2.1
+      reflect-metadata:
+        specifier: 0.2.2
+        version: 0.2.2
+      rxjs:
+        specifier: 7.8.1
+        version: 7.8.1
       ts-pattern:
         specifier: 5.6.2
         version: 5.6.2
@@ -3248,7 +3263,7 @@ snapshots:
 
   send@1.1.0:
     dependencies:
-      debug: 4.3.6
+      debug: 4.4.0(supports-color@5.5.0)
       destroy: 1.2.0
       encodeurl: 2.0.0
       escape-html: 1.0.3
