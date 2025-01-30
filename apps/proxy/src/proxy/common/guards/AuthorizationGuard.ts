@@ -1,7 +1,14 @@
-import { type CanActivate, type ExecutionContext, ForbiddenException, UnauthorizedException } from "@nestjs/common";
+import {
+  type CanActivate,
+  type ExecutionContext,
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { PROXY_ALLOWED_IPS } from "@util/config.js";
 import type { FastifyRequest } from "fastify";
 
+@Injectable()
 export class AuthorizationGuard implements CanActivate {
   canActivate(context: ExecutionContext) {
     /** Change the context to a http context. */
