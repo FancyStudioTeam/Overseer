@@ -105,6 +105,9 @@ importers:
       '@discordeno/bot':
         specifier: 21.0.0
         version: 21.0.0
+      '@discordjs/formatters':
+        specifier: 0.6.0
+        version: 0.6.0
       '@fastify/helmet':
         specifier: 13.0.1
         version: 13.0.1
