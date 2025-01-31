@@ -1,3 +1,5 @@
+import { GatewayOpcodes } from "@discordeno/bot";
+
 export const STATUS_CODE_LABELS: Record<number, string> = {
   100: "Continue",
   101: "Switching Protocols",
@@ -62,3 +64,29 @@ export const STATUS_CODE_LABELS: Record<number, string> = {
   510: "Not Extended",
   511: "Network Authentication Required",
 };
+
+export const OPCODES_NAMES: Record<GatewayOpcodes, string> = {
+  [GatewayOpcodes.Dispatch]: "Dispatch",
+  [GatewayOpcodes.HeartbeatACK]: "Heartbeat Acknowledged",
+  [GatewayOpcodes.Heartbeat]: "Heartbeat",
+  [GatewayOpcodes.Hello]: "Hello",
+  [GatewayOpcodes.Identify]: "Identify",
+  [GatewayOpcodes.InvalidSession]: "Invalid Session",
+  [GatewayOpcodes.PresenceUpdate]: "Presence Update",
+  [GatewayOpcodes.Reconnect]: "Reconnect",
+  [GatewayOpcodes.RequestGuildMembers]: "Request Guild Members",
+  [GatewayOpcodes.RequestSoundboardSounds]: "Request Soundboard Sounds",
+  [GatewayOpcodes.Resume]: "Resume",
+  [GatewayOpcodes.VoiceStateUpdate]: "Voice State Update",
+};
+
+export const SENDABLE_OPCODES = [
+  GatewayOpcodes.Dispatch,
+  GatewayOpcodes.Heartbeat,
+  GatewayOpcodes.Identify,
+  GatewayOpcodes.PresenceUpdate,
+  GatewayOpcodes.RequestGuildMembers,
+  GatewayOpcodes.RequestSoundboardSounds,
+  GatewayOpcodes.Resume,
+  GatewayOpcodes.VoiceStateUpdate,
+];

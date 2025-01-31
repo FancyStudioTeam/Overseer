@@ -1,5 +1,7 @@
 import { addColors, createLogger, format, transports } from "winston";
 
+const { align, colorize, combine, printf, timestamp } = format;
+const { Console, File, FileTransportOptions } = transports;
 const loggerLevelsConfig = {
   colors: {
     debug: "blue",
@@ -10,6 +12,11 @@ const loggerLevelsConfig = {
     verbose: "cyan",
     warn: "yellow",
   },
+  /**
+   * The "levels" object is used to define the logger levels.
+   * They are ordered from the most severe to the least severe.
+   * Documentation: https://github.com/winstonjs/winston?tab=readme-ov-file#logging
+   */
   levels: {
     debug: 5,
     error: 0,
@@ -22,10 +29,12 @@ const loggerLevelsConfig = {
 };
 const { colors, levels } = loggerLevelsConfig;
 
+/** Add the specified colors to the logger. */
 addColors(colors);
 
-const baseFormat = format.combine(
-  format.timestamp({
+/** Create the base format for the logger. */
+const baseFormat = combine(
+  timestamp({
     format: "DD/MM/YYYY HH:mm:ss",
   }),
   format((info) => {
@@ -38,69 +47,53 @@ const baseFormat = format.combine(
     return info;
   })(),
 );
-const messageFormat = format.printf(({ level, message, timestamp }) => `[${timestamp}] ${level} ${message}`);
-
-const sharedFileTransport = ({
-  fileName,
-  level,
-  maxSize,
-}: ShardFileTransportOptions): transports.FileTransportOptions => ({
+/** Create the message format for the logger. */
+const messageFormat = printf(({ level, message, timestamp }) => `[${timestamp}] ${level} ${message}`);
+const sharedFileTransport = ({ fileName, level, maxSize }: ShardFileTransportOptions): typeof FileTransportOptions => ({
   dirname: "logs",
   filename: fileName,
-  format: format.combine(baseFormat, messageFormat),
+  format: combine(baseFormat, messageFormat),
   level,
   maxFiles: 1,
   maxsize: maxSize,
 });
 
 export const logger = createLogger({
+  /** Set the logger level to the least severe. */
   level: "silly",
   levels,
   transports: [
-    new transports.Console({
-      format: format.combine(
+    new Console({
+      format: combine(
         baseFormat,
-        format.align(),
-        format.colorize({
+        align(),
+        colorize({
           level: true,
         }),
         messageFormat,
       ),
     }),
-    new transports.File(
+    new File(
       sharedFileTransport({
         fileName: "errors.log",
         level: "error",
-        maxSize: 78_643_200,
+        maxSize: 75_000_200,
       }),
     ),
-    new transports.File(
+    new File(
       sharedFileTransport({
         fileName: "all.log",
-        maxSize: 262_144_000,
+        maxSize: 250_000_000,
       }),
     ),
-    // TODO: Send error logs to Discord webhook.
-    /*new transports.Stream({
-      format: format.printf(({ message }) => String(message)),
-      level: "error",
-      stream: new Stream.Writable({
-        write: async (chunk, _encoding, callback) => {
-          const logMessage = Buffer.from(chunk).toString();
-
-          await RestManager.executeWebhook(WEBHOOK_LOGGER_ID, WEBHOOK_LOGGER_TOKEN, {
-            embeds: createEmbeds().setDescription(codeBlock("ts", logMessage)),
-          });
-
-          callback();
-        },
-      }),
-    }),*/
   ],
 });
 
 interface ShardFileTransportOptions {
+  /** The file name. */
   fileName: string;
+  /** The log level. */
   level?: string;
+  /** The maximum file size. */
   maxSize: number;
 }
