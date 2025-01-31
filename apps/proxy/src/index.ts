@@ -1,10 +1,4 @@
 import "dotenv/config";
+import { Importer } from "@structures/Importer.js";
 
-import helmet from "@fastify/helmet";
-import { createFastifyApp } from "./fastify.js";
-import { Routes } from "./routes/index.js";
-
-export const app = createFastifyApp();
-
-app.register(helmet);
-app.register(Routes);
+new Importer().init();

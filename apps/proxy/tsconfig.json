@@ -6,6 +6,7 @@
       "@functions/*": ["./src/functions/*"],
       "@managers/*": ["./src/managers/*"],
       "@proxy/*": ["./src/proxy/*"],
+      "@structures/*": ["./src/structures/*"],
       "@util/*": ["./src/util/*"],
       "@workers/*": ["./src/workers/*"]
     }
