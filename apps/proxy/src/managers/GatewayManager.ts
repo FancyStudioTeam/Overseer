@@ -42,7 +42,7 @@ GatewayManager.events.message = async ({ id }, payload) => {
     return;
   }
 
-  await fetch(EVENTS_URL, {
+  await fetch(`${EVENTS_URL}/events`, {
     body: JSON.stringify({
       payload,
       shardId: id,
