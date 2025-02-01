@@ -1,6 +1,12 @@
+# Dependencies
 node_modules
+
+# Secrets
 .env
+
+# Builds
 dist
-.VSCodeCounter
-seed.ts
-*.tgz
+
+# Logs
+*.log
+logs

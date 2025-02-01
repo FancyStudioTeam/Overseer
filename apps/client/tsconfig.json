@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "outDir": "dist",
+    "paths": {
+      "@config": ["./src/config.ts"],
+      "@functions/*": ["./src/functions/*"],
+      "@index": ["./src/index.ts"],
+      "@proxy/*": ["./src/proxy/*"],
+      "@structures/*": ["./src/structures/*"],
+      "@types": ["./src/types.ts"],
+      "@util/*": ["./src/util/*"]
+    }
+  },
+  "extends": "../../tsconfig.base.json"
+}
