@@ -4,7 +4,7 @@
     "@discordjs/formatters": "0.6.0",
     "@fastify/helmet": "13.0.1",
     "@nestjs/common": "11.0.6",
-    "@nestjs/core": "11.0.6",
+    "@nestjs/core": "11.0.7",
     "@nestjs/platform-fastify": "11.0.6",
     "@prisma/client": "6.3.0",
     "@sapphire/snowflake": "3.5.5",
