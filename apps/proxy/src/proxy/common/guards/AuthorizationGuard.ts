@@ -5,7 +5,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
-import { PROXY_ALLOWED_IPS } from "@util/config.js";
+import { PROXY_ALLOWED_IPS, PROXY_AUTHORIZATION } from "@util/config.js";
 import type { FastifyRequest } from "fastify";
 
 @Injectable()
@@ -22,7 +22,7 @@ export class AuthorizationGuard implements CanActivate {
       throw new ForbiddenException();
     }
 
-    if (authorization !== process.env.PROXY_AUTHORIZATION) {
+    if (authorization !== PROXY_AUTHORIZATION) {
       throw new UnauthorizedException();
     }
 

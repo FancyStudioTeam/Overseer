@@ -1,12 +1,10 @@
 import "reflect-metadata";
-import { EVENTS_HOST, EVENTS_PORT } from "@config";
 import fastifyHelmet from "@fastify/helmet";
 import { NestFactory } from "@nestjs/core";
 import { FastifyAdapter, type NestFastifyApplication } from "@nestjs/platform-fastify";
+import { EVENTS_HOST, EVENTS_PORT } from "@util/config.js";
 import { logger } from "@util/logger.js";
-import { AppModule } from "./app/app.module.js";
-import { HttpExceptionFilter } from "./filters/httpException.filter.js";
-import { AuthGuard } from "./guards/auth.guards.js";
+import { AppModule } from "./modules/app.module.js";
 
 /** Create a fastify adapter for Nest. */
 const fastifyAdapter = new FastifyAdapter();
@@ -17,11 +15,6 @@ const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyA
 });
 
 app.register(fastifyHelmet);
-
-// biome-ignore lint/correctness/useHookAtTopLevel: Not a React hook.
-app.useGlobalGuards(new AuthGuard());
-// biome-ignore lint/correctness/useHookAtTopLevel: Not a React hook.
-app.useGlobalFilters(new HttpExceptionFilter());
 
 await app.listen(EVENTS_PORT, EVENTS_HOST, async () => {
   const address = await app.getUrl();

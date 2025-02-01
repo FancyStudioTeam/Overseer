@@ -4,9 +4,13 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-  use(request: FastifyRequest, _response: FastifyReply, next: () => void) {
-    logger.http(`Received "${request.method}" request to "${request.url}" from "${request.ip}".`);
+  use(request: FastifyRequest, _response: FastifyReply, next: NextFunction) {
+    const { ip, method, url } = request;
+
+    logger.info(`Received "${method}" request to "${url}" from "${ip}".`);
 
     next();
   }
 }
+
+type NextFunction = () => void;

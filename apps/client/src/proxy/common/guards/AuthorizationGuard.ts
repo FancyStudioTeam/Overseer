@@ -1,4 +1,3 @@
-import { EVENTS_ALLOWED_IPS, EVENTS_AUTHORIZATION } from "@config";
 import {
   type CanActivate,
   type ExecutionContext,
@@ -6,14 +5,14 @@ import {
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
+import { EVENTS_ALLOWED_IPS, EVENTS_AUTHORIZATION } from "@util/config.js";
 import type { FastifyRequest } from "fastify";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
-  canActivate(_context: ExecutionContext) {
-    /** Change the host to a http context. */
-    const context = _context.switchToHttp();
-    const request = context.getRequest<FastifyRequest>();
+export class AuthorizationGuard implements CanActivate {
+  canActivate(context: ExecutionContext) {
+    const httpContext = context.switchToHttp();
+    const request = httpContext.getRequest<FastifyRequest>();
     const {
       headers: { authorization },
       ip,
