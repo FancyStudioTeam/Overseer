@@ -1,10 +1,10 @@
-import type { Locales } from "@types";
 import { type TFunction, createInstance } from "i18next";
 import enCommands from "../locales/en/commands.json" with { type: "json" };
 import enCommon from "../locales/en/common.json" with { type: "json" };
 import esCommands from "../locales/es/commands.json" with { type: "json" };
 import esCommon from "../locales/es/common.json" with { type: "json" };
 import { CUSTOM_EMOJIS } from "./constants.js";
+import type { Locales } from "./types.js";
 
 export const i18n = createInstance();
 

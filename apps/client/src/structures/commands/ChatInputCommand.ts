@@ -3,7 +3,7 @@ import {
   type CreateSlashApplicationCommand,
   type DiscordApplicationCommandOption,
 } from "@discordeno/bot";
-import { CreateCommandTypes } from "@types";
+import { CreateCommandTypes } from "@util/types.js";
 
 export abstract class ChatInputCommand {
   /** Whether to load all the chat input sub commands automatically. */

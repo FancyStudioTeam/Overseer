@@ -1,6 +1,6 @@
 import { InteractionResponseTypes } from "@discordeno/bot";
-import { client } from "@index";
-import type { AnyContext, AnyMessagePayload, Message } from "@types";
+import { client } from "@util/client.js";
+import type { AnyContext, AnyMessagePayload, Message } from "@util/types.js";
 import { resolveMessagePayload } from "./resolveMessagePayload.js";
 
 /**

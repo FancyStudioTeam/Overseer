@@ -1,6 +1,6 @@
 import { MessageFlags } from "@discordeno/bot";
-import type { AnyMessagePayload, MessagePayload } from "@types";
 import { DEFAULT_EMBED_COLOR } from "@util/constants.js";
+import type { AnyMessagePayload, MessagePayload } from "@util/types.js";
 
 /**
  * Check whether the content is a valid message payload object.

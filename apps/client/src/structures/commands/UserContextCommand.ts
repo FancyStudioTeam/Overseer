@@ -5,8 +5,14 @@ import {
   DiscordInteractionContextType,
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
-import { client } from "@index";
-import { CreateCommandTypes, type DefaultRunnableOptions, type MaybeOptional, type Member, type User } from "@types";
+import { client } from "@util/client.js";
+import {
+  CreateCommandTypes,
+  type DefaultRunnableOptions,
+  type MaybeOptional,
+  type Member,
+  type User,
+} from "@util/types.js";
 
 export abstract class UserContextCommand {
   _data: UserContextCommandOptions;

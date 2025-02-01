@@ -1,9 +1,9 @@
 import { ApplicationCommandOptionTypes } from "@discordeno/bot";
 import { createMessage } from "@functions/createMessage.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
-import type { Locales } from "@types";
 import { CommandOptions } from "@util/decorators.js";
 import { prisma } from "@util/prisma.js";
+import type { Locales } from "@util/types.js";
 
 @CommandOptions({
   permissions: "MANAGE_GUILD",

@@ -1,7 +1,7 @@
 import { join, resolve } from "node:path";
 import type { ApplicationCommandOption, CreateApplicationCommand } from "@discordeno/bot";
-import { CreateCommandTypes, type MaybeAwaitable } from "@types";
 import { client } from "@util/client.js";
+import { CreateCommandTypes, type MaybeAwaitable } from "@util/types.js";
 import { type Path, glob } from "glob";
 import { match } from "ts-pattern";
 import type { ChatInputCommand } from "./commands/ChatInputCommand.js";

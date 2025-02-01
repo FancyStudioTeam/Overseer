@@ -1,6 +1,6 @@
 import type { CreateMessageOptions, DiscordEmbed, InteractionCallbackData } from "@discordeno/bot";
-import type { Client, client } from "@index";
 import type { GuildPreferencesLocale } from "@prisma/client";
+import type { Client, client } from "@util/client.js";
 import type { TFunction } from "i18next";
 
 export type Locales = GuildPreferencesLocale;

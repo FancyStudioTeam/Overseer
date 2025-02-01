@@ -1,4 +1,3 @@
-import { DISCORD_TOKEN, PROXY_AUTHORIZATION, PROXY_URL } from "@config";
 import {
   type BigString,
   Collection,
@@ -7,8 +6,9 @@ import {
 } from "@discordeno/bot";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 import type { UserContextCommand } from "@structures/commands/UserContextCommand.js";
-import type { Member, User } from "@types";
+import { DISCORD_TOKEN, PROXY_AUTHORIZATION, PROXY_URL } from "@util/config.js";
 import { createProxyCache as createClientWithCache } from "dd-cache-proxy";
+import type { Member, User } from "./types.js";
 
 /** Create the main Discordeno client object. */
 const discordenoClient = createDiscordenoClient({

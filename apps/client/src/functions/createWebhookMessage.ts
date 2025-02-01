@@ -1,7 +1,7 @@
-import { THREADS_ERRORS, WEBHOOK_URL_ERRORS } from "@config";
 import type { BigString } from "@discordeno/bot";
-import { client } from "@index";
-import type { AnyMessagePayload } from "@types";
+import { client } from "@util/client.js";
+import { THREADS_ERRORS, WEBHOOK_URL_ERRORS } from "@util/config.js";
+import type { AnyMessagePayload } from "@util/types.js";
 import { parseWebhookUrl } from "./parseWebhookUrl.js";
 import { resolveMessagePayload } from "./resolveMessagePayload.js";
 

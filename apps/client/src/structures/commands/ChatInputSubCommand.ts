@@ -1,7 +1,7 @@
 import { type ApplicationCommandOption, avatarUrl as getAvatarUrl } from "@discordeno/bot";
-import { client } from "@index";
-import type { DefaultRunnableOptions, User } from "@types";
+import { client } from "@util/client.js";
 import type { CommandOptionsData } from "@util/decorators.js";
+import type { DefaultRunnableOptions, User } from "@util/types.js";
 
 export abstract class ChatInputSubCommand {
   /** The command options to manage the command. */

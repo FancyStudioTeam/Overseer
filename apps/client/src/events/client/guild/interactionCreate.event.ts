@@ -6,12 +6,12 @@ import {
 } from "@discordeno/bot";
 import { inlineCode } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
-import { client } from "@index";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
-import type { Interaction, MaybeOptional, Member, User } from "@types";
+import { client } from "@util/client.js";
 import type { CommandOptionsPermissions } from "@util/decorators.js";
 import { tCommandsFunction, tCommonFunction } from "@util/i18n.js";
 import { prisma } from "@util/prisma.js";
+import type { Interaction, MaybeOptional, Member, User } from "@util/types.js";
 import { match } from "ts-pattern";
 
 /**

@@ -1,4 +1,3 @@
-import { DISCORD_TOKEN } from "@config";
 import {
   ApplicationCommandOptionTypes,
   type BigString,
@@ -10,6 +9,7 @@ import {
 import { codeBlock } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
+import { DISCORD_TOKEN } from "@util/config.js";
 import { prisma } from "@util/prisma.js";
 
 export default class PingCommand extends ChatInputSubCommand {
