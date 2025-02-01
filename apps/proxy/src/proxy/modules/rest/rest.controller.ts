@@ -3,7 +3,7 @@ import { RestManager } from "@managers/RestManager.js";
 import { All, Body, Controller, HttpStatus, InternalServerErrorException, Request, Response } from "@nestjs/common";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-const PATH_REGEX = /^\/rest\/(.+)$/;
+const PATH_REGEX = /^\/?(?:rest\/|v10\/)*(.+)$/;
 
 /**
  * Gets the request path from the fastify request object.
