@@ -1,0 +1,17 @@
+name: To-Do to Issue
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check To-Do comments
+        uses: alstr/todo-to-issue-action@v5.1.10

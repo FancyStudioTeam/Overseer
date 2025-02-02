@@ -1,0 +1,38 @@
+{
+  "categories": {
+    "configuration": {
+      "locale": {
+        "message_1": "**{{CHECK_CIRCLE_COLORED}} La localización ha sido actualizada a `Español`.**"
+      }
+    },
+    "information": {
+      "debug": {
+        "message_1": {
+          "embed": {
+            "author": "Información de Depuración",
+            "field_1": {
+              "name": "Información General",
+              "value": "Versión » {{botVersion}}"
+            },
+            "field_2": {
+              "name": "Versiones de Dependencias",
+              "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
+            }
+          }
+        }
+      },
+      "ping": {
+        "message_1": {
+          "embed": {
+            "field_1": {
+              "name": "Peticiones API"
+            },
+            "field_2": {
+              "name": "Base de Datos"
+            }
+          }
+        }
+      }
+    }
+  }
+}

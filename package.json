@@ -1,0 +1,39 @@
+{
+  "author": "FancyStudio",
+  "description": "Overseer Monorepo",
+  "devDependencies": {
+    "@commitlint/cli": "19.6.1",
+    "@commitlint/config-conventional": "19.6.0",
+    "@commitlint/types": "19.5.0",
+    "@types/node": "22.13.0",
+    "husky": "9.1.7",
+    "lint-staged": "15.4.3",
+    "nodemon": "3.1.9",
+    "rimraf": "6.0.1",
+    "tsc-alias": "1.8.10",
+    "typescript": "5.7.3"
+  },
+  "license": "CC BY-SA 4.0",
+  "lint-staged": {
+    "**/*.{js,ts,json}": ["pnpm biome"]
+  },
+  "name": "overseer-monorepo",
+  "packageManager": "pnpm@9.15.4",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FancyStudioTeam/Overseer"
+  },
+  "scripts": {
+    "biome": "sh -c 'if [ \"$IN_NIX_SHELL\" = \"1\" ]; then BIOME_BINARY=$BIOME_BIN_PATH pnpx @biomejs/biome check --write --config-path biome.json; else pnpx @biomejs/biome check --write --config-path biome.json; fi'",
+    "client:build": "pnpm --filter client build",
+    "client:clean": "pnpm --filter client clean",
+    "client:dev": "pnpm --filter client dev",
+    "client:start": "pnpm --filter client start",
+    "prepare": "husky",
+    "proxy:build": "pnpm --filter proxy build",
+    "proxy:clean": "pnpm --filter proxy clean",
+    "proxy:dev": "pnpm --filter proxy dev",
+    "proxy:start": "pnpm --filter proxy start"
+  },
+  "type": "module"
+}

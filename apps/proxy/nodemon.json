@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json.schemastore.org/nodemon",
+  "exec": "pnpm run build && pnpm run start",
+  "ext": "ts",
+  "watch": ["src"]
+}
