@@ -1,15 +1,28 @@
-import type { PermissionStrings } from "@discordeno/bot";
-import type { ChatInputCommand } from "@structures/commands/ChatInputCommand.js";
+import type { CreateApplicationCommand, PermissionStrings } from "@discordeno/bot";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 
 /**
  * Sets the "_autoLoad" property to "true" from the target instance.
  * @returns The updated target instance.
  */
-export const AutoLoad = () => (target: ChatInputCommandInstance) =>
-  class extends target {
-    _autoLoad = true;
-  };
+export const AutoLoad =
+  () =>
+  <Target extends AnyInstance>(target: Target) =>
+    class extends target {
+      _autoLoad = true;
+    };
+
+/**
+ * Declares the command to register it in the application.
+ * @param options - The available options.
+ * @returns The updated target instance.
+ */
+export const Declare =
+  (options: CreateApplicationCommand) =>
+  <Target extends AnyInstance>(target: Target) =>
+    class extends target {
+      _data = options;
+    };
 
 /**
  * Sets the command options to manage the command.
@@ -48,4 +61,5 @@ export interface CommandOptionsPermissions {
   user?: PermissionStrings;
 }
 
-type ChatInputCommandInstance = new (...args: unknown[]) => ChatInputCommand;
+// biome-ignore lint/suspicious/noExplicitAny: TypeScript issues.
+type AnyInstance = new (...args: any[]) => object;
