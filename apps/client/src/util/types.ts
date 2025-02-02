@@ -11,21 +11,21 @@ export type Member = typeof client.transformers.$inferredTypes.member;
 export type Message = typeof client.transformers.$inferredTypes.message;
 export type User = typeof client.transformers.$inferredTypes.user;
 
-export type AnyContext = Message | Interaction;
-
 export type MessagePayload = CreateMessageOptions & InteractionCallbackData;
+
+export type AnyContext = Message | Interaction;
 export type AnyMessagePayload = string | DiscordEmbed | MessagePayload;
+
+export type MaybeAwaitable<T> = T | Promise<T>;
+export type MaybeNullable<T> = T | null;
+export type MaybeNullish<T> = T | null | undefined;
+export type MaybeOptional<T> = T | undefined;
 
 export enum CreateCommandTypes {
   ChatInput = "ChatInput",
   Message = "Message",
   User = "User",
 }
-
-export type MaybeAwaitable<T> = T | Promise<T>;
-export type MaybeNullable<T> = T | null;
-export type MaybeNullish<T> = T | null | undefined;
-export type MaybeOptional<T> = T | undefined;
 
 export interface DefaultRunnableOptions {
   /** The main client object. */

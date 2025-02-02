@@ -1,7 +1,10 @@
+import { Writable } from "node:stream";
+import { codeBlock } from "@discordjs/formatters";
+import { createWebhookMessage } from "@functions/createWebhookMessage.js";
 import { addColors, createLogger, format, transports } from "winston";
 
 const { align, colorize, combine, printf, timestamp } = format;
-const { Console, File, FileTransportOptions } = transports;
+const { Console, File, FileTransportOptions, Stream } = transports;
 const loggerLevelsConfig = {
   colors: {
     debug: "blue",
@@ -86,7 +89,21 @@ export const logger = createLogger({
         maxSize: 250_000_000,
       }),
     ),
-    /** TODO: Add Stream transport to logger when level is error. */
+    new Stream({
+      format: printf(({ message }) => String(message)),
+      level: "error",
+      stream: new Writable({
+        write: async (chunk, _encoding, callback) => {
+          /** Convert the chunk to a string. */
+          const logMessage = Buffer.from(chunk).toString();
+
+          /** Create a webhook message in the private errors channel. */
+          await createWebhookMessage(codeBlock("ts", logMessage));
+
+          callback();
+        },
+      }),
+    }),
   ],
 });
 
