@@ -20,8 +20,8 @@ export const overrideGatewayManager = (gatewayManager: GatewayManager): void => 
       type: WorkerMessageType.IdentifyShard,
     };
 
-    workersCollection.set(workerId, worker);
     /** Send a message to the parent port to identify the shard. */
     worker.postMessage(identigyShardMessage);
+    workersCollection.set(workerId, worker);
   };
 };
