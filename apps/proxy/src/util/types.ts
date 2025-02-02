@@ -1,3 +1,5 @@
+import type { CreateMessageOptions, DiscordEmbed, InteractionCallbackData } from "@discordeno/bot";
+
 export type WorkerDataOptions = {
   eventsProxy: {
     /** The authorization header. */
@@ -56,3 +58,7 @@ export enum WorkerMessageType {
   AllowIdentify = "AllowIdentify",
   IdentifyShard = "IdentifyShard",
 }
+
+export type MessagePayload = CreateMessageOptions & InteractionCallbackData;
+
+export type AnyMessagePayload = string | DiscordEmbed | MessagePayload;

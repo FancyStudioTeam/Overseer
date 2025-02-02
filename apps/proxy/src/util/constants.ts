@@ -1,5 +1,7 @@
 import { GatewayOpcodes } from "@discordeno/bot";
 
+export const DEFAULT_EMBED_COLOR = 0x2b2d31;
+
 export const STATUS_CODE_LABELS: Record<number, string> = {
   100: "Continue",
   101: "Switching Protocols",

@@ -15,3 +15,7 @@ export const GATEWAY_INTENTS = GatewayIntents.GuildMessages | GatewayIntents.Gui
 export const SHARDS_PER_WORKER = env("SHARDS_PER_WORKER");
 export const TOTAL_SHARDS = env("TOTAL_SHARDS");
 export const TOTAL_WORKERS = env("TOTAL_WORKERS");
+
+export const THREADS_ERRORS = env("THREADS_ERRORS");
+
+export const WEBHOOK_URL_ERRORS = env("WEBHOOK_URL_ERRORS");
