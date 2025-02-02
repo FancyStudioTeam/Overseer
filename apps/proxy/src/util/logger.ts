@@ -86,6 +86,7 @@ export const logger = createLogger({
         maxSize: 250_000_000,
       }),
     ),
+    /** TODO: Add Stream transport to logger when level is error. */
   ],
 });
 
