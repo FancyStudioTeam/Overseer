@@ -36,11 +36,7 @@ export const CommandOptions =
   }) =>
     // @ts-expect-error
     class extends target {
-      constructor() {
-        super();
-
-        Object.assign(this._commandOptions, options);
-      }
+      _commandOptions = options;
     };
 
 export interface CommandOptionsData {
