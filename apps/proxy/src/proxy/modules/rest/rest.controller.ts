@@ -48,6 +48,7 @@ export class RestController {
        */
       const status = body ? HttpStatus.OK : HttpStatus.NO_CONTENT;
 
+      /** Send the dynamic status code. */
       response.status(status);
 
       return body;
