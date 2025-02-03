@@ -43,8 +43,8 @@ export class RestController {
        */
       const body = discordRequest;
       /**
-       * If the body is an object, return the status code "OK".
-       * Otherwise, return the status code "NO_CONTENT".
+       * If the body is an object, return the status code "200".
+       * Otherwise, return the status code "204".
        */
       const status = body ? HttpStatus.OK : HttpStatus.NO_CONTENT;
 
