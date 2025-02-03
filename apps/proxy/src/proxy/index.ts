@@ -7,11 +7,10 @@ import { PROXY_HOST, PROXY_PORT } from "@util/config.js";
 import { logger } from "@util/logger.js";
 import { AppModule } from "./modules/app.module.js";
 
-/** Create a fastify adapter for Nest. */
+/** Create a fastify adapter for Nest.js. */
 const fastifyAdapter = new FastifyAdapter();
 const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter, {
   cors: true,
-  /** Disable the default Nest logger. */
   logger: false,
 });
 

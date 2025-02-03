@@ -7,7 +7,7 @@ const PATH_REGEX = /^\/?(?:rest\/|v10\/)*(.+)$/;
 
 /**
  * Gets the request path from the fastify request object.
- * @param request The fastify request object.
+ * @param request - The fastify request object.
  * @returns The request path.
  */
 const getRequestPath = (request: FastifyRequest): string => {
@@ -31,18 +31,20 @@ export class RestController {
   ) {
     try {
       const { method: rawMethod } = request;
-      /** Get the Discord request path to create the request. */
       const path = getRequestPath(request);
       const method = rawMethod as RequestMethods;
-      /** Create the request to the Discord API. */
       const discordRequest = await RestManager.makeRequest(method, path, {
         body: discordRequestBody,
       });
       /**
-       * Check whether the request has any response object.
+       * Use the returned value from the Discord request.
        * Discord request can be a response object or "undefined".
        */
       const body = discordRequest;
+      /**
+       * If the body is an object, return the status code "OK".
+       * Otherwise, return the status code "NO_CONTENT".
+       */
       const status = body ? HttpStatus.OK : HttpStatus.NO_CONTENT;
 
       return response.status(status).send(body);
