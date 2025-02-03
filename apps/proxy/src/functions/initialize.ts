@@ -1,7 +1,7 @@
-import { Importer } from "@structures/Importer.js";
+import { Loader } from "@structures/Loader.js";
 
 /**
- * Initializes the application.
+ * Initializes the application by importing all modules and files.
  * @returns Nothing.
  */
-export const initialize = async () => await new Importer().init();
+export const initialize = async () => await new Loader().initImports();

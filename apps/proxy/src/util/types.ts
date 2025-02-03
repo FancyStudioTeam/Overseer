@@ -1,14 +1,12 @@
-import type { CreateMessageOptions, DiscordEmbed, InteractionCallbackData } from "@discordeno/bot";
-
 export type WorkerDataOptions = {
   eventsProxy: {
-    /** The authorization header. */
+    /** The authorization header to use. */
     authorization: string;
     /** The events proxy URL to send all Discord payloads. */
     url: string;
   };
   gatewayConnection: {
-    /** The shard intents to use. */
+    /** The shard intents to use when connecting to the gateway. */
     intents: number;
     /** The Discord client token. */
     token: string;
@@ -19,12 +17,12 @@ export type WorkerDataOptions = {
     /** The Discord gateway version to use. */
     version: number;
   };
-  /** The worker ID. */
+  /** The worker id. */
   id: number;
 };
 
 interface MessageWithShardId {
-  /** The shard ID. */
+  /** The shard id. */
   shardId: number;
 }
 
@@ -33,7 +31,8 @@ interface MessageWithShardId {
  * Sent from parent port to worker.
  */
 export type ParentPortMessage = ParentPortRequestIdentify;
-/** All worker messages.
+/**
+ * All worker messages.
  * Sent from worker to parent port.
  */
 export type WorkerMessage = WorkerAllowIdentify | WorkerIdentifyShard;
@@ -58,7 +57,3 @@ export enum WorkerMessageType {
   AllowIdentify = "AllowIdentify",
   IdentifyShard = "IdentifyShard",
 }
-
-export type MessagePayload = CreateMessageOptions & InteractionCallbackData;
-
-export type AnyMessagePayload = string | DiscordEmbed | MessagePayload;

@@ -3,6 +3,12 @@ import { EVENTS_AUTHORIZATION } from "@util/config.js";
 import { logger } from "@util/logger.js";
 import { getErrorInstance } from "./getErrorInstance.js";
 
+/**
+ * Creates a request to the events proxy.
+ * @param url - The events proxy url.
+ * @param body - An object with the payload and shard id.
+ * @returns Nothing.
+ */
 export const makeEventsRequest = async (url: string, body: MakeEventsRequestBody): Promise<void> => {
   const headers = {
     authorization: EVENTS_AUTHORIZATION,
@@ -23,7 +29,7 @@ export const makeEventsRequest = async (url: string, body: MakeEventsRequestBody
 };
 
 export interface MakeEventsRequestBody {
-  /** The Discord payload to sent. */
+  /** The Discord payload to send. */
   payload: DiscordGatewayPayload;
   /** The shard id from which the payload was received. */
   shardId: number;

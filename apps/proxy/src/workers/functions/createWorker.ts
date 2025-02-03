@@ -15,7 +15,7 @@ const __dirname = import.meta.dirname;
 
 /**
  * Creates a new Node.js worker instance.
- * @param id - The worker ID.
+ * @param id - The worker id.
  * @returns The created worker instance.
  */
 export const createWorker = (id: number): Worker => {

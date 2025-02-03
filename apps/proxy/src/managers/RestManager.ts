@@ -1,6 +1,8 @@
-import { createRestManager } from "@discordeno/bot";
+import { type CreateRestManagerOptions, createRestManager } from "@discordeno/bot";
 import { DISCORD_TOKEN } from "@util/config.js";
 
-export const RestManager = createRestManager({
+const restManagerOptions: CreateRestManagerOptions = {
   token: DISCORD_TOKEN,
-});
+};
+
+export const RestManager = createRestManager(restManagerOptions);

@@ -20,7 +20,7 @@ const loggerLevelsConfig = {
   },
   /**
    * The "levels" object is used to define the logger levels.
-   * They are ordered from the most severe to the least severe.
+   * They must be ordered from the most severe to the least severe.
    * Documentation: https://github.com/winstonjs/winston?tab=readme-ov-file#logging
    */
   levels: {
