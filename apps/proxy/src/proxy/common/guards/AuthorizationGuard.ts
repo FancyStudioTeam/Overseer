@@ -10,14 +10,18 @@ import type { FastifyRequest } from "fastify";
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
-  canActivate(context: ExecutionContext) {
+  /**
+   * Checks whether the request is authorized.
+   * @param context - The execution context object.
+   * @returns Whether the request is authorized.
+   */
+  canActivate(context: ExecutionContext): boolean {
     const httpContext = context.switchToHttp();
     const request = httpContext.getRequest<FastifyRequest>();
-    const {
-      headers: { authorization },
-      ip,
-    } = request;
+    const { headers, ip } = request;
+    const { authorization } = headers;
 
+    /** All exceptions will be handled by the "HttpExceptionFilter" filter. */
     if (!PROXY_ALLOWED_IPS.includes(ip)) {
       throw new ForbiddenException();
     }

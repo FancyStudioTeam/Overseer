@@ -6,6 +6,12 @@ import { type Observable, tap } from "rxjs";
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
+  /**
+   * Logs all the incoming and outgoing requests.
+   * @param context - The execution context object.
+   * @param next - The next function to invoke the handler method.
+   * @returns A created observable instance.
+   */
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const httpContext = context.switchToHttp();
     const request = httpContext.getRequest<FastifyRequest>();
