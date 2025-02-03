@@ -6,13 +6,13 @@ import { workersCollection } from "@workers/index.js";
 
 /**
  * Overrides the default behavior of the gateway manager.
- * @param gatewayManager The gateway manager instance to override.
+ * @param gatewayManager - The gateway manager instance to override.
  * @returns Nothing.
  */
 export const overrideGatewayManager = (gatewayManager: GatewayManager): void => {
   // biome-ignore lint/suspicious/useAwait: Required by the manager.
-  gatewayManager.tellWorkerToIdentify = async (workerId, shardId, bucketId) => {
-    logger.info(`Telling worker ${workerId} to identify shard ${shardId} from bucket ${bucketId}.`);
+  gatewayManager.tellWorkerToIdentify = async (workerId, shardId) => {
+    logger.shard(`Requesting Worker ${workerId} to identify Shard ${shardId}...`);
 
     const worker = workersCollection.get(workerId) ?? createWorker(workerId);
     const identigyShardMessage: WorkerIdentifyShard = {

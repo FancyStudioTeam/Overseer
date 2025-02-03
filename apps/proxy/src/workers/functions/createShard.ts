@@ -9,7 +9,7 @@ import { identifyPromisesCollection, workerData } from "@workers/index.js";
 
 /**
  * Creates a new shard instance.
- * @param id The shard ID.
+ * @param id - The shard ID.
  * @returns The created shard instance.
  */
 export const createShard = (id: number): DiscordenoShard => {
@@ -41,7 +41,7 @@ export const createShard = (id: number): DiscordenoShard => {
     const { op: rawOp } = payload;
     const op = rawOp as GatewayOpcodes;
 
-    logger.info(`Received "${OPCODES_NAMES[op]}" payload from shard ${id}.`);
+    logger.shard(`Received a "${OPCODES_NAMES[op]}" payload from Shard ${id}.`);
 
     const { eventsProxy } = workerData;
     const { url } = eventsProxy;
@@ -58,13 +58,11 @@ export const createShard = (id: number): DiscordenoShard => {
         "content-type": "application/json",
       },
       method: "POST",
-    })
-      .then(() => logger.info(`Sent "${OPCODES_NAMES[op]}" payload to events proxy.`))
-      .catch((fetchError) => {
-        const error = fetchError instanceof Error ? fetchError : new Error(fetchError);
+    }).catch((fetchError) => {
+      const error = fetchError instanceof Error ? fetchError : new Error(fetchError);
 
-        logger.error(error.stack);
-      });
+      logger.error(error.stack);
+    });
   };
 
   shard.requestIdentify = async () => {

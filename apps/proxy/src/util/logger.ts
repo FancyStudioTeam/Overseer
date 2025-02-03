@@ -7,12 +7,12 @@ const { align, colorize, combine, printf, timestamp } = format;
 const { Console, File, FileTransportOptions, Stream } = transports;
 const loggerLevelsConfig = {
   colors: {
-    debug: "blue",
+    debug: "magenta",
     error: "red",
-    http: "magenta",
+    http: "blue",
     info: "green",
+    shard: "cyan",
     silly: "grey",
-    verbose: "cyan",
     warn: "yellow",
   },
   /**
@@ -21,14 +21,13 @@ const loggerLevelsConfig = {
    * Documentation: https://github.com/winstonjs/winston?tab=readme-ov-file#logging
    */
   levels: {
-    debug: 5,
+    debug: 4,
     error: 0,
     http: 3,
     info: 2,
-    silly: 6,
-    verbose: 4,
+    shard: 6,
+    silly: 5,
     warn: 1,
-    gateway: 7,
   },
 };
 const { colors, levels } = loggerLevelsConfig;
@@ -64,7 +63,7 @@ const sharedFileTransport = ({ fileName, level, maxSize }: ShardFileTransportOpt
 
 export const logger = createLogger({
   /** Set the logger level to the least severe. */
-  level: "gateway",
+  level: "shard",
   levels,
   transports: [
     new Console({
@@ -120,6 +119,6 @@ interface ShardFileTransportOptions {
 declare module "winston" {
   interface Logger {
     // biome-ignore lint/correctness/noUndeclaredVariables: Module Augmentation does not require explicit declaration.
-    gateway: LeveledLogMethod;
+    shard: LeveledLogMethod;
   }
 }

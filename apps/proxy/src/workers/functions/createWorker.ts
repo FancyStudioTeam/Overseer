@@ -2,7 +2,6 @@ import { join } from "node:path";
 import { Worker } from "node:worker_threads";
 import { GatewayManager } from "@managers/GatewayManager.js";
 import { EVENTS_AUTHORIZATION, EVENTS_URL, GATEWAY_INTENTS } from "@util/config.js";
-import { logger } from "@util/logger.js";
 import {
   type ParentPortMessage,
   ParentPortMessageType,
@@ -16,7 +15,7 @@ const __dirname = import.meta.dirname;
 
 /**
  * Creates a new Node.js worker instance.
- * @param id The worker ID.
+ * @param id - The worker ID.
  * @returns The created worker instance.
  */
 export const createWorker = (id: number): Worker => {
@@ -47,8 +46,6 @@ export const createWorker = (id: number): Worker => {
         type: ParentPortMessageType.RequestIdentify,
       },
       async ({ shardId }) => {
-        logger.info(`Received identify request from shard ${shardId}, allowing shard to identify.`);
-
         await GatewayManager.requestIdentify(shardId);
 
         const allowIdentifyMessage: WorkerMessage = {

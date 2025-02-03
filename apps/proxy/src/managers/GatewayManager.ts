@@ -7,9 +7,6 @@ const gatewayConnection = RestManager.getGatewayBot();
 
 export const GatewayManager = createGatewayManager({
   connection: await gatewayConnection,
-  events: {
-    message: (shard, payload) => shard.forwardToBot(payload),
-  },
   intents: GATEWAY_INTENTS,
   resharding: {
     checkInterval: 28_800_000,

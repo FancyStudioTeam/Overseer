@@ -21,5 +21,5 @@ await app.register(fastifyCsrf);
 await app.listen(PROXY_PORT, PROXY_HOST, async () => {
   const address = await app.getUrl();
 
-  logger.http(`Initialized proxy server at address "${address}".`);
+  logger.info(`Initialized proxy server at address "${address}".`);
 });

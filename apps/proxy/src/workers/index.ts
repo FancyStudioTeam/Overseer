@@ -36,7 +36,7 @@ parentPort?.on("message", (workerMessage: WorkerMessage) =>
 
         shardsCollection.set(id, shard);
 
-        await shard.identify().then(() => logger.shard(`[Shard ${id}] Shard ${id} was successfully identified.`));
+        await shard.identify().then(() => logger.shard(`Shard ${id} was successfully identified.`));
       },
     ),
 );
