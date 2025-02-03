@@ -1,7 +1,10 @@
 import { Writable } from "node:stream";
 import { codeBlock } from "@discordjs/formatters";
-import { createWebhookMessage } from "@functions/createWebhookMessage.js";
+import { parseWebhookUrl } from "@functions/parseWebhookUrl.js";
+import { RestManager } from "@managers/RestManager.js";
 import { addColors, createLogger, format, transports } from "winston";
+import { WEBHOOK_URL_ERRORS } from "./config.js";
+import { DEFAULT_EMBED_COLOR } from "./constants.js";
 
 const { align, colorize, combine, printf, timestamp } = format;
 const { Console, File, FileTransportOptions, Stream } = transports;
@@ -96,9 +99,17 @@ export const logger = createLogger({
         write: async (chunk, _encoding, callback) => {
           /** Convert the chunk to a string. */
           const logMessage = Buffer.from(chunk).toString();
+          const { id, token } = parseWebhookUrl(WEBHOOK_URL_ERRORS);
 
           /** Create a webhook message in the private errors channel. */
-          await createWebhookMessage(codeBlock("ts", logMessage));
+          await RestManager.executeWebhook(id, token, {
+            embeds: [
+              {
+                description: codeBlock("ts", logMessage),
+                color: DEFAULT_EMBED_COLOR,
+              },
+            ],
+          });
 
           callback();
         },
