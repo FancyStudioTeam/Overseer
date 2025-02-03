@@ -6,8 +6,8 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 const PATH_REGEX = /^\/?(?:rest\/|v10\/)*(.+)$/;
 
 /**
- * Gets the request path from the fastify request object.
- * @param request - The fastify request object.
+ * Gets the request path from the Fastify request object.
+ * @param request - The Fastify request object.
  * @returns The request path.
  */
 const getRequestPath = (request: FastifyRequest): string => {
@@ -29,7 +29,7 @@ export class RestController {
     @Body() discordRequestBody: unknown,
     @Request() request: FastifyRequest,
     @Response() response: FastifyReply,
-  ) {
+  ): Promise<unknown> {
     try {
       const { method: rawMethod } = request;
       const path = getRequestPath(request);
@@ -48,7 +48,9 @@ export class RestController {
        */
       const status = body ? HttpStatus.OK : HttpStatus.NO_CONTENT;
 
-      return response.status(status).send(body);
+      response.status(status);
+
+      return body;
     } catch (internalError) {
       throw new InternalServerErrorException(internalError);
     }

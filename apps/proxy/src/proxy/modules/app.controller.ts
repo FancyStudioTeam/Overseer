@@ -4,8 +4,9 @@ import { Controller, Get, HttpCode, HttpStatus } from "@nestjs/common";
 export class AppController {
   /** Handles "/" get requests. */
   @Get()
+  /** Status code will be always "OK". */
   @HttpCode(HttpStatus.OK)
-  currentTime() {
+  currentTime(): number {
     return Date.now();
   }
 }
