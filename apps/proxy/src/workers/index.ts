@@ -31,12 +31,12 @@ parentPort?.on("message", (workerMessage: WorkerMessage) =>
         type: WorkerMessageType.IdentifyShard,
       },
       async ({ shardId }) => {
-        const { id } = workerData;
-        const shard = shardsCollection.get(id) ?? createShard(id);
+        const shard = shardsCollection.get(shardId) ?? createShard(shardId);
+        const { id } = shard;
 
-        logger.info(`Identifying shard ${shardId} from worker ${id}.`);
+        shardsCollection.set(id, shard);
 
-        await shard.identify();
+        await shard.identify().then(() => logger.shard(`[Shard ${id}] Shard ${id} was successfully identified.`));
       },
     ),
 );
