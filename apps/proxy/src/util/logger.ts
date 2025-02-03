@@ -28,6 +28,7 @@ const loggerLevelsConfig = {
     silly: 6,
     verbose: 4,
     warn: 1,
+    gateway: 7,
   },
 };
 const { colors, levels } = loggerLevelsConfig;
@@ -63,7 +64,7 @@ const sharedFileTransport = ({ fileName, level, maxSize }: ShardFileTransportOpt
 
 export const logger = createLogger({
   /** Set the logger level to the least severe. */
-  level: "silly",
+  level: "gateway",
   levels,
   transports: [
     new Console({
@@ -114,4 +115,11 @@ interface ShardFileTransportOptions {
   level?: string;
   /** The maximum file size. */
   maxSize: number;
+}
+
+declare module "winston" {
+  interface Logger {
+    // biome-ignore lint/correctness/noUndeclaredVariables: Module Augmentation does not require explicit declaration.
+    gateway: LeveledLogMethod;
+  }
 }
