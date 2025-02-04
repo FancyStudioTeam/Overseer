@@ -4,7 +4,13 @@ import type { FastifyReply } from "fastify";
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
+  /**
+   * Catches all the http exception instances.
+   * @param exception - The exception instance to catch.
+   * @param host - The arguments host object.
+   * @returns Nothing.
+   */
+  catch(exception: HttpException, host: ArgumentsHost): void {
     const httpContext = host.switchToHttp();
     const response = httpContext.getResponse<FastifyReply>();
     const statusCode = exception.getStatus();
