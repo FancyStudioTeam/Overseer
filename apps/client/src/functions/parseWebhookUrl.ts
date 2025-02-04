@@ -1,17 +1,19 @@
+import type { BigString } from "@discordeno/bot";
+
 const WEBHOOK_REGEX =
   /https?:\/\/(?:ptb\.|canary\.)?discord\.com\/api(?:\/v\d{1,2})?\/webhooks\/(\d{17,19})\/([\w-]{68})/i;
 
 /**
- * Parse a webhook URL.
- * @param url The webhook URL.
- * @returns The webhook ID and token.
+ * Parses a webhook url.
+ * @param url - The webhook url to parse.
+ * @returns An object containing the webhook id and token.
  */
 export const parseWebhookUrl = (url: string): ParsedWebhookUrl => {
   const match = url.match(WEBHOOK_REGEX);
 
   if (!match) {
     return {
-      id: 0n,
+      id: "0",
       token: "",
     };
   }
@@ -19,14 +21,14 @@ export const parseWebhookUrl = (url: string): ParsedWebhookUrl => {
   const [, id, token] = match;
 
   return {
-    id: BigInt(id),
+    id,
     token,
   };
 };
 
 interface ParsedWebhookUrl {
-  /** The webhook ID. */
-  id: bigint;
+  /** The webhook id as BigString. */
+  id: BigString;
   /** The webhook token. */
   token: string;
 }

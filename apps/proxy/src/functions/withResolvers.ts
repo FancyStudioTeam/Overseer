@@ -1,6 +1,6 @@
 /**
  * Creates a promise with its resolve and reject functions.
- * @returns An object with a promise with its resolve and reject functions.
+ * @returns An object containing a promise with its resolve and reject functions.
  */
 export const withResolvers = <Value>(): WithResolvers<Value> => {
   let rejectFunction!: (reason?: unknown) => void;

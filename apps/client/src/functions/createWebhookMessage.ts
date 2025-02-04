@@ -17,9 +17,10 @@ const WEBHOOK_URLS: Record<CreateWebhookMessageTypes, CreateWebhookMessageTypeOp
 };
 
 /**
- * Create a webhook message.
- * @param content Any message payload kind.
- * @param type The webhook message type.
+ * Creates a webhook message.
+ * @param content - Any message payload kind.
+ * @param type - The webhook message type.
+ * @returns Nothing.
  */
 export const createWebhookMessage = async (
   content: AnyMessagePayload,
@@ -36,8 +37,8 @@ export const createWebhookMessage = async (
 };
 
 interface CreateWebhookMessageTypeOptions {
-  /** The thread ID to send the webhook message. */
+  /** The thread id to send the webhook message. */
   threadId: BigString;
-  /** The webhook URL. */
+  /** The webhook url. */
   webhookUrl: string;
 }

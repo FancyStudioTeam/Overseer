@@ -4,10 +4,10 @@ import type { AnyContext, AnyMessagePayload, Message } from "@util/types.js";
 import { resolveMessagePayload } from "./resolveMessagePayload.js";
 
 /**
- * Create a message or an interaction response.
- * @param context The context to use.
- * @param content Any message payload kind.
- * @param options The available options.
+ * Creates a message or an interaction response.
+ * @param context - The context to use.
+ * @param content - Any message payload kind.
+ * @param options - The available options.
  * @returns The created message depending in the context and the "withMessage" option.
  */
 export const createMessage = async <Context extends AnyContext, WithMessage extends boolean>(
@@ -27,7 +27,6 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
     isEphemeral,
   });
 
-  /** Handle the interaction context. */
   if ("acknowledged" in context) {
     const { acknowledged, id, token } = context;
 
@@ -54,14 +53,14 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
 };
 
 interface CreateMessageOptions<WithMessage extends boolean> {
-  /** Whether to include the ephemeral flag in the message payload. */
+  /** Whether to include the ephemeral flag in the message payload object. */
   isEphemeral?: boolean;
   /** Whether to fetch the original message object from the interaction response. */
   withMessage?: WithMessage;
 }
 
 /**
- * Conditional type that determinates the return type based on the "WithMessage" generic.
+ * Conditional type that determinates the return type based on the "WithMessage" generic type.
  *
  * By default, return type will be "Message | undefined".
  * If "WithMessage" is "true", return type will be "Message".
@@ -71,10 +70,10 @@ type CreateMessageUsingInteraction<WithMessage extends boolean> = WithMessage ex
   : Message | undefined;
 
 /**
- * Conditional type that determinates the return type based on the context.
+ * Conditional type that determinates the return type based on the context type.
  *
- * When using messages, return type will be "Message".
- * When using interactions, return type will be "Message | undefined" or "Message" if "WithMessage" is "true".
+ * Using a message context will return "Message" type.
+ * Using an interaction context will return "Message | undefined" or "Message" type if "WithMessage" generic type is "true".
  */
 type CreateMessage<Context extends AnyContext, WithMessage extends boolean> = Context extends Message
   ? Message

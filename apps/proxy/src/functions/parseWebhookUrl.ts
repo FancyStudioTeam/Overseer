@@ -6,7 +6,7 @@ const WEBHOOK_REGEX =
 /**
  * Parses a webhook url.
  * @param url - The webhook url to parse.
- * @returns An object with the webhook id and token.
+ * @returns An object containing the webhook id and token.
  */
 export const parseWebhookUrl = (url: string): ParsedWebhookUrl => {
   const match = url.match(WEBHOOK_REGEX);

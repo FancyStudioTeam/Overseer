@@ -1,9 +1,9 @@
 import { bold, cyan, magenta, reset } from "@discordeno/bot";
 
 /**
- * Format a string of key-value pairs into an ANSI-formatted string.
- * @param content The string to format.
- * @param delimiter The delimiter to split between the key and value.
+ * Formats a string of key-value pairs into an ANSI-colored string.
+ * @param content - The string to format.
+ * @param delimiter - The delimiter to split between the key and value.
  * @returns The formatted key-value string pairs.
  */
 export const formatAnsiKeyValues = (content: string, delimiter = "»") => {

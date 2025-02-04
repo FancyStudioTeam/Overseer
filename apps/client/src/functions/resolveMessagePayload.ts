@@ -3,17 +3,17 @@ import { DEFAULT_EMBED_COLOR } from "@util/constants.js";
 import type { AnyMessagePayload, MessagePayload } from "@util/types.js";
 
 /**
- * Check whether the content is a valid message payload object.
- * @param content Any message payload with objects.
- * @returns The valid message payload or "false".
+ * Checks whether the content is a valid message payload object.
+ * @param content - Any message payload with objects.
+ * @returns The valid message payload object or "false".
  */
 const isMessagePayload = (content: AnyMessagePayloadWithObjects): content is MessagePayload =>
   "components" in content || "content" in content || "embeds" in content || "files" in content || "flags" in content;
 
 /**
- * Resolve any message payload kind into a valid Discord message payload object.
- * @param content Any message payload kind.
- * @param options The available options.
+ * Resolves any message payload kind into a valid Discord message payload object.
+ * @param content - Any message payload kind.
+ * @param options - The available options.
  * @returns The resolved message payload object.
  */
 export const resolveMessagePayload = (
@@ -49,6 +49,7 @@ export const resolveMessagePayload = (
     } else {
       messagePayload.embeds = [
         {
+          /** Merge the embed properties with the current embed. */
           ...content,
           color: DEFAULT_EMBED_COLOR,
         },
