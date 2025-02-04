@@ -3,7 +3,7 @@
   "description": "Overseer Monorepo",
   "devDependencies": {
     "@commitlint/cli": "19.7.1",
-    "@commitlint/config-conventional": "19.6.0",
+    "@commitlint/config-conventional": "19.7.1",
     "@commitlint/types": "19.5.0",
     "@types/node": "22.13.0",
     "husky": "9.1.7",
