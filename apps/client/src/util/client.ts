@@ -71,6 +71,9 @@ const clientWithCache = createClientWithCache(discordenoClient, {
     guild: true,
     user: true,
   },
+  cacheOutsideMemory: {
+    default: false,
+  },
 });
 
 export const client = clientWithCache as Client;
@@ -80,27 +83,21 @@ client.applicationCommands = {
   user: new Collection(),
 };
 
-client.fetchMember = async (guildIdBigString: BigString, memberIdBigString?: BigString): Promise<Member> => {
-  const {
-    applicationId,
-    cache: { members: cachedMembers },
-    helpers,
-  } = client;
+client.fetchMember = async (guildIdBigString: BigString, memberIdBigString: BigString): Promise<Member> => {
+  const { cache, helpers } = client;
+  const { members: cachedMembers } = cache;
   const guildIdBigInt = BigInt(guildIdBigString.toString());
-  const memberIdString = memberIdBigString?.toString() ?? applicationId.toString();
+  const memberIdString = memberIdBigString.toString();
   const memberIdBigInt = BigInt(memberIdString);
   const cachedMember = await cachedMembers.get(guildIdBigInt, memberIdBigInt);
 
   return cachedMember ? cachedMember : await helpers.getMember(guildIdBigInt, memberIdBigInt);
 };
 
-client.fetchUser = async (userIdBigString?: BigString): Promise<User> => {
-  const {
-    applicationId,
-    cache: { users: cachedUsers },
-    helpers,
-  } = client;
-  const userIdString = userIdBigString?.toString() ?? applicationId.toString();
+client.fetchUser = async (userIdBigString: BigString): Promise<User> => {
+  const { cache, helpers } = client;
+  const { users: cachedUsers } = cache;
+  const userIdString = userIdBigString.toString();
   const userIdBigInt = BigInt(userIdString);
   const cachedUser = await cachedUsers.get(userIdBigInt);
 
@@ -119,11 +116,11 @@ export type Client = typeof clientWithCache & {
    * @param memberIdBigString The member ID as BigString.
    * @returns The fetched member.
    */
-  fetchMember: (guildIdBigString: BigString, memberIdBigString?: BigString) => Promise<Member>;
+  fetchMember: (guildIdBigString: BigString, memberIdBigString: BigString) => Promise<Member>;
   /**
    * Fetch the user from the cache or Discord API.
    * @param userIdBigString The user ID as BigString.
    * @returns The fetched user.
    */
-  fetchUser: (userIdBigString?: BigString) => Promise<User>;
+  fetchUser: (userIdBigString: BigString) => Promise<User>;
 };
