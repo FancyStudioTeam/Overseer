@@ -2,6 +2,8 @@ import {
   type BigString,
   Collection,
   DesiredPropertiesBehavior,
+  type RecursivePartial,
+  type TransformersDesiredProperties,
   createBot as createDiscordenoClient,
 } from "@discordeno/bot";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
@@ -10,51 +12,51 @@ import { DISCORD_TOKEN, PROXY_AUTHORIZATION, PROXY_URL } from "@util/config.js";
 import { createProxyCache as createClientWithCache } from "dd-cache-proxy";
 import type { Member, User } from "./types.js";
 
-/** Create the main Discordeno client object. */
-const discordenoClient = createDiscordenoClient({
-  /**
-   * The "desiredProperties" option is used to specify the properties that we actually use in our code.
-   * Documentation: https://discordeno.js.org/docs/desired-properties
-   */
-  desiredProperties: {
-    guild: {
-      id: true,
-      memberCount: true,
-      name: true,
-      roles: true,
-      shardId: true,
-    },
-    interaction: {
-      channelId: true,
-      data: true,
-      guild: true,
-      guildId: true,
-      id: true,
-      member: true,
-      token: true,
-      type: true,
-      user: true,
-    },
-    member: {
-      guildId: true,
-      id: true,
-      permissions: true,
-      roles: true,
-    },
-    message: {
-      author: true,
-      channelId: true,
-      content: true,
-      id: true,
-    },
-    user: {
-      avatar: true,
-      discriminator: true,
-      id: true,
-      username: true,
-    },
+/**
+ * Desired properties object is used to specify the properties that we actually use in our bot.
+ * Mostly used for properties that we actually want to cache.
+ * Documentation: https://discordeno.js.org/docs/desired-properties
+ */
+const desiredProperties: RecursivePartial<TransformersDesiredProperties> = {
+  guild: {
+    id: true,
+    memberCount: true,
+    name: true,
+    roles: true,
+    shardId: true,
   },
-  /** Used to explain why the the property is disabled in a string. */
+  interaction: {
+    channelId: true,
+    data: true,
+    guild: true,
+    guildId: true,
+    id: true,
+    member: true,
+    token: true,
+    type: true,
+    user: true,
+  },
+  member: {
+    guildId: true,
+    id: true,
+    permissions: true,
+    roles: true,
+  },
+  message: {
+    author: true,
+    channelId: true,
+    content: true,
+    id: true,
+  },
+  user: {
+    avatar: true,
+    discriminator: true,
+    id: true,
+    username: true,
+  },
+};
+const discordenoClient = createDiscordenoClient({
+  desiredProperties,
   desiredPropertiesBehavior: DesiredPropertiesBehavior.ChangeType,
   rest: {
     proxy: {
@@ -64,7 +66,6 @@ const discordenoClient = createDiscordenoClient({
   },
   token: DISCORD_TOKEN,
 });
-/** Create the main client object with a cache manager. */
 const clientWithCache = createClientWithCache(discordenoClient, {
   cacheInMemory: {
     default: true,
@@ -111,16 +112,16 @@ export type Client = typeof clientWithCache & {
     user: Collection<string, UserContextCommand>;
   };
   /**
-   * Fetch the member from the cache or Discord API.
-   * @param guildIdBigString The guild ID as BigString.
-   * @param memberIdBigString The member ID as BigString.
-   * @returns The fetched member.
+   * Fetchs the member from the cache or Discord API.
+   * @param guildIdBigString - The guild ID as BigString.
+   * @param memberIdBigString - The member ID as BigString.
+   * @returns The fetched member object.
    */
   fetchMember: (guildIdBigString: BigString, memberIdBigString: BigString) => Promise<Member>;
   /**
-   * Fetch the user from the cache or Discord API.
-   * @param userIdBigString The user ID as BigString.
-   * @returns The fetched user.
+   * Fetchs the user from the cache or Discord API.
+   * @param userIdBigString - The user ID as BigString.
+   * @returns The fetched user object.
    */
   fetchUser: (userIdBigString: BigString) => Promise<User>;
 };
