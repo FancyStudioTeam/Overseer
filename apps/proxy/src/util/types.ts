@@ -30,7 +30,7 @@ interface MessageWithShardId {
  * All parent port messages.
  * Sent from parent port to worker.
  */
-export type ParentPortMessage = ParentPortRequestIdentify;
+export type ParentPortMessage = ParentPortRequestIdentify | ParentPortShardIdentified;
 /**
  * All worker messages.
  * Sent from worker to parent port.
@@ -39,6 +39,10 @@ export type WorkerMessage = WorkerAllowIdentify | WorkerIdentifyShard;
 
 export interface ParentPortRequestIdentify extends MessageWithShardId {
   type: ParentPortMessageType.RequestIdentify;
+}
+
+export interface ParentPortShardIdentified extends MessageWithShardId {
+  type: ParentPortMessageType.ShardIdentified;
 }
 
 export interface WorkerAllowIdentify extends MessageWithShardId {
@@ -51,6 +55,7 @@ export interface WorkerIdentifyShard extends MessageWithShardId {
 
 export enum ParentPortMessageType {
   RequestIdentify = "RequestIdentify",
+  ShardIdentified = "ShardIdentified",
 }
 
 export enum WorkerMessageType {

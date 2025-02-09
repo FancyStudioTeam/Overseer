@@ -1,6 +1,12 @@
-import type { GatewayManager } from "@discordeno/bot";
+import { type GatewayManager, delay } from "@discordeno/bot";
+import { withResolvers } from "@functions/withResolvers.js";
 import { logger } from "@util/logger.js";
-import { type WorkerIdentifyShard, WorkerMessageType } from "@util/types.js";
+import {
+  type ParentPortMessage,
+  ParentPortMessageType,
+  type WorkerIdentifyShard,
+  WorkerMessageType,
+} from "@util/types.js";
 import { createWorker } from "@workers/functions/createWorker.js";
 import { workersCollection } from "@workers/index.js";
 
@@ -10,7 +16,8 @@ import { workersCollection } from "@workers/index.js";
  * @returns Nothing.
  */
 export const overrideGatewayManager = (gatewayManager: GatewayManager): void => {
-  // biome-ignore lint/suspicious/useAwait: Required by the manager.
+  const { spawnShardDelay } = gatewayManager;
+
   gatewayManager.tellWorkerToIdentify = async (workerId, shardId) => {
     logger.shard(`Requesting Worker ${workerId} to identify Shard ${shardId}...`);
 
@@ -23,5 +30,22 @@ export const overrideGatewayManager = (gatewayManager: GatewayManager): void => 
     /** Send a message to the parent port to identify the shard. */
     worker.postMessage(identigyShardMessage);
     workersCollection.set(workerId, worker);
+
+    const { promise, resolve } = withResolvers<void>();
+    const waitForShardIdentify = (message: ParentPortMessage) => {
+      const { type, shardId: messageShardId } = message;
+
+      if (type === ParentPortMessageType.ShardIdentified && messageShardId === shardId) {
+        resolve();
+      }
+    };
+
+    worker.on("message", waitForShardIdentify);
+
+    await promise;
+
+    worker.off("message", waitForShardIdentify);
+
+    await delay(spawnShardDelay);
   };
 };

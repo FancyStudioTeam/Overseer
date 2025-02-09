@@ -1,7 +1,12 @@
 import { type Worker, workerData as nodeWorkerData, parentPort } from "node:worker_threads";
 import { Collection, type DiscordenoShard } from "@discordeno/bot";
-import { logger } from "@util/logger.js";
-import { type WorkerDataOptions, type WorkerMessage, WorkerMessageType } from "@util/types.js";
+import {
+  ParentPortMessageType,
+  type ParentPortShardIdentified,
+  type WorkerDataOptions,
+  type WorkerMessage,
+  WorkerMessageType,
+} from "@util/types.js";
 import { match } from "ts-pattern";
 import { createShard } from "./functions/createShard.js";
 
@@ -33,10 +38,15 @@ parentPort?.on("message", (workerMessage: WorkerMessage) =>
       async ({ shardId }) => {
         const shard = shardsCollection.get(shardId) ?? createShard(shardId);
         const { id } = shard;
+        const shardIdentifiedMessage: ParentPortShardIdentified = {
+          shardId,
+          type: ParentPortMessageType.ShardIdentified,
+        };
 
         shardsCollection.set(id, shard);
-
-        await shard.identify().then(() => logger.shard(`Shard ${id} was successfully identified.`));
+        await shard.identify();
+        /** Send a message to the worker to tell the worker that the shard was identified. */
+        parentPort?.postMessage(shardIdentifiedMessage);
       },
     ),
 );
