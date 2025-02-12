@@ -2,8 +2,6 @@ import {
   type BigString,
   Collection,
   DesiredPropertiesBehavior,
-  type RecursivePartial,
-  type TransformersDesiredProperties,
   createBot as createDiscordenoClient,
 } from "@discordeno/bot";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
@@ -12,51 +10,50 @@ import { DISCORD_TOKEN, PROXY_AUTHORIZATION, PROXY_URL } from "@util/config.js";
 import { createProxyCache as createClientWithCache } from "dd-cache-proxy";
 import type { Member, User } from "./types.js";
 
-/**
- * Desired properties object is used to specify the properties that we actually use in our bot.
- * Mostly used for properties that we actually want to cache.
- * Documentation: https://discordeno.js.org/docs/desired-properties
- */
-const desiredProperties: RecursivePartial<TransformersDesiredProperties> = {
-  guild: {
-    id: true,
-    memberCount: true,
-    name: true,
-    roles: true,
-    shardId: true,
-  },
-  interaction: {
-    channelId: true,
-    data: true,
-    guild: true,
-    guildId: true,
-    id: true,
-    member: true,
-    token: true,
-    type: true,
-    user: true,
-  },
-  member: {
-    guildId: true,
-    id: true,
-    permissions: true,
-    roles: true,
-  },
-  message: {
-    author: true,
-    channelId: true,
-    content: true,
-    id: true,
-  },
-  user: {
-    avatar: true,
-    discriminator: true,
-    id: true,
-    username: true,
-  },
-};
 const discordenoClient = createDiscordenoClient({
-  desiredProperties,
+  /**
+   * Desired properties object is used to specify the properties that we actually use in our bot.
+   * Mostly used for properties that we actually want to cache.
+   * Documentation: https://discordeno.js.org/docs/desired-properties
+   */
+  desiredProperties: {
+    guild: {
+      id: true,
+      memberCount: true,
+      name: true,
+      roles: true,
+      shardId: true,
+    },
+    interaction: {
+      channelId: true,
+      data: true,
+      guild: true,
+      guildId: true,
+      id: true,
+      member: true,
+      token: true,
+      type: true,
+      user: true,
+    },
+    member: {
+      guildId: true,
+      id: true,
+      permissions: true,
+      roles: true,
+    },
+    message: {
+      author: true,
+      channelId: true,
+      content: true,
+      id: true,
+    },
+    user: {
+      avatar: true,
+      discriminator: true,
+      id: true,
+      username: true,
+    },
+  },
   desiredPropertiesBehavior: DesiredPropertiesBehavior.ChangeType,
   rest: {
     proxy: {
