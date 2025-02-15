@@ -8,12 +8,12 @@ import { CreateCommandTypes } from "@util/types.js";
 export abstract class ChatInputCommand {
   /** Whether to load all the chat input sub commands automatically. */
   _autoLoad = false;
-  _data: ChatInputCommandOptions;
+  _data: Partial<ChatInputCommandOptions> = {};
   /** The loaded chat input sub commands list. */
   _options: DiscordApplicationCommandOption[] = [];
   type: CreateCommandTypes.ChatInput = CreateCommandTypes.ChatInput;
 
-  constructor(options: ChatInputCommandOptions) {
+  /*constructor(options: ChatInputCommandOptions) {
     const { description, descriptionLocalizations, name } = options;
 
     this._data = {
@@ -21,16 +21,16 @@ export abstract class ChatInputCommand {
       descriptionLocalizations,
       name,
     };
-  }
+  }*/
 
   toJSON(): CreateSlashApplicationCommand {
     const { description, descriptionLocalizations, name } = this._data;
     const options = this._options;
 
     return {
-      description,
+      description: description ?? "",
       descriptionLocalizations,
-      name,
+      name: name ?? "",
       options,
       type: ApplicationCommandTypes.ChatInput,
     };

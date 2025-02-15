@@ -11,31 +11,30 @@ import type { UserContextCommand } from "./commands/UserContextCommand.js";
 const __dirname = import.meta.dirname;
 const distFolderPath = join(__dirname, "..");
 
-export class Importer {
-  /** Import all the required files to work. */
-  async init() {
-    await Promise.all([this.importCommands(), this.importEvents(), this.importProxyServer()]);
+export class Loader {
+  /** Initializes the resources imports. */
+  async initImports(): Promise<void> {
+    await Promise.all([this.registerApplicationCommands(), this.importEvents(), this.importProxyApplication()]);
   }
 
-  /** Import the command files. */
-  private async importCommands() {
-    const chatInputCommandsPattern = `${join(distFolderPath, "commands")}/chatInput/**/parent.{js,ts}`;
-    const userCommandsPattern = `${join(distFolderPath, "commands")}/user/**/*.command.{js,ts}`;
+  /** Registers the application commands to Discord. */
+  private async registerApplicationCommands(): Promise<void> {
+    const { chatInputCommandsPattern, userCommandsPattern } = {
+      chatInputCommandsPattern: `${join(distFolderPath, "commands")}/chatInput/**/parent.{js,ts}`,
+      userCommandsPattern: `${join(distFolderPath, "commands")}/user/**/*.command.{js,ts}`,
+    };
     const loadedCommandPaths = await this.loadDirectoryFiles([chatInputCommandsPattern, userCommandsPattern]);
-    /** Import all the loaded command paths. */
-    const resolvedCommandPaths = await this._importCommands(loadedCommandPaths);
+    const resolvedCommandPaths = await this.importCommands(loadedCommandPaths);
 
-    /** Deploy the commands to Discord. */
     await client.helpers.upsertGlobalApplicationCommands(resolvedCommandPaths);
   }
 
   /**
-   * Import the command files.
-   * @internal
-   * @param commandPaths The command paths to import.
+   * Imports and returs the resolved application commands.
+   * @param commandPaths - The command paths to import.
    * @returns The resolved application commands.
    */
-  private async _importCommands(commandPaths: Path[]): Promise<CreateApplicationCommand[]> {
+  private async importCommands(commandPaths: Path[]): Promise<CreateApplicationCommand[]> {
     /** Create an import promise for each command path. */
     const importPromises = commandPaths.map(async (commandPath, _) => {
       const resolvedCommandPath = this.resolvePath(commandPath);
@@ -113,34 +112,31 @@ export class Importer {
       const resolvedSubCommand = subCommand.toJSON();
       const { name } = resolvedSubCommand;
 
-      /** Set the chat input sub command to its collection. */
       client.applicationCommands.chatInput.set([parentCommandName, name].join("_"), subCommand);
 
       return resolvedSubCommand;
     });
 
-    /** Execute all the import promises. */
     return await Promise.all(importPromises);
   }
 
-  /** Import the event files. */
+  /** Imports the events files. */
   private async importEvents(): Promise<void> {
     const eventsPattern = `${join(distFolderPath, "events")}/**/*.event.{js,ts}`;
     const loadedEventPaths = await this.loadDirectoryFiles(eventsPattern);
-    /** Resolve all the event paths. */
     const resolvedEventPaths = loadedEventPaths.map((eventPath) => this.resolvePath(eventPath));
 
     resolvedEventPaths.forEach(async (eventPath, _) => await import(eventPath));
   }
 
-  /** Import the proxy server. */
-  async importProxyServer(): Promise<void> {
+  /** Imports the Nest.js proxy application. */
+  private async importProxyApplication(): Promise<void> {
     await import("@proxy/index.js");
   }
 
   /**
-   * Create a resolved path from a given path.
-   * @param path The path to resolve.
+   * Creates a compatible path from a given Glob path to import.
+   * @param path - The Glob path object to resolve.
    * @returns The resolved path.
    */
   private resolvePath(path: Path): string {
@@ -148,14 +144,13 @@ export class Importer {
   }
 
   /**
-   * Load all the files from a given pattern.
-   * @param pattern The pattern to load the files from.
-   * @returns The loaded path files.
+   * Loads all the files from a given Glob pattern.
+   * @param pattern - The pattern to load the files from.
+   * @returns The loaded Glob path files.
    */
   private async loadDirectoryFiles(pattern: string | string[]): Promise<Path[]> {
     const loadedPaths = await glob(pattern, {
       ignore: ["node_modules"],
-      /** Include the files with their file type. */
       withFileTypes: true,
     });
     const filteredFiles = loadedPaths.filter(

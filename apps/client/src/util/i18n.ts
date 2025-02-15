@@ -30,8 +30,10 @@ i18n.init({
   },
 });
 
+/** A function to translate the messages from the commands namespace. */
 export const tCommandsFunction = (locale: Locales): TFunction<"commands"> =>
   i18n.getFixedT(locale.toLowerCase(), "commands");
+/** A function to translate the messages from the common namespace. */
 export const tCommonFunction = (locale: Locales): TFunction<"common"> => i18n.getFixedT(locale.toLowerCase(), "common");
 
 declare module "i18next" {

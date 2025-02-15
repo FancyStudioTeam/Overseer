@@ -1,0 +1,6 @@
+model GuildAuditLogs {
+  createdAt DateTime @default(now())
+  guildId   String   @unique
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt DateTime @updatedAt
+}

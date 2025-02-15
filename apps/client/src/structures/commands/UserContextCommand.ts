@@ -15,16 +15,8 @@ import {
 } from "@util/types.js";
 
 export abstract class UserContextCommand {
-  _data: UserContextCommandOptions;
+  _data: Partial<UserContextCommandOptions> = {};
   type: CreateCommandTypes.User = CreateCommandTypes.User;
-
-  constructor(options: UserContextCommandOptions) {
-    const { name } = options;
-
-    this._data = {
-      name,
-    };
-  }
 
   abstract run(options: UserContextCommandRunOptions): Promise<void>;
 
@@ -47,7 +39,7 @@ export abstract class UserContextCommand {
     return {
       contexts: [DiscordInteractionContextType.Guild],
       integrationTypes: [DiscordApplicationIntegrationType.GuildInstall],
-      name,
+      name: name ?? "",
       nsfw: false,
       type: ApplicationCommandTypes.User,
     };
