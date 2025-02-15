@@ -3,7 +3,6 @@ import type {
   CreateSlashApplicationCommand,
   PermissionStrings,
 } from "@discordeno/bot";
-import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 
 /**
  * Sets the "_autoLoad" property to "true" from the target instance.
@@ -35,10 +34,7 @@ export const Declare =
  */
 export const CommandOptions =
   (options: CommandOptionsData = {}) =>
-  (target: {
-    new (...args: unknown[]): ChatInputSubCommand;
-  }) =>
-    // @ts-expect-error
+  <Target extends AnyInstance>(target: Target) =>
     class extends target {
       _commandOptions = options;
     };
