@@ -15,7 +15,12 @@ export default class DebugCommand extends ChatInputSubCommand {
     });
   }
 
-  async run({ context, t }: ChatInputSubCommandRunOptions<never>): Promise<void> {
+  /**
+   * The method to execute when the command is executed.
+   * @param options - The available options.
+   */
+  async run(options: ChatInputSubCommandRunOptions<never>): Promise<void> {
+    const { context, t } = options;
     const { client: botVersion, discordeno: discordenoVersion, prisma: prismaVersion } = await this.getVersions();
     const [generalInformationField, dependenciesVersionsField]: EmbedField[] = [
       {
@@ -58,8 +63,8 @@ export default class DebugCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Get the client and used dependencies versions.
-   * @returns The client and used dependencies versions.
+   * Gets the client and the used dependencies versions.
+   * @returns An object containing the client and the used dependencies versions.
    */
   async getVersions(): Promise<Versions> {
     const [client, discordeno, prisma] = await Promise.all([
@@ -76,8 +81,8 @@ export default class DebugCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Get the dependency version (if provided) or the package version.
-   * @param dependency The dependency name.
+   * Gets the dependency version or the package version.
+   * @param dependency - The dependency name.
    * @returns The dependency version or the package version.
    */
   async getVersion(dependency?: string): Promise<string> {
@@ -88,19 +93,18 @@ export default class DebugCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Get the package JSON file data.
+   * Gets the package JSON file data.
    * @returns The package JSON file data.
    */
-  async getPackage(): Promise<Package> {
+  async getPackage(): Promise<PackageData> {
     const packagePath = join(process.cwd(), "package.json");
-    const packageImport = await import(`file://${packagePath}`, {
+    const { default: packageData } = await import(`file://${packagePath}`, {
       with: {
         type: "json",
       },
     });
 
-    /** JSON imports are exported using default exports. */
-    return packageImport.default;
+    return packageData;
   }
 }
 
@@ -113,7 +117,7 @@ interface Versions {
   prisma: string;
 }
 
-interface Package {
+interface PackageData {
   /** The installed dependencies from the package. */
   dependencies: Record<string, string>;
   /** The installed development dependencies from the package. */

@@ -21,10 +21,16 @@ export default class PingCommand extends ChatInputSubCommand {
     });
   }
 
-  async run({ client, context, t }: ChatInputSubCommandRunOptions<never>): Promise<void> {
+  /**
+   * The method to execute when the command is executed.
+   * @param options - The available options.
+   */
+  async run(options: ChatInputSubCommandRunOptions<never>): Promise<void> {
+    const { client, context, t } = options;
+    const { guildId } = context;
     const { rest } = client;
     const { apiRequests: apiRequestsLatency, database: databaseLatency } = await this.getLatencies({
-      guildIdBigString: context.guildId,
+      guildIdBigString: guildId,
       rest,
     });
     const [apiRequestsLatencyField, databaseLatencyField]: EmbedField[] = [
@@ -46,12 +52,13 @@ export default class PingCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Get the API requests and database latencies.
-   * @param options The available options.
-   * @returns The API requests and database latencies.
+   * Gets the API requests and database latencies.
+   * @param options - The available options.
+   * @returns An object containing the API requests and database latencies.
    */
   async getLatencies(options: GetLatenciesOptions): Promise<Latencies> {
     const { guildIdBigString, rest } = options;
+    const guildId = guildIdBigString?.toString();
     const apiRequestPromise = () => rest.getCurrentUser(DISCORD_TOKEN);
     const databasePromise = () =>
       prisma.guildPreferences.findUnique({
@@ -59,7 +66,7 @@ export default class PingCommand extends ChatInputSubCommand {
           guildId: true,
         },
         where: {
-          guildId: guildIdBigString?.toString(),
+          guildId,
         },
       });
     /** Execute all the promises in parallel. */
@@ -75,17 +82,18 @@ export default class PingCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Get the execution time of a promise.
-   * @param promise The promise to execute.
+   * Gets the execution time of a promise.
+   * @param promise - The promise to execute.
    * @returns The promise execution time in milliseconds.
    */
   async getExecutionTime(promise: GetExecutionTimePromise): Promise<number> {
-    const startHrtime = process.hrtime.bigint();
+    const { hrtime } = process;
+    const startHrtime = hrtime.bigint();
 
     /** Execute the promise and wait until it is resolved or rejected.  */
     await promise();
 
-    const endHrtime = process.hrtime.bigint();
+    const endHrtime = hrtime.bigint();
     const executionTime = this.calculateExecutionTime(startHrtime, endHrtime);
     const roundedExecutionTime = Math.round(executionTime);
 
@@ -93,9 +101,9 @@ export default class PingCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Calculate the execution time of a promise.
-   * @param startTime The start time of the execution.
-   * @param endTime The end time of the execution.
+   * Calculates the execution time.
+   * @param startTime - The start time of the execution.
+   * @param endTime - The end time of the execution.
    * @returns The execution time in milliseconds.
    */
   calculateExecutionTime(startTime: bigint, endTime: bigint): number {

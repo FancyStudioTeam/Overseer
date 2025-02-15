@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionTypes } from "@discordeno/bot";
+import { ApplicationCommandOptionTypes, type BigString } from "@discordeno/bot";
 import { createMessage } from "@functions/createMessage.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
 import { CommandOptions } from "@util/decorators.js";
@@ -35,15 +35,38 @@ export default class LocaleCommand extends ChatInputSubCommand {
     });
   }
 
-  async run({ context, t, options }: ChatInputSubCommandRunOptions<LocaleOptions>): Promise<void> {
-    if (!context.guildId) {
+  /**
+   * The method to execute when the command is executed.
+   * @param options - The available options.
+   */
+  async run(options: ChatInputSubCommandRunOptions<LocaleOptions>): Promise<void> {
+    const { context, options: commandOptions, t } = options;
+    const { guildId } = context;
+
+    if (!guildId) {
       return;
     }
 
-    const { locale: localeOptions } = options;
+    const { locale: localeOptions } = commandOptions;
     const { locale } = localeOptions;
-    const guildId = context.guildId.toString();
-    /** Upsert the guild preferences locale. */
+    const upsertedLocale = await this.upsertGuildLocale(guildId, locale);
+
+    await createMessage(
+      context,
+      t("categories.configuration.locale.message_1", {
+        lng: upsertedLocale.toLowerCase(),
+      }),
+    );
+  }
+
+  /**
+   * Upserts the guild locale.
+   * @param guildIdBigString - The guild ID as BigString.
+   * @param locale - The chosen locale to upsert.
+   * @returns The upserted locale.
+   */
+  async upsertGuildLocale(guildIdBigString: BigString, locale: Locales): Promise<Locales> {
+    const guildId = guildIdBigString.toString();
     const { locale: updatedLocale } = await prisma.guildPreferences.upsert({
       create: {
         guildId,
@@ -60,13 +83,7 @@ export default class LocaleCommand extends ChatInputSubCommand {
       },
     });
 
-    await createMessage(
-      context,
-      t("categories.configuration.locale.message_1", {
-        /** Use the updated locale to translate the message. */
-        lng: updatedLocale.toLowerCase(),
-      }),
-    );
+    return updatedLocale;
   }
 }
 

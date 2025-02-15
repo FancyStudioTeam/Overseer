@@ -8,7 +8,12 @@ import { Declare } from "@util/decorators.js";
   type: ApplicationCommandTypes.User,
 })
 export default class AvatarCommand extends UserContextCommand {
-  async run({ context, targetUser }: UserContextCommandRunOptions): Promise<void> {
+  /**
+   * The method to execute when the command is executed.
+   * @param options - The available options.
+   */
+  async run(options: UserContextCommandRunOptions): Promise<void> {
+    const { context, targetUser } = options;
     const avatarUrl = await this.getAvatarUrl(targetUser);
 
     await createMessage(context, {
