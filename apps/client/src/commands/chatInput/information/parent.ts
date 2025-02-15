@@ -1,12 +1,11 @@
+import { ApplicationCommandTypes } from "@discordeno/bot";
 import { ChatInputCommand } from "@structures/commands/ChatInputCommand.js";
-import { AutoLoad } from "@util/decorators.js";
+import { AutoLoad, Declare } from "@util/decorators.js";
 
+@Declare({
+  description: "_",
+  name: "info",
+  type: ApplicationCommandTypes.ChatInput,
+})
 @AutoLoad()
-export default class InformationParentCommand extends ChatInputCommand {
-  constructor() {
-    super({
-      description: "_",
-      name: "info",
-    });
-  }
-}
+export default class InformationParentCommand extends ChatInputCommand {}

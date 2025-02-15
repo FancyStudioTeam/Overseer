@@ -1,4 +1,8 @@
-import type { CreateApplicationCommand, PermissionStrings } from "@discordeno/bot";
+import type {
+  CreateContextApplicationCommand,
+  CreateSlashApplicationCommand,
+  PermissionStrings,
+} from "@discordeno/bot";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 
 /**
@@ -18,7 +22,7 @@ export const AutoLoad =
  * @returns The updated target instance.
  */
 export const Declare =
-  (options: CreateApplicationCommand) =>
+  (options: DeclareOptions) =>
   <Target extends AnyInstance>(target: Target) =>
     class extends target {
       _data = options;
@@ -59,3 +63,5 @@ export interface CommandOptionsPermissions {
 
 // biome-ignore lint/suspicious/noExplicitAny: TypeScript issues.
 type AnyInstance = new (...args: any[]) => object;
+
+type DeclareOptions = CreateSlashApplicationCommand | CreateContextApplicationCommand;
