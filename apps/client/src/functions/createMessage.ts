@@ -13,16 +13,16 @@ import { resolveMessagePayload } from "./resolveMessagePayload.js";
 export const createMessage = async <Context extends AnyContext, WithMessage extends boolean>(
   context: Context,
   content: AnyMessagePayload,
-  options: CreateMessageOptions<WithMessage> = {
+  options: CreateMessageOptions<Context, WithMessage> = {
     isEphemeral: false,
     withMessage: false,
-  } as CreateMessageOptions<WithMessage>,
+  } as CreateMessageOptions<Context, WithMessage>,
 ): Promise<CreateMessage<Context, WithMessage>> => {
   /**
    * The "withMessage" option should be only used when the provided context is an interaction.
    * Methods like "sendFollowupMessage" and "sendMessage" always return a message object.
    */
-  const { isEphemeral, withMessage } = options;
+  const { isEphemeral } = options;
   const messagePayload = resolveMessagePayload(content, {
     isEphemeral,
   });
@@ -40,7 +40,7 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
     });
 
     /** Fetch and return the original message object from the interaction response only if "withMessage" is "true". */
-    if (withMessage) {
+    if ("withMessage" in options && options.withMessage) {
       return await client.helpers.getOriginalInteractionResponse(token);
     }
 
@@ -52,12 +52,19 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
   return await client.helpers.sendMessage(channelId, messagePayload);
 };
 
-interface CreateMessageOptions<WithMessage extends boolean> {
+interface CreateMessageOptionsBase {
   /** Whether to include the ephemeral flag in the message payload object. */
   isEphemeral?: boolean;
-  /** Whether to fetch the original message object from the interaction response. */
-  withMessage?: WithMessage;
 }
+
+interface CreateMessageOptionsUsingInteraction<WithMessage extends boolean> extends CreateMessageOptionsBase {
+  /** Whether to fetch the original message object from the interaction response. */
+  withMessage: WithMessage;
+}
+
+type CreateMessageOptions<Context extends AnyContext, WithMessage extends boolean> = Context extends Message
+  ? CreateMessageOptionsBase
+  : CreateMessageOptionsUsingInteraction<WithMessage>;
 
 /**
  * Conditional type that determinates the return type based on the "WithMessage" generic type.
