@@ -7,7 +7,7 @@
     "@nestjs/common": "11.0.7",
     "@nestjs/core": "11.0.9",
     "@nestjs/platform-fastify": "11.0.7",
-    "@prisma/client": "6.3.0",
+    "@prisma/client": "6.3.1",
     "@sapphire/snowflake": "3.5.5",
     "dd-cache-proxy": "2.6.0",
     "dotenv": "16.4.7",
