@@ -7,7 +7,6 @@ import { getErrorInstance } from "./getErrorInstance.js";
  * Creates a request to the events proxy.
  * @param url - The events proxy url.
  * @param body - An object with the payload and shard id.
- * @returns Nothing.
  */
 export const makeEventsRequest = async (url: string, body: MakeEventsRequestBody): Promise<void> => {
   const headers = {

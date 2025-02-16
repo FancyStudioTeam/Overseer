@@ -13,7 +13,6 @@ import { workersCollection } from "@workers/index.js";
 /**
  * Overrides the default behavior of the gateway manager.
  * @param gatewayManager - The gateway manager instance to override.
- * @returns Nothing.
  */
 export const overrideGatewayManager = (gatewayManager: GatewayManager): void => {
   const { spawnShardDelay } = gatewayManager;

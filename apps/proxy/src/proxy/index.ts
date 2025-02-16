@@ -9,7 +9,7 @@ import { AppModule } from "./modules/app.module.js";
 
 /**
  * Create a Fastify adapter for Nest.js.
- * This adapter will use Fastify for Nest.js.
+ * This adapter will use Fastify instead of Express.
  */
 const fastifyAdapter = new FastifyAdapter();
 const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter, {
