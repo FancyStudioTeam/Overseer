@@ -86,7 +86,7 @@ export default class DebugCommand extends ChatInputSubCommand {
    * @returns The dependency version or the package version.
    */
   async getVersion(dependency?: string): Promise<string> {
-    const packageInfo = await this.getPackage();
+    const packageInfo = await this.getPackageData();
     const { dependencies, version } = packageInfo;
 
     return dependency ? dependencies[dependency] : version;
@@ -94,9 +94,9 @@ export default class DebugCommand extends ChatInputSubCommand {
 
   /**
    * Gets the package JSON file data.
-   * @returns The package JSON file data.
+   * @returns An object containing the package JSON file data.
    */
-  async getPackage(): Promise<PackageData> {
+  async getPackageData(): Promise<PackageData> {
     const packagePath = join(process.cwd(), "package.json");
     const { default: packageData } = await import(`file://${packagePath}`, {
       with: {
