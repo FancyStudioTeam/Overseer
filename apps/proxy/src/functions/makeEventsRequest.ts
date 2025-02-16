@@ -20,10 +20,9 @@ export const makeEventsRequest = async (url: string, body: MakeEventsRequestBody
   };
 
   await fetch(url, fetchOptions).catch((fetchError) => {
-    /** Get the error instance from the fetch error exception. */
-    const error = getErrorInstance(fetchError);
+    const { stack } = getErrorInstance(fetchError);
 
-    logger.error(error.stack);
+    logger.error(stack);
   });
 };
 
