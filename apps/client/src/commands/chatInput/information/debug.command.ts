@@ -122,6 +122,14 @@ interface PackageData {
   dependencies: Record<string, string>;
   /** The installed development dependencies from the package. */
   devDependencies: Record<string, string>;
+  /** The project name. */
+  name: string;
+  /** The project scripts. */
+  scripts: Record<string, string>;
+  /** The project JavaScript type. */
+  type: PackageModule;
   /** The package version. (Used as client version) */
   version: string;
 }
+
+type PackageModule = "module" | "commonjs";
