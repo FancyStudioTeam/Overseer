@@ -9,9 +9,9 @@ export class EventsController {
   @Post()
   @UsePipes(new ZodValidationPipe(EventSchema))
   @HttpCode(HttpStatus.NO_CONTENT)
-  async handleEvent(@Body() event: EventSchemaDto): Promise<void> {
+  async handleIncomingEvent(@Body() incomingEvent: EventSchemaDto): Promise<void> {
     try {
-      const { payload, shard_id } = event;
+      const { payload, shard_id } = incomingEvent;
       const { op, t } = payload;
 
       /** Emit the raw event with the payload and shard id. */
