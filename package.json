@@ -5,6 +5,8 @@
     "@commitlint/cli": "19.7.1",
     "@commitlint/config-conventional": "19.7.1",
     "@commitlint/types": "19.5.0",
+    "@swc/cli": "0.6.0",
+    "@swc/core": "1.10.18",
     "@types/node": "22.13.4",
     "husky": "9.1.7",
     "lint-staged": "15.4.3",
