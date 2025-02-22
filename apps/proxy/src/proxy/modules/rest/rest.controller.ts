@@ -1,7 +1,18 @@
 import type { RequestMethods } from "@discordeno/bot";
 import { RestManager } from "@managers/RestManager.js";
-import { All, Body, Controller, HttpStatus, InternalServerErrorException, Request, Response } from "@nestjs/common";
+import {
+  All,
+  Body,
+  Controller,
+  HttpStatus,
+  InternalServerErrorException,
+  Request,
+  Response,
+  UsePipes,
+} from "@nestjs/common";
+import { ZodValidationPipe } from "@proxy/common/pipes/ZodValidation.js";
 import type { FastifyReply, FastifyRequest } from "fastify";
+import { RequestSchema } from "./schemas/RequestSchema.js";
 
 const PATH_REGEX = /^\/?(?:rest\/|v10\/)*(.+)$/;
 
@@ -24,6 +35,7 @@ const getRequestPath = (request: FastifyRequest): string => {
 @Controller("rest")
 export class RestController {
   @All("*")
+  @UsePipes(new ZodValidationPipe(RequestSchema))
   async createDiscordRequest(
     @Body() discordRequestBody: unknown,
     @Request() request: FastifyRequest,

@@ -147,6 +147,9 @@ importers:
       winston:
         specifier: 3.17.0
         version: 3.17.0
+      zod:
+        specifier: 3.24.1
+        version: 3.24.1
 
 packages:
 
