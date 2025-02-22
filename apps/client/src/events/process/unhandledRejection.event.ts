@@ -4,5 +4,5 @@ import { logger } from "@util/logger.js";
 process.on("unhandledRejection", (reason) => {
   const { stack } = getErrorInstance(reason);
 
-  logger.error("Unhandled Rejection: ", stack);
+  logger.error(`Unhandled Rejection: ${stack}`);
 });
