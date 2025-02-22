@@ -8,7 +8,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
    * Catches all the http exception instances.
    * @param exception - The exception instance to catch.
    * @param host - The arguments host object.
-   * @returns Nothing.
    */
   catch(exception: HttpException, host: ArgumentsHost): void {
     const httpContext = host.switchToHttp();
