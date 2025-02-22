@@ -1,4 +1,5 @@
 {
+  "missing_user_command_permissions": "**{{CANCEL_COLORED}} You need the {{permissions}} permission.**",
   "permission_keys": {
     "ADD_REACTIONS": "Add Reactions",
     "ADMINISTRATOR": "Administrator",
@@ -37,18 +38,17 @@
     "SEND_VOICE_MESSAGES": "Send Voice Messages",
     "SPEAK": "Speak",
     "STREAM": "Stream",
-    "USE_SLASH_COMMANDS": "Use Application Commands",
     "USE_EMBEDDED_ACTIVITIES": "Use Embedded Activities",
     "USE_EXTERNAL_APPS": "Use External Apps",
     "USE_EXTERNAL_EMOJIS": "Use External Emojis",
     "USE_EXTERNAL_SOUNDS": "Use External Sounds",
     "USE_EXTERNAL_STICKERS": "Use External Stickers",
+    "USE_SLASH_COMMANDS": "Use Application Commands",
     "USE_SOUNDBOARD": "Use Soundboard",
     "USE_VAD": "Use Voice Activity",
     "VIEW_AUDIT_LOG": "View Audit Log",
     "VIEW_CHANNEL": "View Channel",
     "VIEW_CREATOR_MONETIZATION_ANALYTICS": "View Creator Monetization Analytics",
     "VIEW_GUILD_INSIGHTS": "View Server Insights"
-  },
-  "missing_user_command_permissions": "**{{CANCEL_COLORED}} You need the {{permissions}} permission.**"
+  }
 }

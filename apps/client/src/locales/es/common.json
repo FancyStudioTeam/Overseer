@@ -1,4 +1,5 @@
 {
+  "missing_user_command_permissions": "**{{CANCEL_COLORED}} Necesitas el permiso de {{permissions}}.**",
   "permission_keys": {
     "ADD_REACTIONS": "Añadir Reacciones",
     "ADMINISTRATOR": "Administrador",
@@ -49,6 +50,5 @@
     "VIEW_CHANNEL": "Ver Canal",
     "VIEW_CREATOR_MONETIZATION_ANALYTICS": "Ver Analíticas de Monetización de Creadores",
     "VIEW_GUILD_INSIGHTS": "Ver Información del Servidor"
-  },
-  "missing_user_command_permissions": "**{{CANCEL_COLORED}} Necesitas el permiso de {{permissions}}.**"
+  }
 }
