@@ -110,14 +110,14 @@ export type Client = typeof clientWithCache & {
   };
   /**
    * Fetchs the member from the cache or Discord API.
-   * @param guildIdBigString - The guild ID as BigString.
-   * @param memberIdBigString - The member ID as BigString.
+   * @param guildIdBigString - The guild id as BigString.
+   * @param memberIdBigString - The member id as BigString.
    * @returns The fetched member object.
    */
   fetchMember: (guildIdBigString: BigString, memberIdBigString: BigString) => Promise<Member>;
   /**
    * Fetchs the user from the cache or Discord API.
-   * @param userIdBigString - The user ID as BigString.
+   * @param userIdBigString - The user id as BigString.
    * @returns The fetched user object.
    */
   fetchUser: (userIdBigString: BigString) => Promise<User>;

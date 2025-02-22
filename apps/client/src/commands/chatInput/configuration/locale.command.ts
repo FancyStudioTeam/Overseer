@@ -61,7 +61,7 @@ export default class LocaleCommand extends ChatInputSubCommand {
 
   /**
    * Upserts the guild locale.
-   * @param guildIdBigString - The guild ID as BigString.
+   * @param guildIdBigString - The guild id as BigString.
    * @param locale - The chosen locale to upsert.
    * @returns The upserted locale.
    */

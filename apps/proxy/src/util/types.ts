@@ -4,7 +4,7 @@ export type WorkerDataOptions = {
   eventsProxy: {
     /** The authorization header to use. */
     authorization: string;
-    /** The events proxy URL to send all Discord payloads. */
+    /** The events proxy url to send all Discord payloads. */
     url: string;
   };
   gatewayConnection: {
@@ -14,7 +14,7 @@ export type WorkerDataOptions = {
     token: string;
     /** The maximum number of shards to connect. */
     totalShards: number;
-    /** The Discord gateway URL to connect to. */
+    /** The Discord gateway url to connect to. */
     url: string;
     /** The Discord gateway version to use. */
     version: number;

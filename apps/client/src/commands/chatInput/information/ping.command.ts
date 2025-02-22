@@ -115,7 +115,7 @@ export default class PingCommand extends ChatInputSubCommand {
 }
 
 interface GetLatenciesOptions {
-  /** The guild ID as BigString. */
+  /** The guild id as BigString. */
   guildIdBigString?: BigString;
   /** The client REST manager. */
   rest: RestManager;
