@@ -3,7 +3,7 @@ import { codeBlock } from "@discordjs/formatters";
 import { parseWebhookUrl } from "@functions/parseWebhookUrl.js";
 import { RestManager } from "@managers/RestManager.js";
 import { addColors, createLogger, format, transports } from "winston";
-import { WEBHOOK_URL_ERRORS } from "./config.js";
+import { THREADS_ERRORS, WEBHOOK_URL_ERRORS } from "./config.js";
 import { DEFAULT_EMBED_COLOR } from "./constants.js";
 
 const { align, colorize, combine, printf, timestamp } = format;
@@ -109,6 +109,7 @@ export const logger = createLogger({
                 color: DEFAULT_EMBED_COLOR,
               },
             ],
+            threadId: THREADS_ERRORS,
           });
 
           callback();
