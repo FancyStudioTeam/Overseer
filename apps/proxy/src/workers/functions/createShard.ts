@@ -49,7 +49,8 @@ export const createShard = (id: number): DiscordenoShard => {
     const eventsProxyUrl = `${url}/events`;
     const eventBody: MakeEventsRequestBody = {
       payload,
-      shardId: id,
+      // biome-ignore lint/style/useNamingConvention: Properties should be in snake case.
+      shard_id: id,
     };
 
     await makeEventsRequest(eventsProxyUrl, eventBody);

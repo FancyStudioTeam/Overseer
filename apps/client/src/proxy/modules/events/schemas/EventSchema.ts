@@ -9,7 +9,8 @@ const ShardIdSchema = z.number().int().gte(0);
 
 export const EventSchema = z.object({
   payload: PayloadSchema,
-  shardId: ShardIdSchema,
+  // biome-ignore lint/style/useNamingConvention: Properties should be in snake case.
+  shard_id: ShardIdSchema,
 });
 
 export type EventSchemaDto = z.infer<typeof EventSchema>;

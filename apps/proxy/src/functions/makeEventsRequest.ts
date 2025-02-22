@@ -30,5 +30,6 @@ export interface MakeEventsRequestBody {
   /** The Discord payload to send. */
   payload: DiscordGatewayPayload;
   /** The shard id from which the payload was received. */
-  shardId: number;
+  // biome-ignore lint/style/useNamingConvention: Properties should be in snake case.
+  shard_id: number;
 }
