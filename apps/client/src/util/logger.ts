@@ -7,12 +7,11 @@ const { align, colorize, combine, printf, timestamp } = format;
 const { Console, File, FileTransportOptions, Stream } = transports;
 const loggerLevelsConfig = {
   colors: {
-    debug: "blue",
+    debug: "magenta",
     error: "red",
-    http: "magenta",
+    http: "blue",
     info: "green",
     silly: "grey",
-    verbose: "cyan",
     warn: "yellow",
   },
   /**
@@ -21,12 +20,11 @@ const loggerLevelsConfig = {
    * Documentation: https://github.com/winstonjs/winston?tab=readme-ov-file#logging
    */
   levels: {
-    debug: 5,
+    debug: 4,
     error: 0,
     http: 3,
     info: 2,
-    silly: 6,
-    verbose: 4,
+    silly: 5,
     warn: 1,
   },
 };
