@@ -57,7 +57,7 @@ export const createShard = (id: number): DiscordenoShard => {
   };
 
   shard.requestIdentify = async () => {
-    logger.info(`Requesting worker to identify shard ${id}...`);
+    logger.info(`Requesting worker to identify Shard ${id}...`);
 
     const { promise, resolve } = withResolvers<void>();
     const requestIdentifyMessage: ParentPortRequestIdentify = {

@@ -95,7 +95,7 @@ parentPort?.on("message", (workerMessage: WorkerMessage) =>
             op: GatewayOpcodes.PresenceUpdate,
           };
 
-          logger.shard(`Sending presence update payload to shard ${id}...`);
+          logger.shard(`Sending presence update payload to Shard ${id}...`);
 
           await shard.send(presenceUpdatePayload);
         });
