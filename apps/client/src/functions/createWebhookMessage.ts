@@ -20,7 +20,6 @@ const WEBHOOK_URLS: Record<CreateWebhookMessageTypes, CreateWebhookMessageTypeOp
  * Creates a webhook message.
  * @param content - Any message payload kind.
  * @param type - The webhook message type.
- * @returns Nothing.
  */
 export const createWebhookMessage = async (
   content: AnyMessagePayload,
