@@ -32,12 +32,12 @@ interface MessageWithShardId {
  * All parent port messages.
  * Sent from parent port to worker.
  */
-export type ParentPortMessage = ParentPortRequestIdentify | ParentPortShardIdentified;
+export type ParentPortMessage = ParentPortRequestIdentify | ParentPortShardIdentified | ParentPortShardInformation;
 /**
  * All worker messages.
  * Sent from worker to parent port.
  */
-export type WorkerMessage = WorkerAllowIdentify | WorkerIdentifyShard | WorkerPresenceUpdate;
+export type WorkerMessage = WorkerAllowIdentify | WorkerIdentifyShard | WorkerPresenceUpdate | WorkerShardInformation;
 
 export interface ParentPortRequestIdentify extends MessageWithShardId {
   type: ParentPortMessageType.RequestIdentify;
@@ -47,12 +47,26 @@ export interface ParentPortShardIdentified extends MessageWithShardId {
   type: ParentPortMessageType.ShardIdentified;
 }
 
+export interface ParentPortShardInformation extends MessageWithShardId {
+  /** The nonce to identify the request for the shard information. */
+  nonce: string;
+  /** The round trip time of the shard. */
+  rtt: number;
+  type: ParentPortMessageType.ShardInformation;
+}
+
 export interface WorkerAllowIdentify extends MessageWithShardId {
   type: WorkerMessageType.AllowIdentify;
 }
 
 export interface WorkerIdentifyShard extends MessageWithShardId {
   type: WorkerMessageType.IdentifyShard;
+}
+
+export interface WorkerShardInformation extends MessageWithShardId {
+  /** The nonce to identify the request for the shard information. */
+  nonce: string;
+  type: WorkerMessageType.RequestShardInformation;
 }
 
 export interface WorkerPresenceUpdate {
@@ -64,19 +78,21 @@ export interface WorkerPresenceUpdate {
 export enum ParentPortMessageType {
   RequestIdentify = "RequestIdentify",
   ShardIdentified = "ShardIdentified",
+  ShardInformation = "ShardInformation",
 }
 
 export enum WorkerMessageType {
   AllowIdentify = "AllowIdentify",
   IdentifyShard = "IdentifyShard",
   PresenceUpdate = "PresenceUpdate",
+  RequestShardInformation = "RequestShardInformation",
 }
 
 export interface ShardInformation {
   /** The shard id. */
   shardId: number;
-  /** The shard latency. */
-  latency: number;
   /** The nonce to identify the request for the shard information. */
   nonce: string;
+  /** The round trip time of the shard. */
+  rtt: number;
 }

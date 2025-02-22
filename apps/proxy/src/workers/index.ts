@@ -4,6 +4,7 @@ import { logger } from "@util/logger.js";
 import {
   ParentPortMessageType,
   type ParentPortShardIdentified,
+  type ParentPortShardInformation,
   type ShardInformation,
   type WorkerDataOptions,
   type WorkerMessage,
@@ -50,6 +51,29 @@ parentPort?.on("message", (workerMessage: WorkerMessage) =>
         await shard.identify();
         /** Send a message to the worker to tell the worker that the shard was identified. */
         parentPort?.postMessage(shardIdentifiedMessage);
+      },
+    )
+    .with(
+      {
+        type: WorkerMessageType.RequestShardInformation,
+      },
+      ({ nonce, shardId }) => {
+        const shard = shardsCollection.get(shardId);
+        const { heart } = shard ?? {};
+        let { rtt } = heart ?? {};
+
+        /** Assing a value if the shard information is not available. */
+        rtt ??= -1;
+
+        const shardInformationMessage: ParentPortShardInformation = {
+          nonce,
+          shardId,
+          type: ParentPortMessageType.ShardInformation,
+          rtt,
+        };
+
+        /** Send a message to the worker with the shard information. */
+        parentPort?.postMessage(shardInformationMessage);
       },
     )
     .with(

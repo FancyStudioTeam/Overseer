@@ -10,6 +10,7 @@ import {
   type WorkerMessage,
   WorkerMessageType,
 } from "@util/types.js";
+import { shardInformationRequestsCollection } from "@workers/index.js";
 import { match } from "ts-pattern";
 
 const __dirname = import.meta.dirname;
@@ -64,6 +65,20 @@ export const createWorker = (id: number): Worker => {
           type: ParentPortMessageType.ShardIdentified,
         },
         ({ shardId }) => logger.shard(`Shard ${shardId} was identified successfully.`),
+      )
+      .with(
+        {
+          type: ParentPortMessageType.ShardInformation,
+        },
+        (message) => {
+          const { nonce } = message;
+          const shardInformation = shardInformationRequestsCollection.get(nonce);
+
+          if (shardInformation) {
+            shardInformation(message);
+            shardInformationRequestsCollection.delete(nonce);
+          }
+        },
       ),
   );
 
