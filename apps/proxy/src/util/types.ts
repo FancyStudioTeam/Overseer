@@ -71,3 +71,12 @@ export enum WorkerMessageType {
   IdentifyShard = "IdentifyShard",
   PresenceUpdate = "PresenceUpdate",
 }
+
+export interface ShardInformation {
+  /** The shard id. */
+  shardId: number;
+  /** The shard latency. */
+  latency: number;
+  /** The nonce to identify the request for the shard information. */
+  nonce: string;
+}

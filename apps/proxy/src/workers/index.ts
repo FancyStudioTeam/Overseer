@@ -4,6 +4,7 @@ import { logger } from "@util/logger.js";
 import {
   ParentPortMessageType,
   type ParentPortShardIdentified,
+  type ShardInformation,
   type WorkerDataOptions,
   type WorkerMessage,
   WorkerMessageType,
@@ -11,9 +12,10 @@ import {
 import { match } from "ts-pattern";
 import { createShard } from "./functions/createShard.js";
 
-export const workersCollection = new Collection<number, Worker>();
-export const shardsCollection = new Collection<number, DiscordenoShard>();
 export const identifyPromisesCollection = new Collection<number, IdentifyPromise>();
+export const shardInformationRequestsCollection = new Collection<string, ShardInformationPromise>();
+export const shardsCollection = new Collection<number, DiscordenoShard>();
+export const workersCollection = new Collection<number, Worker>();
 export const workerData: WorkerDataOptions = nodeWorkerData;
 
 /** Handle all incoming worker messages. */
@@ -80,3 +82,4 @@ parentPort?.on("message", (workerMessage: WorkerMessage) =>
 );
 
 type IdentifyPromise = () => void;
+type ShardInformationPromise = (value: ShardInformation) => void;
