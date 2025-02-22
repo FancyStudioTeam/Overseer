@@ -2,6 +2,9 @@
   "$schema": "https://swc.rs/schema.json",
   "exclude": ["node_modules", "dist"],
   "jsc": {
+    "experimental": {
+      "keepImportAttributes": true
+    },
     "keepClassNames": true,
     "loose": false,
     "parser": {

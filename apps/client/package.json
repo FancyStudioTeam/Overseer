@@ -25,7 +25,7 @@
   },
   "name": "client",
   "scripts": {
-    "build": "pnpm clean && swc src -d dist --strip-leading-paths && tsc-alias",
+    "build": "pnpm clean && swc src -d dist --strip-leading-paths -D && tsc-alias",
     "clean": "rimraf dist",
     "dev": "nodemon",
     "prisma:generate": "prisma generate",
