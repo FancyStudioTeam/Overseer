@@ -1,5 +1,6 @@
 import { type Worker, workerData as nodeWorkerData, parentPort } from "node:worker_threads";
-import { Collection, type DiscordenoShard } from "@discordeno/bot";
+import { Collection, type DiscordenoShard, GatewayOpcodes, type ShardSocketRequest } from "@discordeno/bot";
+import { logger } from "@util/logger.js";
 import {
   ParentPortMessageType,
   type ParentPortShardIdentified,
@@ -47,6 +48,33 @@ parentPort?.on("message", (workerMessage: WorkerMessage) =>
         await shard.identify();
         /** Send a message to the worker to tell the worker that the shard was identified. */
         parentPort?.postMessage(shardIdentifiedMessage);
+      },
+    )
+    .with(
+      {
+        type: WorkerMessageType.PresenceUpdate,
+      },
+      async ({ payload }) => {
+        const allShards = shardsCollection.values();
+        const sendPayloadPromises = allShards.map(async (shard) => {
+          const { id } = shard;
+          const { activities, status } = payload;
+          const presenceUpdatePayload: ShardSocketRequest = {
+            d: {
+              activities,
+              afk: false,
+              since: null,
+              status,
+            },
+            op: GatewayOpcodes.PresenceUpdate,
+          };
+
+          logger.shard(`Sending presence update payload to shard ${id}...`);
+
+          await shard.send(presenceUpdatePayload);
+        });
+
+        await Promise.all(sendPayloadPromises);
       },
     ),
 );
