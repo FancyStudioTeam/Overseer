@@ -1,11 +1,15 @@
-import { type ApplicationCommandOption, avatarUrl as getAvatarUrl } from "@discordeno/bot";
+import {
+  type ApplicationCommandOption,
+  type ApplicationCommandOptionTypes,
+  avatarUrl as getAvatarUrl,
+} from "@discordeno/bot";
 import { client } from "@util/client.js";
 import type { CommandOptionsData } from "@util/decorators.js";
 import type { DefaultRunnableOptions, User } from "@util/types.js";
 
 export abstract class ChatInputSubCommand {
-  /** The command options to manage the command. */
-  _commandOptions: Partial<CommandOptionsData> = {};
+  /** The command options to check and handle when the command is executed. */
+  _options: Partial<CommandOptionsData> = {};
   _data: ChatInputSubCommandOptions;
 
   constructor(options: ChatInputSubCommandOptions) {
@@ -50,8 +54,10 @@ export abstract class ChatInputSubCommand {
 
 type ChatInputSubCommandOptions = Pick<
   ApplicationCommandOption,
-  "description" | "descriptionLocalizations" | "name" | "options" | "type"
->;
+  "description" | "descriptionLocalizations" | "name" | "options"
+> & {
+  type: ApplicationCommandOptionTypes.SubCommand;
+};
 
 export type ChatInputSubCommandRunOptions<Options> = DefaultRunnableOptions & {
   /** The parsed sub command options object. */
