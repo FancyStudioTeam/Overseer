@@ -1,3 +1,5 @@
+import type { StatusUpdate } from "@discordeno/bot";
+
 export type WorkerDataOptions = {
   eventsProxy: {
     /** The authorization header to use. */
@@ -35,7 +37,7 @@ export type ParentPortMessage = ParentPortRequestIdentify | ParentPortShardIdent
  * All worker messages.
  * Sent from worker to parent port.
  */
-export type WorkerMessage = WorkerAllowIdentify | WorkerIdentifyShard;
+export type WorkerMessage = WorkerAllowIdentify | WorkerIdentifyShard | WorkerPresenceUpdate;
 
 export interface ParentPortRequestIdentify extends MessageWithShardId {
   type: ParentPortMessageType.RequestIdentify;
@@ -53,6 +55,12 @@ export interface WorkerIdentifyShard extends MessageWithShardId {
   type: WorkerMessageType.IdentifyShard;
 }
 
+export interface WorkerPresenceUpdate {
+  /** The presence update payload object to send to all shards. */
+  payload: StatusUpdate;
+  type: WorkerMessageType.PresenceUpdate;
+}
+
 export enum ParentPortMessageType {
   RequestIdentify = "RequestIdentify",
   ShardIdentified = "ShardIdentified",
@@ -61,4 +69,5 @@ export enum ParentPortMessageType {
 export enum WorkerMessageType {
   AllowIdentify = "AllowIdentify",
   IdentifyShard = "IdentifyShard",
+  PresenceUpdate = "PresenceUpdate",
 }

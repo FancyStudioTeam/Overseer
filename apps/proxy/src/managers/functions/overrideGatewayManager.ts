@@ -6,6 +6,7 @@ import {
   ParentPortMessageType,
   type WorkerIdentifyShard,
   WorkerMessageType,
+  type WorkerPresenceUpdate,
 } from "@util/types.js";
 import { createWorker } from "@workers/functions/createWorker.js";
 import { workersCollection } from "@workers/index.js";
@@ -16,6 +17,20 @@ import { workersCollection } from "@workers/index.js";
  */
 export const overrideGatewayManager = (gatewayManager: GatewayManager): void => {
   const { spawnShardDelay } = gatewayManager;
+
+  // biome-ignore lint/suspicious/useAwait: To avoid type conflicts.
+  gatewayManager.editBotStatus = async (payload) => {
+    const allWorkers = workersCollection.values();
+
+    for (const worker of allWorkers) {
+      const presenceUpdateMessage: WorkerPresenceUpdate = {
+        type: WorkerMessageType.PresenceUpdate,
+        payload,
+      };
+
+      worker.postMessage(presenceUpdateMessage);
+    }
+  };
 
   gatewayManager.tellWorkerToIdentify = async (workerId, shardId) => {
     logger.shard(`Requesting Worker ${workerId} to identify Shard ${shardId}...`);
