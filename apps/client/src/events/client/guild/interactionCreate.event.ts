@@ -15,21 +15,20 @@ import type { Interaction, MaybeOptional, Member, User } from "@util/types.js";
 import { match } from "ts-pattern";
 
 /**
- * Get the required command permissions from the command instance.
- * @param command The command instance.
- * @returns The command permissions object.
+ * Gets the command or component permissions from a command or component instance.
+ * @param instance - The command or component instance.
+ * @returns An object containing the command or component permissions.
  */
-const getCommandPermissions = (command: ChatInputSubCommand): Partial<CommandOptionsPermissions> => {
-  const { _commandOptions: options } = command;
+const getPermissions = (instance: ChatInputSubCommand): Partial<CommandOptionsPermissions> => {
+  const { _options: options } = instance;
   const { permissions } = options;
 
-  /** If the command options do not have any permissions, return an empty object. */
   if (!permissions) {
     return {};
   }
 
   /**
-   * If the permissions are a string, return an object with the user permission.
+   * If the permissions are a string, return an object containing the user permissions.
    * Otherwise, return the permissions object.
    */
   return typeof permissions === "string"
@@ -40,9 +39,9 @@ const getCommandPermissions = (command: ChatInputSubCommand): Partial<CommandOpt
 };
 
 /**
- * Get the sub command names from chat input commands.
- * @param interaction The interaction context.
- * @returns The sub command names.
+ * Gets the sub command names from chat input commands.
+ * @param interaction - The interaction context.
+ * @returns An array containing the sub command names.
  */
 const getSubCommands = (interaction: Interaction): string[] => {
   const { data } = interaction;
@@ -54,11 +53,11 @@ const getSubCommands = (interaction: Interaction): string[] => {
 };
 
 /**
- * Get the parsed command options object.
- * @param interaction The interaction context.
- * @returns The parsed command options.
+ * Gets the parsed command options object.
+ * @param interaction - The interaction context.
+ * @returns - An object containing the parsed command options.
  */
-const parsedCommandOptions = (interaction: Interaction) => {
+const parseCommandOptions = (interaction: Interaction) => {
   const { data } = interaction;
   const { options } = data ?? {};
 
@@ -66,33 +65,38 @@ const parsedCommandOptions = (interaction: Interaction) => {
 };
 
 /**
- * Get the target member from user context commands, if any.
- * @param interaction The interaction context.
- * @returns The target member.
+ * Gets the target member from a user context command, if any.
+ * @param interaction - The interaction context.
+ * @returns The target member object or undefined.
  */
 const getTargetMember = (interaction: Interaction): MaybeOptional<Member> => {
   const { data } = interaction;
   const { resolved } = data ?? {};
   const resolvedMembersCollection = resolved?.members;
-  /** Target members are in the first position in the resolved members collection. */
+  /**
+   * Target members are always in the first position in the collection.
+   * They do not have a key to access them.
+   */
   const targetMember = resolvedMembersCollection?.first();
 
   return targetMember;
 };
 
 /**
- * Get the target user from user context commands.
- * @param interaction The interaction context.
- * @returns The target user.
+ * Gets the target user from a user context command.
+ * @param interaction - The interaction context.
+ * @returns The target user object.
  */
 const getTargetUser = (interaction: Interaction): User => {
   const { data } = interaction;
   const { resolved } = data ?? {};
   const resolvedUsersCollection = resolved?.users;
-  /** Target users are in the first position in the resolved users collection. */
+  /**
+   * Target users are always in the first position in the collection.
+   * They do not have a key to access them.
+   */
   const targetUser = resolvedUsersCollection?.first();
 
-  /** Throw an error if the target user was not found. */
   if (!targetUser) {
     throw new Error("Cannot get target user from interaction.");
   }
@@ -101,11 +105,12 @@ const getTargetUser = (interaction: Interaction): User => {
 };
 
 client.events.interactionCreate = async (interaction) => {
-  if (!(interaction.guildId && interaction.member)) {
+  const { guildId: guildIdBigInt, member } = interaction;
+
+  if (!(guildIdBigInt && member)) {
     return;
   }
 
-  const { guildId: guildIdBigInt, member } = interaction;
   const guildId = guildIdBigInt.toString();
   const guildConfiguration = await prisma.guildPreferences.findUnique({
     where: {
@@ -123,21 +128,21 @@ client.events.interactionCreate = async (interaction) => {
       type: InteractionTypes.ApplicationCommand,
     },
     (applicationCommandInteraction) => {
-      if (!applicationCommandInteraction.data) {
+      const { data } = applicationCommandInteraction;
+
+      if (!data) {
         return;
       }
 
-      const {
-        data: { name: commandName, type: commandType },
-      } = applicationCommandInteraction;
+      const { name: commandName, type: commandType } = data;
 
       match(commandType)
         .with(ApplicationCommandTypes.ChatInput, async () => {
           const subCommandNames = getSubCommands(applicationCommandInteraction).join("_");
-          const command = client.applicationCommands.chatInput.get([commandName, subCommandNames].join("_"));
+          const command = client.applicationCommands.chatInput.get(`${commandName}_${subCommandNames}`);
 
           if (command) {
-            const permissions = getCommandPermissions(command);
+            const permissions = getPermissions(command);
 
             if (permissions) {
               const { user: userPermission } = permissions;
@@ -155,7 +160,7 @@ client.events.interactionCreate = async (interaction) => {
             await command.run({
               client,
               context: applicationCommandInteraction,
-              options: parsedCommandOptions(applicationCommandInteraction),
+              options: parseCommandOptions(applicationCommandInteraction),
               t: tCommands,
             });
           }
