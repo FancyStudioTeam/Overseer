@@ -132,9 +132,6 @@ importers:
       fastify:
         specifier: 5.2.1
         version: 5.2.1
-      glob:
-        specifier: 11.0.1
-        version: 11.0.1
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
@@ -1957,6 +1954,9 @@ packages:
   yocto-queue@1.1.1:
     resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
     engines: {node: '>=12.20'}
+
+  zod@3.24.1:
+    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
 
   zod@3.24.2:
     resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
@@ -3846,5 +3846,7 @@ snapshots:
       yargs-parser: 21.1.1
 
   yocto-queue@1.1.1: {}
+
+  zod@3.24.1: {}
 
   zod@3.24.2: {}
