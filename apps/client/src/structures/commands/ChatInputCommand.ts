@@ -9,19 +9,9 @@ export abstract class ChatInputCommand {
   /** Whether to load all the chat input sub commands automatically. */
   _autoLoad = false;
   _data: Partial<ChatInputCommandOptions> = {};
-  /** The loaded chat input sub commands list. */
+  /** The loaded chat input sub commands. */
   _options: DiscordApplicationCommandOption[] = [];
   type: CreateCommandTypes.ChatInput = CreateCommandTypes.ChatInput;
-
-  /*constructor(options: ChatInputCommandOptions) {
-    const { description, descriptionLocalizations, name } = options;
-
-    this._data = {
-      description,
-      descriptionLocalizations,
-      name,
-    };
-  }*/
 
   toJSON(): CreateSlashApplicationCommand {
     const { description, descriptionLocalizations, name } = this._data;

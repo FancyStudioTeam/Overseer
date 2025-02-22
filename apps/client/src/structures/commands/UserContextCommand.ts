@@ -22,7 +22,6 @@ export abstract class UserContextCommand {
 
   async getAvatarUrl(user?: User): Promise<string> {
     const { applicationId, fetchUser } = client;
-    /** Check whether the user is provided or fallback to the current user. */
     const targetUser = user ?? (await fetchUser(applicationId));
     const { avatar, discriminator, id } = targetUser;
     const avatarUrl = getAvatarUrl(id, discriminator, {
