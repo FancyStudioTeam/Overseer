@@ -7,7 +7,6 @@ import {
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 import type { UserContextCommand } from "@structures/commands/UserContextCommand.js";
 import { DISCORD_TOKEN, PROXY_AUTHORIZATION, PROXY_URL } from "@util/config.js";
-import { createProxyCache as createClientWithCache } from "dd-cache-proxy";
 import type { Member, User } from "./types.js";
 
 const discordenoClient = createDiscordenoClient({
@@ -63,18 +62,8 @@ const discordenoClient = createDiscordenoClient({
   },
   token: DISCORD_TOKEN,
 });
-const clientWithCache = createClientWithCache(discordenoClient, {
-  cacheInMemory: {
-    default: true,
-    guild: true,
-    user: true,
-  },
-  cacheOutsideMemory: {
-    default: false,
-  },
-});
 
-export const client = clientWithCache as Client;
+export const client = discordenoClient as Client;
 
 client.applicationCommands = {
   chatInput: new Collection(),
@@ -82,27 +71,23 @@ client.applicationCommands = {
 };
 
 client.fetchMember = async (guildIdBigString: BigString, memberIdBigString: BigString): Promise<Member> => {
-  const { cache, helpers } = client;
-  const { members: cachedMembers } = cache;
+  const { helpers } = client;
   const guildIdBigInt = BigInt(guildIdBigString.toString());
   const memberIdString = memberIdBigString.toString();
   const memberIdBigInt = BigInt(memberIdString);
-  const cachedMember = await cachedMembers.get(guildIdBigInt, memberIdBigInt);
 
-  return cachedMember ? cachedMember : await helpers.getMember(guildIdBigInt, memberIdBigInt);
+  return await helpers.getMember(guildIdBigInt, memberIdBigInt);
 };
 
 client.fetchUser = async (userIdBigString: BigString): Promise<User> => {
-  const { cache, helpers } = client;
-  const { users: cachedUsers } = cache;
+  const { helpers } = client;
   const userIdString = userIdBigString.toString();
   const userIdBigInt = BigInt(userIdString);
-  const cachedUser = await cachedUsers.get(userIdBigInt);
 
-  return cachedUser ? cachedUser : await helpers.getUser(userIdBigInt);
+  return await helpers.getUser(userIdBigInt);
 };
 
-export type Client = typeof clientWithCache & {
+export type Client = typeof discordenoClient & {
   /** The application command collections. */
   applicationCommands: {
     chatInput: Collection<string, ChatInputSubCommand>;
