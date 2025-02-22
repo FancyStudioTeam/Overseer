@@ -96,3 +96,5 @@ export interface ShardInformation {
   /** The round trip time of the shard. */
   rtt: number;
 }
+
+export type MaybeAwaitable<T> = T | Promise<T>;

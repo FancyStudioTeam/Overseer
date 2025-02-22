@@ -1,12 +1,10 @@
-import { z } from "zod";
+import type { z } from "zod";
 import { PresenceUpdateSchema } from "./PresenceUpdateSchema.js";
-import { RequestShardInformationSchema } from "./RequestShardInformation.js";
 
-export const PayloadSchema = z.union([PresenceUpdateSchema, RequestShardInformationSchema]);
+export const PayloadSchema = PresenceUpdateSchema;
 
 export enum PayloadType {
   PresenceUpdate = "PresenceUpdate",
-  RequestShardInformation = "RequestShardInformation",
 }
 
 export type PayloadSchemaDto = z.infer<typeof PayloadSchema>;
