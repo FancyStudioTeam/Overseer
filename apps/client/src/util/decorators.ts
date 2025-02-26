@@ -1,42 +1,42 @@
-import type {
-  CreateContextApplicationCommand,
-  CreateSlashApplicationCommand,
-  PermissionStrings,
-} from "@discordeno/bot";
+import type { PermissionStrings } from "@discordeno/bot";
+import type { ChatInputCommand, ChatInputCommandOptions } from "@structures/commands/ChatInputCommand.js";
+import type { ChatInputSubCommand, ChatInputSubCommandOptions } from "@structures/commands/ChatInputSubCommand.js";
+import type { UserContextCommand, UserContextCommandOptions } from "@structures/commands/UserContextCommand.js";
 
 /**
- * Sets the "_autoLoad" property to "true" from the target instance.
- * @returns The updated target instance.
+ * Sets the "_autoLoad" property to "true" from the chat input command instance.
+ * @returns The updated chat input command instance.
  */
 export const AutoLoad =
-  () =>
-  <Target extends AnyInstance>(target: Target) =>
+  <Target extends ChatInputCommandInstance>() =>
+  (target: Target) =>
     class extends target {
       _autoLoad = true;
     };
 
 /**
- * Declares the command to register it in the application.
+ * Declares the command data to register it in the application.
  * @param options - The available options.
- * @returns The updated target instance.
+ * @returns The updated declarable command instance.
  */
 export const Declare =
-  (options: DeclareOptions) =>
-  <Target extends AnyInstance>(target: Target) =>
+  <Target extends AnyDeclarableCommand>(options: DeclareOptions<Target>) =>
+  (target: Target) =>
     class extends target {
-      _data = options;
+      _registerOptions = options;
     };
 
 /**
  * Sets the command options to manage the command.
  * @param options - The available options.
- * @returns The updated target instance.
+ * @returns The updated chat input sub command instance.
  */
 export const CommandOptions =
-  (options: CommandOptionsData = {}) =>
-  <Target extends AnyInstance>(target: Target) =>
+  <Target extends ChatInputSubCommandInstance>(options: CommandOptionsData = {}) =>
+  (target: Target) =>
+    // @ts-expect-error
     class extends target {
-      _commandOptions = options;
+      _options = options;
     };
 
 export interface CommandOptionsData {
@@ -46,18 +46,28 @@ export interface CommandOptionsData {
    * The required command permissions.
    * Using an array will interpret these permissions as the required user permissions.
    */
-  // TODO: Change "permissions" to an array.
-  permissions?: PermissionStrings | CommandOptionsPermissions;
+  permissions?: PermissionStrings[] | CommandOptionsPermissions;
 }
 
 export interface CommandOptionsPermissions {
   /** The required client permissions for the command. */
-  client?: PermissionStrings;
+  client?: PermissionStrings[];
   /** The required user permissions for the command. */
-  user?: PermissionStrings;
+  user?: PermissionStrings[];
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: TypeScript issues.
-type AnyInstance = new (...args: any[]) => object;
+type Instance<T> = new (...args: any[]) => T;
 
-type DeclareOptions = CreateSlashApplicationCommand | CreateContextApplicationCommand;
+type ChatInputCommandInstance = Instance<ChatInputCommand>;
+type ChatInputSubCommandInstance = Instance<ChatInputSubCommand>;
+type UserContextCommandInstance = Instance<UserContextCommand>;
+
+type AnyDeclarableCommand = ChatInputCommandInstance | ChatInputSubCommandInstance | UserContextCommandInstance;
+
+type DeclareOptions<DeclarableInstance extends AnyDeclarableCommand> =
+  DeclarableInstance extends ChatInputCommandInstance
+    ? ChatInputCommandOptions
+    : DeclarableInstance extends ChatInputSubCommandInstance
+      ? ChatInputSubCommandOptions
+      : UserContextCommandOptions;
