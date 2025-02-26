@@ -2,6 +2,7 @@ import {
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   InteractionTypes,
+  type PermissionStrings,
   commandOptionsParser,
 } from "@discordeno/bot";
 import { inlineCode } from "@discordjs/formatters";
@@ -11,7 +12,8 @@ import { client } from "@util/client.js";
 import type { CommandOptionsPermissions } from "@util/decorators.js";
 import { tCommandsFunction, tCommonFunction } from "@util/i18n.js";
 import { prisma } from "@util/prisma.js";
-import type { Interaction, MaybeOptional, Member, User } from "@util/types.js";
+import type { Interaction, Locales, MaybeOptional, Member, User } from "@util/types.js";
+import type { TFunction } from "i18next";
 import { match } from "ts-pattern";
 
 /**
@@ -27,15 +29,85 @@ const getPermissions = (instance: ChatInputSubCommand): Partial<CommandOptionsPe
     return {};
   }
 
-  /**
-   * If the permissions are a string, return an object containing the user permissions.
-   * Otherwise, return the permissions object.
-   */
-  return typeof permissions === "string"
-    ? {
-        user: permissions,
-      }
-    : permissions;
+  if (Array.isArray(permissions)) {
+    return {
+      user: permissions,
+    };
+  }
+
+  return permissions;
+};
+
+/**
+ * Checks whether the member has all the provided permissions.
+ * @param member - The member object.
+ * @param permissions - The permissions to check.
+ * @param options - The available options.
+ * @returns Whether the member has all the provided permissions.
+ */
+const handlePermissions = async (
+  member: Member,
+  permissions: PermissionStrings[],
+  options: HandlePermissionsOptions,
+): Promise<boolean> => {
+  const { context, locale, t } = options;
+  const missingPermissions: PermissionStrings[] = [];
+
+  for (const permission of permissions) {
+    if (!member.permissions?.has(permission)) {
+      missingPermissions.push(permission);
+    }
+  }
+
+  if (missingPermissions.length > 0) {
+    /** Create a list formatter to format the permissions list correctly. */
+    const listFormatter = new Intl.ListFormat(locale, {
+      style: "long",
+      type: "conjunction",
+    });
+    const translatedPermissions = missingPermissions.map((permission) =>
+      inlineCode(t(`permission_keys.${permission}`)),
+    );
+    const formattedPermissionsList = listFormatter.format(translatedPermissions);
+
+    await createMessage(
+      context,
+      t("missing_user_command_permissions", {
+        /** Use the count of the missing permissions for the pluralization. */
+        count: missingPermissions.length,
+        permissions: formattedPermissionsList,
+      }),
+    );
+  }
+
+  return missingPermissions.length === 0;
+};
+
+const handleInstancePermissions = async (
+  instance: ChatInputSubCommand,
+  member: Member,
+  options: HandlePermissionsOptions,
+): Promise<boolean> => {
+  const { _options: instanceOptions } = instance;
+  const { permissions } = instanceOptions;
+
+  if (permissions) {
+    const { client: clientPermissions, user: userPermission } = getPermissions(instance);
+
+    if (userPermission) {
+      const userHasPermissions = await handlePermissions(member, userPermission, options);
+
+      return userHasPermissions;
+    }
+
+    if (clientPermissions) {
+      const clientHasPermissions = await handlePermissions(member, clientPermissions, options);
+
+      return clientHasPermissions;
+    }
+  }
+
+  return true;
 };
 
 /**
@@ -142,19 +214,14 @@ client.events.interactionCreate = async (interaction) => {
           const command = client.applicationCommands.chatInput.get(`${commandName}_${subCommandNames}`);
 
           if (command) {
-            const permissions = getPermissions(command);
+            const permissionsWereApproved = await handleInstancePermissions(command, member, {
+              context: applicationCommandInteraction,
+              locale,
+              t: tCommon,
+            });
 
-            if (permissions) {
-              const { user: userPermission } = permissions;
-
-              if (userPermission && !member.permissions?.has(userPermission)) {
-                return createMessage(
-                  applicationCommandInteraction,
-                  tCommon("missing_user_command_permissions", {
-                    permissions: inlineCode(tCommon(`permission_keys.${userPermission}`)),
-                  }),
-                );
-              }
+            if (!permissionsWereApproved) {
+              return;
             }
 
             await command.run({
@@ -183,3 +250,12 @@ client.events.interactionCreate = async (interaction) => {
     },
   );
 };
+
+interface HandlePermissionsOptions {
+  /** The interaction context object. */
+  context: Interaction;
+  /** The guild locale. */
+  locale: Locales;
+  /** The function to translate the common messages. */
+  t: TFunction<"common">;
+}
