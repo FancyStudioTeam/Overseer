@@ -6,21 +6,39 @@ import { prisma } from "@util/prisma.js";
 import type { Locales } from "@util/types.js";
 
 @Declare({
-  description: "Updates the bot locale.",
+  description: "Updates the bot language.",
+  descriptionLocalizations: {
+    "es-419": "Actualiza el idioma del bot",
+    "es-ES": "Actualiza el idioma del bot",
+  },
   name: "locale",
   options: [
     {
       choices: [
         {
-          name: "English",
+          name: "🇬🇧 Update to English",
+          // @ts-ignore: Discordeno issue.
+          nameLocalizations: {
+            "es-419": "🇬🇧 Actualizar al Inglés",
+            "es-ES": "🇬🇧 Actualizar al Inglés",
+          },
           value: "EN",
         },
         {
-          name: "Spanish",
+          name: "🇪🇸 Update to Spanish",
+          // @ts-ignore: Discordeno issue.
+          nameLocalizations: {
+            "es-419": "🇪🇸 Actualizar al Español",
+            "es-ES": "🇪🇸 Actualizar al Español",
+          },
           value: "ES",
         },
       ],
-      description: "_",
+      description: "Select the language to update",
+      descriptionLocalizations: {
+        "es-419": "Selecciona el idioma para actualizar",
+        "es-ES": "Selecciona el idioma para actualizar",
+      },
       name: "locale",
       required: true,
       type: ApplicationCommandOptionTypes.String,

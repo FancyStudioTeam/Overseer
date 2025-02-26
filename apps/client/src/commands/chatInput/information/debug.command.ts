@@ -9,6 +9,10 @@ import { Declare } from "@util/decorators.js";
 
 @Declare({
   description: "Displays bot debugging information.",
+  descriptionLocalizations: {
+    "es-419": "Muestra la información de depuración del bot",
+    "es-ES": "Muestra la información de depuración del bot",
+  },
   name: "debug",
 })
 export default class DebugCommand extends ChatInputSubCommand {
