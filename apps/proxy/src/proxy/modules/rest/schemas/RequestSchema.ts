@@ -1,5 +1,5 @@
 import { z } from "zod";
 
-export const RequestSchema = z.object({}).passthrough().optional();
+export const RequestSchema = z.unknown();
 
 export type RequestSchemaDto = z.infer<typeof RequestSchema>;
