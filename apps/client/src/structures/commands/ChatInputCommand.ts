@@ -8,14 +8,14 @@ import { CreateCommandTypes } from "@util/types.js";
 export abstract class ChatInputCommand {
   /** Whether to load all the chat input sub commands automatically. */
   _autoLoad = false;
-  _data: Partial<ChatInputCommandOptions> = {};
-  /** The loaded chat input sub commands. */
-  _options: DiscordApplicationCommandOption[] = [];
+  _registerOptions: Partial<ChatInputCommandOptions> = {};
+  /** The loaded chat input sub commands from the current directory. */
+  _subCommandOptions: DiscordApplicationCommandOption[] = [];
   type: CreateCommandTypes.ChatInput = CreateCommandTypes.ChatInput;
 
   toJSON(): CreateSlashApplicationCommand {
-    const { description, descriptionLocalizations, name } = this._data;
-    const options = this._options;
+    const { description, descriptionLocalizations, name } = this._registerOptions;
+    const options = this._subCommandOptions;
 
     return {
       description: description ?? "",

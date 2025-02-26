@@ -15,7 +15,7 @@ import {
 } from "@util/types.js";
 
 export abstract class UserContextCommand {
-  _data: Partial<UserContextCommandOptions> = {};
+  _registerOptions: Partial<UserContextCommandOptions> = {};
   type: CreateCommandTypes.User = CreateCommandTypes.User;
 
   abstract run(options: UserContextCommandRunOptions): Promise<void>;
@@ -33,7 +33,7 @@ export abstract class UserContextCommand {
   }
 
   toJSON(): CreateContextApplicationCommand {
-    const { name } = this._data;
+    const { name } = this._registerOptions;
 
     return {
       contexts: [DiscordInteractionContextType.Guild],

@@ -1,6 +1,6 @@
 import {
   type ApplicationCommandOption,
-  type ApplicationCommandOptionTypes,
+  ApplicationCommandOptionTypes,
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
 import { client } from "@util/client.js";
@@ -10,19 +10,11 @@ import type { DefaultRunnableOptions, User } from "@util/types.js";
 export abstract class ChatInputSubCommand {
   /** The command options to check and handle when the command is executed. */
   _options: Partial<CommandOptionsData> = {};
-  _data: ChatInputSubCommandOptions;
-
-  constructor(options: ChatInputSubCommandOptions) {
-    const { description, descriptionLocalizations, name, options: _options, type } = options;
-
-    this._data = {
-      description,
-      descriptionLocalizations,
-      name,
-      options: _options,
-      type,
-    };
-  }
+  _registerOptions: Partial<
+    ApplicationCommandOption & {
+      type: ApplicationCommandOptionTypes.SubCommand;
+    }
+  > = {};
 
   abstract run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
 
@@ -39,24 +31,17 @@ export abstract class ChatInputSubCommand {
   }
 
   toJSON(): ApplicationCommandOption {
-    const { description, descriptionLocalizations, name, options: _options, type } = this._data;
+    const { description, descriptionLocalizations, name, options: _options } = this._registerOptions;
 
     return {
-      description,
+      description: description ?? "",
       descriptionLocalizations,
-      name,
+      name: name ?? "",
       options: _options,
-      type,
+      type: ApplicationCommandOptionTypes.SubCommand,
     };
   }
 }
-
-type ChatInputSubCommandOptions = Pick<
-  ApplicationCommandOption,
-  "description" | "descriptionLocalizations" | "name" | "options"
-> & {
-  type: ApplicationCommandOptionTypes.SubCommand;
-};
 
 export type ChatInputSubCommandRunOptions<Options> = DefaultRunnableOptions & {
   /** The parsed sub command options object. */
