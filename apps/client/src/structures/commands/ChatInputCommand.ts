@@ -13,6 +13,10 @@ export abstract class ChatInputCommand {
   _subCommandOptions: DiscordApplicationCommandOption[] = [];
   type: CreateCommandTypes.ChatInput = CreateCommandTypes.ChatInput;
 
+  /**
+   * Gets the JSON representation of the command instance.
+   * @returns A compatible object with the Discord API.
+   */
   toJSON(): CreateSlashApplicationCommand {
     const { description, descriptionLocalizations, name } = this._registerOptions;
     const options = this._subCommandOptions;

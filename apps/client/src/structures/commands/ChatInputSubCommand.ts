@@ -14,6 +14,11 @@ export abstract class ChatInputSubCommand {
 
   abstract run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
 
+  /**
+   * Gets the avatar url of the user.
+   * @param user - The user object.
+   * @returns The avatar url of the user.
+   */
   async getAvatarUrl(user?: User): Promise<string> {
     const { applicationId, fetchUser } = client;
     const targetUser = user ?? (await fetchUser(applicationId));
@@ -26,6 +31,10 @@ export abstract class ChatInputSubCommand {
     return avatarUrl;
   }
 
+  /**
+   * Gets the JSON representation of the command instance.
+   * @returns A compatible object with the Discord API.
+   */
   toJSON(): ApplicationCommandOption {
     const { description, descriptionLocalizations, name, options: _options } = this._registerOptions;
 

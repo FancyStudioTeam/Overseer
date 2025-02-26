@@ -20,6 +20,11 @@ export abstract class UserContextCommand {
 
   abstract run(options: UserContextCommandRunOptions): Promise<void>;
 
+  /**
+   * Gets the avatar url of the user.
+   * @param user - The user object.
+   * @returns The avatar url of the user.
+   */
   async getAvatarUrl(user?: User): Promise<string> {
     const { applicationId, fetchUser } = client;
     const targetUser = user ?? (await fetchUser(applicationId));
@@ -32,6 +37,10 @@ export abstract class UserContextCommand {
     return avatarUrl;
   }
 
+  /**
+   * Gets the JSON representation of the command instance.
+   * @returns A compatible object with the Discord API.
+   */
   toJSON(): CreateContextApplicationCommand {
     const { name } = this._registerOptions;
 
