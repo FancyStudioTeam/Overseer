@@ -1,5 +1,6 @@
 {
-  "missing_user_command_permissions": "**{{CANCEL_COLORED}} Necesitas el permiso de {{permissions}}.**",
+  "missing_user_command_permissions_one": "**{{CANCEL_COLORED}} Necesitas el permiso de {{permissions}}.**",
+  "missing_user_command_permissions_other": "**{{CANCEL_COLORED}} Necesitas los permisos de {{permissions}}.**",
   "permission_keys": {
     "ADD_REACTIONS": "Añadir Reacciones",
     "ADMINISTRATOR": "Administrador",
