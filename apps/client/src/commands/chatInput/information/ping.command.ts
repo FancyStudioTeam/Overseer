@@ -1,11 +1,4 @@
-import {
-  ApplicationCommandOptionTypes,
-  type BigString,
-  type EmbedField,
-  type RestManager,
-  bold,
-  magenta,
-} from "@discordeno/bot";
+import { type BigString, type EmbedField, type RestManager, bold, magenta } from "@discordeno/bot";
 import { codeBlock } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
@@ -16,7 +9,6 @@ import { prisma } from "@util/prisma.js";
 @Declare({
   description: "Displays bot latency.",
   name: "ping",
-  type: ApplicationCommandOptionTypes.SubCommand,
 })
 export default class PingCommand extends ChatInputSubCommand {
   /**

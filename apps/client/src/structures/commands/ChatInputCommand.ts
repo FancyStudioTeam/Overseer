@@ -27,4 +27,7 @@ export abstract class ChatInputCommand {
   }
 }
 
-type ChatInputCommandOptions = Pick<CreateSlashApplicationCommand, "description" | "descriptionLocalizations" | "name">;
+export type ChatInputCommandOptions = Pick<
+  CreateSlashApplicationCommand,
+  "description" | "descriptionLocalizations" | "name"
+>;

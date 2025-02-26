@@ -45,7 +45,7 @@ export abstract class UserContextCommand {
   }
 }
 
-type UserContextCommandOptions = Pick<CreateContextApplicationCommand, "name">;
+export type UserContextCommandOptions = Pick<CreateContextApplicationCommand, "name">;
 
 export type UserContextCommandRunOptions = DefaultRunnableOptions & {
   /** The target member from the user context command, if present. */

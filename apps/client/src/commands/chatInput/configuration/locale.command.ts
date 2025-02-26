@@ -26,7 +26,6 @@ import type { Locales } from "@util/types.js";
       type: ApplicationCommandOptionTypes.String,
     },
   ],
-  type: ApplicationCommandOptionTypes.SubCommand,
 })
 @CommandOptions({
   permissions: ["MANAGE_GUILD"],

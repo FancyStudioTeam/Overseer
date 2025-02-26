@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { ApplicationCommandOptionTypes, type EmbedField } from "@discordeno/bot";
+import type { EmbedField } from "@discordeno/bot";
 import { codeBlock } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
 import { formatAnsiKeyValues } from "@functions/formatAnsiKeyValue.js";
@@ -10,7 +10,6 @@ import { Declare } from "@util/decorators.js";
 @Declare({
   description: "Displays bot debugging information.",
   name: "debug",
-  type: ApplicationCommandOptionTypes.SubCommand,
 })
 export default class DebugCommand extends ChatInputSubCommand {
   /**

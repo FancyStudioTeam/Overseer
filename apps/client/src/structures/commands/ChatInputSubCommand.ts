@@ -10,11 +10,7 @@ import type { DefaultRunnableOptions, User } from "@util/types.js";
 export abstract class ChatInputSubCommand {
   /** The command options to check and handle when the command is executed. */
   _options: Partial<CommandOptionsData> = {};
-  _registerOptions: Partial<
-    ApplicationCommandOption & {
-      type: ApplicationCommandOptionTypes.SubCommand;
-    }
-  > = {};
+  _registerOptions: Partial<ChatInputSubCommandOptions> = {};
 
   abstract run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
 
@@ -42,6 +38,10 @@ export abstract class ChatInputSubCommand {
     };
   }
 }
+export type ChatInputSubCommandOptions = Pick<
+  ApplicationCommandOption,
+  "choices" | "description" | "descriptionLocalizations" | "name" | "options"
+>;
 
 export type ChatInputSubCommandRunOptions<Options> = DefaultRunnableOptions & {
   /** The parsed sub command options object. */
