@@ -5,16 +5,14 @@ import { createMessage } from "@functions/createMessage.js";
 import { formatAnsiKeyValues } from "@functions/formatAnsiKeyValue.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
 import { DEFAULT_EMBED_COLOR } from "@util/constants.js";
+import { Declare } from "@util/decorators.js";
 
+@Declare({
+  description: "Displays bot debugging information.",
+  name: "debug",
+  type: ApplicationCommandOptionTypes.SubCommand,
+})
 export default class DebugCommand extends ChatInputSubCommand {
-  constructor() {
-    super({
-      description: "Displays bot debugging information.",
-      name: "debug",
-      type: ApplicationCommandOptionTypes.SubCommand,
-    });
-  }
-
   /**
    * The method to execute when the command is executed.
    * @param options - The available options.

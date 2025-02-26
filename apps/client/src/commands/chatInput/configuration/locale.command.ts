@@ -1,40 +1,37 @@
 import { ApplicationCommandOptionTypes, type BigString } from "@discordeno/bot";
 import { createMessage } from "@functions/createMessage.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
-import { CommandOptions } from "@util/decorators.js";
+import { CommandOptions, Declare } from "@util/decorators.js";
 import { prisma } from "@util/prisma.js";
 import type { Locales } from "@util/types.js";
 
-@CommandOptions({
-  permissions: "MANAGE_GUILD",
-})
-export default class LocaleCommand extends ChatInputSubCommand {
-  constructor() {
-    super({
-      description: "Updates the bot locale.",
-      name: "locale",
-      options: [
+@Declare({
+  description: "Updates the bot locale.",
+  name: "locale",
+  options: [
+    {
+      choices: [
         {
-          choices: [
-            {
-              name: "English",
-              value: "EN",
-            },
-            {
-              name: "Spanish",
-              value: "ES",
-            },
-          ],
-          description: "_",
-          name: "locale",
-          required: true,
-          type: ApplicationCommandOptionTypes.String,
+          name: "English",
+          value: "EN",
+        },
+        {
+          name: "Spanish",
+          value: "ES",
         },
       ],
-      type: ApplicationCommandOptionTypes.SubCommand,
-    });
-  }
-
+      description: "_",
+      name: "locale",
+      required: true,
+      type: ApplicationCommandOptionTypes.String,
+    },
+  ],
+  type: ApplicationCommandOptionTypes.SubCommand,
+})
+@CommandOptions({
+  permissions: ["MANAGE_GUILD"],
+})
+export default class LocaleCommand extends ChatInputSubCommand {
   /**
    * The method to execute when the command is executed.
    * @param options - The available options.
