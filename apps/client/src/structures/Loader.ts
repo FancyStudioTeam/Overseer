@@ -48,7 +48,7 @@ export class Loader {
             type: CreateCommandTypes.ChatInput,
           },
           async (chatInputCommand) => {
-            const { _autoLoad, _options } = chatInputCommand;
+            const { _autoLoad, _subCommandOptions } = chatInputCommand;
             const resolvedChatInputCommand = chatInputCommand.toJSON();
             const { name } = resolvedChatInputCommand;
 
@@ -57,7 +57,7 @@ export class Loader {
               const { parentPath } = commandPath;
               const subCommands = await this.importSubCommands(name, parentPath);
 
-              _options.push(...subCommands);
+              _subCommandOptions.push(...subCommands);
             }
 
             return resolvedChatInputCommand;
