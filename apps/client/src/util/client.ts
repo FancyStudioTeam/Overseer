@@ -67,7 +67,7 @@ export const client = discordenoClient as Client;
 
 client.applicationCommands = {
   chatInput: new Collection(),
-  user: new Collection(),
+  userContext: new Collection(),
 };
 
 client.fetchMember = async (guildIdBigString: BigString, memberIdBigString: BigString): Promise<Member> => {
@@ -91,7 +91,7 @@ export type Client = typeof discordenoClient & {
   /** The application command collections. */
   applicationCommands: {
     chatInput: Collection<string, ChatInputSubCommand>;
-    user: Collection<string, UserContextCommand>;
+    userContext: Collection<string, UserContextCommand>;
   };
   /**
    * Fetchs the member from the cache or Discord API.

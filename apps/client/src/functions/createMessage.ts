@@ -23,6 +23,7 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
    * Methods like "sendFollowupMessage" and "sendMessage" always return a message object.
    */
   const { isEphemeral } = options;
+  const { helpers } = client;
   const messagePayload = resolveMessagePayload(content, {
     isEphemeral,
   });
@@ -31,17 +32,17 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
     const { acknowledged, id, token } = context;
 
     if (acknowledged) {
-      return await client.helpers.sendFollowupMessage(token, messagePayload);
+      return await helpers.sendFollowupMessage(token, messagePayload);
     }
 
-    await client.helpers.sendInteractionResponse(id, token, {
+    await helpers.sendInteractionResponse(id, token, {
       type: InteractionResponseTypes.ChannelMessageWithSource,
       data: messagePayload,
     });
 
     /** Fetch and return the original message object from the interaction response only if "withMessage" is "true". */
     if ("withMessage" in options && options.withMessage) {
-      return await client.helpers.getOriginalInteractionResponse(token);
+      return await helpers.getOriginalInteractionResponse(token);
     }
 
     return undefined as CreateMessage<Context, WithMessage>;
@@ -49,7 +50,7 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
 
   const { channelId } = context;
 
-  return await client.helpers.sendMessage(channelId, messagePayload);
+  return await helpers.sendMessage(channelId, messagePayload);
 };
 
 interface CreateMessageOptionsBase {

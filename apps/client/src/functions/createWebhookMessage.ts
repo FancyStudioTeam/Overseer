@@ -27,9 +27,10 @@ export const createWebhookMessage = async (
 ): Promise<void> => {
   const { threadId, webhookUrl } = WEBHOOK_URLS[type];
   const { id, token } = parseWebhookUrl(webhookUrl);
+  const { helpers } = client;
   const messagePayload = resolveMessagePayload(content);
 
-  await client.helpers.executeWebhook(id, token, {
+  await helpers.executeWebhook(id, token, {
     ...messagePayload,
     threadId,
   });

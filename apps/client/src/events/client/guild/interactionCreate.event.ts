@@ -207,11 +207,13 @@ client.events.interactionCreate = async (interaction) => {
       }
 
       const { name: commandName, type: commandType } = data;
+      const { applicationCommands } = client;
+      const { chatInput: chatInputCommands, userContext: userContextCommands } = applicationCommands;
 
       match(commandType)
         .with(ApplicationCommandTypes.ChatInput, async () => {
           const subCommandNames = getSubCommands(applicationCommandInteraction).join("_");
-          const command = client.applicationCommands.chatInput.get(`${commandName}_${subCommandNames}`);
+          const command = chatInputCommands.get(`${commandName}_${subCommandNames}`);
 
           if (command) {
             const permissionsWereApproved = await handleInstancePermissions(command, member, {
@@ -233,7 +235,7 @@ client.events.interactionCreate = async (interaction) => {
           }
         })
         .with(ApplicationCommandTypes.User, async () => {
-          const command = client.applicationCommands.user.get(commandName);
+          const command = userContextCommands.get(commandName);
           const targetMember = getTargetMember(applicationCommandInteraction);
           const targetUser = getTargetUser(applicationCommandInteraction);
 

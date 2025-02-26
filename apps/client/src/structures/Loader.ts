@@ -40,6 +40,8 @@ export class Loader {
       /** Commands are exported as default instances. */
       const { default: CommandClass } = await import(resolvedCommandPath);
       const command = new CommandClass() as AnyCommand;
+      const { applicationCommands } = client;
+      const { userContext: userContextCommands } = applicationCommands;
 
       return await match(command)
         .returnType<MaybeAwaitable<CreateApplicationCommand>>()
@@ -71,7 +73,7 @@ export class Loader {
             const resolvedUserContextCommand = userContextCommand.toJSON();
             const { name } = resolvedUserContextCommand;
 
-            client.applicationCommands.user.set(name, userContextCommand);
+            userContextCommands.set(name, userContextCommand);
 
             return resolvedUserContextCommand;
           },
@@ -89,6 +91,8 @@ export class Loader {
    * @returns The resolved chat input sub command option objects.
    */
   private async importSubCommands(parentCommandName: string, parentPath: string): Promise<ApplicationCommandOption[]> {
+    const { applicationCommands } = client;
+    const { chatInput: chatInputCommands } = applicationCommands;
     const subCommandsPattern = `${parentPath}/*.command.{js,ts}`;
     const loadedSubCommandPaths = await this.loadDirectoryFiles(subCommandsPattern);
     const importPromises = loadedSubCommandPaths.map(async (subCommandPath, _) => {
@@ -99,7 +103,7 @@ export class Loader {
       const resolvedSubCommand = subCommand.toJSON();
       const { name } = resolvedSubCommand;
 
-      client.applicationCommands.chatInput.set([parentCommandName, name].join("_"), subCommand);
+      chatInputCommands.set([parentCommandName, name].join("_"), subCommand);
 
       return resolvedSubCommand;
     });
