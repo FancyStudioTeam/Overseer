@@ -37,23 +37,24 @@
     "utility": {
       "kanban": {
         "board": {
-          "boards": {
-            "no_created_or_shared_kanban_boards": "**{{CANCEL_COLORED}} No tienes ningún tablero Kanban creado o compartido.**",
-            "message_1": {
-              "embed_1": {
-                "author": "Tableros Kanban creados por ti",
-                "description": "Nombre » {{boardName}}\nFecha Creación » {{boardCreatedAt}}"
-              },
-              "embed_2": {
-                "author": "Tableros Kanban compartidos contigo",
-                "description": "Nombre » {{boardName}}\nFecha Creación » {{boardCreatedAt}}"
-              }
+          "create": {
+            "message_1": "**{{CHECK_CIRCLE_COLORED}} El tablero Kanban `{{boardTitle}}` ha sido creado.**",
+            "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} Has alcanzado el número máximo de tableros Kanban.**\n**{{INFO}} El límite está establecido a `{{maximum}}` tableros Kanban por usuario.**"
+          },
+          "manage": {}
+        },
+        "boards": {
+          "message_1": {
+            "embed_1": {
+              "author": "Tableros Kanban creados por ti",
+              "description": "Nombre » {{boardName}}\nFecha Creación » {{boardCreatedAt}}"
+            },
+            "embed_2": {
+              "author": "Tableros Kanban compartidos contigo",
+              "description": "Nombre » {{boardName}}\nFecha Creación » {{boardCreatedAt}}"
             }
           },
-          "create": {
-            "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} Has alcanzado el número máximo de tableros Kanban.**\n**{{INFO}} El límite está establecido a `{{maximum}}` tableros Kanban por usuario.**",
-            "message_1": "**{{CHECK_CIRCLE_COLORED}} El tablero Kanban `{{boardTitle}}` ha sido creado.**"
-          }
+          "no_created_or_shared_kanban_boards": "**{{CANCEL_COLORED}} No tienes ningún tablero Kanban creado o compartido.**"
         }
       }
     }
