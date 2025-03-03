@@ -118,7 +118,19 @@ const handleInstancePermissions = async (
 const getSubCommands = (interaction: Interaction): string[] => {
   const { data } = interaction;
   const { options } = data ?? {};
-  /** Find the first sub command option from the interaction data. */
+
+  /** Find the first sub command group option. */
+  const subCommandGroup = options?.find((option) => option.type === ApplicationCommandOptionTypes.SubCommandGroup);
+
+  if (subCommandGroup) {
+    const { name: subCommandGroupName, options } = subCommandGroup;
+    /** Find the first sub command option from the sub command group options. */
+    const subCommand = options?.find((option) => option.type === ApplicationCommandOptionTypes.SubCommand);
+
+    return subCommand ? [subCommandGroupName, subCommand.name] : [];
+  }
+
+  /** Find the first sub command option. */
   const subCommand = options?.find((option) => option.type === ApplicationCommandOptionTypes.SubCommand);
 
   return subCommand ? [subCommand.name] : [];
