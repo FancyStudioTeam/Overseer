@@ -154,6 +154,9 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
   async getKanbanBoards(userIdBigString: BigString): Promise<KanbanBoard[]> {
     const userId = userIdBigString.toString();
     const createdKanbanBoards = await prisma.userKanbanBoard.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
       where: {
         // biome-ignore lint/style/useNamingConvention: Prisma naming convention.
         OR: [
