@@ -1,6 +1,10 @@
 import type { PermissionStrings } from "@discordeno/bot";
 import type { ChatInputCommand, ChatInputCommandOptions } from "@structures/commands/ChatInputCommand.js";
 import type { ChatInputSubCommand, ChatInputSubCommandOptions } from "@structures/commands/ChatInputSubCommand.js";
+import type {
+  ChatInputSubCommandGroup,
+  ChatInputSubCommandGroupOptions,
+} from "@structures/commands/ChatInputSubCommandGroup.js";
 import type { UserContextCommand, UserContextCommandOptions } from "@structures/commands/UserContextCommand.js";
 
 /**
@@ -8,7 +12,7 @@ import type { UserContextCommand, UserContextCommandOptions } from "@structures/
  * @returns The updated chat input command instance.
  */
 export const AutoLoad =
-  <Target extends ChatInputCommandInstance>() =>
+  <Target extends AnyAutoLoadableParent>() =>
   (target: Target) =>
     class extends target {
       _autoLoad = true;
@@ -60,14 +64,22 @@ export interface CommandOptionsPermissions {
 type Instance<T> = new (...args: any[]) => T;
 
 type ChatInputCommandInstance = Instance<ChatInputCommand>;
+type ChatInputSubCommandGroupInstance = Instance<ChatInputSubCommandGroup>;
 type ChatInputSubCommandInstance = Instance<ChatInputSubCommand>;
 type UserContextCommandInstance = Instance<UserContextCommand>;
 
-type AnyDeclarableCommand = ChatInputCommandInstance | ChatInputSubCommandInstance | UserContextCommandInstance;
+type AnyAutoLoadableParent = ChatInputCommandInstance | ChatInputSubCommandGroupInstance;
+type AnyDeclarableCommand =
+  | ChatInputCommandInstance
+  | ChatInputSubCommandGroupInstance
+  | ChatInputSubCommandInstance
+  | UserContextCommandInstance;
 
 type DeclareOptions<DeclarableInstance extends AnyDeclarableCommand> =
   DeclarableInstance extends ChatInputCommandInstance
     ? ChatInputCommandOptions
-    : DeclarableInstance extends ChatInputSubCommandInstance
-      ? ChatInputSubCommandOptions
-      : UserContextCommandOptions;
+    : DeclarableInstance extends ChatInputSubCommandGroupInstance
+      ? ChatInputSubCommandGroupOptions
+      : DeclarableInstance extends ChatInputSubCommandInstance
+        ? ChatInputSubCommandOptions
+        : UserContextCommandOptions;
