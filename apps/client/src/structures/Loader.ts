@@ -31,7 +31,7 @@ export class Loader {
    */
   private getCommandsPattern(): string[] {
     const chatInputPattern = `${distFolderPath}/commands/chatInput/**/parent.{js,ts}`;
-    const userContextPattern = `${distFolderPath}/commands/user/**/*.command.{js,ts}`;
+    const userContextPattern = `${distFolderPath}/commands/userContext/**/*.command.{js,ts}`;
 
     return [chatInputPattern, userContextPattern];
   }
