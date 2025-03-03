@@ -74,6 +74,9 @@ importers:
       '@sapphire/snowflake':
         specifier: 3.5.5
         version: 3.5.5
+      '@sapphire/time-utilities':
+        specifier: 1.7.14
+        version: 1.7.14
       dd-cache-proxy:
         specifier: 2.6.0
         version: 2.6.0(@discordeno/bot@21.0.0)
@@ -108,6 +111,9 @@ importers:
       prisma:
         specifier: 6.4.1
         version: 6.4.1(typescript@5.8.2)
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
 
   apps/proxy:
     dependencies:
@@ -651,9 +657,33 @@ packages:
   '@prisma/get-platform@6.4.1':
     resolution: {integrity: sha512-gXqZaDI5scDkBF8oza7fOD3Q3QMD0e0rBynlzDDZdTWbWmzjuW58PRZtj+jkvKje2+ZigCWkH8SsWZAsH6q1Yw==}
 
+  '@sapphire/cron@1.2.1':
+    resolution: {integrity: sha512-K96GX4UkzgC/Y2VHXVjhM2Bl4D04552nr/fDiOj9bOACW1+wqeFfLJ3eV6jleTSXmzPIwDvkPIUJLf8A5KSD+w==}
+    engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
+
+  '@sapphire/duration@1.1.4':
+    resolution: {integrity: sha512-hxtuE8HvmWcRok2A10lJ+ic8qY0oYGTTn44XmESUYJYYSVJWmqlCH1LnNYi6Ul+LRjxNUfFQEL/TJS0GJ+8kew==}
+    engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
+
   '@sapphire/snowflake@3.5.5':
     resolution: {integrity: sha512-xzvBr1Q1c4lCe7i6sRnrofxeO1QTP/LKQ6A6qy0iB4x5yfiSfARMEQEghojzTNALDTcv8En04qYNIco9/K9eZQ==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
+
+  '@sapphire/time-utilities@1.7.14':
+    resolution: {integrity: sha512-UVJQ9oyzXcmJVVf9Y9ucGzRmKoPxe6SehpQlBNTX7CTVu0aj1lrEGL+bBa0Mu7hxF5DYXYjDYeO1e5BR0eg90Q==}
+    engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
+
+  '@sapphire/timer-manager@1.0.4':
+    resolution: {integrity: sha512-gc1JW8oui86f2l0T/1Iwd7hZTgus8b46slitTR2y0+wiMAEYxdp6vVTHvMAEHOqX8drkxK70aGfZmQKbAcgFqQ==}
+    engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
+
+  '@sapphire/timestamp@1.0.5':
+    resolution: {integrity: sha512-oNwWyNdbt5wm4aYZvlHl1+64U3g0xrFmRIHsnER7RgMxNnp/wmAE4yTK2oUHeadg3t4V9iYctPAQCF+aINke4g==}
+    engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
+
+  '@sapphire/utilities@3.18.2':
+    resolution: {integrity: sha512-QGLdC9+pT74Zd7aaObqn0EUfq40c4dyTL65pFnkM6WO1QYN7Yg/s4CdH+CXmx0Zcu6wcfCWILSftXPMosJHP5A==}
+    engines: {node: '>=v14.0.0'}
 
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
@@ -2943,7 +2973,26 @@ snapshots:
     dependencies:
       '@prisma/debug': 6.4.1
 
+  '@sapphire/cron@1.2.1':
+    dependencies:
+      '@sapphire/utilities': 3.18.2
+
+  '@sapphire/duration@1.1.4': {}
+
   '@sapphire/snowflake@3.5.5': {}
+
+  '@sapphire/time-utilities@1.7.14':
+    dependencies:
+      '@sapphire/cron': 1.2.1
+      '@sapphire/duration': 1.1.4
+      '@sapphire/timer-manager': 1.0.4
+      '@sapphire/timestamp': 1.0.5
+
+  '@sapphire/timer-manager@1.0.4': {}
+
+  '@sapphire/timestamp@1.0.5': {}
+
+  '@sapphire/utilities@3.18.2': {}
 
   '@sec-ant/readable-stream@0.4.1': {}
 
