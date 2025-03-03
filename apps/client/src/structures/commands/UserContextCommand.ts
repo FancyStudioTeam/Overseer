@@ -6,17 +6,10 @@ import {
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
 import { client } from "@util/client.js";
-import {
-  CreateCommandTypes,
-  type DefaultRunnableOptions,
-  type MaybeOptional,
-  type Member,
-  type User,
-} from "@util/types.js";
+import type { DefaultRunnableOptions, MaybeOptional, Member, User } from "@util/types.js";
 
 export abstract class UserContextCommand {
   _registerOptions: Partial<UserContextCommandOptions> = {};
-  type: CreateCommandTypes.User = CreateCommandTypes.User;
 
   abstract run(options: UserContextCommandRunOptions): Promise<void>;
 

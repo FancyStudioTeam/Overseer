@@ -21,12 +21,6 @@ export type MaybeNullable<T> = T | null;
 export type MaybeNullish<T> = T | null | undefined;
 export type MaybeOptional<T> = T | undefined;
 
-export enum CreateCommandTypes {
-  ChatInput = "ChatInput",
-  Message = "Message",
-  User = "User",
-}
-
 export interface DefaultRunnableOptions {
   /** The main client object. */
   client: Client;

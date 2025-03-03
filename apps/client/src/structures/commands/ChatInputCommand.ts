@@ -3,7 +3,6 @@ import {
   type CreateSlashApplicationCommand,
   type DiscordApplicationCommandOption,
 } from "@discordeno/bot";
-import { CreateCommandTypes } from "@util/types.js";
 
 export abstract class ChatInputCommand {
   /** Whether to load all the chat input sub commands automatically. */
@@ -11,7 +10,6 @@ export abstract class ChatInputCommand {
   _registerOptions: Partial<ChatInputCommandOptions> = {};
   /** The loaded chat input sub commands from the current directory. */
   _subCommandOptions: DiscordApplicationCommandOption[] = [];
-  type: CreateCommandTypes.ChatInput = CreateCommandTypes.ChatInput;
 
   /**
    * Gets the JSON representation of the command instance.
