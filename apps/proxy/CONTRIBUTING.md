@@ -43,10 +43,13 @@ This project uses the Biome's [linter][BiomeLinterWebsite] and [formatter][Biome
 
 This project contains some scripts in the `package.json` file to help you during the development.
 
-- `build`: Deletes the old compiled `dist` folder and creates a new one.
+- `aliases`: Converts the paths from the `tsconfig.json` into relative paths.
+- `build`: Executes the `clean`, `check:typescript`, `swc`, and `aliases` scripts.
+- `check:typescript`: Checks the TypeScript code for errors.
 - `clean`: Deletes the `dist` folder.
 - `dev`: Runs the compiled JavaScript files using the Nodemon watch mode.
 - `start`: Runs the compiled JavaScript files.
+- `swc`: Compiles the TypeScript code into JavaScript.
 
 [BiomeFormatterWebsite]: https://biomejs.dev/formatter/
 [BiomeLinterWebsite]: https://biomejs.dev/linter/
