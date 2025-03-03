@@ -126,7 +126,7 @@ export class Loader {
       return resolvedApplicationCommand;
     }
 
-    throw new Error(`Cannot handle "${commandInstance}" command instance`);
+    throw new Error(`Cannot handle "${commandInstance}" command instance.`);
   }
 
   /**
