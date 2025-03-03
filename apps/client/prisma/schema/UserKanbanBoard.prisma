@@ -1,0 +1,9 @@
+model UserKanbanBoard {
+  boardId   String   @unique
+  createdAt DateTime @default(now())
+  creatorId String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt DateTime @updatedAt
+
+  @@index([boardId, creatorId])
+}
