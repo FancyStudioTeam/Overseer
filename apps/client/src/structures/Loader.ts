@@ -1,12 +1,10 @@
 import { join, resolve } from "node:path";
-import type { ApplicationCommandOption, CreateApplicationCommand } from "@discordeno/bot";
+import type { CreateApplicationCommand } from "@discordeno/bot";
 import { client } from "@util/client.js";
-import { CreateCommandTypes, type MaybeAwaitable } from "@util/types.js";
 import { type Path, glob } from "glob";
-import { match } from "ts-pattern";
-import type { ChatInputCommand } from "./commands/ChatInputCommand.js";
+import { ChatInputCommand } from "./commands/ChatInputCommand.js";
 import type { ChatInputSubCommand } from "./commands/ChatInputSubCommand.js";
-import type { UserContextCommand } from "./commands/UserContextCommand.js";
+import { UserContextCommand } from "./commands/UserContextCommand.js";
 
 const __dirname = import.meta.dirname;
 const distFolderPath = join(__dirname, "..");
@@ -14,110 +12,152 @@ const distFolderPath = join(__dirname, "..");
 export class Loader {
   /** Initializes the resources imports. */
   async initImports(): Promise<void> {
-    await Promise.all([this.importAndUpsertApplicationCommands(), this.importEvents(), this.importProxyApplication()]);
-  }
-
-  /** Imports and upserts the application commands to Discord. */
-  private async importAndUpsertApplicationCommands(): Promise<void> {
-    const { chatInputCommandsPattern, userCommandsPattern } = {
-      chatInputCommandsPattern: `${join(distFolderPath, "commands")}/chatInput/**/parent.{js,ts}`,
-      userCommandsPattern: `${join(distFolderPath, "commands")}/user/**/*.command.{js,ts}`,
-    };
-    const loadedCommandPaths = await this.loadDirectoryFiles([chatInputCommandsPattern, userCommandsPattern]);
-    const resolvedCommandPaths = await this.importCommands(loadedCommandPaths);
-
-    await client.helpers.upsertGlobalApplicationCommands(resolvedCommandPaths);
+    await Promise.all([this.importEvents(), this.importCommands(), this.importProxyApplication()]);
   }
 
   /**
-   * Imports and returns the resolved application command objects.
-   * @param commandPaths - The command paths to import.
-   * @returns The resolved application command objects.
+   * Upserts the application commands.
+   * @param applicationCommands - The application commands to upsert.
    */
-  private async importCommands(commandPaths: Path[]): Promise<CreateApplicationCommand[]> {
-    const importPromises = commandPaths.map(async (commandPath, _) => {
-      const resolvedCommandPath = this.resolvePath(commandPath);
-      /** Commands are exported as default instances. */
-      const { default: CommandClass } = await import(resolvedCommandPath);
-      const command = new CommandClass() as AnyCommand;
+  private async upsertApplicationCommands(applicationCommands: CreateApplicationCommand[]): Promise<void> {
+    const { helpers } = client;
+
+    await helpers.upsertGlobalApplicationCommands(applicationCommands);
+  }
+
+  /**
+   * Gets the commands Glob patterns.
+   * @returns The commands Glob patterns.
+   */
+  private getCommandsPattern(): string[] {
+    const chatInputPattern = `${distFolderPath}/commands/chatInput/**/parent.{js,ts}`;
+    const userContextPattern = `${distFolderPath}/commands/user/**/*.command.{js,ts}`;
+
+    return [chatInputPattern, userContextPattern];
+  }
+
+  /** Imports all the commands from the commands folder. */
+  private async importCommands(): Promise<void> {
+    const commandsPathPattern = this.getCommandsPattern();
+    const loadedCommandPaths = await this.loadDirectoryFiles(commandsPathPattern);
+    const importPromises = loadedCommandPaths.map(async (path) => {
+      const resolvedImportPath = this.resolvePath(path);
+      /**
+       * All commands are exported as default exports.
+       * So retreive the "default" property from the object and use it as the command instance.
+       */
+      const { default: CommandInstance } = await import(resolvedImportPath);
+      const command = new CommandInstance() as AnyCommand;
+      /** This will give us the path of the parent folder from the command. */
+      const { parentPath } = path;
+      const resolvedApplicationCommand = await this.handleCommandInstance(command, parentPath);
+
+      return resolvedApplicationCommand;
+    });
+    /**
+     * Handle all the promises in parallel.
+     * This returns a list of the resolved application command objects.
+     */
+    const resolvedApplicationCommands = await Promise.all(importPromises);
+
+    await this.upsertApplicationCommands(resolvedApplicationCommands);
+  }
+
+  /**
+   * Handles a command instance.
+   * @param commandInstance - The command instance to handle.
+   * @param parentCommandPath - The parent command path. Only used for chat input commands.
+   * @returns The resolved application command object from the command instance.
+   */
+  private async handleCommandInstance(
+    commandInstance: AnyCommand,
+    parentCommandFolderPath: string,
+  ): Promise<CreateApplicationCommand> {
+    if (commandInstance instanceof ChatInputCommand) {
+      const { _autoLoad, _subCommandOptions } = commandInstance;
+      const resolvedApplicationCommand = commandInstance.toJSON();
+      const { name: parentCommandName } = resolvedApplicationCommand;
+
+      if (_autoLoad) {
+        if (!parentCommandFolderPath) {
+          throw new Error("Cannot handle auto load without a parent command folder path.");
+        }
+
+        const subCommandsPathPattern = this.getSubCommandsPattern(parentCommandFolderPath);
+        const loadedSubCommandPaths = await this.loadDirectoryFiles(subCommandsPathPattern);
+        const importPromises = loadedSubCommandPaths.map(async (path) => {
+          const resolvedImportPath = this.resolvePath(path);
+          /**
+           * All commands are exported as default exports.
+           * So retreive the "default" property from the object and use it as the command instance.
+           */
+          const { default: CommandInstance } = await import(resolvedImportPath);
+          const command = new CommandInstance() as ChatInputSubCommand;
+          const resolvedApplicationCommandOption = command.toJSON();
+          const { name: subCommandName } = resolvedApplicationCommandOption;
+          const { applicationCommands } = client;
+          const { chatInput } = applicationCommands;
+          const collectionKey = `${parentCommandName}_${subCommandName}`;
+
+          chatInput.set(collectionKey, command);
+
+          return resolvedApplicationCommandOption;
+        });
+        /**
+         * Handle all the promises in parallel.
+         * This returns a list of the resolved application command option objects.
+         */
+        const resolvedApplicationCommandOptions = await Promise.all(importPromises);
+
+        _subCommandOptions.push(...resolvedApplicationCommandOptions);
+      }
+
+      return resolvedApplicationCommand;
+    }
+
+    if (commandInstance instanceof UserContextCommand) {
+      const resolvedApplicationCommand = commandInstance.toJSON();
+      const { name } = resolvedApplicationCommand;
       const { applicationCommands } = client;
-      const { userContext: userContextCommands } = applicationCommands;
+      const { userContext } = applicationCommands;
 
-      return await match(command)
-        .returnType<MaybeAwaitable<CreateApplicationCommand>>()
-        .with(
-          {
-            type: CreateCommandTypes.ChatInput,
-          },
-          async (chatInputCommand) => {
-            const { _autoLoad, _subCommandOptions } = chatInputCommand;
-            const resolvedChatInputCommand = chatInputCommand.toJSON();
-            const { name } = resolvedChatInputCommand;
+      userContext.set(name, commandInstance);
 
-            /** Auto load the chat input sub commands options whether "_autoLoad" is "true". */
-            if (_autoLoad) {
-              const { parentPath } = commandPath;
-              const subCommands = await this.importSubCommands(name, parentPath);
+      return resolvedApplicationCommand;
+    }
 
-              _subCommandOptions.push(...subCommands);
-            }
-
-            return resolvedChatInputCommand;
-          },
-        )
-        .with(
-          {
-            type: CreateCommandTypes.User,
-          },
-          (userContextCommand) => {
-            const resolvedUserContextCommand = userContextCommand.toJSON();
-            const { name } = resolvedUserContextCommand;
-
-            userContextCommands.set(name, userContextCommand);
-
-            return resolvedUserContextCommand;
-          },
-        )
-        .run();
-    });
-
-    return await Promise.all(importPromises);
+    throw new Error(`Cannot handle "${commandInstance}" command instance`);
   }
 
   /**
-   * Imports the sub commands from a parent command.
-   * @param parentCommandName - The parent command name.
-   * @param parentPath - The parent command path.
-   * @returns The resolved chat input sub command option objects.
+   * Gets the sub commands Glob pattern.
+   * @param parentCommandFolderPath - The parent command folder path.
+   * @returns The sub commands Glob pattern.
    */
-  private async importSubCommands(parentCommandName: string, parentPath: string): Promise<ApplicationCommandOption[]> {
-    const { applicationCommands } = client;
-    const { chatInput: chatInputCommands } = applicationCommands;
-    const subCommandsPattern = `${parentPath}/*.command.{js,ts}`;
-    const loadedSubCommandPaths = await this.loadDirectoryFiles(subCommandsPattern);
-    const importPromises = loadedSubCommandPaths.map(async (subCommandPath, _) => {
-      const resolvedSubCommandPath = this.resolvePath(subCommandPath);
-      /** Commands are exported as default instances. */
-      const { default: SubCommandClass } = await import(resolvedSubCommandPath);
-      const subCommand = new SubCommandClass() as ChatInputSubCommand;
-      const resolvedSubCommand = subCommand.toJSON();
-      const { name } = resolvedSubCommand;
-
-      chatInputCommands.set([parentCommandName, name].join("_"), subCommand);
-
-      return resolvedSubCommand;
-    });
-
-    return await Promise.all(importPromises);
+  private getSubCommandsPattern(parentCommandFolderPath: string): string {
+    return `${parentCommandFolderPath}/*.command.{js,ts}`;
   }
 
-  /** Imports the events files. */
-  private async importEvents(): Promise<void> {
-    const eventsPattern = `${join(distFolderPath, "events")}/**/*.event.{js,ts}`;
-    const loadedEventPaths = await this.loadDirectoryFiles(eventsPattern);
-    const resolvedEventPaths = loadedEventPaths.map((eventPath) => this.resolvePath(eventPath));
+  /**
+   * Gets the events Glob pattern.
+   * @returns The events Glob pattern.
+   */
+  private getEventsPattern(): string {
+    return `${distFolderPath}/events/**/*.event.{js,ts}`;
+  }
 
-    resolvedEventPaths.forEach(async (eventPath, _) => await import(eventPath));
+  /** Imports all the events from the events folder. */
+  private async importEvents(): Promise<void> {
+    const eventsPathPattern = this.getEventsPattern();
+    const loadedEventPaths = await this.loadDirectoryFiles(eventsPathPattern);
+    const importPromises = loadedEventPaths.map(async (path) => {
+      const resolvedImportPath = this.resolvePath(path);
+
+      await import(resolvedImportPath);
+    });
+
+    /** Handle all the promises in parallel. */
+    await Promise.all(importPromises);
   }
 
   /** Imports the Nest.js proxy application. */
