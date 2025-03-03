@@ -11,59 +11,6 @@ const __dirname = import.meta.dirname;
 const distFolderPath = join(__dirname, "..");
 
 export class Loader {
-  /** Initializes the resources imports. */
-  async initImports(): Promise<void> {
-    await Promise.all([this.importEvents(), this.importCommands(), this.importProxyApplication()]);
-  }
-
-  /**
-   * Upserts the application commands.
-   * @param applicationCommands - The application commands to upsert.
-   */
-  private async upsertApplicationCommands(applicationCommands: CreateApplicationCommand[]): Promise<void> {
-    const { helpers } = client;
-
-    await helpers.upsertGlobalApplicationCommands(applicationCommands);
-  }
-
-  /**
-   * Gets the commands Glob patterns.
-   * @returns The commands Glob patterns.
-   */
-  private getCommandsPattern(): string[] {
-    const chatInputPattern = `${distFolderPath}/commands/chatInput/**/parent.{js,ts}`;
-    const userContextPattern = `${distFolderPath}/commands/userContext/**/*.command.{js,ts}`;
-
-    return [chatInputPattern, userContextPattern];
-  }
-
-  /** Imports all the commands from the commands folder. */
-  private async importCommands(): Promise<void> {
-    const commandsPathPattern = this.getCommandsPattern();
-    const loadedCommandPaths = await this.loadDirectoryFiles(commandsPathPattern);
-    const importPromises = loadedCommandPaths.map(async (path) => {
-      const resolvedImportPath = this.resolvePath(path);
-      /**
-       * All commands are exported as default exports.
-       * So retreive the "default" property from the object and use it as the command instance.
-       */
-      const { default: CommandInstance } = await import(resolvedImportPath);
-      const command = new CommandInstance() as AnyCommand;
-      /** This will give us the path of the parent folder from the command. */
-      const { parentPath } = path;
-      const resolvedApplicationCommand = await this.handleCommandInstance(command, parentPath);
-
-      return resolvedApplicationCommand;
-    });
-    /**
-     * Handle all the promises in parallel.
-     * This returns a list of the resolved application command objects.
-     */
-    const resolvedApplicationCommands = await Promise.all(importPromises);
-
-    await this.upsertApplicationCommands(resolvedApplicationCommands);
-  }
-
   /**
    * Handles a command instance.
    * @param commandInstance - The command instance to handle.
@@ -82,7 +29,7 @@ export class Loader {
       if (_autoLoad) {
         const subCommandsPathPattern = this.getSubCommandsPattern(parentCommandFolderPath);
         const loadedSubCommandPaths = await this.loadDirectoryFiles(subCommandsPathPattern, {
-          onlyFiles: false,
+          includeFolders: true,
         });
         const importPromises = loadedSubCommandPaths.map(async (path) => {
           const resolvedImportPath = this.resolvePath(path);
@@ -149,7 +96,7 @@ export class Loader {
       if (_autoLoad) {
         const subCommandsPathPattern = this.getSubCommandsPattern(parentCommandFolderPath);
         const loadedSubCommandPaths = await this.loadDirectoryFiles(subCommandsPathPattern, {
-          onlyFiles: false,
+          includeFolders: true,
         });
         const importPromises = loadedSubCommandPaths.map(async (path) => {
           const resolvedImportPath = this.resolvePath(path);
@@ -198,24 +145,31 @@ export class Loader {
     throw new Error(`Cannot handle "${commandInstance}" sub command instance.`);
   }
 
-  /**
-   * Gets the sub commands Glob patterns.
-   * @param parentCommandFolderPath - The parent command folder path.
-   * @returns The sub commands Glob patterns.
-   */
-  private getSubCommandsPattern(parentCommandFolderPath: string): string[] {
-    const subCommandsPattern = `${parentCommandFolderPath}/*.command.{js,ts}`;
-    const subCommandGroupsPattern = `${parentCommandFolderPath}/*/group.{js,ts}`;
+  /** Imports all the commands from the commands folder. */
+  private async importCommands(): Promise<void> {
+    const commandsPathPattern = this.getCommandsPattern();
+    const loadedCommandPaths = await this.loadDirectoryFiles(commandsPathPattern);
+    const importPromises = loadedCommandPaths.map(async (path) => {
+      const resolvedImportPath = this.resolvePath(path);
+      /**
+       * All commands are exported as default exports.
+       * So retreive the "default" property from the object and use it as the command instance.
+       */
+      const { default: CommandInstance } = await import(resolvedImportPath);
+      const command = new CommandInstance() as AnyCommand;
+      /** This will give us the path of the parent folder from the command. */
+      const { parentPath } = path;
+      const resolvedApplicationCommand = await this.handleCommandInstance(command, parentPath);
 
-    return [subCommandsPattern, subCommandGroupsPattern];
-  }
+      return resolvedApplicationCommand;
+    });
+    /**
+     * Handle all the promises in parallel.
+     * This returns a list of the resolved application command objects.
+     */
+    const resolvedApplicationCommands = await Promise.all(importPromises);
 
-  /**
-   * Gets the events Glob pattern.
-   * @returns The events Glob pattern.
-   */
-  private getEventsPattern(): string {
-    return `${distFolderPath}/events/**/*.event.{js,ts}`;
+    await this.upsertApplicationCommands(resolvedApplicationCommands);
   }
 
   /** Imports all the events from the events folder. */
@@ -237,13 +191,40 @@ export class Loader {
     await import("@proxy/index.js");
   }
 
+  /** Initializes the resource imports. */
+  async initImports(): Promise<void> {
+    await Promise.all([this.importEvents(), this.importCommands(), this.importProxyApplication()]);
+  }
+
   /**
-   * Creates a compatible path from a given Glob path to import.
-   * @param path - The Glob path object to resolve.
-   * @returns The resolved path.
+   * Gets the commands Glob patterns.
+   * @returns The commands Glob patterns.
    */
-  private resolvePath(path: Path): string {
-    return `file://${resolve(path.parentPath, path.name)}`;
+  private getCommandsPattern(): string[] {
+    const chatInputPattern = `${distFolderPath}/commands/chatInput/**/parent.{js,ts}`;
+    const userContextPattern = `${distFolderPath}/commands/userContext/**/*.command.{js,ts}`;
+
+    return [chatInputPattern, userContextPattern];
+  }
+
+  /**
+   * Gets the events Glob pattern.
+   * @returns The events Glob pattern.
+   */
+  private getEventsPattern(): string {
+    return `${distFolderPath}/events/**/*.event.{js,ts}`;
+  }
+
+  /**
+   * Gets the sub commands Glob patterns.
+   * @param parentCommandFolderPath - The parent command folder path.
+   * @returns The sub commands Glob patterns.
+   */
+  private getSubCommandsPattern(parentCommandFolderPath: string): string[] {
+    const subCommandsPattern = `${parentCommandFolderPath}/*.command.{js,ts}`;
+    const subCommandGroupsPattern = `${parentCommandFolderPath}/*/group.{js,ts}`;
+
+    return [subCommandsPattern, subCommandGroupsPattern];
   }
 
   /**
@@ -255,24 +236,43 @@ export class Loader {
   private async loadDirectoryFiles(
     pattern: string | string[],
     options: LoadDirectoryFilesOptions = {
-      onlyFiles: true,
+      includeFolders: false,
     },
   ): Promise<Path[]> {
-    const { onlyFiles } = options;
+    const { includeFolders } = options;
     const loadedPaths = await glob(pattern, {
       ignore: ["node_modules"],
       withFileTypes: true,
     });
 
-    if (onlyFiles) {
-      const filteredFiles = loadedPaths.filter(
-        (file) => file.isFile() && (file.name.endsWith(".js") || file.name.endsWith(".ts")),
-      );
-
-      return filteredFiles;
+    if (includeFolders) {
+      return loadedPaths;
     }
 
-    return loadedPaths;
+    const filteredFiles = loadedPaths.filter(
+      (file) => file.isFile() && (file.name.endsWith(".js") || file.name.endsWith(".ts")),
+    );
+
+    return filteredFiles;
+  }
+
+  /**
+   * Creates a compatible path from a given Glob path to import.
+   * @param path - The Glob path object to resolve.
+   * @returns The resolved path.
+   */
+  private resolvePath(path: Path): string {
+    return `file://${resolve(path.parentPath, path.name)}`;
+  }
+
+  /**
+   * Upserts the application commands.
+   * @param applicationCommands - The application commands to upsert.
+   */
+  private async upsertApplicationCommands(applicationCommands: CreateApplicationCommand[]): Promise<void> {
+    const { helpers } = client;
+
+    await helpers.upsertGlobalApplicationCommands(applicationCommands);
   }
 }
 
@@ -280,6 +280,6 @@ type AnyCommand = ChatInputCommand | UserContextCommand;
 type AnySubCommand = ChatInputSubCommand | ChatInputSubCommandGroup;
 
 interface LoadDirectoryFilesOptions {
-  /** Whether to only return file paths. */
-  onlyFiles?: boolean;
+  /** Whether to include folder paths. */
+  includeFolders?: boolean;
 }
