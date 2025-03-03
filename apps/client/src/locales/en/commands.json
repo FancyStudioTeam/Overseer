@@ -33,6 +33,29 @@
           }
         }
       }
+    },
+    "utility": {
+      "kanban": {
+        "board": {
+          "boards": {
+            "no_created_or_shared_kanban_boards": "**{{CANCEL_COLORED}} You don't have any created or shared Kanban board.**",
+            "message_1": {
+              "embed_1": {
+                "author": "Kanban boards created by you",
+                "description": "Name » {{boardName}}\nCreation Date » {{boardCreatedAt}}"
+              },
+              "embed_2": {
+                "author": "Kanban boards shared with you",
+                "description": "Name » {{boardName}}\nCreation Date » {{boardCreatedAt}}"
+              }
+            }
+          },
+          "create": {
+            "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} You have reached the maximum number of Kanban boards.**\n**{{INFO}} The limit is set at `{{maximum}}` Kanban boards per user.**",
+            "message_1": "**{{CHECK_CIRCLE_COLORED}} The Kanban board `{{boardTitle}}` has been created.**"
+          }
+        }
+      }
     }
   }
 }
