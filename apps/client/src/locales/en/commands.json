@@ -8,27 +8,31 @@
     "information": {
       "debug": {
         "message_1": {
-          "embed": {
-            "author": "Debugging Information",
-            "field_1": {
-              "name": "General Information",
-              "value": "Version » {{botVersion}}"
-            },
-            "field_2": {
-              "name": "Dependencies Versions",
-              "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
+          "embeds": {
+            "embed_1": {
+              "author": "Debugging Information",
+              "field_1": {
+                "name": "General Information",
+                "value": "Version » {{botVersion}}"
+              },
+              "field_2": {
+                "name": "Dependencies Versions",
+                "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
+              }
             }
           }
         }
       },
       "ping": {
         "message_1": {
-          "embed": {
-            "field_1": {
-              "name": "API Requests"
-            },
-            "field_2": {
-              "name": "Database"
+          "embeds": {
+            "embed_1": {
+              "field_1": {
+                "name": "API Requests"
+              },
+              "field_2": {
+                "name": "Database"
+              }
             }
           }
         }

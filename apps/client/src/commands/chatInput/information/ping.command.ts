@@ -30,12 +30,12 @@ export default class PingCommand extends ChatInputSubCommand {
     const [apiRequestsLatencyField, databaseLatencyField]: EmbedField[] = [
       {
         inline: true,
-        name: t("categories.information.ping.message_1.embed.field_1.name"),
+        name: t("categories.information.ping.message_1.embeds.embed_1.field_1.name"),
         value: codeBlock("ansi", bold(magenta(`${apiRequestsLatency} ms`))),
       },
       {
         inline: true,
-        name: t("categories.information.ping.message_1.embed.field_2.name"),
+        name: t("categories.information.ping.message_1.embeds.embed_1.field_2.name"),
         value: codeBlock("ansi", bold(magenta(`${databaseLatency} ms`))),
       },
     ];
