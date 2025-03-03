@@ -1,9 +1,10 @@
 import { join, resolve } from "node:path";
-import type { CreateApplicationCommand } from "@discordeno/bot";
+import type { ApplicationCommandOption, CreateApplicationCommand } from "@discordeno/bot";
 import { client } from "@util/client.js";
 import { type Path, glob } from "glob";
 import { ChatInputCommand } from "./commands/ChatInputCommand.js";
-import type { ChatInputSubCommand } from "./commands/ChatInputSubCommand.js";
+import { ChatInputSubCommand } from "./commands/ChatInputSubCommand.js";
+import { ChatInputSubCommandGroup } from "./commands/ChatInputSubCommandGroup.js";
 import { UserContextCommand } from "./commands/UserContextCommand.js";
 
 const __dirname = import.meta.dirname;
@@ -79,12 +80,10 @@ export class Loader {
       const { name: parentCommandName } = resolvedApplicationCommand;
 
       if (_autoLoad) {
-        if (!parentCommandFolderPath) {
-          throw new Error("Cannot handle auto load without a parent command folder path.");
-        }
-
         const subCommandsPathPattern = this.getSubCommandsPattern(parentCommandFolderPath);
-        const loadedSubCommandPaths = await this.loadDirectoryFiles(subCommandsPathPattern);
+        const loadedSubCommandPaths = await this.loadDirectoryFiles(subCommandsPathPattern, {
+          onlyFiles: false,
+        });
         const importPromises = loadedSubCommandPaths.map(async (path) => {
           const resolvedImportPath = this.resolvePath(path);
           /**
@@ -92,14 +91,13 @@ export class Loader {
            * So retreive the "default" property from the object and use it as the command instance.
            */
           const { default: CommandInstance } = await import(resolvedImportPath);
-          const command = new CommandInstance() as ChatInputSubCommand;
-          const resolvedApplicationCommandOption = command.toJSON();
-          const { name: subCommandName } = resolvedApplicationCommandOption;
-          const { applicationCommands } = client;
-          const { chatInput } = applicationCommands;
-          const collectionKey = `${parentCommandName}_${subCommandName}`;
-
-          chatInput.set(collectionKey, command);
+          const command = new CommandInstance() as AnySubCommand;
+          const { parentPath } = path;
+          const resolvedApplicationCommandOption = this.handleSubCommandInstance(
+            command,
+            parentPath,
+            parentCommandName,
+          );
 
           return resolvedApplicationCommandOption;
         });
@@ -130,12 +128,86 @@ export class Loader {
   }
 
   /**
-   * Gets the sub commands Glob pattern.
+   * Handles a sub command instance.
+   * @param commandInstance - The sub command instance to handle.
    * @param parentCommandFolderPath - The parent command folder path.
-   * @returns The sub commands Glob pattern.
+   * @param parentCommandName - The command parent name.
+   * @param subCommandGroupName - The sub command group name. If provided.
+   * @returns The resolved application command option object from the sub command instance.
    */
-  private getSubCommandsPattern(parentCommandFolderPath: string): string {
-    return `${parentCommandFolderPath}/*.command.{js,ts}`;
+  private async handleSubCommandInstance(
+    commandInstance: AnySubCommand,
+    parentCommandFolderPath: string,
+    parentCommandName: string,
+    subCommandGroupName?: string,
+  ): Promise<ApplicationCommandOption> {
+    if (commandInstance instanceof ChatInputSubCommandGroup) {
+      const { _autoLoad, _subCommandOptions } = commandInstance;
+      const resolvedApplicationCommandOption = commandInstance.toJSON();
+      const { name: subCommandGroupName } = resolvedApplicationCommandOption;
+
+      if (_autoLoad) {
+        const subCommandsPathPattern = this.getSubCommandsPattern(parentCommandFolderPath);
+        const loadedSubCommandPaths = await this.loadDirectoryFiles(subCommandsPathPattern, {
+          onlyFiles: false,
+        });
+        const importPromises = loadedSubCommandPaths.map(async (path) => {
+          const resolvedImportPath = this.resolvePath(path);
+          /**
+           * All commands are exported as default exports.
+           * So retreive the "default" property from the object and use it as the command instance.
+           */
+          const { default: CommandInstance } = await import(resolvedImportPath);
+          const command = new CommandInstance() as AnySubCommand;
+          const { parentPath } = path;
+          const resolvedApplicationCommandOption = await this.handleSubCommandInstance(
+            command,
+            parentPath,
+            parentCommandName,
+            subCommandGroupName,
+          );
+
+          return resolvedApplicationCommandOption;
+        });
+        /**
+         * Handle all the promises in parallel.
+         * This returns a list of the resolved application command option objects.
+         */
+        const resolvedApplicationCommandOptions = await Promise.all(importPromises);
+
+        _subCommandOptions.push(...resolvedApplicationCommandOptions);
+      }
+
+      return resolvedApplicationCommandOption;
+    }
+
+    if (commandInstance instanceof ChatInputSubCommand) {
+      const resolvedApplicationCommandOption = commandInstance.toJSON();
+      const { name: subCommandName } = resolvedApplicationCommandOption;
+      const { applicationCommands } = client;
+      const { chatInput } = applicationCommands;
+      const collectionKey = subCommandGroupName
+        ? `${parentCommandName}_${subCommandGroupName}_${subCommandName}`
+        : `${parentCommandName}_${subCommandName}`;
+
+      chatInput.set(collectionKey, commandInstance);
+
+      return resolvedApplicationCommandOption;
+    }
+
+    throw new Error(`Cannot handle "${commandInstance}" sub command instance.`);
+  }
+
+  /**
+   * Gets the sub commands Glob patterns.
+   * @param parentCommandFolderPath - The parent command folder path.
+   * @returns The sub commands Glob patterns.
+   */
+  private getSubCommandsPattern(parentCommandFolderPath: string): string[] {
+    const subCommandsPattern = `${parentCommandFolderPath}/*.command.{js,ts}`;
+    const subCommandGroupsPattern = `${parentCommandFolderPath}/*/group.{js,ts}`;
+
+    return [subCommandsPattern, subCommandGroupsPattern];
   }
 
   /**
@@ -177,19 +249,37 @@ export class Loader {
   /**
    * Loads all the files from a given Glob pattern.
    * @param pattern - The pattern to load the files from.
+   * @param options - The available options.
    * @returns The loaded Glob path files.
    */
-  private async loadDirectoryFiles(pattern: string | string[]): Promise<Path[]> {
+  private async loadDirectoryFiles(
+    pattern: string | string[],
+    options: LoadDirectoryFilesOptions = {
+      onlyFiles: true,
+    },
+  ): Promise<Path[]> {
+    const { onlyFiles } = options;
     const loadedPaths = await glob(pattern, {
       ignore: ["node_modules"],
       withFileTypes: true,
     });
-    const filteredFiles = loadedPaths.filter(
-      (file) => file.isFile() && (file.name.endsWith(".js") || file.name.endsWith(".ts")),
-    );
 
-    return filteredFiles;
+    if (onlyFiles) {
+      const filteredFiles = loadedPaths.filter(
+        (file) => file.isFile() && (file.name.endsWith(".js") || file.name.endsWith(".ts")),
+      );
+
+      return filteredFiles;
+    }
+
+    return loadedPaths;
   }
 }
 
 type AnyCommand = ChatInputCommand | UserContextCommand;
+type AnySubCommand = ChatInputSubCommand | ChatInputSubCommandGroup;
+
+interface LoadDirectoryFilesOptions {
+  /** Whether to only return file paths. */
+  onlyFiles?: boolean;
+}
