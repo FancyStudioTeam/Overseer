@@ -41,7 +41,23 @@
             "message_1": "**{{CHECK_CIRCLE_COLORED}} El tablero Kanban `{{boardTitle}}` ha sido creado.**",
             "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} Has alcanzado el número máximo de tableros Kanban.**\n**{{INFO}} El límite está establecido a `{{maximum}}` tableros Kanban por usuario.**"
           },
-          "manage": {}
+          "manage": {
+            "message_1": {
+              "components": {
+                "buttons": {
+                  "board_title": {
+                    "label": "Título del tablero"
+                  },
+                  "permissions": {
+                    "label": "Permisos"
+                  },
+                  "sections": {
+                    "label": "Secciones"
+                  }
+                }
+              }
+            }
+          }
         },
         "boards": {
           "message_1": {

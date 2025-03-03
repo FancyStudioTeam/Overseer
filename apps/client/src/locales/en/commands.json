@@ -41,7 +41,23 @@
             "message_1": "**{{CHECK_CIRCLE_COLORED}} The Kanban board `{{boardTitle}}` has been created.**",
             "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} You have reached the maximum number of Kanban boards.**\n**{{INFO}} The limit is set at `{{maximum}}` Kanban boards per user.**"
           },
-          "manage": {}
+          "manage": {
+            "message_1": {
+              "components": {
+                "buttons": {
+                  "board_title": {
+                    "label": "Board title"
+                  },
+                  "permissions": {
+                    "label": "Permissions"
+                  },
+                  "sections": {
+                    "label": "Sections"
+                  }
+                }
+              }
+            }
+          }
         },
         "boards": {
           "message_1": {
