@@ -5,7 +5,7 @@
     "@fastify/csrf-protection": "7.0.2",
     "@fastify/helmet": "13.0.1",
     "@nestjs/common": "11.0.11",
-    "@nestjs/core": "11.0.10",
+    "@nestjs/core": "11.0.11",
     "@nestjs/platform-fastify": "11.0.11",
     "@prisma/client": "6.4.1",
     "@sapphire/snowflake": "3.5.5",
