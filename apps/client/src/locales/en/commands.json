@@ -74,18 +74,19 @@
                   }
                 }
               }
-            }
+            },
+            "user_cannot_manage_kanban_board": "**{{CANCEL_COLORED}} You cannot manage this Kanban board.**"
           }
         },
         "boards": {
           "message_1": {
             "embed_1": {
               "author": "Kanban boards created by you",
-              "description": "Name » {{boardName}}\nCreation Date » {{boardCreatedAt}}"
+              "description": "Name » {{boardName}}\nID » {{boardId}}\nCreation Date » {{boardCreatedAt}}"
             },
             "embed_2": {
               "author": "Kanban boards shared with you",
-              "description": "Name » {{boardName}}\nCreation Date » {{boardCreatedAt}}"
+              "description": "Name » {{boardName}}\nID » {{boardId}}\nCreation Date » {{boardCreatedAt}}"
             }
           },
           "no_created_or_shared_kanban_boards": "**{{CANCEL_COLORED}} You don't have any created or shared Kanban board.**"

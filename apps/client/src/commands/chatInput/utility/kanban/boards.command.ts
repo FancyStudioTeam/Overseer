@@ -78,9 +78,10 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
    */
   formatKanbanBoards(kanbanBoards: KanbanBoard[], t: TFunction<"commands">): string {
     const formattedKanbanBoards = kanbanBoards.map((kanbanBoard) => {
-      const { boardTitle, createdAt } = kanbanBoard;
+      const { boardId, boardTitle, createdAt } = kanbanBoard;
       const kanbanBoardTranslationItem = t("categories.utility.kanban.boards.message_1.embed_1.description", {
         boardCreatedAt: formatTimestamp(createdAt),
+        boardId,
         boardName: boardTitle,
       });
       const formattedKanbanBoard = formatAnsiKeyValues(kanbanBoardTranslationItem);
