@@ -2,7 +2,9 @@ import { ApplicationCommandOptionTypes, type BigString, ButtonStyles, MessageCom
 import { createMessage } from "@functions/createMessage.js";
 import { parseEmoji } from "@functions/parseEmoji.js";
 import type { Prisma } from "@prisma/client";
+import { KanbanBoardService } from "@services/KanbanBoardService.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
+import { DEFAULT_EMBED_COLOR } from "@util/constants.js";
 import { Declare } from "@util/decorators.js";
 import { prisma } from "@util/prisma.js";
 import type { MaybeNullable } from "@util/types.js";
@@ -29,6 +31,8 @@ import type { MaybeNullable } from "@util/types.js";
   ],
 })
 export default class KanbanManageBoardCommand extends ChatInputSubCommand {
+  kanbanBoardService = new KanbanBoardService();
+
   /**
    * The method to execute when the command is executed.
    * @param options - The available options.
@@ -38,13 +42,30 @@ export default class KanbanManageBoardCommand extends ChatInputSubCommand {
     const { kanban } = commandOptions;
     const { manage_board: manageBoard } = kanban;
     const { board_id: boardId } = manageBoard;
-    const { user } = context;
-    const { id: userId } = user;
-    const kanbanBoard = await this.getKanbanBoard(boardId, userId);
+    const kanbanBoard = await this.getKanbanBoard(boardId);
 
     if (!kanbanBoard) {
-      return await createMessage(context, t("categories.utility.kanban.board.manage.kanban_board_not_found"));
+      return await createMessage(
+        context,
+        t("categories.utility.kanban.board.manage.kanban_board_not_found", {
+          boardId,
+        }),
+      );
     }
+
+    const { user } = context;
+    const { id: userId } = user;
+    const userCanManageKanbanBoard = this.checkKanbanBoardUserPermissions(kanbanBoard, userId);
+
+    if (!userCanManageKanbanBoard) {
+      return await createMessage(context, t("categories.utility.kanban.board.manage.user_cannot_manage_kanban_board"));
+    }
+
+    const { kanbanBoardService } = this;
+    const kanbanBoardImageBuffer = kanbanBoardService.drawKanbanBoard(kanbanBoard);
+    const kanbanBoardImageBlob = new Blob([kanbanBoardImageBuffer], {
+      type: "image/png",
+    });
 
     return await createMessage(context, {
       components: [
@@ -75,27 +96,54 @@ export default class KanbanManageBoardCommand extends ChatInputSubCommand {
           type: MessageComponentTypes.ActionRow,
         },
       ],
+      embeds: [
+        {
+          color: DEFAULT_EMBED_COLOR,
+          image: {
+            url: "attachment://kanban_board.png",
+          },
+        },
+      ],
+      files: [
+        {
+          blob: kanbanBoardImageBlob,
+          name: "kanban_board.png",
+        },
+      ],
     });
   }
 
-  async getKanbanBoard(boardId: string, userIdBigString: BigString): Promise<MaybeNullable<KanbanBoard>> {
+  /**
+   * Checks whether the user has permissions to manage the Kanban board.
+   * @param kanbanBoard - The Kanban board object.
+   * @param userIdBigString - The user id as BigString.
+   * @returns Whether the user has permissions to manage the Kanban board.
+   */
+  checkKanbanBoardUserPermissions(kanbanBoard: KanbanBoard, userIdBigString: BigString): boolean {
+    const { administratorIds, ownerId } = kanbanBoard;
     const userId = userIdBigString.toString();
+
+    if (ownerId === userId) {
+      return true;
+    }
+
+    if (administratorIds.includes(userId)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Gets the Kanban board object.
+   * @param boardId - The Kanban board id.
+   * @returns The Kanban board object.
+   */
+  async getKanbanBoard(boardId: string): Promise<MaybeNullable<KanbanBoard>> {
     const { userKanbanBoard } = prisma;
     const kanbanBoard = await userKanbanBoard.findFirst({
       where: {
-        // biome-ignore lint/style/useNamingConvention: Prisma naming convention.
-        OR: [
-          {
-            boardId,
-            ownerId: userId,
-          },
-          {
-            administratorIds: {
-              has: userId,
-            },
-            boardId,
-          },
-        ],
+        boardId,
       },
     });
 
