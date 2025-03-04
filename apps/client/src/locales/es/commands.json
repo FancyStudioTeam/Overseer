@@ -46,6 +46,7 @@
             "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} Has alcanzado el número máximo de tableros Kanban.**\n**{{INFO}} El límite está establecido a `{{maximum}}` tableros Kanban por usuario.**"
           },
           "manage": {
+            "kanban_board_not_found": "**{{CANCEL_COLORED}} El tablero Kanban `{{boardId}}` no ha sido encontrado.**",
             "message_1": {
               "components": {
                 "buttons": {
@@ -54,24 +55,26 @@
                       "modals": {
                         "update_board_title": {
                           "field_1": {
-                            "name": "Título del tablero"
+                            "name": "Título del Tablero"
                           },
                           "title": "Cambiar título del tablero"
                         }
                       }
                     },
-                    "label": "Título del tablero"
+                    "label": "Título del Tablero"
                   },
-                  "permissions": {
-                    "label": "Permisos"
+                  "delete_board": {
+                    "label": "Eliminar Tablero"
                   },
                   "sections": {
                     "label": "Secciones"
+                  },
+                  "user_permissions": {
+                    "label": "Permisos de Usuarios"
                   }
                 }
               }
-            },
-            "kanban_board_not_found": "**{{CANCEL_COLORED}} El tablero Kanban `{{boardId}}` no ha sido encontrado.**"
+            }
           }
         },
         "boards": {

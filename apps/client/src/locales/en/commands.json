@@ -46,6 +46,7 @@
             "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} You have reached the maximum number of Kanban boards.**\n**{{INFO}} The limit is set at `{{maximum}}` Kanban boards per user.**"
           },
           "manage": {
+            "kanban_board_not_found": "**{{CANCEL_COLORED}} The Kanban board `{{boardId}}` has not been found.**",
             "message_1": {
               "components": {
                 "buttons": {
@@ -54,24 +55,26 @@
                       "modals": {
                         "update_board_title": {
                           "field_1": {
-                            "name": "Board title"
+                            "name": "Board Title"
                           },
                           "title": "Change board title"
                         }
                       }
                     },
-                    "label": "Board title"
+                    "label": "Board Title"
                   },
-                  "permissions": {
-                    "label": "Permissions"
+                  "delete_board": {
+                    "label": "Delete Board"
                   },
                   "sections": {
                     "label": "Sections"
+                  },
+                  "user_permissions": {
+                    "label": "User Permissions"
                   }
                 }
               }
-            },
-            "kanban_board_not_found": "**{{CANCEL_COLORED}} The Kanban board `{{boardId}}` has not been found.**"
+            }
           }
         },
         "boards": {
