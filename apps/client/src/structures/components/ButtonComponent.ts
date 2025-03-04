@@ -7,7 +7,7 @@ export abstract class ButtonComponent {
   _declareDecoratorData: Partial<ButtonComponentOptions> = {};
   _instanceOptions: Partial<RunnableInstanceOptions> = {};
 
-  abstract _run(options: ButtonComponentRunOptions): Promise<void>;
+  abstract _run(options: ButtonComponentRunOptions): Promise<unknown>;
 
   /**
    * Gets the avatar url of the user.
