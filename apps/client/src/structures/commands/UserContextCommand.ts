@@ -9,7 +9,7 @@ import { client } from "@util/client.js";
 import type { DefaultRunnableOptions, MaybeOptional, Member, User } from "@util/types.js";
 
 export abstract class UserContextCommand {
-  _registerOptions: Partial<UserContextCommandOptions> = {};
+  _declareDecoratorData: Partial<UserContextCommandOptions> = {};
 
   abstract run(options: UserContextCommandRunOptions): Promise<void>;
 
@@ -35,7 +35,7 @@ export abstract class UserContextCommand {
    * @returns A compatible object with the Discord API.
    */
   toJSON(): CreateContextApplicationCommand {
-    const { name } = this._registerOptions;
+    const { name } = this._declareDecoratorData;
 
     return {
       contexts: [DiscordInteractionContextType.Guild],

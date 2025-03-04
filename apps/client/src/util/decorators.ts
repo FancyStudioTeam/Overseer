@@ -27,7 +27,7 @@ export const Declare =
   <Target extends AnyDeclarableCommand>(options: DeclareOptions<Target>) =>
   (target: Target) =>
     class extends target {
-      _registerOptions = options;
+      _declareDecoratorData = options;
     };
 
 /**

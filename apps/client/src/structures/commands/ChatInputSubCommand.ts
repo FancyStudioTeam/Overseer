@@ -8,9 +8,9 @@ import type { CommandOptionsData } from "@util/decorators.js";
 import type { DefaultRunnableOptions, User } from "@util/types.js";
 
 export abstract class ChatInputSubCommand {
+  _declareDecoratorData: Partial<ChatInputSubCommandOptions> = {};
   /** The command options to check and handle when the command is executed. */
   _options: Partial<CommandOptionsData> = {};
-  _registerOptions: Partial<ChatInputSubCommandOptions> = {};
 
   abstract run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
 
@@ -36,7 +36,7 @@ export abstract class ChatInputSubCommand {
    * @returns A compatible object with the Discord API.
    */
   toJSON(): ApplicationCommandOption {
-    const { description, descriptionLocalizations, name, options: _options } = this._registerOptions;
+    const { description, descriptionLocalizations, name, options: _options } = this._declareDecoratorData;
 
     return {
       description: description ?? "",
