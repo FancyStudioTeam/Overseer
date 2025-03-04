@@ -9,7 +9,7 @@ import { inlineCode } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 import { client } from "@util/client.js";
-import type { CommandOptionsPermissions } from "@util/decorators.js";
+import type { RunnableInstancePermissions } from "@util/decorators.js";
 import { tCommandsFunction, tCommonFunction } from "@util/i18n.js";
 import { prisma } from "@util/prisma.js";
 import type { Interaction, Locales, MaybeOptional, Member, User } from "@util/types.js";
@@ -21,7 +21,7 @@ import { match } from "ts-pattern";
  * @param instance - The command or component instance.
  * @returns An object containing the command or component permissions.
  */
-const getPermissions = (instance: ChatInputSubCommand): Partial<CommandOptionsPermissions> => {
+const getPermissions = (instance: ChatInputSubCommand): Partial<RunnableInstancePermissions> => {
   const { _options: options } = instance;
   const { permissions } = options;
 
