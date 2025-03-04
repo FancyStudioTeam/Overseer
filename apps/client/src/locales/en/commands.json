@@ -50,6 +50,16 @@
               "components": {
                 "buttons": {
                   "board_title": {
+                    "components": {
+                      "modals": {
+                        "update_board_title": {
+                          "field_1": {
+                            "name": "Board title"
+                          },
+                          "title": "Change board title"
+                        }
+                      }
+                    },
                     "label": "Board title"
                   },
                   "permissions": {
@@ -60,7 +70,8 @@
                   }
                 }
               }
-            }
+            },
+            "kanban_board_not_found": "**{{CANCEL_COLORED}} The Kanban board `{{boardId}}` has not been found.**"
           }
         },
         "boards": {
