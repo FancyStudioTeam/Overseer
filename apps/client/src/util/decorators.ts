@@ -10,8 +10,8 @@ import type { ButtonComponent, ButtonComponentOptions } from "@structures/compon
 import type { ModalComponent, ModalComponentOptions } from "@structures/components/ModalComponent.js";
 
 /**
- * Sets the "_autoLoad" property to "true" from the chat input command instance.
- * @returns The updated chat input command instance.
+ * Sets the "_autoLoad" property to "true" from the command instance.
+ * @returns The updated command instance.
  */
 export const AutoLoad =
   <Target extends AnyAutoLoadableParent>() =>
@@ -21,7 +21,7 @@ export const AutoLoad =
     };
 
 /**
- * Declares the instance data to the declarable instance.
+ * Declares the declarable data from the declarable instance.
  * @param options - The available options.
  * @returns The updated declarable command instance.
  */
