@@ -2,14 +2,16 @@ import {
   ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   InteractionTypes,
+  MessageComponentTypes,
   type PermissionStrings,
   commandOptionsParser,
 } from "@discordeno/bot";
 import { inlineCode } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
+import { parseCustomId } from "@functions/parseCustomId.js";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 import { client } from "@util/client.js";
-import type { CommandOptionsPermissions } from "@util/decorators.js";
+import type { RunnableInstancePermissions } from "@util/decorators.js";
 import { tCommandsFunction, tCommonFunction } from "@util/i18n.js";
 import { prisma } from "@util/prisma.js";
 import type { Interaction, Locales, MaybeOptional, Member, User } from "@util/types.js";
@@ -21,9 +23,9 @@ import { match } from "ts-pattern";
  * @param instance - The command or component instance.
  * @returns An object containing the command or component permissions.
  */
-const getPermissions = (instance: ChatInputSubCommand): Partial<CommandOptionsPermissions> => {
-  const { _options: options } = instance;
-  const { permissions } = options;
+const getPermissions = (instance: ChatInputSubCommand): Partial<RunnableInstancePermissions> => {
+  const { _instanceOptions } = instance;
+  const { permissions } = _instanceOptions;
 
   if (!permissions) {
     return {};
@@ -88,8 +90,8 @@ const handleInstancePermissions = async (
   member: Member,
   options: HandlePermissionsOptions,
 ): Promise<boolean> => {
-  const { _options: instanceOptions } = instance;
-  const { permissions } = instanceOptions;
+  const { _instanceOptions } = instance;
+  const { permissions } = _instanceOptions;
 
   if (permissions) {
     const { client: clientPermissions, user: userPermission } = getPermissions(instance);
@@ -189,7 +191,7 @@ const getTargetUser = (interaction: Interaction): User => {
 };
 
 client.events.interactionCreate = async (interaction) => {
-  const { guildId: guildIdBigInt, member } = interaction;
+  const { data, guildId: guildIdBigInt, member } = interaction;
 
   if (!(guildIdBigInt && member)) {
     return;
@@ -207,62 +209,116 @@ client.events.interactionCreate = async (interaction) => {
   const tCommands = tCommandsFunction(locale);
   const tCommon = tCommonFunction(locale);
 
-  match(interaction).with(
-    {
-      type: InteractionTypes.ApplicationCommand,
-    },
-    (applicationCommandInteraction) => {
-      const { data } = applicationCommandInteraction;
+  if (!data) {
+    throw new Error("Cannot retreive data from interaction.");
+  }
 
-      if (!data) {
-        return;
-      }
+  match(interaction)
+    .with(
+      {
+        type: InteractionTypes.ApplicationCommand,
+      },
+      (applicationCommandInteraction) => {
+        const { name: commandName, type: commandType } = data;
+        const { applicationCommands } = client;
+        const { chatInput: chatInputCommands, userContext: userContextCommands } = applicationCommands;
 
-      const { name: commandName, type: commandType } = data;
-      const { applicationCommands } = client;
-      const { chatInput: chatInputCommands, userContext: userContextCommands } = applicationCommands;
+        match(commandType)
+          .with(ApplicationCommandTypes.ChatInput, async () => {
+            const subCommandNames = getSubCommands(applicationCommandInteraction).join("_");
+            const command = chatInputCommands.get(`${commandName}_${subCommandNames}`);
 
-      match(commandType)
-        .with(ApplicationCommandTypes.ChatInput, async () => {
-          const subCommandNames = getSubCommands(applicationCommandInteraction).join("_");
-          const command = chatInputCommands.get(`${commandName}_${subCommandNames}`);
+            if (command) {
+              const permissionsWereApproved = await handleInstancePermissions(command, member, {
+                context: applicationCommandInteraction,
+                locale,
+                t: tCommon,
+              });
 
-          if (command) {
-            const permissionsWereApproved = await handleInstancePermissions(command, member, {
-              context: applicationCommandInteraction,
-              locale,
-              t: tCommon,
-            });
+              if (!permissionsWereApproved) {
+                return;
+              }
 
-            if (!permissionsWereApproved) {
-              return;
+              await command._run({
+                client,
+                context: applicationCommandInteraction,
+                options: parseCommandOptions(applicationCommandInteraction),
+                t: tCommands,
+              });
             }
+          })
+          .with(ApplicationCommandTypes.User, async () => {
+            const command = userContextCommands.get(commandName);
+            const targetMember = getTargetMember(applicationCommandInteraction);
+            const targetUser = getTargetUser(applicationCommandInteraction);
 
-            await command.run({
-              client,
-              context: applicationCommandInteraction,
-              options: parseCommandOptions(applicationCommandInteraction),
-              t: tCommands,
-            });
-          }
-        })
-        .with(ApplicationCommandTypes.User, async () => {
-          const command = userContextCommands.get(commandName);
-          const targetMember = getTargetMember(applicationCommandInteraction);
-          const targetUser = getTargetUser(applicationCommandInteraction);
+            if (command) {
+              await command._run({
+                client,
+                context: applicationCommandInteraction,
+                t: tCommands,
+                targetMember,
+                targetUser,
+              });
+            }
+          });
+      },
+    )
+    .with(
+      {
+        type: InteractionTypes.MessageComponent,
+      },
+      (messageComponentInteraction) => {
+        const { customId: componentCustomId, componentType } = data;
 
-          if (command) {
-            await command.run({
+        if (!componentCustomId) {
+          throw new Error("Cannot execute this message component without a custom id.");
+        }
+
+        const { customId, values } = parseCustomId(componentCustomId);
+        const { components } = client;
+        const { buttons } = components;
+
+        match(componentType).with(MessageComponentTypes.Button, async () => {
+          const component = buttons.get(customId);
+
+          if (component) {
+            await component._run({
               client,
-              context: applicationCommandInteraction,
+              context: messageComponentInteraction,
               t: tCommands,
-              targetMember,
-              targetUser,
+              values,
             });
           }
         });
-    },
-  );
+      },
+    )
+    .with(
+      {
+        type: InteractionTypes.ModalSubmit,
+      },
+      async (modalSubmitInteraction) => {
+        const { customId: modalCustomId } = data;
+
+        if (!modalCustomId) {
+          throw new Error("Cannot execute this modal without a custom id.");
+        }
+
+        const { customId, values } = parseCustomId(modalCustomId);
+        const { components } = client;
+        const { modals } = components;
+        const component = modals.get(customId);
+
+        if (component) {
+          await component._run({
+            client,
+            context: modalSubmitInteraction,
+            t: tCommands,
+            values,
+          });
+        }
+      },
+    );
 };
 
 interface HandlePermissionsOptions {

@@ -6,12 +6,14 @@ import {
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
 import { client } from "@util/client.js";
+import type { RunnableInstanceOptions } from "@util/decorators.js";
 import type { DefaultRunnableOptions, MaybeOptional, Member, User } from "@util/types.js";
 
 export abstract class UserContextCommand {
-  _registerOptions: Partial<UserContextCommandOptions> = {};
+  _declareDecoratorData: Partial<UserContextCommandOptions> = {};
+  _instanceOptions: Partial<RunnableInstanceOptions> = {};
 
-  abstract run(options: UserContextCommandRunOptions): Promise<void>;
+  abstract _run(options: UserContextCommandRunOptions): Promise<void>;
 
   /**
    * Gets the avatar url of the user.
@@ -35,7 +37,7 @@ export abstract class UserContextCommand {
    * @returns A compatible object with the Discord API.
    */
   toJSON(): CreateContextApplicationCommand {
-    const { name } = this._registerOptions;
+    const { name } = this._declareDecoratorData;
 
     return {
       contexts: [DiscordInteractionContextType.Guild],

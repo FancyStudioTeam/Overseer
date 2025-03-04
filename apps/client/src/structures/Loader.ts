@@ -6,11 +6,23 @@ import { ChatInputCommand } from "./commands/ChatInputCommand.js";
 import { ChatInputSubCommand } from "./commands/ChatInputSubCommand.js";
 import { ChatInputSubCommandGroup } from "./commands/ChatInputSubCommandGroup.js";
 import { UserContextCommand } from "./commands/UserContextCommand.js";
+import { ButtonComponent } from "./components/ButtonComponent.js";
+import { ModalComponent } from "./components/ModalComponent.js";
 
 const __dirname = import.meta.dirname;
 const distFolderPath = join(__dirname, "..");
 
 export class Loader {
+  /** Initializes the resource imports. */
+  async _init(): Promise<void> {
+    await Promise.all([
+      this.importCommands(),
+      this.importComponents(),
+      this.importEvents(),
+      this.importProxyApplication(),
+    ]);
+  }
+
   /**
    * Handles a command instance.
    * @param commandInstance - The command instance to handle.
@@ -75,6 +87,25 @@ export class Loader {
   }
 
   /**
+   * Handles a component instance.
+   * @param componentInstance - The component instance to handle.
+   */
+  private handleComponentInstance(componentInstance: AnyComponent): void {
+    const { _declareDecoratorData } = componentInstance;
+    const { customId } = _declareDecoratorData;
+    const { components } = client;
+    const { buttons, modals } = components;
+
+    if (componentInstance instanceof ButtonComponent) {
+      buttons.set(customId ?? "", componentInstance);
+    }
+
+    if (componentInstance instanceof ModalComponent) {
+      modals.set(customId ?? "", componentInstance);
+    }
+  }
+
+  /**
    * Handles a sub command instance.
    * @param commandInstance - The sub command instance to handle.
    * @param parentCommandFolderPath - The parent command folder path.
@@ -88,6 +119,20 @@ export class Loader {
     parentCommandName: string,
     subCommandGroupName?: string,
   ): Promise<ApplicationCommandOption> {
+    if (commandInstance instanceof ChatInputSubCommand) {
+      const resolvedApplicationCommandOption = commandInstance.toJSON();
+      const { name: subCommandName } = resolvedApplicationCommandOption;
+      const { applicationCommands } = client;
+      const { chatInput } = applicationCommands;
+      const collectionKey = subCommandGroupName
+        ? `${parentCommandName}_${subCommandGroupName}_${subCommandName}`
+        : `${parentCommandName}_${subCommandName}`;
+
+      chatInput.set(collectionKey, commandInstance);
+
+      return resolvedApplicationCommandOption;
+    }
+
     if (commandInstance instanceof ChatInputSubCommandGroup) {
       const { _autoLoad, _subCommandOptions } = commandInstance;
       const resolvedApplicationCommandOption = commandInstance.toJSON();
@@ -128,20 +173,6 @@ export class Loader {
       return resolvedApplicationCommandOption;
     }
 
-    if (commandInstance instanceof ChatInputSubCommand) {
-      const resolvedApplicationCommandOption = commandInstance.toJSON();
-      const { name: subCommandName } = resolvedApplicationCommandOption;
-      const { applicationCommands } = client;
-      const { chatInput } = applicationCommands;
-      const collectionKey = subCommandGroupName
-        ? `${parentCommandName}_${subCommandGroupName}_${subCommandName}`
-        : `${parentCommandName}_${subCommandName}`;
-
-      chatInput.set(collectionKey, commandInstance);
-
-      return resolvedApplicationCommandOption;
-    }
-
     throw new Error(`Cannot handle "${commandInstance}" sub command instance.`);
   }
 
@@ -172,6 +203,24 @@ export class Loader {
     await this.upsertApplicationCommands(resolvedApplicationCommands);
   }
 
+  /** Imports all the components from the components folder. */
+  private async importComponents(): Promise<void> {
+    const componentsPathPattern = this.getComponentPattern();
+    const loadedComponentPaths = await this.loadDirectoryFiles(componentsPathPattern);
+    const importPromises = loadedComponentPaths.map(async (path) => {
+      /**
+       * All components are exported as default exports.
+       * So retreive the "default" property from the object and use it as the component instance.
+       */
+      const { default: ComponentInstance } = await import(this.resolvePath(path));
+      const component = new ComponentInstance() as AnyComponent;
+
+      this.handleComponentInstance(component);
+    });
+
+    await Promise.all(importPromises);
+  }
+
   /** Imports all the events from the events folder. */
   private async importEvents(): Promise<void> {
     const eventsPathPattern = this.getEventsPattern();
@@ -191,11 +240,6 @@ export class Loader {
     await import("@proxy/index.js");
   }
 
-  /** Initializes the resource imports. */
-  async initImports(): Promise<void> {
-    await Promise.all([this.importEvents(), this.importCommands(), this.importProxyApplication()]);
-  }
-
   /**
    * Gets the commands Glob patterns.
    * @returns The commands Glob patterns.
@@ -205,6 +249,14 @@ export class Loader {
     const userContextPattern = `${distFolderPath}/commands/userContext/**/*.command.{js,ts}`;
 
     return [chatInputPattern, userContextPattern];
+  }
+
+  /**
+   * Gets the components Glob pattern.
+   * @returns The components Glob pattern.
+   */
+  private getComponentPattern(): string {
+    return `${distFolderPath}/components/**/*.component.{js,ts}`;
   }
 
   /**
@@ -259,14 +311,14 @@ export class Loader {
   /**
    * Creates a compatible path from a given Glob path to import.
    * @param path - The Glob path object to resolve.
-   * @returns The resolved path.
+   * @returns The resolved string path.
    */
   private resolvePath(path: Path): string {
     return `file://${resolve(path.parentPath, path.name)}`;
   }
 
   /**
-   * Upserts the application commands.
+   * Upserts the application commands to Discord.
    * @param applicationCommands - The application commands to upsert.
    */
   private async upsertApplicationCommands(applicationCommands: CreateApplicationCommand[]): Promise<void> {
@@ -277,6 +329,7 @@ export class Loader {
 }
 
 type AnyCommand = ChatInputCommand | UserContextCommand;
+type AnyComponent = ButtonComponent | ModalComponent;
 type AnySubCommand = ChatInputSubCommand | ChatInputSubCommandGroup;
 
 interface LoadDirectoryFilesOptions {

@@ -7,7 +7,7 @@ import {
 export abstract class ChatInputCommand {
   /** Whether to load all the chat input sub commands automatically. */
   _autoLoad = false;
-  _registerOptions: Partial<ChatInputCommandOptions> = {};
+  _declareDecoratorData: Partial<ChatInputCommandOptions> = {};
   /** The loaded chat input sub commands from the current directory. */
   _subCommandOptions: DiscordApplicationCommandOption[] = [];
 
@@ -16,7 +16,7 @@ export abstract class ChatInputCommand {
    * @returns A compatible object with the Discord API.
    */
   toJSON(): CreateSlashApplicationCommand {
-    const { description, descriptionLocalizations, name } = this._registerOptions;
+    const { description, descriptionLocalizations, name } = this._declareDecoratorData;
     const options = this._subCommandOptions;
 
     return {

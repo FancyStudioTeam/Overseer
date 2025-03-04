@@ -4,15 +4,14 @@ import {
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
 import { client } from "@util/client.js";
-import type { CommandOptionsData } from "@util/decorators.js";
+import type { RunnableInstanceOptions } from "@util/decorators.js";
 import type { DefaultRunnableOptions, User } from "@util/types.js";
 
 export abstract class ChatInputSubCommand {
-  /** The command options to check and handle when the command is executed. */
-  _options: Partial<CommandOptionsData> = {};
-  _registerOptions: Partial<ChatInputSubCommandOptions> = {};
+  _declareDecoratorData: Partial<ChatInputSubCommandOptions> = {};
+  _instanceOptions: Partial<RunnableInstanceOptions> = {};
 
-  abstract run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
+  abstract _run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
 
   /**
    * Gets the avatar url of the user.
@@ -36,7 +35,7 @@ export abstract class ChatInputSubCommand {
    * @returns A compatible object with the Discord API.
    */
   toJSON(): ApplicationCommandOption {
-    const { description, descriptionLocalizations, name, options: _options } = this._registerOptions;
+    const { description, descriptionLocalizations, name, options: _options } = this._declareDecoratorData;
 
     return {
       description: description ?? "",

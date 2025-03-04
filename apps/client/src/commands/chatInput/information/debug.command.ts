@@ -20,7 +20,7 @@ export default class DebugCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async run(options: ChatInputSubCommandRunOptions<never>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<never>): Promise<void> {
     const { context, t } = options;
     const { client: botVersion, discordeno: discordenoVersion, prisma: prismaVersion } = await this.getVersions();
     const [generalInformationField, dependenciesVersionsField]: EmbedField[] = [
@@ -64,21 +64,18 @@ export default class DebugCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Gets the client and the used dependencies versions.
-   * @returns An object containing the client and the used dependencies versions.
+   * Gets the package JSON file data.
+   * @returns An object containing the package JSON file data.
    */
-  async getVersions(): Promise<Versions> {
-    const [client, discordeno, prisma] = await Promise.all([
-      this.getVersion(),
-      this.getVersion("@discordeno/bot"),
-      this.getVersion("@prisma/client"),
-    ]);
+  async getPackageData(): Promise<PackageData> {
+    const packagePath = join(process.cwd(), "package.json");
+    const { default: packageData } = await import(`file://${packagePath}`, {
+      with: {
+        type: "json",
+      },
+    });
 
-    return {
-      client,
-      discordeno,
-      prisma,
-    };
+    return packageData;
   }
 
   /**
@@ -94,18 +91,21 @@ export default class DebugCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Gets the package JSON file data.
-   * @returns An object containing the package JSON file data.
+   * Gets the client and the used dependencies versions.
+   * @returns An object containing the client and the used dependencies versions.
    */
-  async getPackageData(): Promise<PackageData> {
-    const packagePath = join(process.cwd(), "package.json");
-    const { default: packageData } = await import(`file://${packagePath}`, {
-      with: {
-        type: "json",
-      },
-    });
+  async getVersions(): Promise<Versions> {
+    const [client, discordeno, prisma] = await Promise.all([
+      this.getVersion(),
+      this.getVersion("@discordeno/bot"),
+      this.getVersion("@prisma/client"),
+    ]);
 
-    return packageData;
+    return {
+      client,
+      discordeno,
+      prisma,
+    };
   }
 }
 

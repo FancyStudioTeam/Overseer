@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionTypes, type BigString } from "@discordeno/bot";
 import { createMessage } from "@functions/createMessage.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
-import { CommandOptions, Declare } from "@util/decorators.js";
+import { Declare, InstanceOptions } from "@util/decorators.js";
 import { prisma } from "@util/prisma.js";
 import type { Locales } from "@util/types.js";
 
@@ -45,7 +45,7 @@ import type { Locales } from "@util/types.js";
     },
   ],
 })
-@CommandOptions({
+@InstanceOptions({
   permissions: ["MANAGE_GUILD"],
 })
 export default class LocaleCommand extends ChatInputSubCommand {
@@ -53,12 +53,12 @@ export default class LocaleCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async run(options: ChatInputSubCommandRunOptions<LocaleOptions>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<LocaleOptions>): Promise<void> {
     const { context, options: commandOptions, t } = options;
     const { guildId } = context;
 
     if (!guildId) {
-      return;
+      throw new Error("Cannot execute this command without a guild id.");
     }
 
     const { locale: localeOptions } = commandOptions;
@@ -76,7 +76,7 @@ export default class LocaleCommand extends ChatInputSubCommand {
   /**
    * Upserts the guild locale.
    * @param guildIdBigString - The guild id as BigString.
-   * @param locale - The chosen locale to upsert.
+   * @param locale - The locale to upsert.
    * @returns The upserted locale.
    */
   async upsertGuildLocale(guildIdBigString: BigString, locale: Locales): Promise<Locales> {
