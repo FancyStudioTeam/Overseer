@@ -6,6 +6,8 @@ import {
 } from "@discordeno/bot";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 import type { UserContextCommand } from "@structures/commands/UserContextCommand.js";
+import type { ButtonComponent } from "@structures/components/ButtonComponent.js";
+import type { ModalComponent } from "@structures/components/ModalComponent.js";
 import { DISCORD_TOKEN, PROXY_AUTHORIZATION, PROXY_URL } from "@util/config.js";
 import type { Member, User } from "./types.js";
 
@@ -69,6 +71,10 @@ client.applicationCommands = {
   chatInput: new Collection(),
   userContext: new Collection(),
 };
+client.components = {
+  buttons: new Collection(),
+  modals: new Collection(),
+};
 
 client.fetchMember = async (guildIdBigString: BigString, memberIdBigString: BigString): Promise<Member> => {
   const { helpers } = client;
@@ -92,6 +98,11 @@ export type Client = typeof discordenoClient & {
   applicationCommands: {
     chatInput: Collection<string, ChatInputSubCommand>;
     userContext: Collection<string, UserContextCommand>;
+  };
+  /** The component collections. */
+  components: {
+    buttons: Collection<string, ButtonComponent>;
+    modals: Collection<string, ModalComponent>;
   };
   /**
    * Fetchs the member from the cache or Discord API.
