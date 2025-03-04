@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import fastifyCsrf from "@fastify/csrf-protection";
 import fastifyHelmet from "@fastify/helmet";
+import fastifyMultipart from "@fastify/multipart";
 import { NestFactory } from "@nestjs/core";
 import { FastifyAdapter, type NestFastifyApplication } from "@nestjs/platform-fastify";
 import { PROXY_HOST, PROXY_PORT } from "@util/config.js";
@@ -19,6 +20,9 @@ const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyA
 
 await app.register(fastifyHelmet);
 await app.register(fastifyCsrf);
+await app.register(fastifyMultipart, {
+  attachFieldsToBody: true,
+});
 
 await app.listen(PROXY_PORT, PROXY_HOST, async () => {
   const address = await app.getUrl();
