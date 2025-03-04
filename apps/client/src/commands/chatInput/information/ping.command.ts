@@ -19,7 +19,7 @@ export default class PingCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async run(options: ChatInputSubCommandRunOptions<never>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<never>): Promise<void> {
     const { client, context, t } = options;
     const { guildId } = context;
     const { rest } = client;
@@ -43,6 +43,38 @@ export default class PingCommand extends ChatInputSubCommand {
     await createMessage(context, {
       fields: [apiRequestsLatencyField, databaseLatencyField],
     });
+  }
+
+  /**
+   * Calculates the execution time.
+   * @param startTime - The start time of the execution.
+   * @param endTime - The end time of the execution.
+   * @returns The execution time in milliseconds.
+   */
+  calculateExecutionTime(startTime: bigint, endTime: bigint): number {
+    const nanoseconds = Number(endTime - startTime);
+    const milliseconds = nanoseconds / 1_000_000;
+
+    return milliseconds;
+  }
+
+  /**
+   * Gets the execution time of a promise.
+   * @param promise - The promise to execute.
+   * @returns The promise execution time in milliseconds.
+   */
+  async getExecutionTime(promise: GetExecutionTimePromise): Promise<number> {
+    const { hrtime } = process;
+    const startHrtime = hrtime.bigint();
+
+    /** Execute the promise and wait until it is resolved or rejected.  */
+    await promise();
+
+    const endHrtime = hrtime.bigint();
+    const executionTime = this.calculateExecutionTime(startHrtime, endHrtime);
+    const roundedExecutionTime = Math.round(executionTime);
+
+    return roundedExecutionTime;
   }
 
   /**
@@ -73,38 +105,6 @@ export default class PingCommand extends ChatInputSubCommand {
       apiRequests: apiRequestsLatency,
       database: databaseLatency,
     };
-  }
-
-  /**
-   * Gets the execution time of a promise.
-   * @param promise - The promise to execute.
-   * @returns The promise execution time in milliseconds.
-   */
-  async getExecutionTime(promise: GetExecutionTimePromise): Promise<number> {
-    const { hrtime } = process;
-    const startHrtime = hrtime.bigint();
-
-    /** Execute the promise and wait until it is resolved or rejected.  */
-    await promise();
-
-    const endHrtime = hrtime.bigint();
-    const executionTime = this.calculateExecutionTime(startHrtime, endHrtime);
-    const roundedExecutionTime = Math.round(executionTime);
-
-    return roundedExecutionTime;
-  }
-
-  /**
-   * Calculates the execution time.
-   * @param startTime - The start time of the execution.
-   * @param endTime - The end time of the execution.
-   * @returns The execution time in milliseconds.
-   */
-  calculateExecutionTime(startTime: bigint, endTime: bigint): number {
-    const nanoseconds = Number(endTime - startTime);
-    const milliseconds = nanoseconds / 1_000_000;
-
-    return milliseconds;
   }
 }
 

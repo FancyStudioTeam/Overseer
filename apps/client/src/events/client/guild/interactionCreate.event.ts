@@ -238,7 +238,7 @@ client.events.interactionCreate = async (interaction) => {
               return;
             }
 
-            await command.run({
+            await command._run({
               client,
               context: applicationCommandInteraction,
               options: parseCommandOptions(applicationCommandInteraction),
@@ -252,7 +252,7 @@ client.events.interactionCreate = async (interaction) => {
           const targetUser = getTargetUser(applicationCommandInteraction);
 
           if (command) {
-            await command.run({
+            await command._run({
               client,
               context: applicationCommandInteraction,
               t: tCommands,

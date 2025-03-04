@@ -12,7 +12,7 @@ export abstract class ChatInputSubCommand {
   /** The command options to check and handle when the command is executed. */
   _options: Partial<CommandOptionsData> = {};
 
-  abstract run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
+  abstract _run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
 
   /**
    * Gets the avatar url of the user.

@@ -11,7 +11,7 @@ import type { DefaultRunnableOptions, MaybeOptional, Member, User } from "@util/
 export abstract class UserContextCommand {
   _declareDecoratorData: Partial<UserContextCommandOptions> = {};
 
-  abstract run(options: UserContextCommandRunOptions): Promise<void>;
+  abstract _run(options: UserContextCommandRunOptions): Promise<void>;
 
   /**
    * Gets the avatar url of the user.

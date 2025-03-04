@@ -53,12 +53,12 @@ export default class LocaleCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async run(options: ChatInputSubCommandRunOptions<LocaleOptions>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<LocaleOptions>): Promise<void> {
     const { context, options: commandOptions, t } = options;
     const { guildId } = context;
 
     if (!guildId) {
-      return;
+      throw new Error("Cannot execute this command without a guild id.");
     }
 
     const { locale: localeOptions } = commandOptions;

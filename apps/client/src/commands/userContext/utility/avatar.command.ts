@@ -10,7 +10,7 @@ export default class AvatarCommand extends UserContextCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async run(options: UserContextCommandRunOptions): Promise<void> {
+  async _run(options: UserContextCommandRunOptions): Promise<void> {
     const { context, targetUser } = options;
     const avatarUrl = await this.getAvatarUrl(targetUser);
 
