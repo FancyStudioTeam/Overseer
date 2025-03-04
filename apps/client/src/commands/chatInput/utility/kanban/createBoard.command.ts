@@ -31,7 +31,7 @@ export default class KanbanCreateBoardCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async run(options: ChatInputSubCommandRunOptions<Options>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<Options>): Promise<void> {
     const { context, options: commandOptions, t } = options;
     const { user } = context;
     const { id: userId } = user;

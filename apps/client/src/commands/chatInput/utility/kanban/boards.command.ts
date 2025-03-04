@@ -24,7 +24,7 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void> {
     const { context, t } = options;
     const { user } = context;
     const { id: userId } = user;
@@ -44,6 +44,54 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
     await createMessage(context, {
       embeds: kanbanBoardsListEmbeds,
     });
+  }
+
+  /**
+   * Creates an embed object containing the Kanban boards list.
+   * @param kanbanBoards - The Kanban boards.
+   * @param options - The available options.
+   * @returns An embed object containing the Kanban boards list.
+   */
+  async createKanbanBoardsEmbed(
+    kanbanBoards: KanbanBoard[],
+    options: CreateEmbedListOptions,
+  ): Promise<CamelizedDiscordEmbed> {
+    const { authorTranslation, t, user } = options;
+    const formattedKanbanBoards = this.formatKanbanBoards(kanbanBoards, t);
+    const userAvatarUrl = await this.getAvatarUrl(user);
+    const embedListObject: CamelizedDiscordEmbed = {
+      author: {
+        iconUrl: userAvatarUrl,
+        name: authorTranslation,
+      },
+      color: DEFAULT_EMBED_COLOR,
+      description: codeBlock("ansi", formattedKanbanBoards),
+    };
+
+    return embedListObject;
+  }
+
+  /**
+   * Formats the Kanban boards list.
+   * @param kanbanBoards - The Kanban boards to format.
+   * @param t - The function to translate the command messages.
+   * @returns The formatted list of the Kanban boards.
+   */
+  formatKanbanBoards(kanbanBoards: KanbanBoard[], t: TFunction<"commands">): string {
+    const formattedKanbanBoards = kanbanBoards.map((kanbanBoard) => {
+      const { boardTitle, createdAt } = kanbanBoard;
+      const kanbanBoardTranslationItem = t("categories.utility.kanban.boards.message_1.embed_1.description", {
+        boardCreatedAt: formatTimestamp(createdAt),
+        boardName: boardTitle,
+      });
+      const formattedKanbanBoard = formatAnsiKeyValues(kanbanBoardTranslationItem);
+
+      return formattedKanbanBoard;
+    });
+
+    const listSeparator = this.getListSeparator();
+
+    return formattedKanbanBoards.join(listSeparator);
   }
 
   /**
@@ -86,64 +134,6 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
   }
 
   /**
-   * Creates an embed object containing the Kanban boards list.
-   * @param kanbanBoards - The Kanban boards.
-   * @param options - The available options.
-   * @returns An embed object containing the Kanban boards list.
-   */
-  async createKanbanBoardsEmbed(
-    kanbanBoards: KanbanBoard[],
-    options: CreateEmbedListOptions,
-  ): Promise<CamelizedDiscordEmbed> {
-    const { authorTranslation, t, user } = options;
-    const formattedKanbanBoards = this.formatKanbanBoards(kanbanBoards, t);
-    const userAvatarUrl = await this.getAvatarUrl(user);
-    const embedListObject: CamelizedDiscordEmbed = {
-      author: {
-        iconUrl: userAvatarUrl,
-        name: authorTranslation,
-      },
-      color: DEFAULT_EMBED_COLOR,
-      description: codeBlock("ansi", formattedKanbanBoards),
-    };
-
-    return embedListObject;
-  }
-
-  /**
-   * Gets the Kanban boards list separator.
-   * @returns The Kanban boards list separator.
-   */
-  getListSeparator(): string {
-    const lines = "-".repeat(50);
-
-    return `\n${lines}\n`;
-  }
-
-  /**
-   * Formats the Kanban boards list.
-   * @param kanbanBoards - The Kanban boards to format.
-   * @param t - The function to translate the command messages.
-   * @returns The formatted list of the Kanban boards.
-   */
-  formatKanbanBoards(kanbanBoards: KanbanBoard[], t: TFunction<"commands">): string {
-    const formattedKanbanBoards = kanbanBoards.map((kanbanBoard) => {
-      const { boardTitle, createdAt } = kanbanBoard;
-      const kanbanBoardTranslationItem = t("categories.utility.kanban.boards.message_1.embed_1.description", {
-        boardCreatedAt: formatTimestamp(createdAt),
-        boardName: boardTitle,
-      });
-      const formattedKanbanBoard = formatAnsiKeyValues(kanbanBoardTranslationItem);
-
-      return formattedKanbanBoard;
-    });
-
-    const listSeparator = this.getListSeparator();
-
-    return formattedKanbanBoards.join(listSeparator);
-  }
-
-  /**
    * Gets the created or shared user Kanban boards.
    * @param userIdBigString - The user id as BigString.
    * @returns An array containing the created or shared user Kanban boards.
@@ -170,6 +160,16 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
     });
 
     return createdKanbanBoards;
+  }
+
+  /**
+   * Gets the Kanban boards list separator.
+   * @returns The Kanban boards list separator.
+   */
+  getListSeparator(): string {
+    const lines = "-".repeat(50);
+
+    return `\n${lines}\n`;
   }
 
   /**

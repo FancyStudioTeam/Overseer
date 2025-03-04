@@ -33,7 +33,7 @@ export default class KanbanManageBoardCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async run(options: ChatInputSubCommandRunOptions<Options>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<Options>): Promise<void> {
     const { context, options: commandOptions, t } = options;
     const { kanban } = commandOptions;
     const { manage_board: manageBoard } = kanban;
