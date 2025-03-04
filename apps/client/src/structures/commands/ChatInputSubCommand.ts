@@ -11,7 +11,7 @@ export abstract class ChatInputSubCommand {
   _declareDecoratorData: Partial<ChatInputSubCommandOptions> = {};
   _instanceOptions: Partial<RunnableInstanceOptions> = {};
 
-  abstract _run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
+  abstract _run(options: ChatInputSubCommandRunOptions<unknown>): Promise<unknown>;
 
   /**
    * Gets the avatar url of the user.

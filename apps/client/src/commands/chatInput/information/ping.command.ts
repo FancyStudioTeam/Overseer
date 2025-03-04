@@ -19,7 +19,7 @@ export default class PingCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async _run(options: ChatInputSubCommandRunOptions<never>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<never>): Promise<unknown> {
     const { client, context, t } = options;
     const { guildId } = context;
     const { rest } = client;
@@ -40,7 +40,7 @@ export default class PingCommand extends ChatInputSubCommand {
       },
     ];
 
-    await createMessage(context, {
+    return await createMessage(context, {
       fields: [apiRequestsLatencyField, databaseLatencyField],
     });
   }

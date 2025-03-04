@@ -20,7 +20,7 @@ export default class DebugCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async _run(options: ChatInputSubCommandRunOptions<never>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<never>): Promise<unknown> {
     const { context, t } = options;
     const { client: botVersion, discordeno: discordenoVersion, prisma: prismaVersion } = await this.getVersions();
     const [generalInformationField, dependenciesVersionsField]: EmbedField[] = [
@@ -49,7 +49,7 @@ export default class DebugCommand extends ChatInputSubCommand {
       },
     ];
 
-    await createMessage(context, {
+    return await createMessage(context, {
       embeds: [
         {
           author: {

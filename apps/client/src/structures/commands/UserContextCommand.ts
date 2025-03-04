@@ -13,7 +13,7 @@ export abstract class UserContextCommand {
   _declareDecoratorData: Partial<UserContextCommandOptions> = {};
   _instanceOptions: Partial<RunnableInstanceOptions> = {};
 
-  abstract _run(options: UserContextCommandRunOptions): Promise<void>;
+  abstract _run(options: UserContextCommandRunOptions): Promise<unknown>;
 
   /**
    * Gets the avatar url of the user.

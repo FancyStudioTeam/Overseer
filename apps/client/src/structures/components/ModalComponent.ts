@@ -7,7 +7,7 @@ export abstract class ModalComponent {
   _declareDecoratorData: Partial<ModalComponentOptions> = {};
   _instanceOptions: Partial<RunnableInstanceOptions> = {};
 
-  abstract _run(options: ModalComponentRunOptions): Promise<void>;
+  abstract _run(options: ModalComponentRunOptions): Promise<unknown>;
 
   /**
    * Gets the avatar url of the user.

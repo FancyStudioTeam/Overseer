@@ -31,14 +31,13 @@ export default class KanbanCreateBoardCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async _run(options: ChatInputSubCommandRunOptions<Options>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<Options>): Promise<unknown> {
     const { context, options: commandOptions, t } = options;
     const { user } = context;
     const { id: userId } = user;
     const ownedKanbanBoards = await this.getOwnedKanbanBoards(userId);
 
     if (ownedKanbanBoards.length >= MAXIMUM_KANBAN_BOARDS_PER_USER) {
-      // @ts-expect-error
       return await createMessage(
         context,
         t("categories.utility.kanban.board.create.user_reached_maximum_kanban_boards", {
@@ -52,7 +51,7 @@ export default class KanbanCreateBoardCommand extends ChatInputSubCommand {
     const { board_name: boardName } = createBoard;
     const { boardTitle } = await this.createKanbanBoard(boardName, context.user.id);
 
-    await createMessage(
+    return await createMessage(
       context,
       t("categories.utility.kanban.board.create.message_1", {
         boardTitle,

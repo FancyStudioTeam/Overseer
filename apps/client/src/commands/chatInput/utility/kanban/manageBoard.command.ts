@@ -33,7 +33,7 @@ export default class KanbanManageBoardCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async _run(options: ChatInputSubCommandRunOptions<Options>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<Options>): Promise<unknown> {
     const { context, options: commandOptions, t } = options;
     const { kanban } = commandOptions;
     const { manage_board: manageBoard } = kanban;
@@ -43,11 +43,10 @@ export default class KanbanManageBoardCommand extends ChatInputSubCommand {
     const kanbanBoard = await this.getKanbanBoard(boardId, userId);
 
     if (!kanbanBoard) {
-      // @ts-expect-error
-      return await createMessage(context, t("categories.utility.kanban.manage.kanban_board_not_found"));
+      return await createMessage(context, t("categories.utility.kanban.board.manage.kanban_board_not_found"));
     }
 
-    await createMessage(context, {
+    return await createMessage(context, {
       components: [
         {
           components: [

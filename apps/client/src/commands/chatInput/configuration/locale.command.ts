@@ -53,7 +53,7 @@ export default class LocaleCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async _run(options: ChatInputSubCommandRunOptions<LocaleOptions>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<LocaleOptions>): Promise<unknown> {
     const { context, options: commandOptions, t } = options;
     const { guildId } = context;
 
@@ -65,7 +65,7 @@ export default class LocaleCommand extends ChatInputSubCommand {
     const { locale } = localeOptions;
     const upsertedLocale = await this.upsertGuildLocale(guildId, locale);
 
-    await createMessage(
+    return await createMessage(
       context,
       t("categories.configuration.locale.message_1", {
         lng: upsertedLocale.toLowerCase(),

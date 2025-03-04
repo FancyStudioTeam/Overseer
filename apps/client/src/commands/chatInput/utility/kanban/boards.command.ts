@@ -24,14 +24,13 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
    * The method to execute when the command is executed.
    * @param options - The available options.
    */
-  async _run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void> {
+  async _run(options: ChatInputSubCommandRunOptions<unknown>): Promise<unknown> {
     const { context, t } = options;
     const { user } = context;
     const { id: userId } = user;
     const kanbanBoards = await this.getKanbanBoards(userId);
 
     if (kanbanBoards.length === 0) {
-      // @ts-expect-error
       return await createMessage(context, t("categories.utility.kanban.boards.no_created_or_shared_kanban_boards"));
     }
 
@@ -41,7 +40,7 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
       user,
     });
 
-    await createMessage(context, {
+    return await createMessage(context, {
       embeds: kanbanBoardsListEmbeds,
     });
   }
