@@ -11,6 +11,11 @@ const __dirname = import.meta.dirname;
 const distFolderPath = join(__dirname, "..");
 
 export class Loader {
+  /** Initializes the resource imports. */
+  async _init(): Promise<void> {
+    await Promise.all([this.importEvents(), this.importCommands(), this.importProxyApplication()]);
+  }
+
   /**
    * Handles a command instance.
    * @param commandInstance - The command instance to handle.
@@ -189,11 +194,6 @@ export class Loader {
   /** Imports the Nest.js proxy application. */
   private async importProxyApplication(): Promise<void> {
     await import("@proxy/index.js");
-  }
-
-  /** Initializes the resource imports. */
-  async initImports(): Promise<void> {
-    await Promise.all([this.importEvents(), this.importCommands(), this.importProxyApplication()]);
   }
 
   /**
