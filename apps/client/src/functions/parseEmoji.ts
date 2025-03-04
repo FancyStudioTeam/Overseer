@@ -1,4 +1,4 @@
-import type { CUSTOM_EMOJIS } from "@util/constants.js";
+import { CUSTOM_EMOJIS } from "@util/constants.js";
 
 const EMOJI_REGEX = /(?<animated>a?):(?<name>[^:]+):(?<id>\d{17,20})/;
 
@@ -7,7 +7,8 @@ const EMOJI_REGEX = /(?<animated>a?):(?<name>[^:]+):(?<id>\d{17,20})/;
  * @param emoji - The emoji to parse.
  * @returns An object containing the emoji id and name.
  */
-export const parseEmoji = (emoji: Emoji): ParsedEmoji => {
+export const parseEmoji = (emojiLabel: Emoji): ParsedEmoji => {
+  const emoji = CUSTOM_EMOJIS[emojiLabel];
   const match = emoji.match(EMOJI_REGEX);
 
   if (!match) {
