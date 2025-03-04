@@ -4,13 +4,12 @@ import {
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
 import { client } from "@util/client.js";
-import type { CommandOptionsData } from "@util/decorators.js";
+import type { RunnableInstanceOptions } from "@util/decorators.js";
 import type { DefaultRunnableOptions, User } from "@util/types.js";
 
 export abstract class ChatInputSubCommand {
   _declareDecoratorData: Partial<ChatInputSubCommandOptions> = {};
-  /** The command options to check and handle when the command is executed. */
-  _options: Partial<CommandOptionsData> = {};
+  _instanceOptions: Partial<RunnableInstanceOptions> = {};
 
   abstract _run(options: ChatInputSubCommandRunOptions<unknown>): Promise<void>;
 

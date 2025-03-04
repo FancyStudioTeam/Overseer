@@ -41,7 +41,7 @@ export const InstanceOptions =
   <Target extends AnyRunnableInstance>(options: RunnableInstanceOptions = {}) =>
   (target: Target) =>
     class extends target {
-      _options = options;
+      _instanceOptions = options;
     };
 
 export interface RunnableInstanceOptions {

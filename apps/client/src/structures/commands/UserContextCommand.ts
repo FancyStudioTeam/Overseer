@@ -6,10 +6,12 @@ import {
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
 import { client } from "@util/client.js";
+import type { RunnableInstanceOptions } from "@util/decorators.js";
 import type { DefaultRunnableOptions, MaybeOptional, Member, User } from "@util/types.js";
 
 export abstract class UserContextCommand {
   _declareDecoratorData: Partial<UserContextCommandOptions> = {};
+  _instanceOptions: Partial<RunnableInstanceOptions> = {};
 
   abstract _run(options: UserContextCommandRunOptions): Promise<void>;
 

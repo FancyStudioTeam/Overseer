@@ -1,9 +1,11 @@
 import { avatarUrl as getAvatarUrl } from "@discordeno/bot";
 import { client } from "@util/client.js";
+import type { RunnableInstanceOptions } from "@util/decorators.js";
 import type { DefaultRunnableOptions, User } from "@util/types.js";
 
 export abstract class ModalComponent {
   _declareDecoratorData: Partial<ModalComponentOptions> = {};
+  _instanceOptions: Partial<RunnableInstanceOptions> = {};
 
   abstract _run(options: ModalComponentRunOptions): Promise<void>;
 

@@ -22,8 +22,8 @@ import { match } from "ts-pattern";
  * @returns An object containing the command or component permissions.
  */
 const getPermissions = (instance: ChatInputSubCommand): Partial<RunnableInstancePermissions> => {
-  const { _options: options } = instance;
-  const { permissions } = options;
+  const { _instanceOptions } = instance;
+  const { permissions } = _instanceOptions;
 
   if (!permissions) {
     return {};
@@ -88,8 +88,8 @@ const handleInstancePermissions = async (
   member: Member,
   options: HandlePermissionsOptions,
 ): Promise<boolean> => {
-  const { _options: instanceOptions } = instance;
-  const { permissions } = instanceOptions;
+  const { _instanceOptions } = instance;
+  const { permissions } = _instanceOptions;
 
   if (permissions) {
     const { client: clientPermissions, user: userPermission } = getPermissions(instance);
