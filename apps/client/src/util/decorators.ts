@@ -6,6 +6,8 @@ import type {
   ChatInputSubCommandGroupOptions,
 } from "@structures/commands/ChatInputSubCommandGroup.js";
 import type { UserContextCommand, UserContextCommandOptions } from "@structures/commands/UserContextCommand.js";
+import type { ButtonComponent, ButtonComponentOptions } from "@structures/components/ButtonComponent.js";
+import type { ModalComponent, ModalComponentOptions } from "@structures/components/ModalComponent.js";
 
 /**
  * Sets the "_autoLoad" property to "true" from the chat input command instance.
@@ -19,12 +21,12 @@ export const AutoLoad =
     };
 
 /**
- * Declares the command data to register it in the application.
+ * Declares the instance data to the declarable instance.
  * @param options - The available options.
  * @returns The updated declarable command instance.
  */
 export const Declare =
-  <Target extends AnyDeclarableCommand>(options: DeclareOptions<Target>) =>
+  <Target extends AnyDeclarableInstance>(options: DeclareOptions<Target>) =>
   (target: Target) =>
     class extends target {
       _declareDecoratorData = options;
@@ -63,6 +65,9 @@ export interface CommandOptionsPermissions {
 // biome-ignore lint/suspicious/noExplicitAny: TypeScript issues.
 type Instance<T> = new (...args: any[]) => T;
 
+type ButtonComponentInstance = Instance<ButtonComponent>;
+type ModalComponentInstance = Instance<ModalComponent>;
+
 type ChatInputCommandInstance = Instance<ChatInputCommand>;
 type ChatInputSubCommandGroupInstance = Instance<ChatInputSubCommandGroup>;
 type ChatInputSubCommandInstance = Instance<ChatInputSubCommand>;
@@ -74,12 +79,20 @@ type AnyDeclarableCommand =
   | ChatInputSubCommandGroupInstance
   | ChatInputSubCommandInstance
   | UserContextCommandInstance;
+type AnyDeclarableComponent = ButtonComponentInstance | ModalComponentInstance;
+type AnyDeclarableInstance = AnyDeclarableComponent | AnyDeclarableCommand;
 
-type DeclareOptions<DeclarableInstance extends AnyDeclarableCommand> =
-  DeclarableInstance extends ChatInputCommandInstance
-    ? ChatInputCommandOptions
-    : DeclarableInstance extends ChatInputSubCommandGroupInstance
-      ? ChatInputSubCommandGroupOptions
-      : DeclarableInstance extends ChatInputSubCommandInstance
-        ? ChatInputSubCommandOptions
-        : UserContextCommandOptions;
+type DeclareOptions<DeclarableInstance extends AnyDeclarableInstance> =
+  DeclarableInstance extends ButtonComponentInstance
+    ? ButtonComponentOptions
+    : DeclarableInstance extends ChatInputCommandInstance
+      ? ChatInputCommandOptions
+      : DeclarableInstance extends ChatInputSubCommandGroupInstance
+        ? ChatInputSubCommandGroupOptions
+        : DeclarableInstance extends ChatInputSubCommandInstance
+          ? ChatInputSubCommandOptions
+          : DeclarableInstance extends ModalComponentInstance
+            ? ModalComponentOptions
+            : DeclarableInstance extends UserContextCommandInstance
+              ? UserContextCommandOptions
+              : never;
