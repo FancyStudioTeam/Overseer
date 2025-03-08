@@ -17,7 +17,6 @@ export default class KanbanBoardTitleComponent extends ButtonComponent {
    */
   async _run(options: ButtonComponentRunOptions): Promise<unknown> {
     const { client, context, t, values } = options;
-    const { id, token } = context;
     const [boardIdFromCustomId] = values;
     const { kanbanBoardService } = this;
     const kanbanBoard = await kanbanBoardService.getKanbanBoard(boardIdFromCustomId);
@@ -26,16 +25,24 @@ export default class KanbanBoardTitleComponent extends ButtonComponent {
       return await createMessage(context, t("categories.utility.kanban.board.manage.kanban_board_not_found"));
     }
 
-    const { helpers } = client;
-    const interactionResponse = this.getModalInteractionResponse(kanbanBoard, t);
+    const { user, id, token } = context;
+    const { id: userId } = user;
+    const userCanManageKanbanBoard = kanbanBoardService.checkKanbanBoardUserPermissions(kanbanBoard, userId);
 
-    await helpers.sendInteractionResponse(id, token, interactionResponse);
+    if (!userCanManageKanbanBoard) {
+      return await createMessage(context, t("categories.utility.kanban.board.manage.user_cannot_manage_kanban_board"));
+    }
+
+    const { helpers } = client;
+    const modalInteractionResponse = this.getModalInteractionResponse(kanbanBoard, t);
+
+    return await helpers.sendInteractionResponse(id, token, modalInteractionResponse);
   }
 
   /**
    * Gets the modal interaction response object.
+   * @param kanbanBoard - The Kanban board object.
    * @param t - The function to translate the command messages.
-   * @param boardId - The Kanban board id.
    * @returns An object containing the modal interaction response.
    */
   getModalInteractionResponse(kanbanBoard: KanbanBoard, t: TFunction<"commands">): InteractionResponse {
