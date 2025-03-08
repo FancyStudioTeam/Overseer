@@ -67,10 +67,33 @@
                   "delete_board": {
                     "label": "Eliminar Tablero"
                   },
-                  "sections": {
-                    "label": "Secciones"
+                  "manage_sections": {
+                    "components": {
+                      "buttons": {
+                        "create_section": {
+                          "label": "Crear Sección"
+                        },
+                        "delete_section": {
+                          "label": "Eliminar Sección"
+                        },
+                        "edit_section": {
+                          "label": "Editar Sección"
+                        }
+                      }
+                    },
+                    "label": "Gestionar Secciones"
                   },
                   "user_permissions": {
+                    "components": {
+                      "buttons": {
+                        "add_administrator": {
+                          "label": "Añadir Administrador"
+                        },
+                        "delete_administrator": {
+                          "label": "Eliminar Administrador"
+                        }
+                      }
+                    },
                     "label": "Permisos de Usuarios"
                   }
                 }

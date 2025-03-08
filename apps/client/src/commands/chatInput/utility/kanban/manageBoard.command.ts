@@ -70,6 +70,13 @@ export default class KanbanManageBoardCommand extends ChatInputSubCommand {
               type: MessageComponentTypes.Button,
             },
             {
+              customId: `@kanban_manage_board/manage_sections#[${boardId}]`,
+              emoji: parseEmoji("DEVELOPER_BOARD"),
+              label: t("categories.utility.kanban.board.manage.message_1.components.buttons.manage_sections.label"),
+              style: ButtonStyles.Secondary,
+              type: MessageComponentTypes.Button,
+            },
+            {
               customId: `@kanban_manage_board/user_permissions#[${boardId}]`,
               emoji: parseEmoji("GROUP"),
               label: t("categories.utility.kanban.board.manage.message_1.components.buttons.user_permissions.label"),

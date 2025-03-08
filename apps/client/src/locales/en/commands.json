@@ -67,10 +67,33 @@
                   "delete_board": {
                     "label": "Delete Board"
                   },
-                  "sections": {
-                    "label": "Sections"
+                  "manage_sections": {
+                    "components": {
+                      "buttons": {
+                        "create_section": {
+                          "label": "Create Section"
+                        },
+                        "delete_section": {
+                          "label": "Delete Section"
+                        },
+                        "edit_section": {
+                          "label": "Edit Section"
+                        }
+                      }
+                    },
+                    "label": "Manage Sections"
                   },
                   "user_permissions": {
+                    "components": {
+                      "buttons": {
+                        "add_administrator": {
+                          "label": "Add Administrator"
+                        },
+                        "delete_administrator": {
+                          "label": "Delete Administrator"
+                        }
+                      }
+                    },
                     "label": "User Permissions"
                   }
                 }
