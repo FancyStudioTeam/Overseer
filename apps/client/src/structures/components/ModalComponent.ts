@@ -1,4 +1,5 @@
 import { avatarUrl as getAvatarUrl } from "@discordeno/bot";
+import type { ModalTextInputsResolver } from "@structures/interactions/ModalTextInputsResolver.js";
 import { client } from "@util/client.js";
 import type { RunnableInstanceOptions } from "@util/decorators.js";
 import type { DefaultRunnableOptions, User } from "@util/types.js";
@@ -33,6 +34,8 @@ export interface ModalComponentOptions {
 }
 
 export type ModalComponentRunOptions = DefaultRunnableOptions & {
+  /** The resolver to manage the text inputs. */
+  textInputsResolver: ModalTextInputsResolver;
   /** The values retreived from the component custom id. */
   values: string[];
 };
