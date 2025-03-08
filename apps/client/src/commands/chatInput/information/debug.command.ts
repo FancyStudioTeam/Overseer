@@ -25,22 +25,22 @@ export default class DebugCommand extends ChatInputSubCommand {
     const { client: botVersion, discordeno: discordenoVersion, prisma: prismaVersion } = await this.getVersions();
     const [generalInformationField, dependenciesVersionsField]: EmbedField[] = [
       {
-        name: t("information.debug.message_1.embed.field_1.name"),
+        name: t("information.debug.embeds.debug_embed.field_1.name"),
         value: codeBlock(
           "ansi",
           formatAnsiKeyValues(
-            t("information.debug.message_1.embed.field_1.value", {
+            t("information.debug.embeds.debug_embed.field_1.value", {
               botVersion,
             }),
           ),
         ),
       },
       {
-        name: t("information.debug.message_1.embed.field_2.name"),
+        name: t("information.debug.embeds.debug_embed.field_2.name"),
         value: codeBlock(
           "ansi",
           formatAnsiKeyValues(
-            t("information.debug.message_1.embed.field_2.value", {
+            t("information.debug.embeds.debug_embed.field_2.value", {
               discordenoVersion,
               prismaVersion,
             }),
@@ -52,10 +52,7 @@ export default class DebugCommand extends ChatInputSubCommand {
     return await createMessage(
       context,
       {
-        author: {
-          iconUrl: await this.getAvatarUrl(),
-          name: t("information.debug.message_1.embed.author"),
-        },
+        title: t("information.debug.embeds.debug_embed.title"),
         color: DEFAULT_EMBED_COLOR,
         fields: [generalInformationField, dependenciesVersionsField],
       },

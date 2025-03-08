@@ -1,14 +1,18 @@
 {
   "configuration": {
     "locale": {
-      "message_1": "**{{CHECK_CIRCLE_COLORED}} La localización ha sido actualizada a `Español`.**"
+      "embeds": {
+        "success_embed": {
+          "description": "**{{CHECK_CIRCLE_COLORED}} La localización ha sido actualizada a `Español`.**"
+        }
+      }
     }
   },
   "information": {
     "debug": {
-      "message_1": {
-        "embed": {
-          "author": "Información de Depuración",
+      "embeds": {
+        "debug_embed": {
+          "title": "Información de Depuración",
           "field_1": {
             "name": "Información General",
             "value": "Versión » {{botVersion}}"
@@ -21,8 +25,8 @@
       }
     },
     "ping": {
-      "message_1": {
-        "embed": {
+      "embeds": {
+        "ping_embed": {
           "field_1": {
             "name": "Peticiones API"
           },

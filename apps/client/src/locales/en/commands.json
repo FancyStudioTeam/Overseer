@@ -1,14 +1,18 @@
 {
   "configuration": {
     "locale": {
-      "message_1": "**{{CHECK_CIRCLE_COLORED}} The locale has been updated to `English`.**"
+      "embeds": {
+        "success_embed": {
+          "description": "**{{CHECK_CIRCLE_COLORED}} The locale has been updated to `English`.**"
+        }
+      }
     }
   },
   "information": {
     "debug": {
-      "message_1": {
-        "embed": {
-          "author": "Debugging Information",
+      "embeds": {
+        "debug_embed": {
+          "title": "Debugging Information",
           "field_1": {
             "name": "General Information",
             "value": "Version » {{botVersion}}"
@@ -21,8 +25,8 @@
       }
     },
     "ping": {
-      "message_1": {
-        "embed": {
+      "embeds": {
+        "ping_embed": {
           "field_1": {
             "name": "API Requests"
           },
