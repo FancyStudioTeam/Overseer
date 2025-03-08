@@ -6,7 +6,7 @@ import { Declare } from "@util/decorators.js";
 import type { TFunction } from "i18next";
 
 @Declare({
-  customId: "@kanban_manage_board/title",
+  customId: "@kanban_board/title",
 })
 export default class KanbanBoardTitleComponent extends ButtonComponent {
   kanbanBoardService = new KanbanBoardService();
@@ -53,7 +53,7 @@ export default class KanbanBoardTitleComponent extends ButtonComponent {
           {
             components: [
               {
-                customId: "@kanban_manage_board/title",
+                customId: "@kanban_board/title",
                 label: t(
                   "categories.utility.kanban.board.manage.message_1.components.buttons.board_title.components.modals.update_board_title.field_1.name",
                 ),
@@ -68,7 +68,7 @@ export default class KanbanBoardTitleComponent extends ButtonComponent {
             type: MessageComponentTypes.ActionRow,
           },
         ],
-        customId: `@kanban_manage_board/title#[${boardId}]`,
+        customId: `@kanban_board/title#[${boardId}]`,
         title: t(
           "categories.utility.kanban.board.manage.message_1.components.buttons.board_title.components.modals.update_board_title.title",
         ),

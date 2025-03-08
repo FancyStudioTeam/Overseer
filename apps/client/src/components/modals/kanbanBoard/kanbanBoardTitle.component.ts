@@ -4,7 +4,7 @@ import { ModalComponent, type ModalComponentRunOptions } from "@structures/compo
 import { Declare } from "@util/decorators.js";
 
 @Declare({
-  customId: "@kanban_manage_board/title",
+  customId: "@kanban_board/title",
 })
 export default class KanbanBoardTitleComponent extends ModalComponent {
   kanbanBoardService = new KanbanBoardService();
@@ -32,7 +32,7 @@ export default class KanbanBoardTitleComponent extends ModalComponent {
     }
 
     const { boardId } = kanbanBoard;
-    const boardTitle = textInputsResolver.getTextInputValue("@kanban_manage_board/title", true);
+    const boardTitle = textInputsResolver.getTextInputValue("@kanban_board/title", true);
 
     await kanbanBoardService.updateKanbanBoard(boardId, {
       boardTitle,
