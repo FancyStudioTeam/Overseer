@@ -1,4 +1,6 @@
 import { type InteractionResponse, InteractionResponseTypes, MessageComponentTypes, TextStyles } from "@discordeno/bot";
+import { createMessage } from "@functions/createMessage.js";
+import { type KanbanBoard, KanbanBoardService } from "@services/KanbanBoardService.js";
 import { ButtonComponent, type ButtonComponentRunOptions } from "@structures/components/ButtonComponent.js";
 import { Declare } from "@util/decorators.js";
 import type { TFunction } from "i18next";
@@ -6,17 +8,26 @@ import type { TFunction } from "i18next";
 @Declare({
   customId: "@kanban_manage_board/title",
 })
-export default class KanbanBoardChangeTitleComponent extends ButtonComponent {
+export default class KanbanBoardTitleComponent extends ButtonComponent {
+  kanbanBoardService = new KanbanBoardService();
+
   /**
    * The method to execute when the button is pressed.
    * @param options - The available options.
    */
-  async _run(options: ButtonComponentRunOptions): Promise<void> {
+  async _run(options: ButtonComponentRunOptions): Promise<unknown> {
     const { client, context, t, values } = options;
     const { id, token } = context;
     const [boardIdFromCustomId] = values;
+    const { kanbanBoardService } = this;
+    const kanbanBoard = await kanbanBoardService.getKanbanBoard(boardIdFromCustomId);
+
+    if (!kanbanBoard) {
+      return await createMessage(context, t("categories.utility.kanban.board.manage.kanban_board_not_found"));
+    }
+
     const { helpers } = client;
-    const interactionResponse = this.getModalInteractionResponse(t, boardIdFromCustomId);
+    const interactionResponse = this.getModalInteractionResponse(kanbanBoard, t);
 
     await helpers.sendInteractionResponse(id, token, interactionResponse);
   }
@@ -27,7 +38,8 @@ export default class KanbanBoardChangeTitleComponent extends ButtonComponent {
    * @param boardId - The Kanban board id.
    * @returns An object containing the modal interaction response.
    */
-  getModalInteractionResponse(t: TFunction<"commands">, boardId: string): InteractionResponse {
+  getModalInteractionResponse(kanbanBoard: KanbanBoard, t: TFunction<"commands">): InteractionResponse {
+    const { boardId, boardTitle } = kanbanBoard;
     const interactionResponse: InteractionResponse = {
       data: {
         components: [
@@ -43,7 +55,7 @@ export default class KanbanBoardChangeTitleComponent extends ButtonComponent {
                 required: true,
                 style: TextStyles.Short,
                 type: MessageComponentTypes.InputText,
-                value: "isdhfids",
+                value: boardTitle,
               },
             ],
             type: MessageComponentTypes.ActionRow,
