@@ -6,6 +6,7 @@ import {
   type MessageComponent,
   MessageComponentTypes,
 } from "@discordeno/bot";
+import { parseCustomId } from "@functions/parseCustomId.js";
 import type { Interaction, MaybeOptional } from "@util/types.js";
 
 export class ModalTextInputsResolver {
@@ -45,7 +46,8 @@ export class ModalTextInputsResolver {
     ) as InputTextComponent[];
 
     for (const textInputComponent of textInputComponents) {
-      const { customId, value } = textInputComponent;
+      const { customId: textInputComponentCustomId, value } = textInputComponent;
+      const { customId } = parseCustomId(textInputComponentCustomId);
 
       if (!value) {
         continue;
