@@ -49,18 +49,20 @@ export default class DebugCommand extends ChatInputSubCommand {
       },
     ];
 
-    return await createMessage(context, {
-      embeds: [
-        {
-          author: {
-            iconUrl: await this.getAvatarUrl(),
-            name: t("categories.information.debug.message_1.embed.author"),
-          },
-          color: DEFAULT_EMBED_COLOR,
-          fields: [generalInformationField, dependenciesVersionsField],
+    return await createMessage(
+      context,
+      {
+        author: {
+          iconUrl: await this.getAvatarUrl(),
+          name: t("categories.information.debug.message_1.embed.author"),
         },
-      ],
-    });
+        color: DEFAULT_EMBED_COLOR,
+        fields: [generalInformationField, dependenciesVersionsField],
+      },
+      {
+        isEphemeral: false,
+      },
+    );
   }
 
   /**

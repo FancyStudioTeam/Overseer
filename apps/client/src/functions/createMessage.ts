@@ -14,7 +14,7 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
   context: Context,
   content: AnyMessagePayload,
   options: CreateMessageOptions<Context, WithMessage> = {
-    isEphemeral: false,
+    isEphemeral: true,
     withMessage: false,
   } as CreateMessageOptions<Context, WithMessage>,
 ): Promise<CreateMessage<Context, WithMessage>> => {

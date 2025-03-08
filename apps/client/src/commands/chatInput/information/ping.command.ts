@@ -40,9 +40,15 @@ export default class PingCommand extends ChatInputSubCommand {
       },
     ];
 
-    return await createMessage(context, {
-      fields: [apiRequestsLatencyField, databaseLatencyField],
-    });
+    return await createMessage(
+      context,
+      {
+        fields: [apiRequestsLatencyField, databaseLatencyField],
+      },
+      {
+        isEphemeral: false,
+      },
+    );
   }
 
   /**

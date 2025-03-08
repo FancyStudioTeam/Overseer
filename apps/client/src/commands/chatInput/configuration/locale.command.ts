@@ -70,6 +70,9 @@ export default class LocaleCommand extends ChatInputSubCommand {
       t("categories.configuration.locale.message_1", {
         lng: upsertedLocale.toLowerCase(),
       }),
+      {
+        isEphemeral: false,
+      },
     );
   }
 
