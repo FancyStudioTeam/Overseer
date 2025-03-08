@@ -10,6 +10,7 @@ import { inlineCode } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
 import { parseCustomId } from "@functions/parseCustomId.js";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
+import { ModalTextInputsResolver } from "@structures/interactions/ModalTextInputsResolver.js";
 import { client } from "@util/client.js";
 import type { RunnableInstancePermissions } from "@util/decorators.js";
 import { tCommandsFunction, tCommonFunction } from "@util/i18n.js";
@@ -308,12 +309,14 @@ client.events.interactionCreate = async (interaction) => {
         const { components } = client;
         const { modals } = components;
         const component = modals.get(customId);
+        const modalTextInputsResolver = new ModalTextInputsResolver(modalSubmitInteraction);
 
         if (component) {
           await component._run({
             client,
             context: modalSubmitInteraction,
             t: tCommands,
+            textInputsResolver: modalTextInputsResolver,
             values,
           });
         }
