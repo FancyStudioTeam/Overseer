@@ -7,6 +7,7 @@ model UserKanbanBoard {
   id               String                   @id @default(auto()) @map("_id") @db.ObjectId
   ownerId          String
   updatedAt        DateTime                 @updatedAt
+  userIds          String[]                 @default([])
 
   @@index([boardId, ownerId])
 }
@@ -26,13 +27,14 @@ model UserKanbanBoardTask {
 }
 
 model UserKanbanBoardSection {
-  board        UserKanbanBoard       @relation(fields: [boardId], references: [boardId], onDelete: Cascade)
-  boardId      String
-  createdAt    DateTime              @default(now())
-  id           String                @id @default(auto()) @map("_id") @db.ObjectId
-  sectionColor String                @default("#ffffff")
-  sectionId    String                @unique
-  sectionTitle String
-  tasks        UserKanbanBoardTask[]
-  updatedAt    DateTime              @updatedAt
+  board              UserKanbanBoard       @relation(fields: [boardId], references: [boardId], onDelete: Cascade)
+  boardId            String
+  createdAt          DateTime              @default(now())
+  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
+  sectionColor       String                @default("#ffffff")
+  sectionDescription String                @default("A section for the board.")
+  sectionId          String                @unique
+  sectionTitle       String
+  tasks              UserKanbanBoardTask[]
+  updatedAt          DateTime              @updatedAt
 }
