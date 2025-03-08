@@ -114,7 +114,7 @@ const handleInstancePermissions = async (
 
 /**
  * Gets the sub command names from chat input commands.
- * @param interaction - The interaction context.
+ * @param interaction - The interaction context object.
  * @returns An array containing the sub command names.
  */
 const getSubCommands = (interaction: Interaction): string[] => {
@@ -140,7 +140,7 @@ const getSubCommands = (interaction: Interaction): string[] => {
 
 /**
  * Gets the parsed command options object.
- * @param interaction - The interaction context.
+ * @param interaction - The interaction context object.
  * @returns - An object containing the parsed command options.
  */
 const parseCommandOptions = (interaction: Interaction) => {
@@ -152,7 +152,7 @@ const parseCommandOptions = (interaction: Interaction) => {
 
 /**
  * Gets the target member from a user context command, if any.
- * @param interaction - The interaction context.
+ * @param interaction - The interaction context object.
  * @returns The target member object or undefined.
  */
 const getTargetMember = (interaction: Interaction): MaybeOptional<Member> => {
@@ -170,7 +170,7 @@ const getTargetMember = (interaction: Interaction): MaybeOptional<Member> => {
 
 /**
  * Gets the target user from a user context command.
- * @param interaction - The interaction context.
+ * @param interaction - The interaction context object.
  * @returns The target user object.
  */
 const getTargetUser = (interaction: Interaction): User => {
