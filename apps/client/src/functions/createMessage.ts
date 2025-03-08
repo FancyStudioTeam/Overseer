@@ -60,7 +60,7 @@ interface CreateMessageOptionsBase {
 
 interface CreateMessageOptionsUsingInteraction<WithMessage extends boolean> extends CreateMessageOptionsBase {
   /** Whether to fetch the original message object from the interaction response. */
-  withMessage: WithMessage;
+  withMessage?: WithMessage;
 }
 
 type CreateMessageOptions<Context extends AnyContext, WithMessage extends boolean> = Context extends Message
