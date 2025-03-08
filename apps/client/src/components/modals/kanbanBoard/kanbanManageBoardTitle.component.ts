@@ -1,3 +1,4 @@
+import { createMessage } from "@functions/createMessage.js";
 import { KanbanBoardService } from "@services/KanbanBoardService.js";
 import { ModalComponent, type ModalComponentRunOptions } from "@structures/components/ModalComponent.js";
 import { Declare } from "@util/decorators.js";
@@ -13,8 +14,7 @@ export default class KanbanBoardTitleComponent extends ModalComponent {
    * @param options - The available options.
    */
   async _run(options: ModalComponentRunOptions): Promise<unknown> {
-    return;
-    /*const { context, t, values } = options;
+    const { context, t, textInputsResolver, values } = options;
     const [boardIdFromCustomId] = values;
     const { kanbanBoardService } = this;
     const kanbanBoard = await kanbanBoardService.getKanbanBoard(boardIdFromCustomId);
@@ -31,26 +31,16 @@ export default class KanbanBoardTitleComponent extends ModalComponent {
       return await createMessage(context, t("categories.utility.kanban.board.manage.user_cannot_manage_kanban_board"));
     }
 
-    const { boardTitleComponent } = this.getRequiredTextInputs(textInputs);
-    const { value: boardTitle } = boardTitleComponent;
+    const { boardId } = kanbanBoard;
+    const boardTitle = textInputsResolver.getTextInputValue("@kanban_manage_board/title", true);
 
-    await kanbanBoardService.updateKanbanBoard(boardIdFromCustomId, {
+    await kanbanBoardService.updateKanbanBoard(boardId, {
       boardTitle,
     });
 
-    return;
-  }
-
-  getRequiredTextInputs(textInputs: TextInputComponent[]): RequiredTextInputComponents {
-    const boardTitleTextInput = textInputs.find(({ customId }) => customId === "@kanban_manage_board/title");
-
-    if (!boardTitleTextInput) {
-      throw new Error("Cannot find the board title text input component.");
-    }
-
-    return {
-      boardTitleComponent: boardTitleTextInput,
-    };
-  }*/
+    return await createMessage(
+      context,
+      t("categories.utility.kanban.board.manage.message_1.components.buttons.board_title.message_1"),
+    );
   }
 }

@@ -61,7 +61,8 @@
                         }
                       }
                     },
-                    "label": "Título del Tablero"
+                    "label": "Título del Tablero",
+                    "message_1": "**{{CHECK_CIRCLE_COLORED}} El título del tablero Kanban ha sido actualizado.**"
                   },
                   "delete_board": {
                     "label": "Eliminar Tablero"

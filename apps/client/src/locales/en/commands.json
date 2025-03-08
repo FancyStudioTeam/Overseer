@@ -61,7 +61,8 @@
                         }
                       }
                     },
-                    "label": "Board Title"
+                    "label": "Board Title",
+                    "message_1": "**{{CHECK_CIRCLE_COLORED}} The Kanban board title has been updated.**"
                   },
                   "delete_board": {
                     "label": "Delete Board"
