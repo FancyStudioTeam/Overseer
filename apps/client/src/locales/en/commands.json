@@ -1,39 +1,37 @@
 {
-  "categories": {
-    "configuration": {
-      "locale": {
-        "message_1": "**{{CHECK_CIRCLE_COLORED}} The locale has been updated to `English`.**"
+  "configuration": {
+    "locale": {
+      "embeds": {
+        "success_embed": {
+          "description": "**{{CHECK_CIRCLE_COLORED}} The locale has been updated to `English`.**"
+        }
       }
-    },
-    "information": {
-      "debug": {
-        "message_1": {
-          "embeds": {
-            "embed_1": {
-              "author": "Debugging Information",
-              "field_1": {
-                "name": "General Information",
-                "value": "Version » {{botVersion}}"
-              },
-              "field_2": {
-                "name": "Dependencies Versions",
-                "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
-              }
-            }
+    }
+  },
+  "information": {
+    "debug": {
+      "embeds": {
+        "debug_embed": {
+          "title": "Debugging Information",
+          "field_1": {
+            "name": "General Information",
+            "value": "Version » {{botVersion}}"
+          },
+          "field_2": {
+            "name": "Dependencies Versions",
+            "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
           }
         }
-      },
-      "ping": {
-        "message_1": {
-          "embeds": {
-            "embed_1": {
-              "field_1": {
-                "name": "API Requests"
-              },
-              "field_2": {
-                "name": "Database"
-              }
-            }
+      }
+    },
+    "ping": {
+      "embeds": {
+        "ping_embed": {
+          "field_1": {
+            "name": "API Requests"
+          },
+          "field_2": {
+            "name": "Database"
           }
         }
       }

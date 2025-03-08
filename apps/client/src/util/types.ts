@@ -1,4 +1,4 @@
-import type { CreateMessageOptions, Embed, InteractionCallbackData } from "@discordeno/bot";
+import type { Camelize, CreateMessageOptions, DiscordEmbed, InteractionCallbackData } from "@discordeno/bot";
 import type { GuildPreferencesLocale } from "@prisma/client";
 import type { Client, client } from "@util/client.js";
 import type { TFunction } from "i18next";
@@ -14,7 +14,7 @@ export type User = typeof client.transformers.$inferredTypes.user;
 export type MessagePayload = CreateMessageOptions & InteractionCallbackData;
 
 export type AnyContext = Message | Interaction;
-export type AnyMessagePayload = string | Embed | MessagePayload;
+export type AnyMessagePayload = string | Camelize<DiscordEmbed> | MessagePayload;
 
 export type MaybeAwaitable<T> = T | Promise<T>;
 export type MaybeNullable<T> = T | null;

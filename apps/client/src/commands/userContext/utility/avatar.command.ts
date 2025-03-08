@@ -14,10 +14,16 @@ export default class AvatarCommand extends UserContextCommand {
     const { context, targetUser } = options;
     const avatarUrl = await this.getAvatarUrl(targetUser);
 
-    return await createMessage(context, {
-      image: {
-        url: avatarUrl,
+    return await createMessage(
+      context,
+      {
+        image: {
+          url: avatarUrl,
+        },
       },
-    });
+      {
+        isEphemeral: false,
+      },
+    );
   }
 }

@@ -1,39 +1,37 @@
 {
-  "categories": {
-    "configuration": {
-      "locale": {
-        "message_1": "**{{CHECK_CIRCLE_COLORED}} La localización ha sido actualizada a `Español`.**"
+  "configuration": {
+    "locale": {
+      "embeds": {
+        "success_embed": {
+          "description": "**{{CHECK_CIRCLE_COLORED}} La localización ha sido actualizada a `Español`.**"
+        }
       }
-    },
-    "information": {
-      "debug": {
-        "message_1": {
-          "embeds": {
-            "embed_1": {
-              "author": "Información de Depuración",
-              "field_1": {
-                "name": "Información General",
-                "value": "Versión » {{botVersion}}"
-              },
-              "field_2": {
-                "name": "Versiones de Dependencias",
-                "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
-              }
-            }
+    }
+  },
+  "information": {
+    "debug": {
+      "embeds": {
+        "debug_embed": {
+          "title": "Información de Depuración",
+          "field_1": {
+            "name": "Información General",
+            "value": "Versión » {{botVersion}}"
+          },
+          "field_2": {
+            "name": "Versiones de Dependencias",
+            "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
           }
         }
-      },
-      "ping": {
-        "message_1": {
-          "embeds": {
-            "embed_1": {
-              "field_1": {
-                "name": "Peticiones API"
-              },
-              "field_2": {
-                "name": "Base de Datos"
-              }
-            }
+      }
+    },
+    "ping": {
+      "embeds": {
+        "ping_embed": {
+          "field_1": {
+            "name": "Peticiones API"
+          },
+          "field_2": {
+            "name": "Base de Datos"
           }
         }
       }

@@ -67,9 +67,12 @@ export default class LocaleCommand extends ChatInputSubCommand {
 
     return await createMessage(
       context,
-      t("categories.configuration.locale.message_1", {
+      t("configuration.locale.embeds.success_embed.description", {
         lng: upsertedLocale.toLowerCase(),
       }),
+      {
+        isEphemeral: false,
+      },
     );
   }
 
