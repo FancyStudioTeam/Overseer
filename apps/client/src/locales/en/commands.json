@@ -12,7 +12,6 @@
     "debug": {
       "embeds": {
         "debug_embed": {
-          "title": "Debugging Information",
           "field_1": {
             "name": "General Information",
             "value": "Version » {{botVersion}}"
@@ -20,7 +19,8 @@
           "field_2": {
             "name": "Dependencies Versions",
             "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
-          }
+          },
+          "title": "Debugging Information"
         }
       }
     },
@@ -35,84 +35,115 @@
           }
         }
       }
-    },
-    "utility": {
-      "kanban": {
-        "board": {
-          "create": {
-            "message_1": "**{{CHECK_CIRCLE_COLORED}} The Kanban board `{{boardTitle}}` has been created.**",
-            "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} You have reached the maximum number of Kanban boards.**\n**{{INFO}} The limit is set at `{{maximum}}` Kanban boards per user.**"
-          },
-          "manage": {
-            "kanban_board_not_found": "**{{CANCEL_COLORED}} The Kanban board `{{boardId}}` has not been found.**",
-            "message_1": {
-              "components": {
-                "buttons": {
-                  "board_title": {
-                    "components": {
-                      "modals": {
-                        "update_board_title": {
-                          "field_1": {
-                            "name": "Board Title"
-                          },
-                          "title": "Change board title"
-                        }
-                      }
-                    },
-                    "label": "Board Title",
-                    "message_1": "**{{CHECK_CIRCLE_COLORED}} The Kanban board title has been updated.**"
-                  },
-                  "delete_board": {
-                    "label": "Delete Board"
-                  },
-                  "manage_sections": {
-                    "components": {
-                      "buttons": {
-                        "create_section": {
-                          "label": "Create Section"
-                        },
-                        "delete_section": {
-                          "label": "Delete Section"
-                        },
-                        "edit_section": {
-                          "label": "Edit Section"
-                        }
-                      }
-                    },
-                    "label": "Manage Sections"
-                  },
-                  "user_permissions": {
-                    "components": {
-                      "buttons": {
-                        "add_administrator": {
-                          "label": "Add Administrator"
-                        },
-                        "delete_administrator": {
-                          "label": "Delete Administrator"
-                        }
-                      }
-                    },
-                    "label": "User Permissions"
-                  }
-                }
-              }
-            },
-            "user_cannot_manage_kanban_board": "**{{CANCEL_COLORED}} You cannot manage this Kanban board.**"
-          }
+    }
+  },
+  "utility": {
+    "kanban": {
+      "board": {
+        "create": {
+          "message_1": "**{{CHECK_CIRCLE_COLORED}} The Kanban board `{{boardTitle}}` has been created.**",
+          "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} You have reached the maximum number of Kanban boards.**\n**{{INFO}} The limit is set at `{{maximum}}` Kanban boards per user.**"
         },
-        "boards": {
-          "message_1": {
-            "embed_1": {
-              "author": "Kanban boards created by you",
-              "description": "Name » {{boardName}}\nID » {{boardId}}\nCreation Date » {{boardCreatedAt}}"
+        "manage": {
+          "components": {
+            "board_title_button": {
+              "components": {
+                "update_board_title_modal": {
+                  "board_title_input": {
+                    "label": "Board Title"
+                  },
+                  "title": "Update Board Title"
+                }
+              },
+              "label": "Board Title"
             },
-            "embed_2": {
-              "author": "Kanban boards shared with you",
-              "description": "Name » {{boardName}}\nID » {{boardId}}\nCreation Date » {{boardCreatedAt}}"
+            "delete_board_button": {
+              "label": "Delete Board"
+            },
+            "manage_sections_button": {
+              "components": {
+                "create_section_button": {
+                  "components": {
+                    "create_section_modal": {
+                      "section_description_input": {
+                        "label": "Section Description (Optional)"
+                      },
+                      "section_name_input": {
+                        "label": "Section Name"
+                      },
+                      "title": "Create Section"
+                    }
+                  },
+                  "label": "Create Section"
+                },
+                "delete_section_button": {
+                  "label": "Delete Section"
+                },
+                "edit_section_button": {
+                  "label": "Edit Section"
+                }
+              },
+              "label": "Manage Sections"
+            },
+            "manage_users_button": {
+              "components": {
+                "manage_administrators_button": {
+                  "components": {
+                    "add_administrator_button": {
+                      "label": "Add Administrator"
+                    },
+                    "delete_administrator_button": {
+                      "label": "Delete Administrator"
+                    }
+                  },
+                  "label": "Manage Administrators"
+                },
+                "manage_users_button": {
+                  "components": {
+                    "add_user_button": {
+                      "label": "Add User"
+                    },
+                    "delete_user_button": {
+                      "label": "Delete User"
+                    }
+                  },
+                  "label": "Manage Users"
+                }
+              },
+              "label": "Manage Users"
             }
           },
-          "no_created_or_shared_kanban_boards": "**{{CANCEL_COLORED}} You don't have any created or shared Kanban board.**"
+          "embeds": {
+            "information_embed": {
+              "creation_date_field": {
+                "name": "Creation Date"
+              },
+              "general_information_field": {
+                "name": "General Information",
+                "value": "Name » {{boardTitle}}\nID » {{boardId}}"
+              },
+              "last_update_field": {
+                "name": "Last Update"
+              },
+              "title": "Kanban Board Information"
+            }
+          },
+          "kanban_board_not_found": "**{{CANCEL_COLORED}} The Kanban board `{{boardId}}` has not been found.**",
+          "user_cannot_manage_kanban_board": "**{{CANCEL_COLORED}} You cannot manage this Kanban board.**"
         }
+      },
+      "boards": {
+        "message_1": {
+          "embed_1": {
+            "author": "Kanban boards created by you",
+            "description": "Name » {{boardName}}\nID » {{boardId}}\nCreation Date » {{boardCreatedAt}}"
+          },
+          "embed_2": {
+            "author": "Kanban boards shared with you",
+            "description": "Name » {{boardName}}\nID » {{boardId}}\nCreation Date » {{boardCreatedAt}}"
+          }
+        },
+        "no_created_or_shared_kanban_boards": "**{{CANCEL_COLORED}} You don't have any created or shared Kanban board.**"
       }
     }
   }

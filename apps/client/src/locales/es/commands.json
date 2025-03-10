@@ -12,7 +12,6 @@
     "debug": {
       "embeds": {
         "debug_embed": {
-          "title": "Información de Depuración",
           "field_1": {
             "name": "Información General",
             "value": "Versión » {{botVersion}}"
@@ -20,7 +19,8 @@
           "field_2": {
             "name": "Versiones de Dependencias",
             "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
-          }
+          },
+          "title": "Información de Depuración"
         }
       }
     },
@@ -35,84 +35,115 @@
           }
         }
       }
-    },
-    "utility": {
-      "kanban": {
-        "board": {
-          "create": {
-            "message_1": "**{{CHECK_CIRCLE_COLORED}} El tablero Kanban `{{boardTitle}}` ha sido creado.**",
-            "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} Has alcanzado el número máximo de tableros Kanban.**\n**{{INFO}} El límite está establecido a `{{maximum}}` tableros Kanban por usuario.**"
-          },
-          "manage": {
-            "kanban_board_not_found": "**{{CANCEL_COLORED}} El tablero Kanban `{{boardId}}` no ha sido encontrado.**",
-            "message_1": {
-              "components": {
-                "buttons": {
-                  "board_title": {
-                    "components": {
-                      "modals": {
-                        "update_board_title": {
-                          "field_1": {
-                            "name": "Título del Tablero"
-                          },
-                          "title": "Cambiar título del tablero"
-                        }
-                      }
-                    },
-                    "label": "Título del Tablero",
-                    "message_1": "**{{CHECK_CIRCLE_COLORED}} El título del tablero Kanban ha sido actualizado.**"
-                  },
-                  "delete_board": {
-                    "label": "Eliminar Tablero"
-                  },
-                  "manage_sections": {
-                    "components": {
-                      "buttons": {
-                        "create_section": {
-                          "label": "Crear Sección"
-                        },
-                        "delete_section": {
-                          "label": "Eliminar Sección"
-                        },
-                        "edit_section": {
-                          "label": "Editar Sección"
-                        }
-                      }
-                    },
-                    "label": "Gestionar Secciones"
-                  },
-                  "user_permissions": {
-                    "components": {
-                      "buttons": {
-                        "add_administrator": {
-                          "label": "Añadir Administrador"
-                        },
-                        "delete_administrator": {
-                          "label": "Eliminar Administrador"
-                        }
-                      }
-                    },
-                    "label": "Permisos de Usuarios"
-                  }
-                }
-              }
-            },
-            "user_cannot_manage_kanban_board": "**{{CANCEL_COLORED}} No puedes gestionar este tablero Kanban.**"
-          }
+    }
+  },
+  "utility": {
+    "kanban": {
+      "board": {
+        "create": {
+          "message_1": "**{{CHECK_CIRCLE_COLORED}} El tablero Kanban `{{boardTitle}}` ha sido creado.**",
+          "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} Has alcanzado el número máximo de tableros Kanban.**\n**{{INFO}} El límite está establecido a `{{maximum}}` tableros Kanban por usuario.**"
         },
-        "boards": {
-          "message_1": {
-            "embed_1": {
-              "author": "Tableros Kanban creados por ti",
-              "description": "Nombre » {{boardName}}\nID » {{boardId}}\nFecha Creación » {{boardCreatedAt}}"
+        "manage": {
+          "components": {
+            "board_title_button": {
+              "components": {
+                "update_board_title_modal": {
+                  "board_title_input": {
+                    "label": "Título del Tablero"
+                  },
+                  "title": "Actualizar Título del Tablero"
+                }
+              },
+              "label": "Título del Tablero"
             },
-            "embed_2": {
-              "author": "Tableros Kanban compartidos contigo",
-              "description": "Nombre » {{boardName}}\nID » {{boardId}}\nFecha Creación » {{boardCreatedAt}}"
+            "delete_board_button": {
+              "label": "Eliminar Tablero"
+            },
+            "manage_sections_button": {
+              "components": {
+                "create_section_button": {
+                  "components": {
+                    "create_section_modal": {
+                      "section_description_input": {
+                        "label": "Descripción de la Sección (Opcional)"
+                      },
+                      "section_name_input": {
+                        "label": "Nombre de la Sección"
+                      },
+                      "title": "Crear Sección"
+                    }
+                  },
+                  "label": "Crear Sección"
+                },
+                "delete_section_button": {
+                  "label": "Eliminar Sección"
+                },
+                "edit_section_button": {
+                  "label": "Editar Sección"
+                }
+              },
+              "label": "Gestionar Secciones"
+            },
+            "manage_users_button": {
+              "components": {
+                "manage_administrators_button": {
+                  "components": {
+                    "add_administrator_button": {
+                      "label": "Añadir Administrador"
+                    },
+                    "delete_administrator_button": {
+                      "label": "Eliminar Administrador"
+                    }
+                  },
+                  "label": "Gestionar Administradores"
+                },
+                "manage_users_button": {
+                  "components": {
+                    "add_user_button": {
+                      "label": "Añadir Usuario"
+                    },
+                    "delete_user_button": {
+                      "label": "Eliminar Usuario"
+                    }
+                  },
+                  "label": "Gestionar Usuarios"
+                }
+              },
+              "label": "Gestionar Usuarios"
             }
           },
-          "no_created_or_shared_kanban_boards": "**{{CANCEL_COLORED}} No tienes ningún tablero Kanban creado o compartido.**"
+          "embeds": {
+            "information_embed": {
+              "general_information_field": {
+                "name": "Información General",
+                "value": "Nombre » {{boardTitle}}\nID » {{boardId}}"
+              },
+              "creation_date_field": {
+                "name": "Fecha de Creación"
+              },
+              "last_update_field": {
+                "name": "Última Actualización"
+              },
+              "title": "Información del Tablero Kanban"
+            }
+          },
+          "kanban_board_not_found": "**{{CANCEL_COLORED}} El tablero Kanban `{{boardId}}` no ha sido encontrado.**",
+          "user_cannot_manage_kanban_board": "**{{CANCEL_COLORED}} No puedes gestionar este tablero Kanban.**"
         }
+      },
+      "boards": {
+        "message_1": {
+          "embed_1": {
+            "author": "Tableros Kanban creados por ti",
+            "description": "Nombre » {{boardName}}\nID » {{boardId}}\nFecha Creación » {{boardCreatedAt}}"
+          },
+          "embed_2": {
+            "author": "Tableros Kanban compartidos contigo",
+            "description": "Nombre » {{boardName}}\nID » {{boardId}}\nFecha Creación » {{boardCreatedAt}}"
+          }
+        },
+        "no_created_or_shared_kanban_boards": "**{{CANCEL_COLORED}} No tienes ningún tablero Kanban creado o compartido.**"
       }
     }
   }
