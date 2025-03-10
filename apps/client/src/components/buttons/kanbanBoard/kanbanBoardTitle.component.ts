@@ -22,7 +22,7 @@ export default class KanbanBoardTitleComponent extends ButtonComponent {
     const kanbanBoard = await kanbanBoardService.getKanbanBoard(boardIdFromCustomId);
 
     if (!kanbanBoard) {
-      return await createMessage(context, t("categories.utility.kanban.board.manage.kanban_board_not_found"));
+      return await createMessage(context, t("utility.kanban.board.manage.kanban_board_not_found"));
     }
 
     const { user, id, token } = context;
@@ -30,7 +30,7 @@ export default class KanbanBoardTitleComponent extends ButtonComponent {
     const userCanManageKanbanBoard = kanbanBoardService.checkKanbanBoardUserPermissions(kanbanBoard, userId);
 
     if (!userCanManageKanbanBoard) {
-      return await createMessage(context, t("categories.utility.kanban.board.manage.user_cannot_manage_kanban_board"));
+      return await createMessage(context, t("utility.kanban.board.manage.user_cannot_manage_kanban_board"));
     }
 
     const { helpers } = client;
@@ -55,7 +55,7 @@ export default class KanbanBoardTitleComponent extends ButtonComponent {
               {
                 customId: "@kanban_board/title",
                 label: t(
-                  "categories.utility.kanban.board.manage.message_1.components.buttons.board_title.components.modals.update_board_title.field_1.name",
+                  "utility.kanban.board.manage.components.board_title_button.components.update_board_title_modal.board_title_input.label",
                 ),
                 maxLength: 35,
                 minLength: 3,
@@ -69,9 +69,7 @@ export default class KanbanBoardTitleComponent extends ButtonComponent {
           },
         ],
         customId: `@kanban_board/title#[${boardId}]`,
-        title: t(
-          "categories.utility.kanban.board.manage.message_1.components.buttons.board_title.components.modals.update_board_title.title",
-        ),
+        title: t("utility.kanban.board.manage.components.board_title_button.components.update_board_title_modal.title"),
       },
       type: InteractionResponseTypes.Modal,
     };

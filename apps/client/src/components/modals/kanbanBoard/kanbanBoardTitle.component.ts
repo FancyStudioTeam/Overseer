@@ -1,4 +1,5 @@
 import { createMessage } from "@functions/createMessage.js";
+import { editMessage } from "@functions/editMessage.js";
 import { KanbanBoardService } from "@services/KanbanBoardService.js";
 import { ModalComponent, type ModalComponentRunOptions } from "@structures/components/ModalComponent.js";
 import { Declare } from "@util/decorators.js";
@@ -20,7 +21,7 @@ export default class KanbanBoardTitleComponent extends ModalComponent {
     const kanbanBoard = await kanbanBoardService.getKanbanBoard(boardIdFromCustomId);
 
     if (!kanbanBoard) {
-      return await createMessage(context, t("categories.utility.kanban.board.manage.kanban_board_not_found"));
+      return await createMessage(context, t("utility.kanban.board.manage.kanban_board_not_found"));
     }
 
     const { user } = context;
@@ -28,19 +29,16 @@ export default class KanbanBoardTitleComponent extends ModalComponent {
     const userCanManageKanbanBoard = kanbanBoardService.checkKanbanBoardUserPermissions(kanbanBoard, userId);
 
     if (!userCanManageKanbanBoard) {
-      return await createMessage(context, t("categories.utility.kanban.board.manage.user_cannot_manage_kanban_board"));
+      return await createMessage(context, t("utility.kanban.board.manage.user_cannot_manage_kanban_board"));
     }
 
     const { boardId } = kanbanBoard;
     const boardTitle = textInputsResolver.getTextInputValue("@kanban_board/title", true);
-
-    await kanbanBoardService.updateKanbanBoard(boardId, {
+    const updatedKanbanBoard = await kanbanBoardService.updateKanbanBoard(boardId, {
       boardTitle,
     });
+    const messagePayload = kanbanBoardService.createKanbanBoardConfigurationPayload(updatedKanbanBoard, t);
 
-    return await createMessage(
-      context,
-      t("categories.utility.kanban.board.manage.message_1.components.buttons.board_title.message_1"),
-    );
+    return await editMessage(context, messagePayload);
   }
 }
