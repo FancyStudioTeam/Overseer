@@ -101,6 +101,9 @@ importers:
       rxjs:
         specifier: 7.8.2
         version: 7.8.2
+      ts-mixer:
+        specifier: 6.0.4
+        version: 6.0.4
       ts-pattern:
         specifier: 5.6.2
         version: 5.6.2
@@ -2446,6 +2449,9 @@ packages:
   triple-beam@1.4.1:
     resolution: {integrity: sha512-aZbgViZrg1QNcG+LULa7nhZpJTZSLm/mXnHXnbAbjmN5aSa0y7V+wvv6+4WaBtpISJzThKy+PIPxc1Nq1EJ9mg==}
     engines: {node: '>= 14.0.0'}
+
+  ts-mixer@6.0.4:
+    resolution: {integrity: sha512-ufKpbmrugz5Aou4wcr5Wc1UUFWOLhq+Fm6qa6P0w0K5Qw2yhaUoiWszhCVuNQyNwrlGiscHOmqYoAox1PtvgjA==}
 
   ts-pattern@5.6.2:
     resolution: {integrity: sha512-d4IxJUXROL5NCa3amvMg6VQW2HVtZYmUTPfvVtO7zJWGYLJ+mry9v2OmYm+z67aniQoQ8/yFNadiEwtNS9qQiw==}
@@ -4887,6 +4893,8 @@ snapshots:
   touch@3.1.1: {}
 
   triple-beam@1.4.1: {}
+
+  ts-mixer@6.0.4: {}
 
   ts-pattern@5.6.2: {}
 
