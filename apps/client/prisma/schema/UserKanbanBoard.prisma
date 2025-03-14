@@ -13,17 +13,17 @@ model UserKanbanBoard {
 }
 
 model UserKanbanBoardTask {
-  createdAt     DateTime               @default(now())
+  assignedByIds String[]                    @default([])
+  createdAt     DateTime                    @default(now())
+  creatorId     String
   description   String
-  id            String                 @id @default(auto()) @map("_id") @db.ObjectId
-  priority      String
-  section       UserKanbanBoardSection @relation(fields: [sectionId], references: [sectionId], onDelete: Cascade)
+  id            String                      @unique
+  objectId      String                      @id @default(auto()) @map("_id") @db.ObjectId
+  priority      UserKanbanBoardTaskPriority @default(Low)
+  section       UserKanbanBoardSection      @relation(fields: [sectionId], references: [sectionId], onDelete: Cascade)
   sectionId     String
-  taskCreatorId String
-  taskId        String                 @unique
-  taskName      String
   title         String
-  updatedAt     DateTime               @updatedAt
+  updatedAt     DateTime                    @updatedAt
 }
 
 model UserKanbanBoardSection {
@@ -34,7 +34,14 @@ model UserKanbanBoardSection {
   sectionColor       String                @default("#ffffff")
   sectionDescription String                @default("A section for the board.")
   sectionId          String                @unique
+  sectionPosition    Int                   @default(1)
   sectionTitle       String
   tasks              UserKanbanBoardTask[]
   updatedAt          DateTime              @updatedAt
+}
+
+enum UserKanbanBoardTaskPriority {
+  High
+  Low
+  Medium
 }
