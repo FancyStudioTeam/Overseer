@@ -1,15 +1,15 @@
 model UserKanbanBoard {
   administratorIds String[]                 @default([])
-  boardId          String                   @unique
-  boardSections    UserKanbanBoardSection[]
-  boardTitle       String
   createdAt        DateTime                 @default(now())
-  id               String                   @id @default(auto()) @map("_id") @db.ObjectId
-  ownerId          String
+  creatorId        String
+  id               String                   @unique
+  objectId         String                   @id @default(auto()) @map("_id") @db.ObjectId
+  sections         UserKanbanBoardSection[]
+  title            String
   updatedAt        DateTime                 @updatedAt
   userIds          String[]                 @default([])
 
-  @@index([boardId, ownerId])
+  @@index([creatorId, id])
 }
 
 model UserKanbanBoardTask {
@@ -20,24 +20,28 @@ model UserKanbanBoardTask {
   id            String                      @unique
   objectId      String                      @id @default(auto()) @map("_id") @db.ObjectId
   priority      UserKanbanBoardTaskPriority @default(Low)
-  section       UserKanbanBoardSection      @relation(fields: [sectionId], references: [sectionId], onDelete: Cascade)
+  section       UserKanbanBoardSection      @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   sectionId     String
   title         String
   updatedAt     DateTime                    @updatedAt
+
+  @@index([creatorId, id, sectionId])
 }
 
 model UserKanbanBoardSection {
-  board              UserKanbanBoard       @relation(fields: [boardId], references: [boardId], onDelete: Cascade)
-  boardId            String
-  createdAt          DateTime              @default(now())
-  id                 String                @id @default(auto()) @map("_id") @db.ObjectId
-  sectionColor       String                @default("#ffffff")
-  sectionDescription String                @default("A section for the board.")
-  sectionId          String                @unique
-  sectionPosition    Int                   @default(1)
-  sectionTitle       String
-  tasks              UserKanbanBoardTask[]
-  updatedAt          DateTime              @updatedAt
+  board       UserKanbanBoard       @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId     String
+  color       String                @default("#ffffff")
+  createdAt   DateTime              @default(now())
+  description String                @default("Tasks related to this section.")
+  id          String                @unique
+  objectId    String                @id @default(auto()) @map("_id") @db.ObjectId
+  position    Int                   @default(1)
+  tasks       UserKanbanBoardTask[]
+  title       String
+  updatedAt   DateTime              @updatedAt
+
+  @@index([boardId, id])
 }
 
 enum UserKanbanBoardTaskPriority {
