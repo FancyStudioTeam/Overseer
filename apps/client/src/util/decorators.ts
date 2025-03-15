@@ -8,6 +8,7 @@ import type {
 import type { UserContextCommand, UserContextCommandOptions } from "@structures/commands/UserContextCommand.js";
 import type { ButtonComponent, ButtonComponentOptions } from "@structures/components/ButtonComponent.js";
 import type { ModalComponent, ModalComponentOptions } from "@structures/components/ModalComponent.js";
+import type { SelectMenuComponent, SelectMenuComponentOptions } from "@structures/components/SelectMenuComponent.js";
 
 /**
  * Sets the "_autoLoad" property to "true" from the command instance.
@@ -66,6 +67,7 @@ type Instance<T> = new (...args: any[]) => T;
 
 type ButtonComponentInstance = Instance<ButtonComponent>;
 type ModalComponentInstance = Instance<ModalComponent>;
+type SelectMenuComponentInstance = Instance<SelectMenuComponent>;
 
 type ChatInputCommandInstance = Instance<ChatInputCommand>;
 type ChatInputSubCommandGroupInstance = Instance<ChatInputSubCommandGroup>;
@@ -78,7 +80,7 @@ type AnyDeclarableCommand =
   | ChatInputSubCommandGroupInstance
   | ChatInputSubCommandInstance
   | UserContextCommandInstance;
-type AnyDeclarableComponent = ButtonComponentInstance | ModalComponentInstance;
+type AnyDeclarableComponent = ButtonComponentInstance | ModalComponentInstance | SelectMenuComponentInstance;
 type AnyDeclarableInstance = AnyDeclarableComponent | AnyDeclarableCommand;
 type AnyRunnableInstance =
   | ButtonComponentInstance
@@ -97,6 +99,8 @@ type DeclareOptions<DeclarableInstance extends AnyDeclarableInstance> =
           ? ChatInputSubCommandOptions
           : DeclarableInstance extends ModalComponentInstance
             ? ModalComponentOptions
-            : DeclarableInstance extends UserContextCommandInstance
-              ? UserContextCommandOptions
-              : never;
+            : DeclarableInstance extends SelectMenuComponentInstance
+              ? SelectMenuComponentOptions
+              : DeclarableInstance extends UserContextCommandInstance
+                ? UserContextCommandOptions
+                : never;
