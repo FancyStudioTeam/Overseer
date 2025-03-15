@@ -149,7 +149,7 @@ export class KanbanBoardDiscordService {
       },
       {
         customId: `@kanban_board/change_position#[${sectionId}]`,
-        emoji: parseEmoji("BOLT"),
+        emoji: parseEmoji("ARROW_DOWN_UP"),
         label: t(
           "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.components.change_position_button.label",
         ),

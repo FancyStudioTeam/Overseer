@@ -4,6 +4,7 @@ import { client } from "./client.js";
 export const APPLICATION_ID = client.applicationId;
 
 export const CUSTOM_EMOJIS = {
+  ARROW_DOWN_UP: "<:_:1350555752049152162>",
   BOLT: "<:_:1348780297436532798>",
   BOOK_TYPE: "<:_:1348771323954073640>",
   CIRCLE_CHECK: "<:_:1350248256344428737>",
