@@ -32,8 +32,8 @@ export default class KanbanBoardCreateSectionComponent extends ModalComponent {
       return await createMessage(context, t("utility.kanban.board.manage.user_cannot_manage_kanban_board"));
     }
 
-    const sectionTitle = textInputsResolver.getTextInputValue("@kanban_board/create_section/name", true);
-    const sectionDescription = textInputsResolver.getTextInputValue("@kanban_board/create_section/description");
+    const sectionTitle = textInputsResolver.getTextInputValue("title", true);
+    const sectionDescription = textInputsResolver.getTextInputValue("description");
 
     const createdKanbanBoardSection = await kanbanBoardService.createKanbanBoardSection(kanbanBoard, {
       description: sectionDescription,

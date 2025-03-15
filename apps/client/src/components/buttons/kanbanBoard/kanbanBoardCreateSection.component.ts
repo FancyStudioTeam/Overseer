@@ -54,7 +54,7 @@ export default class KanbanBoardCreateSectionComponent extends ButtonComponent {
           {
             components: [
               {
-                customId: `@kanban_board/create_section/name#[${boardId}]`,
+                customId: "title",
                 label: t(
                   "utility.kanban.board.manage.components.manage_sections_button.components.create_section_button.components.create_section_modal.section_name_input.label",
                 ),
@@ -70,7 +70,7 @@ export default class KanbanBoardCreateSectionComponent extends ButtonComponent {
           {
             components: [
               {
-                customId: `@kanban_board/create_section/description#[${boardId}]`,
+                customId: "description",
                 label: t(
                   "utility.kanban.board.manage.components.manage_sections_button.components.create_section_button.components.create_section_modal.section_description_input.label",
                 ),
