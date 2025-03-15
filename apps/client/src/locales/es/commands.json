@@ -85,6 +85,17 @@
                       "label": "Eliminar Sección"
                     },
                     "edit_section_button": {
+                      "components": {
+                        "edit_section_modal": {
+                          "section_description_input": {
+                            "label": "Descripción de la Sección (Opcional)"
+                          },
+                          "section_title_input": {
+                            "label": "Título de la Sección"
+                          },
+                          "title": "Editar Sección"
+                        }
+                      },
                       "label": "Editar Sección"
                     }
                   },

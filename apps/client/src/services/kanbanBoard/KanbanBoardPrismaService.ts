@@ -92,7 +92,7 @@ export class KanbanBoardPrismaService {
   }
 
   /**
-   * Deletes a Kanban board section.
+   * Deletes the Kanban board section.
    * @param kanbanBoardSection - The Kanban board section object.
    * @returns The deleted Kanban board section object.
    */
@@ -173,7 +173,7 @@ export class KanbanBoardPrismaService {
   }
 
   /**
-   * Updates the Kanban board object.
+   * Updates a Kanban board object.
    * @param boardId - The Kanban board id to update.
    * @param updateQuery - The data to update.
    * @returns The updated Kanban board object.
@@ -191,6 +191,34 @@ export class KanbanBoardPrismaService {
     });
 
     return updatedKanbanBoard;
+  }
+
+  /**
+   * Updates a Kanban board section.
+   * @param sectionId - The Kanban board section id.
+   * @param updateQuery - The data to update.
+   * @returns The updated Kanban board section object.
+   */
+  async updateKanbanBoardSection(
+    sectionId: string,
+    updateQuery: UpdateKanbanBoardSectionQuery,
+  ): Promise<KanbanBoardSection> {
+    const { userKanbanBoardSection } = prisma;
+    const updatedKanbanBoardSection = await userKanbanBoardSection.update({
+      data: updateQuery,
+      include: {
+        board: {
+          include: {
+            sections: true,
+          },
+        },
+      },
+      where: {
+        id: sectionId,
+      },
+    });
+
+    return updatedKanbanBoardSection;
   }
 }
 
@@ -212,3 +240,4 @@ export type KanbanBoardSection = Prisma.UserKanbanBoardSectionGetPayload<{
 type CreateKanbanBoardQuery = Omit<Prisma.UserKanbanBoardCreateInput, "id" | "sections">;
 type CreateKanbanBoardSectionQuery = Omit<Prisma.UserKanbanBoardSectionCreateInput, "board" | "id">;
 type UpdateKanbanBoardQuery = Prisma.UserKanbanBoardUpdateInput;
+type UpdateKanbanBoardSectionQuery = Prisma.UserKanbanBoardSectionUpdateInput;

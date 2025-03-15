@@ -85,6 +85,17 @@
                       "label": "Delete Section"
                     },
                     "edit_section_button": {
+                      "components": {
+                        "edit_section_modal": {
+                          "section_description_input": {
+                            "label": "Section Description (Optional)"
+                          },
+                          "section_title_input": {
+                            "label": "Section Title"
+                          },
+                          "title": "Edit Section"
+                        }
+                      },
                       "label": "Edit Section"
                     }
                   },
