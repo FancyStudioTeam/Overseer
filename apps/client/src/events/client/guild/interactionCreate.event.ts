@@ -14,6 +14,7 @@ import { ModalTextInputsResolver } from "@structures/interactions/ModalTextInput
 import { client } from "@util/client.js";
 import type { RunnableInstancePermissions } from "@util/decorators.js";
 import { tCommandsFunction, tCommonFunction } from "@util/i18n.js";
+import { logger } from "@util/logger.js";
 import { prisma } from "@util/prisma.js";
 import type { Interaction, Locales, MaybeOptional, Member, User } from "@util/types.js";
 import type { TFunction } from "i18next";
@@ -229,39 +230,43 @@ client.events.interactionCreate = async (interaction) => {
             const subCommandNames = getSubCommands(applicationCommandInteraction).join("_");
             const command = chatInputCommands.get(`${commandName}_${subCommandNames}`);
 
-            if (command) {
-              const permissionsWereApproved = await handleInstancePermissions(command, member, {
-                context: applicationCommandInteraction,
-                locale,
-                t: tCommon,
-              });
-
-              if (!permissionsWereApproved) {
-                return;
-              }
-
-              await command._run({
-                client,
-                context: applicationCommandInteraction,
-                options: parseCommandOptions(applicationCommandInteraction),
-                t: tCommands,
-              });
+            if (!command) {
+              return logger.warn(`Cannot find chat input command with name "${commandName}".`);
             }
+
+            const permissionsWereApproved = await handleInstancePermissions(command, member, {
+              context: applicationCommandInteraction,
+              locale,
+              t: tCommon,
+            });
+
+            if (!permissionsWereApproved) {
+              return;
+            }
+
+            await command._run({
+              client,
+              context: applicationCommandInteraction,
+              options: parseCommandOptions(applicationCommandInteraction),
+              t: tCommands,
+            });
           })
           .with(ApplicationCommandTypes.User, async () => {
             const command = userContextCommands.get(commandName);
             const targetMember = getTargetMember(applicationCommandInteraction);
             const targetUser = getTargetUser(applicationCommandInteraction);
 
-            if (command) {
-              await command._run({
-                client,
-                context: applicationCommandInteraction,
-                t: tCommands,
-                targetMember,
-                targetUser,
-              });
+            if (!command) {
+              return logger.warn(`Cannot find user context command with name "${commandName}".`);
             }
+
+            await command._run({
+              client,
+              context: applicationCommandInteraction,
+              t: tCommands,
+              targetMember,
+              targetUser,
+            });
           });
       },
     )
@@ -278,20 +283,48 @@ client.events.interactionCreate = async (interaction) => {
 
         const { customId, values } = parseCustomId(componentCustomId);
         const { components } = client;
-        const { buttons } = components;
+        const { buttons, selectMenus } = components;
 
-        match(componentType).with(MessageComponentTypes.Button, async () => {
-          const component = buttons.get(customId);
+        match(componentType)
+          .with(MessageComponentTypes.Button, async () => {
+            const component = buttons.get(customId);
 
-          if (component) {
+            if (!component) {
+              return logger.warn(`Cannot find button component with custom id "${customId}".`);
+            }
+
             await component._run({
               client,
               context: messageComponentInteraction,
               t: tCommands,
               values,
             });
-          }
-        });
+          })
+          .when(
+            (componentType) =>
+              componentType &&
+              [
+                MessageComponentTypes.SelectMenu,
+                MessageComponentTypes.SelectMenuChannels,
+                MessageComponentTypes.SelectMenuRoles,
+                MessageComponentTypes.SelectMenuUsers,
+                MessageComponentTypes.SelectMenuUsersAndRoles,
+              ].includes(componentType),
+            async () => {
+              const component = selectMenus.get(customId);
+
+              if (!component) {
+                return logger.warn(`Cannot find select menu component with custom id "${customId}".`);
+              }
+
+              await component._run({
+                client,
+                context: messageComponentInteraction,
+                t: tCommands,
+                values,
+              });
+            },
+          );
       },
     )
     .with(
