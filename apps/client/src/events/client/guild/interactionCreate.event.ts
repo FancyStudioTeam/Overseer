@@ -11,6 +11,7 @@ import { createMessage } from "@functions/createMessage.js";
 import { parseCustomId } from "@functions/parseCustomId.js";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
 import { ModalTextInputsResolver } from "@structures/interactions/ModalTextInputsResolver.js";
+import { SelectMenuOptionsResolver } from "@structures/interactions/SelectMenuOptionsResolver.js";
 import { client } from "@util/client.js";
 import type { RunnableInstancePermissions } from "@util/decorators.js";
 import { tCommandsFunction, tCommonFunction } from "@util/i18n.js";
@@ -312,6 +313,7 @@ client.events.interactionCreate = async (interaction) => {
               ].includes(componentType),
             async () => {
               const component = selectMenus.get(customId);
+              const selectMenuOptionsResolver = new SelectMenuOptionsResolver(messageComponentInteraction);
 
               if (!component) {
                 return logger.warn(`Cannot find select menu component with custom id "${customId}".`);
@@ -320,6 +322,7 @@ client.events.interactionCreate = async (interaction) => {
               await component._run({
                 client,
                 context: messageComponentInteraction,
+                optionsResolver: selectMenuOptionsResolver,
                 t: tCommands,
                 values,
               });
