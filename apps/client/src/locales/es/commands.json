@@ -77,6 +77,32 @@
                   "label": "Crear Sección"
                 },
                 "manage_sections_dropdown": {
+                  "components": {
+                    "change_position_button": {
+                      "label": "Cambiar Posición"
+                    },
+                    "delete_section_button": {
+                      "label": "Eliminar Sección"
+                    },
+                    "edit_section_button": {
+                      "label": "Editar Sección"
+                    }
+                  },
+                  "embeds": {
+                    "information_embed": {
+                      "creation_date_field": {
+                        "name": "Fecha de Creación"
+                      },
+                      "general_information_field": {
+                        "name": "Información General",
+                        "value": "Título » {{sectionTitle}}\nID » {{sectionId}}\nPosición » {{sectionPosition}}"
+                      },
+                      "last_update_field": {
+                        "name": "Última Actualización"
+                      },
+                      "title": "Información de la Sección"
+                    }
+                  },
                   "options": {
                     "section_option": {
                       "label": "Gestionar sección \"{{sectionTitle}}\"."
@@ -94,6 +120,7 @@
                   "title": "Secciones del Tablero Kanban"
                 }
               },
+              "kanban_board_section_not_found": "**{{CIRCLE_X}} La sección del tablero Kanban `{{sectionId}}` no ha sido encontrado.**",
               "label": "Gestionar Secciones"
             },
             "manage_users_button": {

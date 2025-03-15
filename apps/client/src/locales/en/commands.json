@@ -77,6 +77,32 @@
                   "label": "Create Section"
                 },
                 "manage_sections_dropdown": {
+                  "components": {
+                    "change_position_button": {
+                      "label": "Change Position"
+                    },
+                    "delete_section_button": {
+                      "label": "Delete Section"
+                    },
+                    "edit_section_button": {
+                      "label": "Edit Section"
+                    }
+                  },
+                  "embeds": {
+                    "information_embed": {
+                      "creation_date_field": {
+                        "name": "Creation Date"
+                      },
+                      "general_information_field": {
+                        "name": "General Information",
+                        "value": "Title » {{sectionTitle}}\nID » {{sectionId}}\nPosition » {{sectionPosition}}"
+                      },
+                      "last_update_field": {
+                        "name": "Last Update"
+                      },
+                      "title": "Section Information"
+                    }
+                  },
                   "options": {
                     "section_option": {
                       "label": "Manage \"{{sectionTitle}}\" section."
@@ -94,6 +120,7 @@
                   "title": "Kanban Board Sections"
                 }
               },
+              "kanban_board_section_not_found": "**{{CIRCLE_X}} The Kanban board section `{{sectionId}}` has not been found.**",
               "label": "Manage Sections"
             },
             "manage_users_button": {

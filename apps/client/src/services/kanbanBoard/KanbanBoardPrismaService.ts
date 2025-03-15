@@ -92,6 +92,45 @@ export class KanbanBoardPrismaService {
   }
 
   /**
+   * Deletes a Kanban board section.
+   * @param kanbanBoardSection - The Kanban board section object.
+   * @returns The deleted Kanban board section object.
+   */
+  async deleteKanbanBoardSection(kanbanBoardSection: KanbanBoardSection): Promise<KanbanBoardSection> {
+    const { id: sectionId, position: sectionPosition } = kanbanBoardSection;
+    const { userKanbanBoardSection } = prisma;
+    const [deletedKanbanBoardSection] = await prisma.$transaction([
+      userKanbanBoardSection.delete({
+        include: {
+          board: {
+            include: {
+              sections: true,
+            },
+          },
+        },
+        where: {
+          id: sectionId,
+        },
+      }),
+      /** Find all the sections with a greater position than the current one and decrement their position by 1. */
+      userKanbanBoardSection.updateMany({
+        data: {
+          position: {
+            decrement: 1,
+          },
+        },
+        where: {
+          position: {
+            gt: sectionPosition,
+          },
+        },
+      }),
+    ]);
+
+    return deletedKanbanBoardSection;
+  }
+
+  /**
    * Gets the Kanban board object.
    * @param boardId - The Kanban board id.
    * @returns The Kanban board object.
@@ -108,6 +147,29 @@ export class KanbanBoardPrismaService {
     });
 
     return kanbanBoard;
+  }
+
+  /**
+   * Gets the Kanban board section object.
+   * @param sectionId - The Kanban board section id.
+   * @returns The Kanban board section object.
+   */
+  async getKanbanBoardSection(sectionId: string): Promise<MaybeNullish<KanbanBoardSection>> {
+    const { userKanbanBoardSection } = prisma;
+    const kanbanBoardSection = await userKanbanBoardSection.findUnique({
+      include: {
+        board: {
+          include: {
+            sections: true,
+          },
+        },
+      },
+      where: {
+        id: sectionId,
+      },
+    });
+
+    return kanbanBoardSection;
   }
 
   /**
