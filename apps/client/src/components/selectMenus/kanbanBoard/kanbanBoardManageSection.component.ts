@@ -5,7 +5,7 @@ import { SelectMenuComponent, type SelectMenuComponentRunOptions } from "@struct
 import { Declare } from "@util/decorators.js";
 
 @Declare({
-  customId: "@kanban_board/manage_sections",
+  customId: "@kanban_board/manage_section",
 })
 export default class KanbanBoardManageSectionComponent extends SelectMenuComponent {
   kanbanBoardService = new KanbanBoardService();

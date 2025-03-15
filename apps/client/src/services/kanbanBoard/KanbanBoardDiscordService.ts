@@ -142,7 +142,7 @@ export class KanbanBoardDiscordService {
         customId: `@kanban_board/edit_section#[${sectionId}]`,
         emoji: parseEmoji("BOLT"),
         label: t(
-          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.components.edit_section_button.label",
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.components.edit_section_button.label",
         ),
         style: ButtonStyles.Secondary,
         type: MessageComponentTypes.Button,
@@ -151,7 +151,7 @@ export class KanbanBoardDiscordService {
         customId: `@kanban_board/change_position#[${sectionId}]`,
         emoji: parseEmoji("BOLT"),
         label: t(
-          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.components.change_position_button.label",
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.components.change_position_button.label",
         ),
         style: ButtonStyles.Secondary,
         type: MessageComponentTypes.Button,
@@ -160,7 +160,7 @@ export class KanbanBoardDiscordService {
         customId: `@kanban_board/delete_section#[${sectionId}]`,
         emoji: parseEmoji("TRASH_2"),
         label: t(
-          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.components.delete_section_button.label",
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.components.delete_section_button.label",
         ),
         style: ButtonStyles.Danger,
         type: MessageComponentTypes.Button,
@@ -196,13 +196,13 @@ export class KanbanBoardDiscordService {
     const [generalInformationField, creationDateField, lastUpdateField]: EmbedField[] = [
       {
         name: t(
-          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.general_information_field.name",
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.embeds.information_embed.general_information_field.name",
         ),
         value: codeBlock(
           "ansi",
           formatAnsiKeyValues(
             t(
-              "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.general_information_field.value",
+              "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.embeds.information_embed.general_information_field.value",
               {
                 sectionId,
                 sectionPosition,
@@ -214,13 +214,13 @@ export class KanbanBoardDiscordService {
       },
       {
         name: t(
-          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.creation_date_field.name",
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.embeds.information_embed.creation_date_field.name",
         ),
         value: codeBlock("ansi", magenta(bold(formattedSectionCreatedAt))),
       },
       {
         name: t(
-          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.last_update_field.name",
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.embeds.information_embed.last_update_field.name",
         ),
         value: codeBlock("ansi", magenta(bold(formattedSectionUpdatedAt))),
       },
@@ -229,7 +229,7 @@ export class KanbanBoardDiscordService {
       color: DEFAULT_EMBED_COLOR,
       fields: [generalInformationField, creationDateField, lastUpdateField],
       title: t(
-        "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.title",
+        "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.embeds.information_embed.title",
       ),
       url: OAUTH2_INVITE_URL,
     };
@@ -264,7 +264,7 @@ export class KanbanBoardDiscordService {
       const boardSectionOption: SelectOption = {
         emoji: parseEmoji("BOLT"),
         label: t(
-          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.options.section_option.label",
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.options.section_option.label",
           {
             sectionTitle,
           },
@@ -277,9 +277,9 @@ export class KanbanBoardDiscordService {
     const [manageKanbanBoardSectionsDropdown]: SelectMenuComponent[] = [
       {
         type: MessageComponentTypes.SelectMenu,
-        customId: `@kanban_board/manage_sections#[${boardId}]`,
+        customId: `@kanban_board/manage_section#[${boardId}]`,
         placeholder: t(
-          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.placeholder",
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_section_dropdown.placeholder",
         ),
         options: boardSectionOptions,
       },

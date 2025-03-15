@@ -76,7 +76,7 @@
                   },
                   "label": "Crear Sección"
                 },
-                "manage_sections_dropdown": {
+                "manage_section_dropdown": {
                   "components": {
                     "change_position_button": {
                       "label": "Cambiar Posición"
