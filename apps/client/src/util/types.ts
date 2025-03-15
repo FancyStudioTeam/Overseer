@@ -18,7 +18,7 @@ export type User = typeof user;
 export type MessagePayload = CreateMessageOptions & InteractionCallbackData;
 
 export type AnyContext = Message | Interaction;
-export type AnyMessagePayload = string | Camelize<DiscordEmbed> | MessagePayload;
+export type AnyMessagePayload = string | CamelizedDiscordEmbed | MessagePayload;
 
 export type MaybeAwaitable<T> = T | Promise<T>;
 export type MaybeNullable<T> = T | null;
@@ -31,6 +31,8 @@ export interface DefaultRunnableOptions {
   /** The function to translate the command messages. */
   t: TCommands;
 }
+
+export type CamelizedDiscordEmbed = Camelize<DiscordEmbed>;
 
 export type TCommands = TFunction<"commands">;
 export type TCommon = TFunction<"common">;
