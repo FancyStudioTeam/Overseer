@@ -1,5 +1,4 @@
 import {
-  ApplicationCommandOptionTypes,
   ApplicationCommandTypes,
   InteractionTypes,
   MessageComponentTypes,
@@ -10,6 +9,7 @@ import { inlineCode } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
 import { parseCustomId } from "@functions/parseCustomId.js";
 import type { ChatInputSubCommand } from "@structures/commands/ChatInputSubCommand.js";
+import { ChatInputOptionsResolver } from "@structures/interactions/ChatInputOptionsResolver.js";
 import { ModalTextInputsResolver } from "@structures/interactions/ModalTextInputsResolver.js";
 import { SelectMenuOptionsResolver } from "@structures/interactions/SelectMenuOptionsResolver.js";
 import { client } from "@util/client.js";
@@ -115,32 +115,6 @@ const handleInstancePermissions = async (
 };
 
 /**
- * Gets the sub command names from chat input commands.
- * @param interaction - The interaction context object.
- * @returns An array containing the sub command names.
- */
-const getSubCommands = (interaction: Interaction): string[] => {
-  const { data } = interaction;
-  const { options } = data ?? {};
-
-  /** Find the first sub command group option. */
-  const subCommandGroup = options?.find((option) => option.type === ApplicationCommandOptionTypes.SubCommandGroup);
-
-  if (subCommandGroup) {
-    const { name: subCommandGroupName, options } = subCommandGroup;
-    /** Find the first sub command option from the sub command group options. */
-    const subCommand = options?.find((option) => option.type === ApplicationCommandOptionTypes.SubCommand);
-
-    return subCommand ? [subCommandGroupName, subCommand.name] : [];
-  }
-
-  /** Find the first sub command option. */
-  const subCommand = options?.find((option) => option.type === ApplicationCommandOptionTypes.SubCommand);
-
-  return subCommand ? [subCommand.name] : [];
-};
-
-/**
  * Gets the parsed command options object.
  * @param interaction - The interaction context object.
  * @returns - An object containing the parsed command options.
@@ -227,7 +201,8 @@ client.events.interactionCreate = async (interaction) => {
 
         match(commandType)
           .with(ApplicationCommandTypes.ChatInput, async () => {
-            const subCommandNames = getSubCommands(applicationCommandInteraction).join("_");
+            const optionsResolver = new ChatInputOptionsResolver(interaction);
+            const subCommandNames = optionsResolver.getSubCommandNames();
             const command = chatInputCommands.get(`${commandName}_${subCommandNames}`);
 
             if (!command) {
@@ -247,6 +222,7 @@ client.events.interactionCreate = async (interaction) => {
             await command._run({
               context: applicationCommandInteraction,
               options: parseCommandOptions(applicationCommandInteraction),
+              optionsResolver,
               t: tCommands,
             });
           })
@@ -309,7 +285,7 @@ client.events.interactionCreate = async (interaction) => {
               ].includes(componentType),
             async () => {
               const component = selectMenus.get(customId);
-              const selectMenuOptionsResolver = new SelectMenuOptionsResolver(messageComponentInteraction);
+              const optionsResolver = new SelectMenuOptionsResolver(messageComponentInteraction);
 
               if (!component) {
                 return logger.warn(`Cannot find select menu component with custom id "${customId}".`);
@@ -317,7 +293,7 @@ client.events.interactionCreate = async (interaction) => {
 
               await component._run({
                 context: messageComponentInteraction,
-                optionsResolver: selectMenuOptionsResolver,
+                optionsResolver,
                 t: tCommands,
                 values,
               });
@@ -340,13 +316,13 @@ client.events.interactionCreate = async (interaction) => {
         const { components } = client;
         const { modals } = components;
         const component = modals.get(customId);
-        const modalTextInputsResolver = new ModalTextInputsResolver(modalSubmitInteraction);
+        const textInputsResolver = new ModalTextInputsResolver(modalSubmitInteraction);
 
         if (component) {
           await component._run({
             context: modalSubmitInteraction,
             t: tCommands,
-            textInputsResolver: modalTextInputsResolver,
+            textInputsResolver,
             values,
           });
         }

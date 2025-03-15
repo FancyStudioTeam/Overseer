@@ -3,6 +3,7 @@ import {
   ApplicationCommandOptionTypes,
   avatarUrl as getAvatarUrl,
 } from "@discordeno/bot";
+import type { ChatInputOptionsResolver } from "@structures/interactions/ChatInputOptionsResolver.js";
 import { client } from "@util/client.js";
 import type { RunnableInstanceOptions } from "@util/decorators.js";
 import type { DefaultRunnableOptions, User } from "@util/types.js";
@@ -54,4 +55,6 @@ export type ChatInputSubCommandOptions = Pick<
 export type ChatInputSubCommandRunOptions<Options> = DefaultRunnableOptions & {
   /** The parsed sub command options object. */
   options: Options;
+  /** The resolver to manage the application commands options. */
+  optionsResolver: ChatInputOptionsResolver;
 };
