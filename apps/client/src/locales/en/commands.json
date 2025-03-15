@@ -131,7 +131,7 @@
                   "title": "Kanban Board Sections"
                 }
               },
-              "kanban_board_section_not_found": "**{{CIRCLE_X}} The Kanban board section `{{sectionId}}` has not been found.**",
+              "kanban_board_section_not_found": "**{{CIRCLE_X}} The Kanban board section has not been found.**",
               "label": "Manage Sections"
             },
             "manage_users_button": {
@@ -177,7 +177,7 @@
               "title": "Kanban Board Information"
             }
           },
-          "kanban_board_not_found": "**{{CIRCLE_X}} The Kanban board `{{boardId}}` has not been found.**",
+          "kanban_board_not_found": "**{{CIRCLE_X}} The Kanban board has not been found.**",
           "user_cannot_manage_kanban_board": "**{{CIRCLE_X}} You cannot manage this Kanban board.**"
         }
       },

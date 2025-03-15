@@ -41,12 +41,7 @@ export default class KanbanManageBoardCommand extends ChatInputSubCommand {
     const kanbanBoard = await kanbanBoardService.getKanbanBoard(boardId);
 
     if (!kanbanBoard) {
-      return await createMessage(
-        context,
-        t("utility.kanban.board.manage.kanban_board_not_found", {
-          boardId,
-        }),
-      );
+      return await createMessage(context, t("utility.kanban.board.manage.kanban_board_not_found"));
     }
 
     const { user } = context;

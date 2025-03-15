@@ -23,9 +23,7 @@ export default class KanbanBoardDeleteSectionComponent extends ButtonComponent {
     if (!kanbanBoardSection) {
       return await createMessage(
         context,
-        t("utility.kanban.board.manage.components.manage_sections_button.kanban_board_section_not_found", {
-          sectionId: sectionIdFromCustomId,
-        }),
+        t("utility.kanban.board.manage.components.manage_sections_button.kanban_board_section_not_found"),
       );
     }
 

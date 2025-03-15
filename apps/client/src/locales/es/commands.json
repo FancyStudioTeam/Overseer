@@ -131,7 +131,7 @@
                   "title": "Secciones del Tablero Kanban"
                 }
               },
-              "kanban_board_section_not_found": "**{{CIRCLE_X}} La sección del tablero Kanban `{{sectionId}}` no ha sido encontrado.**",
+              "kanban_board_section_not_found": "**{{CIRCLE_X}} La sección del tablero Kanban no ha sido encontrada.**",
               "label": "Gestionar Secciones"
             },
             "manage_users_button": {
@@ -177,7 +177,7 @@
               "title": "Información del Tablero Kanban"
             }
           },
-          "kanban_board_not_found": "**{{CIRCLE_X}} El tablero Kanban `{{boardId}}` no ha sido encontrado.**",
+          "kanban_board_not_found": "**{{CIRCLE_X}} El tablero Kanban no ha sido encontrado.**",
           "user_cannot_manage_kanban_board": "**{{CIRCLE_X}} No puedes gestionar este tablero Kanban.**"
         }
       },
