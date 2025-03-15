@@ -17,8 +17,7 @@ import type { RunnableInstancePermissions } from "@util/decorators.js";
 import { tCommandsFunction, tCommonFunction } from "@util/i18n.js";
 import { logger } from "@util/logger.js";
 import { prisma } from "@util/prisma.js";
-import type { Interaction, Locales, MaybeOptional, Member, User } from "@util/types.js";
-import type { TFunction } from "i18next";
+import type { Interaction, Locales, MaybeOptional, Member, TCommon, User } from "@util/types.js";
 import { match } from "ts-pattern";
 
 /**
@@ -246,7 +245,6 @@ client.events.interactionCreate = async (interaction) => {
             }
 
             await command._run({
-              client,
               context: applicationCommandInteraction,
               options: parseCommandOptions(applicationCommandInteraction),
               t: tCommands,
@@ -262,7 +260,6 @@ client.events.interactionCreate = async (interaction) => {
             }
 
             await command._run({
-              client,
               context: applicationCommandInteraction,
               t: tCommands,
               targetMember,
@@ -295,7 +292,6 @@ client.events.interactionCreate = async (interaction) => {
             }
 
             await component._run({
-              client,
               context: messageComponentInteraction,
               t: tCommands,
               values,
@@ -320,7 +316,6 @@ client.events.interactionCreate = async (interaction) => {
               }
 
               await component._run({
-                client,
                 context: messageComponentInteraction,
                 optionsResolver: selectMenuOptionsResolver,
                 t: tCommands,
@@ -349,7 +344,6 @@ client.events.interactionCreate = async (interaction) => {
 
         if (component) {
           await component._run({
-            client,
             context: modalSubmitInteraction,
             t: tCommands,
             textInputsResolver: modalTextInputsResolver,
@@ -366,5 +360,5 @@ interface HandlePermissionsOptions {
   /** The guild locale. */
   locale: Locales;
   /** The function to translate the common messages. */
-  t: TFunction<"common">;
+  t: TCommon;
 }
