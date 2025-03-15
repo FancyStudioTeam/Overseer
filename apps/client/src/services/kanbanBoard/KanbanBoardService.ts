@@ -11,18 +11,36 @@ export class KanbanBoardService extends Mixin(KanbanBoardDiscordService, KanbanB
    * @returns Whether the user has permissions to manage the Kanban board.
    */
   checkKanbanBoardUserPermissions(kanbanBoard: KanbanBoard, userIdBigString: BigString): boolean {
+    const isOwner = this.userIsOwner(kanbanBoard, userIdBigString);
+    const isAdministrator = this.userIsAdministrator(kanbanBoard, userIdBigString);
+
+    return isOwner || isAdministrator;
+  }
+
+  /**
+   * Checks whether the user is an administrator of the Kanban board.
+   * @param kanbanBoard - The Kanban board object.
+   * @param userIdBigString - The user id as BigString.
+   * @returns Whether the user is an administrator of the Kanban board.
+   */
+  private userIsAdministrator(kanbanBoard: KanbanBoard, userIdBigString: BigString): boolean {
     const userId = userIdBigString.toString();
-    const { administratorIds, creatorId } = kanbanBoard;
+    const { administratorIds } = kanbanBoard;
 
-    if (creatorId === userId) {
-      return true;
-    }
+    return administratorIds.includes(userId);
+  }
 
-    if (administratorIds.includes(userId)) {
-      return true;
-    }
+  /**
+   * Checks whether the user is the owner of the Kanban board.
+   * @param kanbanBoard - The Kanban board object.
+   * @param userIdBigString - The user id as BigString.
+   * @returns Whether the user is the owner of the Kanban board.
+   */
+  private userIsOwner(kanbanBoard: KanbanBoard, userIdBigString: BigString): boolean {
+    const userId = userIdBigString.toString();
+    const { creatorId } = kanbanBoard;
 
-    return false;
+    return creatorId === userId;
   }
 }
 
