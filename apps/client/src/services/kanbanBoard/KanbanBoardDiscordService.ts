@@ -14,7 +14,7 @@ import { codeBlock } from "@discordjs/formatters";
 import { formatAnsiKeyValues } from "@functions/formatAnsiKeyValue.js";
 import { formatTimestamp } from "@functions/formatTimestamp.js";
 import { parseEmoji } from "@functions/parseEmoji.js";
-import type { KanbanBoard } from "@services/kanbanBoard/KanbanBoardService.js";
+import type { KanbanBoard, KanbanBoardSection } from "@services/kanbanBoard/KanbanBoardService.js";
 import { DEFAULT_EMBED_COLOR, OAUTH2_INVITE_URL } from "@util/constants.js";
 import type { AnyMessagePayload } from "@util/types.js";
 import type { TFunction } from "i18next";
@@ -118,6 +118,131 @@ export class KanbanBoardDiscordService {
   getKanbanBoardInformationPayload(kanbanBoard: KanbanBoard, t: TFunction<"commands">): AnyMessagePayload {
     const components = this.getKanbanBoardConfigurationComponents(kanbanBoard, t);
     const embeds = this.getKanbanBoardInformationEmbeds(kanbanBoard, t);
+    const messagePayload: AnyMessagePayload = {
+      components,
+      embeds,
+    };
+
+    return messagePayload;
+  }
+
+  /**
+   * Gets the components for the Kanban board section configuration.
+   * @param kanbanBoardSection - The Kanban board section object.
+   * @param t - The function to translate the command messages.
+   * @returns An array containing the action row object for the Kanban board section configuration.
+   */
+  private getKanbanBoardSectionConfigurationComponents(
+    kanbanBoardSection: KanbanBoardSection,
+    t: TFunction<"commands">,
+  ): ActionRow[] {
+    const { id: sectionId } = kanbanBoardSection;
+    const [editSectionButton, changePositionButton, deleteSectionButton]: ButtonComponent[] = [
+      {
+        customId: `@kanban_board/edit_section#[${sectionId}]`,
+        emoji: parseEmoji("BOLT"),
+        label: t(
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.components.edit_section_button.label",
+        ),
+        style: ButtonStyles.Secondary,
+        type: MessageComponentTypes.Button,
+      },
+      {
+        customId: `@kanban_board/change_position#[${sectionId}]`,
+        emoji: parseEmoji("BOLT"),
+        label: t(
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.components.change_position_button.label",
+        ),
+        style: ButtonStyles.Secondary,
+        type: MessageComponentTypes.Button,
+      },
+      {
+        customId: `@kanban_board/delete_section#[${sectionId}]`,
+        emoji: parseEmoji("TRASH_2"),
+        label: t(
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.components.delete_section_button.label",
+        ),
+        style: ButtonStyles.Danger,
+        type: MessageComponentTypes.Button,
+      },
+    ];
+    const kanbanBoardSectionConfigurationButtonsActionRow: ActionRow = {
+      components: [editSectionButton, changePositionButton, deleteSectionButton],
+      type: MessageComponentTypes.ActionRow,
+    };
+
+    return [kanbanBoardSectionConfigurationButtonsActionRow];
+  }
+
+  /**
+   * Gets the embeds for the Kanban board section information.
+   * @param kanbanBoardSection - The Kanban board section object.
+   * @param t - The function to translate the command messages.
+   * @returns An array containing the embed objects for the Kanban board section information.
+   */
+  private getKanbanBoardSectionInformationEmbeds(
+    kanbanBoardSection: KanbanBoardSection,
+    t: TFunction<"commands">,
+  ): DiscordEmbed[] {
+    const {
+      id: sectionId,
+      position: sectionPosition,
+      title: sectionTitle,
+      createdAt: sectionCreatedAt,
+      updatedAt: sectionUpdatedAt,
+    } = kanbanBoardSection;
+    const formattedSectionCreatedAt = formatTimestamp(sectionCreatedAt);
+    const formattedSectionUpdatedAt = formatTimestamp(sectionUpdatedAt);
+    const [generalInformationField, creationDateField, lastUpdateField]: EmbedField[] = [
+      {
+        name: t(
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.general_information_field.name",
+        ),
+        value: codeBlock(
+          "ansi",
+          formatAnsiKeyValues(
+            t(
+              "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.general_information_field.value",
+              {
+                sectionId,
+                sectionPosition,
+                sectionTitle,
+              },
+            ),
+          ),
+        ),
+      },
+      {
+        name: t(
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.creation_date_field.name",
+        ),
+        value: codeBlock("ansi", magenta(bold(formattedSectionCreatedAt))),
+      },
+      {
+        name: t(
+          "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.last_update_field.name",
+        ),
+        value: codeBlock("ansi", magenta(bold(formattedSectionUpdatedAt))),
+      },
+    ];
+    const kanbanBoardSectionInformationEmbed: DiscordEmbed = {
+      color: DEFAULT_EMBED_COLOR,
+      fields: [generalInformationField, creationDateField, lastUpdateField],
+      title: t(
+        "utility.kanban.board.manage.components.manage_sections_button.components.manage_sections_dropdown.embeds.information_embed.title",
+      ),
+      url: OAUTH2_INVITE_URL,
+    };
+
+    return [kanbanBoardSectionInformationEmbed];
+  }
+
+  getKanbanBoardSectionInformationPayload(
+    kanbanBoardSection: KanbanBoardSection,
+    t: TFunction<"commands">,
+  ): AnyMessagePayload {
+    const components = this.getKanbanBoardSectionConfigurationComponents(kanbanBoardSection, t);
+    const embeds = this.getKanbanBoardSectionInformationEmbeds(kanbanBoardSection, t);
     const messagePayload: AnyMessagePayload = {
       components,
       embeds,
