@@ -250,7 +250,7 @@ export class Loader {
    * @returns The commands Glob patterns.
    */
   private getCommandsPattern(): string[] {
-    const chatInputPattern = `${distFolderPath}/commands/chatInput/**/parent.{js,ts}`;
+    const chatInputPattern = `${distFolderPath}/commands/chatInput/**/_parent_.{js,ts}`;
     const userContextPattern = `${distFolderPath}/commands/userContext/**/*.command.{js,ts}`;
 
     return [chatInputPattern, userContextPattern];
@@ -279,7 +279,7 @@ export class Loader {
    */
   private getSubCommandsPattern(parentCommandFolderPath: string): string[] {
     const subCommandsPattern = `${parentCommandFolderPath}/*.command.{js,ts}`;
-    const subCommandGroupsPattern = `${parentCommandFolderPath}/*/group.{js,ts}`;
+    const subCommandGroupsPattern = `${parentCommandFolderPath}/*/_group_.{js,ts}`;
 
     return [subCommandsPattern, subCommandGroupsPattern];
   }
