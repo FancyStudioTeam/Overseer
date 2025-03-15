@@ -8,6 +8,7 @@ import { ChatInputSubCommandGroup } from "./commands/ChatInputSubCommandGroup.js
 import { UserContextCommand } from "./commands/UserContextCommand.js";
 import { ButtonComponent } from "./components/ButtonComponent.js";
 import { ModalComponent } from "./components/ModalComponent.js";
+import { SelectMenuComponent } from "./components/SelectMenuComponent.js";
 
 const __dirname = import.meta.dirname;
 const distFolderPath = join(__dirname, "..");
@@ -94,7 +95,7 @@ export class Loader {
     const { _declareDecoratorData } = componentInstance;
     const { customId } = _declareDecoratorData;
     const { components } = client;
-    const { buttons, modals } = components;
+    const { buttons, modals, selectMenus } = components;
 
     if (componentInstance instanceof ButtonComponent) {
       buttons.set(customId ?? "", componentInstance);
@@ -102,6 +103,10 @@ export class Loader {
 
     if (componentInstance instanceof ModalComponent) {
       modals.set(customId ?? "", componentInstance);
+    }
+
+    if (componentInstance instanceof SelectMenuComponent) {
+      selectMenus.set(customId ?? "", componentInstance);
     }
   }
 
@@ -329,7 +334,7 @@ export class Loader {
 }
 
 type AnyCommand = ChatInputCommand | UserContextCommand;
-type AnyComponent = ButtonComponent | ModalComponent;
+type AnyComponent = ButtonComponent | ModalComponent | SelectMenuComponent;
 type AnySubCommand = ChatInputSubCommand | ChatInputSubCommandGroup;
 
 interface LoadDirectoryFilesOptions {
