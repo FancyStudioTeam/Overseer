@@ -2,6 +2,7 @@ import { ApplicationCommandOptionTypes, type BigString } from "@discordeno/bot";
 import { createMessage } from "@functions/createMessage.js";
 import type { Prisma } from "@prisma/client";
 import { DiscordSnowflake } from "@sapphire/snowflake";
+import { KanbanBoardService } from "@services/kanbanBoard/KanbanBoardService.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
 import { Declare } from "@util/decorators.js";
 import { prisma } from "@util/prisma.js";
@@ -27,6 +28,8 @@ const MAXIMUM_KANBAN_BOARDS_PER_USER = 10;
   ],
 })
 export default class KanbanCreateBoardCommand extends ChatInputSubCommand {
+  kanbanBoardService = new KanbanBoardService();
+
   /**
    * The method to execute when the command is executed.
    * @param options - The available options.
@@ -34,13 +37,13 @@ export default class KanbanCreateBoardCommand extends ChatInputSubCommand {
   async _run(options: ChatInputSubCommandRunOptions<Options>): Promise<unknown> {
     const { context, options: commandOptions, t } = options;
     const { user } = context;
-    const { id: userId } = user;
-    const ownedKanbanBoards = await this.getOwnedKanbanBoards(userId);
+    const { id: userIdBigInt } = user;
+    const ownedKanbanBoards = await this.getOwnedKanbanBoards(userIdBigInt);
 
     if (ownedKanbanBoards.length >= MAXIMUM_KANBAN_BOARDS_PER_USER) {
       return await createMessage(
         context,
-        t("categories.utility.kanban.board.create.user_reached_maximum_kanban_boards", {
+        t("utility.kanban.board.create.user_reached_maximum_kanban_boards", {
           maximum: MAXIMUM_KANBAN_BOARDS_PER_USER,
         }),
       );
@@ -49,13 +52,22 @@ export default class KanbanCreateBoardCommand extends ChatInputSubCommand {
     const { kanban } = commandOptions;
     const { create_board: createBoard } = kanban;
     const { board_name: boardName } = createBoard;
-    const { boardTitle } = await this.createKanbanBoard(boardName, context.user.id);
+    const { kanbanBoardService } = this;
+    const userId = userIdBigInt.toString();
+    const createdKanbanBoard = await kanbanBoardService.createKanbanBoard({
+      creatorId: userId,
+      title: boardName,
+    });
+    const { title: boardTitle } = createdKanbanBoard;
 
     return await createMessage(
       context,
-      t("categories.utility.kanban.board.create.message_1", {
+      t("utility.kanban.board.create.message_1", {
         boardTitle,
       }),
+      {
+        isEphemeral: false,
+      },
     );
   }
 
@@ -70,9 +82,9 @@ export default class KanbanCreateBoardCommand extends ChatInputSubCommand {
     const boardId = DiscordSnowflake.generate().toString();
     const createdKanbanBoard = await prisma.userKanbanBoard.create({
       data: {
-        boardId,
-        boardTitle,
-        ownerId: userId,
+        creatorId: userId,
+        id: boardId,
+        title: boardTitle,
       },
     });
 
@@ -89,7 +101,7 @@ export default class KanbanCreateBoardCommand extends ChatInputSubCommand {
     const { userKanbanBoard } = prisma;
     const ownedKanbanBoards = await userKanbanBoard.findMany({
       where: {
-        ownerId: userId,
+        creatorId: userId,
       },
     });
 

@@ -1,7 +1,6 @@
-import { ApplicationCommandOptionTypes, ButtonStyles, MessageComponentTypes } from "@discordeno/bot";
+import { ApplicationCommandOptionTypes } from "@discordeno/bot";
 import { createMessage } from "@functions/createMessage.js";
-import { parseEmoji } from "@functions/parseEmoji.js";
-import { KanbanBoardService } from "@services/KanbanBoardService.js";
+import { KanbanBoardService } from "@services/kanbanBoard/KanbanBoardService.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
 import { Declare } from "@util/decorators.js";
 
@@ -44,7 +43,7 @@ export default class KanbanManageBoardCommand extends ChatInputSubCommand {
     if (!kanbanBoard) {
       return await createMessage(
         context,
-        t("categories.utility.kanban.board.manage.kanban_board_not_found", {
+        t("utility.kanban.board.manage.kanban_board_not_found", {
           boardId,
         }),
       );
@@ -55,47 +54,13 @@ export default class KanbanManageBoardCommand extends ChatInputSubCommand {
     const userCanManageKanbanBoard = kanbanBoardService.checkKanbanBoardUserPermissions(kanbanBoard, userId);
 
     if (!userCanManageKanbanBoard) {
-      return await createMessage(context, t("categories.utility.kanban.board.manage.user_cannot_manage_kanban_board"));
+      return await createMessage(context, t("utility.kanban.board.manage.user_cannot_manage_kanban_board"));
     }
 
-    return await createMessage(context, {
-      components: [
-        {
-          components: [
-            {
-              customId: `@kanban_board/title#[${boardId}]`,
-              emoji: parseEmoji("TITLE"),
-              label: t("categories.utility.kanban.board.manage.message_1.components.buttons.board_title.label"),
-              style: ButtonStyles.Secondary,
-              type: MessageComponentTypes.Button,
-            },
-            {
-              customId: `@kanban_board/manage_sections#[${boardId}]`,
-              emoji: parseEmoji("DEVELOPER_BOARD"),
-              label: t("categories.utility.kanban.board.manage.message_1.components.buttons.manage_sections.label"),
-              style: ButtonStyles.Secondary,
-              type: MessageComponentTypes.Button,
-            },
-            {
-              customId: `@kanban_board/manage_administrators#[${boardId}]`,
-              emoji: parseEmoji("GROUP"),
-              label: t(
-                "categories.utility.kanban.board.manage.message_1.components.buttons.manage_administrators.label",
-              ),
-              style: ButtonStyles.Secondary,
-              type: MessageComponentTypes.Button,
-            },
-            {
-              customId: `@kanban_board/delete_board#[${boardId}]`,
-              emoji: parseEmoji("TRASH_COLORED"),
-              label: t("categories.utility.kanban.board.manage.message_1.components.buttons.delete_board.label"),
-              style: ButtonStyles.Danger,
-              type: MessageComponentTypes.Button,
-            },
-          ],
-          type: MessageComponentTypes.ActionRow,
-        },
-      ],
+    const messagePayload = kanbanBoardService.getKanbanBoardInformationPayload(kanbanBoard, t);
+
+    return await createMessage(context, messagePayload, {
+      isEphemeral: false,
     });
   }
 }

@@ -3,7 +3,7 @@
     "locale": {
       "embeds": {
         "success_embed": {
-          "description": "**{{CHECK_CIRCLE_COLORED}} The locale has been updated to `English`.**"
+          "description": "**{{CIRCLE_CHECK}} The locale has been updated to `English`.**"
         }
       }
     }
@@ -41,8 +41,8 @@
     "kanban": {
       "board": {
         "create": {
-          "message_1": "**{{CHECK_CIRCLE_COLORED}} The Kanban board `{{boardTitle}}` has been created.**",
-          "user_reached_maximum_kanban_boards": "**{{CANCEL_COLORED}} You have reached the maximum number of Kanban boards.**\n**{{INFO}} The limit is set at `{{maximum}}` Kanban boards per user.**"
+          "message_1": "**{{CIRCLE_CHECK}} The Kanban board `{{boardTitle}}` has been created.**",
+          "user_reached_maximum_kanban_boards": "**{{CIRCLE_X}} You have reached the maximum number of Kanban boards.**\n**{{INFO}} The limit is set at `{{maximum}}` Kanban boards per user.**"
         },
         "manage": {
           "components": {
@@ -76,11 +76,22 @@
                   },
                   "label": "Create Section"
                 },
-                "delete_section_button": {
-                  "label": "Delete Section"
+                "manage_sections_dropdown": {
+                  "options": {
+                    "section_option": {
+                      "label": "Manage \"{{sectionTitle}}\" section."
+                    }
+                  },
+                  "placeholder": "Select a section to manage."
                 },
-                "edit_section_button": {
-                  "label": "Edit Section"
+                "return_button": {
+                  "label": "Return"
+                }
+              },
+              "embeds": {
+                "information_embed": {
+                  "description": "Position {{sectionPosition}} » {{sectionTitle}}",
+                  "title": "Kanban Board Sections"
                 }
               },
               "label": "Manage Sections"
@@ -128,8 +139,8 @@
               "title": "Kanban Board Information"
             }
           },
-          "kanban_board_not_found": "**{{CANCEL_COLORED}} The Kanban board `{{boardId}}` has not been found.**",
-          "user_cannot_manage_kanban_board": "**{{CANCEL_COLORED}} You cannot manage this Kanban board.**"
+          "kanban_board_not_found": "**{{CIRCLE_X}} The Kanban board `{{boardId}}` has not been found.**",
+          "user_cannot_manage_kanban_board": "**{{CIRCLE_X}} You cannot manage this Kanban board.**"
         }
       },
       "boards": {
@@ -143,7 +154,7 @@
             "description": "Name » {{boardName}}\nID » {{boardId}}\nCreation Date » {{boardCreatedAt}}"
           }
         },
-        "no_created_or_shared_kanban_boards": "**{{CANCEL_COLORED}} You don't have any created or shared Kanban board.**"
+        "no_created_or_shared_kanban_boards": "**{{CIRCLE_X}} You do not have any created or shared Kanban board.**"
       }
     }
   }

@@ -31,7 +31,7 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
     const kanbanBoards = await this.getKanbanBoards(userId);
 
     if (kanbanBoards.length === 0) {
-      return await createMessage(context, t("categories.utility.kanban.boards.no_created_or_shared_kanban_boards"));
+      return await createMessage(context, t("utility.kanban.boards.no_created_or_shared_kanban_boards"));
     }
 
     const groupedKanbanBoards = this.groupKanbanBoards(kanbanBoards, userId);
@@ -78,8 +78,8 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
    */
   formatKanbanBoards(kanbanBoards: KanbanBoard[], t: TFunction<"commands">): string {
     const formattedKanbanBoards = kanbanBoards.map((kanbanBoard) => {
-      const { boardId, boardTitle, createdAt } = kanbanBoard;
-      const kanbanBoardTranslationItem = t("categories.utility.kanban.boards.message_1.embed_1.description", {
+      const { id: boardId, title: boardTitle, createdAt } = kanbanBoard;
+      const kanbanBoardTranslationItem = t("utility.kanban.boards.message_1.embed_1.description", {
         boardCreatedAt: formatTimestamp(createdAt),
         boardId,
         boardName: boardTitle,
@@ -109,7 +109,7 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
     const kanbanBoardEmbeds: CamelizedDiscordEmbed[] = [];
 
     if (ownedKanbanBoards && ownedKanbanBoards.length > 0) {
-      const authorTranslation = t("categories.utility.kanban.boards.message_1.embed_1.author");
+      const authorTranslation = t("utility.kanban.boards.message_1.embed_1.author");
       const createdEmbedList = await this.createKanbanBoardsEmbed(ownedKanbanBoards, {
         authorTranslation,
         t,
@@ -120,7 +120,7 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
     }
 
     if (sharedKanbanBoards && sharedKanbanBoards.length > 0) {
-      const authorTranslation = t("categories.utility.kanban.boards.message_1.embed_2.author");
+      const authorTranslation = t("utility.kanban.boards.message_1.embed_2.author");
       const createdEmbedList = await this.createKanbanBoardsEmbed(sharedKanbanBoards, {
         authorTranslation,
         t,
@@ -148,7 +148,7 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
         // biome-ignore lint/style/useNamingConvention: Prisma naming convention.
         OR: [
           {
-            ownerId: userId,
+            creatorId: userId,
           },
           {
             administratorIds: {
@@ -180,8 +180,8 @@ export default class KanbanBoardsCommand extends ChatInputSubCommand {
    */
   groupKanbanBoards(kanbanBoards: KanbanBoard[], userIdBigString: BigString): GroupedKanbanBoards {
     const userId = userIdBigString.toString();
-    const groupedKanbanBoards = Object.groupBy(kanbanBoards, ({ ownerId }) =>
-      ownerId === userId ? "ownedKanbanBoards" : "sharedKanbanBoards",
+    const groupedKanbanBoards = Object.groupBy(kanbanBoards, ({ creatorId }) =>
+      creatorId === userId ? "ownedKanbanBoards" : "sharedKanbanBoards",
     );
 
     return groupedKanbanBoards;

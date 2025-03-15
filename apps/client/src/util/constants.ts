@@ -1,14 +1,29 @@
+import { OAuth2Scope, createOAuth2Link } from "@discordeno/bot";
+import { client } from "./client.js";
+
+export const APPLICATION_ID = client.applicationId;
+
 export const CUSTOM_EMOJIS = {
-  CANCEL_COLORED: "<:_:1294380127043584051>",
-  CHECK_CIRCLE_COLORED: "<:_:1294380128062804019>",
-  DEVELOPER_BOARD: "<:_:1347965903857520751>",
-  GROUP: "<:_:1346503230812717169>",
-  INFO: "<:_:1303042060022054913>",
-  TITLE: "<:_:1346473689645846559>",
-  TRASH_COLORED: "<:_:1299837480157319198>",
+  BOLT: "<:_:1348780297436532798>",
+  BOOK_TYPE: "<:_:1348771323954073640>",
+  CIRCLE_CHECK: "<:_:1350248256344428737>",
+  CIRCLE_MINUS: "<:_:1348777416750927915>",
+  CIRCLE_PLUS: "<:_:1348775632540008501>",
+  CIRCLE_X: "<:_:1350247573289435168>",
+  LAYOUT_GRID: "<:_:1348771325115629689>",
+  TRASH_2: "<:_:1348774265729716264>",
+  UNDO: "<:_:1350192629349879840>",
+  USERS: "<:_:1348773186241822801>",
 };
 
 export const DEFAULT_EMBED_COLOR = 0x2b2d31;
+export const GREEN_EMBED_COLOR = 0x00bc7d;
+export const RED_EMBED_COLOR = 0xff2056;
+
+export const OAUTH2_INVITE_URL = createOAuth2Link({
+  clientId: APPLICATION_ID,
+  scope: [OAuth2Scope.Bot],
+});
 
 export const STATUS_CODE_LABELS: Record<number, string> = {
   100: "Continue",
