@@ -34,7 +34,7 @@ export interface SelectMenuComponentOptions {
 }
 
 export type SelectMenuComponentRunOptions = DefaultRunnableOptions & {
-  /** The options resolver object. */
+  /** The resolver to manage the options. */
   optionsResolver: SelectMenuOptionsResolver;
   /** The values retreived from the component custom id. */
   values: string[];

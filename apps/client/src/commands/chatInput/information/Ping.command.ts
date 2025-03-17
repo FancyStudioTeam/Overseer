@@ -2,6 +2,7 @@ import { type BigString, type EmbedField, type RestManager, bold, magenta } from
 import { codeBlock } from "@discordjs/formatters";
 import { createMessage } from "@functions/createMessage.js";
 import { ChatInputSubCommand, type ChatInputSubCommandRunOptions } from "@structures/commands/ChatInputSubCommand.js";
+import { client } from "@util/client.js";
 import { DISCORD_TOKEN } from "@util/config.js";
 import { Declare } from "@util/decorators.js";
 import { prisma } from "@util/prisma.js";
@@ -20,7 +21,7 @@ export default class PingCommand extends ChatInputSubCommand {
    * @param options - The available options.
    */
   async _run(options: ChatInputSubCommandRunOptions<never>): Promise<unknown> {
-    const { client, context, t } = options;
+    const { context, t } = options;
     const { guildId } = context;
     const { rest } = client;
     const { apiRequests: apiRequestsLatency, database: databaseLatency } = await this.getLatencies({
