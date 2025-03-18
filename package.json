@@ -9,10 +9,10 @@
     "@swc/core": "1.11.11",
     "@types/node": "22.13.10",
     "husky": "9.1.7",
-    "lint-staged": "15.4.3",
+    "lint-staged": "15.5.0",
     "nodemon": "3.1.9",
     "rimraf": "6.0.1",
-    "tsc-alias": "1.8.10",
+    "tsc-alias": "1.8.11",
     "typescript": "5.8.2"
   },
   "license": "CC BY-SA 4.0",
