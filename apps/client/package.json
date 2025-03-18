@@ -8,14 +8,14 @@
     "@nestjs/common": "11.0.11",
     "@nestjs/core": "11.0.11",
     "@nestjs/platform-fastify": "11.0.11",
-    "@prisma/client": "6.4.1",
+    "@prisma/client": "6.5.0",
     "@sapphire/snowflake": "3.5.5",
     "@sapphire/time-utilities": "1.7.14",
     "dd-cache-proxy": "2.6.0",
     "dotenv": "16.4.7",
     "fastify": "5.2.1",
     "glob": "11.0.1",
-    "i18next": "24.2.2",
+    "i18next": "24.2.3",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",
     "ts-mixer": "6.0.4",
@@ -24,8 +24,7 @@
     "zod": "3.24.2"
   },
   "devDependencies": {
-    "prisma": "6.4.1",
-    "typescript": "5.8.2"
+    "prisma": "6.5.0"
   },
   "name": "client",
   "scripts": {
