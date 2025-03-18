@@ -25,7 +25,6 @@ export class ChatInputOptionsResolver {
    * Gets the sub command names from chat input application commands.
    * @returns An array containing the sub command names.
    */
-  // TODO: Add support for sub command groups.
   getSubCommandNames(): string[] {
     const options = this.getOptions();
     const subCommands = this.getSubCommandsFromOptions(options);
@@ -39,6 +38,15 @@ export class ChatInputOptionsResolver {
    * @returns An array containing the sub command objects.
    */
   private getSubCommandsFromOptions(options: InteractionDataOption[]): InteractionDataOption[] {
+    const subCommandGroups = options.filter(({ type }) => type === ApplicationCommandOptionTypes.SubCommandGroup);
+
+    if (subCommandGroups.length > 0) {
+      const subCommandGroup = subCommandGroups[0];
+      const { options: subCommandGroupOptions } = subCommandGroup;
+
+      return [subCommandGroup, ...this.getSubCommandsFromOptions(subCommandGroupOptions ?? [])];
+    }
+
     const subCommands = options.filter(({ type }) => type === ApplicationCommandOptionTypes.SubCommand);
 
     return subCommands;

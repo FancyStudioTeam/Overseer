@@ -13,7 +13,7 @@ import { AppModule } from "./modules/app.module.js";
  * This adapter will use Fastify instead of Express.
  */
 const fastifyAdapter = new FastifyAdapter();
-// @ts-ignore
+// @ts-expect-error
 const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter, {
   cors: true,
   logger: false,

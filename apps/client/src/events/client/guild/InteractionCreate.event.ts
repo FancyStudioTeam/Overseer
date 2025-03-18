@@ -202,7 +202,7 @@ client.events.interactionCreate = async (interaction) => {
         match(commandType)
           .with(ApplicationCommandTypes.ChatInput, async () => {
             const optionsResolver = new ChatInputOptionsResolver(interaction);
-            const subCommandNames = optionsResolver.getSubCommandNames();
+            const subCommandNames = optionsResolver.getSubCommandNames().join("_");
             const command = chatInputCommands.get(`${commandName}_${subCommandNames}`);
 
             if (!command) {
