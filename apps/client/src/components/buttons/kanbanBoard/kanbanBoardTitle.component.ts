@@ -2,6 +2,7 @@ import { type InteractionResponse, InteractionResponseTypes, MessageComponentTyp
 import { createMessage } from "@functions/createMessage.js";
 import { type KanbanBoard, KanbanBoardService } from "@services/kanbanBoard/KanbanBoardService.js";
 import { ButtonComponent, type ButtonComponentRunOptions } from "@structures/components/ButtonComponent.js";
+import { client } from "@util/client.js";
 import { Declare } from "@util/decorators.js";
 import type { TFunction } from "i18next";
 
@@ -16,7 +17,7 @@ export default class KanbanBoardTitleComponent extends ButtonComponent {
    * @param options - The available options.
    */
   async _run(options: ButtonComponentRunOptions): Promise<unknown> {
-    const { client, context, t, values } = options;
+    const { context, t, values } = options;
     const [boardIdFromCustomId] = values;
     const { kanbanBoardService } = this;
     const kanbanBoard = await kanbanBoardService.getKanbanBoard(boardIdFromCustomId);
