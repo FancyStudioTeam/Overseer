@@ -2,8 +2,51 @@ import type { Prisma } from "@prisma/client";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { prisma } from "@util/prisma.js";
 import type { MaybeNullish } from "@util/types.js";
+import { match } from "ts-pattern";
 
 export class KanbanBoardPrismaService {
+  /**
+   * Changes the position of a Kanban board section.
+   * @param kanbanBoardSection - The Kanban board section object.
+   * @param newPosition - The new position.
+   * @returns The updated Kanban board section object.
+   */
+  async changeKanbanBoardSectionPosition(
+    kanbanBoardSection: KanbanBoardSection,
+    newPosition: number,
+  ): Promise<KanbanBoardSection> {
+    const { id: sectionId, position: sectionPosition } = kanbanBoardSection;
+    const { userKanbanBoardSection } = prisma;
+    const { filter, operation } = this.getChangePositionData(sectionPosition, newPosition);
+    const [_, updatedKanbanBoardSection] = await prisma.$transaction([
+      userKanbanBoardSection.updateMany({
+        data: {
+          position: {
+            [operation]: 1,
+          },
+        },
+        where: filter,
+      }),
+      userKanbanBoardSection.update({
+        data: {
+          position: newPosition,
+        },
+        include: {
+          board: {
+            include: {
+              sections: true,
+            },
+          },
+        },
+        where: {
+          id: sectionId,
+        },
+      }),
+    ]);
+
+    return updatedKanbanBoardSection;
+  }
+
   /**
    * Counts the number of Kanban board tasks from a Kanban board section.
    * @param sectionId - The Kanban board section id.
@@ -131,6 +174,58 @@ export class KanbanBoardPrismaService {
   }
 
   /**
+   * Gets the change position data from a current position and a new position.
+   * @param currentPosition - The current position.
+   * @param newPosition - The new position.
+   * @returns An object contanining the operation type and the section filter.
+   */
+  getChangePositionData(currentPosition: number, newPosition: number): ChangePositionData {
+    const positionOffset = this.getPositionOffset(currentPosition, newPosition);
+    const { direction: offsetDirection } = positionOffset;
+    const operation = offsetDirection === "up" ? "decrement" : "increment";
+    const filter = match(offsetDirection)
+      .returnType<KanbanSectionSectionWhereInput>()
+      .with("up", () => ({
+        /** Gets all the sections with a position greater than the current position and less than or equal to the new position. */
+        // biome-ignore lint/style/useNamingConvention: Prisma naming convention.
+        AND: [
+          {
+            position: {
+              gt: currentPosition,
+            },
+          },
+          {
+            position: {
+              lte: newPosition,
+            },
+          },
+        ],
+      }))
+      .with("down", () => ({
+        /** Gets all the sections with a position less than the current position and greater than or equal to the new position. */
+        // biome-ignore lint/style/useNamingConvention: Prisma naming convention.
+        AND: [
+          {
+            position: {
+              lt: currentPosition,
+            },
+          },
+          {
+            position: {
+              gte: newPosition,
+            },
+          },
+        ],
+      }))
+      .run();
+
+    return {
+      filter,
+      operation,
+    };
+  }
+
+  /**
    * Gets the Kanban board object.
    * @param boardId - The Kanban board id.
    * @returns The Kanban board object.
@@ -139,7 +234,11 @@ export class KanbanBoardPrismaService {
     const { userKanbanBoard } = prisma;
     const kanbanBoard = await userKanbanBoard.findUnique({
       include: {
-        sections: true,
+        sections: {
+          orderBy: {
+            position: "asc",
+          },
+        },
       },
       where: {
         id: boardId,
@@ -170,6 +269,22 @@ export class KanbanBoardPrismaService {
     });
 
     return kanbanBoardSection;
+  }
+
+  /**
+   * Gets the displacement offset between two positions.
+   * @param currentPosition - The current position.
+   * @param newPosition - The new position.
+   * @returns An object containing the displacement offset and direction.
+   */
+  getPositionOffset(currentPosition: number, newPosition: number): PositionOffset {
+    const displacementDirection = newPosition > currentPosition ? "up" : "down";
+    const offset = displacementDirection === "up" ? newPosition - currentPosition : currentPosition - newPosition;
+
+    return {
+      direction: displacementDirection,
+      offset,
+    };
   }
 
   /**
@@ -241,3 +356,18 @@ type CreateKanbanBoardQuery = Omit<Prisma.UserKanbanBoardCreateInput, "id" | "se
 type CreateKanbanBoardSectionQuery = Omit<Prisma.UserKanbanBoardSectionCreateInput, "board" | "id">;
 type UpdateKanbanBoardQuery = Prisma.UserKanbanBoardUpdateInput;
 type UpdateKanbanBoardSectionQuery = Prisma.UserKanbanBoardSectionUpdateInput;
+type KanbanSectionSectionWhereInput = Prisma.UserKanbanBoardSectionWhereInput;
+
+interface PositionOffset {
+  /** The direction of the displacement. */
+  direction: "down" | "up";
+  /** The number of displacements from its initial value. */
+  offset: number;
+}
+
+interface ChangePositionData {
+  /** The filter to find the sections to update. */
+  filter: KanbanSectionSectionWhereInput;
+  /** The type of the integer operation. */
+  operation: "decrement" | "increment";
+}
