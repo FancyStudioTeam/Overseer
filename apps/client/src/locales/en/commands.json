@@ -79,6 +79,14 @@
                 "manage_section_dropdown": {
                   "components": {
                     "change_position_button": {
+                      "components": {
+                        "change_position_modal": {
+                          "position_input": {
+                            "label": "Position"
+                          },
+                          "title": "Change Position"
+                        }
+                      },
                       "label": "Change Position"
                     },
                     "delete_section_button": {
