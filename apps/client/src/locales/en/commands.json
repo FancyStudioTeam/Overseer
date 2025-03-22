@@ -165,6 +165,20 @@
                     }
                   },
                   "label": "Manage Users"
+                },
+                "roles_information_button": {
+                  "label": "Roles Information"
+                }
+              },
+              "embeds": {
+                "information_embed": {
+                  "administrators_field": {
+                    "label": "Administrators"
+                  },
+                  "title": "Kanban Board Users",
+                  "users_field": {
+                    "label": "Users"
+                  }
                 }
               },
               "label": "Manage Users"

@@ -165,6 +165,20 @@
                     }
                   },
                   "label": "Gestionar Usuarios"
+                },
+                "roles_information_button": {
+                  "label": "Información de Roles"
+                }
+              },
+              "embeds": {
+                "information_embed": {
+                  "administrators_field": {
+                    "label": "Administradores"
+                  },
+                  "title": "Usuarios del Tablero Kanban",
+                  "users_field": {
+                    "label": "Usuarios"
+                  }
                 }
               },
               "label": "Gestionar Usuarios"
