@@ -18,10 +18,6 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
     withMessage: false,
   } as CreateMessageOptions<Context, WithMessage>,
 ): Promise<CreateMessage<Context, WithMessage>> => {
-  /**
-   * The "withMessage" option should be only used when the provided context is an interaction.
-   * Methods like "sendFollowupMessage" and "sendMessage" always return a message object.
-   */
   const { isEphemeral } = options;
   const { helpers } = client;
   const messagePayload = resolveMessagePayload(content, {
@@ -36,11 +32,10 @@ export const createMessage = async <Context extends AnyContext, WithMessage exte
     }
 
     await helpers.sendInteractionResponse(id, token, {
-      type: InteractionResponseTypes.ChannelMessageWithSource,
       data: messagePayload,
+      type: InteractionResponseTypes.ChannelMessageWithSource,
     });
 
-    /** Fetch and return the original message object from the interaction response only if "withMessage" is "true". */
     if ("withMessage" in options && options.withMessage) {
       return await helpers.getOriginalInteractionResponse(token);
     }

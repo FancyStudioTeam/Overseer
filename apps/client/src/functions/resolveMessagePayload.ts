@@ -1,4 +1,4 @@
-import { MessageFlags } from "@discordeno/bot";
+import { type DiscordEmbed, MessageFlags, snakelize } from "@discordeno/bot";
 import { DEFAULT_EMBED_COLOR } from "@util/constants.js";
 import type { AnyMessagePayload, MessagePayload } from "@util/types.js";
 
@@ -50,7 +50,7 @@ export const resolveMessagePayload = (
       messagePayload.embeds = [
         {
           /** Merge the embed properties with the current embed. */
-          ...content,
+          ...(snakelize(content) as DiscordEmbed),
           color: DEFAULT_EMBED_COLOR,
         },
       ];
