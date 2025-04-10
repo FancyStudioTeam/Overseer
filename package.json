@@ -12,7 +12,7 @@
     "lint-staged": "15.5.0",
     "nodemon": "3.1.9",
     "rimraf": "6.0.1",
-    "tsc-alias": "1.8.11",
+    "tsc-alias": "1.8.15",
     "typescript": "5.8.2"
   },
   "license": "CC BY-SA 4.0",
