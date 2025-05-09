@@ -3,8 +3,13 @@
   "compilerOptions": {
     "outDir": "dist",
     "paths": {
+      "@commands/*": ["./src/commands/*"],
+      "@components/*": ["./src/components/*"],
+      "@events/*": ["./src/events/*"],
       "@functions/*": ["./src/functions/*"],
+      "@locales/*": ["./src/locales/*"],
       "@proxy/*": ["./src/proxy/*"],
+      "@services/*": ["./src/services/*"],
       "@structures/*": ["./src/structures/*"],
       "@util/*": ["./src/util/*"]
     }

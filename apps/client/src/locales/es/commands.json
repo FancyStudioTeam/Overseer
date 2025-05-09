@@ -3,7 +3,7 @@
     "locale": {
       "embeds": {
         "success_embed": {
-          "description": "**{{CHECK_CIRCLE_COLORED}} La localización ha sido actualizada a `Español`.**"
+          "description": "**{{CIRCLE_CHECK}} La localización ha sido actualizada a `Español`.**"
         }
       }
     }
@@ -12,7 +12,6 @@
     "debug": {
       "embeds": {
         "debug_embed": {
-          "title": "Información de Depuración",
           "field_1": {
             "name": "Información General",
             "value": "Versión » {{botVersion}}"
@@ -20,7 +19,8 @@
           "field_2": {
             "name": "Versiones de Dependencias",
             "value": "Discordeno » {{discordenoVersion}}\nPrisma ORM » {{prismaVersion}}"
-          }
+          },
+          "title": "Información de Depuración"
         }
       }
     },
@@ -34,6 +34,187 @@
             "name": "Base de Datos"
           }
         }
+      }
+    }
+  },
+  "utility": {
+    "kanban": {
+      "board": {
+        "create": {
+          "message_1": "**{{CIRCLE_CHECK}} El tablero Kanban `{{boardTitle}}` ha sido creado.**",
+          "user_reached_maximum_kanban_boards": "**{{CIRCLE_X}} Has alcanzado el número máximo de tableros Kanban.**\n**{{INFO}} El límite está establecido a `{{maximum}}` tableros Kanban por usuario.**"
+        },
+        "manage": {
+          "components": {
+            "board_title_button": {
+              "components": {
+                "update_board_title_modal": {
+                  "board_title_input": {
+                    "label": "Título del Tablero"
+                  },
+                  "title": "Actualizar Título del Tablero"
+                }
+              },
+              "label": "Título del Tablero"
+            },
+            "delete_board_button": {
+              "label": "Eliminar Tablero"
+            },
+            "manage_sections_button": {
+              "components": {
+                "create_section_button": {
+                  "components": {
+                    "create_section_modal": {
+                      "section_description_input": {
+                        "label": "Descripción de la Sección (Opcional)"
+                      },
+                      "section_name_input": {
+                        "label": "Nombre de la Sección"
+                      },
+                      "title": "Crear Sección"
+                    }
+                  },
+                  "label": "Crear Sección"
+                },
+                "manage_section_dropdown": {
+                  "components": {
+                    "change_position_button": {
+                      "components": {
+                        "change_position_modal": {
+                          "position_input": {
+                            "label": "Posición"
+                          },
+                          "title": "Cambiar Posición"
+                        }
+                      },
+                      "label": "Cambiar Posición"
+                    },
+                    "delete_section_button": {
+                      "label": "Eliminar Sección"
+                    },
+                    "edit_section_button": {
+                      "components": {
+                        "edit_section_modal": {
+                          "section_description_input": {
+                            "label": "Descripción de la Sección (Opcional)"
+                          },
+                          "section_title_input": {
+                            "label": "Título de la Sección"
+                          },
+                          "title": "Editar Sección"
+                        }
+                      },
+                      "label": "Editar Sección"
+                    }
+                  },
+                  "embeds": {
+                    "information_embed": {
+                      "creation_date_field": {
+                        "name": "Fecha de Creación"
+                      },
+                      "general_information_field": {
+                        "name": "Información General",
+                        "value": "Título » {{sectionTitle}}\nID » {{sectionId}}\nPosición » {{sectionPosition}}"
+                      },
+                      "last_update_field": {
+                        "name": "Última Actualización"
+                      },
+                      "title": "Información de la Sección"
+                    }
+                  },
+                  "options": {
+                    "section_option": {
+                      "label": "Gestionar sección \"{{sectionTitle}}\"."
+                    }
+                  },
+                  "placeholder": "Selecciona una sección para gestionar."
+                },
+                "return_button": {
+                  "label": "Volver"
+                }
+              },
+              "embeds": {
+                "information_embed": {
+                  "description": "Posición {{sectionPosition}} » {{sectionTitle}}",
+                  "title": "Secciones del Tablero Kanban"
+                }
+              },
+              "kanban_board_section_not_found": "**{{CIRCLE_X}} La sección del tablero Kanban no ha sido encontrada.**",
+              "label": "Gestionar Secciones"
+            },
+            "manage_users_button": {
+              "components": {
+                "manage_administrators_button": {
+                  "components": {
+                    "add_administrator_button": {
+                      "label": "Añadir Administrador"
+                    },
+                    "delete_administrator_button": {
+                      "label": "Eliminar Administrador"
+                    }
+                  },
+                  "label": "Gestionar Administradores"
+                },
+                "manage_users_button": {
+                  "components": {
+                    "add_user_button": {
+                      "label": "Añadir Usuario"
+                    },
+                    "delete_user_button": {
+                      "label": "Eliminar Usuario"
+                    }
+                  },
+                  "label": "Gestionar Usuarios"
+                },
+                "roles_information_button": {
+                  "label": "Información de Roles"
+                }
+              },
+              "embeds": {
+                "information_embed": {
+                  "administrators_field": {
+                    "label": "Administradores"
+                  },
+                  "title": "Usuarios del Tablero Kanban",
+                  "users_field": {
+                    "label": "Usuarios"
+                  }
+                }
+              },
+              "label": "Gestionar Usuarios"
+            }
+          },
+          "embeds": {
+            "information_embed": {
+              "creation_date_field": {
+                "name": "Fecha de Creación"
+              },
+              "general_information_field": {
+                "name": "Información General",
+                "value": "Nombre » {{boardTitle}}\nID » {{boardId}}"
+              },
+              "last_update_field": {
+                "name": "Última Actualización"
+              },
+              "title": "Información del Tablero Kanban"
+            }
+          },
+          "kanban_board_not_found": "**{{CIRCLE_X}} El tablero Kanban no ha sido encontrado.**",
+          "user_cannot_manage_kanban_board": "**{{CIRCLE_X}} No puedes gestionar este tablero Kanban.**"
+        }
+      },
+      "boards": {
+        "message_1": {
+          "embed_1": {
+            "author": "Tableros Kanban creados por ti",
+            "description": "Nombre » {{boardName}}\nID » {{boardId}}\nFecha Creación » {{boardCreatedAt}}"
+          },
+          "embed_2": {
+            "author": "Tableros Kanban compartidos contigo",
+            "description": "Nombre » {{boardName}}\nID » {{boardId}}\nFecha Creación » {{boardCreatedAt}}"
+          }
+        },
+        "no_created_or_shared_kanban_boards": "**{{CIRCLE_X}} No tienes ningún tablero Kanban creado o compartido.**"
       }
     }
   }
