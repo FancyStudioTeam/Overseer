@@ -7,7 +7,7 @@
     "@commitlint/types": "19.8.0",
     "@swc/cli": "0.6.0",
     "@swc/core": "1.11.16",
-    "@types/node": "22.13.17",
+    "@types/node": "22.15.21",
     "husky": "9.1.7",
     "lint-staged": "15.5.0",
     "nodemon": "3.1.9",
