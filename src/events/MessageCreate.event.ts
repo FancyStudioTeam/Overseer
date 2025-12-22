@@ -1,11 +1,5 @@
-import {
-	ClientEvents,
-	ComponentType,
-	defineEventConfig,
-	type EventHandler,
-	FormatterUtils,
-	MessageFlags,
-} from "linkcord";
+import { ClientEvents, ComponentType, defineEventConfig, type EventHandler, MessageFlags } from "linkcord";
+import { FormatterUtils, LINKCORD_VERSION } from "linkcord/utils";
 import { client } from "../index.js";
 
 export const config = defineEventConfig({
@@ -22,7 +16,7 @@ export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ messag
 				{
 					components: [
 						{
-							content: FormatterUtils.bold(`WebSocket Latency: ${latency}ms`),
+							content: `${FormatterUtils.bold(`WebSocket Latency: ${latency}ms`)}\n${FormatterUtils.subtext(`Version: ${LINKCORD_VERSION}`)}`,
 							type: ComponentType.TextDisplay,
 						},
 					],
