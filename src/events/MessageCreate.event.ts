@@ -17,7 +17,7 @@ export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ messag
 		const { latency } = gatewayShard;
 		const { channelId } = message;
 
-		const createdMessage = await client.rest.channels.createMessage(channelId, {
+		await client.rest.channels.createMessage(channelId, {
 			components: [
 				{
 					components: [
@@ -33,7 +33,5 @@ export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ messag
 				MessageFlags.IsComponentsV2,
 			],
 		});
-
-		createdMessage.content;
 	}
 };
