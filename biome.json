@@ -1,0 +1,109 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"assist": {
+		"actions": {
+			"recommended": true,
+			"source": {
+				"organizeImports": "on",
+				"useSortedAttributes": "on",
+				"useSortedKeys": "on",
+				"useSortedProperties": "on"
+			}
+		},
+		"enabled": true
+	},
+	"files": {
+		"includes": [
+			"**",
+			"!**/.turbo",
+			"!**/.typedoc",
+			"!**/dist"
+		]
+	},
+	"formatter": {
+		"attributePosition": "multiline",
+		"enabled": true,
+		"expand": "always",
+		"indentStyle": "tab",
+		"indentWidth": 4,
+		"lineEnding": "lf",
+		"lineWidth": 120
+	},
+	"linter": {
+		"domains": {
+			"project": "all",
+			"test": "all"
+		},
+		"enabled": true,
+		"rules": {
+			"complexity": {
+				"noImplicitCoercions": "error",
+				"noStaticOnlyClass": "off",
+				"useSimplifiedLogicExpression": "error"
+			},
+			"correctness": {
+				"noNodejsModules": "off",
+				"noUndeclaredDependencies": "warn",
+				"noUnusedImports": "error",
+				"noUnusedVariables": "error",
+				"useImportExtensions": {
+					"level": "error",
+					"options": {
+						"forceJsExtensions": true
+					}
+				}
+			},
+			"nursery": {
+				"noUnresolvedImports": "off"
+			},
+			"performance": {
+				"noBarrelFile": "off",
+				"noReExportAll": "off"
+			},
+			"recommended": true,
+			"style": {
+				"noDefaultExport": "off",
+				"noMagicNumbers": "error",
+				"useImportType": "error",
+				"useNamingConvention": {
+					"level": "error",
+					"options": {
+						"conventions": [
+							{
+								"formats": [
+									"camelCase",
+									"snake_case"
+								],
+								"selector": {
+									"kind": "typeProperty"
+								}
+							},
+							{
+								"formats": [
+									"camelCase",
+									"snake_case"
+								],
+								"selector": {
+									"kind": "objectLiteralProperty"
+								}
+							}
+						],
+						"strictCase": false
+					}
+				},
+				"useNodejsImportProtocol": "error",
+				"useReadonlyClassProperties": {
+					"level": "error",
+					"options": {
+						"checkAllProperties": true
+					}
+				},
+				"useUnifiedTypeSignatures": "error"
+			},
+			"suspicious": {
+				"noUnassignedVariables": "error",
+				"useAwait": "warn"
+			}
+		}
+	}
+}

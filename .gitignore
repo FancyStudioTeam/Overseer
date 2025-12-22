@@ -1,0 +1,20 @@
+# Build
+.turbo
+dist
+lib
+
+# Environment
+.env
+.env.*
+
+# Logs
+logs
+*.log
+
+# Miscellaneous
+.DS_Store
+.fleet
+.idea
+
+# Packages
+node_modules
