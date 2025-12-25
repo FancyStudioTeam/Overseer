@@ -16,7 +16,6 @@
 		"includes": [
 			"**",
 			"!**/.turbo",
-			"!**/.typedoc",
 			"!**/dist"
 		]
 	},
