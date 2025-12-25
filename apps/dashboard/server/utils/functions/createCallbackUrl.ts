@@ -7,7 +7,7 @@ const SCOPES = [
 ] as const;
 
 export function createCallbackUrl() {
-	const callbackUrl = encodeURIComponent(createCallbackUrl());
+	const callbackUrl = encodeURIComponent(createRedirectUrl());
 	const scopes = encodeURIComponent(SCOPES.join(" "));
 
 	return `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${callbackUrl}&scope=${scopes}` as const;
