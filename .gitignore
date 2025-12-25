@@ -1,9 +1,8 @@
 # Build
-.turbo
 dist
 lib
 
-# Environment
+# Environment Variables
 .env
 .env.*
 
@@ -15,6 +14,7 @@ logs
 .DS_Store
 .fleet
 .idea
+.turbo
 
 # Packages
 node_modules
