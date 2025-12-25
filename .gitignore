@@ -6,9 +6,11 @@ lib
 .env
 .env.*
 
+!.env.example
+
 # Logs
-logs
 *.log
+logs
 
 # Miscellaneous
 .DS_Store
