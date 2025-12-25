@@ -10,6 +10,7 @@
 	"license": "MIT",
 	"main": "dist/index.js",
 	"name": "client",
+	"private": true,
 	"scripts": {
 		"build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
 		"prebuild": "pnpm rimraf",
