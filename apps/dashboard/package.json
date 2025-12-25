@@ -21,8 +21,9 @@
 	"scripts": {
 		"build": "nuxt build",
 		"dev": "nuxt dev",
-		"prepare": "nuxt prepare",
-		"preview": "nuxt preview"
+		"postinstall": "pnpm types",
+		"preview": "nuxt preview",
+		"types": "nuxt prepare"
 	},
 	"version": "0.0.0"
 }
