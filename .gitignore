@@ -17,6 +17,7 @@ logs
 .fleet
 .idea
 .turbo
+.nuxt
 
 # Packages
 node_modules

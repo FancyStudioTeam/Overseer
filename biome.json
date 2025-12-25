@@ -47,8 +47,8 @@
 				"noUndeclaredDependencies": {
 					"level": "error",
 					"options": {
-						"devDependencies": false,
-						"optionalDependencies": false
+						"devDependencies": true,
+						"optionalDependencies": true
 					}
 				},
 				"noUnusedImports": "error",
