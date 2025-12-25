@@ -15,8 +15,8 @@
 	"files": {
 		"includes": [
 			"**",
-			"!**/.turbo",
-			"!**/dist"
+			"!!**/.turbo",
+			"!!**/dist"
 		]
 	},
 	"formatter": {
