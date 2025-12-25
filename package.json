@@ -19,7 +19,7 @@
 	},
 	"license": "MIT",
 	"lint-staged": {
-		"**/*.{js,jsx,ts,tsx,json}": [
+		"**/*.{js,cjs,mjs,jsx,ts,cts.mts,tsx,json}": [
 			"pnpm biome:write"
 		]
 	},
