@@ -2,7 +2,6 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
-		"baseUrl": "src",
 		"declaration": true,
 		"emitDeclarationOnly": false,
 		"emitDecoratorMetadata": true,
@@ -13,9 +12,7 @@
 		"isolatedModules": true,
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
-		"outDir": "dist",
 		"resolveJsonModule": true,
-		"rootDir": "src",
 		"skipDefaultLibCheck": true,
 		"skipLibCheck": true,
 		"strict": true,
