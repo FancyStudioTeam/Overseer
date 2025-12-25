@@ -27,23 +27,30 @@
 		"indentStyle": "tab",
 		"indentWidth": 4,
 		"lineEnding": "lf",
-		"lineWidth": 120
+		"lineWidth": 140
 	},
 	"linter": {
 		"domains": {
 			"project": "all",
-			"test": "all"
+			"test": "all",
+			"turborepo": "all"
 		},
 		"enabled": true,
 		"rules": {
 			"complexity": {
 				"noImplicitCoercions": "error",
-				"noStaticOnlyClass": "off",
+				"noStaticOnlyClass": "error",
 				"useSimplifiedLogicExpression": "error"
 			},
 			"correctness": {
 				"noNodejsModules": "off",
-				"noUndeclaredDependencies": "warn",
+				"noUndeclaredDependencies": {
+					"level": "error",
+					"options": {
+						"devDependencies": false,
+						"optionalDependencies": false
+					}
+				},
 				"noUnusedImports": "error",
 				"noUnusedVariables": "error",
 				"useImportExtensions": {
@@ -57,8 +64,8 @@
 				"noUnresolvedImports": "off"
 			},
 			"performance": {
-				"noBarrelFile": "off",
-				"noReExportAll": "off"
+				"noBarrelFile": "error",
+				"noReExportAll": "error"
 			},
 			"recommended": true,
 			"style": {
@@ -88,7 +95,7 @@
 								}
 							}
 						],
-						"strictCase": false
+						"strictCase": true
 					}
 				},
 				"useNodejsImportProtocol": "error",
@@ -102,7 +109,7 @@
 			},
 			"suspicious": {
 				"noUnassignedVariables": "error",
-				"useAwait": "warn"
+				"useAwait": "error"
 			}
 		}
 	},
