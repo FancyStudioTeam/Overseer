@@ -15,10 +15,10 @@ export default defineNuxtConfig({
 		clientSecret: "", // NUXT_CLIENT_SECRET
 		clientToken: "", // NUXT_CLIENT_TOKEN
 		encryptionKey: "", // NUXT_ENCRYPTION_KEY
-		jwtSecret: "", // NUXT_JWT_SECRET
 		public: {
 			baseUrl: "http://localhost:3000", // NUXT_PUBLIC_BASE_URL,
 		},
+		sessionKey: "", // NUXT_SESSION_KEY
 	},
 	vite: {
 		plugins: [
