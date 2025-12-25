@@ -3,7 +3,9 @@
 	setup
 >
 	useHead({
-		bodyAttrs: "font-general-sans",
+		bodyAttrs: {
+			class: "bg-neutral-950 text-neutral-50 antialiased font-general-sans",
+		},
 	});
 </script>
 
