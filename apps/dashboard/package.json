@@ -21,7 +21,6 @@
 	"scripts": {
 		"build": "nuxt build",
 		"dev": "nuxt dev",
-		"postinstall": "pnpm prepare",
 		"prepare": "nuxt prepare",
 		"preview": "nuxt preview"
 	},
