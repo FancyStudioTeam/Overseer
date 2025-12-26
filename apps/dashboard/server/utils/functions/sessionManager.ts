@@ -12,7 +12,7 @@ export async function sessionManager<Event extends H3Event>(event: Event): Promi
 			httpOnly: true,
 			maxAge: ONE_WEEK_SECONDS,
 			path: "/",
-			sameSite: "lax",
+			sameSite: "strict",
 			secure: true,
 		},
 		name: "h3_session",
