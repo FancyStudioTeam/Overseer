@@ -4,7 +4,7 @@
 >
 	useHead({
 		bodyAttrs: {
-			class: "bg-neutral-950 text-neutral-50 antialiased font-general-sans",
+			class: 'bg-neutral-950 text-neutral-50 antialiased font-general-sans',
 		},
 	});
 </script>

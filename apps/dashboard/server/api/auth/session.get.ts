@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 		const { data, isAuthorized } = await sessionManager(event);
 
 		if (!isAuthorized) {
-			setResponseStatus(event, UNAUTHORIZED_STATUS, "Unauthorized");
+			setResponseStatus(event, UNAUTHORIZED_STATUS, 'Unauthorized');
 
 			return {
 				is_authorized: false,
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
 		/*
 		 * Do not expose "session_id" to the client.
 		 */
-		Reflect.deleteProperty(clonedData, "session_id");
+		Reflect.deleteProperty(clonedData, 'session_id');
 
 		return {
 			data: clonedData,
@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
 			success: true,
 		};
 	} catch {
-		setResponseStatus(event, INTERNAL_SERVER_ERROR_STATUS, "Internal Server Error");
+		setResponseStatus(event, INTERNAL_SERVER_ERROR_STATUS, 'Internal Server Error');
 
 		return {
 			success: false,

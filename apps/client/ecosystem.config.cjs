@@ -11,11 +11,11 @@ module.exports = {
 				 * biome-ignore lint/style/useNamingConvention: This environment variable
 				 * is used internally in Linkcord to resolve the root directory.
 				 */
-				NODE_ENV: "production",
+				NODE_ENV: 'production',
 			},
-			interpreter: "node",
-			name: "Discord Client",
-			script: "./dist/index.js",
+			interpreter: 'node',
+			name: 'Discord Client',
+			script: './dist/index.js',
 		},
 	],
 };

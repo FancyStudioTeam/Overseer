@@ -2,7 +2,7 @@
  * biome-ignore lint/correctness/noUndeclaredDependencies: "h3" is globally
  * available in Nuxt projects.
  */
-import type { H3Event, SessionManager as H3SessionManager } from "h3";
+import type { H3Event, SessionManager as H3SessionManager } from 'h3';
 
 const ONE_WEEK_SECONDS = 604_800;
 
@@ -11,16 +11,16 @@ export async function sessionManager<Event extends H3Event>(event: Event): Promi
 		cookie: {
 			httpOnly: true,
 			maxAge: ONE_WEEK_SECONDS,
-			path: "/",
-			sameSite: "strict",
+			path: '/',
+			sameSite: 'strict',
 			secure: true,
 		},
-		name: "h3_session",
+		name: 'h3_session',
 		password: SESSION_KEY,
 	});
 
-	const hasSessionId = Reflect.has(data, "session_id");
-	const hasUsername = Reflect.has(data, "username");
+	const hasSessionId = Reflect.has(data, 'session_id');
+	const hasUsername = Reflect.has(data, 'username');
 
 	const isAuthorized = hasSessionId && hasUsername;
 

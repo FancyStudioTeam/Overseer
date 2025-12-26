@@ -1,4 +1,4 @@
-import { ClientEvents, defineEventConfig, type EventHandler } from "linkcord";
+import { ClientEvents, defineEventConfig, type EventHandler } from 'linkcord';
 
 export const config = defineEventConfig({
 	name: ClientEvents.Debug,

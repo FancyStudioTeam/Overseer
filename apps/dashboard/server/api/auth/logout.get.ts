@@ -6,6 +6,6 @@ export default defineEventHandler(async (event) => {
 	} catch (error) {
 		console.error(error);
 	} finally {
-		sendRedirect(event, "/");
+		sendRedirect(event, '/');
 	}
 });

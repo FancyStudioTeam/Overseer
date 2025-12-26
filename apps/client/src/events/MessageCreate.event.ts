@@ -1,6 +1,6 @@
-import { ClientEvents, ComponentType, defineEventConfig, type EventHandler, MessageFlags } from "linkcord";
-import { bold } from "linkcord/utils";
-import { client } from "../index.js";
+import { ClientEvents, ComponentType, defineEventConfig, type EventHandler, MessageFlags } from 'linkcord';
+import { bold } from 'linkcord/utils';
+import { client } from '../index.js';
 
 export const config = defineEventConfig({
 	name: ClientEvents.MessageCreate,
@@ -13,7 +13,7 @@ export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ messag
 	} = rest;
 	const { channelId, content } = message;
 
-	if (content === ">ping") {
+	if (content === '>ping') {
 		const { gateway } = client;
 		const { averageLatency } = gateway;
 
@@ -24,7 +24,7 @@ export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ messag
 						{
 							content: [
 								bold(`Average Gateway Ping: ${averageLatency}`),
-							].join("\n"),
+							].join('\n'),
 							type: ComponentType.TextDisplay,
 						},
 					],

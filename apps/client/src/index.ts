@@ -1,5 +1,5 @@
-import { loadEnvFile } from "node:process";
-import { Client } from "linkcord";
+import { loadEnvFile } from 'node:process';
+import { Client } from 'linkcord';
 
 loadEnvFile();
 
