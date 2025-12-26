@@ -2,7 +2,6 @@ export function useAuth() {
 	const session = useFetch('/api/auth/session', {
 		pick: [
 			'data',
-			'is_authorized',
 		],
 	});
 
