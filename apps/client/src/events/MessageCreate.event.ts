@@ -8,9 +8,9 @@ export const config = defineEventConfig({
 
 export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ message }) => {
 	const { rest } = client;
-	const {
-		api: { channels },
-	} = rest;
+	const { resources } = rest;
+	const { channels } = resources;
+
 	const { channelId, content } = message;
 
 	if (content === '>ping') {
@@ -31,9 +31,7 @@ export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ messag
 					type: ComponentType.Container,
 				},
 			],
-			flags: [
-				MessageFlags.IsComponentsV2,
-			],
+			flags: MessageFlags.IsComponentsV2,
 		});
 	}
 };

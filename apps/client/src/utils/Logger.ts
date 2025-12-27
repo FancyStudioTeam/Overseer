@@ -1,4 +1,5 @@
 import { addColors, createLogger, format, transports } from 'winston';
+import { getMemoryUsage } from './functions/getMemoryUsage.js';
 
 const { align, colorize, combine, printf, timestamp } = format;
 const { Console } = transports;
@@ -18,12 +19,15 @@ const LOGGER_BASE_FORMAT = combine(
 		const formattedMessage = typeof message === 'object' ? JSON.stringify(message, null, 4) : message;
 
 		info.level = formattedLevel;
+		info.memoryUsage = getMemoryUsage();
 		info.message = formattedMessage;
 
 		return info;
 	})(),
 );
-const LOGGER_MESSAGE_FORMAT = printf(({ level, message, timestamp }) => `[${timestamp}] ${level} ${message}`);
+const LOGGER_MESSAGE_FORMAT = printf(
+	({ level, memoryUsage, message, timestamp }) => `[Memory Usage: ${memoryUsage}] [${timestamp}] ${level} ${message}`,
+);
 
 const LOGGER_LEVEL_COLORS: Record<LoggerLevels, string> = {
 	debug: 'magenta',
@@ -50,7 +54,7 @@ const CONSOLE_TRANSPORT = new Console({
 		LOGGER_BASE_FORMAT,
 		align(),
 		colorize({
-			level: true,
+			all: true,
 		}),
 		LOGGER_MESSAGE_FORMAT,
 	),
