@@ -2,6 +2,11 @@
 	"compilerOptions": {
 		"baseUrl": "src",
 		"outDir": "dist",
+		"paths": {
+			"#utils/*": [
+				"utils/*"
+			]
+		},
 		"rootDir": "src",
 		"types": [
 			"node"

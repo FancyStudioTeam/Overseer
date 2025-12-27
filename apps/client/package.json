@@ -1,7 +1,8 @@
 {
 	"author": "Overseer Team",
 	"dependencies": {
-		"linkcord": "file:linkcord-0.0.0.tgz"
+		"linkcord": "file:linkcord-0.0.0.tgz",
+		"winston": "3.19.0"
 	},
 	"devDependencies": {
 		"cross-env": "10.1.0",

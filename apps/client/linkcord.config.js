@@ -8,6 +8,7 @@ const DISCORD_TOKEN = env.DISCORD_TOKEN;
 export default defineConfig({
 	intents: [
 		GatewayIntents.Guilds,
+		GatewayIntents.GuildMembers,
 		GatewayIntents.GuildMessages,
 		GatewayIntents.MessageContent,
 	],
