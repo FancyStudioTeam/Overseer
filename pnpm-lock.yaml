@@ -2985,7 +2985,7 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
   linkcord@file:apps/client/linkcord-0.0.0.tgz:
-    resolution: {integrity: sha512-KAGZQnjT8GcuBK5oWxM0sbVZmttN62viL1JuyemVTvYas++gUk6kzYaR5rs03A9EtKgN3vkd8hp/FVgsSNd0Hw==, tarball: file:apps/client/linkcord-0.0.0.tgz}
+    resolution: {integrity: sha512-HkKY0buDY1hOwr7OGsj2Oe24xDXTSBCm0YpFwuI7BDzfwouagM00oQo2J676OLCSe5867utBpqi2PObtr5stOQ==, tarball: file:apps/client/linkcord-0.0.0.tgz}
     version: 0.0.0
     engines: {node: '>=22.18.0'}
 

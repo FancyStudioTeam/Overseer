@@ -32,6 +32,7 @@ const LOGGER_MESSAGE_FORMAT = printf(
 const LOGGER_LEVEL_COLORS: Record<LoggerLevels, string> = {
 	debug: 'magenta',
 	error: 'red',
+	http: 'blue',
 	info: 'cyan',
 	warn: 'yellow',
 };
@@ -43,6 +44,7 @@ const LOGGER_LEVEL_COLORS: Record<LoggerLevels, string> = {
 const LOGGER_LEVELS = {
 	debug: 3,
 	error: 0,
+	http: 4,
 	info: 2,
 	warn: 1,
 };
@@ -61,7 +63,7 @@ const CONSOLE_TRANSPORT = new Console({
 });
 
 export const logger = createLogger({
-	level: 'debug',
+	level: 'http',
 	levels: LOGGER_LEVELS,
 	transports: [
 		CONSOLE_TRANSPORT,
