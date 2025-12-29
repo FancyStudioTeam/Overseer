@@ -3,7 +3,8 @@ import { logger } from '#utils/Logger.js';
 
 export const config = defineEventConfig({
 	name: ClientEvents.ClientReady,
+	once: true,
 });
 
 export const handler: EventHandler<ClientEvents.ClientReady> = ({ user: { globalName, username } }) =>
-	logger.info(`Client '${globalName ?? username}' is ready.`);
+	logger.info(`Client '${globalName ?? username}' is ready`);
