@@ -3,10 +3,10 @@ import { bold } from 'linkcord/utils';
 import { client } from '../index.js';
 
 export const config = defineEventConfig({
-	name: ClientEvents.MessageCreate,
+	event: ClientEvents.MessageCreate,
 });
 
-export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ gatewayShard, message }) => {
+export const handler: EventHandler<typeof config> = async ({ gatewayShard, message }) => {
 	const { rest } = client;
 	const { resources } = rest;
 	const { channels } = resources;
