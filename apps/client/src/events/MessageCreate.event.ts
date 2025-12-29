@@ -6,7 +6,7 @@ export const config = defineEventConfig({
 	name: ClientEvents.MessageCreate,
 });
 
-export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ message }) => {
+export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ gatewayShard, message }) => {
 	const { rest } = client;
 	const { resources } = rest;
 	const { channels } = resources;
@@ -33,5 +33,9 @@ export const handler: EventHandler<ClientEvents.MessageCreate> = async ({ messag
 			],
 			flags: MessageFlags.IsComponentsV2,
 		});
+	}
+
+	if (content === '>restart') {
+		gatewayShard.disconnect(true);
 	}
 };

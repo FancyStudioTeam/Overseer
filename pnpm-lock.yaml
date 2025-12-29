@@ -2985,7 +2985,7 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
   linkcord@file:apps/client/linkcord-0.0.0.tgz:
-    resolution: {integrity: sha512-mPFZZpG6koZ+hF5k+AHA92X8F8CQRmd7NyTq/V+ReAuFayXPnowGMPr8Jd4ifF/e2nX7R4+tBB2lktUPBNgYGQ==, tarball: file:apps/client/linkcord-0.0.0.tgz}
+    resolution: {integrity: sha512-cvLAZw/kXP2B11ZEDpvMnu5d/NkiRLjuW/72biBv5y1WAm/RkA5G38w8+/1Q1k5CE78ir8aDIUZ1s5Jrn6JzFA==, tarball: file:apps/client/linkcord-0.0.0.tgz}
     version: 0.0.0
     engines: {node: '>=22.18.0'}
 
@@ -4066,10 +4066,6 @@ packages:
   string-argv@0.3.2:
     resolution: {integrity: sha512-aqD2Q0144Z+/RqG52NeHEkZauTAUWJO8c6yTftGJKO3Tja5tUgIfmIl6kExvhtxSDP7fXB6DvzkfMpCd/F3G+Q==}
     engines: {node: '>=0.6.19'}
-
-  string-dedent@3.0.2:
-    resolution: {integrity: sha512-M4q+HpHCtGXlbyzYDOcOo7V185dlq6YXvGUPcWZqL4vttCX9gFYoWIOxcPd7v5CAYcTJsGLs3ZJCAH2TXONF/g==}
-    engines: {node: '>=0.12.0'}
 
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
@@ -7591,7 +7587,6 @@ snapshots:
 
   linkcord@file:apps/client/linkcord-0.0.0.tgz:
     dependencies:
-      string-dedent: 3.0.2
       zod: 4.2.1
     optionalDependencies:
       '@discordjs/voice': 0.19.0
@@ -8927,8 +8922,6 @@ snapshots:
       - react-native-b4a
 
   string-argv@0.3.2: {}
-
-  string-dedent@3.0.2: {}
 
   string-width@4.2.3:
     dependencies:
