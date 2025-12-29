@@ -10,6 +10,7 @@ export default defineConfig({
 		GatewayIntents.Guilds,
 		GatewayIntents.GuildMembers,
 		GatewayIntents.GuildMessages,
+		GatewayIntents.GuildPresences,
 		GatewayIntents.MessageContent,
 	],
 	token: `Bot ${String(DISCORD_TOKEN)}`,
