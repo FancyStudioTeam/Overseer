@@ -35,7 +35,10 @@ export const handler: EventHandler<typeof config> = async ({ gatewayShard, messa
 		});
 	}
 
-	if (content === '>restart') {
+	if (content === '>reconnect') {
 		gatewayShard.disconnect(true);
+	}
+	if (content === '>disconnect') {
+		gatewayShard.disconnect();
 	}
 };
