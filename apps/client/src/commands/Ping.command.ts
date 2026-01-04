@@ -14,11 +14,10 @@ import { bold } from 'linkcord/utils';
 })
 export default class extends ChatInputCommandHandler {
 	async run({ client, interaction }: ChatInputCommandHandlerRunOptions): Promise<void> {
-		const { id, token } = interaction;
 		const { gateway } = client;
 		const { averageLatency } = gateway;
 
-		await client.rest.resources.interactions.createInteractionResponse(id, token, {
+		await interaction.createInteractionResponse({
 			data: {
 				components: [
 					{
