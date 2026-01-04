@@ -6,6 +6,7 @@ import {
 	InteractionCallbackType,
 	MessageFlags,
 } from 'linkcord';
+import { TextDisplay } from 'linkcord/builders';
 import { bold } from 'linkcord/utils';
 
 @Declare({
@@ -13,7 +14,7 @@ import { bold } from 'linkcord/utils';
 	name: 'ping',
 })
 export default class extends ChatInputCommandHandler {
-	async run({ client, interaction }: ChatInputCommandHandlerRunOptions): Promise<void> {
+	async run({ client, interaction }: ChatInputCommandHandlerRunOptions) {
 		const { gateway } = client;
 		const { averageLatency } = gateway;
 
@@ -22,10 +23,7 @@ export default class extends ChatInputCommandHandler {
 				components: [
 					{
 						components: [
-							{
-								content: bold(`🏓 Pong! ${averageLatency}ms`),
-								type: ComponentType.TextDisplay,
-							},
+							new TextDisplay().setContent(bold(`🏓 Pong! ${averageLatency}ms`)).toJSON(),
 						],
 						type: ComponentType.Container,
 					},
