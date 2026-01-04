@@ -2985,7 +2985,7 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
   linkcord@file:apps/client/linkcord-0.0.0.tgz:
-    resolution: {integrity: sha512-dsSMY9eh+kqAlzTGnUQ9H6h/QhhkuNHxmOsOZPiPlSd5/wu3X7btuNhkVs4IY7FhTGRJ+Y0hYqtWg3UHVablQg==, tarball: file:apps/client/linkcord-0.0.0.tgz}
+    resolution: {integrity: sha512-sifnXxHq59LQz0xAYV86su8o5zBbtJ7i/Kc9E0oXqSIdqlpvuKwAr8JdgwlBHOZBQg8N/iPszQxFoOyVoD44fQ==, tarball: file:apps/client/linkcord-0.0.0.tgz}
     version: 0.0.0
     engines: {node: '>=22.18.0'}
 
@@ -4696,8 +4696,8 @@ packages:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
 
-  zod@4.2.1:
-    resolution: {integrity: sha512-0wZ1IRqGGhMP76gLqz8EyfBXKk0J2qo2+H3fi4mcUP/KtTocoX08nmIAHl1Z2kJIZbZee8KOpBCSNPRgauucjw==}
+  zod@4.3.4:
+    resolution: {integrity: sha512-Zw/uYiiyF6pUT1qmKbZziChgNPRu+ZRneAsMUDU6IwmXdWt5JwcUfy2bvLOCUtz5UniaN/Zx5aFttZYbYc7O/A==}
 
 snapshots:
 
@@ -7587,7 +7587,7 @@ snapshots:
 
   linkcord@file:apps/client/linkcord-0.0.0.tgz:
     dependencies:
-      zod: 4.2.1
+      zod: 4.3.4
     optionalDependencies:
       '@discordjs/voice': 0.19.0
     transitivePeerDependencies:
@@ -9510,4 +9510,4 @@ snapshots:
       compress-commons: 6.0.2
       readable-stream: 4.7.0
 
-  zod@4.2.1: {}
+  zod@4.3.4: {}
