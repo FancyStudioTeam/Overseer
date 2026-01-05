@@ -19,7 +19,9 @@ export default class extends ChatInputCommandHandler {
 					new TextDisplayBuilder().setContent(bold(`${LAN_EMOJI} Average WebSocket Ping: ${inlineCode(`${averageLatency}ms`)}`)),
 				]),
 			],
-			flags: MessageFlags.IsComponentsV2,
+			flags: [
+				MessageFlags.IsComponentsV2,
+			],
 		});
 	}
 }
