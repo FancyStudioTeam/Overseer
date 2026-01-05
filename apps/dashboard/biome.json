@@ -9,7 +9,8 @@
 	"files": {
 		"includes": [
 			"**",
-			"!**/.nuxt"
+			"!!**/.nuxt",
+			"!!**/.output"
 		]
 	},
 	"html": {

@@ -56,7 +56,10 @@
 						"optionalDependencies": true
 					}
 				},
-				"noUnusedImports": "error",
+				"noUnusedImports": {
+					"fix": "safe",
+					"level": "error"
+				},
 				"noUnusedVariables": "error",
 				"useImportExtensions": {
 					"level": "error",
@@ -76,6 +79,8 @@
 			"style": {
 				"noDefaultExport": "off",
 				"noMagicNumbers": "error",
+				"noUnusedTemplateLiteral": "error",
+				"useBlockStatements": "error",
 				"useImportType": "error",
 				"useNamingConvention": {
 					"level": "error",
@@ -113,6 +118,8 @@
 				"useUnifiedTypeSignatures": "error"
 			},
 			"suspicious": {
+				"noConfusingVoidType": "off",
+				"noEmptyBlockStatements": "error",
 				"noUnassignedVariables": "error",
 				"useAwait": "error"
 			}
