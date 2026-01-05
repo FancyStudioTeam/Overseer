@@ -1,4 +1,5 @@
-import { ClientEvents, defineEventConfig, type EventHandler } from 'linkcord';
+import { ClientEvents } from 'linkcord';
+import { defineEventConfig, type EventHandler } from 'linkcord/handlers';
 import { logger } from '#utils/Logger.js';
 
 export const config = defineEventConfig({

@@ -1,7 +1,8 @@
 // @ts-check
 
 import { env } from 'node:process';
-import { defineConfig, GatewayIntents } from 'linkcord';
+import { defineConfig } from 'linkcord';
+import { GatewayIntents } from 'linkcord/types';
 
 const DISCORD_TOKEN = env.DISCORD_TOKEN;
 

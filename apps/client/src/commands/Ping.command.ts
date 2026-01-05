@@ -1,12 +1,6 @@
-import {
-	ChatInputCommandHandler,
-	type ChatInputCommandHandlerRunOptions,
-	ComponentType,
-	Declare,
-	InteractionCallbackType,
-	MessageFlags,
-} from 'linkcord';
 import { TextDisplay } from 'linkcord/builders';
+import { ChatInputCommandHandler, type ChatInputCommandHandlerRunOptions, Declare } from 'linkcord/handlers';
+import { ComponentType, InteractionCallbackType, MessageFlags } from 'linkcord/types';
 import { bold } from 'linkcord/utils';
 
 @Declare({
