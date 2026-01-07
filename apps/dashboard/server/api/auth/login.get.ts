@@ -1,5 +1,3 @@
 import { createCallbackUrl } from '#imports';
 
-export default defineEventHandler((event) => {
-	return sendRedirect(event, createCallbackUrl());
-});
+export default defineEventHandler((event) => sendRedirect(event, createCallbackUrl()));
