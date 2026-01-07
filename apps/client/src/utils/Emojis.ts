@@ -1,1 +1,1 @@
-export const LAN_EMOJI = '<:LAN:1457570097119100999>';
+export const LAN_EMOJI = '<:_:1457570097119100999>';
