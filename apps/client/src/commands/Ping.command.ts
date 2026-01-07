@@ -5,7 +5,7 @@ import { bold, inlineCode } from 'linkcord/utils';
 import { LAN_EMOJI } from '#utils/Emojis.js';
 
 @Declare({
-	description: 'Displays the information',
+	description: 'Displays the latency of the bot',
 	name: 'ping',
 })
 export default class extends ChatInputCommandHandler {
