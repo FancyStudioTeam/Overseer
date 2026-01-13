@@ -13,20 +13,20 @@ export default class extends ChatInputCommandHandler {
 		const { gateway } = client;
 		const { averageLatency } = gateway;
 
-		const containerBuilder = this.createContainerComponent(averageLatency);
+		const mainContainerBuilder = this.createMainContainerBuilder(averageLatency);
 
 		await interaction.createMessage({
 			components: [
-				containerBuilder,
+				mainContainerBuilder,
 			],
 			flags: MessageFlags.IsComponentsV2,
 		});
 	}
 
-	private createContainerComponent(averageLatency: number): ContainerBuilder {
-		const webSocketLatencyComponent = new TextDisplayBuilder().setContent(
-			bold(`${LAN_EMOJI} Average WebSocket Ping: ${averageLatency}`),
-		);
+	private createMainContainerBuilder(averageLatency: number): ContainerBuilder {
+		const webSocketLatencyComponent = new TextDisplayBuilder();
+
+		webSocketLatencyComponent.setContent(bold(`${LAN_EMOJI} Average WebSocket Ping: ${averageLatency}`));
 
 		const containerBuilder = new ContainerBuilder();
 
