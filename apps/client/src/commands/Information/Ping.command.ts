@@ -9,7 +9,9 @@ import { LAN_EMOJI } from '#utils/Emojis.js';
 	name: 'ping',
 })
 export default class extends ChatInputCommandHandler {
-	async run({ client, interaction }: ChatInputCommandContext) {
+	async run(context: ChatInputCommandContext) {
+		const { client, interaction } = context;
+
 		const { gateway } = client;
 		const { averageLatency } = gateway;
 

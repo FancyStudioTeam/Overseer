@@ -15,9 +15,10 @@ const options = {
 	description: 'Displays the information of the user',
 	name: 'user-info',
 })
-@Options(options)
 export default class extends ChatInputCommandHandler {
-	async run({ interaction, options }: ChatInputCommandContext<typeof options>) {
+	async run(context: ChatInputCommandContext<OptionsData>) {
+		const { interaction, options } = context;
+
 		const user = options.user ?? interaction.user;
 		const mainContainerBuilder = this.createMainContainerBuilder(user);
 
@@ -57,3 +58,5 @@ export default class extends ChatInputCommandHandler {
 		return containerBuilder;
 	}
 }
+
+type OptionsData = typeof options;
