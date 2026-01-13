@@ -19,9 +19,7 @@ export default class extends ChatInputCommandHandler {
 			components: [
 				containerBuilder,
 			],
-			flags: [
-				MessageFlags.IsComponentsV2,
-			],
+			flags: MessageFlags.IsComponentsV2,
 		});
 	}
 
