@@ -15,8 +15,7 @@
 	"files": {
 		"includes": [
 			"**",
-			"!!**/.turbo",
-			"!!**/dist"
+			"!!**/.turbo"
 		]
 	},
 	"formatter": {
@@ -44,7 +43,7 @@
 		"rules": {
 			"complexity": {
 				"noImplicitCoercions": "error",
-				"noStaticOnlyClass": "error",
+				"noStaticOnlyClass": "off",
 				"useSimplifiedLogicExpression": "error"
 			},
 			"correctness": {

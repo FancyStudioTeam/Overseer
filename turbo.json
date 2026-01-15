@@ -4,6 +4,7 @@
 		"build": {
 			"outputs": [
 				".nuxt/**",
+				"./output/**",
 				"dist/**"
 			]
 		}
