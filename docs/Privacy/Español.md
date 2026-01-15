@@ -8,7 +8,7 @@ Este documento **describe la política de privacidad y explica cómo se recopila
 
 | Término        | Descripción                                                                                                   |
 | -------------- | ------------------------------------------------------------------------------------------------------------- |
-| **"Nosotros"** | Se refiere a los propietarios y desarrolladores de Overseer.                                                  |
+| **"Nosotros"** | Se refiere a los **propietarios y desarrolladores de Overseer**.                                              |
 | **"Servicio"** | Se refiere a la **aplicación Overseer** y a **todos los servicios relacionados** proporcionados por nosotros. |
 | **"Usuario"**  | Se refiere a **cualquier persona que accede y utiliza nuestro servicio**.                                     |
 
@@ -29,11 +29,11 @@ Estos registros **son accesibles únicamente por los desarrolladores**.
 
 Los registros internos **se utilizan exclusivamente con fines de analíticas, reportes y prevención de abuso**.
 
-**Información retenida en los registros**:
+###### Información retenida en los registros:
 
-1. ID y nombre del usuario que ejecutó el comando.
-2. ID y nombre del servidor dónde el usuario ejecutó el comando.
-3. ID y nombre del comando que fue ejecutado.
-4. Fecha y hora de cuándo el comando fue ejecutado.
+1. La **ID y nombre del usuario** que ejecutó el comando.
+2. La **ID y nombre del servidor** dónde el usuario ejecutó el comando.
+3. La **ID y nombre del comando** que fue ejecutado.
+4. La **fecha y hora** de cuándo el comando fue ejecutado.
 
 [FancyStudioGitHubProfile]: https://github.com/FancyStudioTeam
