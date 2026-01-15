@@ -1,4 +1,4 @@
-# **Política de Privacidad**
+# Política de Privacidad
 
 ---
 
@@ -6,22 +6,24 @@
 
 Este documento **describe la política de privacidad y explica cómo se recopilan, utilizan y protegen los datos** en relación con **el uso de nuestro servicio**.
 
-# **Definiciones**
+# Definiciones
 
+|              |                                                                                                               |
+| ------------ | ------------------------------------------------------------------------------------------------------------- |
 | Nosotros     | Se refiere a los propietarios y desarrolladores de Overseer.                                                  |
-| :----------- | :------------------------------------------------------------------------------------------------------------ |
 | **Servicio** | Se refiere a la **aplicación Overseer** y a **todos los servicios relacionados** proporcionados por nosotros. |
 | **Usuario**  | Se refiere a **cualquier persona que accede y utiliza nuestro servicio**.                                     |
 
-# **Información Almacenada**
+# Información Almacenada
 
 El servicio **almacena únicamente la información necesaria** para su **correcto funcionamiento**.
 
-| IDs de Usuarios       | Se almacenan con el único propósito de vincular datos o configuraciones relacionadas con usuarios individuales.   |
-| :-------------------- | :---------------------------------------------------------------------------------------------------------------- |
+|                       |                                                                                                                   |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **IDs de Usuarios**   | Se almacenan con el único propósito de vincular datos o configuraciones relacionadas con usuarios individuales.   |
 | **IDs de Servidores** | Se almacenan con el único propósito de vincular datos o configuraciones relacionadas con servidores individuales. |
 
-## **Registros Internos**
+## Registros Internos
 
 Nuestro servicio **almacena registros internos relacionados con la ejecución de comandos**.
 
