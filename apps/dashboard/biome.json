@@ -8,15 +8,32 @@
 	"extends": "//",
 	"files": {
 		"includes": [
-			"!!**/.nuxt",
-			"!!**/.output"
+			"!!**/.next"
 		]
 	},
-	"html": {
-		"experimentalFullSupportEnabled": true,
-		"formatter": {
-			"enabled": true,
-			"indentScriptAndStyle": true
+	"linter": {
+		"domains": {
+			"next": "all",
+			"react": "all"
+		},
+		"rules": {
+			"correctness": {
+				"useImportExtensions": {
+					"level": "error",
+					"options": {
+						"forceJsExtensions": false
+					}
+				}
+			},
+			"nursery": {
+				"useSortedClasses": {
+					"fix": "safe",
+					"level": "error"
+				}
+			},
+			"suspicious": {
+				"noUnknownAtRules": "off"
+			}
 		}
 	}
 }

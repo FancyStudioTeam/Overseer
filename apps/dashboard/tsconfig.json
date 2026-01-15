@@ -1,22 +1,32 @@
 {
 	"compilerOptions": {
-		"types": [
-			"node",
-			"vue"
+		"allowImportingTsExtensions": true,
+		"jsx": "react-jsx",
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"paths": {
+			"#/*": [
+				"./src/*"
+			]
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
 		]
 	},
-	"references": [
-		{
-			"path": "./.nuxt/tsconfig.app.json"
-		},
-		{
-			"path": "./.nuxt/tsconfig.server.json"
-		},
-		{
-			"path": "./.nuxt/tsconfig.shared.json"
-		},
-		{
-			"path": "./.nuxt/tsconfig.node.json"
-		}
+	"extends": "../../tsconfig.base.json",
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts",
+		".next/dev/types/**/*.ts",
+		"**/*.mts"
 	]
 }
