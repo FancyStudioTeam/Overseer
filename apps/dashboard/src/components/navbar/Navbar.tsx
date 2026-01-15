@@ -8,7 +8,7 @@ export function Navbar() {
 				href='/'
 			>
 				<Logo className='size-7' />
-				ByteZ
+				Vanguard
 			</a>
 		</nav>
 	);

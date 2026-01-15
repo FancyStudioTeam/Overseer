@@ -1,6 +1,6 @@
 # 🔒 Privacy Policy
 
-**Welcome to Overseer, a service developed and provided by [FancyStudio][FancyStudioGitHubProfile].**
+**Welcome to Vanguard, a service developed and provided by [FancyStudio][FancyStudioGitHubProfile].**
 
 This document **describes the privacy policy and explains how data is collected, used, and protected** in relation to **the use of our service**.
 
@@ -11,8 +11,8 @@ This document **describes the privacy policy and explains how data is collected,
 
 | Term          | Description                                                                         |
 | ------------- | ----------------------------------------------------------------------------------- |
-| **"We"**      | Refers to the **owners and developers of Overseer**.                                |
-| **"Service"** | Refers to the **Overseer application** and **all related services** provided by us. |
+| **"We"**      | Refers to the **owners and developers of Vanguard**.                                |
+| **"Service"** | Refers to the **Vanguard application** and **all related services** provided by us. |
 | **"User"**    | Refers to **any individual who accesses and uses our service**.                     |
 
 ## 💾 Stored Information
