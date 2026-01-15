@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import { LoginButton } from '#/components/Login.tsx';
 import { auth } from '#/lib/Auth.ts';
 
 export default async function Home() {
@@ -7,7 +8,7 @@ export default async function Home() {
 	});
 
 	if (session) {
-		return <h1>Welcome {session.user.name}</h1>;
+		return <LoginButton />;
 	}
 
 	return <h1>Log In</h1>;
