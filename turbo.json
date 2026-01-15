@@ -5,9 +5,12 @@
 	],
 	"tasks": {
 		"build": {
+			"inputs": [
+				"$TURBO_DEFAULT$",
+				".env"
+			],
 			"outputs": [
-				".nuxt/**",
-				"./output/**",
+				".next/**",
 				"dist/**"
 			]
 		}
