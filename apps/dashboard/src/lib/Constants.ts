@@ -1,6 +1,8 @@
 import 'server-only';
 
-export const CLIENT_ID = process.env.CLIENT_ID;
-export const CLIENT_SECRET = process.env.CLIENT_SECRET;
+import { env } from '#/utils/functions/env.ts';
 
-export const MONGO_DB_CONNECTION_URL = process.env.MONGO_DB_CONNECTION_URL;
+export const CLIENT_ID = env('CLIENT_ID');
+export const CLIENT_SECRET = env('CLIENT_SECRET');
+
+export const MONGO_DB_CONNECTION_URL = env('MONGO_DB_CONNECTION_URL');
