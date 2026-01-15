@@ -9,7 +9,7 @@ const FigtreeFont = Figtree({
 });
 
 export const metadata: Metadata = {
-	title: 'ByteZ',
+	title: 'Vanguard - Simplicity without compromise',
 };
 
 export default function ({
