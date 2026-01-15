@@ -31,7 +31,9 @@ export default defineEventHandler(async (event) => {
 			is_authorized: true,
 			success: true,
 		};
-	} catch {
+	} catch (error) {
+		console.error(error);
+
 		setResponseStatus(event, INTERNAL_SERVER_ERROR_STATUS, 'Internal Server Error');
 
 		return {
