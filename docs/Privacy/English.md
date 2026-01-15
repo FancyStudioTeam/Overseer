@@ -1,13 +1,13 @@
-# Privacy Policy
+# 🔒 Privacy Policy
 
 **Welcome to Overseer, a service developed and provided by [FancyStudio][FancyStudioGitHubProfile].**
 
 This document **describes the privacy policy and explains how data is collected, used, and protected** in relation to **the use of our service**.
 
 > [!TIP]
-> The privacy policy is also available in the following languages: **[Español](./Español.md)**.
+> **The privacy policy is also available in the following languages**: **[Español](./Español.md)**.
 
-# Definitions
+## 📚 Definitions
 
 | Term          | Description                                                                         |
 | ------------- | ----------------------------------------------------------------------------------- |
@@ -15,7 +15,7 @@ This document **describes the privacy policy and explains how data is collected,
 | **"Service"** | Refers to the **Overseer application** and **all related services** provided by us. |
 | **"User"**    | Refers to **any individual who accesses and uses our service**.                     |
 
-# Stored Information
+## 💾 Stored Information
 
 The service **stores only the information necessary** for its **proper operation**.
 
@@ -24,7 +24,7 @@ The service **stores only the information necessary** for its **proper operation
 | **User IDs**   | Stored solely for the purpose of linking data or configurations related to individual users.   |
 | **Server IDs** | Stored solely for the purpose of linking data or configurations related to individual servers. |
 
-## Internal Logs
+### 📟 Internal Logs
 
 Our service **stores internal logs related to command execution**.
 
@@ -32,7 +32,7 @@ These logs **are accessible only by the developers**.
 
 Internal logs **are used exclusively for analytics, reporting, and abuse prevention purposes**.
 
-#### Information Retained in Logs:
+#### ℹ️ Information Retained in Logs:
 
 1. The **ID and name of the user** who executed the command.
 2. The **ID and name of the server** where the command was executed.
