@@ -9,6 +9,9 @@ export default defineNuxtConfig({
 	devtools: {
 		enabled: true,
 	},
+	nitro: {
+		preset: 'cloudflare-pages',
+	},
 	runtimeConfig: {
 		authSecret: '', // NUXT_AUTH_SECRET
 		clientId: '', // NUXT_CLIENT_ID
