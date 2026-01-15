@@ -107,7 +107,10 @@
 						"strictCase": true
 					}
 				},
-				"useNodejsImportProtocol": "error",
+				"useNodejsImportProtocol": {
+					"fix": "safe",
+					"level": "error"
+				},
 				"useReadonlyClassProperties": {
 					"level": "error",
 					"options": {
