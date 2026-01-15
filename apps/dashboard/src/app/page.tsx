@@ -19,7 +19,7 @@ export default async function Home() {
 			<h1 className='text-center font-extrabold text-2xl'>
 				Welcome back! <span className='font-black text-neutral-400'>{name}</span>
 			</h1>
-			<div className='w-80 flex-col gap-4 rounded-md border border-neutral-700 bg-neutral-900 p-6'>
+			<div className='w-80 flex-col gap-4 rounded-md border bg-neutral-900 p-6'>
 				<a
 					className='block w-full rounded-md bg-neutral-50 px-4 py-2 text-center text-neutral-950 text-sm'
 					href='/dashboard'

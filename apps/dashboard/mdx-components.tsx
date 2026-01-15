@@ -7,9 +7,9 @@ const components: MDXComponents = {
 	h4: ({ children }) => <h4 className='font-extrabold text-lg'>{children}</h4>,
 	li: ({ children }) => <li className='text-neutral-400'>{children}</li>,
 	p: ({ children }) => <p className='text-neutral-400'>{children}</p>,
-	table: ({ children }) => <table className='w-full border-collapse'>{children}</table>,
-	td: ({ children }) => <td className='border border-neutral-700 px-4 py-2'>{children}</td>,
-	th: ({ children }) => <th className='border border-neutral-700 bg-neutral-900 px-4 py-2'>{children}</th>,
+	table: ({ children }) => <table className='w-full border-collapse overflow-x-auto'>{children}</table>,
+	td: ({ children }) => <td className='border px-4 py-2'>{children}</td>,
+	th: ({ children }) => <th className='border bg-neutral-900 px-4 py-2'>{children}</th>,
 	ul: ({ children }) => <ul className='list-inside list-disc'>{children}</ul>,
 };
 
