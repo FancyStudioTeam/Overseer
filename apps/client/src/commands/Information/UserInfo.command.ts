@@ -1,11 +1,17 @@
 import type { User } from 'linkcord';
 import { ContainerBuilder, SeparatorBuilder, TextDisplayBuilder } from 'linkcord/builders';
-import { type ChatInputCommandContext, ChatInputCommandHandler, createUserOption, Declare } from 'linkcord/handlers';
+import {
+	type ChatInputCommandContext,
+	ChatInputCommandHandler,
+	createUserOption,
+	Declare,
+	Options as DeclareOptions,
+} from 'linkcord/handlers';
 import { MessageFlags } from 'linkcord/types';
 import { bold, HeadingLevel, header, inlineCode, unixTimestamp } from 'linkcord/utils';
 import { CALENDAR_TODAY_EMOJI, ID_CARD_EMOJI, INFO_EMOJI } from '#utils/Emojis.js';
 
-const options = {
+const Options = {
 	user: createUserOption({
 		description: 'The user to display its information',
 	}),
@@ -15,8 +21,9 @@ const options = {
 	description: 'Displays the information of the user',
 	name: 'user-info',
 })
+@DeclareOptions(Options)
 export default class extends ChatInputCommandHandler {
-	async run(context: ChatInputCommandContext<OptionsData>) {
+	async run(context: ChatInputCommandContext<typeof Options>) {
 		const { interaction, options } = context;
 
 		const user = options.user ?? interaction.user;
@@ -58,5 +65,3 @@ export default class extends ChatInputCommandHandler {
 		return containerBuilder;
 	}
 }
-
-type OptionsData = typeof options;
