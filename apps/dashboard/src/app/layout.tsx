@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import './globals.css';
 
 import { Figtree } from 'next/font/google';
@@ -7,7 +8,11 @@ const FigtreeFont = Figtree({
 	variable: '--font-figtree',
 });
 
-export default function RootLayout({
+export const metadata: Metadata = {
+	title: 'ByteZ',
+};
+
+export default function ({
 	children,
 }: Readonly<{
 	children: ReactNode;

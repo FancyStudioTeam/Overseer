@@ -12,6 +12,9 @@ const withMdx = createMdx({
 });
 
 export default withMdx({
+	experimental: {
+		authInterrupts: true,
+	},
 	pageExtensions: [
 		'md',
 		'mdx',
