@@ -1,5 +1,3 @@
-'use client';
-
 import { headers } from 'next/headers';
 import { auth } from '#/lib/Auth.ts';
 
