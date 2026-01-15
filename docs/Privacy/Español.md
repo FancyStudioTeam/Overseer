@@ -8,9 +8,9 @@ Este documento **describe la política de privacidad y explica cómo se recopila
 
 # Definiciones
 
-|              |                                                                                                               |
+| Término      | Descripción                                                                                                   |
 | ------------ | ------------------------------------------------------------------------------------------------------------- |
-| Nosotros     | Se refiere a los propietarios y desarrolladores de Overseer.                                                  |
+| **Nosotros** | Se refiere a los propietarios y desarrolladores de Overseer.                                                  |
 | **Servicio** | Se refiere a la **aplicación Overseer** y a **todos los servicios relacionados** proporcionados por nosotros. |
 | **Usuario**  | Se refiere a **cualquier persona que accede y utiliza nuestro servicio**.                                     |
 
