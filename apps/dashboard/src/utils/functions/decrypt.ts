@@ -1,3 +1,4 @@
+import 'server-only';
 import { createDecipheriv } from 'node:crypto';
 import { ENCRYPTION_ALGORITHM, ENCRYPTION_IV_LENGTH, ENCRYPTION_KEY, ENCRYPTION_TAG_LENGTH } from '../Constants.ts';
 

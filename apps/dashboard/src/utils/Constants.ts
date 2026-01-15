@@ -1,5 +1,4 @@
 import 'server-only';
-
 import { createHash } from 'node:crypto';
 import { env } from '#/utils/functions/env.ts';
 
