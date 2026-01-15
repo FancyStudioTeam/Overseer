@@ -1,4 +1,4 @@
-# # Privacy Policy
+# Privacy Policy
 
 **Welcome to Overseer, a service developed and provided by [FancyStudio][FancyStudioGitHubProfile].**
 
