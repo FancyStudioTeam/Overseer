@@ -7,10 +7,6 @@ export default defineEventHandler(async (event) => {
 		const sessionId = randomBytes(SESSION_ID_BYTES_LENGTH).toString('base64url');
 		const { update } = await sessionManager(event);
 
-		await collection.insertOne({
-			session_id: sessionId,
-		});
-
 		await update({
 			session_id: sessionId,
 			username: 'Username',

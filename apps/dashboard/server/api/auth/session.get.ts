@@ -20,9 +20,11 @@ export default defineEventHandler(async (event) => {
 		const clonedData = structuredClone(data);
 
 		/*
-		 * Do not expose "session_id" to the client.
+		 * Do not expose credentials to the client.
 		 */
 		Reflect.deleteProperty(clonedData, 'session_id');
+		Reflect.deleteProperty(clonedData, 'access_token');
+		Reflect.deleteProperty(clonedData, 'refresh_token');
 
 		return {
 			data: clonedData,
