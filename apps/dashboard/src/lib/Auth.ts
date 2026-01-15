@@ -62,6 +62,11 @@ export const auth = betterAuth({
 		discord: {
 			clientId: CLIENT_ID,
 			clientSecret: CLIENT_SECRET,
+			disableDefaultScope: true,
+			scope: [
+				'guilds',
+				'identify',
+			],
 		},
 	},
 });
