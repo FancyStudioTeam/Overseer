@@ -36,4 +36,4 @@ Los registros internos **se utilizan exclusivamente con fines de analíticas, re
 3. ID y nombre del comando que fue ejecutado.
 4. Fecha y hora de cuándo el comando fue ejecutado.
 
-[FancyStudioGitHubProfile][https://github.com/FancyStudioTeam]
+[FancyStudioGitHubProfile]: https://github.com/FancyStudioTeam
