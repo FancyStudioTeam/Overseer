@@ -10,7 +10,6 @@ export default defineNuxtConfig({
 		enabled: true,
 	},
 	runtimeConfig: {
-		authSecret: '', // NUXT_AUTH_SECRET
 		clientId: '', // NUXT_CLIENT_ID
 		clientSecret: '', // NUXT_CLIENT_SECRET
 		clientToken: '', // NUXT_CLIENT_TOKEN
