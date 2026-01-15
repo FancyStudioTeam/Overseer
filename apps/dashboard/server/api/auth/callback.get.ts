@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
 		await sessions.insertOne({
 			access_token: '123',
 			refresh_token: '123',
-			user_id: '123',
+			user_id: sessionId,
 		});
 
 		await update({
