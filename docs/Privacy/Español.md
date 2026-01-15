@@ -1,7 +1,5 @@
 # Política de Privacidad
 
----
-
 **Bienvenido a Overseer, un servicio proporcionado y desarrollado por FancyStudio.**
 
 Este documento **describe la política de privacidad y explica cómo se recopilan, utilizan y protegen los datos** en relación con **el uso de nuestro servicio**.
@@ -18,9 +16,8 @@ Este documento **describe la política de privacidad y explica cómo se recopila
 
 El servicio **almacena únicamente la información necesaria** para su **correcto funcionamiento**.
 
-|                       |                                                                                                                   |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | **IDs de Usuarios**   | Se almacenan con el único propósito de vincular datos o configuraciones relacionadas con usuarios individuales.   |
+| :-------------------- | :---------------------------------------------------------------------------------------------------------------- |
 | **IDs de Servidores** | Se almacenan con el único propósito de vincular datos o configuraciones relacionadas con servidores individuales. |
 
 ## Registros Internos
