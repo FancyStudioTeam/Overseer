@@ -1,20 +1,13 @@
 import './globals.css';
 
-import { Geist, Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import type { ReactNode } from 'react';
 
-const GeistFont = Geist({
+const PlusJakartaSans = Plus_Jakarta_Sans({
 	subsets: [
 		'latin',
 	],
-	variable: '--font-geist',
-});
-
-const InterFont = Inter({
-	subsets: [
-		'latin',
-	],
-	variable: '--font-inter',
+	variable: '--font-plus-jakarta-sans',
 });
 
 export default function RootLayout({
@@ -24,7 +17,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${InterFont.variable} ${GeistFont.variable} bg-neutral-950 font-geist text-neutral-50 antialiased`}>
+			<body className={`${PlusJakartaSans.variable} bg-neutral-950 font-plus-jakarta-sans text-neutral-50 antialiased`}>
 				{children}
 			</body>
 		</html>

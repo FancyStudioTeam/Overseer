@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
 @theme inline {
-	--font-geist: var(--font-geist);
-	--font-inter: var(--font-inter);
+	--font-plus-jakarta-sans: var(--font-plus-jakarta-sans);
 }
