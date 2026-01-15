@@ -1,13 +1,10 @@
-# 🔒 Política de Privacidad
+# Política de Privacidad
 
 **Bienvenido a Vanguard, un servicio proporcionado y desarrollado por [FancyStudio][FancyStudioGitHubProfile]**.
 
 Este documento **describe la política de privacidad y explica cómo se recopilan, utilizan y protegen los datos** en relación con **el uso de nuestro servicio**.
 
-> [!TIP]
-> **La política de privacidad está disponible en los siguientes idiomas**: **[English](./English.md)**.
-
-## 📚 Definiciones
+## Definiciones
 
 | Término        | Descripción                                                                                                   |
 | -------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -15,7 +12,7 @@ Este documento **describe la política de privacidad y explica cómo se recopila
 | **"Servicio"** | Se refiere a la **aplicación Vanguard** y a **todos los servicios relacionados** proporcionados por nosotros. |
 | **"Usuario"**  | Se refiere a **cualquier persona que accede y utiliza nuestro servicio**.                                     |
 
-## 💾 Información Almacenada
+## Información Almacenada
 
 El servicio **almacena únicamente la información necesaria** para su **correcto funcionamiento**.
 
@@ -24,7 +21,7 @@ El servicio **almacena únicamente la información necesaria** para su **correct
 | **IDs de Usuarios**   | Se almacenan con el único propósito de vincular datos o configuraciones relacionadas con usuarios individuales.   |
 | **IDs de Servidores** | Se almacenan con el único propósito de vincular datos o configuraciones relacionadas con servidores individuales. |
 
-### 📟 Registros Internos
+### Registros Internos
 
 Nuestro servicio **almacena registros internos relacionados con la ejecución de comandos**.
 
@@ -32,7 +29,7 @@ Estos registros **son accesibles únicamente por los desarrolladores**.
 
 Los registros internos **se utilizan exclusivamente con fines de analíticas, reportes y prevención de abuso**.
 
-#### ℹ️ Información Retenida en los Registros:
+#### Información Retenida en los Registros:
 
 1. La **ID y nombre del usuario** que ejecutó el comando.
 2. La **ID y nombre del servidor** dónde el usuario ejecutó el comando.
