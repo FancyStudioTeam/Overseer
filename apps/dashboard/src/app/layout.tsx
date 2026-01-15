@@ -1,13 +1,10 @@
 import './globals.css';
 
-import { Plus_Jakarta_Sans } from 'next/font/google';
+import { Figtree } from 'next/font/google';
 import type { ReactNode } from 'react';
 
-const PlusJakartaSans = Plus_Jakarta_Sans({
-	subsets: [
-		'latin',
-	],
-	variable: '--font-plus-jakarta-sans',
+const FigtreeFont = Figtree({
+	variable: '--font-figtree',
 });
 
 export default function RootLayout({
@@ -17,7 +14,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${PlusJakartaSans.variable} bg-neutral-950 font-plus-jakarta-sans text-neutral-50 antialiased`}>
+			<body className={`${FigtreeFont.variable} bg-neutral-950 font-figtree font-regular text-neutral-50 antialiased`}>
 				{children}
 			</body>
 		</html>
