@@ -4,7 +4,7 @@
 
 Este documento **describe la política de privacidad y explica cómo se recopilan, utilizan y protegen los datos** en relación con **el uso de nuestro servicio**.
 
-> [!NOTE]
+> [!TIP]
 > La política de privacidad está disponible en los siguientes idiomas: **[English](./English.md)**.
 
 # Definiciones

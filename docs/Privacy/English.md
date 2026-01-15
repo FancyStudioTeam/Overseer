@@ -4,7 +4,7 @@
 
 This document **describes the privacy policy and explains how data is collected, used, and protected** in relation to **the use of our service**.
 
-> [!NOTE]
+> [!TIP]
 > The privacy policy is also available in the following languages: **[Español](./Español.md)**.
 
 # Definitions
