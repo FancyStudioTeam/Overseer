@@ -29,7 +29,7 @@ Estos registros **son accesibles únicamente por los desarrolladores**.
 
 Los registros internos **se utilizan exclusivamente con fines de analíticas, reportes y prevención de abuso**.
 
-###### Información retenida en los registros:
+#### Información Retenida en los Registros:
 
 1. La **ID y nombre del usuario** que ejecutó el comando.
 2. La **ID y nombre del servidor** dónde el usuario ejecutó el comando.

@@ -29,7 +29,7 @@ These logs **are accessible only by the developers**.
 
 Internal logs **are used exclusively for analytics, reporting, and abuse prevention purposes**.
 
-###### Information Retained in Logs:
+#### Information Retained in Logs:
 
 1. The **ID and name of the user** who executed the command.
 2. The **ID and name of the server** where the command was executed.
