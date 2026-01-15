@@ -1,23 +1,24 @@
 # Política de Privacidad
 
-**Bienvenido a Overseer, un servicio proporcionado y desarrollado por FancyStudio.**
+**Bienvenido a Overseer, un servicio proporcionado y desarrollado por [FancyStudio][FancyStudioGitHubProfile]**.
 
 Este documento **describe la política de privacidad y explica cómo se recopilan, utilizan y protegen los datos** en relación con **el uso de nuestro servicio**.
 
 # Definiciones
 
-| Término      | Descripción                                                                                                   |
-| ------------ | ------------------------------------------------------------------------------------------------------------- |
-| **Nosotros** | Se refiere a los propietarios y desarrolladores de Overseer.                                                  |
-| **Servicio** | Se refiere a la **aplicación Overseer** y a **todos los servicios relacionados** proporcionados por nosotros. |
-| **Usuario**  | Se refiere a **cualquier persona que accede y utiliza nuestro servicio**.                                     |
+| Término        | Descripción                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------------------------- |
+| **"Nosotros"** | Se refiere a los propietarios y desarrolladores de Overseer.                                                  |
+| **"Servicio"** | Se refiere a la **aplicación Overseer** y a **todos los servicios relacionados** proporcionados por nosotros. |
+| **"Usuario"**  | Se refiere a **cualquier persona que accede y utiliza nuestro servicio**.                                     |
 
 # Información Almacenada
 
 El servicio **almacena únicamente la información necesaria** para su **correcto funcionamiento**.
 
+| Información           | Propósito                                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | **IDs de Usuarios**   | Se almacenan con el único propósito de vincular datos o configuraciones relacionadas con usuarios individuales.   |
-| :-------------------- | :---------------------------------------------------------------------------------------------------------------- |
 | **IDs de Servidores** | Se almacenan con el único propósito de vincular datos o configuraciones relacionadas con servidores individuales. |
 
 ## Registros Internos
@@ -34,3 +35,5 @@ Los registros internos **se utilizan exclusivamente con fines de analíticas, re
 2. ID y nombre del servidor dónde el usuario ejecutó el comando.
 3. ID y nombre del comando que fue ejecutado.
 4. Fecha y hora de cuándo el comando fue ejecutado.
+
+[FancyStudioGitHubProfile][https://github.com/FancyStudioTeam]
