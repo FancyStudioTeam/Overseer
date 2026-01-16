@@ -5,7 +5,7 @@ export function VanguardLogo({ className, ...props }: VanguardLogoProps) {
 	return (
 		<h1
 			{...props}
-			className={twMerge('font-dm-serif-display text-xl', className)}
+			className={twMerge('font-stardom text-xl tracking-tighter', className)}
 		>
 			Vanguard
 		</h1>
