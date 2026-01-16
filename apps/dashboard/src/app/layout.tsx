@@ -19,7 +19,9 @@ export default function ({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${FigtreeFont.variable} bg-neutral-950 font-figtree font-regular text-neutral-50 antialiased`}>
+			<body
+				className={`${FigtreeFont.variable} bg-neutral-950 font-figtree font-regular text-neutral-50 antialiased selection:bg-neutral-50 selection:text-neutral-950`}
+			>
 				{children}
 			</body>
 		</html>
