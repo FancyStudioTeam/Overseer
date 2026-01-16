@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme inline {
+	--font-dm-serif-display: var(--font-dm-serif-display);
 	--font-figtree: var(--font-figtree);
 }
 
