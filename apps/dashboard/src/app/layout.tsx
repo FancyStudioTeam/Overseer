@@ -1,8 +1,13 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
-import { Figtree } from 'next/font/google';
+import { DM_Serif_Display, Figtree } from 'next/font/google';
 import type { ReactNode } from 'react';
+
+const DmSerifDisplayFont = DM_Serif_Display({
+	variable: '--font-dm-serif-display',
+	weight: '400',
+});
 
 const FigtreeFont = Figtree({
 	variable: '--font-figtree',
@@ -20,7 +25,7 @@ export default function ({
 	return (
 		<html lang='en'>
 			<body
-				className={`${FigtreeFont.variable} bg-neutral-950 font-figtree font-regular text-neutral-50 antialiased selection:bg-neutral-50 selection:text-neutral-950`}
+				className={`${DmSerifDisplayFont.variable} ${FigtreeFont.variable} bg-neutral-950 font-figtree font-regular text-neutral-50 antialiased selection:bg-neutral-50 selection:text-neutral-950`}
 			>
 				{children}
 			</body>
