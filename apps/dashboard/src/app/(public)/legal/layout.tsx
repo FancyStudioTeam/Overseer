@@ -8,7 +8,7 @@ export default function ({
 }>) {
 	return (
 		<div className='flex h-full min-h-dvh justify-center'>
-			<div className='w-full max-w-7xl border-x'>
+			<div className='w-full max-w-7xl xl:border-x'>
 				<Navbar />
 				{children}
 			</div>
