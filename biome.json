@@ -76,6 +76,7 @@
 			},
 			"recommended": true,
 			"style": {
+				"noCommonJs": "error",
 				"noDefaultExport": "off",
 				"noMagicNumbers": "error",
 				"noUnusedTemplateLiteral": "error",

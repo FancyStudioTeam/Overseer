@@ -38,6 +38,9 @@
 					}
 				}
 			},
+			"style": {
+				"noImplicitBoolean": "error"
+			},
 			"suspicious": {
 				"noUnknownAtRules": "off"
 			}
