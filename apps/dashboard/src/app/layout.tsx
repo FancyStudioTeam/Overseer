@@ -1,16 +1,17 @@
-import type { Metadata } from 'next';
 import './globals.css';
 
-import { DM_Serif_Display, Figtree } from 'next/font/google';
+import type { Metadata } from 'next';
+import LocalFont from 'next/font/local';
 import type { ReactNode } from 'react';
 
-const DmSerifDisplayFont = DM_Serif_Display({
-	variable: '--font-dm-serif-display',
-	weight: '400',
+const GeneralSansFont = LocalFont({
+	src: '../../public/fonts/GeneralSans.woff2',
+	variable: '--font-general-sans',
 });
 
-const FigtreeFont = Figtree({
-	variable: '--font-figtree',
+const StardomFont = LocalFont({
+	src: '../../public/fonts/Stardom.woff2',
+	variable: '--font-stardom',
 });
 
 export const metadata: Metadata = {
@@ -25,7 +26,7 @@ export default function ({
 	return (
 		<html lang='en'>
 			<body
-				className={`${DmSerifDisplayFont.variable} ${FigtreeFont.variable} bg-neutral-950 font-figtree font-regular text-neutral-50 antialiased selection:bg-neutral-50 selection:text-neutral-950`}
+				className={`${GeneralSansFont.variable} ${StardomFont.variable} bg-neutral-950 font-general-sans font-normal text-neutral-50 antialiased selection:bg-neutral-50 selection:text-neutral-950`}
 			>
 				{children}
 			</body>
