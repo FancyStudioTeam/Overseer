@@ -15,19 +15,6 @@ export default withMdx({
 	experimental: {
 		authInterrupts: true,
 	},
-	headers() {
-		return [
-			{
-				headers: [
-					{
-						key: 'Cache-Control',
-						value: 'public, max-age=3600',
-					},
-				],
-				source: '/fonts/:path*',
-			},
-		];
-	},
 	pageExtensions: [
 		'md',
 		'mdx',
