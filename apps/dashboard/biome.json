@@ -28,7 +28,14 @@
 			"nursery": {
 				"useSortedClasses": {
 					"fix": "safe",
-					"level": "error"
+					"level": "error",
+					"options": {
+						"functions": [
+							"class",
+							"className",
+							"twMerge"
+						]
+					}
 				}
 			},
 			"suspicious": {

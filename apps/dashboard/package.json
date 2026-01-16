@@ -21,6 +21,7 @@
 		"@types/react-dom": "19.2.3",
 		"babel-plugin-react-compiler": "1.0.0",
 		"server-only": "0.0.1",
+		"tailwind-animations": "1.0.1",
 		"tailwindcss": "4.1.18"
 	},
 	"license": "MIT",

@@ -118,6 +118,9 @@ importers:
       server-only:
         specifier: 0.0.1
         version: 0.0.1
+      tailwind-animations:
+        specifier: 1.0.1
+        version: 1.0.1(tailwindcss@4.1.18)
       tailwindcss:
         specifier: 4.1.18
         version: 4.1.18
@@ -2534,6 +2537,11 @@ packages:
     engines: {node: '>=8.0.0'}
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
+
+  tailwind-animations@1.0.1:
+    resolution: {integrity: sha512-5ouCdgfGS4kcyuzRSb/1O3o9f5Akssi7ue46PHfKjvPLMWjtnzmqM8i6ElES3tKVTyhjSaTPfLti7aB7WSxhZg==}
+    peerDependencies:
+      tailwindcss: ^4.0.0
 
   tailwind-merge@3.4.0:
     resolution: {integrity: sha512-uSaO4gnW+b3Y2aWoWfFpX62vn2sR3skfhbjsEnaBI81WD1wBLlHZe5sWf0AqjksNdYTbGBEd0UasQMT3SNV15g==}
@@ -5348,6 +5356,10 @@ snapshots:
 
   systeminformation@5.28.2:
     optional: true
+
+  tailwind-animations@1.0.1(tailwindcss@4.1.18):
+    dependencies:
+      tailwindcss: 4.1.18
 
   tailwind-merge@3.4.0: {}
 
