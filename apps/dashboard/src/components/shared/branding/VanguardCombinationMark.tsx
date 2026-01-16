@@ -5,7 +5,7 @@ export function VanguardCombinationMark() {
 	return (
 		<a
 			aria-label='Vanguard Home'
-			className='flex select-none items-center gap-1'
+			className='flex select-none items-center gap-1 transition-opacity hover:opacity-75'
 			href='/'
 		>
 			<VanguardSymbol />
