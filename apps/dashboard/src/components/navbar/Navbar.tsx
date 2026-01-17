@@ -3,9 +3,13 @@ import { NavbarCtaButton } from './NavbarCtaButton.tsx';
 
 export function Navbar() {
 	return (
-		<nav className='sticky top-0 z-10 flex h-12 items-center justify-between border-b bg-neutral-950/75 pl-8 backdrop-blur-xl'>
-			<VanguardCombinationMark />
-			<NavbarCtaButton />
+		<nav className='sticky top-0 z-10 flex h-10 items-center divide-x border-b bg-neutral-950/75 backdrop-blur-xl'>
+			<div className='flex size-full items-center gap-4'>
+				<VanguardCombinationMark className='mx-8' />
+			</div>
+			<div className='flex size-full max-w-50'>
+				<NavbarCtaButton />
+			</div>
 		</nav>
 	);
 }
