@@ -10,13 +10,13 @@ export function NavbarProfileButton({ user }: NavbarProfileButtonProps) {
 		<DropdownMenuTrigger className='flex h-full w-full max-w-50 cursor-pointer select-none items-center justify-center gap-2 border-l px-8 font-stardom text-md tracking-tighter transition-colors hover:bg-neutral-900'>
 			<Image
 				alt={`${name}'s Avatar`}
-				className='aspect-square size-5'
+				className='aspect-square size-5 rounded-xs'
 				height={0}
 				src={userAvatar}
 				unoptimized={true}
 				width={0}
 			/>
-			<span className='whitespace-nowrap'>{name}</span>
+			<span className='truncate uppercase'>{name}</span>
 		</DropdownMenuTrigger>
 	);
 }
