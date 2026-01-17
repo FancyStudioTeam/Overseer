@@ -7,7 +7,7 @@ export function VanguardCombinationMark({ className, ...props }: VanguardCombina
 	return (
 		<a
 			aria-label='Vanguard Home'
-			className={twMerge('flex select-none items-center gap-1 transition-opacity hover:opacity-75', className)}
+			className={twMerge('flex select-none items-center gap-0.5 transition-opacity hover:opacity-75', className)}
 			href='/'
 			{...props}
 		>
