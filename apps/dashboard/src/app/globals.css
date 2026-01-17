@@ -10,6 +10,10 @@
 	@apply border-neutral-700;
 }
 
+*:focus {
+	@apply outline-0;
+}
+
 html {
 	scrollbar-gutter: stable;
 }
