@@ -65,6 +65,7 @@ export const auth = betterAuth({
 			disableDefaultScope: true,
 			scope: [
 				'guilds',
+				'email',
 				'identify',
 			],
 		},
