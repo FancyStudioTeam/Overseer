@@ -9,11 +9,11 @@ export function NavbarLoginButton() {
 
 	return (
 		<button
-			className='flex size-full cursor-pointer items-center justify-center font-stardom tracking-tighter transition-colors hover:bg-neutral-900'
+			className='grid size-full cursor-pointer place-content-center px-8 font-stardom tracking-tighter transition-colors hover:bg-neutral-900'
 			onClick={signInWithDiscord}
 			type='button'
 		>
-			Login with Discord
+			<span className='truncate'>Login with Discord</span>
 		</button>
 	);
 }
