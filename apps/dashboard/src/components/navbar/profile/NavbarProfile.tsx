@@ -7,7 +7,7 @@ export function NavbarProfile({ user }: NavbarProfileProps) {
 	return (
 		<DropdownMenu modal={false}>
 			<NavbarProfileButton user={user} />
-			<NavbarProfileContent user={user} />
+			<NavbarProfileContent />
 		</DropdownMenu>
 	);
 }

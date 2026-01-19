@@ -11,7 +11,7 @@ export function NavbarLoginButton() {
 
 	return (
 		<button
-			className='flex size-full cursor-pointer items-center justify-center gap-2 px-8 font-stardom tracking-tighter transition-all hover:bg-neutral-900 hover:opacity-75'
+			className='flex size-full cursor-pointer items-center justify-center gap-2 px-8 font-stardom tracking-tighter transition-colors hover:bg-neutral-900'
 			onClick={signInWithDiscord}
 			type='button'
 		>

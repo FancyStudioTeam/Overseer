@@ -6,7 +6,7 @@ export function NavbarProfileButton({ user }: NavbarProfileButtonProps) {
 	const { name } = user;
 
 	return (
-		<DropdownMenuTrigger className='flex size-full cursor-pointer items-center justify-center gap-2 px-8 font-stardom tracking-tighter transition-all hover:bg-neutral-900 hover:opacity-75'>
+		<DropdownMenuTrigger className='flex size-full cursor-pointer items-center justify-center gap-2 px-8 font-stardom tracking-tighter transition-colors hover:bg-neutral-900'>
 			<UserIcon
 				className='size-5 shrink-0'
 				weight='duotone'
