@@ -11,7 +11,7 @@ export function DropdownMenuContent({ className, ...props }: DropdownMenuContent
 		<RadixDropdownMenu.Content
 			{...props}
 			className={twMerge(
-				'z-50 data-[state=closed]:animate-duration-100 data-[state=closed]:animate-fade-out-up data-[state=open]:animate-duration-150 data-[state=open]:animate-fade-in-down',
+				'z-50 data-[state=closed]:animate-duration-100 data-[state=closed]:animate-fade-out-up data-[state=open]:animate-duration-100 data-[state=open]:animate-fade-in-down',
 				className,
 			)}
 		/>

@@ -4,6 +4,7 @@ import { betterAuth } from 'better-auth';
 import { mongodbAdapter } from 'better-auth/adapters/mongodb';
 import { MongoClient } from 'mongodb';
 import { encrypt } from '#/utils/functions/encrypt.ts';
+import { BASE_URL } from '#/utils/SafeConstants.ts';
 import { CLIENT_ID, CLIENT_SECRET, MONGO_DB_CONNECTION_URL } from '../utils/Constants.ts';
 
 const client = new MongoClient(MONGO_DB_CONNECTION_URL);
@@ -11,7 +12,7 @@ const db = client.db('better-auth');
 
 export const auth = betterAuth({
 	// biome-ignore lint/style/useNamingConvention: (x)
-	baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+	baseURL: BASE_URL,
 	database: mongodbAdapter(db, {
 		client,
 	}),
