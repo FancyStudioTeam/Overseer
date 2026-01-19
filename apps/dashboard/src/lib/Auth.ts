@@ -11,7 +11,10 @@ const client = new MongoClient(MONGO_DB_CONNECTION_URL);
 const db = client.db('better-auth');
 
 export const auth = betterAuth({
-	// biome-ignore lint/style/useNamingConvention: (x)
+	/*
+	 * biome-ignore lint/style/useNamingConvention: This naming convention comes
+	 * from an external API and cannot be overridden.
+	 */
 	baseURL: BASE_URL,
 	database: mongodbAdapter(db, {
 		client,
