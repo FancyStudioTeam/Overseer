@@ -4,9 +4,10 @@ import {
 	FingerprintIcon,
 	GridFourIcon,
 } from '@phosphor-icons/react';
+import { GithubLogoIcon } from '@phosphor-icons/react/dist/ssr';
 import { Fragment } from 'react/jsx-runtime';
 import { DropdownMenuSeparator } from '#/components/ui/Dropdown.tsx';
-import { DISCORD_SUPPORT_INVITE_URL } from '#/utils/SafeConstants.ts';
+import { DISCORD_SUPPORT_INVITE_URL, GITHUB_REPOSITORY_URL } from '#/utils/SafeConstants.ts';
 import {
 	NavbarProfileContentGroup,
 	type NavbarProfileContentGroupProps,
@@ -46,8 +47,14 @@ const NAVBAR_CONTENT_GROUPS_ITEMS: NavbarProfileContentGroupProps[] = [
 				name: 'Discord Server',
 				target: '_blank',
 			},
+			{
+				href: GITHUB_REPOSITORY_URL,
+				icon: GithubLogoIcon,
+				name: 'Source Code',
+				target: '_blank',
+			},
 		],
-		name: 'Support',
+		name: 'Useful Links',
 	},
 ];
 
