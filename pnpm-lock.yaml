@@ -78,9 +78,6 @@ importers:
       better-auth:
         specifier: 1.4.13
         version: 1.4.13(mongodb@7.0.0(socks@2.8.7))(next@16.1.2(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      client-only:
-        specifier: 0.0.1
-        version: 0.0.1
       mongodb:
         specifier: 7.0.0
         version: 7.0.0(socks@2.8.7)
@@ -121,6 +118,9 @@ importers:
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
+      client-only:
+        specifier: 0.0.1
+        version: 0.0.1
       server-only:
         specifier: 0.0.1
         version: 0.0.1
