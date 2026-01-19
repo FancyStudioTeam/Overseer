@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 export function VanguardSymbol({ className, ...props }: VanguardSymbolProps) {
 	return (
 		<svg
-			className={twMerge('size-5', className)}
+			className={twMerge('size-5 shrink-0', className)}
 			fill='currentColor'
 			viewBox='0 -960 960 960'
 			{...props}
