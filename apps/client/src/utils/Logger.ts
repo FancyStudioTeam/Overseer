@@ -16,7 +16,8 @@ const LOGGER_BASE_FORMAT = combine(
 		const { level, message } = info;
 
 		const formattedLevel = level.toUpperCase();
-		const formattedMessage = typeof message === 'object' ? JSON.stringify(message, null, 4) : message;
+		const formattedMessage =
+			typeof message === 'object' ? JSON.stringify(message, null, 4) : message;
 
 		info.level = formattedLevel;
 		info.memoryUsage = getMemoryUsage();
@@ -26,7 +27,8 @@ const LOGGER_BASE_FORMAT = combine(
 	})(),
 );
 const LOGGER_MESSAGE_FORMAT = printf(
-	({ level, memoryUsage, message, timestamp }) => `[Memory Usage: ${memoryUsage}] [${timestamp}] ${level} ${message}`,
+	({ level, memoryUsage, message, timestamp }) =>
+		`[Memory Usage: ${memoryUsage}] [${timestamp}] ${level} ${message}`,
 );
 
 const LOGGER_LEVEL_COLORS: Record<LoggerLevels, string> = {

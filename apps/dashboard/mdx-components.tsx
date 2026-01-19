@@ -5,7 +5,8 @@
 import type { MDXComponents } from 'mdx/types';
 import { twMerge } from 'tailwind-merge';
 
-const SHARED_HEADING_STYLE = (className?: string) => twMerge('font-stardom uppercase tracking-tighter', className);
+const SHARED_HEADING_STYLE = (className?: string) =>
+	twMerge('font-stardom uppercase tracking-tighter', className);
 const SHARED_TEXT_STYLE = (className?: string) => twMerge('text-neutral-400', className);
 
 const components: MDXComponents = {
@@ -17,7 +18,11 @@ const components: MDXComponents = {
 	p: ({ children }) => <p className={SHARED_TEXT_STYLE()}>{children}</p>,
 	table: ({ children }) => <table className='w-full border-collapse'>{children}</table>,
 	td: ({ children }) => <td className='px-4 py-2'>{children}</td>,
-	th: ({ children }) => <th className='border bg-neutral-900 px-4 py-2 font-normal font-stardom uppercase'>{children}</th>,
+	th: ({ children }) => (
+		<th className='border bg-neutral-900 px-4 py-2 font-normal font-stardom uppercase'>
+			{children}
+		</th>
+	),
 	ul: ({ children }) => <ul className='list-inside list-disc'>{children}</ul>,
 };
 
