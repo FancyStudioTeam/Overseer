@@ -14,6 +14,7 @@ const withMdx = createMdx({
 export default withMdx({
 	experimental: {
 		authInterrupts: true,
+		viewTransition: true,
 	},
 	pageExtensions: [
 		'md',
