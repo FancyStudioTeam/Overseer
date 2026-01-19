@@ -11,7 +11,9 @@ import {
 	MONGO_DB_DATABASE_NAME,
 } from '../utils/Constants.ts';
 
-const client = new MongoClient(MONGO_DB_CONNECTION_URL);
+const client = new MongoClient(MONGO_DB_CONNECTION_URL, {
+	maxPoolSize: 5,
+});
 const db = client.db(MONGO_DB_DATABASE_NAME);
 
 export const auth = betterAuth({
