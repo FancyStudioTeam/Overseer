@@ -11,7 +11,7 @@
 		"rimraf": "6.1.2",
 		"tsc-alias": "1.8.16",
 		"tsx": "4.21.0",
-		"turbo": "2.7.4",
+		"turbo": "2.7.5",
 		"typescript": "5.9.3"
 	},
 	"engines": {
