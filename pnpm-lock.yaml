@@ -70,8 +70,8 @@ importers:
         specifier: 3.1.1
         version: 3.1.1(@types/react@19.2.8)(react@19.2.3)
       '@next/mdx':
-        specifier: 16.1.2
-        version: 16.1.2(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@19.2.8)(react@19.2.3))
+        specifier: 16.1.3
+        version: 16.1.3(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@19.2.8)(react@19.2.3))
       '@phosphor-icons/react':
         specifier: 2.1.10
         version: 2.1.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -668,8 +668,8 @@ packages:
   '@next/env@16.1.3':
     resolution: {integrity: sha512-BLP14oBOvZWXgfdJf9ao+VD8O30uE+x7PaV++QtACLX329WcRSJRO5YJ+Bcvu0Q+c/lei41TjSiFf6pXqnpbQA==}
 
-  '@next/mdx@16.1.2':
-    resolution: {integrity: sha512-Lb2oUdEbX/GT6yVNZNOEBikIN5OF5R1TYYOYkiH/bQVvaVBzlnJzy7sEVApIyi+rKb5P1rpjZ2h5InNxvhwzMA==}
+  '@next/mdx@16.1.3':
+    resolution: {integrity: sha512-idbNOfd0KKsyhTzA95QCNRJmKadZ6wZK4pU9zq1VspRC0cqkTcrhNE9CFMc7kusLdwd1cCgPTNOdfOIOBt9hMg==}
     peerDependencies:
       '@mdx-js/loader': '>=0.15.0'
       '@mdx-js/react': '>=0.15.0'
@@ -4050,7 +4050,7 @@ snapshots:
 
   '@next/env@16.1.3': {}
 
-  '@next/mdx@16.1.2(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@19.2.8)(react@19.2.3))':
+  '@next/mdx@16.1.3(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@19.2.8)(react@19.2.3))':
     dependencies:
       source-map: 0.7.6
     optionalDependencies:
