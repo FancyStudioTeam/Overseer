@@ -1,4 +1,4 @@
-import { ClientEvents, GatewayShard } from 'linkcord';
+import { ClientEvents } from 'linkcord';
 import { defineEventConfig, type EventHandler } from 'linkcord/handlers';
 import { logger } from '#utils/Logger.js';
 
@@ -12,14 +12,14 @@ export const handler: EventHandler<typeof config> = ({
 	isReconnectable,
 	reason,
 }) => {
-	const { id } = GatewayShard;
+	const { id } = gatewayShard;
 	const messageBase = `Shard ${id} has been disconnected with close code ${code} (Reason: ${reason || 'N/A'})`;
 
 	if (isReconnectable) {
-		logger.warn(`${messageBase}. This disconnection can be reconnected.`);
+		logger.warn(`${messageBase}. This shard can be reconnected.`);
 	} else {
 		logger.error(
-			`${messageBase}. This disconnection cannot be reconnected and must start a new session.`,
+			`${messageBase}. This shard cannot be reconnected and must start a new session.`,
 		);
 	}
 };

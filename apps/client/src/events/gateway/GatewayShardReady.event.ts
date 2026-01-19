@@ -6,5 +6,8 @@ export const config = defineEventConfig({
 	event: ClientEvents.GatewayShardReady,
 });
 
-export const handler: EventHandler<typeof config> = ({ gatewayShard: { id } }) =>
+export const handler: EventHandler<typeof config> = ({ gatewayShard }) => {
+	const { id } = gatewayShard;
+
 	logger.info(`Shard ${id} has successfully completed his handshake with the Discord gateway`);
+};

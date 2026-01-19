@@ -6,11 +6,7 @@ const { Console } = transports;
 
 const LOGGER_BASE_FORMAT = combine(
 	timestamp({
-		/*
-		 * NOTE: Timestamp should be in Spanish date format. Please do not modify
-		 * this value.
-		 */
-		format: 'DD/MM/YYYY HH:mm:ss',
+		format: 'YYYY/MM/DD HH:mm:ss',
 	}),
 	format((info) => {
 		const { level, message } = info;

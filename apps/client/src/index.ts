@@ -6,5 +6,5 @@ loadEnvFile();
 
 export const client = new Client();
 
-client.events.addEventListener(ClientEvents.Debug, (message) => logger.debug(message));
-client.init().catch(console.error);
+client.events.addEventListener(ClientEvents.Debug, logger.debug);
+client.init().catch(logger.error);
