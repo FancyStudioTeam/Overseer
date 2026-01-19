@@ -5,10 +5,15 @@ import { mongodbAdapter } from 'better-auth/adapters/mongodb';
 import { MongoClient } from 'mongodb';
 import { encrypt } from '#/utils/functions/encrypt.ts';
 import { BASE_URL } from '#/utils/SafeConstants.ts';
-import { CLIENT_ID, CLIENT_SECRET, MONGO_DB_CONNECTION_URL } from '../utils/Constants.ts';
+import {
+	CLIENT_ID,
+	CLIENT_SECRET,
+	MONGO_DB_CONNECTION_URL,
+	MONGO_DB_DATABASE_NAME,
+} from '../utils/Constants.ts';
 
 const client = new MongoClient(MONGO_DB_CONNECTION_URL);
-const db = client.db('better-auth');
+const db = client.db(MONGO_DB_DATABASE_NAME);
 
 export const auth = betterAuth({
 	/*
