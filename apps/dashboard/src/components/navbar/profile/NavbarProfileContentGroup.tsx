@@ -7,7 +7,7 @@ import {
 export function NavbarProfileContentGroup({ links, name }: NavbarProfileContentGroupProps) {
 	return (
 		<DropdownMenuGroup>
-			<DropdownMenuLabel className='px-4 pt-2 font-bold text-neutral-400 text-xs uppercase'>
+			<DropdownMenuLabel className='px-4 py-2 font-bold text-neutral-400 text-xs uppercase'>
 				{name}
 			</DropdownMenuLabel>
 			{links.map(({ name, ...rest }) => (
