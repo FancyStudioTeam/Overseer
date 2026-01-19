@@ -1,22 +1,17 @@
+import { UserIcon } from '@phosphor-icons/react';
 import type { User } from 'better-auth';
-import Image from 'next/image';
 import { DropdownMenuTrigger } from '#/components/ui/Dropdown.tsx';
 
 export function NavbarProfileButton({ user }: NavbarProfileButtonProps) {
-	const { image, name } = user;
-	const userAvatar = image ?? 'https://cdn.discordapp.com/embed/avatars/1.png';
+	const { name } = user;
 
 	return (
-		<DropdownMenuTrigger className='flex h-full w-full max-w-50 cursor-pointer select-none items-center justify-center gap-2 border-l px-8 font-stardom text-md tracking-tighter transition-colors hover:bg-neutral-900'>
-			<Image
-				alt={`${name}'s Avatar`}
-				className='aspect-square size-5 rounded-xs'
-				height={0}
-				src={userAvatar}
-				unoptimized={true}
-				width={0}
+		<DropdownMenuTrigger className='flex size-full cursor-pointer items-center justify-center gap-2 px-8 font-stardom tracking-tighter transition-all hover:bg-neutral-900 hover:opacity-75'>
+			<UserIcon
+				className='size-5 shrink-0'
+				weight='duotone'
 			/>
-			<span className='truncate uppercase'>{name}</span>
+			<span className='truncate'>{name}</span>
 		</DropdownMenuTrigger>
 	);
 }
