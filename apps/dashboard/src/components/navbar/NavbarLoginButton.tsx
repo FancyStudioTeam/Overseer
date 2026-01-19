@@ -1,12 +1,13 @@
+'use client';
+
 import { FingerprintIcon } from '@phosphor-icons/react';
 import { authClient } from '#/lib/AuthClient.ts';
 
 export function NavbarLoginButton() {
-	const signInWithDiscord = async () => {
+	const signInWithDiscord = async () =>
 		await authClient.signIn.social({
 			provider: 'discord',
 		});
-	};
 
 	return (
 		<button

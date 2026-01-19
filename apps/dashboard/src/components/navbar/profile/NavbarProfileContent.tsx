@@ -1,16 +1,17 @@
 import type { User } from 'better-auth';
-import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuSeparator } from '#/components/ui/Dropdown.tsx';
-import { NavbarProfileContentLinks } from './NavbarProfileContentLinks.tsx';
+import {
+	DropdownMenuContent,
+	DropdownMenuPortal,
+	DropdownMenuSeparator,
+} from '#/components/ui/Dropdown.tsx';
+import { NavbarProfileContentGroups } from './NavbarProfileContentGroups.tsx';
 import { NavbarProfileContentLogout } from './NavbarProfileContentLogout.tsx';
-import { NavbarProfileContentUser } from './NavbarProfileContentUser.tsx';
 
-export function NavbarProfileContent({ user }: NavbarProfileContentProps) {
+export function NavbarProfileContent() {
 	return (
 		<DropdownMenuPortal>
-			<DropdownMenuContent className='w-55 border bg-neutral-950'>
-				<NavbarProfileContentUser user={user} />
-				<DropdownMenuSeparator />
-				<NavbarProfileContentLinks />
+			<DropdownMenuContent className='w-50 border bg-neutral-950'>
+				<NavbarProfileContentGroups />
 				<DropdownMenuSeparator />
 				<NavbarProfileContentLogout />
 			</DropdownMenuContent>
