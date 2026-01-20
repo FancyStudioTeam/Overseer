@@ -21,6 +21,6 @@ module.exports = {
 };
 
 /**
- * @typedef {Object} EcosystemConfig
+ * @typedef {object} EcosystemConfig
  * @property {import("pm2").StartOptions[]} apps
  */
