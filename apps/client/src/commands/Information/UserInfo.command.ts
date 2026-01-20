@@ -41,8 +41,8 @@ export default class extends ChatInputCommandHandler {
 			[
 				bold('General Information'),
 				[
-					bold(`${ID_CARD_EMOJI} User ID: ${inlineCode(id)}`),
-					bold(`${CALENDAR_TODAY_EMOJI} Created At: ${unixTimestamp(createdAt)}`),
+					`${bold(`${ID_CARD_EMOJI} User ID`)}: ${inlineCode(id)}`,
+					`${bold(`${CALENDAR_TODAY_EMOJI} Created At`)}: ${unixTimestamp(createdAt)}`,
 				].join('\n'),
 			].join('\n'),
 		);
