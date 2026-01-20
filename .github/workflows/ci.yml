@@ -22,4 +22,7 @@ jobs:
               run: pnpm install
 
             - name: Build Applications
+              env:
+                  - MONGO_DB_CONNECTION_URL: ${{ secrets.MONGO_DB_CONNECTION_URL }}
+
               run: pnpm turbo:build
