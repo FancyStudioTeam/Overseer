@@ -4,6 +4,9 @@ on: [push, pull_request]
 
 jobs:
     ci:
+        env:
+            MONGO_DB_CONNECTION_URL: ${{ secrets.MONGO_DB_CONNECTION_URL }}
+
         runs-on: ubuntu-latest
 
         steps:
