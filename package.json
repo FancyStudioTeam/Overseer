@@ -38,6 +38,8 @@
 		"biome:check": "biome check",
 		"biome:ci": "biome ci",
 		"biome:write": "biome check --write",
+		"docker:build": "docker build -t vanguard .",
+		"docker:run": "docker run vanguard",
 		"prepare": "husky",
 		"turbo:build": "turbo build"
 	},
