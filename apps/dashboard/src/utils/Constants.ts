@@ -1,15 +1,17 @@
 import 'server-only';
 
 import { createHash } from 'node:crypto';
+import { env } from 'node:process';
 
-export const CLIENT_ID = process.env.CLIENT_ID ?? '';
-export const CLIENT_SECRET = process.env.CLIENT_SECRET ?? '';
+export const {
+	CLIENT_ID = '1234567890987654321',
+	CLIENT_SECRET = 'youshallnopass',
+	MONGO_DB_CONNECTION_URL = 'mongodb://localhost:27017',
+	MONGO_DB_DATABASE_NAME = 'sessions',
+} = env;
 
 export const ENCRYPTION_ALGORITHM = 'aes-256-gcm';
 export const ENCRYPTION_HASH = createHash('sha256');
 export const ENCRYPTION_IV_LENGTH = 12;
 export const ENCRYPTION_KEY = ENCRYPTION_HASH.update(process.env.ENCRYPTION_KEY ?? '').digest();
 export const ENCRYPTION_TAG_LENGTH = 16;
-
-export const MONGO_DB_CONNECTION_URL = process.env.MONGO_DB_CONNECTION_URL ?? '';
-export const MONGO_DB_DATABASE_NAME = process.env.MONGO_DB_DATABASE_NAME ?? '';
