@@ -3,7 +3,7 @@ import { Client, ClientEvents } from 'linkcord';
 import { IS_PRODUCTION_ENVIRONMENT } from 'linkcord/utils';
 import { logger } from '#utils/Logger.js';
 
-loadEnvFile(IS_PRODUCTION_ENVIRONMENT ? '.env.prod' : '.env.dev');
+loadEnvFile(IS_PRODUCTION_ENVIRONMENT ? '.env.production' : '.env.development');
 
 export const client = new Client();
 

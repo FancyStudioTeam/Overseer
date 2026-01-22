@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { env } from 'node:process';
 
 export const {
+	AUTH_SECRET = 'youshallnopass',
 	CLIENT_ID = '1234567890987654321',
 	CLIENT_SECRET = 'youshallnopass',
 	MONGO_DB_CONNECTION_URL = 'mongodb://localhost:27017',

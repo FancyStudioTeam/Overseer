@@ -5,6 +5,7 @@ import { mongodbAdapter } from 'better-auth/adapters/mongodb';
 import { MongoClient } from 'mongodb';
 import { encrypt } from '#/utils/functions/encrypt.ts';
 import {
+	AUTH_SECRET,
 	CLIENT_ID,
 	CLIENT_SECRET,
 	MONGO_DB_CONNECTION_URL,
@@ -21,7 +22,7 @@ export const auth = betterAuth({
 	 * biome-ignore lint/style/useNamingConvention: This naming convention comes
 	 * from an external API and cannot be overridden.
 	 */
-	baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+	baseURL: getBaseUrl(),
 	database: mongodbAdapter(db, {
 		client,
 	}),
@@ -69,6 +70,7 @@ export const auth = betterAuth({
 			},
 		},
 	},
+	secret: AUTH_SECRET,
 	socialProviders: {
 		discord: {
 			clientId: CLIENT_ID,
@@ -81,4 +83,14 @@ export const auth = betterAuth({
 			],
 		},
 	},
+	trustedOrigins: [
+		'https://getvanguard.xyz',
+	],
 });
+
+function getBaseUrl(): string {
+	const { env } = process;
+	const { NODE_ENV } = env;
+
+	return NODE_ENV === 'production' ? 'https://getvanguard.xyz' : 'http://localhost:3000';
+}
