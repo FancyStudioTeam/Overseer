@@ -24,7 +24,8 @@
 		"client-only": "0.0.1",
 		"server-only": "0.0.1",
 		"tailwind-animations": "1.0.1",
-		"tailwindcss": "4.1.18"
+		"tailwindcss": "4.1.18",
+		"typescript": "5.9.3"
 	},
 	"license": "MIT",
 	"name": "dashboard",

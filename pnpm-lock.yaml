@@ -20,9 +20,6 @@ importers:
       '@commitlint/types':
         specifier: 20.3.1
         version: 20.3.1
-      '@types/node':
-        specifier: 25.0.9
-        version: 25.0.9
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -41,9 +38,6 @@ importers:
       turbo:
         specifier: 2.7.5
         version: 2.7.5
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
 
   apps/client:
     dependencies:
@@ -54,12 +48,21 @@ importers:
         specifier: 3.19.0
         version: 3.19.0
     devDependencies:
+      '@types/node':
+        specifier: 25.0.9
+        version: 25.0.9
       cross-env:
         specifier: 10.1.0
         version: 10.1.0
       pm2:
         specifier: 6.0.14
         version: 6.0.14
+      rimraf:
+        specifier: 6.1.2
+        version: 6.1.2
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
 
   apps/dashboard:
     dependencies:
@@ -130,6 +133,9 @@ importers:
       tailwindcss:
         specifier: 4.1.18
         version: 4.1.18
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
 
 packages:
 

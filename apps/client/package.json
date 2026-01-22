@@ -5,8 +5,11 @@
 		"winston": "3.19.0"
 	},
 	"devDependencies": {
+		"@types/node": "25.0.9",
 		"cross-env": "10.1.0",
-		"pm2": "6.0.14"
+		"pm2": "6.0.14",
+		"rimraf": "6.1.2",
+		"typescript": "5.9.3"
 	},
 	"license": "MIT",
 	"main": "dist/index.js",

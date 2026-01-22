@@ -14,7 +14,7 @@ module.exports = {
 				NODE_ENV: 'production',
 			},
 			interpreter: 'node',
-			name: 'Discord Client',
+			name: 'Vanguard Client',
 			script: './dist/index.js',
 		},
 	],
