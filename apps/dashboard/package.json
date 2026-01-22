@@ -22,6 +22,7 @@
 		"@types/react-dom": "19.2.3",
 		"babel-plugin-react-compiler": "1.0.0",
 		"client-only": "0.0.1",
+		"pm2": "6.0.14",
 		"server-only": "0.0.1",
 		"tailwind-animations": "1.0.1",
 		"tailwindcss": "4.1.18",
@@ -33,6 +34,7 @@
 	"scripts": {
 		"build": "next build",
 		"start:dev": "next dev",
+		"start:pm2": "pm2 start pnpm --name 'Vanguard Dashboard' -- start:prod",
 		"start:prod": "next start"
 	},
 	"type": "module",

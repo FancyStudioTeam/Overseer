@@ -124,6 +124,9 @@ importers:
       client-only:
         specifier: 0.0.1
         version: 0.0.1
+      pm2:
+        specifier: 6.0.14
+        version: 6.0.14
       server-only:
         specifier: 0.0.1
         version: 0.0.1

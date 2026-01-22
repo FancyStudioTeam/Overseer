@@ -39,7 +39,8 @@
 		"docker:build": "docker build -t vanguard .",
 		"docker:run": "docker run vanguard",
 		"prepare": "husky",
-		"turbo:build": "turbo build"
+		"turbo:build": "turbo build",
+		"turbo:start:pm2": "turbo start:pm2"
 	},
 	"type": "module"
 }
