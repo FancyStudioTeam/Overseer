@@ -9,6 +9,8 @@
 		"cross-env": "10.1.0",
 		"pm2": "6.0.14",
 		"rimraf": "6.1.2",
+		"tsc-alias": "1.8.16",
+		"tsx": "4.21.0",
 		"typescript": "5.9.3"
 	},
 	"license": "MIT",

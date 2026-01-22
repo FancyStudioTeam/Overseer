@@ -26,15 +26,6 @@ importers:
       lint-staged:
         specifier: 16.2.7
         version: 16.2.7
-      rimraf:
-        specifier: 6.1.2
-        version: 6.1.2
-      tsc-alias:
-        specifier: 1.8.16
-        version: 1.8.16
-      tsx:
-        specifier: 4.21.0
-        version: 4.21.0
       turbo:
         specifier: 2.7.5
         version: 2.7.5
@@ -60,6 +51,12 @@ importers:
       rimraf:
         specifier: 6.1.2
         version: 6.1.2
+      tsc-alias:
+        specifier: 1.8.16
+        version: 1.8.16
+      tsx:
+        specifier: 4.21.0
+        version: 4.21.0
       typescript:
         specifier: 5.9.3
         version: 5.9.3
