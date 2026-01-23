@@ -13,7 +13,7 @@ export async function POST() {
 		const oauth2State = randomBytes(OAUTH2_STATE_BYTES_LENGTH);
 		const oauth2StateString = oauth2State.toString('utf-8');
 
-		await cookies.set('oauth2_state', oauth2StateString);
+		cookies.set('oauth2_state', oauth2StateString);
 
 		return NextResponse.redirect(createRedirectUrl(oauth2StateString));
 	} catch (error) {

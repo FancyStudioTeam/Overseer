@@ -1,4 +1,9 @@
-import { type NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import {
+	INVALID_AUTHORIZATION_STATE_RESPONSE,
+	MISSING_CODE_QUERY_STRING_PARAM_RESPONSE,
+	MISSING_STATE_QUERY_STRING_PARAM_RESPONSE,
+} from './_lib/Responses.ts';
 import { checkIsValidAuthState } from './_utils/checkIsValidAuthState.ts';
 
 export async function GET(request: NextRequest) {
@@ -9,29 +14,11 @@ export async function GET(request: NextRequest) {
 	const state = searchParams.get('state');
 
 	if (!code) {
-		return NextResponse.json(
-			{
-				data: "Missing 'code' query string param from URL",
-				success: false,
-			},
-			{
-				status: 400,
-				statusText: 'Bad Request',
-			},
-		);
+		return MISSING_CODE_QUERY_STRING_PARAM_RESPONSE();
 	}
 
 	if (!state) {
-		return NextResponse.json(
-			{
-				data: "Missing 'state' query string param from URL",
-				success: false,
-			},
-			{
-				status: 400,
-				statusText: 'Bad Request',
-			},
-		);
+		return MISSING_STATE_QUERY_STRING_PARAM_RESPONSE();
 	}
 
 	/*
@@ -45,15 +32,6 @@ export async function GET(request: NextRequest) {
 	const isValidAuthState = await checkIsValidAuthState(state);
 
 	if (!isValidAuthState) {
-		return NextResponse.json(
-			{
-				data: 'OAuth2 state is not valid',
-				success: false,
-			},
-			{
-				status: 400,
-				statusText: 'Bad Request',
-			},
-		);
+		return INVALID_AUTHORIZATION_STATE_RESPONSE();
 	}
 }

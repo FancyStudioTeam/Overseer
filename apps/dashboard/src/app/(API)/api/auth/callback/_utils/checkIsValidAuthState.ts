@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { cookies as NextCookies } from 'next/headers';
 
 /**
