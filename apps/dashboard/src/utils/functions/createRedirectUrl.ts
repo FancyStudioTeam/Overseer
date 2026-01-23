@@ -8,6 +8,7 @@ const SCOPES = [
 	OAuth2Scopes.Email,
 	OAuth2Scopes.Identify,
 	OAuth2Scopes.Guilds,
+	OAuth2Scopes.GuildsMembersRead,
 ];
 
 export function createRedirectUrl(state: string): string {
