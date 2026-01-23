@@ -8,8 +8,8 @@ import {
 	ENCRYPTION_TAG_LENGTH,
 } from './Constants.ts';
 
-export class Encryption {
-	static decrypt(encryptedData: string): string {
+export const Encryption = {
+	decrypt(encryptedData: string): string {
 		const encryptedBufferData = Buffer.from(encryptedData, 'base64');
 
 		const iv = encryptedBufferData.subarray(0, ENCRYPTION_IV_LENGTH);
@@ -35,9 +35,9 @@ export class Encryption {
 		const decryptedBufferString = decryptedBufferData.toString('utf-8');
 
 		return decryptedBufferString;
-	}
+	},
 
-	static encrypt(unencryptedData: string): string {
+	encrypt(unencryptedData: string): string {
 		const iv = randomBytes(ENCRYPTION_IV_LENGTH);
 		const cipher = createCipheriv(ENCRYPTION_ALGORITHM, ENCRYPTION_SECRET, iv);
 
@@ -59,5 +59,5 @@ export class Encryption {
 		const encryptedBufferString = encryptedBufferData.toString('base64');
 
 		return encryptedBufferString;
-	}
-}
+	},
+} as const;
