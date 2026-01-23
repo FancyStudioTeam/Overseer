@@ -1,8 +1,8 @@
-import { type NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { logger } from '#/lib/Logger.ts';
 import { createRedirectUrl } from '#/utils/functions/createRedirectUrl.ts';
 
-export function POST(_: NextRequest) {
+export function POST() {
 	try {
 		return NextResponse.redirect(createRedirectUrl());
 	} catch (error) {
