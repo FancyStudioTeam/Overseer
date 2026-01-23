@@ -4,7 +4,12 @@
  */
 
 import 'server-only';
+
 import { NextResponse } from 'next/server';
+import {
+	INTERNAL_SERVER_ERROR_STATUS_CODE,
+	INTERNAL_SERVER_ERROR_STATUS_TEXT,
+} from '#/lib/HTTPStatus.ts';
 
 export function SOMETHING_WENT_WRONG_ERROR_RESPONSE(): NextResponse {
 	return NextResponse.json(
@@ -13,8 +18,8 @@ export function SOMETHING_WENT_WRONG_ERROR_RESPONSE(): NextResponse {
 			success: false,
 		},
 		{
-			status: 500,
-			statusText: 'Internal Server Error',
+			status: INTERNAL_SERVER_ERROR_STATUS_CODE,
+			statusText: INTERNAL_SERVER_ERROR_STATUS_TEXT,
 		},
 	);
 }

@@ -4,7 +4,16 @@
  */
 
 import 'server-only';
+
 import { NextResponse } from 'next/server';
+import {
+	BAD_REQUEST_STATUS_CODE,
+	BAD_REQUEST_STATUS_TEXT,
+	INTERNAL_SERVER_ERROR_STATUS_CODE,
+	INTERNAL_SERVER_ERROR_STATUS_TEXT,
+	TOO_MANY_REQUESTS_STATUS_CODE,
+	TOO_MANY_REQUESTS_STATUS_TEXT,
+} from '#/lib/HTTPStatus.ts';
 
 export function INVALID_AUTHORIZATION_STATE_RESPONSE(): NextResponse {
 	return NextResponse.json(
@@ -13,8 +22,8 @@ export function INVALID_AUTHORIZATION_STATE_RESPONSE(): NextResponse {
 			success: false,
 		},
 		{
-			status: 400,
-			statusText: 'Bad Request',
+			status: BAD_REQUEST_STATUS_CODE,
+			statusText: BAD_REQUEST_STATUS_TEXT,
 		},
 	);
 }
@@ -26,8 +35,8 @@ export function MISSING_QUERY_STRING_PARAM_RESPONSE(name: string): NextResponse 
 			success: false,
 		},
 		{
-			status: 400,
-			statusText: 'Bad Request',
+			status: BAD_REQUEST_STATUS_CODE,
+			statusText: BAD_REQUEST_STATUS_TEXT,
 		},
 	);
 }
@@ -39,8 +48,8 @@ export function RATE_LIMITED_ERROR_RESPONSE(): NextResponse {
 			success: false,
 		},
 		{
-			status: 429,
-			statusText: 'Too Many Requests',
+			status: TOO_MANY_REQUESTS_STATUS_CODE,
+			statusText: TOO_MANY_REQUESTS_STATUS_TEXT,
 		},
 	);
 }
@@ -52,8 +61,8 @@ export function SOMETHING_WENT_WRONG_ERROR_RESPONSE(): NextResponse {
 			success: false,
 		},
 		{
-			status: 500,
-			statusText: 'Internal Server Error',
+			status: INTERNAL_SERVER_ERROR_STATUS_CODE,
+			statusText: INTERNAL_SERVER_ERROR_STATUS_TEXT,
 		},
 	);
 }
@@ -65,8 +74,8 @@ export function UNABLE_TO_EXCHANGE_CODE_RESPONSE(): NextResponse {
 			success: false,
 		},
 		{
-			status: 500,
-			statusText: 'Internal Server Error',
+			status: INTERNAL_SERVER_ERROR_STATUS_CODE,
+			statusText: INTERNAL_SERVER_ERROR_STATUS_TEXT,
 		},
 	);
 }
@@ -78,8 +87,8 @@ export function UNABLE_TO_GET_USER_INFORMATION_RESPONSE(): NextResponse {
 			success: false,
 		},
 		{
-			status: 500,
-			statusText: 'Internal Server Error',
+			status: INTERNAL_SERVER_ERROR_STATUS_CODE,
+			statusText: INTERNAL_SERVER_ERROR_STATUS_TEXT,
 		},
 	);
 }
