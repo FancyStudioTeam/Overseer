@@ -4,32 +4,32 @@ import { createDecipheriv } from 'node:crypto';
 import {
 	ENCRYPTION_ALGORITHM,
 	ENCRYPTION_IV_LENGTH,
-	ENCRYPTION_KEY,
+	ENCRYPTION_SECRET,
 	ENCRYPTION_TAG_LENGTH,
-} from '../Constants.ts';
+} from '#/lib/Constants.ts';
 
 export function decrypt(encryptedData: string): string {
-	const bufferData = Buffer.from(encryptedData, 'base64');
+	const encryptedBufferData = Buffer.from(encryptedData, 'base64');
 
-	const iv = bufferData.subarray(0, ENCRYPTION_IV_LENGTH);
-	const tag = bufferData.subarray(
+	const iv = encryptedBufferData.subarray(0, ENCRYPTION_IV_LENGTH);
+	const authTag = encryptedBufferData.subarray(
 		ENCRYPTION_IV_LENGTH,
 		ENCRYPTION_IV_LENGTH + ENCRYPTION_TAG_LENGTH,
 	);
-	const data = bufferData.subarray(ENCRYPTION_IV_LENGTH + ENCRYPTION_TAG_LENGTH);
 
-	const decipher = createDecipheriv(ENCRYPTION_ALGORITHM, ENCRYPTION_KEY, iv);
+	const encrypted = encryptedBufferData.subarray(ENCRYPTION_IV_LENGTH + ENCRYPTION_TAG_LENGTH);
+	const decipher = createDecipheriv(ENCRYPTION_ALGORITHM, ENCRYPTION_SECRET, iv);
 
-	decipher.setAuthTag(tag);
+	decipher.setAuthTag(authTag);
 
-	const decryptedData = decipher.update(data);
+	const decrypted = decipher.update(encrypted);
 	const final = decipher.final();
 
-	const decryptedBuffer = Buffer.concat([
-		decryptedData,
+	const decryptedBufferData = Buffer.concat([
+		decrypted,
 		final,
 	]);
-	const decryptedBufferString = decryptedBuffer.toString('utf-8');
+	const decryptedBufferString = decryptedBufferData.toString('utf-8');
 
 	return decryptedBufferString;
 }

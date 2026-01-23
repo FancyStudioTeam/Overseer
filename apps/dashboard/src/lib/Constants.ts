@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { createHash } from 'node:crypto';
+import { scryptSync } from 'node:crypto';
 import { env } from 'node:process';
 
 export const {
@@ -13,7 +13,11 @@ export const {
 } = env;
 
 export const ENCRYPTION_ALGORITHM = 'aes-256-gcm';
-export const ENCRYPTION_HASH = createHash('sha256');
+export const ENCRYPTION_ALGORITHM_KEY_LENGTH = 32;
 export const ENCRYPTION_IV_LENGTH = 12;
-export const ENCRYPTION_SECRET = ENCRYPTION_HASH.update(ENCRYPTION_KEY).digest();
+export const ENCRYPTION_SECRET = scryptSync(
+	ENCRYPTION_KEY,
+	'salt',
+	ENCRYPTION_ALGORITHM_KEY_LENGTH,
+);
 export const ENCRYPTION_TAG_LENGTH = 16;
