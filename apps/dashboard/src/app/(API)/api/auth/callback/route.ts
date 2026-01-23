@@ -6,8 +6,7 @@ import { Encryption } from '#/lib/Encryption.ts';
 import { logger } from '#/lib/Logger.ts';
 import {
 	INVALID_AUTHORIZATION_STATE_RESPONSE,
-	MISSING_CODE_QUERY_STRING_PARAM_RESPONSE,
-	MISSING_STATE_QUERY_STRING_PARAM_RESPONSE,
+	MISSING_QUERY_STRING_PARAM_RESPONSE,
 	RATE_LIMITED_ERROR_RESPONSE,
 	SOMETHING_WENT_WRONG_ERROR_RESPONSE,
 	UNABLE_TO_EXCHANGE_CODE_RESPONSE,
@@ -26,11 +25,11 @@ export async function GET(request: NextRequest) {
 		const state = searchParams.get('state');
 
 		if (!code) {
-			return MISSING_CODE_QUERY_STRING_PARAM_RESPONSE();
+			return MISSING_QUERY_STRING_PARAM_RESPONSE('code');
 		}
 
 		if (!state) {
-			return MISSING_STATE_QUERY_STRING_PARAM_RESPONSE();
+			return MISSING_QUERY_STRING_PARAM_RESPONSE('state');
 		}
 
 		/*

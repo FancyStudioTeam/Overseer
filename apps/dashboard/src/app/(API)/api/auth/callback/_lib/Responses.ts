@@ -9,7 +9,7 @@ import { NextResponse } from 'next/server';
 export function INVALID_AUTHORIZATION_STATE_RESPONSE(): NextResponse {
 	return NextResponse.json(
 		{
-			data: 'OAuth2 state is not valid',
+			data: 'Authorization state is not valid',
 			success: false,
 		},
 		{
@@ -19,23 +19,10 @@ export function INVALID_AUTHORIZATION_STATE_RESPONSE(): NextResponse {
 	);
 }
 
-export function MISSING_CODE_QUERY_STRING_PARAM_RESPONSE(): NextResponse {
+export function MISSING_QUERY_STRING_PARAM_RESPONSE(name: string): NextResponse {
 	return NextResponse.json(
 		{
-			data: "Missing 'code' query string param from URL",
-			success: false,
-		},
-		{
-			status: 400,
-			statusText: 'Bad Request',
-		},
-	);
-}
-
-export function MISSING_STATE_QUERY_STRING_PARAM_RESPONSE(): NextResponse {
-	return NextResponse.json(
-		{
-			data: "Missing 'state' query string param from URL",
+			data: `Missing '${name}' query string param from URL`,
 			success: false,
 		},
 		{
@@ -48,7 +35,7 @@ export function MISSING_STATE_QUERY_STRING_PARAM_RESPONSE(): NextResponse {
 export function RATE_LIMITED_ERROR_RESPONSE(): NextResponse {
 	return NextResponse.json(
 		{
-			data: 'You are being rate limited',
+			data: 'You are being rate limited by Discord',
 			success: false,
 		},
 		{
@@ -87,7 +74,7 @@ export function UNABLE_TO_EXCHANGE_CODE_RESPONSE(): NextResponse {
 export function UNABLE_TO_GET_USER_INFORMATION_RESPONSE(): NextResponse {
 	return NextResponse.json(
 		{
-			data: 'Unable to get the user information',
+			data: 'Unable to get the user information from Discord',
 			success: false,
 		},
 		{
