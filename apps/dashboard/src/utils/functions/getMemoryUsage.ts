@@ -1,5 +1,4 @@
 import 'server-only';
-
 import { memoryUsage } from 'node:process';
 
 const CONVERSION_FACTOR = 1_024;

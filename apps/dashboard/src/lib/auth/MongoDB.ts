@@ -15,6 +15,7 @@ export const collection = db.collection<SessionDocument>(MONGO_DB_COLLECTION_NAM
 
 export interface SessionDocument {
 	credentials: SessionDocumentCredentials;
+	session_id: string;
 	user: SessionDocumentUser;
 }
 
