@@ -5,6 +5,7 @@ import { env } from 'node:process';
 
 export const {
 	AUTH_SECRET = 'youshallnopass',
+	BASE_URL = 'http://localhost:3000',
 	CLIENT_ID = '1234567890987654321',
 	CLIENT_SECRET = 'youshallnopass',
 	ENCRYPTION_KEY = 'youshallnopass',
