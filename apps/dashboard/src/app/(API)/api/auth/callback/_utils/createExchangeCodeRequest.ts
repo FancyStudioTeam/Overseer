@@ -31,7 +31,7 @@ function createExchangeCodeRequestBody(code: string): URLSearchParams {
 		code,
 		grant_type: 'authorization_code',
 		redirect_uri: createCallbackUrl(),
-		scope: 'email guilds identify',
+		scope: 'email guilds guilds.members.read identify',
 	});
 }
 
