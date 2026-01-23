@@ -1,8 +1,11 @@
+import { randomBytes } from 'node:crypto';
 import { RateLimitError } from '@discordjs/rest';
 import type { RESTGetAPIUserResult, RESTPostOAuth2AccessTokenResult } from 'discord-api-types/v10';
+import { cookies as NextCookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 import { collection } from '#/lib/auth/MongoDB.ts';
 import { Encryption } from '#/lib/Encryption.ts';
+import { Jose } from '#/lib/Jose.ts';
 import { logger } from '#/lib/Logger.ts';
 import {
 	INVALID_AUTHORIZATION_STATE_RESPONSE,
@@ -15,6 +18,8 @@ import {
 import { checkIsValidAuthState } from './_utils/checkIsValidAuthState.ts';
 import { createExchangeCodeRequest } from './_utils/createExchangeCodeRequest.ts';
 import { getUserInformation } from './_utils/getUserInformation.ts';
+
+const SESSION_ID_BYTES_LENGTH = 32;
 
 export async function GET(request: NextRequest) {
 	try {
@@ -40,7 +45,8 @@ export async function GET(request: NextRequest) {
 		 *
 		 * Reference: https://discord.com/developers/docs/topics/oauth2#state-and-security
 		 */
-		const isValidAuthState = await checkIsValidAuthState(state);
+		const nextCookies = await NextCookies();
+		const isValidAuthState = checkIsValidAuthState(state, nextCookies);
 
 		if (!isValidAuthState) {
 			return INVALID_AUTHORIZATION_STATE_RESPONSE();
@@ -65,7 +71,7 @@ export async function GET(request: NextRequest) {
 			}
 		}
 
-		const { access_token, refresh_token } = exchangeCodeResult;
+		const { access_token, expires_in, refresh_token } = exchangeCodeResult;
 
 		try {
 			userInformationResult = await getUserInformation(access_token);
@@ -92,16 +98,30 @@ export async function GET(request: NextRequest) {
 		const encryptedAccessToken = Encryption.encrypt(access_token);
 		const encryptedRefreshToken = Encryption.encrypt(refresh_token);
 
+		const sessionIdBytes = randomBytes(SESSION_ID_BYTES_LENGTH);
+		const sessionIdString = sessionIdBytes.toString('hex');
+
 		await collection.insertOne({
 			credentials: {
 				access_token: encryptedAccessToken,
 				refesh_token: encryptedRefreshToken,
 			},
+			session_id: sessionIdString,
 			user: {
 				avatar,
 				id,
 				name,
 			},
+		});
+
+		const jsonWebToken = await Jose.sign(sessionIdString, id);
+
+		nextCookies.set('session', jsonWebToken, {
+			expires: expires_in,
+			httpOnly: true,
+			path: '/',
+			sameSite: 'lax',
+			secure: true,
 		});
 
 		return NextResponse.redirect('/');
