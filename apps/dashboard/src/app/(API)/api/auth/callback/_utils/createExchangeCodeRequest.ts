@@ -17,8 +17,10 @@ export async function createExchangeCodeRequest(
 	const headers = createExchangeCodeRequestHeaders();
 
 	const response = await rest.post(oauth2TokenExchange(), {
+		auth: false,
 		body,
 		headers,
+		passThroughBody: true,
 	});
 
 	return response as RESTPostOAuth2AccessTokenResult;
