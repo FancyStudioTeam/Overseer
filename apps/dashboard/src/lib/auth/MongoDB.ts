@@ -19,6 +19,6 @@ export interface SessionDocument {
 }
 
 export interface SessionDocumentCredentials {
-	acess_token: string;
+	access_token: string;
 	refesh_token: string;
 }
