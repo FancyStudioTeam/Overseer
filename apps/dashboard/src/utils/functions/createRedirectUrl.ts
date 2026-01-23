@@ -33,7 +33,7 @@ export function createRedirectUrl(state: string): string {
 	searchParams.set('client_id', CLIENT_ID);
 	searchParams.set('redirect_uri', callbackUrl);
 	searchParams.set('response_type', 'code');
-	searchParams.set('prompt', 'consent');
+	searchParams.set('prompt', 'none');
 	searchParams.set('state', state);
 
 	return authorizationUrl.toString();
