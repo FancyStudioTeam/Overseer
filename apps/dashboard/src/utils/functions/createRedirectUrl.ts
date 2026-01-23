@@ -23,6 +23,7 @@ export function createRedirectUrl(state: string): string {
 
 	searchParams.append('client_id', CLIENT_ID);
 	searchParams.append('response_type', 'code');
+	searchParams.append('prompt', 'consent');
 	searchParams.append('redirect_uri', encodedRedirectUri);
 	searchParams.append('scope', encodedScopes);
 	searchParams.append('state', encodedState);
