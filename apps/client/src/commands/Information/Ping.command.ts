@@ -2,7 +2,7 @@ import { ContainerBuilder, TextDisplayBuilder } from 'linkcord/builders';
 import { type ChatInputCommandContext, ChatInputCommandHandler, Declare } from 'linkcord/handlers';
 import { MessageFlags } from 'linkcord/types';
 import { bold } from 'linkcord/utils';
-import { LAN_EMOJI } from '#utils/Emojis.js';
+import { LAN_EMOJI } from '#lib/Emojis.js';
 
 @Declare({
 	description: 'Displays the latency of the bot',

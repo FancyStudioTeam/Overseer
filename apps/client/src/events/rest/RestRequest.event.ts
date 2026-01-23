@@ -1,6 +1,6 @@
 import { ClientEvents } from 'linkcord';
 import { defineEventConfig, type EventHandler } from 'linkcord/handlers';
-import { logger } from '#utils/Logger.js';
+import { logger } from '#lib/Logger.js';
 
 export const config = defineEventConfig({
 	event: ClientEvents.RestRequest,

@@ -3,7 +3,7 @@ import { ContainerBuilder, SeparatorBuilder, TextDisplayBuilder } from 'linkcord
 import { type ChatInputCommandContext, ChatInputCommandHandler, Declare } from 'linkcord/handlers';
 import { MessageFlags } from 'linkcord/types';
 import { bold, HeadingLevel, header, inlineCode, unixTimestamp } from 'linkcord/utils';
-import { CALENDAR_TODAY_EMOJI, ID_CARD_EMOJI, INFO_EMOJI } from '#utils/Emojis.js';
+import { CALENDAR_TODAY_EMOJI, ID_CARD_EMOJI, INFO_EMOJI } from '#lib/Emojis.js';
 
 /*const Options = {
 	user: createUserOption({
