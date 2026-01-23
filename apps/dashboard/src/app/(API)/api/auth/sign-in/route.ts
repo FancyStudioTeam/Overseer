@@ -3,6 +3,7 @@ import { cookies as NextCookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { logger } from '#/lib/Logger.ts';
 import { createRedirectUrl } from '#/utils/functions/createRedirectUrl.ts';
+import { SOMETHING_WENT_WRONG_ERROR_RESPONSE } from './_lib/Responses.ts';
 
 const OAUTH2_STATE_BYTES_LENGTH = 24;
 
@@ -19,14 +20,6 @@ export async function POST() {
 	} catch (error) {
 		logger.error(error);
 
-		return NextResponse.json(
-			{
-				success: false,
-			},
-			{
-				status: 500,
-				statusText: 'Internal Server Error',
-			},
-		);
+		return SOMETHING_WENT_WRONG_ERROR_RESPONSE();
 	}
 }
