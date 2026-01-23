@@ -15,21 +15,26 @@ const SCOPES = [
 
 export function createRedirectUrl(state: string): string {
 	const callbackUrl = createCallbackUrl();
-	const scopesString = SCOPES.join(' ');
-
-	const encodedScopes = encodeURIComponent(scopesString);
-	const encodedState = encodeURIComponent(btoa(state));
-	const encodedRedirectUri = encodeURIComponent(callbackUrl);
+	const scopesString = SCOPES.join('+');
 
 	const authorizationUrl = new URL(authorizationURL);
 	const { searchParams } = authorizationUrl;
 
-	searchParams.append('client_id', CLIENT_ID);
-	searchParams.append('response_type', 'code');
-	searchParams.append('prompt', 'consent');
-	searchParams.append('redirect_uri', encodedRedirectUri);
-	searchParams.append('scope', encodedScopes);
-	searchParams.append('state', encodedState);
+	/*
+	 * When using `URLSearchParams` methods, their value will be encoded.
+	 *
+	 * Discord requires the scopes to be joined with a '+'.
+	 *
+	 * This assignment MUST be made before setting other query string parameters,
+	 * as this property overrides all search properties
+	 */
+	authorizationUrl.search = `scope=${scopesString}`;
+
+	searchParams.set('client_id', CLIENT_ID);
+	searchParams.set('redirect_uri', callbackUrl);
+	searchParams.set('response_type', 'code');
+	searchParams.set('prompt', 'consent');
+	searchParams.set('state', state);
 
 	return authorizationUrl.toString();
 }
