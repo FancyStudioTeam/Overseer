@@ -11,6 +11,12 @@ export async function POST() {
 	try {
 		const cookies = await NextCookies();
 
+		/*
+		 * Create an authorization state to check later whether the user was
+		 * clickjacked.
+		 *
+		 * Rerefence: https://discord.com/developers/docs/topics/oauth2#state-and-security
+		 */
 		const oauth2State = randomBytes(OAUTH2_STATE_BYTES_LENGTH);
 		const oauth2StateString = oauth2State.toString('utf-8');
 
