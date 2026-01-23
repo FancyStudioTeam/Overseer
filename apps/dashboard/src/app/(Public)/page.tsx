@@ -1,11 +1,5 @@
-import { Navbar } from '#/components/navbar/Navbar.tsx';
+import { PageLayout } from '../layouts/PageLayout.tsx';
 
 export default function () {
-	return (
-		<div className='flex h-full min-h-dvh justify-center'>
-			<div className='w-full max-w-7xl xl:border-x'>
-				<Navbar />
-			</div>
-		</div>
-	);
+	return <PageLayout></PageLayout>;
 }
