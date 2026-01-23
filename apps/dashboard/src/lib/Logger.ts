@@ -46,6 +46,7 @@ const LOGGER_LEVEL_COLORS: Record<LoggerLevels, string> = {
 
 /*
  * Winston levels are sorted from most (0) to least severe.
+ *
  * Reference: https://github.com/winstonjs/winston?tab=readme-ov-file#logging
  */
 const LOGGER_LEVELS = {
