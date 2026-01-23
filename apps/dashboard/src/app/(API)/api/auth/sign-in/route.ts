@@ -8,8 +8,14 @@ export function POST() {
 	} catch (error) {
 		logger.error(error);
 
-		return NextResponse.json({
-			success: false,
-		});
+		return NextResponse.json(
+			{
+				success: false,
+			},
+			{
+				status: 500,
+				statusText: 'Internal Server Error',
+			},
+		);
 	}
 }
