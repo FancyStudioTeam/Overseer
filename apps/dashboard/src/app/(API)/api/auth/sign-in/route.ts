@@ -1,15 +1,14 @@
-import { randomBytes } from 'node:crypto';
 import { cookies as NextCookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { SEE_OTHER_STATUS_CODE, SEE_OTHER_STATUS_TEXT } from '#/lib/HTTPStatus.ts';
 import { logger } from '#/lib/Logger.ts';
 import { createRedirectUrl } from '#/utils/functions/createRedirectUrl.ts';
 import { SOMETHING_WENT_WRONG_ERROR_RESPONSE } from './_lib/Responses.ts';
+import { createAuthState } from './_utils/createAuthState.ts';
 
-const OAUTH2_STATE_BYTES_LENGTH = 24;
-
-export async function POST() {
+export async function GET() {
 	try {
-		const cookies = await NextCookies();
+		const nextCookies = await NextCookies();
 
 		/*
 		 * Create an authorization state to check later whether the user was
@@ -17,12 +16,13 @@ export async function POST() {
 		 *
 		 * Rerefence: https://discord.com/developers/docs/topics/oauth2#state-and-security
 		 */
-		const oauth2State = randomBytes(OAUTH2_STATE_BYTES_LENGTH);
-		const oauth2StateString = oauth2State.toString('utf-8');
+		const oauth2State = createAuthState(nextCookies);
+		const redirectUrl = createRedirectUrl(oauth2State);
 
-		cookies.set('oauth2_state', oauth2StateString);
-
-		return NextResponse.redirect(createRedirectUrl(oauth2StateString));
+		return NextResponse.redirect(redirectUrl, {
+			status: SEE_OTHER_STATUS_CODE,
+			statusText: SEE_OTHER_STATUS_TEXT,
+		});
 	} catch (error) {
 		logger.error(error);
 
