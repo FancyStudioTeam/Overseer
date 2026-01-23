@@ -15,11 +15,17 @@ export const collection = db.collection<SessionDocument>(MONGO_DB_COLLECTION_NAM
 
 export interface SessionDocument {
 	credentials: SessionDocumentCredentials;
-	email: string;
-	user_id: Snowflake;
+	user: SessionDocumentUser;
 }
 
 export interface SessionDocumentCredentials {
 	access_token: string;
 	refesh_token: string;
+}
+
+export interface SessionDocumentUser {
+	avatar: string | null;
+	email?: string | null;
+	id: Snowflake;
+	name: string;
 }
