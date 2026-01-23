@@ -1,19 +1,24 @@
-import { OAuth2Scopes } from 'discord-api-types/v10';
+import { OAuth2Scopes, Routes } from 'discord-api-types/v10';
 import { CLIENT_ID } from '#/lib/Constants.ts';
 import { createCallbackUrl } from './createCallbackUrl.ts';
 
-export function createRedirectUrl() {
-	const scopes = [
-		OAuth2Scopes.Email,
-		OAuth2Scopes.Identify,
-		OAuth2Scopes.Guilds,
-	];
+const { oauth2Authorization } = Routes;
 
-	const callbackUrl = createCallbackUrl();
-	const scopesString = encodeURIComponent(scopes.join('+'));
+const SCOPES = [
+	OAuth2Scopes.Email,
+	OAuth2Scopes.Identify,
+	OAuth2Scopes.Guilds,
+];
 
-	const redirectUrl =
-		`https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${callbackUrl}&scope=${scopesString}` as const;
+export function createRedirectUrl(state: string) {
+	const redirectUrl = new URL(oauth2Authorization(), 'https://discord.com');
+	const { searchParams } = redirectUrl;
 
-	return redirectUrl;
+	searchParams.append('client_id', CLIENT_ID);
+	searchParams.append('response_type', 'code');
+	searchParams.append('redirect_uri', encodeURIComponent(createCallbackUrl()));
+	searchParams.append('scope', encodeURIComponent(SCOPES.join(' ')));
+	searchParams.append('state', encodeURIComponent(btoa(state)));
+
+	return redirectUrl.toString();
 }
