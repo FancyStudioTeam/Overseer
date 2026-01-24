@@ -7,6 +7,7 @@ import { collection } from '#/lib/auth/MongoDB.ts';
 import { Encryption } from '#/lib/Encryption.ts';
 import { Jose } from '#/lib/Jose.ts';
 import { logger } from '#/lib/Logger.ts';
+import { getErrorMessage } from '#/utils/functions/getErrorMessage.ts';
 import {
 	INVALID_AUTHORIZATION_STATE_RESPONSE,
 	MISSING_QUERY_STRING_PARAM_RESPONSE,
@@ -24,7 +25,7 @@ const SESSION_ID_BYTES_LENGTH = 32;
 export async function GET(request: NextRequest) {
 	try {
 		const { nextUrl } = request;
-		const { searchParams } = nextUrl;
+		const { origin, searchParams } = nextUrl;
 
 		const code = searchParams.get('code');
 		const state = searchParams.get('state');
@@ -58,7 +59,7 @@ export async function GET(request: NextRequest) {
 		try {
 			exchangeCodeResult = await createExchangeCodeRequest(code);
 		} catch (error) {
-			logger.error(error);
+			logger.error(getErrorMessage(error));
 
 			switch (true) {
 				case error instanceof RateLimitError: {
@@ -76,7 +77,7 @@ export async function GET(request: NextRequest) {
 		try {
 			userInformationResult = await getUserInformation(access_token);
 		} catch (error) {
-			logger.error(error);
+			logger.error(getErrorMessage(error));
 
 			switch (true) {
 				case error instanceof RateLimitError: {
@@ -117,16 +118,16 @@ export async function GET(request: NextRequest) {
 		const jsonWebToken = await Jose.sign(sessionIdString, id);
 
 		nextCookies.set('session', jsonWebToken, {
-			expires: expires_in,
 			httpOnly: true,
+			maxAge: expires_in,
 			path: '/',
 			sameSite: 'lax',
 			secure: true,
 		});
 
-		return NextResponse.redirect('/');
+		return NextResponse.redirect(origin);
 	} catch (error) {
-		logger.error(error);
+		logger.error(getErrorMessage(error));
 
 		return SOMETHING_WENT_WRONG_ERROR_RESPONSE();
 	}
