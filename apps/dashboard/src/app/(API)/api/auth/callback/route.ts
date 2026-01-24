@@ -3,9 +3,8 @@ import { RateLimitError } from '@discordjs/rest';
 import type { RESTGetAPIUserResult, RESTPostOAuth2AccessTokenResult } from 'discord-api-types/v10';
 import { cookies as NextCookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
-import { collection } from '#/lib/auth/MongoDB.ts';
+import { sessionsCollection } from '#/lib/auth/MongoDB.ts';
 import { Encryption } from '#/lib/Encryption.ts';
-import { Jose } from '#/lib/Jose.ts';
 import { logger } from '#/lib/Logger.ts';
 import { getErrorMessage } from '#/utils/functions/getErrorMessage.ts';
 import {
@@ -18,6 +17,7 @@ import {
 } from './_lib/Responses.ts';
 import { checkIsValidAuthState } from './_utils/checkIsValidAuthState.ts';
 import { createExchangeCodeRequest } from './_utils/createExchangeCodeRequest.ts';
+import { createJsonWebToken } from './_utils/createJsonWebToken.ts';
 import { getUserInformation } from './_utils/getUserInformation.ts';
 
 const SESSION_ID_BYTES_LENGTH = 32;
@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
 		const sessionIdBytes = randomBytes(SESSION_ID_BYTES_LENGTH);
 		const sessionIdString = sessionIdBytes.toString('hex');
 
-		await collection.insertOne({
+		await sessionsCollection.insertOne({
 			credentials: {
 				access_token: encryptedAccessToken,
 				refesh_token: encryptedRefreshToken,
@@ -115,15 +115,7 @@ export async function GET(request: NextRequest) {
 			},
 		});
 
-		const jsonWebToken = await Jose.sign(sessionIdString, id);
-
-		nextCookies.set('session', jsonWebToken, {
-			httpOnly: true,
-			maxAge: expires_in,
-			path: '/',
-			sameSite: 'lax',
-			secure: true,
-		});
+		await createJsonWebToken(sessionIdString, id, nextCookies, expires_in);
 
 		return NextResponse.redirect(origin);
 	} catch (error) {
