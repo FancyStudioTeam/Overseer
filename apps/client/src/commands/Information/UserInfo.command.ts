@@ -2,7 +2,7 @@ import type { User } from 'linkcord';
 import { ContainerBuilder, SeparatorBuilder, TextDisplayBuilder } from 'linkcord/builders';
 import { type ChatInputCommandContext, ChatInputCommandHandler, Declare } from 'linkcord/handlers';
 import { MessageFlags } from 'linkcord/types';
-import { bold, HeadingLevel, header, inlineCode, unixTimestamp } from 'linkcord/utils';
+import { bold, HeadingLevel, header, unixTimestamp } from 'linkcord/utils';
 import { CALENDAR_TODAY_EMOJI, ID_CARD_EMOJI, INFO_EMOJI } from '#lib/Emojis.js';
 
 /*const Options = {
@@ -35,13 +35,13 @@ export default class extends ChatInputCommandHandler {
 		const { createdAt, id, username } = user;
 
 		const titleBuilder = new TextDisplayBuilder().setContent(
-			header(HeadingLevel.Three, `${INFO_EMOJI} Information of ${inlineCode(username)}`),
+			header(HeadingLevel.Three, `${INFO_EMOJI} Information of ${username}`),
 		);
 		const generalInformationBuilder = new TextDisplayBuilder().setContent(
 			[
 				bold('General Information'),
 				[
-					`${bold(`${ID_CARD_EMOJI} User ID`)}: ${inlineCode(id)}`,
+					`${bold(`${ID_CARD_EMOJI} User ID`)}: ${id}`,
 					`${bold(`${CALENDAR_TODAY_EMOJI} Created At`)}: ${unixTimestamp(createdAt)}`,
 				].join('\n'),
 			].join('\n'),

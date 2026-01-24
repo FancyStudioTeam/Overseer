@@ -27,7 +27,7 @@ export default class extends ChatInputCommandHandler {
 
 	private createMainContainerBuilder(averageLatency: number): ContainerBuilder {
 		const textDisplayBuilder = new TextDisplayBuilder().setContent(
-			bold(`${LAN_EMOJI} Average WebSocket Ping: ${averageLatency}ms`),
+			`${bold(`${LAN_EMOJI} Average WebSocket Ping`)}: ${averageLatency}ms`,
 		);
 		const containerBuilder = new ContainerBuilder();
 
