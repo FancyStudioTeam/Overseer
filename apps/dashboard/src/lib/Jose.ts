@@ -20,7 +20,7 @@ export const Jose = {
 
 		jsonWebToken.setAudience('https://getvanguard.xyz/api');
 
-		jsonWebToken.setIssuer('https://getvanguard.xyz/api');
+		jsonWebToken.setIssuer('https://getvanguard.xyz');
 		jsonWebToken.setIssuedAt();
 
 		jsonWebToken.setSubject(subjectId);
