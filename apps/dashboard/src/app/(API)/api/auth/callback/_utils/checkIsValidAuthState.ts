@@ -15,7 +15,7 @@ export function checkIsValidAuthState(
 	}
 
 	const { value: oauth2StateCookieValue } = oauth2StateCookie;
-	const isValidAuthState = providedState === atob(oauth2StateCookieValue);
+	const isValidAuthState = providedState === oauth2StateCookieValue;
 
 	if (isValidAuthState) {
 		nextCookies.delete('oauth2_state');
