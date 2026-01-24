@@ -1,5 +1,5 @@
 import { addColors, createLogger, format, transports } from 'winston';
-import { getMemoryUsage } from '#utils/functions/getMemoryUsage.js';
+import { getMemoryUsage } from '#utils/getMemoryUsage.js';
 
 const { align, colorize, combine, printf, timestamp } = format;
 const { Console } = transports;
