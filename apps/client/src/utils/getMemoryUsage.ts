@@ -3,7 +3,7 @@ import { memoryUsage } from 'node:process';
 const CONVERSION_FACTOR = 1_024;
 
 /**
- * Gets the formatted memory usage (in megabytes) as a string from V8.
+ * Gets the formatted memory usage string (in megabytes) from V8.
  */
 export function getMemoryUsage() {
 	const { heapUsed } = memoryUsage();
