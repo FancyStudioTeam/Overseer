@@ -1,5 +1,9 @@
 import { IS_PRODUCTION_ENVIRONMENT } from 'linkcord/utils';
 
 export function getEnvFileName() {
-	return IS_PRODUCTION_ENVIRONMENT ? '.env.production' : ('.env.development' as const);
+	if (IS_PRODUCTION_ENVIRONMENT) {
+		return '.env.production' as const;
+	}
+
+	return '.env.development' as const;
 }
