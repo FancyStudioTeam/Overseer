@@ -8,7 +8,9 @@ import {
 } from 'typeorm';
 import { AppDataSource } from '#db/DataSource.js';
 
-@Entity()
+@Entity({
+	name: 'guild-settings',
+})
 export class GuildSettingsModel {
 	@ObjectIdColumn()
 	declare _id: ObjectId;
