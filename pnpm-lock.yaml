@@ -32,6 +32,9 @@ importers:
 
   apps/client:
     dependencies:
+      chalk:
+        specifier: 5.6.2
+        version: 5.6.2
       linkcord:
         specifier: file:linkcord-0.0.0.tgz
         version: file:apps/client/linkcord-0.0.0.tgz
