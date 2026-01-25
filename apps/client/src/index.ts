@@ -1,9 +1,11 @@
+import 'reflect-metadata';
+
 import { loadEnvFile } from 'node:process';
 import { Client, ClientEvents } from 'linkcord';
-import { IS_PRODUCTION_ENVIRONMENT } from 'linkcord/utils';
 import { logger } from '#lib/Logger.js';
+import { getEnvFileName } from '#utils/getEnvFileName.js';
 
-loadEnvFile(IS_PRODUCTION_ENVIRONMENT ? '.env.production' : '.env.development');
+loadEnvFile(getEnvFileName());
 
 export const client = new Client();
 
