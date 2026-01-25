@@ -4,7 +4,7 @@ import { env } from 'node:process';
 import { defineConfig } from 'linkcord';
 import { GatewayIntents } from 'linkcord/types';
 
-const { DISCORD_TOKEN } = env;
+const { DISCORD_TOKEN = 'xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxx' } = env;
 
 export default defineConfig({
 	intents: [
@@ -14,5 +14,5 @@ export default defineConfig({
 		GatewayIntents.GuildPresences,
 		GatewayIntents.MessageContent,
 	],
-	token: `Bot ${String(DISCORD_TOKEN)}`,
+	token: `Bot ${DISCORD_TOKEN}`,
 });
