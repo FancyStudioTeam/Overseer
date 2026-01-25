@@ -3,6 +3,9 @@
 		"baseUrl": "src",
 		"outDir": "dist",
 		"paths": {
+			"#db/*": [
+				"db/*"
+			],
 			"#lib/*": [
 				"lib/*"
 			],

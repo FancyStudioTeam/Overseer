@@ -2,6 +2,9 @@
 	"author": "Vanguard Development Team",
 	"dependencies": {
 		"linkcord": "file:linkcord-0.0.0.tgz",
+		"mongodb": "7.0.0",
+		"reflect-metadata": "0.2.2",
+		"typeorm": "0.3.28",
 		"winston": "3.19.0"
 	},
 	"devDependencies": {
