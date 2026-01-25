@@ -1,6 +1,7 @@
 {
 	"author": "Vanguard Development Team",
 	"dependencies": {
+		"chalk": "5.6.2",
 		"linkcord": "file:linkcord-0.0.0.tgz",
 		"mongodb": "7.0.0",
 		"reflect-metadata": "0.2.2",
