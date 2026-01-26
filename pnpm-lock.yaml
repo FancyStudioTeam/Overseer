@@ -38,6 +38,9 @@ importers:
       linkcord:
         specifier: file:linkcord-0.0.0.tgz
         version: file:apps/client/linkcord-0.0.0.tgz
+      mongodb:
+        specifier: 7.0.0
+        version: 7.0.0(socks@2.8.7)
       winston:
         specifier: 3.19.0
         version: 3.19.0

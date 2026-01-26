@@ -4,7 +4,7 @@ import { env } from 'node:process';
 import { defineConfig } from 'linkcord';
 import { GatewayIntents } from 'linkcord/types';
 
-const { DISCORD_TOKEN = 'xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxx' } = env;
+const { DISCORD_TOKEN = 'xxxxxxxxxx.xxxxxxxxxx.xxxxxxxxxx' } = env;
 
 export default defineConfig({
 	intents: [
