@@ -8,6 +8,12 @@ const TEXT_ENCODER = new TextEncoder();
 const TEXT_ENCODER_SECRET = TEXT_ENCODER.encode(AUTH_SECRET);
 
 export const Jose = {
+	/**
+	 * Signs a JSON Web Token with the provided session and subject ID.
+	 *
+	 * @param sessionId - The session ID related to the new JSON Web Token.
+	 * @param subjectId - The subject ID related to the new JSON Web Token.
+	 */
 	async sign(sessionId: string, subjectId: Snowflake): Promise<string> {
 		const jsonWebToken = new SignJWT({
 			sid: sessionId,
@@ -32,6 +38,11 @@ export const Jose = {
 		return signedJsonWebToken;
 	},
 
+	/**
+	 * Verifies a JSON Web Token.
+	 *
+	 * @param jsonWebToken - The JSON Web Token to verify.
+	 */
 	async verify(jsonWebToken: string): Promise<string | null> {
 		try {
 			const { payload } = await jwtVerify(jsonWebToken, TEXT_ENCODER_SECRET, {

@@ -9,6 +9,11 @@ import {
 } from './Constants.ts';
 
 export const Encryption = {
+	/**
+	 * Decrypts a string using the `AES-256-GCM` encryption algorithm.
+	 *
+	 * @param encryptedData - The encrypted data to decrypt.
+	 */
 	decrypt(encryptedData: string): string {
 		const encryptedBufferData = Buffer.from(encryptedData, 'base64');
 
@@ -37,6 +42,11 @@ export const Encryption = {
 		return decryptedBufferString;
 	},
 
+	/**
+	 * Encrypts a string using the `AES-256-GCM` encryption algorithm.
+	 *
+	 * @param unencryptedData - The unencrypted data to encrypt.
+	 */
 	encrypt(unencryptedData: string): string {
 		const iv = randomBytes(ENCRYPTION_IV_LENGTH);
 		const cipher = createCipheriv(ENCRYPTION_ALGORITHM, ENCRYPTION_SECRET, iv);
