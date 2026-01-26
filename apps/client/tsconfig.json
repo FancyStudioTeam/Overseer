@@ -20,6 +20,7 @@
 	},
 	"extends": "../../tsconfig.base.json",
 	"include": [
-		"src/**/*.ts"
+		"src/**/*.ts",
+		"prisma.config.ts"
 	]
 }
