@@ -22,11 +22,11 @@
 	},
 	"extends": "../../tsconfig.base.json",
 	"include": [
-		"next-env.d.ts",
+		".next/dev/types/**/*.ts",
+		".next/types/**/*.ts",
+		"**/*.mts",
 		"**/*.ts",
 		"**/*.tsx",
-		".next/types/**/*.ts",
-		".next/dev/types/**/*.ts",
-		"**/*.mts"
+		"next-env.d.ts"
 	]
 }
