@@ -1,7 +1,7 @@
 {
 	"author": "Vanguard Development Team",
 	"devDependencies": {
-		"@biomejs/biome": "2.3.11",
+		"@biomejs/biome": "2.3.13",
 		"@commitlint/cli": "20.3.1",
 		"@commitlint/config-conventional": "20.3.1",
 		"@commitlint/types": "20.3.1",
