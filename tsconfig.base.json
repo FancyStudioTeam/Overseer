@@ -5,7 +5,7 @@
 		"declaration": true,
 		"emitDeclarationOnly": false,
 		"emitDecoratorMetadata": true,
-		"erasableSyntaxOnly": true,
+		"erasableSyntaxOnly": false,
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
