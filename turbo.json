@@ -1,13 +1,12 @@
 {
 	"$schema": "https://turborepo.com/schema.json",
-	"globalDependencies": [
-		".env"
-	],
 	"tasks": {
 		"build": {
+			"env": [
+				"DISCORD_TOKEN"
+			],
 			"inputs": [
-				"$TURBO_DEFAULT$",
-				".env"
+				"$TURBO_DEFAULT$"
 			],
 			"outputs": [
 				".next/**",

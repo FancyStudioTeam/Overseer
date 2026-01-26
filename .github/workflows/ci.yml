@@ -12,6 +12,7 @@ jobs:
 
             - name: Setup Node.js
               uses: actions/setup-node@v6
+
               with:
                   node-version: 24
 
@@ -23,3 +24,6 @@ jobs:
 
             - name: Build Applications
               run: pnpm turbo:build
+
+              env:
+                  DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
