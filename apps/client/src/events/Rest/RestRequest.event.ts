@@ -10,5 +10,5 @@ export const handler: EventHandler<typeof config> = ({ request, response, url })
 	const { method } = request;
 	const { statusCode, statusText } = response;
 
-	logger.http(`[${method}] "${url}" - Status: ${statusCode} [${statusText}]`);
+	logger.http(`[${method}] "${url}" - Status: ${statusCode} [${statusText || 'N/A'}]`);
 };
