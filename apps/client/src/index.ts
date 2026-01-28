@@ -21,5 +21,5 @@ client.events.addEventListener(ClientEvents.Debug, (message) => logger.debug(mes
  */
 client
 	.init()
-	.then(() => logger.info('Client has been initialized'))
+	.then(() => logger.info('Client has been successfully initialized'))
 	.catch((error) => logger.error('Error while initializing the client:\n\t', error));
