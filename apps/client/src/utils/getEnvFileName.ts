@@ -1,13 +1,18 @@
-import { IS_PRODUCTION_ENVIRONMENT } from 'linkcord/utils';
+import { env } from 'node:process';
+
+const { NODE_ENV = 'production' } = env;
 
 /**
- * Gets the correct `.env` file depending on the `IS_PRODUCTION_ENVIRONMENT`
- * constant from Linkcord.
+ * Gets the correct `.env` file based on `NODE_ENV`.
+ *
+ * @returns The name of the `.env` file.
+ *
+ * @remarks
+ * The returned value is either `.env.production` or `.env.development`.
  */
 export function getEnvFileName() {
-	if (IS_PRODUCTION_ENVIRONMENT) {
-		return '.env.production' as const;
-	}
+	const productionStringRegex = /production/i;
+	const isProductionEnvironment = productionStringRegex.test(NODE_ENV);
 
-	return '.env.development' as const;
+	return isProductionEnvironment ? ('.env.production' as const) : ('.env.development' as const);
 }

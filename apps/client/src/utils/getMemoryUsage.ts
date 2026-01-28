@@ -4,6 +4,7 @@ const CONVERSION_FACTOR = 1_024;
 
 /**
  * Gets the formatted memory usage of V8.
+ *
  * @returns A string containing the memory usage in megabytes.
  */
 export function getMemoryUsage() {
