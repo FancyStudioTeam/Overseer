@@ -93,11 +93,12 @@ export default class extends ChatInputCommandHandler {
 	}
 
 	private formatDateString(date: Date): string {
-		return date.toLocaleString('en-US', {
-			day: 'numeric',
-			month: 'long',
-			weekday: 'long',
-			year: 'numeric',
+		const dateTimeFormatter = new Intl.DateTimeFormat('en', {
+			dateStyle: 'medium',
+			timeStyle: 'long',
+			timeZone: 'UTC',
 		});
+
+		return dateTimeFormatter.format(date);
 	}
 }
