@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import type { User } from 'linkcord';
 import { ContainerBuilder, SeparatorBuilder, TextDisplayBuilder } from 'linkcord/builders';
 import {
@@ -9,8 +8,8 @@ import {
 	Options as DeclareOptions,
 } from 'linkcord/handlers';
 import { MessageFlags } from 'linkcord/types';
-import { bold, CodeBlockLanguage, codeBlock, HeadingLevel, header } from 'linkcord/utils';
-import { formatKeyValues } from '#utils/formatKeyValues.js';
+import { bold, HeadingLevel, header } from 'linkcord/utils';
+import { formatTextDisplayContent } from '#utils/formatTextDisplayContent.js';
 
 const Options = {
 	user: createUserOption({
@@ -25,7 +24,10 @@ const Options = {
 @DeclareOptions(Options)
 export default class extends ChatInputCommandHandler {
 	async run({ interaction, options }: ChatInputCommandContext<typeof Options>) {
-		const user = options.user ?? interaction.user;
+		const { user: userInteraction } = interaction;
+		const { user: userOption } = options;
+
+		const user = userOption ?? userInteraction;
 		const mainContainerBuilder = this.createMainContainerBuilder(user);
 
 		await interaction.createMessage({
@@ -42,7 +44,7 @@ export default class extends ChatInputCommandHandler {
 		const textDisplayBuilder = new TextDisplayBuilder();
 		const textDisplayBuilderContent = [
 			bold('Date of Creation'),
-			codeBlock(CodeBlockLanguage.ANSI, chalk.bold.magenta(formattedCreatedAt)),
+			formatTextDisplayContent(formattedCreatedAt),
 		];
 
 		textDisplayBuilder.setContent(textDisplayBuilderContent.join('\n'));
@@ -54,19 +56,10 @@ export default class extends ChatInputCommandHandler {
 		const textDisplayBuilder = new TextDisplayBuilder();
 		const textDisplayBuilderContent = [
 			bold('General Information'),
-			codeBlock(
-				CodeBlockLanguage.ANSI,
-				formatKeyValues([
-					[
-						'User Name',
-						username,
-					],
-					[
-						'User ID',
-						id,
-					],
-				]),
-			),
+			formatTextDisplayContent([
+				`User Name » ${username}`,
+				`User ID » ${id}`,
+			]),
 		];
 
 		textDisplayBuilder.setContent(textDisplayBuilderContent.join('\n'));
