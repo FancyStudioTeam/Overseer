@@ -1,6 +1,18 @@
 import chalk from 'chalk';
 import { CodeBlockLanguage, codeBlock } from 'linkcord/utils';
 
+/**
+ * Formats the provided content into an ANSI codeblock.
+ *
+ * @param content - The content to format.
+ * @param delimiter - The delimiter that will split the pairs into key-values.
+ *
+ * @returns The formatted ANSI codeblock.
+ *
+ * @remarks
+ * If you want to create one content pair, you must use an array with one
+ * element inside.
+ */
 export function formatTextDisplayContent(content: string | string[], delimiter = '»'): string {
 	let codeBlockContent: string;
 
@@ -13,6 +25,14 @@ export function formatTextDisplayContent(content: string | string[], delimiter =
 	return codeBlock(CodeBlockLanguage.ANSI, codeBlockContent);
 }
 
+/**
+ * Formats the provided array of content pair strings into an ANSI codeblock.
+ *
+ * @param content - The array of content pair strings to format.
+ * @param delimiter - The delimiter that will split the pairs into key-values.
+ *
+ * @returns The formatted ANSI codeblock.
+ */
 function formatArrayContent(content: string[], delimiter = '»'): string {
 	const splitterRegex = new RegExp(`\\s*${delimiter}\\s*`);
 
@@ -25,6 +45,10 @@ function formatArrayContent(content: string[], delimiter = '»'): string {
 		];
 	});
 
+	/*
+	 * Get the largest key length by getting the largest length between the
+	 * accumulated length and the current length.
+	 */
 	const largestKeyLength = contentPairs.reduce(
 		(accumulator, [{ length }]) => Math.max(accumulator, length),
 		0,
@@ -44,6 +68,12 @@ function formatArrayContent(content: string[], delimiter = '»'): string {
 	return formattedString.join('\n');
 }
 
+/**
+ * Formats the provided content string into an ANSI codeblock.
+ *
+ * @param content - The content to format.
+ * @returns The formatted ANSI codeblock.
+ */
 function formatStringContent(content: string): string {
 	return `» ${chalk.bold.cyan(content)}`;
 }
