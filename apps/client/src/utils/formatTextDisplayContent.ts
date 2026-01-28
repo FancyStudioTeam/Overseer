@@ -32,18 +32,20 @@ function formatArrayContent(content: string[], delimiter = '»'): string {
 
 	const formattedString = contentPairs.map(([key, value]) => {
 		const keyWithPadding = key.padEnd(largestKeyLength);
+		const delimiterWithoutSpaces = delimiter.trim();
 
-		const formattedKey = chalk.bold.magenta(keyWithPadding);
-		const formattedValue = chalk.cyan(value);
+		const formattedKey = chalk.bold.cyan(keyWithPadding);
+		const formattedDelimiter = chalk.reset.white(delimiterWithoutSpaces);
+		const formattedValue = chalk.reset.white(value);
 
-		return `${formattedKey} ${delimiter.trim()} ${formattedValue}`;
+		return `» ${formattedKey} ${formattedDelimiter} ${formattedValue}`;
 	});
 
 	return formattedString.join('\n');
 }
 
 function formatStringContent(content: string): string {
-	return chalk.bold.magenta(content);
+	return `» ${chalk.bold.cyan(content)}`;
 }
 
 type ContentPair = [
