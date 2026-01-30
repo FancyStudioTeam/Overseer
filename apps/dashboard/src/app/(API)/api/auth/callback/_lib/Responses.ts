@@ -18,7 +18,7 @@ import {
 export function INVALID_AUTHORIZATION_STATE_RESPONSE(): NextResponse {
 	return NextResponse.json(
 		{
-			data: 'Authorization state is not valid',
+			data: 'Discord authorization state is not valid',
 			success: false,
 		},
 		{
