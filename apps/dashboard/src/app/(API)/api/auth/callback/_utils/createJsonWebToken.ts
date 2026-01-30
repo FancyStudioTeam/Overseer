@@ -5,11 +5,10 @@ import type { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension
 import { Jose } from '#/lib/Jose.ts';
 
 export async function createJsonWebToken(
-	sessionId: string,
-	userId: Snowflake,
 	nextCookies: ReadonlyRequestCookies,
-	expiresIn: number,
+	options: CreateJsonWebTokenOptions,
 ): Promise<void> {
+	const { expiresIn, sessionId, userId } = options;
 	const jsonWebToken = await Jose.sign(sessionId, userId);
 
 	nextCookies.set('session', jsonWebToken, {
@@ -19,4 +18,10 @@ export async function createJsonWebToken(
 		sameSite: 'lax',
 		secure: true,
 	});
+}
+
+interface CreateJsonWebTokenOptions {
+	expiresIn: number;
+	sessionId: string;
+	userId: Snowflake;
 }

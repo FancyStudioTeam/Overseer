@@ -83,7 +83,7 @@ export function UNABLE_TO_EXCHANGE_CODE_RESPONSE(): NextResponse {
 export function UNABLE_TO_GET_USER_INFORMATION_RESPONSE(): NextResponse {
 	return NextResponse.json(
 		{
-			data: 'Unable to get the user information from Discord',
+			data: 'Unable to get your user information from Discord',
 			success: false,
 		},
 		{

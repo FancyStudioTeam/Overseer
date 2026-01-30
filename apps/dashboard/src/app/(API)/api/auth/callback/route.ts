@@ -71,10 +71,14 @@ export async function GET(request: NextRequest) {
 			}
 		}
 
-		const { access_token, expires_in, refresh_token } = exchangeCodeResult;
+		const {
+			access_token: accessToken,
+			expires_in: expiresIn,
+			refresh_token: refreshToken,
+		} = exchangeCodeResult;
 
 		try {
-			userInformationResult = await getUserInformation(access_token);
+			userInformationResult = await getUserInformation(accessToken);
 		} catch (error) {
 			switch (true) {
 				case error instanceof RateLimitError: {
@@ -95,18 +99,18 @@ export async function GET(request: NextRequest) {
 		/*
 		 * Keep personal and private information from users encrypted.
 		 */
-		const encryptedAccessToken = Encryption.encrypt(access_token);
-		const encryptedRefreshToken = Encryption.encrypt(refresh_token);
+		const encryptedAccessToken = Encryption.encrypt(accessToken);
+		const encryptedRefreshToken = Encryption.encrypt(refreshToken);
 
 		const sessionIdBytes = randomBytes(SESSION_ID_BYTES_LENGTH);
-		const sessionIdString = sessionIdBytes.toString('hex');
+		const sessionId = sessionIdBytes.toString('hex');
 
 		await sessionsCollection.insertOne({
 			credentials: {
 				access_token: encryptedAccessToken,
 				refesh_token: encryptedRefreshToken,
 			},
-			session_id: sessionIdString,
+			session_id: sessionId,
 			user: {
 				avatar,
 				id,
@@ -114,7 +118,11 @@ export async function GET(request: NextRequest) {
 			},
 		});
 
-		await createJsonWebToken(sessionIdString, id, nextCookies, expires_in);
+		await createJsonWebToken(nextCookies, {
+			expiresIn,
+			sessionId,
+			userId: id,
+		});
 
 		return NextResponse.redirect(origin);
 	} catch (error) {
