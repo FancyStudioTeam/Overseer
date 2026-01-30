@@ -1,16 +1,17 @@
 'use client';
 
-import { authClient } from '#/lib/AuthClient.ts';
+import { useSession } from '#/hooks/useSession.ts';
 import { NavbarLoginButton } from './NavbarLoginButton.tsx';
-import { NavbarProfile } from './profile/NavbarProfile.tsx';
 
 export function NavbarCtaButton() {
-	const { data: session } = authClient.useSession();
-	const { user } = session ?? {};
+	const { session } = useSession();
+	const { error, isLoading } = session;
 
-	if (!(session && user)) {
+	if (isLoading) {
 		return <NavbarLoginButton />;
 	}
 
-	return <NavbarProfile user={user} />;
+	if (error) {
+		console.error('ERROR: ', error);
+	}
 }

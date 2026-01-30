@@ -3,7 +3,7 @@ import 'server-only';
 import { type RESTPostOAuth2AccessTokenResult, Routes } from 'discord-api-types/v10';
 import { CLIENT_ID, CLIENT_SECRET } from '#/lib/Constants.ts';
 import { rest } from '#/lib/REST.ts';
-import { createCallbackUrl } from '#/utils/functions/createCallbackUrl.ts';
+import { createCallbackUrl } from '#/utils/createCallbackUrl.ts';
 
 const { oauth2TokenExchange } = Routes;
 

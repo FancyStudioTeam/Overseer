@@ -6,7 +6,6 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { sessionsCollection } from '#/lib/auth/MongoDB.ts';
 import { Encryption } from '#/lib/Encryption.ts';
 import { logger } from '#/lib/Logger.ts';
-import { getErrorMessage } from '#/utils/functions/getErrorMessage.ts';
 import {
 	INVALID_AUTHORIZATION_STATE_RESPONSE,
 	MISSING_QUERY_STRING_PARAM_RESPONSE,
@@ -59,14 +58,14 @@ export async function GET(request: NextRequest) {
 		try {
 			exchangeCodeResult = await createExchangeCodeRequest(code);
 		} catch (error) {
-			logger.error(getErrorMessage(error));
-
 			switch (true) {
 				case error instanceof RateLimitError: {
 					return RATE_LIMITED_ERROR_RESPONSE();
 				}
 
 				default: {
+					logger.error('Error while exchanging the authorization code:\n\t', error);
+
 					return UNABLE_TO_EXCHANGE_CODE_RESPONSE();
 				}
 			}
@@ -77,14 +76,14 @@ export async function GET(request: NextRequest) {
 		try {
 			userInformationResult = await getUserInformation(access_token);
 		} catch (error) {
-			logger.error(getErrorMessage(error));
-
 			switch (true) {
 				case error instanceof RateLimitError: {
 					return RATE_LIMITED_ERROR_RESPONSE();
 				}
 
 				default: {
+					logger.error('Error while fetching the user information:\n\t', error);
+
 					return UNABLE_TO_GET_USER_INFORMATION_RESPONSE();
 				}
 			}
@@ -119,7 +118,7 @@ export async function GET(request: NextRequest) {
 
 		return NextResponse.redirect(origin);
 	} catch (error) {
-		logger.error(getErrorMessage(error));
+		logger.error(`Error while processing '/api/auth/callback':\n\t`, error);
 
 		return SOMETHING_WENT_WRONG_ERROR_RESPONSE();
 	}

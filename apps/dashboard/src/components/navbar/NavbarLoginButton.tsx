@@ -1,18 +1,17 @@
 'use client';
 
 import { FingerprintIcon } from '@phosphor-icons/react';
-import { authClient } from '#/lib/AuthClient.ts';
+import { useSession } from '#/hooks/useSession.ts';
 
 export function NavbarLoginButton() {
-	const signInWithDiscord = async () =>
-		await authClient.signIn.social({
-			provider: 'discord',
-		});
+	const { signIn } = useSession();
+
+	const handleSignIn = () => signIn();
 
 	return (
 		<button
 			className='flex size-full cursor-pointer items-center justify-center gap-2 px-8 font-stardom tracking-tighter transition-colors hover:bg-neutral-900'
-			onClick={signInWithDiscord}
+			onClick={handleSignIn}
 			type='button'
 		>
 			<FingerprintIcon
