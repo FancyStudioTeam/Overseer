@@ -22,7 +22,7 @@ export function INTERNAL_SERVER_ERROR_RESPONSE(): NextResponse {
 		INTERNAL_SERVER_ERROR_STATUS_TEXT,
 		{
 			code: 'INTERNAL_SERVER_ERROR',
-			message: 'Internal Server Error',
+			message: 'Something went wrong while processing your request',
 		},
 	);
 }
@@ -33,7 +33,7 @@ export function INVALID_AUTHORIZATION_STATE_RESPONSE(): NextResponse {
 		BAD_REQUEST_STATUS_TEXT,
 		{
 			code: 'INVALID_AUTHORIZATION_STATE',
-			message: 'Invalid Authorization State',
+			message: 'Invalid Discord authorization state',
 		},
 	);
 }
@@ -46,7 +46,10 @@ export function MISSING_QUERY_STRING_PARAM_RESPONSE(
 		BAD_REQUEST_STATUS_TEXT,
 		{
 			code: 'MISSING_QUERY_STRING_PARAM',
-			message: `Missing Query String Param: ${name}`,
+			details: {
+				name,
+			},
+			message: 'Missing query string parameter from URL',
 		},
 	);
 }
@@ -68,7 +71,7 @@ export function UNABLE_TO_EXCHANGE_CODE_RESPONSE(): NextResponse {
 		INTERNAL_SERVER_ERROR_STATUS_TEXT,
 		{
 			code: 'UNABLE_TO_EXCHANGE_CODE',
-			message: 'Unable to Exchange your Authorization Code',
+			message: 'Unable to exchange your authorization code with Discord',
 		},
 	);
 }
@@ -79,7 +82,7 @@ export function UNABLE_TO_GET_USER_INFORMATION_RESPONSE(): NextResponse {
 		INTERNAL_SERVER_ERROR_STATUS_TEXT,
 		{
 			code: 'UNABLE_TO_GET_USER_INFORMATION',
-			message: 'Unable to Get your User Information',
+			message: 'Unable to get your user information from Discord',
 		},
 	);
 }
