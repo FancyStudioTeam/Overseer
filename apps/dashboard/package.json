@@ -38,9 +38,9 @@
 	"private": true,
 	"scripts": {
 		"build": "next build",
-		"start:dev": "next dev -H 127.0.0.1 -p 3000",
+		"start:dev": "next dev",
 		"start:pm2": "pm2 start pnpm --name 'Vanguard Dashboard' -- start:prod",
-		"start:prod": "next start"
+		"start:prod": "next start -H 127.0.0.1 -p 3000"
 	},
 	"type": "module",
 	"version": "0.1.0"
