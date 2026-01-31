@@ -26,7 +26,11 @@ export const Encryption = {
 		const encrypted = encryptedBufferData.subarray(
 			ENCRYPTION_IV_LENGTH + ENCRYPTION_TAG_LENGTH,
 		);
-		const decipher = createDecipheriv(ENCRYPTION_ALGORITHM, ENCRYPTION_SECRET, iv);
+		const decipher = createDecipheriv(
+			ENCRYPTION_ALGORITHM,
+			ENCRYPTION_SECRET,
+			iv,
+		);
 
 		decipher.setAuthTag(authTag);
 
@@ -49,7 +53,11 @@ export const Encryption = {
 	 */
 	encrypt(unencryptedData: string): string {
 		const iv = randomBytes(ENCRYPTION_IV_LENGTH);
-		const cipher = createCipheriv(ENCRYPTION_ALGORITHM, ENCRYPTION_SECRET, iv);
+		const cipher = createCipheriv(
+			ENCRYPTION_ALGORITHM,
+			ENCRYPTION_SECRET,
+			iv,
+		);
 
 		const encrypted = cipher.update(unencryptedData, 'utf-8');
 

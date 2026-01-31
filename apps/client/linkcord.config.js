@@ -7,7 +7,9 @@ import { GatewayIntents } from 'linkcord/types';
 const { DISCORD_TOKEN } = env;
 
 if (!DISCORD_TOKEN) {
-	throw new TypeError(`Environment variable 'DISCORD_TOKEN' is not configured`);
+	throw new TypeError(
+		`Environment variable 'DISCORD_TOKEN' is not configured`,
+	);
 }
 
 export default defineConfig({

@@ -4,7 +4,10 @@ import { twMerge } from 'tailwind-merge';
 export function VanguardLogo({ className, ...props }: VanguardLogoProps) {
 	return (
 		<h1
-			className={twMerge('font-stardom text-xl tracking-tighter', className)}
+			className={twMerge(
+				'font-stardom text-xl tracking-tighter',
+				className,
+			)}
 			{...props}
 		>
 			Vanguard

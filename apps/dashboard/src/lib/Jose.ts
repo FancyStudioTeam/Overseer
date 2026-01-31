@@ -45,10 +45,14 @@ export const Jose = {
 	 */
 	async verify(jsonWebToken: string): Promise<string | null> {
 		try {
-			const { payload } = await jwtVerify(jsonWebToken, TEXT_ENCODER_SECRET, {
-				audience: 'https://getvanguard.xyz/api',
-				issuer: 'https://getvanguard.xyz',
-			});
+			const { payload } = await jwtVerify(
+				jsonWebToken,
+				TEXT_ENCODER_SECRET,
+				{
+					audience: 'https://getvanguard.xyz/api',
+					issuer: 'https://getvanguard.xyz',
+				},
+			);
 
 			const { sid } = payload;
 

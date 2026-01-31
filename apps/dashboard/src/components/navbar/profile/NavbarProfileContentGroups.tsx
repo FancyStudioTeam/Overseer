@@ -7,7 +7,10 @@ import {
 import { GithubLogoIcon } from '@phosphor-icons/react/dist/ssr';
 import { Fragment } from 'react/jsx-runtime';
 import { DropdownMenuSeparator } from '#/components/ui/Dropdown.tsx';
-import { DISCORD_SUPPORT_INVITE_URL, GITHUB_REPOSITORY_URL } from '#/lib/SafeConstants.ts';
+import {
+	DISCORD_SUPPORT_INVITE_URL,
+	GITHUB_REPOSITORY_URL,
+} from '#/lib/SafeConstants.ts';
 import {
 	NavbarProfileContentGroup,
 	type NavbarProfileContentGroupProps,

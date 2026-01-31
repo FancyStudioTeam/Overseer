@@ -6,7 +6,10 @@
 import 'server-only';
 
 import { NextResponse } from 'next/server';
-import { UNAUTHORIZED_STATUS_CODE, UNAUTHORIZED_STATUS_TEXT } from '#/lib/HTTPStatus.ts';
+import {
+	UNAUTHORIZED_STATUS_CODE,
+	UNAUTHORIZED_STATUS_TEXT,
+} from '#/lib/HTTPStatus.ts';
 
 export function UNAUTHORIZED_RESPONSE(): NextResponse {
 	return NextResponse.json(
