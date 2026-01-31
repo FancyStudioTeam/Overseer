@@ -11,9 +11,9 @@ const OAUTH2_STATE_BYTES_LENGTH = 32;
  */
 export function createAuthState(nextCookies: NextCookies): string {
 	const oauth2StateBytes = randomBytes(OAUTH2_STATE_BYTES_LENGTH);
-	const oauth2State = oauth2StateBytes.toString('hex');
+	const oauth2StateString = oauth2StateBytes.toString('hex');
 
-	nextCookies.set('oauth2_state', oauth2State, {
+	nextCookies.set('oauth2_state', oauth2StateString, {
 		httpOnly: true,
 		maxAge: FIVE_MINUTES_IN_SECONDS,
 		path: '/api/v1/auth',
@@ -21,7 +21,7 @@ export function createAuthState(nextCookies: NextCookies): string {
 		secure: true,
 	});
 
-	return oauth2State;
+	return oauth2StateString;
 }
 
 type NextCookies = Awaited<ReturnType<typeof cookies>>;
