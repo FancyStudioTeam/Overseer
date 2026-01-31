@@ -1,5 +1,7 @@
 import './globals.css';
 
+import gsap from 'gsap';
+import { SplitText } from 'gsap/SplitText';
 import type { Metadata } from 'next';
 import LocalFont from 'next/font/local';
 import type { ReactNode } from 'react';
@@ -13,6 +15,8 @@ const StardomFont = LocalFont({
 	src: '../../public/fonts/Stardom.woff2',
 	variable: '--font-stardom',
 });
+
+gsap.registerPlugin(SplitText);
 
 export const metadata: Metadata = {
 	title: 'Vanguard - Simplicity without compromise',
