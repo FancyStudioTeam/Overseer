@@ -24,9 +24,9 @@ import { getUserInformation } from './_utils/getUserInformation.ts';
 
 const SESSION_ID_BYTES_LENGTH = 32;
 
-export async function GET(request: NextRequest) {
+export async function GET(nextRequest: NextRequest) {
 	try {
-		const { nextUrl } = request;
+		const { nextUrl } = nextRequest;
 		const { origin, searchParams } = nextUrl;
 
 		const code = searchParams.get('code');
@@ -135,7 +135,10 @@ export async function GET(request: NextRequest) {
 
 		return NextResponse.redirect(origin);
 	} catch (error) {
-		logger.error(`Error while processing '/api/auth/callback':\n\t`, error);
+		const { nextUrl } = nextRequest;
+		const { href } = nextUrl;
+
+		logger.error(`Error while processing '${href}':\n\t`, error);
 
 		return INTERNAL_SERVER_ERROR_RESPONSE();
 	}
