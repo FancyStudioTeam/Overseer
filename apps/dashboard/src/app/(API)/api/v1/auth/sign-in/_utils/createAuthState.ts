@@ -11,9 +11,9 @@ const OAUTH2_STATE_BYTES_LENGTH = 32;
  */
 export function createAuthState(nextCookies: ReadonlyRequestCookies): string {
 	const oauth2StateBytes = randomBytes(OAUTH2_STATE_BYTES_LENGTH);
-	const oauth2StateString = oauth2StateBytes.toString('hex');
+	const oauth2State = oauth2StateBytes.toString('hex');
 
-	nextCookies.set('oauth2_state', oauth2StateString, {
+	nextCookies.set('oauth2_state', oauth2State, {
 		httpOnly: true,
 		maxAge: FIVE_MINUTES_IN_SECONDS,
 		path: '/',
@@ -21,5 +21,5 @@ export function createAuthState(nextCookies: ReadonlyRequestCookies): string {
 		secure: true,
 	});
 
-	return oauth2StateString;
+	return oauth2State;
 }
