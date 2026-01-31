@@ -138,7 +138,7 @@ export async function GET(nextRequest: NextRequest) {
 		const { nextUrl } = nextRequest;
 		const { href } = nextUrl;
 
-		logger.error(`Error while processing '${href}':\n\t`, error);
+		logger.error(`Error while processing route '${href}':\n\t`, error);
 
 		return INTERNAL_SERVER_ERROR_RESPONSE();
 	}
