@@ -1,73 +1,20 @@
 import 'server-only';
 
-import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
-import {
-	ENCRYPTION_ALGORITHM,
-	ENCRYPTION_IV_LENGTH,
-	ENCRYPTION_SECRET,
-	ENCRYPTION_TAG_LENGTH,
-} from './Constants.ts';
+import { AES, enc } from 'crypto-js';
+import { ENCRYPTION_KEY } from './Constants.ts';
 
-export const Encryption = {
-	/**
-	 * Decrypts a string using the `AES-256-GCM` encryption algorithm.
-	 *
-	 * @param encryptedData - The encrypted data to decrypt.
-	 */
-	decrypt(encryptedData: string): string {
-		const encryptedBufferData = Buffer.from(encryptedData, 'base64');
+export class Encryption {
+	static decrypt(encryptedData: string): string {
+		const unencryptedBytes = AES.decrypt(encryptedData, ENCRYPTION_KEY);
+		const unencryptedString = unencryptedBytes.toString(enc.Utf8);
 
-		const iv = encryptedBufferData.subarray(0, ENCRYPTION_IV_LENGTH);
-		const authTag = encryptedBufferData.subarray(
-			ENCRYPTION_IV_LENGTH,
-			ENCRYPTION_IV_LENGTH + ENCRYPTION_TAG_LENGTH,
-		);
+		return unencryptedString;
+	}
 
-		const encrypted = encryptedBufferData.subarray(
-			ENCRYPTION_IV_LENGTH + ENCRYPTION_TAG_LENGTH,
-		);
-		const decipher = createDecipheriv(ENCRYPTION_ALGORITHM, ENCRYPTION_SECRET, iv);
+	static encrypt(unencryptedData: string): string {
+		const encryptedBytes = AES.encrypt(unencryptedData, ENCRYPTION_KEY);
+		const encryptedString = encryptedBytes.toString();
 
-		decipher.setAuthTag(authTag);
-
-		const decrypted = decipher.update(encrypted);
-		const final = decipher.final();
-
-		const decryptedBufferData = Buffer.concat([
-			decrypted,
-			final,
-		]);
-		const decryptedBufferString = decryptedBufferData.toString('utf-8');
-
-		return decryptedBufferString;
-	},
-
-	/**
-	 * Encrypts a string using the `AES-256-GCM` encryption algorithm.
-	 *
-	 * @param unencryptedData - The unencrypted data to encrypt.
-	 */
-	encrypt(unencryptedData: string): string {
-		const iv = randomBytes(ENCRYPTION_IV_LENGTH);
-		const cipher = createCipheriv(ENCRYPTION_ALGORITHM, ENCRYPTION_SECRET, iv);
-
-		const encrypted = cipher.update(unencryptedData, 'utf-8');
-
-		const final = cipher.final();
-		const authTag = cipher.getAuthTag();
-
-		const encryptedBuffer = Buffer.concat([
-			encrypted,
-			final,
-		]);
-
-		const encryptedBufferData = Buffer.concat([
-			iv,
-			authTag,
-			encryptedBuffer,
-		]);
-		const encryptedBufferString = encryptedBufferData.toString('base64');
-
-		return encryptedBufferString;
-	},
-} as const;
+		return encryptedString;
+	}
+}

@@ -3,7 +3,7 @@ import 'server-only';
 import { addColors, createLogger, format, transports } from 'winston';
 import { getMemoryUsage } from '#/utils/getMemoryUsage.ts';
 
-const { align, colorize, combine, printf, timestamp } = format;
+const { align, colorize, combine, errors, printf, timestamp } = format;
 const { Console } = transports;
 
 const LOGGER_BASE_FORMAT = combine(
@@ -60,6 +60,9 @@ addColors(LOGGER_LEVEL_COLORS);
 
 const CONSOLE_TRANSPORT = new Console({
 	format: combine(
+		errors({
+			stack: true,
+		}),
 		LOGGER_BASE_FORMAT,
 		align(),
 		colorize({

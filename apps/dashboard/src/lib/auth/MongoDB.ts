@@ -1,6 +1,5 @@
 import 'server-only';
 
-import type { Snowflake } from 'discord-api-types/globals';
 import { MongoClient } from 'mongodb';
 import {
 	MONGO_DB_COLLECTION_NAME,
@@ -16,17 +15,9 @@ export const sessionsCollection = db.collection<SessionDocument>(MONGO_DB_COLLEC
 export interface SessionDocument {
 	credentials: SessionDocumentCredentials;
 	session_id: string;
-	user: SessionDocumentUser;
 }
 
 export interface SessionDocumentCredentials {
 	access_token: string;
 	refesh_token: string;
-}
-
-export interface SessionDocumentUser {
-	avatar: string | null;
-	email?: string | null;
-	id: Snowflake;
-	name: string;
 }
