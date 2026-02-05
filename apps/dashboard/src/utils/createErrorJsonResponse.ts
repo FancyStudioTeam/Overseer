@@ -20,5 +20,6 @@ export function createErrorJsonResponse(
 
 interface ErrorResponseOptions {
 	code: string;
+	details?: Record<string, unknown>;
 	message: string;
 }

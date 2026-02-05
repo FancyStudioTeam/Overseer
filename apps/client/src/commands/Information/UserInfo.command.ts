@@ -1,5 +1,9 @@
 import type { User } from 'linkcord';
-import { ContainerBuilder, SeparatorBuilder, TextDisplayBuilder } from 'linkcord/builders';
+import {
+	ContainerBuilder,
+	SeparatorBuilder,
+	TextDisplayBuilder,
+} from 'linkcord/builders';
 import {
 	type ChatInputCommandContext,
 	ChatInputCommandHandler,
@@ -23,7 +27,10 @@ const Options = {
 })
 @DeclareOptions(Options)
 export default class extends ChatInputCommandHandler {
-	async run({ interaction, options }: ChatInputCommandContext<typeof Options>) {
+	async run({
+		interaction,
+		options,
+	}: ChatInputCommandContext<typeof Options>) {
 		const { user: userInteraction } = interaction;
 		const { user: userOption } = options;
 
@@ -38,7 +45,9 @@ export default class extends ChatInputCommandHandler {
 		});
 	}
 
-	private buildDateOfCreationBuilder({ createdAt }: User): TextDisplayBuilder {
+	private buildDateOfCreationBuilder({
+		createdAt,
+	}: User): TextDisplayBuilder {
 		const formattedCreatedAt = this.formatDateString(createdAt);
 
 		const textDisplayBuilder = new TextDisplayBuilder();
@@ -52,7 +61,10 @@ export default class extends ChatInputCommandHandler {
 		return textDisplayBuilder;
 	}
 
-	private buildGeneralInformationBuilder({ id, username }: User): TextDisplayBuilder {
+	private buildGeneralInformationBuilder({
+		id,
+		username,
+	}: User): TextDisplayBuilder {
 		const textDisplayBuilder = new TextDisplayBuilder();
 		const textDisplayBuilderContent = [
 			bold('General Information'),

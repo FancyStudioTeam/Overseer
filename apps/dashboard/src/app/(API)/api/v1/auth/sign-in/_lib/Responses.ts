@@ -5,21 +5,20 @@
 
 import 'server-only';
 
-import { NextResponse } from 'next/server';
+import type { NextResponse } from 'next/server';
 import {
 	INTERNAL_SERVER_ERROR_STATUS_CODE,
 	INTERNAL_SERVER_ERROR_STATUS_TEXT,
 } from '#/lib/HTTPStatus.ts';
+import { createErrorJsonResponse } from '#/utils/createErrorJsonResponse.ts';
 
-export function SOMETHING_WENT_WRONG_ERROR_RESPONSE(): NextResponse {
-	return NextResponse.json(
+export function INTERNAL_SERVER_ERROR_RESPONSE(): NextResponse {
+	return createErrorJsonResponse(
+		INTERNAL_SERVER_ERROR_STATUS_CODE,
+		INTERNAL_SERVER_ERROR_STATUS_TEXT,
 		{
-			data: 'Something went wrong while processing your request...',
-			success: false,
-		},
-		{
-			status: INTERNAL_SERVER_ERROR_STATUS_CODE,
-			statusText: INTERNAL_SERVER_ERROR_STATUS_TEXT,
+			code: 'INTERNAL_SERVER_ERROR',
+			message: 'Something went wrong while processing your request',
 		},
 	);
 }

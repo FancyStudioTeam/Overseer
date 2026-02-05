@@ -13,7 +13,9 @@ loadEnvFile(getEnvFileName());
 
 export const client = new Client();
 
-client.events.addEventListener(ClientEvents.Debug, (message) => logger.debug(message));
+client.events.addEventListener(ClientEvents.Debug, (message) =>
+	logger.debug(message),
+);
 
 /*
  * - Connect the shards of the client to the Discord gateway.
@@ -22,4 +24,6 @@ client.events.addEventListener(ClientEvents.Debug, (message) => logger.debug(mes
 client
 	.init()
 	.then(() => logger.info('Client has been successfully initialized'))
-	.catch((error) => logger.error('Error while initializing the client:\n\t', error));
+	.catch((error) =>
+		logger.error('Error while initializing the client:\n\t', error),
+	);

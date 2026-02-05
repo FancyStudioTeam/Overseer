@@ -1,6 +1,10 @@
 import type { GatewayManager, GatewayShard } from 'linkcord';
 import { ContainerBuilder, TextDisplayBuilder } from 'linkcord/builders';
-import { type ChatInputCommandContext, ChatInputCommandHandler, Declare } from 'linkcord/handlers';
+import {
+	type ChatInputCommandContext,
+	ChatInputCommandHandler,
+	Declare,
+} from 'linkcord/handlers';
 import { MessageFlags } from 'linkcord/types';
 import type { Collection } from 'linkcord/utils';
 import { formatTextDisplayContent } from '#utils/formatTextDisplayContent.js';
@@ -22,8 +26,11 @@ export default class extends ChatInputCommandHandler {
 		});
 	}
 
-	private createGatewayShardsBuilder({ shards }: GatewayManager): TextDisplayBuilder {
-		const gatewayShardsListPairs = this.formatGatewayShardsListPairs(shards);
+	private createGatewayShardsBuilder({
+		shards,
+	}: GatewayManager): TextDisplayBuilder {
+		const gatewayShardsListPairs =
+			this.formatGatewayShardsListPairs(shards);
 
 		const textDisplayBuilder = new TextDisplayBuilder();
 		const textDisplayBuilderContent = [
@@ -35,9 +42,12 @@ export default class extends ChatInputCommandHandler {
 		return textDisplayBuilder;
 	}
 
-	private createMainContainerBuilder(gatewayManager: GatewayManager): ContainerBuilder {
+	private createMainContainerBuilder(
+		gatewayManager: GatewayManager,
+	): ContainerBuilder {
 		const containerBuilder = new ContainerBuilder();
-		const gatewayShardsBuilder = this.createGatewayShardsBuilder(gatewayManager);
+		const gatewayShardsBuilder =
+			this.createGatewayShardsBuilder(gatewayManager);
 
 		containerBuilder.addComponents([
 			gatewayShardsBuilder,
@@ -46,7 +56,9 @@ export default class extends ChatInputCommandHandler {
 		return containerBuilder;
 	}
 
-	private formatGatewayShardsListPairs(shards: Collection<number, GatewayShard>): string[] {
+	private formatGatewayShardsListPairs(
+		shards: Collection<number, GatewayShard>,
+	): string[] {
 		const shardsArray = shards.toArray();
 		const shardsArrayPairs = shardsArray.map(
 			({ id, latency }) => `Gateway Shard #${id} » ${latency}ms`,

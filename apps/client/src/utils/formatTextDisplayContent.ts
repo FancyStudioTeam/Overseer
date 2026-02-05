@@ -13,7 +13,10 @@ import { CodeBlockLanguage, codeBlock } from 'linkcord/utils';
  * If you want to create one content pair, you must use an array with one
  * element inside.
  */
-export function formatTextDisplayContent(content: string | string[], delimiter = '»'): string {
+export function formatTextDisplayContent(
+	content: string | string[],
+	delimiter = '»',
+): string {
 	let codeBlockContent: string;
 
 	if (typeof content === 'string') {

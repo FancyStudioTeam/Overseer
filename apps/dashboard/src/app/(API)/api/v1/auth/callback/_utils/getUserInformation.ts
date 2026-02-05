@@ -8,7 +8,9 @@ const { user } = Routes;
 /**
  * @see https://discord.com/developers/docs/resources/user#get-current-user
  */
-export async function getUserInformation(accessToken: string): Promise<RESTGetAPIUserResult> {
+export async function getUserInformation(
+	accessToken: string,
+): Promise<RESTGetAPIUserResult> {
 	const rest = new REST({
 		authPrefix: 'Bearer',
 	}).setToken(accessToken);

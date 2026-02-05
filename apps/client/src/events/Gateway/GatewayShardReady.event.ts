@@ -9,5 +9,7 @@ export const config = defineEventConfig({
 export const handler: EventHandler<typeof config> = ({ gatewayShard }) => {
 	const { id } = gatewayShard;
 
-	logger.info(`Shard ${id} has successfully completed his handshake with the Discord gateway`);
+	logger.info(
+		`Shard ${id} has successfully completed his handshake with the Discord gateway`,
+	);
 };

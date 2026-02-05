@@ -14,8 +14,9 @@ export default function () {
 						Terms of Service
 					</h1>
 					<p className='hidden text-neutral-400 text-sm sm:block'>
-						This document describes the terms and conditions of use and explains the
-						rules you must follow when using our service.
+						This document describes the terms and conditions of use
+						and explains the rules you must follow when using our
+						service.
 					</p>
 				</section>
 			</header>

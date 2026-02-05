@@ -14,8 +14,9 @@ export default function () {
 						Privacy Policy
 					</h1>
 					<p className='hidden text-neutral-400 text-sm sm:block'>
-						This document describes the privacy policy and explains how data is
-						collected, used, and protected when using our service.
+						This document describes the privacy policy and explains
+						how data is collected, used, and protected when using
+						our service.
 					</p>
 				</section>
 			</header>

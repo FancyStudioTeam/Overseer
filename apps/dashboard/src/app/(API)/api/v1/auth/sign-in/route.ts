@@ -1,12 +1,11 @@
 import { cookies as NextCookies } from 'next/headers';
-import { NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { logger } from '#/lib/Logger.ts';
 import { createRedirectUrl } from '#/utils/createRedirectUrl.ts';
-import { getErrorMessage } from '#/utils/getErrorMessage.ts';
-import { SOMETHING_WENT_WRONG_ERROR_RESPONSE } from './_lib/Responses.ts';
+import { INTERNAL_SERVER_ERROR_RESPONSE } from './_lib/Responses.ts';
 import { createAuthState } from './_utils/createAuthState.ts';
 
-export async function GET() {
+export async function GET(nextRequest: NextRequest) {
 	try {
 		const nextCookies = await NextCookies();
 
@@ -21,8 +20,11 @@ export async function GET() {
 
 		return NextResponse.redirect(redirectUrl);
 	} catch (error) {
-		logger.error(getErrorMessage(error));
+		const { nextUrl } = nextRequest;
+		const { href } = nextUrl;
 
-		return SOMETHING_WENT_WRONG_ERROR_RESPONSE();
+		logger.error(`Error while processing route '${href}':\n\t`, error);
+
+		return INTERNAL_SERVER_ERROR_RESPONSE();
 	}
 }

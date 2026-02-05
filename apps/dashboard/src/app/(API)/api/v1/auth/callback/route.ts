@@ -1,16 +1,19 @@
 import { randomBytes } from 'node:crypto';
 import { RateLimitError } from '@discordjs/rest';
-import type { RESTGetAPIUserResult, RESTPostOAuth2AccessTokenResult } from 'discord-api-types/v10';
+import type {
+	RESTGetAPIUserResult,
+	RESTPostOAuth2AccessTokenResult,
+} from 'discord-api-types/v10';
 import { cookies as NextCookies } from 'next/headers';
 import { type NextRequest, NextResponse } from 'next/server';
 import { sessionsCollection } from '#/lib/auth/MongoDB.ts';
 import { Encryption } from '#/lib/Encryption.ts';
 import { logger } from '#/lib/Logger.ts';
 import {
+	INTERNAL_SERVER_ERROR_RESPONSE,
 	INVALID_AUTHORIZATION_STATE_RESPONSE,
 	MISSING_QUERY_STRING_PARAM_RESPONSE,
 	RATE_LIMITED_ERROR_RESPONSE,
-	SOMETHING_WENT_WRONG_ERROR_RESPONSE,
 	UNABLE_TO_EXCHANGE_CODE_RESPONSE,
 	UNABLE_TO_GET_USER_INFORMATION_RESPONSE,
 } from './_lib/Responses.ts';
@@ -21,9 +24,9 @@ import { getUserInformation } from './_utils/getUserInformation.ts';
 
 const SESSION_ID_BYTES_LENGTH = 32;
 
-export async function GET(request: NextRequest) {
+export async function GET(nextRequest: NextRequest) {
 	try {
-		const { nextUrl } = request;
+		const { nextUrl } = nextRequest;
 		const { origin, searchParams } = nextUrl;
 
 		const code = searchParams.get('code');
@@ -64,7 +67,10 @@ export async function GET(request: NextRequest) {
 				}
 
 				default: {
-					logger.error('Error while exchanging the authorization code:\n\t', error);
+					logger.error(
+						'Error while exchanging the authorization code:\n\t',
+						error,
+					);
 
 					return UNABLE_TO_EXCHANGE_CODE_RESPONSE();
 				}
@@ -86,7 +92,10 @@ export async function GET(request: NextRequest) {
 				}
 
 				default: {
-					logger.error('Error while fetching the user information:\n\t', error);
+					logger.error(
+						'Error while fetching the user information:\n\t',
+						error,
+					);
 
 					return UNABLE_TO_GET_USER_INFORMATION_RESPONSE();
 				}
@@ -126,8 +135,11 @@ export async function GET(request: NextRequest) {
 
 		return NextResponse.redirect(origin);
 	} catch (error) {
-		logger.error(`Error while processing '/api/auth/callback':\n\t`, error);
+		const { nextUrl } = nextRequest;
+		const { href } = nextUrl;
 
-		return SOMETHING_WENT_WRONG_ERROR_RESPONSE();
+		logger.error(`Error while processing route '${href}':\n\t`, error);
+
+		return INTERNAL_SERVER_ERROR_RESPONSE();
 	}
 }
