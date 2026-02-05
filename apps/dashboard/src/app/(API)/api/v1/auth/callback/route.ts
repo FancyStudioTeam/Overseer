@@ -102,9 +102,6 @@ export async function GET(nextRequest: NextRequest) {
 			}
 		}
 
-		const { avatar, global_name, id, username } = userInformationResult;
-		const name = global_name ?? username;
-
 		/*
 		 * Keep personal and private information from users encrypted.
 		 */
@@ -120,17 +117,12 @@ export async function GET(nextRequest: NextRequest) {
 				refesh_token: encryptedRefreshToken,
 			},
 			session_id: sessionId,
-			user: {
-				avatar,
-				id,
-				name,
-			},
 		});
 
 		await createJsonWebToken(nextCookies, {
 			expiresIn,
 			sessionId,
-			userId: id,
+			user: userInformationResult,
 		});
 
 		return NextResponse.redirect(origin);

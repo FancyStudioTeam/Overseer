@@ -1,6 +1,6 @@
 import 'server-only';
 
-import type { Snowflake } from 'discord-api-types/globals';
+import type { APIUser } from 'discord-api-types/v10';
 import type { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 import { Jose } from '#/lib/Jose.ts';
 
@@ -8,8 +8,10 @@ export async function createJsonWebToken(
 	nextCookies: ReadonlyRequestCookies,
 	options: CreateJsonWebTokenOptions,
 ): Promise<void> {
-	const { expiresIn, sessionId, userId } = options;
-	const jsonWebToken = await Jose.sign(sessionId, userId);
+	const { expiresIn, sessionId, user } = options;
+	const { id: userId } = user;
+
+	const jsonWebToken = await Jose.sign(sessionId, userId, user);
 
 	nextCookies.set('session', jsonWebToken, {
 		httpOnly: true,
@@ -23,5 +25,5 @@ export async function createJsonWebToken(
 interface CreateJsonWebTokenOptions {
 	expiresIn: number;
 	sessionId: string;
-	userId: Snowflake;
+	user: APIUser;
 }
