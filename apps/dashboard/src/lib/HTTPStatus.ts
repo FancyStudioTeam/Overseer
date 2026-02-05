@@ -17,3 +17,6 @@ export const TOO_MANY_REQUESTS_STATUS_TEXT = 'Too Many Requests';
 
 export const UNAUTHORIZED_STATUS_CODE = 401;
 export const UNAUTHORIZED_STATUS_TEXT = 'Unauthorized';
+
+export const UNPROCESSABLE_CONTENT_STATUS_CODE = 422;
+export const UNPROCESSABLE_CONTENT_STATUS_TEXT = 'Unprocessable Content';

@@ -1,15 +1,15 @@
 import 'server-only';
 import { NextResponse } from 'next/server';
 
-export function createErrorJsonResponse(
+export function createJsonResponse(
 	statusCode: number,
 	statusText: string,
-	error: ErrorResponseOptions,
+	data: DataOptions,
 ): NextResponse {
 	return NextResponse.json(
 		{
-			error,
-			success: false,
+			data,
+			success: true,
 		},
 		{
 			status: statusCode,
@@ -18,8 +18,4 @@ export function createErrorJsonResponse(
 	);
 }
 
-interface ErrorResponseOptions {
-	code: string;
-	details?: Record<string, unknown>;
-	message: string;
-}
+type DataOptions = Record<string, unknown>;

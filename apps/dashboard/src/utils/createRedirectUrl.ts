@@ -16,7 +16,7 @@ const SCOPES = [
 export function createRedirectUrl(state: string): string {
 	const callbackUrl = createCallbackUrl();
 
-	/**
+	/*
 	 * NOTE: Join Discord scopes with '+'.
 	 */
 	const scopesString = SCOPES.join('+');
@@ -25,7 +25,7 @@ export function createRedirectUrl(state: string): string {
 	const { searchParams } = authorizationUrl;
 
 	/*
-	 * When using 'URLSearchParams' methods, their value will be encoded.
+	 * When using '<URLSearchParams>.set', its value will be encoded.
 	 *
 	 * This assignment MUST be made before setting other query string parameters,
 	 * as this property overrides all search properties.
