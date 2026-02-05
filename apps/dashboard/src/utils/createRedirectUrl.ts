@@ -13,10 +13,6 @@ const SCOPES = [
 	OAuth2Scopes.GuildsMembersRead,
 ];
 
-/**
- * Creates a redirect URL to the application authorization page with the
- * specified options.
- */
 export function createRedirectUrl(state: string): string {
 	const callbackUrl = createCallbackUrl();
 
