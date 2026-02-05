@@ -8,6 +8,9 @@ import { AUTH_SECRET } from './Constants.ts';
 const TEXT_ENCODER = new TextEncoder();
 const TEXT_ENCODER_SECRET = TEXT_ENCODER.encode(AUTH_SECRET);
 
+const JSON_WEB_TOKEN_AUDIENCE = 'https://vanguard.fancystudio.xyz/api' as const;
+const JSON_WEB_TOKEN_ISSUER = 'https://vanguard.fancystudio.xyz' as const;
+
 export class Jose {
 	static async sign(sessionId: string, subjectId: Snowflake, user: APIUser): Promise<string> {
 		const { avatar, id, global_name, username } = user;
@@ -26,14 +29,14 @@ export class Jose {
 			typ: 'JWT',
 		});
 
-		jsonWebToken.setAudience('https://vanguard.fancystudio.xyz/api');
+		jsonWebToken.setAudience(JSON_WEB_TOKEN_AUDIENCE);
 
-		jsonWebToken.setIssuer('https://vanguard.fancystudio.xyz');
+		jsonWebToken.setIssuer(JSON_WEB_TOKEN_ISSUER);
 		jsonWebToken.setIssuedAt();
 
 		jsonWebToken.setSubject(subjectId);
 
-		jsonWebToken.setExpirationTime('7d');
+		jsonWebToken.setExpirationTime('1d');
 
 		const signedJsonWebToken = await jsonWebToken.sign(TEXT_ENCODER_SECRET);
 
@@ -49,8 +52,8 @@ export class Jose {
 					algorithms: [
 						'HS256',
 					],
-					audience: 'https://vanguard.fancystudio.xyz/api',
-					issuer: 'https://vanguard.fancystudio.xyz',
+					audience: JSON_WEB_TOKEN_AUDIENCE,
+					issuer: JSON_WEB_TOKEN_ISSUER,
 				},
 			);
 
